@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get clean \
 	&& apt-get update \
 	&& apt-get dist-upgrade -yy --purge \
-	&& apt-get install -yy --no-install-recommends dash \
+	&& apt-get install -yy --no-install-recommends bash \
 	&& apt-get clean \
 	&& apt-get autoremove -yy --purge \
 	&& rm -rf /var/lib/apt/lists/* \
@@ -40,7 +40,7 @@ ENV HOME /home/uws
 ARG UWS_UMASK=0027
 
 RUN printf 'umask %s\n' ${UWS_UMASK} >>/home/uws/.profile
-RUN printf "export PS1='%s '\n" '\h:\W\$' >>/home/uws/.profile
+RUN printf "export PS1='%s '\n" '\u@\h:\W\$' >>/home/uws/.profile
 RUN printf "export PATH=/uws/bin:/usr/local/bin:/usr/bin:/bin\n" >>/home/uws/.profile
 
-CMD exec /bin/sh -l
+CMD exec /bin/bash -l
