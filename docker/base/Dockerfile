@@ -9,17 +9,10 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-ENV DEBIAN_FRONTEND noninteractive
+ADD ./utils /root/bin
+RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
-RUN apt-get clean \
-	&& apt-get update \
-	&& apt-get dist-upgrade -yy --purge \
-	&& apt-get install -yy --no-install-recommends bash \
-	&& apt-get clean \
-	&& apt-get autoremove -yy --purge \
-	&& rm -rf /var/lib/apt/lists/* \
-		/var/cache/apt/archives/*.deb \
-		/var/cache/apt/*cache.bin
+RUN /root/bin/apt-install.sh bash
 
 ARG UWS_UID=1000
 ARG UWS_GID=1000
