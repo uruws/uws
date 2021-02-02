@@ -12,7 +12,7 @@ ENV HOME /root
 ADD ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
-RUN /root/bin/apt-install.sh bash
+RUN /root/bin/apt-install.sh bash ca-certificates wget
 
 ARG UWS_UID=1000
 ARG UWS_GID=1000
