@@ -1,3 +1,3 @@
-# UruWorkS
+# uws
 
-Uruworks sysadmin main repository.
+Uruworks sysadmin tools.
