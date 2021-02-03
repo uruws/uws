@@ -21,6 +21,13 @@ COPY --chown=root:munin ./files/etc/munin/ /etc/munin/
 
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
+VOLUME /var/lib/munin
+VOLUME /var/cache/munin/www
+
+RUN rm -vf /var/log/munin/*.log \
+	&& ln -vsf /var/log/munin/munin-node.log /dev/stderr \
+	&& ln -vsf /var/log/munin/munin-update.log /dev/stderr
+
 #~ USER uws:uws
 #~ WORKDIR /home/uws
 
