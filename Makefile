@@ -6,6 +6,11 @@ bootstrap:
 	@./docker/base/build.sh
 	@./docker/awscli/build.sh
 
+.PHONY: upgrade
+upgrade:
+	@./docker/base/build.sh --pull
+	@./docker/awscli/build.sh --pull
+
 .PHONY: prune
 prune:
 	@docker system prune -f
