@@ -1,15 +1,21 @@
 #!/bin/sh
 set -eu
+
 IMG=${1:?'image name?'}
 
-if test "${IMG}" = 'base'; then
+if test -x ./docker/${IMG}/build.sh; then
 	./docker/${IMG}/build.sh
-else
+elif test -x ./${IMG}/build.sh; then
 	./${IMG}/build.sh
+else
+	echo "invalid image name: '${IMG}'" >&2
+	exit 1
 fi
 
-docker rmi 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:${IMG} || true
-docker tag uws/${IMG} 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:${IMG}
-docker push 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:${IMG}
+REGURI='789470191893.dkr.ecr.us-east-1.amazonaws.com/uws'
+docker rmi ${REGURI}:${IMG} || true
+
+docker tag uws/${IMG} ${REGURI}:${IMG}
+docker push ${REGURI}:${IMG}
 
 exit 0
