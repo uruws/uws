@@ -9,3 +9,10 @@ bootstrap:
 .PHONY: prune
 prune:
 	@docker system prune -f
+
+.PHONY: all
+all: bootstrap munin
+
+.PHONY: munin
+munin:
+	@./munin/build.sh
