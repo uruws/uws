@@ -16,3 +16,9 @@ all: bootstrap munin
 .PHONY: munin
 munin:
 	@./munin/build.sh
+
+.PHONY: publish
+publish: all
+	@./docker/ecr-login.sh
+	@./docker/ecr-push.sh base
+	@./docker/ecr-push.sh munin
