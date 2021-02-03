@@ -1,5 +1,6 @@
 #!/bin/sh
-set -eu
+set -eux
 /etc/init.d/munin start
 /etc/init.d/munin-node start
-exec cron -f -L3
+/etc/init.d/cron start
+exec rsyslogd -n
