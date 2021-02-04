@@ -16,7 +16,11 @@ prune:
 	@docker system prune -f
 
 .PHONY: all
-all: bootstrap munin
+all: bootstrap acme munin
+
+.PHONY: acme
+acme:
+	@./acme/build.sh
 
 .PHONY: munin
 munin:
