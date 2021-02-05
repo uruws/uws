@@ -19,7 +19,7 @@ rsync -vax -e 'ssh -i ~/.ssh/uws-host.pem -l admin' ${TMP}/*.cfg \
 	${FQDN}:/etc/cloud/cloud.cfg.d/
 
 sleep 1
-read -p 'reboot? [yes/no]' yesno
+read -p 'reboot? [yes/no]: ' yesno
 if test "X${yesno}" = 'Xyes'; then
 	echo "reboot..."
 	ssh -i ~/.ssh/uws-host.pem -l admin ${FQDN} 'sudo cloud-init clean && sudo reboot'
