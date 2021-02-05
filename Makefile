@@ -37,8 +37,8 @@ awscli:
 
 .PHONY: acme
 acme: base
-	@./acme/build.sh
+	@./srv/acme/build.sh
 
 .PHONY: munin
 munin: base
-	@./munin/build.sh
+	@./srv/munin/build.sh
