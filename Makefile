@@ -1,5 +1,11 @@
+ENV ?= dev
+
 .PHONY: default
 default: bootstrap
+
+.PHONY: env
+env:
+	@echo "ENV=$(ENV)" >.env
 
 .PHONY: bootstrap
 bootstrap: base awscli
@@ -7,9 +13,12 @@ bootstrap: base awscli
 .PHONY: all
 all: bootstrap acme munin
 
+.PHONY: ecr-login
+ecr-login:
+	@./docker/ecr-login.sh
+
 .PHONY: publish
 publish: all
-	@./docker/ecr-login.sh
 	@./docker/ecr-push.sh base
 	@./docker/ecr-push.sh acme
 	@./docker/ecr-push.sh munin

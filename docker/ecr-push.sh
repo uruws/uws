@@ -3,6 +3,8 @@ set -eu
 
 IMG=${1:?'image name?'}
 
+. ./env
+
 if test -x ./docker/${IMG}/build.sh; then
 	./docker/${IMG}/build.sh
 elif test -x ./${IMG}/build.sh; then
@@ -12,7 +14,11 @@ else
 	exit 1
 fi
 
-REGURI='789470191893.dkr.ecr.us-east-1.amazonaws.com/uws'
+REGURI="789470191893.dkr.ecr.us-east-1.amazonaws.com/uws"
+if test "${ENV}" != 'prod'; then
+	REGURI="${REGURI}${ENV}"
+fi
+
 docker rmi ${REGURI}:${IMG} || true
 
 docker tag uws/${IMG} ${REGURI}:${IMG}

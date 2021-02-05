@@ -1,0 +1,5 @@
+ENV='dev'
+
+if test -s ./.env; then
+	. ./.env
+fi
