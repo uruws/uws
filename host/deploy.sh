@@ -1,22 +1,26 @@
 #!/bin/sh
 set -eu
 
-HOST=${1:?'hostname?'}
-FQDN=${2:-''}
-
-DOMAIN=${DOMAIN:-'uws.local'}
-
-if test "X${FQDN}" = 'X'; then
-	FQDN="${HOST}.${DOMAIN}"
-fi
+FQDN=${1:?'fqdn?'}
+HOST=${2:?'host?'}
 
 TMP=${PWD}/tmp/host/deploy/${HOST}
 rm -rf ${TMP}
 mkdir -p ${TMP}
 
-cd ./host && {
-	tar -vcf ${TMP}/${HOST}.tar ./all/*.yml ./${HOST}/*.yml
-}
-echo "${TMP}/${HOST}.tar: done!"
+for fn in $(ls ./host/config/??_all_*.cfg ./host/config/??_${HOST}_*.cfg); do
+	dst="${TMP}/99zzzuws_$(basename ${fn})"
+	cp -vf ${fn} ${dst}
+done
+
+echo "setup..."
+ssh -i ~/.ssh/uws-host.pem -l admin ${FQDN} 'sudo chgrp -v admin /etc/cloud/cloud.cfg.d && sudo chmod -v g+w /etc/cloud/cloud.cfg.d && sudo rm -vf /etc/cloud/cloud.cfg.d/99zzzuws_*.cfg'
+
+echo "sync..."
+rsync -vax -e 'ssh -i ~/.ssh/uws-host.pem -l admin' ${TMP}/*.cfg \
+	${FQDN}:/etc/cloud/cloud.cfg.d/
+
+echo "reboot..."
+ssh -i ~/.ssh/uws-host.pem -l admin ${FQDN} 'sudo reboot'
 
 exit 0
