@@ -1,0 +1,9 @@
+#cloud-config
+
+apt_update: true
+
+apt:
+  preserve_sources_list: false
+  disable_suites:
+    - backports
+    - proposed

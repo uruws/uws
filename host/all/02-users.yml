@@ -1,0 +1,12 @@
+#cloud-config
+
+users:
+  - default
+  - name: uws
+    gecos: uws
+    uid: 3000
+    lock_passwd: true
+    homedir: /home/uws
+    sudo: false
+    ssh_import_id:
+      - gh:jrmsgit

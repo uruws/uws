@@ -23,6 +23,10 @@ upgrade:
 	@./docker/awscli/build.sh --pull
 	@$(MAKE) all
 
+.PHONY: clean
+clean:
+	@rm -rvf ./tmp
+
 .PHONY: prune
 prune:
 	@docker system prune -f

@@ -1,0 +1,7 @@
+#cloud-config
+
+timezone: UTC
+locale: en_US.UTF-8
+
+preserve_hostname: false
+manage_etc_hosts: true
