@@ -5,8 +5,8 @@ IMG=${1:?'image name?'}
 
 if test -x ./docker/${IMG}/build.sh; then
 	./docker/${IMG}/build.sh
-elif test -x ./${IMG}/build.sh; then
-	./${IMG}/build.sh
+elif test -x ./srv/${IMG}/build.sh; then
+	./srv/${IMG}/build.sh
 else
 	echo "invalid image name: '${IMG}'" >&2
 	exit 1
