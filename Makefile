@@ -1,11 +1,5 @@
-ENV ?= dev
-
 .PHONY: default
 default: bootstrap
-
-.PHONY: env
-env:
-	@echo "ENV=$(ENV)" >.env
 
 .PHONY: bootstrap
 bootstrap: base awscli

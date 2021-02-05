@@ -3,8 +3,6 @@ set -eu
 
 IMG=${1:?'image name?'}
 
-. ./env
-
 if test -x ./docker/${IMG}/build.sh; then
 	./docker/${IMG}/build.sh
 elif test -x ./${IMG}/build.sh; then
@@ -13,6 +11,8 @@ else
 	echo "invalid image name: '${IMG}'" >&2
 	exit 1
 fi
+
+ENV=${ENV:-'dev'}
 
 REGURI="789470191893.dkr.ecr.us-east-1.amazonaws.com/uws"
 if test "${ENV}" != 'prod'; then
