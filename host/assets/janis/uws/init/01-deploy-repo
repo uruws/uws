@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+if ! test -d /home/uws/uws.git; then
+	sudo -u uws git init --bare /home/uws/uws.git
+fi
+install -m 0755 /uws/git-uws-update.sh /home/uws/uws.git/hooks/update
+if ! test -d /home/uws/deploy.git; then
+	sudo -u uws git clone /home/uws/uws.git /home/uws/deploy
+fi
+exit 0
