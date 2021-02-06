@@ -1,0 +1,25 @@
+#!/bin/sh
+set -eu
+uws='sudo -u uws'
+
+# docker login
+
+sudo rm -vf /var/tmp/uws-setup-docker.*
+
+tmpfn=$(mktemp /var/tmp/uws-setup-docker.XXXXXXXX)
+${uws} aws ecr get-login --region us-east-1 | sed 's/-e none //' >${tmpfn}
+chmod -v 0755 ${tmpfn}
+${uws} ${tmpfn}
+rm -vf ${tmpfn}
+
+# docker pull images
+
+REPO="789470191893.dkr.ecr.us-east-1.amazonaws.com/uws"
+IMAGES='munin'
+
+for img in $(echo ${IMAGES}); do
+	uri="${REPO}:${img}"
+	${uws} docker pull ${uri}
+done
+
+exit 0
