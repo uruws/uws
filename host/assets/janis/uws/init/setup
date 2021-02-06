@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+adduser uws docker
+
+mkdir -vp -m0770 /srv/acme/challenges /srv/acme/certs /srv/acme/keys
+chown -v uws:www-data /srv/acme /srv/acme/*
+
+mkdir -vp -m0750 /srv/cache/nginx/uws
+chown -vR www-data:www-data /srv/cache/nginx
+
+chmod -v 0644 /var/www/html/index.html
+
+nginx -t
+service nginx reload
+
+exit 0

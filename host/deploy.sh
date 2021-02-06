@@ -20,26 +20,17 @@ done
 init="${TMP}/99zzzuws_deploy.sh"
 cat ./host/cloud-init.sh >${init}
 
+sush="${TMP}/99zzzuws_setup.sh"
+cat ./host/setup.sh >${init}
+
 # create assets archive
 
 SHAR='shar --compactor=xz --no-timestamp --no-i18n --quiet'
 ASSETS=${PWD}/host/assets/${HOST}
 
-selfextract() {
-	echo '#!/bin/sh
-# uws cloud-init selfextract host assets
-if test "X${1}" = "X--selfextract"; then
-	cd /
-	shift
-else
-	exec ${0} --selfextract -c
-fi'
-}
-
 afn="${TMP}/99zzzuws_assets.sh"
 echo '#!/bin/sh' >${afn}
 if test -d ${ASSETS}; then
-	selfextract >>${afn}
 	oldwd=${PWD}
 	cd  ${ASSETS}
 	${SHAR} --archive-name "${HOST}-assets" . >>${afn}
