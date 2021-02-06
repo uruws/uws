@@ -29,13 +29,13 @@ SHAR='shar --compactor=xz --no-timestamp --no-i18n --quiet'
 ASSETS=${PWD}/host/assets/${HOST}
 
 afn="${TMP}/99zzzuws_assets.sh"
-echo '#!/bin/sh' >${afn}
 if test -d ${ASSETS}; then
 	oldwd=${PWD}
 	cd  ${ASSETS}
-	${SHAR} --archive-name "${HOST}-assets" . >>${afn}
+	${SHAR} --archive-name "${HOST}-assets" . >${afn}
 	cd ${oldwd}
 else
+	echo '#!/bin/sh' >${afn}
 	echo 'exit 0' >>${afn}
 fi
 
