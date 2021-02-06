@@ -6,4 +6,5 @@ export GIT_DIR=.git
 cd /home/uws/deploy
 git fetch --all
 git checkout ${newrev}
+echo "hola mundo"
 exit 0
