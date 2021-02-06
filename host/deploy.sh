@@ -50,6 +50,6 @@ ${SSH} ${FQDN} 'sudo chgrp -v admin /etc/cloud/cloud.cfg.d && sudo chmod -v g+w 
 rsync -vax -e "${SSH}" ${TMP}/*.* \
 	${FQDN}:/etc/cloud/cloud.cfg.d/
 
-${SSH} ${FQDN} 'sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh && sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh'
+${SSH} ${FQDN} 'sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh && nq -c sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh'
 
 exit 0
