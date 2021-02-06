@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
 adduser uws docker
+systemctl daemon-reload
 exit 0
