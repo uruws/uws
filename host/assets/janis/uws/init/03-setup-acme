@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+mkdir -vp -m0770 /srv/acme/challenges /srv/acme/certs /srv/acme/keys
+chown -v uws:www-data /srv/acme /srv/acme/*
+exit 0
