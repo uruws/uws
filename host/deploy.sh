@@ -21,7 +21,7 @@ init="${TMP}/99zzzuws_deploy.sh"
 cat ./host/cloud-init.sh >${init}
 
 sush="${TMP}/99zzzuws_setup.sh"
-cat ./host/setup.sh >${init}
+cat ./host/setup.sh >${sush}
 
 # create assets archive
 
