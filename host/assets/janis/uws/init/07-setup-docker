@@ -4,7 +4,7 @@ uws='sudo -u uws'
 
 # docker login
 
-sudo rm -vf /var/tmp/cloud-init/uws-setup-docker.*
+rm -vf /var/tmp/cloud-init/uws-setup-docker.*
 
 tmpfn=$(mktemp /var/tmp/cloud-init/uws-setup-docker.XXXXXXXX)
 ${uws} aws ecr get-login --region us-east-1 | sed 's/-e none //' >${tmpfn}
