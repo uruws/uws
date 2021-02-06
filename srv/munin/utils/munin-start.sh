@@ -13,10 +13,7 @@ chmod -v 0755 /var/cache/munin/www
 
 chown -v munin:adm /var/log/munin
 chmod -v 0755 /var/log/munin
-
-chown -v root:root /var/log/munin/munin-node.log
-chown -v munin:munin /var/log/munin/munin-update.log
-chmod -v 0644 /var/log/munin/*.log
+rm -vf /var/log/munin/*.log
 
 /etc/init.d/munin start
 /etc/init.d/munin-node start

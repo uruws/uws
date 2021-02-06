@@ -25,16 +25,10 @@ VOLUME /var/lib/munin
 VOLUME /var/cache/munin/www
 VOLUME /var/log/munin
 
-#~ RUN rm -vf /var/log/munin/*.log \
-#~ 	&& ln -vsf /dev/stderr /var/log/munin/munin-node.log \
-#~ 	&& ln -vsf /dev/stderr /var/log/munin/munin-update.log
-
 #~ USER uws:uws
 #~ WORKDIR /home/uws
-
 #~ ENV USER uws
 #~ ENV HOME /home/uws
-
 #~ CMD exec /bin/bash -l
 
 ENTRYPOINT exec /root/bin/munin-start.sh
