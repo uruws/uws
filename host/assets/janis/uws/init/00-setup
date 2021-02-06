@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
 adduser uws docker
+chmod -v 0750 ~admin
 systemctl daemon-reload
 exit 0
