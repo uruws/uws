@@ -39,17 +39,29 @@ else
 	echo 'exit 0' >>${afn}
 fi
 
-# clean host setup files
+# clean host setup files and sync new ones
 
 SSH='ssh -i ~/.ssh/uws-host.pem -l admin'
 
-${SSH} ${FQDN} 'sudo chgrp -v admin /etc/cloud/cloud.cfg.d && sudo chmod -v g+w /etc/cloud/cloud.cfg.d && sudo rm -vf /etc/cloud/cloud.cfg.d/99zzzuws_*.cfg'
+if test "X${FQDN}" = 'Xlocal'; then
 
-# sync new setup files
+	sudo chgrp -v admin /etc/cloud/cloud.cfg.d
+	sudo chmod -v g+w /etc/cloud/cloud.cfg.d
+	sudo rm -vf /etc/cloud/cloud.cfg.d/99zzzuws_*.cfg
 
-rsync -vax -e "${SSH}" ${TMP}/*.* \
-	${FQDN}:/etc/cloud/cloud.cfg.d/
+	rsync -vax ${TMP}/*.* /etc/cloud/cloud.cfg.d/
 
-${SSH} ${FQDN} 'sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh && nq -c sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh'
+	sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh
+	nq -c sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh
+
+else
+
+	${SSH} ${FQDN} 'sudo chgrp -v admin /etc/cloud/cloud.cfg.d && sudo chmod -v g+w /etc/cloud/cloud.cfg.d && sudo rm -vf /etc/cloud/cloud.cfg.d/99zzzuws_*.cfg'
+
+	rsync -vax -e "${SSH}" ${TMP}/*.* ${FQDN}:/etc/cloud/cloud.cfg.d/
+
+	${SSH} ${FQDN} 'sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh && nq -c sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh'
+
+fi
 
 exit 0
