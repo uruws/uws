@@ -12,10 +12,10 @@ ENV HOME /root
 ADD ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
-RUN /root/bin/apt-install.sh bash cloud-init ca-certificates wget locales
+RUN /root/bin/apt-install.sh bash cloud-init ca-certificates wget locales \
+	sharutils xz-utils
 
-RUN echo 'en_GB.UTF-8 UTF-8' >/etc/locale.gen \
-	&& echo 'en_US.UTF-8 UTF-8' >>/etc/locale.gen \
+RUN echo 'en_US.UTF-8 UTF-8' >/etc/locale.gen \
 	&& locale-gen \
 	&& update-locale LANG=en_US.UTF-8
 
