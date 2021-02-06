@@ -6,7 +6,7 @@ fi
 chown -v uws:uws /uws/git-uws*.sh
 chmod -v 0750 /uws/git-uws*.sh
 install -o uws -g uws -m 0750 /uws/git-uws-update.sh /home/uws/uws.git/hooks/update
-if ! test -d /home/uws/deploy.git; then
+if ! test -d /home/uws/deploy; then
 	sudo -u uws git clone /home/uws/uws.git /home/uws/deploy
 fi
 exit 0
