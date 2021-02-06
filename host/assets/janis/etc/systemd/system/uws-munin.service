@@ -19,6 +19,7 @@ ExecStart=/usr/bin/docker run --rm -u root \
 	-v /srv/munin/var/lib:/var/lib/munin \
 	-v /srv/munin/cache/www:/var/cache/munin/www \
 	-v /srv/munin/var/log:/var/log/munin \
+	-v /srv/etc/munin:/srv/etc/munin \
 	789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin
 
 [Install]

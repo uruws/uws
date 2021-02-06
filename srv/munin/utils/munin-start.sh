@@ -15,6 +15,16 @@ chown -v munin:adm /var/log/munin
 chmod -v 0755 /var/log/munin
 rm -vf /var/log/munin/*.log
 
+if test -d /srv/etc/munin; then
+	cp -vrf /srv/etc/munin /etc/munin
+fi
+
+chown -v root:munin /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf
+chmod -v 0640 /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf
+
+chown -v root:root /etc/munin/plugin-conf.d/*
+chmod -v 0644 /etc/munin/plugin-conf.d/*
+
 /etc/init.d/munin start
 /etc/init.d/munin-node start
 
