@@ -3,7 +3,6 @@ set -eux
 refname="$1"
 oldrev="$2"
 newrev="$3"
-cd /home/uws/deploy
-git fetch --all
-git checkout ${newrev}
+export NQDIR=/home/uws/nq
+nq -c /uws/git-uws-deploy.sh ${newrev}
 exit 0
