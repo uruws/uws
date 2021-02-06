@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 refname="$1"
 oldrev="$2"
 newrev="$3"
