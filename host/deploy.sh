@@ -8,10 +8,19 @@ TMP=${PWD}/tmp/host/deploy/${HOST}
 rm -rf ${TMP}
 mkdir -p ${TMP}
 
+# gen config files
+
 for fn in $(ls ./host/config/??_all_*.cfg ./host/config/??_${HOST}_*.cfg); do
 	dst="${TMP}/99zzzuws_$(basename ${fn})"
 	cp -vf ${fn} ${dst}
 done
+
+# gen assets
+
+init="${TMP}/99zzzuws_deploy.sh"
+cat ./host/cloud-init.sh >${init}
+
+# create assets archive
 
 SHAR='shar --compactor=xz --no-timestamp --no-i18n --quiet'
 ASSETS=${PWD}/host/assets/${HOST}
@@ -27,30 +36,29 @@ else
 fi'
 }
 
+afn="${TMP}/99zzzuws_assets.sh"
+echo '#!/bin/sh' >${afn}
 if test -d ${ASSETS}; then
-	dst="${TMP}/99zzzuws_70_${HOST}_assets.cfg"
-	selfextract >${dst}
+	selfextract >>${afn}
 	oldwd=${PWD}
 	cd  ${ASSETS}
-	${SHAR} --archive-name "${HOST}-assets" . >>${dst}
+	${SHAR} --archive-name "${HOST}-assets" . >>${afn}
 	cd ${oldwd}
+else
+	echo 'exit 0' >>${afn}
 fi
+
+# clean host setup files
 
 SSH='ssh -i ~/.ssh/uws-host.pem -l admin'
 
 ${SSH} ${FQDN} 'sudo chgrp -v admin /etc/cloud/cloud.cfg.d && sudo chmod -v g+w /etc/cloud/cloud.cfg.d && sudo rm -vf /etc/cloud/cloud.cfg.d/99zzzuws_*.cfg'
 
-rsync -vax -e "${SSH}" ${TMP}/*.cfg \
+# sync new setup files
+
+rsync -vax -e "${SSH}" ${TMP}/*.* \
 	${FQDN}:/etc/cloud/cloud.cfg.d/
 
-sleep 1
-read -p 'reboot? [yes/no]: ' yesno
-if test "X${yesno}" = 'Xyes'; then
-	echo "reboot..."
-	${SSH} ${FQDN} 'sudo cloud-init clean && sudo rm -vf /var/log/cloud-init*.log && sudo reboot'
-else
-	echo "cloud-init clean..."
-	${SSH} ${FQDN} 'sudo cloud-init clean'
-fi
+${SSH} ${FQDN} 'sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh && sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh'
 
 exit 0
