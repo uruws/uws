@@ -22,7 +22,7 @@ sleep 1
 read -p 'reboot? [yes/no]: ' yesno
 if test "X${yesno}" = 'Xyes'; then
 	echo "reboot..."
-	ssh -i ~/.ssh/uws-host.pem -l admin ${FQDN} 'sudo cloud-init clean && sudo reboot'
+	ssh -i ~/.ssh/uws-host.pem -l admin ${FQDN} 'sudo cloud-init clean && sudo rm -vf /var/log/cloud-init*.log && sudo reboot'
 else
 	echo "cloud-init clean..."
 	ssh -i ~/.ssh/uws-host.pem -l admin ${FQDN} 'sudo cloud-init clean'
