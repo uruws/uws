@@ -1,17 +1,17 @@
 #!/bin/sh
 set -eu
 
-if ! test -d ~admin/uws.git; then
-	sudo -u admin git init --bare ~admin/uws.git
+if ! test -d /home/uws/uws.git; then
+	sudo -u admin git init --bare /home/uws/uws.git
 fi
 
-chown -v root:admin /uws/git-uws*.sh
+chown -v root:uws /uws/git-uws*.sh
 chmod -v 0750 /uws/git-uws*.sh
 
-install -o root -g admin -m 0750 /uws/git-uws-update.sh ~admin/uws.git/hooks/update
+install -o root -g uws -m 0750 /uws/git-uws-update.sh /home/uws/uws.git/hooks/update
 
-if ! test -d ~admin/deploy; then
-	sudo -u admin git clone ~admin/uws.git ~admin/deploy
+if ! test -d /home/uws/deploy; then
+	sudo -u admin git clone /home/uws/uws.git /home/uws/deploy
 fi
 
 exit 0
