@@ -9,6 +9,11 @@ if test "X${st}" != 'Xstatus: done'; then
 	exit 1
 fi
 
+# fix cloud-init bug re-adding the same entry
+echo 'admin ALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/90-cloud-init-users
+echo 'uws ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers.d/90-cloud-init-users
+chmod -v 0440 /etc/sudoers.d/90-cloud-init-users
+
 cloud-init clean
 cloud-init init --local
 cloud-init modules --mode config

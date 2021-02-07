@@ -15,6 +15,6 @@ git checkout ${newrev}
 ./env/make.sh prod publish
 ./env/make.sh prod prune
 
-./deploy.sh local janis
+./host/deploy.sh local janis
 
 exit 0
