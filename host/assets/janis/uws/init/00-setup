@@ -1,6 +1,13 @@
 #!/bin/sh
 set -eu
+
 adduser uws docker
+
+mkdir -vp /srv/uws
+chown -v uws:uws /srv/uws
+chmod -v 0750 /srv/uws
+
 chmod -v 0750 ~admin
+
 systemctl daemon-reload
 exit 0
