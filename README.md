@@ -4,5 +4,5 @@ Uruworks sysadmin tools.
 
 ## talkingpts infrastructure
 
-[TODO](./docs/todo.md)
-[DONE](./docs/done.md)
+* [TODO](./docs/todo.md)
+* [DONE](./docs/done.md)
