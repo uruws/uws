@@ -39,10 +39,10 @@ Services are deployed to EC2 instances using [Docker](https://www.docker.com/)
 containers.
 
 * Base docker image definition: [docker/base](../docker/base/Dockerfile).
+* Containers are deployed using AWS ECR private/internal docker hub: [uws][uwsecr].
 * Services image definition:
 	* [acme](../srv/acme/Dockerfile): [Let's Encrypt](https://letsencrypt.org/) auto SSL certificates management using [acme-tiny](https://github.com/diafygi/acme-tiny).
 	* [munin](../srv/munin/Dockerfile): [munin](http://munin-monitoring.org/) monitors and graphs network resources.
-* Containers are deployed using AWS ECR service for a private/internal docker hub: [uws][uwsecr].
 
 ## DevOps
 
@@ -79,3 +79,4 @@ git repostitory `uws@uws.talkingpts.org:deploy.git` hosted in `janis`.
 [uwsinstall-tpl]: https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#LaunchTemplateDetails:launchTemplateId=lt-018d4b7d7e51c55c4
 [cloud-init-20.2]: https://cloudinit.readthedocs.io/en/20.2/
 [uwsecr]: https://console.aws.amazon.com/ecr/repositories/private/789470191893/uws?region=us-east-1
+[uwsec2-role]: https://console.aws.amazon.com/iam/home?region=us-east-1#/roles/EC2InstanceRole
