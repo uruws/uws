@@ -67,8 +67,8 @@ Deploys can be done manually (if you have the right accesses) using
 `host/deploy.sh` or a full deploy of the infra can be done via a push to the
 git repostitory `uws@uws.talkingpts.org:deploy.git` hosted in `janis`.
 
-* Git deploy script: [janis/uws/git-uws-deploy.sh](../host/assets/janis/uws/git-uws-deploy.sh
-)
+* Git update hook: [janis/uws/git-uws-update.sh](../host/assets/janis/uws/git-uws-update.sh)
+* Git deploy script: [janis/uws/git-uws-deploy.sh](../host/assets/janis/uws/git-uws-deploy.sh)
 
 [uws]: https://uws.talkingpts.org
 [uwsadm]: https://console.aws.amazon.com/iam/home?region=us-east-1#/users/uwsadm
