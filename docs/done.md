@@ -2,7 +2,7 @@
 
 ## AWS
 
-* Main region used for devops infra: us-east-1
+* Main region used for devops infra: **us-east-1**
 
 ## Admin
 
@@ -31,7 +31,7 @@ Current OS version: Debian 10 (Buster).
 
 Addresses allocated using AWS EC2 elastic IP:
 
-* [54.204.105.139][janisip]: [uws.talkingpts.org][uws] [janis.uws.talkingpts.org][janis.uws]
+* [54.204.105.139][janisip]: [uws.t.o][uws] [janis.uws.t.o][janis.uws]
 
 ## Service container
 
@@ -46,7 +46,7 @@ containers.
 
 ## DevOps
 
-* [uws][uws] devops main site/domain.
+* [uws.t.o][uws] devops website.
 * [Janis][janis.uws] is the main server for managing the infrastructure.
 	* Services:
 		* smarthost mail server
@@ -65,7 +65,7 @@ Host deploy to EC2 instances is being done using [cloud-init][cloud-init-20.2] (
 
 Deploys can be done manually (if you have the right accesses) using
 `host/deploy.sh` or a full deploy of the infra can be done via a push to the
-git repostitory `uws@uws.talkingpts.org:deploy.git` hosted in `janis`.
+git repostitory `uws@uws.talkingpts.org:deploy.git` hosted at *janis*.
 
 * Git update hook: [janis/uws/git-uws-update.sh](../host/assets/janis/uws/git-uws-update.sh)
 * Git deploy script: [janis/uws/git-uws-deploy.sh](../host/assets/janis/uws/git-uws-deploy.sh)
