@@ -8,23 +8,24 @@
 
 * [IAM uwsadm][uwsadm].
 
-All the AWS infrastructure owned by **uwsadm** IAM user.
+All the AWS infrastructure is owned by **uwsadm** IAM user.
 
 ## DNS
 
-* [Route53][uwsdns] hosted zones.
+* [Route53][uwsdns].
 
-The main domain used for devops is **uws.talkingpts.org** and it's hosted using
-AWS Route53 service.
+The main domain used for devops is [uws.talkingpts.org][uws] and it's hosted
+using AWS Route53 service.
 
 ## EC2
 
 [GNU/Linux Debian](https://www.debian.org) is used as the main OS.
 
-Current OS version: 10 (Buster).
+Current OS version: Debian 10 (Buster).
 
 * AMI used as base installation for *ALL* instances: [debian-base][uwsami].
 * Instance launch template: [uws-debian-base][uwsinstall-tpl].
+* All instances run with [EC2InstanceRole][uwsec2-role] privileges.
 
 ## Networking
 
