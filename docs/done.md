@@ -2,7 +2,7 @@
 
 ## AWS
 
-* Main region used for devops infra: **us-east-1**
+* Main region used for devops infra: **us-east-1** *(N. Virginia)*
 
 ## Admin
 
