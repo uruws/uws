@@ -17,15 +17,16 @@ chmod -v 0750 /srv/www
 
 chmod -v 0644 /var/www/html/index.html
 
+rm -vf /etc/nginx/sites-enabled/*
+
+install -v /etc/nginx/sites-available/main /etc/nginx/sites-enabled
+install -v /etc/nginx/sites-available/janis /etc/nginx/sites-enabled
+
 if test -s /srv/acme/cert/uws.talkingpts.org.crt; then
 	install -v /etc/nginx/sites-available/ssl-default /etc/nginx/sites-enabled
-else
-	rm -vf /etc/nginx/sites-enabled/ssl-default
 fi
 if test -s /srv/acme/cert/janis.uws.talkingpts.org.crt; then
 	install -v /etc/nginx/sites-available/ssl-janis /etc/nginx/sites-enabled
-else
-	rm -vf /etc/nginx/sites-enabled/ssl-janis
 fi
 
 exit 0
