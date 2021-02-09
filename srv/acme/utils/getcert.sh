@@ -20,4 +20,6 @@ acme-tiny --account-key ${AK} --csr ${CSR} --acme-dir ${CDIR} >${TMP} || {
 }
 
 mv -vf ${TMP} ${CRT}
+echo 'true' >/srv/run/acme/tmp/reload
+
 exit 0

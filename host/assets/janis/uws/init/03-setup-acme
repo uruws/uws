@@ -15,10 +15,17 @@ chmod -v 0770 ${WWW_DIRS}
 export ACME_HOME=/srv/acme
 export ACME_RUN=/srv/run/acme
 
-ACME=/srv/uws/deploy/srv/acme/cmd.sh
+acme=/srv/uws/deploy/srv/acme/cmd.sh
 
 if ! test -s ${ACME_HOME}/key/account.key; then
-	${ACME} keygen.sh account
+	${acme} keygen.sh account
 fi
+
+chown -v uws:uws /uws/acme-*.sh
+chmod -v 0750 /uws/acme-*.sh
+
+uws='sudo -n -u uws'
+
+${uws} /uws/acme-certs.sh
 
 exit 0
