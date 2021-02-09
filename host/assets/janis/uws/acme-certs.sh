@@ -7,6 +7,11 @@ export ACME_RUN=/srv/run/acme
 acme=/srv/uws/deploy/srv/acme/cmd.sh
 list=/uws/acme-certs.list
 
+if ! test -r ${list}; then
+	echo "ERROR: ${list} file not found" >&2
+	exit 1
+fi
+
 for cn in $(cat ${list} | cut -d ' ' -f 1); do
 	keyfn=${ACME_HOME}/key/${cn}.key
 	echo "i - ${keyfn}"

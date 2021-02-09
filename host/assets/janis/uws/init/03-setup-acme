@@ -24,6 +24,9 @@ fi
 chown -v uws:uws /uws/acme-*.sh
 chmod -v 0750 /uws/acme-*.sh
 
+chown -v uws:uws /uws/acme-certs.list
+chmod -v 0640 /uws/acme-certs.list
+
 uws='sudo -n -u uws'
 
 ${uws} /uws/acme-certs.sh
