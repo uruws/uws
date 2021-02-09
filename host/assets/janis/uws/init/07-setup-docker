@@ -2,11 +2,15 @@
 set -eu
 uws='sudo -u uws'
 
+# restart docker service as iptables rules were reloaded before
+
+service docker restart
+
 # docker login
 
 rm -vf /var/tmp/cloud-init/uws-setup-docker.*
-
 tmpfn=$(mktemp /var/tmp/cloud-init/uws-setup-docker.XXXXXXXX)
+
 ${uws} aws ecr get-login --region us-east-1 | sed 's/-e none //' >${tmpfn}
 chmod -v 0755 ${tmpfn}
 ${uws} ${tmpfn}
