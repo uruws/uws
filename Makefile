@@ -46,3 +46,12 @@ publish: all
 .PHONY: ecr-login
 ecr-login:
 	@./docker/ecr-login.sh
+
+.PHONY: deploy
+deploy:
+	@$(MAKE) awscli
+	@$(MAKE) ecr-login
+	@./env/make.sh prod all
+	@./env/make.sh prod publish
+	@./host/deploy.sh local janis
+	@$(MAKE) clean prune

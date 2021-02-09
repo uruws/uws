@@ -10,13 +10,7 @@ export GIT_DIR=.git
 git fetch --all
 git checkout ${newrev}
 
-make awscli
-make ecr-login
+sleep 1
+make deploy
 
-./env/make.sh prod all
-./env/make.sh prod publish
-
-./host/deploy.sh local janis
-
-make clean prune
 exit 0
