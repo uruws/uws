@@ -10,7 +10,7 @@ ENV USER root
 ENV HOME /root
 
 RUN /root/bin/apt-distsetup.sh testing main
-RUN /root/bin/apt-install.sh rsyslog cron munin munin-node
+RUN /root/bin/apt-install.sh rsyslog cron munin
 
 ADD ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
@@ -25,10 +25,5 @@ VOLUME /var/lib/munin
 VOLUME /var/cache/munin/www
 VOLUME /var/log/munin
 
-#~ USER uws:uws
-#~ WORKDIR /home/uws
-#~ ENV USER uws
-#~ ENV HOME /home/uws
 #~ CMD exec /bin/bash -l
-
 ENTRYPOINT exec /root/bin/munin-start.sh

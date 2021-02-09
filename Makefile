@@ -4,19 +4,6 @@ default: bootstrap
 .PHONY: bootstrap
 bootstrap: base awscli
 
-.PHONY: all
-all: bootstrap acme munin
-
-.PHONY: ecr-login
-ecr-login:
-	@./docker/ecr-login.sh
-
-.PHONY: publish
-publish: all
-	@./docker/ecr-push.sh base
-	@./docker/ecr-push.sh acme
-	@./docker/ecr-push.sh munin
-
 .PHONY: upgrade
 upgrade:
 	@./docker/base/build.sh --pull
@@ -46,3 +33,16 @@ acme: base
 .PHONY: munin
 munin: base
 	@./srv/munin/build.sh
+
+.PHONY: all
+all: bootstrap acme munin
+
+.PHONY: publish
+publish: all
+	@./docker/ecr-push.sh base
+	@./docker/ecr-push.sh acme
+	@./docker/ecr-push.sh munin
+
+.PHONY: ecr-login
+ecr-login:
+	@./docker/ecr-login.sh
