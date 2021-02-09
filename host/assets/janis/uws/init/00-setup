@@ -3,6 +3,9 @@ set -eu
 
 adduser uws docker
 
+mkdir -vp /srv/run
+chown -v 0750 /srv/run
+
 mkdir -vp /srv/uws
 chown -v uws:uws /srv/uws
 chmod -v 0750 /srv/uws

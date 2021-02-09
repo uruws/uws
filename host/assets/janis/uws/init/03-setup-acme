@@ -1,16 +1,20 @@
 #!/bin/sh
 set -eu
 
-DIRS='/srv/acme/challenge /srv/acme/cert /srv/acme/key /srv/acme/req /srv/acme/tmp'
-WWW_DIRS='/srv/acme/challenge'
+DIRS='/srv/acme/cert /srv/acme/key /srv/acme/req'
+RUN_DIRS='/srv/run/acme/challenge /srv/run/acme/tmp'
+WWW_DIRS='/srv/run/acme/challenge'
 
-mkdir -vp ${DIRS}
-chown -v uws:uws ${DIRS}
-chmod -v 0750 ${DIRS}
+mkdir -vp ${DIRS} ${RUN_DIRS}
+chown -v uws:uws ${DIRS} ${RUN_DIRS}
+chmod -v 0750 ${DIRS} ${RUN_DIRS}
+
 chown -v uws:www-data ${WWW_DIRS}
 chmod -v 0770 ${WWW_DIRS}
 
 export ACME_HOME=/srv/acme
+export ACME_RUN=/srv/run/acme
+
 ACME=/srv/uws/deploy/srv/acme/cmd.sh
 
 if ! test -s ${ACME_HOME}/key/account.key; then
