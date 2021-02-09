@@ -17,7 +17,7 @@ if test -s ${flag}; then
 	echo "i - ${flag} found, not running again."
 	exit 0
 fi
-rm -vf /srv/run/acme/done.*
+rm -vf /srv/run/acme/tmp/done.*
 
 for cn in $(cat ${list} | cut -d ' ' -f 1); do
 	keyfn=${ACME_HOME}/key/${cn}.key
