@@ -18,6 +18,6 @@ server {
 	}
 
 	location / {
-		return 301 https://janis.uws.talkingpts.org;
+		return 301 https://janis.uws.talkingpts.org$request_uri;
 	}
 }
