@@ -1,0 +1,22 @@
+# deployed via uws host assests.
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+# allow loopback
+-A INPUT -i lo -j ACCEPT
+# allow dhclient
+-A INPUT -p udp -m udp --dport 546 -j ACCEPT
+-A INPUT -p udp -m udp --sport 546 -j ACCEPT
+# allow ssh
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+# allow http
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+# allow https
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+# allow established connections
+-A INPUT -p tcp -m state --state RELATED,ESTABLISHED -j ACCEPT
+# drop anything else
+-A INPUT -m state --state INVALID,NEW -j DROP
+-A INPUT -j DROP
+COMMIT

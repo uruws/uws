@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+service netfilter-persistent reload || service netfilter-persistent flush
+exit 0
