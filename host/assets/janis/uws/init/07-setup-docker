@@ -15,7 +15,7 @@ rm -vf ${tmpfn}
 # docker pull images
 
 REPO="789470191893.dkr.ecr.us-east-1.amazonaws.com/uws"
-IMAGES='munin'
+IMAGES='acme munin'
 
 for img in $(echo ${IMAGES}); do
 	uri="${REPO}:${img}"
