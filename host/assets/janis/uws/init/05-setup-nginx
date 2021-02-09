@@ -1,8 +1,13 @@
 #!/bin/sh
 set -eu
 
-mkdir -vp -m0750 /srv/cache/nginx/uws
+mkdir -vp /srv/cache/nginx/uws
 chown -vR www-data:www-data /srv/cache/nginx
+chmod -v 0750 /srv/cache/nginx/uws
+
+mkdir -vp /srv/www/public
+chown -vR uws:www-data /srv/www/public
+chmod -v 0750 /srv/www/public
 
 chmod -v 0644 /var/www/html/index.html
 
