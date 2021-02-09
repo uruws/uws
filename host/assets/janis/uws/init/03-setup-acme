@@ -10,7 +10,7 @@ chown -v uws:uws ${DIRS} ${RUN_DIRS}
 chmod -v 0750 ${DIRS} ${RUN_DIRS}
 
 chown -v uws:www-data ${WWW_DIRS}
-chmod -v 0770 ${WWW_DIRS}
+chmod -v 0750 ${WWW_DIRS}
 
 export ACME_HOME=/srv/acme
 export ACME_RUN=/srv/run/acme
