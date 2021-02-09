@@ -2,12 +2,18 @@
 set -eu
 
 mkdir -vp /srv/cache/nginx/uws
-chown -vR www-data:www-data /srv/cache/nginx
+chown -v www-data:www-data /srv/cache/nginx/uws
 chmod -v 0750 /srv/cache/nginx/uws
 
+chown -v www-data:www-data /srv/cache/nginx
+chmod -v 0750 /srv/cache/nginx
+
 mkdir -vp /srv/www/public
-chown -vR uws:www-data /srv/www/public
+chown -v uws:www-data /srv/www/public
 chmod -v 0750 /srv/www/public
+
+chown -v uws:www-data /srv/www
+chmod -v 0750 /srv/www
 
 chmod -v 0644 /var/www/html/index.html
 
