@@ -49,6 +49,7 @@ if test "X${FQDN}" = 'Xlocal'; then
 	sudo rsync -vrx ${TMP}/*.* /etc/cloud/cloud.cfg.d/
 
 	sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh
+	NQDIR=/home/uws/nq
 	nq -c sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh
 
 else
