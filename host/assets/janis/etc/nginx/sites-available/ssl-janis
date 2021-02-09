@@ -15,12 +15,12 @@ server {
 	ssl_session_timeout 5m;
 	keepalive_timeout 75s;
 
-	ssl_client_certificate /srv/etc/ssl/ca-cert.pem;
-	ssl_crl /srv/etc/ssl/ca-crl.pem;
-	ssl_verify_client on;
+	#~ ssl_client_certificate /srv/etc/ssl/ca-cert.pem;
+	#~ ssl_crl /srv/etc/ssl/ca-crl.pem;
+	#~ ssl_verify_client on;
 
-	access_log /var/log/nginx/internal_access.log ssluser;
-	error_log /var/log/nginx/internal_error.log;
+	access_log /var/log/nginx/janis_access.log ssluser;
+	error_log /var/log/nginx/janis_error.log;
 
 	location /public/ {
 		alias /srv/www/public/;
