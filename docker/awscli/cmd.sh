@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
-mkdir -vp ~/.uws/aws
+mkdir -vp ~/.aws
 docker run --rm --name uws-awscli-cmd --hostname awscli-cmd.uws.local -u uws \
-	-v ~/.uws/aws:/home/uws/.aws \
+	-v ~/.aws:/home/uws/.aws \
 	uws/awscli $@
 exit 0
