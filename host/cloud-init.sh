@@ -10,8 +10,7 @@ if test "X${st}" != 'Xstatus: done'; then
 fi
 
 # fix cloud-init bug re-adding the same entry
-echo 'admin ALL=(ALL) NOPASSWD:ALL' >/etc/sudoers.d/90-cloud-init-users
-echo 'uws ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers.d/90-cloud-init-users
+(echo 'admin ALL=(ALL) NOPASSWD:ALL'; echo 'uws ALL=(ALL) NOPASSWD:ALL') >/etc/sudoers.d/90-cloud-init-users
 chmod -v 0440 /etc/sudoers.d/90-cloud-init-users
 
 cloud-init clean
