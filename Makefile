@@ -48,10 +48,7 @@ ecr-login:
 	@./docker/ecr-login.sh
 
 .PHONY: deploy
-deploy:
-	@$(MAKE) awscli
-#~ 	@$(MAKE) ecr-login
+deploy: clean prune
 	@./env/make.sh prod all
 	@./env/make.sh prod publish
 	@./host/deploy.sh local janis
-	@$(MAKE) clean prune
