@@ -4,6 +4,7 @@ DOM=${1:?'domain?'}
 
 umask 0027
 mkdir -vp /srv/acme/req
+
 umask 0077
 
 KN=/srv/acme/key/${DOM}.key

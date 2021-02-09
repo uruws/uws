@@ -13,13 +13,20 @@ CSR=/srv/acme/req/${DOM}.csr
 CRT=/srv/acme/cert/${DOM}.crt
 TMP=/srv/run/acme/tmp/${DOM}.crt
 
+# change umas so the challenge file can be read by the web server
+umask 0022
+
 rm -f ${TMP}
 acme-tiny --account-key ${AK} --csr ${CSR} --acme-dir ${CDIR} >${TMP} || {
 	echo "acme gen ${CRT}: failed!" >&2
 	exit 1
 }
 
-mv -vf ${TMP} ${CRT}
-echo 'true' >/srv/run/acme/tmp/reload
+# restore umask
+umask 0027
 
+cat ${TMP} >${CRT}
+rm -vf ${TMP}
+
+echo 'true' >/srv/run/acme/tmp/reload
 exit 0
