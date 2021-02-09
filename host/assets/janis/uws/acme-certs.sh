@@ -12,7 +12,7 @@ if ! test -r ${list}; then
 	exit 1
 fi
 
-flag=/srv/run/acme/done.$(date '+%Y%m%d')
+flag=/srv/run/acme/tmp/done.$(date '+%Y%m%d')
 if test -s ${flag}; then
 	echo "i - ${flag} found, not running again."
 	exit 0
