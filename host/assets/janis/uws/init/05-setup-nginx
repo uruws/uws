@@ -29,4 +29,10 @@ if test -s /srv/acme/cert/janis.uws.talkingpts.org.crt; then
 	install -v /etc/nginx/sites-available/ssl-janis /etc/nginx/sites-enabled
 fi
 
+mkdir -vp /srv/etc/ssl
+dhparam=/srv/etc/ssl/dhparam.pem
+if ! test -s ${dhparam}; then
+	openssl dhparam -out ${dhparam} 4096
+fi
+
 exit 0
