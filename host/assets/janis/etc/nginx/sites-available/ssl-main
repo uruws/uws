@@ -19,9 +19,7 @@ server {
 	ssl_certificate /srv/acme/cert/uws.talkingpts.org.crt;
 	ssl_certificate_key /srv/acme/key/uws.talkingpts.org.key;
 
-	ssl_session_cache shared:SSL:5m;
-	ssl_session_timeout 5m;
-	keepalive_timeout 75s;
+	include /srv/etc/nginx/ssl.conf;
 
 	#~ location / {
 		#~ proxy_cache uwscache;
