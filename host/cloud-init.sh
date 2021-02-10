@@ -2,7 +2,7 @@
 set -eu
 
 if test 'X--no-exec' != "X${1:-'X'}"; then
-	exec ${0} --no-exec | tee -a /var/tmp/uws-deploy.sh
+	exec ${0} --no-exec | tee -a /var/tmp/uws-deploy.log
 fi
 
 echo "i - START cloud-init $(date -R)"
