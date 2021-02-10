@@ -1,4 +1,25 @@
 #!/bin/sh
 set -eu
-service netfilter-persistent reload || service netfilter-persistent flush
+
+lastfn=/etc/iptables.uws-last
+reloadfn=/etc/iptables.uws-reload
+
+echo 'false' >${reloadfn}
+
+cksum() {
+	cat /etc/iptables/rules.v? | sha256sum -t - | cut -d ' ' -f 1
+}
+
+LAST='NONE'
+if test -s ${lastfn}; then
+	LAST="$(cat ${lastfn})"
+fi
+
+CUR="$(cksum)"
+if test "X${LAST}" != "X${CUR}"; then
+	echo 'true' >${reloadfn}
+	service netfilter-persistent reload || service netfilter-persistent flush
+	cksum >${lastfn}
+fi
+
 exit 0
