@@ -1,15 +1,6 @@
 .PHONY: default
 default: bootstrap
 
-.PHONY: bootstrap
-bootstrap: base awscli
-
-.PHONY: upgrade
-upgrade:
-	@./docker/base/build.sh --pull
-	@./docker/awscli/build.sh --pull
-	@$(MAKE) all
-
 .PHONY: clean
 clean:
 	@rm -rvf ./tmp
@@ -18,6 +9,15 @@ clean:
 prune:
 	@docker system prune -f
 
+.PHONY: upgrade
+upgrade:
+	@./docker/base/build.sh --pull
+	@./docker/awscli/build.sh --pull
+	@$(MAKE) all
+
+.PHONY: bootstrap
+bootstrap: base awscli mkcert
+
 .PHONY: base
 base:
 	@./docker/base/build.sh
@@ -25,6 +25,10 @@ base:
 .PHONY: awscli
 awscli:
 	@./docker/awscli/build.sh
+
+.PHONY: mkcert
+mkcert:
+	@./docker/mkcert/build.sh
 
 .PHONY: acme
 acme: base
@@ -40,7 +44,8 @@ all: bootstrap acme munin
 .PHONY: publish
 publish: all
 	@./docker/ecr-push.sh base
-	@./docker/ecr-push.sh acme
+	@./docker/ecr-push.sh awscli
+	@./docker/ecr-push.sh mkcert
 	@./docker/ecr-push.sh munin
 
 .PHONY: ecr-login
