@@ -1,7 +1,11 @@
 #!/bin/sh
 set -eu
 
-echo 'x - cloud-init'
+if test 'X--no-exec' != "X${1:-'X'}"; then
+	exec ${0} --no-exec | tee -a /var/tmp/uws-deploy.sh
+fi
+
+echo "i - START cloud-init $(date -R)"
 
 st=$(cloud-init status)
 if test "X${st}" != 'Xstatus: done'; then
@@ -21,4 +25,5 @@ cloud-init modules --mode final
 chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_setup.sh
 /etc/cloud/cloud.cfg.d/99zzzuws_setup.sh
 
+echo "i - END cloud-init $(date -R)"
 exit 0

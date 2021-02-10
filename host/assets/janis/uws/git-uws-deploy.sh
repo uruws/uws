@@ -16,6 +16,7 @@ echo "i - git checkout ${refname} ${oldrev} ${newrev}" | tee -a ${logf}
 
 git fetch --all | tee -a ${logf}
 git checkout ${newrev} | tee -a ${logf}
+git status | tee -a ${logf}
 
 sleep 1
 echo 'i - make deploy' | tee -a ${logf}
