@@ -6,7 +6,7 @@ oldrev="$2"
 newrev="$3"
 
 umask 0027
-logf=/var/log/uws-deploy.log
+logf=/var/tmp/uws-deploy.log
 
 cd /srv/uws/deploy
 export GIT_DIR=.git
