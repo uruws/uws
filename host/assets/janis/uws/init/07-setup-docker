@@ -4,13 +4,15 @@ uws='sudo -u uws'
 
 # restart docker service as iptables rules were reloaded before
 
-service docker restart
+if test 'Xtrue' = "X$(cat /etc/iptables.uws-reload 2>/dev/null)"; then
+	echo 'i - firewall rules changed, restart docker service'
+	service docker restart
+fi
 
 # docker login
 
 rm -vf /var/tmp/cloud-init/uws-setup-docker.*
 tmpfn=$(mktemp /var/tmp/cloud-init/uws-setup-docker.XXXXXXXX)
-
 ${uws} aws ecr get-login --region us-east-1 | sed 's/-e none //' >${tmpfn}
 chmod -v 0755 ${tmpfn}
 ${uws} ${tmpfn}
