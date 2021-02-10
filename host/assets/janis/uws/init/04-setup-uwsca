@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+umask 0027
+export CAROOT=/srv/etc/ssl
+
+mkdir -vp ${CAROOT}
+chown -v uws:uws ${CAROOT}
+chmod -v 0750 ${CAROOT}
+
+mkcert=/srv/uws/deploy/docker/mkcert/cmd.sh
+
+if ! test -s ${CAROOT}/rootCA.pem; then
+	# for root CA creation
+	${mkcert} newcert.sh uws.talkingpts.org
+fi
+
+exit 0
