@@ -52,13 +52,11 @@ publish: all
 ecr-login:
 	@./docker/ecr-login.sh
 
-LOGF := /var/tmp/uws-deploy.log
-
 .PHONY: deploy
 deploy: clean prune
-	@echo "i - START deploy `date -R`" | tee $(LOGF)
-	@./env/make.sh prod all | tee -a $(LOGF)
-	@./host/ecr-login.sh | tee -a $(LOGF)
-	@./env/make.sh prod publish | tee -a $(LOGF)
-	@./host/deploy.sh local janis | tee -a $(LOGF)
-	@echo "i - END deploy `date -R`" | tee -a $(LOGF)
+	@echo "i - START deploy `date -R`"
+	@./env/make.sh prod all
+	@./host/ecr-login.sh
+	@./env/make.sh prod publish
+	@./host/deploy.sh local janis
+	@echo "i - END deploy `date -R`"
