@@ -2,7 +2,7 @@
 set -eu
 
 umask 0027
-export CAROOT=/srv/etc/ssl
+export CAROOT=/srv/etc/ssl/ca
 
 mkdir -vp ${CAROOT}
 chown -v uws:uws ${CAROOT}

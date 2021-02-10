@@ -22,17 +22,19 @@ rm -vf /etc/nginx/sites-enabled/*
 install -v /etc/nginx/sites-available/main /etc/nginx/sites-enabled
 install -v /etc/nginx/sites-available/janis /etc/nginx/sites-enabled
 
-if test -s /srv/acme/cert/uws.talkingpts.org.crt; then
-	install -v /etc/nginx/sites-available/ssl-default /etc/nginx/sites-enabled
-fi
-if test -s /srv/acme/cert/janis.uws.talkingpts.org.crt; then
-	install -v /etc/nginx/sites-available/ssl-janis /etc/nginx/sites-enabled
-fi
-
 mkdir -vp /srv/etc/ssl
 dhparam=/srv/etc/ssl/dhparam.pem
 if ! test -s ${dhparam}; then
 	openssl dhparam -out ${dhparam} 4096
+fi
+
+if test -s /srv/etc/ssl/ca/rootCA.pem; then
+	if test -s /srv/acme/cert/uws.talkingpts.org.crt; then
+		install -v /etc/nginx/sites-available/ssl-default /etc/nginx/sites-enabled
+	fi
+	if test -s /srv/acme/cert/janis.uws.talkingpts.org.crt; then
+		install -v /etc/nginx/sites-available/ssl-janis /etc/nginx/sites-enabled
+	fi
 fi
 
 exit 0
