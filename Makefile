@@ -50,5 +50,6 @@ ecr-login:
 .PHONY: deploy
 deploy: clean prune
 	@./env/make.sh prod all
+	@./host/ecr-login.sh
 	@./env/make.sh prod publish
 	@./host/deploy.sh local janis
