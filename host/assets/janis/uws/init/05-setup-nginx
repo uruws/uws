@@ -30,7 +30,7 @@ fi
 
 if test -s /srv/etc/ssl/ca/rootCA.pem; then
 	if test -s /srv/acme/cert/uws.talkingpts.org.crt; then
-		install -v /etc/nginx/sites-available/ssl-default /etc/nginx/sites-enabled
+		install -v /etc/nginx/sites-available/ssl-main /etc/nginx/sites-enabled
 	fi
 	if test -s /srv/acme/cert/janis.uws.talkingpts.org.crt; then
 		install -v /etc/nginx/sites-available/ssl-janis /etc/nginx/sites-enabled
