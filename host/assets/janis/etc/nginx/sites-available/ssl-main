@@ -24,6 +24,8 @@ server {
 	# add HSTS header again to includeSubDomains
 	add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
+	include /srv/etc/nginx/ssl-verify-client.conf;
+
 	#~ location / {
 		#~ proxy_cache uwscache;
 		#~ proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
