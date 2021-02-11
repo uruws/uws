@@ -1,5 +1,9 @@
 #!/bin/sh
 set -eu
+
+chown -v root:uws /srv/munin /srv/etc/munin
+chmod -v 0750 /srv/munin /srv/etc/munin
+
 if ! systemctl is-enabled uws-munin.service; then
 	systemctl enable uws-munin.service
 	service uws-munin start
