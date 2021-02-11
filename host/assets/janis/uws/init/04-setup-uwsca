@@ -11,6 +11,7 @@ mkdir -vp ${CABASE} ${CAROOT}
 chown -v uws:uws ${CABASE} ${CAROOT}
 chmod -v 0750 ${CABASE} ${CAROOT}
 
+rm -vf ${CABASE}/last
 ln -vsf ${CAROOT} ${CABASE}/last
 
 mkcert=/srv/uws/deploy/docker/mkcert/cmd.sh
