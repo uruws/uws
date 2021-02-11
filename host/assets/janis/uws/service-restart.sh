@@ -10,14 +10,19 @@ if test "X${CHECK}" = 'X'; then
 	exit 1
 fi
 
-lastfn=/srv/run/uws-service-restart.${SERVICE}
+BASEDIR=/srv/run/uws-service-restart
+mkdir -vp ${BASEDIR}
+
+lastfn=${BASEDIR}/${SERVICE}.last
 if ! test -s ${lastfn}; then
 	echo 'NONE' >${lastfn}
 fi
 LAST="$(cat ${lastfn})"
 
+checkfn=${BASEDIR}/${SERVICE}.check
 cksum() {
-	find ${CHECK} -type f 2>/dev/null | xargs sha256sum | sha256sum - | cut -d ' ' -f 1
+	find ${CHECK} -type f 2>/dev/null >${checkfn}
+	cat ${checkfn} | xargs sha256sum | sha256sum - | cut -d ' ' -f 1
 }
 CUR="$(cksum)"
 
