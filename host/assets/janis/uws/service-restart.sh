@@ -29,7 +29,7 @@ fi
 newfn=${BASEDIR}/${SERVICE}.new
 checkfn=${BASEDIR}/${SERVICE}.check
 cksum() {
-	find ${CHECK} -type f 2>/dev/null >${checkfn}
+	find ${CHECK} -type f 2>/dev/null >${checkfn} || true
 	cat ${checkfn} | xargs sha256sum >${newfn}
 	cat ${newfn} | sha256sum - | cut -d ' ' -f 1
 }
