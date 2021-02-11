@@ -15,7 +15,7 @@ if ! test -s ${lastfn}; then
 fi
 LAST="$(cat ${lastfn})"
 
-dockerimg=$(echo ${SERVICE} | sed '#uws-#uws/#')
+dockerimg=$(echo ${SERVICE} | sed 's#uws-#uws/#')
 dockerfn=${BASEDIR}/${SERVICE}.docker-image
 (docker image inspect -f '{{.Id}}' ${dockerimg} >${dockerfn} 2>&1) || true
 
