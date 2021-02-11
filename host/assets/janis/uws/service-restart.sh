@@ -19,11 +19,18 @@ if ! test -s ${lastfn}; then
 fi
 LAST="$(cat ${lastfn})"
 
+dockerimg=$(echo ${SERVICE} | sed '#uws-#uws/#')
+dockerfn=${BASEDIR}/${SERVICE}.docker-image
+docker image inspect -f '{{.Id}}' ${dockerimg} &>${dockerfn}
+
+CHECK="${dockerfn} ${CHECK}"
+
 checkfn=${BASEDIR}/${SERVICE}.check
 cksum() {
 	find ${CHECK} -type f 2>/dev/null >${checkfn}
 	cat ${checkfn} | xargs sha256sum | sha256sum - | cut -d ' ' -f 1
 }
+
 CUR="$(cksum)"
 
 if test "X${CUR}" != "X${LAST}"; then
