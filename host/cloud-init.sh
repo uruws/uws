@@ -1,10 +1,6 @@
 #!/bin/sh
 set -eu
 
-if test 'X--no-exec' != "X${1:-'X'}"; then
-	exec ${0} --no-exec 2>&1 | tee -a /var/tmp/uws-deploy.log
-fi
-
 echo "i - START cloud-init $(date -R)"
 
 st="$(cloud-init status 2>&1 || true)"
