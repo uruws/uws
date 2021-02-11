@@ -7,8 +7,8 @@ fi
 
 echo "i - START cloud-init $(date -R)"
 
-st=$(cloud-init status)
-if test "X${st}" != 'Xstatus: done' || test "X${st}" != 'Xstatus: not run' || test "X${st}" != 'Xstatus: error'; then
+st="$(cloud-init status 2>&1)"
+if test "X${st}" != 'Xstatus: done' && test "X${st}" != 'Xstatus: not run' && test "X${st}" != 'Xstatus: error'; then
 	echo "cloud-init invalid status: ${st}" >&2
 	exit 1
 fi
