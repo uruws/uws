@@ -21,7 +21,7 @@ LAST="$(cat ${lastfn})"
 
 dockerimg=$(echo ${SERVICE} | sed '#uws-#uws/#')
 dockerfn=${BASEDIR}/${SERVICE}.docker-image
-docker image inspect -f '{{.Id}}' ${dockerimg} &>${dockerfn}
+(docker image inspect -f '{{.Id}}' ${dockerimg} >${dockerfn} 2>&1) || true
 
 CHECK="${dockerfn} ${CHECK}"
 
