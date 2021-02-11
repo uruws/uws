@@ -9,9 +9,9 @@ AssertFileIsExecutable=/usr/bin/docker
 Type=exec
 Restart=on-failure
 StandardError=syslog
-User=uws
+User=uwsrun
 Group=uws
-WorkingDirectory=/home/uws
+WorkingDirectory=/home/uwsrun
 ExecStop=/usr/bin/docker stop uws-munin-service
 ExecStart=/usr/bin/docker run --rm -u root \
 	--name uws-munin-backend-service \
