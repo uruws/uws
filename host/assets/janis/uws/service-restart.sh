@@ -43,7 +43,7 @@ CUR="$(cksum)"
 if test "X${CUR}" != "X${LAST}"; then
 	echo "i - restart service: ${SERVICE}"
 	echo "i - diff:"
-	diff -Naur ${curfn} ${newfn}
+	diff -Naur ${curfn} ${newfn} || true
 	echo "i - end diff"
 	service ${SERVICE} restart
 	cat ${newfn} >${curfn}
