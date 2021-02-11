@@ -12,7 +12,8 @@ StandardError=syslog
 User=uwsrun
 Group=uws
 WorkingDirectory=/home/uwsrun
-ExecStop=/usr/bin/docker stop uws-munin-backend-service
+ExecStop=/usr/bin/docker kill uws-munin-backend-service
+SuccessExitStatus=SIGKILL
 ExecStart=/usr/bin/docker run --rm -u root \
 	--name uws-munin-backend-service \
 	--hostname munin-backend.uws.local \
