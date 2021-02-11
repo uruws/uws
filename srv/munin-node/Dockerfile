@@ -20,18 +20,12 @@ RUN wget -O munin-contrib.tgz \
 	&& mkdir -vp /uws/munin \
 	&& mv -vf contrib-${MV} /uws/munin/contrib
 
-#~ ADD ./utils /root/bin
-#~ RUN chmod -v 0750 /root/bin /root/bin/*.sh
-
-#~ COPY ./files/etc/rsyslog.conf /etc/
-#~ COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
-#~ COPY --chown=root:munin ./files/etc/munin/ /etc/munin/
-
-#~ RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
+ADD ./utils /root/bin
+RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
 #~ VOLUME /var/lib/munin
 #~ VOLUME /var/cache/munin/www
 #~ VOLUME /var/log/munin
 
-CMD exec /bin/bash -l
-#~ ENTRYPOINT exec /root/bin/munin-start.sh
+#~ CMD exec /bin/bash -l
+ENTRYPOINT exec /root/bin/mn-start.sh
