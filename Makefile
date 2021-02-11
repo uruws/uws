@@ -38,8 +38,12 @@ acme: base
 munin: base
 	@./srv/munin/build.sh
 
+.PHONY: munin-backend
+munin: munin
+	@./srv/munin-backend/build.sh
+
 .PHONY: all
-all: bootstrap acme munin
+all: bootstrap acme munin munin-backend
 
 .PHONY: publish
 publish: all
@@ -47,6 +51,7 @@ publish: all
 	@./docker/ecr-push.sh awscli
 	@./docker/ecr-push.sh mkcert
 	@./docker/ecr-push.sh munin
+	@./docker/ecr-push.sh munin-backend
 
 .PHONY: ecr-login
 ecr-login:
