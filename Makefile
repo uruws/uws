@@ -39,7 +39,7 @@ munin: base
 	@./srv/munin/build.sh
 
 .PHONY: munin-backend
-munin: munin
+munin-backend: munin-backend
 	@./srv/munin-backend/build.sh
 
 .PHONY: all
