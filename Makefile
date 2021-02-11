@@ -46,12 +46,12 @@ munin: base-testing
 munin-backend: munin
 	@./srv/munin-backend/build.sh
 
-#~ .PHONY: munin-node
-#~ munin-node: base-testing
-#~ 	@./srv/munin-node/build.sh
+.PHONY: munin-node
+munin-node: base-testing
+	@./srv/munin-node/build.sh
 
 .PHONY: all
-all: bootstrap acme munin munin-backend
+all: bootstrap acme munin munin-backend munin-node
 
 .PHONY: publish
 publish: all
@@ -61,6 +61,7 @@ publish: all
 	@./docker/ecr-push.sh mkcert
 	@./docker/ecr-push.sh munin
 	@./docker/ecr-push.sh munin-backend
+	@./docker/ecr-push.sh munin-node
 
 .PHONY: ecr-login
 ecr-login:
