@@ -4,6 +4,7 @@ set -eu
 lastfn=/etc/iptables.uws-last
 reloadfn=/etc/iptables.uws-reload
 
+chmod -v 0750 /uws/iptables/fallback.sh
 echo 'false' >${reloadfn}
 
 cksum() {
@@ -18,7 +19,7 @@ fi
 CUR="$(cksum)"
 if test "X${LAST}" != "X${CUR}"; then
 	echo 'true' >${reloadfn}
-	service netfilter-persistent reload || service netfilter-persistent flush
+	service netfilter-persistent reload || /uws/iptables/fallback.sh
 	cksum >${lastfn}
 fi
 
