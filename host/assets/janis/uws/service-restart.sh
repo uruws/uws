@@ -3,7 +3,7 @@ set -eu
 
 SERVICE=${1:?'service name?'}
 shift
-CHECK="$@"
+CHECK="/etc/systemd/system/${SERVICE}.service $@"
 
 if test "X${CHECK}" = 'X'; then
 	echo "ERROR - service restart ${SERVICE} no files to check" >&2
