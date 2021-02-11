@@ -25,17 +25,28 @@ docker image inspect -f '{{.Id}}' ${dockerimg} &>${dockerfn}
 
 CHECK="${dockerfn} ${CHECK}"
 
+curfn=${BASEDIR}/${SERVICE}.cur
+if ! test -s ${curfn}; then
+	echo 'EMPTY' >${curfn}
+fi
+
+newfn=${BASEDIR}/${SERVICE}.new
 checkfn=${BASEDIR}/${SERVICE}.check
 cksum() {
 	find ${CHECK} -type f 2>/dev/null >${checkfn}
-	cat ${checkfn} | xargs sha256sum | sha256sum - | cut -d ' ' -f 1
+	cat ${checkfn} | xargs sha256sum >${newfn}
+	cat ${newfn} | sha256sum - | cut -d ' ' -f 1
 }
 
 CUR="$(cksum)"
 
 if test "X${CUR}" != "X${LAST}"; then
 	echo "i - restart service: ${SERVICE}"
+	echo "i - diff:"
+	diff -Naur ${curfn} ${newfn}
+	echo "i - end diff"
 	service ${SERVICE} restart
+	cat ${newfn} >${curfn}
 	echo "${CUR}" >${lastfn}
 fi
 
