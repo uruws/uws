@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+ls /etc/munin/plugins >/srv/run/uws-service-restart/munin-node.plugins
+/uws/service-restart.sh munin-node /etc/munin /srv/run/uws-service-restart/munin-node.plugins
+exit 0
