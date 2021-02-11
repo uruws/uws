@@ -18,8 +18,8 @@ if test -d /srv/etc/munin; then
 	cp -vrf /srv/etc/munin /etc/munin
 fi
 
-chown -v root:munin /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf
-chmod -v 0640 /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf
+chown -v root:munin /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
+chmod -v 0640 /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
 
 /etc/init.d/munin start
 /etc/init.d/cron start
