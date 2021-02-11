@@ -15,7 +15,7 @@ chmod -v 0755 /var/log/munin
 rm -vf /var/log/munin/*.log
 
 if test -d /srv/etc/munin; then
-	cp -vrf /srv/etc/munin /etc/munin
+	cp -vrf /srv/etc/munin /etc
 fi
 
 chown -v root:munin /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
