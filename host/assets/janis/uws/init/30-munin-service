@@ -3,7 +3,5 @@ set -eu
 if ! systemctl is-enabled uws-munin.service; then
 	systemctl enable uws-munin.service
 	service uws-munin start
-else
-	service uws-munin restart
 fi
 exit 0

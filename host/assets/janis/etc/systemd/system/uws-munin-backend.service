@@ -1,0 +1,24 @@
+[Unit]
+Description=uws-munin-backend
+Requires=syslog.service
+Requires=docker.service
+After=docker.service
+AssertFileIsExecutable=/usr/bin/docker
+
+[Service]
+Type=exec
+Restart=on-failure
+StandardError=syslog
+User=uws
+Group=uws
+WorkingDirectory=/home/uws
+ExecStop=/usr/bin/docker stop uws-munin-service
+ExecStart=/usr/bin/docker run --rm -u root \
+	--name uws-munin-backend-service \
+	--hostname munin-backend.uws.local \
+	-p 127.0.0.1:8049:80 \
+	-v /srv/munin/cache/www:/var/cache/munin/www:ro \
+	789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin-backend
+
+[Install]
+WantedBy=multi-user.target
