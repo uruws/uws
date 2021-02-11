@@ -1,7 +1,7 @@
-FROM uws/base
+FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
-LABEL version="2021.02.03"
+LABEL version="2021.02.11"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,6 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-distsetup.sh testing main
 RUN /root/bin/apt-install.sh rsyslog cron munin
 
 ADD ./utils /root/bin
