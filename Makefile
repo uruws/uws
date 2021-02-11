@@ -16,18 +16,22 @@ upgrade:
 	@$(MAKE) all
 
 .PHONY: bootstrap
-bootstrap: base awscli mkcert
+bootstrap: base base-testing awscli mkcert
 
 .PHONY: base
 base:
 	@./docker/base/build.sh
+
+.PHONY: base-testing
+base-testing: base
+	@./docker/base-testing/build.sh
 
 .PHONY: awscli
 awscli:
 	@./docker/awscli/build.sh
 
 .PHONY: mkcert
-mkcert:
+mkcert: base
 	@./docker/mkcert/build.sh
 
 .PHONY: acme
@@ -35,12 +39,16 @@ acme: base
 	@./srv/acme/build.sh
 
 .PHONY: munin
-munin: base
+munin: base-testing
 	@./srv/munin/build.sh
 
 .PHONY: munin-backend
 munin-backend: munin
 	@./srv/munin-backend/build.sh
+
+#~ .PHONY: munin-node
+#~ munin-node: base-testing
+#~ 	@./srv/munin-node/build.sh
 
 .PHONY: all
 all: bootstrap acme munin munin-backend
@@ -48,6 +56,7 @@ all: bootstrap acme munin munin-backend
 .PHONY: publish
 publish: all
 	@./docker/ecr-push.sh base
+	@./docker/ecr-push.sh base-testing
 	@./docker/ecr-push.sh awscli
 	@./docker/ecr-push.sh mkcert
 	@./docker/ecr-push.sh munin
