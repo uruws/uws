@@ -5,13 +5,13 @@ chown -v root:uws /srv/munin /srv/etc/munin
 chmod -v 0751 /srv/munin
 chmod -v 0750 /srv/etc/munin
 
-chmod -v 0755 /uws/munin-service-start.sh
+chmod -v 0755 /uws/munin/service-start.sh
 
 if ! systemctl is-enabled uws-munin.service; then
 	systemctl enable uws-munin.service
 	service uws-munin start
 fi
 
-/uws/service-restart.sh uws-munin /uws/munin-service-start.sh /srv/etc/munin
+/uws/service-restart.sh uws-munin /uws/munin/service-start.sh /srv/etc/munin
 
 exit 0
