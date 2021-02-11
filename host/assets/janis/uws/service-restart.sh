@@ -44,6 +44,12 @@ if test "X${CUR}" != "X${LAST}"; then
 	service ${SERVICE} restart
 	cat ${newfn} >${curfn}
 	echo "${CUR}" >${lastfn}
+else
+	if test 'Xfailed' = "X$(systemctl is-active ${SERVICE}.service || true)"; then
+		echo "i - restart failed service: ${SERVICE}"
+		systemctl reset-failed ${SERVICE}.service
+		service ${SERVICE} restart
+	fi
 fi
 
 exit 0
