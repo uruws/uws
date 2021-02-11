@@ -4,6 +4,7 @@ Requires=syslog.service
 Requires=docker.service
 After=docker.service
 AssertFileIsExecutable=/usr/bin/docker
+AssertFileIsExecutable=/uws/munin-service-start.sh
 
 [Service]
 Type=exec
@@ -13,14 +14,7 @@ User=uwsrun
 Group=uws
 WorkingDirectory=/home/uwsrun
 ExecStop=/usr/bin/docker stop uws-munin-service
-ExecStart=/usr/bin/docker run --rm -u root \
-	--name uws-munin-service \
-	--hostname munin.uws.local \
-	-v /srv/munin/var/lib:/var/lib/munin \
-	-v /srv/munin/cache/www:/var/cache/munin/www \
-	-v /srv/munin/var/log:/var/log/munin \
-	-v /srv/etc/munin:/srv/etc/munin \
-	789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin
+ExecStart=/uws/munin-service-start.sh
 
 [Install]
 WantedBy=multi-user.target
