@@ -2,13 +2,9 @@
 set -eu
 
 SERVICE=${1:?'service name?'}
-shift
-CHECK="/etc/systemd/system/${SERVICE}.service $@"
 
-if test "X${CHECK}" = 'X'; then
-	echo "ERROR - service restart ${SERVICE} no files to check" >&2
-	exit 1
-fi
+shift
+CHECK="/uws/service-restart.sh /etc/systemd/system/${SERVICE}.service $@"
 
 BASEDIR=/srv/run/uws-service-restart
 mkdir -vp ${BASEDIR}
