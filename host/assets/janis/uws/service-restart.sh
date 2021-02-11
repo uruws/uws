@@ -24,6 +24,7 @@ CUR="$(cksum)"
 if test "X${CUR}" != "X${LAST}"; then
 	echo "i - restart service: ${SERVICE}"
 	service ${SERVICE} restart
+	echo "${CUR}" >${lastfn}
 fi
 
 exit 0
