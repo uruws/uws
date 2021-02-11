@@ -3,12 +3,15 @@ set -eu
 
 umask 0027
 
+CABASE=/srv/etc/ssl/ca
 CAVERSION=$(date '+%Y/%q')
-export CAROOT=/srv/etc/ssl/ca/${CAVERSION}
+export CAROOT=${CABASE}/${CAVERSION}
 
-mkdir -vp ${CAROOT}
-chown -v uws:uws ${CAROOT}
-chmod -v 0750 ${CAROOT}
+mkdir -vp ${CABASE} ${CAROOT}
+chown -v uws:uws ${CABASE} ${CAROOT}
+chmod -v 0750 ${CABASE} ${CAROOT}
+
+ln -vsf ${CAROOT} ${CABASE}/last
 
 mkcert=/srv/uws/deploy/docker/mkcert/cmd.sh
 
