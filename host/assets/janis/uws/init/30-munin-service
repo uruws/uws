@@ -4,4 +4,7 @@ if ! systemctl is-enabled uws-munin.service; then
 	systemctl enable uws-munin.service
 	service uws-munin start
 fi
+
+/uws/service-restart.sh uws-munin /srv/etc/munin
+
 exit 0
