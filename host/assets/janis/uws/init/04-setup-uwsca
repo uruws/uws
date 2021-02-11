@@ -15,4 +15,10 @@ if ! test -s ${CAROOT}/rootCA.pem; then
 	${mkcert} newcert.sh uws.talkingpts.org
 fi
 
+for cn in $(cat /uws/ca-certs.list); do
+	if ! test -s ${CAROOT}/${cn}-client.p12; then
+		${mkcert} client-cert.sh ${cn}
+	fi
+done
+
 exit 0
