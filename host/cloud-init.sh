@@ -22,8 +22,5 @@ cloud-init init --local
 cloud-init modules --mode config
 cloud-init modules --mode final
 
-chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_setup.sh
-/etc/cloud/cloud.cfg.d/99zzzuws_setup.sh
-
 echo "i - END cloud-init $(date -R)"
 exit 0
