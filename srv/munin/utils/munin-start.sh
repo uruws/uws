@@ -2,14 +2,12 @@
 set -eu
 
 mkdir -vp /var/lib/munin/cgi-tmp
+
 chown -v munin:munin /var/lib/munin
 chmod -v 0755 /var/lib/munin
 
 chown -v munin:www-data /var/lib/munin/cgi-tmp
 chmod -v 0775 /var/lib/munin/cgi-tmp
-
-chown -vR munin:www-data /var/cache/munin/www
-chmod -v 0750 /var/cache/munin/www
 
 chown -v munin:adm /var/log/munin
 chmod -v 0755 /var/log/munin
