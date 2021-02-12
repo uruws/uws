@@ -31,6 +31,11 @@ COPY ./files/etc/rsyslog.conf /etc/
 COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
 COPY --chown=root:munin ./files/etc/munin/ /etc/munin/
 
+RUN /root/bin/apt-install.sh patch \
+	&& cd /etc/munin \
+	&& patch -p0 <templates.patch \
+	&& /root/bin/apt-autoremove.sh patch
+
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
 VOLUME /var/lib/munin
