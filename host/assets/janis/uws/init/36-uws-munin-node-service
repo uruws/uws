@@ -1,9 +1,7 @@
 #!/bin/sh
 set -eu
 
-DIRS='/srv/etc/munin-node'
-chown -v root:uws ${DIRS}
-chmod -v 0750 ${DIRS}
+chown -vR root:uws /srv/etc/munin-node
 
 if ! systemctl is-enabled uws-munin-node.service; then
 	systemctl enable uws-munin-node.service
