@@ -1,8 +1,16 @@
 #!/bin/sh
 set -eu
+# setup plugins
 setupfn=/srv/etc/munin-node/setup.sh
 if test -x ${setupfn}; then
 	${setupfn}
+fi
+# configure
+if test -s /srv/etc/munin-node/munin-node.conf; then
+	cp -v /srv/etc/munin-node/munin-node.conf /etc/munin
+fi
+if test -d /srv/etc/munin-node/plugin-conf.d; then
+	cp -vr /srv/etc/munin-node/plugin-conf.d /etc/munin
 fi
 # do prepare
 /etc/init.d/munin-node start
