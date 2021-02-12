@@ -18,7 +18,7 @@
 # allow docker container connections
 #
 # allow munin-node
--A INPUT -i docker0 -p tcp -m tcp --dport 4949 -j ACCEPT
+-A INPUT -i docker0 -p tcp -m tcp --dport 4949:4969 -j ACCEPT
 #
 # allow ssh
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
