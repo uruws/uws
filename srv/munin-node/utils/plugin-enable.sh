@@ -17,10 +17,10 @@ else
 fi
 
 plfn=${PLDIR}/${NAME}
-chmod -v 0755 ${plfn}
+chmod 0755 ${plfn}
 
 dstfn=/etc/munin/plugins/${DEST}
-rm -vf ${dstfn}
+rm -f ${dstfn}
 
 ln -vsf ${plfn} ${dstfn}
 exit 0
