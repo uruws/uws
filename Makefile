@@ -16,7 +16,7 @@ upgrade:
 	@$(MAKE) all
 
 .PHONY: bootstrap
-bootstrap: base base-testing awscli mkcert
+bootstrap: base base-testing awscli mkcert golang
 
 .PHONY: base
 base:
@@ -33,6 +33,10 @@ awscli:
 .PHONY: mkcert
 mkcert: base
 	@./docker/mkcert/build.sh
+
+.PHONY: golang
+golang:
+	@./docker/golang/build.sh
 
 .PHONY: acme
 acme: base
@@ -57,7 +61,6 @@ all: bootstrap acme munin munin-backend munin-node
 publish: all
 	@./docker/ecr-push.sh base
 	@./docker/ecr-push.sh base-testing
-	@./docker/ecr-push.sh awscli
 	@./docker/ecr-push.sh mkcert
 	@./docker/ecr-push.sh munin
 	@./docker/ecr-push.sh munin-backend
