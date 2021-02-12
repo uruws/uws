@@ -34,7 +34,9 @@ COPY --chown=root:munin ./files/etc/munin/ /etc/munin/
 RUN /root/bin/apt-install.sh patch \
 	&& cd /etc/munin \
 	&& patch -p0 <templates.patch \
-	&& /root/bin/apt-autoremove.sh patch
+	&& /root/bin/apt-autoremove.sh patch \
+	&& chmod -v 0755 /etc/munin/static /etc/munin/static/css \
+	&& chmod -v 0644 /etc/munin/static/css/uws.css
 
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
