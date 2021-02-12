@@ -9,9 +9,6 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-#~ ADD ./utils /root/bin
-#~ RUN chmod -v 0750 /root/bin /root/bin/*.sh
-
 RUN /root/bin/apt-install.sh golang-go
 
 RUN mkdir -vp /uws/src \
@@ -19,6 +16,8 @@ RUN mkdir -vp /uws/src \
 	&& chmod -vR 0750 /uws
 
 USER uws:uws
+WORKDIR /home/uws
+
 ENV USER uws
 ENV HOME /home/uws
 
