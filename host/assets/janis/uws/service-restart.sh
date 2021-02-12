@@ -41,14 +41,14 @@ if test "X${CUR}" != "X${LAST}"; then
 	echo "i - diff:"
 	diff -Naur ${curfn} ${newfn} || true
 	echo "i - end diff"
-	service ${SERVICE} restart
+	systemctl restart ${SERVICE}.service
 	cat ${newfn} >${curfn}
 	echo "${CUR}" >${lastfn}
 else
 	if test 'Xfailed' = "X$(systemctl is-active ${SERVICE}.service || true)"; then
 		echo "i - restart failed service: ${SERVICE}"
 		systemctl reset-failed ${SERVICE}.service
-		service ${SERVICE} restart
+		systemctl restart ${SERVICE}.service
 	fi
 fi
 
