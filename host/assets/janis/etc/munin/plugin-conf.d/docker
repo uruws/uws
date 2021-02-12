@@ -1,0 +1,3 @@
+[docker_*]
+user uwsrun
+env.DOCKER_HOST unix://run/docker.sock
