@@ -9,11 +9,15 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-ADD ./utils /root/bin
+ADD ./utils/apt-*.sh /root/bin/
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
 RUN /root/bin/apt-distupgrade.sh
 RUN /root/bin/apt-install.sh bash ca-certificates wget locales
+
+ADD ./utils/uws-*.sh /root/bin/
+RUN chmod -v 0750 /root/bin /root/bin/*.sh \
+	&& install -m 0755 /root/bin/uws-login.sh /usr/local/bin/uws-login.sh
 
 RUN echo 'en_US.UTF-8 UTF-8' >/etc/locale.gen \
 	&& locale-gen \
