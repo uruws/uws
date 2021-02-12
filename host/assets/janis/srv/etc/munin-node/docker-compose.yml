@@ -11,6 +11,8 @@ services:
     volumes:
       - ./app:/srv/etc/munin-node:ro
     restart: on-failure
+    ports:
+      - 4950:4949
     networks:
       - default
 
@@ -20,5 +22,7 @@ services:
     volumes:
       - ./www:/srv/etc/munin-node:ro
     restart: on-failure
+    ports:
+      - 4951:4949
     networks:
       - default
