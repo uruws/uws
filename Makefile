@@ -23,7 +23,7 @@ base:
 	@./docker/base/build.sh
 
 .PHONY: base-testing
-base-testing: base
+base-testing:
 	@./docker/base-testing/build.sh
 
 .PHONY: awscli
@@ -31,7 +31,7 @@ awscli:
 	@./docker/awscli/build.sh
 
 .PHONY: mkcert
-mkcert: base
+mkcert:
 	@./docker/mkcert/build.sh
 
 .PHONY: golang
@@ -39,19 +39,19 @@ golang:
 	@./docker/golang/build.sh
 
 .PHONY: acme
-acme: base
+acme:
 	@./srv/acme/build.sh
 
 .PHONY: munin
-munin: base-testing
+munin:
 	@./srv/munin/build.sh
 
 .PHONY: munin-backend
-munin-backend: munin
+munin-backend:
 	@./srv/munin-backend/build.sh
 
 .PHONY: munin-node
-munin-node: base-testing
+munin-node:
 	@./srv/munin-node/build.sh
 
 .PHONY: all
