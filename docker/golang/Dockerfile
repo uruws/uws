@@ -11,15 +11,18 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh golang-go
 
-RUN mkdir -vp /uws/src \
-	&& chown -vR uws:uws /uws \
-	&& chmod -vR 0750 /uws
+RUN mkdir -vp /go/src/uws \
+	&& chown -vR uws:uws /go \
+	&& chmod -vR 0750 /go
+VOLUME /go/src/uws
 
 USER uws:uws
 WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
+ENV GOPATH /go
+ENV PATH /go/bin:${PATH}
 
-WORKDIR /uws/src
+WORKDIR /go/src/uws
 ENTRYPOINT ["/usr/bin/go"]
