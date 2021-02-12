@@ -24,7 +24,6 @@ pl_ena=/uws/munin/plugin-enable.sh
 
 chmod -v 0750 ${pl_ena}
 
-${pl_ena} contrib docker/docker_ docker_containers
 ${pl_ena} contrib docker/docker_ docker_cpu
 ${pl_ena} contrib docker/docker_ docker_images
 ${pl_ena} contrib docker/docker_ docker_memory
