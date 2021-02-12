@@ -19,7 +19,7 @@ fi
 CUR="$(cksum)"
 if test "X${LAST}" != "X${CUR}"; then
 	echo 'true' >${reloadfn}
-	systemctl reload netfilter-persistent || /uws/iptables/fallback.sh
+	systemctl restart netfilter-persistent || /uws/iptables/fallback.sh
 	cksum >${lastfn}
 fi
 
