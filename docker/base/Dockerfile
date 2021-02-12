@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 
 LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
-LABEL version="2021.02.04"
+LABEL version="2021.02.12"
 
 USER root:root
 WORKDIR /root
@@ -12,6 +12,7 @@ ENV HOME /root
 ADD ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
+RUN /root/bin/apt-distupgrade.sh
 RUN /root/bin/apt-install.sh bash ca-certificates wget locales
 
 RUN echo 'en_US.UTF-8 UTF-8' >/etc/locale.gen \
