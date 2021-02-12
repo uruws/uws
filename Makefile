@@ -59,9 +59,6 @@ all: bootstrap acme munin munin-backend munin-node
 
 .PHONY: publish
 publish: all
-	@./docker/ecr-push.sh base
-	@./docker/ecr-push.sh base-testing
-	@./docker/ecr-push.sh mkcert
 	@./docker/ecr-push.sh munin
 	@./docker/ecr-push.sh munin-backend
 	@./docker/ecr-push.sh munin-node
