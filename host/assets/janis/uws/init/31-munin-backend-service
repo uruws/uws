@@ -6,6 +6,6 @@ if ! systemctl is-enabled uws-munin-backend.service; then
 	service uws-munin-backend start
 fi
 
-/uws/service-restart.sh uws-munin-backend
+/uws/bin/service-restart.sh uws-munin-backend
 
 exit 0

@@ -33,6 +33,6 @@ ${pl_ena} contrib docker/docker_ docker_status
 ${pl_ena} contrib docker/docker_ docker_volumes
 
 ls /etc/munin/plugins >/srv/run/uws-service-restart/munin-node.plugins
-/uws/service-restart.sh munin-node /etc/munin /srv/run/uws-service-restart/munin-node.plugins
+/uws/bin/service-restart.sh munin-node /etc/munin /srv/run/uws-service-restart/munin-node.plugins
 
 exit 0

@@ -4,7 +4,7 @@ set -eu
 SERVICE=${1:?'service name?'}
 
 shift
-CHECK="/uws/service-restart.sh /etc/systemd/system/${SERVICE}.service $@"
+CHECK="/uws/bin/service-restart.sh /etc/systemd/system/${SERVICE}.service $@"
 
 BASEDIR=/srv/run/uws-service-restart
 mkdir -vp ${BASEDIR}
