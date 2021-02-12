@@ -16,8 +16,11 @@ else
 	DEST=${2:?'dest name?'}
 fi
 
+plfn=${PLDIR}/${NAME}
+chmod -v 0755 ${plfn}
+
 dstfn=/etc/munin/plugins/${DEST}
 rm -vf ${dstfn}
-ln -vsf ${PLDIR}/${NAME} ${dstfn}
 
+ln -vsf ${plfn} ${dstfn}
 exit 0
