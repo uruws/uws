@@ -2,8 +2,8 @@
 set -eu
 # setup plugins
 setupfn=/srv/etc/munin-node/setup.sh
-if test -x ${setupfn}; then
-	${setupfn}
+if test -s ${setupfn}; then
+	/bin/sh -eu ${setupfn}
 fi
 # configure
 if test -s /srv/etc/munin-node/munin-node.conf; then
