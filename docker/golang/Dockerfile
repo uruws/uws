@@ -1,4 +1,4 @@
-FROM uws/base
+FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
 LABEL version="2021.02.12"
