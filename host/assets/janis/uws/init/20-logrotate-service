@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+/uws/bin/service-restart.sh logrotate /etc/logrotate.conf /etc/logrotate.d
+exit 0
