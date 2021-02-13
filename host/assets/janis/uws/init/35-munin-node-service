@@ -26,6 +26,9 @@ chmod 0750 ${pl_ena}
 
 echo 'i - munin-node plugins enable'
 
+${pl_ena} munin_stats
+${pl_ena} munin_update
+
 ${pl_ena} contrib docker/docker_ docker_cpu
 ${pl_ena} contrib docker/docker_ docker_images
 ${pl_ena} contrib docker/docker_ docker_memory
