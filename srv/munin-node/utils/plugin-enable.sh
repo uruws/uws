@@ -9,11 +9,11 @@ DEST='INVALID'
 
 if test 'Xcontrib' = "X${NAME}"; then
 	NAME=${2:?'plugin name?'}
-	DEST=${3:?'dest name?'}
+	DEST=${3:-"${NAME}"}
 	CONTRIB='true'
 	PLDIR=/uws/munin/contrib/plugins
 else
-	DEST=${2:?'dest name?'}
+	DEST=${2:-"${NAME}"}
 fi
 
 plfn=${PLDIR}/${NAME}
