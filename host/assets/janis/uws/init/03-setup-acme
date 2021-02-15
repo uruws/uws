@@ -18,6 +18,7 @@ export ACME_RUN=/srv/run/acme
 acme=/srv/uws/deploy/srv/acme/cmd.sh
 
 if ! test -s ${ACME_HOME}/key/account.key; then
+	echo 'i - keygen account'
 	${acme} keygen.sh account
 fi
 
