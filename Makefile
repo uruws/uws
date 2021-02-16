@@ -58,7 +58,7 @@ munin-node: base-testing
 all: bootstrap acme munin munin-backend munin-node
 
 .PHONY: publish
-publish: all
+publish: munin munin-backend munin-node
 	@./docker/ecr-push.sh munin
 	@./docker/ecr-push.sh munin-backend
 	@./docker/ecr-push.sh munin-node
