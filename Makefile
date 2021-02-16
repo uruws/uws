@@ -1,5 +1,5 @@
 .PHONY: default
-default: bootstrap
+default: all
 
 .PHONY: clean
 clean:
@@ -70,6 +70,7 @@ ecr-login:
 .PHONY: deploy
 deploy: clean prune
 	@echo "i - START deploy `date -R`"
+	@$(MAKE) bootstrap
 	@./host/ecr-login.sh
 	@./env/make.sh prod publish
 	@./host/deploy.sh local janis
