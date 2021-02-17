@@ -1,0 +1,20 @@
+[Unit]
+Description=uws-munin
+Requires=syslog.service
+Requires=docker.service
+After=docker.service
+AssertFileIsExecutable=/usr/bin/docker
+AssertFileIsExecutable=/uws/munin/service-start.sh
+
+[Service]
+Type=exec
+Restart=on-failure
+StandardError=syslog
+User=uwsrun
+Group=uws
+WorkingDirectory=/home/uwsrun
+ExecStop=/usr/bin/docker stop uws-munin-service
+ExecStart=/uws/munin/service-start.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,50 @@
+/srv/munin/var/log/munin-update.log {
+	daily
+	missingok
+	rotate 7
+	compress
+	delaycompress
+	notifempty
+	nocreate
+}
+
+/srv/munin/var/log/munin-graph.log {
+	daily
+	missingok
+	rotate 7
+	compress
+	delaycompress
+	notifempty
+	nocreate
+}
+
+/srv/munin/var/log/munin-html.log {
+	daily
+	missingok
+	rotate 7
+	compress
+	delaycompress
+	notifempty
+	nocreate
+}
+
+/srv/munin/var/log/munin-limits.log {
+	daily
+	missingok
+	rotate 7
+	compress
+	delaycompress
+	notifempty
+	nocreate
+}
+
+/srv/munin/var/log/munin-cgi-graph.log {
+	daily
+	missingok
+	rotate 7
+	compress
+	delaycompress
+	notifempty
+	nocreate
+	copytruncate
+}

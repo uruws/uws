@@ -1,0 +1,40 @@
+#!/bin/sh
+set -eu
+
+mkdir -vp /srv/cache/nginx/uws
+chown -v www-data:www-data /srv/cache/nginx/uws
+chmod -v 0750 /srv/cache/nginx/uws
+
+chown -v www-data:www-data /srv/cache/nginx
+chmod -v 0750 /srv/cache/nginx
+
+mkdir -vp /srv/www/public
+chown -v uws:www-data /srv/www/public
+chmod -v 0750 /srv/www/public
+
+chown -v uws:www-data /srv/www
+chmod -v 0750 /srv/www
+
+chmod -v 0644 /var/www/html/index.html
+
+rm -vf /etc/nginx/sites-enabled/*
+
+install -v /etc/nginx/sites-available/main /etc/nginx/sites-enabled
+install -v /etc/nginx/sites-available/janis /etc/nginx/sites-enabled
+
+mkdir -vp /srv/etc/ssl
+dhparam=/srv/etc/ssl/dhparam.pem
+if ! test -s ${dhparam}; then
+	openssl dhparam -out ${dhparam} 4096
+fi
+
+if test -s /srv/etc/ssl/ca/last/rootCA.pem; then
+	if test -s /srv/acme/cert/uws.talkingpts.org.crt; then
+		install -v /etc/nginx/sites-available/ssl-main /etc/nginx/sites-enabled
+	fi
+	if test -s /srv/acme/cert/janis.uws.talkingpts.org.crt; then
+		install -v /etc/nginx/sites-available/ssl-janis /etc/nginx/sites-enabled
+	fi
+fi
+
+exit 0

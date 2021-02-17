@@ -1,0 +1,26 @@
+#!/bin/sh
+set -eu
+
+lastfn=/etc/iptables.uws-last
+reloadfn=/etc/iptables.uws-reload
+
+chmod -v 0750 /uws/iptables/fallback.sh
+echo 'false' >${reloadfn}
+
+cksum() {
+	cat /etc/iptables/rules.v? | sha256sum -t - | cut -d ' ' -f 1
+}
+
+LAST='NONE'
+if test -s ${lastfn}; then
+	LAST="$(cat ${lastfn})"
+fi
+
+CUR="$(cksum)"
+if test "X${LAST}" != "X${CUR}"; then
+	echo 'true' >${reloadfn}
+	systemctl restart netfilter-persistent || exec /uws/iptables/fallback.sh
+	cksum >${lastfn}
+fi
+
+exit 0

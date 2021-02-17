@@ -1,0 +1,25 @@
+#
+# SSL internal domain
+#
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	server_name janis.uws.talkingpts.org;
+	server_tokens off;
+
+	root /var/www/html;
+
+	ssl_certificate /srv/acme/cert/janis.uws.talkingpts.org.crt;
+	ssl_certificate_key /srv/acme/key/janis.uws.talkingpts.org.key;
+
+	include /srv/etc/nginx/ssl.conf;
+
+	access_log /var/log/nginx/janis_access.log ssluser;
+	error_log /var/log/nginx/janis_error.log;
+
+	location /public/ {
+		alias /srv/www/public/;
+		try_files $uri =404;
+	}
+}

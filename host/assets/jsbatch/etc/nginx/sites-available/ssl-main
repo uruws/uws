@@ -1,0 +1,39 @@
+#
+# SSL proxy cache
+#
+include /srv/etc/nginx/uws-cache-setup.conf;
+
+#
+# SSL main domain
+#
+server {
+	listen 443 ssl default_server;
+	listen [::]:443 ssl default_server;
+
+	server_name uws.talkingpts.org;
+	server_tokens off;
+
+	root /var/www/html;
+
+	ssl_certificate /srv/acme/cert/uws.talkingpts.org.crt;
+	ssl_certificate_key /srv/acme/key/uws.talkingpts.org.key;
+
+	include /srv/etc/nginx/ssl.conf;
+
+	# add HSTS header again to includeSubDomains
+	add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+	include /srv/etc/nginx/ssl-verify-client.conf;
+
+	location /munin {
+		include /srv/etc/nginx/uws-cache.conf;
+		proxy_pass http://127.0.0.1:8049/munin;
+		include /etc/nginx/proxy_params;
+	}
+
+	#~ location / {
+		#~ include /srv/etc/nginx/uws-cache.conf;
+		#~ proxy_pass http://127.0.0.1:8000/;
+		#~ include /etc/nginx/proxy_params;
+	#~ }
+}

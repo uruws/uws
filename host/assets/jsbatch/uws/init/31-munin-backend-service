@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+
+if ! systemctl is-enabled uws-munin-backend.service; then
+	systemctl enable uws-munin-backend.service
+	systemctl start uws-munin-backend
+fi
+
+/uws/bin/service-restart.sh uws-munin-backend
+
+exit 0

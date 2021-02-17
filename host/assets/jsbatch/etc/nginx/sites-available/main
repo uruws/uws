@@ -1,0 +1,23 @@
+#
+# default HTTP server
+#	serve acme challenges
+#	redirect to HTTPS anything else
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	server_name uws.talkingpts.org;
+	server_tokens off;
+
+	root /var/www/html;
+
+	location /.well-known/acme-challenge/ {
+		alias /srv/run/acme/challenge/;
+		try_files $uri =404;
+	}
+
+	location / {
+		return 301 https://uws.talkingpts.org$request_uri;
+	}
+}

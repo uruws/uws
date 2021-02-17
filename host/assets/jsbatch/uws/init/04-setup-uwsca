@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+umask 0027
+
+CABASE=/srv/etc/ssl/ca
+CAVERSION=$(date '+%Y/%q')
+export CAROOT=${CABASE}/${CAVERSION}
+
+mkdir -vp ${CABASE} ${CAROOT}
+chown -v uws:uws ${CABASE} ${CAROOT}
+chmod -v 0750 ${CABASE} ${CAROOT}
+
+rm -vf ${CABASE}/last
+ln -vsf ${CAROOT} ${CABASE}/last
+
+mkcert=/srv/uws/deploy/docker/mkcert/cmd.sh
+
+if ! test -s ${CAROOT}/rootCA.pem; then
+	# force root CA creation
+	${mkcert} newcert.sh ca.talkingpts.org
+fi
+
+for cn in $(cat /uws/ca-certs.list); do
+	if ! test -s ${CAROOT}/${cn}-client.p12; then
+		${mkcert} client-cert.sh ${cn}
+	fi
+done
+
+exit 0

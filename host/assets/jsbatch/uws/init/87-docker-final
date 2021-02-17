@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+docker system prune -f
+exit 0

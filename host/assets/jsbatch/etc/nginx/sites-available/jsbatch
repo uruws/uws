@@ -1,0 +1,23 @@
+#
+# internal HTTP server
+#	serve acme challenges
+#	redirect to main HTTPS domain anything else
+#
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name janis.uws.talkingpts.org;
+	server_tokens off;
+
+	root /var/www/html;
+
+	location /.well-known/acme-challenge/ {
+		alias /srv/run/acme/challenge/;
+		try_files $uri =404;
+	}
+
+	location / {
+		return 301 https://janis.uws.talkingpts.org$request_uri;
+	}
+}
