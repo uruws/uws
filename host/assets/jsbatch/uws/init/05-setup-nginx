@@ -19,8 +19,7 @@ chmod -v 0644 /var/www/html/index.html
 
 rm -vf /etc/nginx/sites-enabled/*
 
-install -v /etc/nginx/sites-available/main /etc/nginx/sites-enabled
-install -v /etc/nginx/sites-available/janis /etc/nginx/sites-enabled
+install -v /etc/nginx/sites-available/jsbatch /etc/nginx/sites-enabled
 
 mkdir -vp /srv/etc/ssl
 dhparam=/srv/etc/ssl/dhparam.pem
@@ -29,11 +28,8 @@ if ! test -s ${dhparam}; then
 fi
 
 if test -s /srv/etc/ssl/ca/last/rootCA.pem; then
-	if test -s /srv/acme/cert/uws.talkingpts.org.crt; then
-		install -v /etc/nginx/sites-available/ssl-main /etc/nginx/sites-enabled
-	fi
-	if test -s /srv/acme/cert/janis.uws.talkingpts.org.crt; then
-		install -v /etc/nginx/sites-available/ssl-janis /etc/nginx/sites-enabled
+	if test -s /srv/acme/cert/jsbatch.uws.talkingpts.org.crt; then
+		install -v /etc/nginx/sites-available/ssl-jsbatch /etc/nginx/sites-enabled
 	fi
 fi
 

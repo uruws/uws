@@ -5,18 +5,18 @@ server {
 	listen 443 ssl;
 	listen [::]:443 ssl;
 
-	server_name janis.uws.talkingpts.org;
+	server_name jsbatch.uws.talkingpts.org;
 	server_tokens off;
 
 	root /var/www/html;
 
-	ssl_certificate /srv/acme/cert/janis.uws.talkingpts.org.crt;
-	ssl_certificate_key /srv/acme/key/janis.uws.talkingpts.org.key;
+	ssl_certificate /srv/acme/cert/jsbatch.uws.talkingpts.org.crt;
+	ssl_certificate_key /srv/acme/key/jsbatch.uws.talkingpts.org.key;
 
 	include /srv/etc/nginx/ssl.conf;
 
-	access_log /var/log/nginx/janis_access.log ssluser;
-	error_log /var/log/nginx/janis_error.log;
+	access_log /var/log/nginx/jsbatch_access.log ssluser;
+	error_log /var/log/nginx/jsbatch_error.log;
 
 	location /public/ {
 		alias /srv/www/public/;
