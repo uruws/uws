@@ -16,7 +16,7 @@ upgrade:
 	@$(MAKE) all
 
 .PHONY: bootstrap
-bootstrap: base base-testing awscli mkcert golang
+bootstrap: base base-testing awscli mkcert golang uwspkg
 
 .PHONY: base
 base:
@@ -37,6 +37,10 @@ mkcert: base
 .PHONY: golang
 golang: base-testing
 	@./docker/golang/build.sh
+
+.PHONY: uwspkg
+uwspkg: base
+	@./docker/uwspkg/build.sh
 
 .PHONY: acme
 acme: base
