@@ -30,7 +30,7 @@ rm -vf ${tmpfn}
 
 # docker pull images
 
-REPO="789470191893.dkr.ecr.us-east-1.amazonaws.com/uws"
+REPO='789470191893.dkr.ecr.us-west-1.amazonaws.com/uws'
 IMAGES='munin munin-backend'
 
 for img in $(echo ${IMAGES}); do

@@ -19,7 +19,7 @@ ExecStart=/usr/bin/docker run --rm -u root \
 	--hostname munin-backend.uws.local \
 	-p 127.0.0.1:8049:80 \
 	-v /srv/munin/cache/www:/var/cache/munin/www:ro \
-	789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin-backend
+	789470191893.dkr.ecr.us-west-1.amazonaws.com/uws:munin-backend
 
 [Install]
 WantedBy=multi-user.target
