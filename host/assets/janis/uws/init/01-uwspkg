@@ -5,7 +5,7 @@ oldwd=${PWD}
 if ! test -x /uws/sbin/pkg; then
 	tmpdir=$(mktemp -d /var/tmp/uwspkg-XXXXXXXX)
 	cd ${tmpdir}
-	wget https://github.com/uruws/uwspkg/releases/download/v${UPKG_V}/uwspkg-bootstrap-${UPV}.tgz
+	wget https://github.com/uruws/uwspkg/releases/download/v${UPV}/uwspkg-bootstrap-${UPV}.tgz
 	echo "9d2112e9b662f82e3507d3d7876a1eba5a36c2747ba516b3d4035acd2267ef3b  uwspkg-bootstrap-${UPV}.tgz" >checksum
 	sha256sum -c checksum
 	tar -C / -vxf uwspkg-bootstrap-${UPV}.tgz
