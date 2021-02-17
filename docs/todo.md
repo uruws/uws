@@ -18,4 +18,7 @@
 		* services setup
 		* common configs
 		* host specific configs
+* fail2ban setup for already in production services: ssh and http(s)
+	* ssh is already enabled by default on Debian (but we should check).
+	* http(s) need some extra setup as we run the web services inside containers.
 * Mail smarthost docker service.
