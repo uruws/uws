@@ -79,3 +79,12 @@ deploy: clean prune
 	@./env/make.sh prod publish
 	@./host/deploy.sh local janis
 	@echo "i - END deploy `date -R`"
+
+.PHONY: deploy-jsbatch
+deploy-jsbatch: clean prune
+	@echo "i - START deploy `date -R`"
+	@./host/ecr-login.sh
+	@./docker/ecr-push.sh munin
+	@./docker/ecr-push.sh munin-backend
+	@./host/deploy.sh local jsbatch
+	@echo "i - END deploy `date -R`"
