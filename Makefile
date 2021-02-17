@@ -16,7 +16,7 @@ upgrade:
 	@$(MAKE) all
 
 .PHONY: bootstrap
-bootstrap: base base-testing awscli mkcert golang uwspkg
+bootstrap: mkcert uwspkg
 
 .PHONY: base
 base:
@@ -59,7 +59,7 @@ munin-node: base-testing
 	@./srv/munin-node/build.sh
 
 .PHONY: all
-all: bootstrap acme munin munin-backend munin-node
+all: base base-testing awscli mkcert golang uwspkg acme munin munin-backend munin-node
 
 .PHONY: publish
 publish: munin munin-backend munin-node
