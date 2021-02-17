@@ -6,6 +6,7 @@ AWS_REGION=${1:-'us-east-1'}
 rm -vf /var/tmp/uws-docker-login.*
 tmpfn=$(mktemp /var/tmp/uws-docker-login.XXXXXXXX)
 
+echo "i - ECR login aws region: ${AWS_REGION}"
 aws ecr get-login --region ${AWS_REGION} | sed 's/-e none //' >${tmpfn}
 
 chmod -v 0755 ${tmpfn}

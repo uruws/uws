@@ -44,21 +44,19 @@ fi
 SSH='ssh -i ~/.ssh/uws-host.pem -l admin'
 
 if test "X${FQDN}" = 'Xlocal'; then
+	echo "i - local deploy ${HOST}"
 
 	sudo rm -vf /etc/cloud/cloud.cfg.d/99zzzuws_*.cfg
 	sudo rsync -vrx ${TMP}/*.* /etc/cloud/cloud.cfg.d/
 
 	sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh
 	sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh
-
 else
-
 	${SSH} ${FQDN} 'sudo chgrp -v admin /etc/cloud/cloud.cfg.d && sudo chmod -v g+w /etc/cloud/cloud.cfg.d && sudo rm -vf /etc/cloud/cloud.cfg.d/99zzzuws_*.cfg'
 
 	rsync -vrx -e "${SSH}" ${TMP}/*.* ${FQDN}:/etc/cloud/cloud.cfg.d/
 
 	${SSH} ${FQDN} 'sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh && nq -c sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh'
-
 fi
 
 rm -vrf ${TMP}
