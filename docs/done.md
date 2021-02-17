@@ -49,11 +49,10 @@ containers.
 * [uws.t.o][uws] devops website.
 * [Janis][janis.uws] is the main server for managing the infrastructure.
 	* Services:
-		* smarthost mail server
-		* munin
+		* [munin][munin]
 		* munin-nodes: www and app
 		* build and deploy infra from git repo
-		* main etcd node for infra config deployment
+		* packaging main repo and builder
 
 ### Devops: host deploy
 
@@ -70,6 +69,15 @@ git repostitory `uws@uws.talkingpts.org:/srv/uws/deploy.git` hosted at *janis*.
 * Git update hook: [janis/uws/git-uws-update.sh](../host/assets/janis/uws/git-uws-update.sh)
 * Git deploy script: [janis/uws/git-uws-deploy.sh](../host/assets/janis/uws/git-uws-deploy.sh)
 
+### Devops: packaging system
+
+We use [FreeBSD packaging system][pkgng] for internal software and configuration
+distribution.
+
+It's being developed in a separate repository: [TalkingPts/Packaging][tpts.pkg].
+
+
+
 [uws]: https://uws.talkingpts.org
 [uwsadm]: https://console.aws.amazon.com/iam/home?region=us-east-1#/users/uwsadm
 [uwsdns]: https://console.aws.amazon.com/route53/v2/hostedzones
@@ -83,3 +91,8 @@ git repostitory `uws@uws.talkingpts.org:/srv/uws/deploy.git` hosted at *janis*.
 
 [janis.uws]: https://janis.uws.talkingpts.org
 [janisip]: https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#ElasticIpDetails:AllocationId=eipalloc-0c5ae6d42089a8328
+
+[munin]: https://uws.talkingpts.org/munin/
+
+[pkgng]: https://github.com/freebsd/pkg
+[tpts.pkg]: https://github.com/TalkingPts/Packaging
