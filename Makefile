@@ -79,6 +79,6 @@ deploy: clean prune
 	@echo "i - START deploy `date -R`"
 	@$(MAKE) bootstrap
 	@./host/ecr-login.sh $(AWS_REGION)
-	@./env/make.sh prod publish
+	@AWS_REGION=$(AWS_REGION) ./env/make.sh prod publish
 	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@echo "i - END deploy `date -R`"
