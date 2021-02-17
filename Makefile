@@ -71,20 +71,14 @@ publish: munin munin-backend munin-node
 ecr-login:
 	@./docker/ecr-login.sh
 
+AWS_REGION ?= us-east-1
+DEPLOY_SERVER ?= janis
+
 .PHONY: deploy
 deploy: clean prune
 	@echo "i - START deploy `date -R`"
 	@$(MAKE) bootstrap
-	@./host/ecr-login.sh
+	@./host/ecr-login.sh $(AWS_REGION)
 	@./env/make.sh prod publish
-	@./host/deploy.sh local janis
-	@echo "i - END deploy `date -R`"
-
-.PHONY: deploy-jsbatch
-deploy-jsbatch: clean prune
-	@echo "i - START deploy `date -R`"
-	@./host/ecr-login.sh
-	@./docker/ecr-push.sh munin
-	@./docker/ecr-push.sh munin-backend
-	@./host/deploy.sh local jsbatch
+	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@echo "i - END deploy `date -R`"
