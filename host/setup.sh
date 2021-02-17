@@ -15,7 +15,7 @@ echo 'i - run init scripts'
 if test -d /uws/init; then
 	echo 'x - run-parts /uws/init scripts'
 	chmod -v 0755 /uws/init/*
-	run-parts --verbose --exit-on-error /uws/init
+	run-parts --verbose /uws/init
 	rm -rfv /uws/init
 fi
 cd ${oldwd}
