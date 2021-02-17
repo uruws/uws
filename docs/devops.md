@@ -4,7 +4,7 @@
 * [Janis][janis.uws] is the main server for managing the infrastructure.
 	* Services:
 		* [munin][munin]
-		* munin-nodes: www and app
+		* munin-nodes: [www][www.t.o] and [app][app.t.o]
 		* build and deploy infra from git repo
 		* packaging main repo and builder
 
@@ -36,6 +36,9 @@ It's being developed in a separate repository: [TalkingPts/Packaging][tpts.pkg].
 [janis.uws]: https://janis.uws.talkingpts.org
 
 [munin]: https://uws.talkingpts.org/munin/
+[app.t.o]: https://uws.talkingpts.org/munin/t.o/app.t.o/index.html
+[www.t.o]: https://uws.talkingpts.org/munin/t.o/www.t.o/index.html
+
 [cloud-init-20.2]: https://cloudinit.readthedocs.io/en/20.2/
 
 [pkgng]: https://github.com/freebsd/pkg

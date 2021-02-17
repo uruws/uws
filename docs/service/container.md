@@ -8,6 +8,8 @@ containers.
 * Services image definition:
 	* [acme](../../srv/acme/Dockerfile): [Let's Encrypt](https://letsencrypt.org/) auto SSL certificates management using [acme-tiny](https://github.com/diafygi/acme-tiny).
 	* [munin](../../srv/munin/Dockerfile): [munin](http://munin-monitoring.org/) monitors and graphs network resources.
+	* [munin-backend](../../srv/munin-backend/Dockerfile): munin backend web server.
+	* [munin-node](../../srv/munin-node/Dockerfile): munin-node service.
 
 
 
