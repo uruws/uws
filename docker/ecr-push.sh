@@ -14,10 +14,13 @@ fi
 
 ENV=${ENV:-'dev'}
 
-REGURI="789470191893.dkr.ecr.us-east-1.amazonaws.com/uws"
+AWS_REGION=${AWS_REGION:-'us-east-1'}
+REGURI="789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws"
 if test "${ENV}" != 'prod'; then
 	REGURI="${REGURI}${ENV}"
 fi
+
+echo "i - ecr push: ${REGURI}"
 
 docker rmi ${REGURI}:${IMG} || true
 

@@ -1,3 +1,6 @@
+AWS_REGION ?= us-east-1
+DEPLOY_SERVER ?= janis
+
 .PHONY: default
 default: all
 
@@ -63,16 +66,13 @@ all: base base-testing awscli mkcert golang uwspkg acme munin munin-backend muni
 
 .PHONY: publish
 publish: munin munin-backend munin-node
-	@./docker/ecr-push.sh munin
-	@./docker/ecr-push.sh munin-backend
-	@./docker/ecr-push.sh munin-node
+	@AWS_REGION=$(AWS_REGION) ./docker/ecr-push.sh munin
+	@AWS_REGION=$(AWS_REGION) ./docker/ecr-push.sh munin-backend
+	@AWS_REGION=$(AWS_REGION) ./docker/ecr-push.sh munin-node
 
 .PHONY: ecr-login
 ecr-login:
 	@./docker/ecr-login.sh
-
-AWS_REGION ?= us-east-1
-DEPLOY_SERVER ?= janis
 
 .PHONY: deploy
 deploy: clean prune
