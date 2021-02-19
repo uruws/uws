@@ -1,6 +1,7 @@
 #
 # SSL internal domain
 #
+include /srv/etc/nginx/uws-cache-setup.conf;
 server {
 	listen 443 ssl;
 	listen [::]:443 ssl;
