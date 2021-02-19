@@ -18,8 +18,11 @@ server {
 	access_log /var/log/nginx/jsbatch_access.log ssluser;
 	error_log /var/log/nginx/jsbatch_error.log;
 
-	location /public/ {
-		alias /srv/www/public/;
-		try_files $uri =404;
+	include /srv/etc/nginx/ssl-verify-client.conf;
+
+	location /munin {
+		include /srv/etc/nginx/uws-cache.conf;
+		proxy_pass http://127.0.0.1:8049/munin;
+		include /etc/nginx/proxy_params;
 	}
 }
