@@ -6,7 +6,7 @@ default: all
 
 .PHONY: clean
 clean:
-	@rm -rvf ./tmp
+	@rm -rvf ./build ./tmp
 
 .PHONY: prune
 prune:
