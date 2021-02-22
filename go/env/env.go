@@ -89,14 +89,18 @@ func init() {
 }
 
 // Main prints current env to stdout.
-func Main(envFile string) {
+func Main(envFile string, getVar string) {
 	envFile = filepath.Clean(envFile)
 	if envFile != "." {
 		if err := parseFile(envFile); err != nil {
 			log.Fatal(err)
 		}
 	}
-	for k, v := range e {
-		fmt.Printf("%s=\"%s\"\n", k, v)
+	if getVar != "" {
+		fmt.Printf("%s\n", e[getVar])
+	} else {
+		for k, v := range e {
+			fmt.Printf("%s=\"%s\"\n", k, v)
+		}
 	}
 }

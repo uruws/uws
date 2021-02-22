@@ -14,5 +14,6 @@ func main() {
 	var envFile string
 	flag.StringVar(&envFile, "env", "", "load env from yaml `filename`")
 	flag.Parse()
-	env.Main(envFile)
+	getVar := flag.Arg(0)
+	env.Main(envFile, getVar)
 }
