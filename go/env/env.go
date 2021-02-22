@@ -86,15 +86,6 @@ func init() {
 	loadEnv()
 }
 
-// Load parses envFile content and loads it to current env.
-func Load(envFile string) error {
-	envFile = filepath.Clean(envFile)
-	if envFile != "." {
-		return parseFile(envFile)
-	}
-	return nil
-}
-
 // Get returns the value of keyName, it returns an empty string if not set.
 func Get(keyName string) string {
 	return e[keyName]

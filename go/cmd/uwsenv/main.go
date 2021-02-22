@@ -7,20 +7,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 
 	"uws/env"
 )
 
 func main() {
-	var envFile string
-	flag.StringVar(&envFile, "env", "", "load env from yaml `filename`")
 	flag.Parse()
-	if envFile != "." {
-		if err := env.Load(envFile); err != nil {
-			log.Fatal(err)
-		}
-	}
 	if flag.NArg() > 0 {
 		for _, getVar := range flag.Args() {
 			fmt.Printf("%s\n", env.Get(getVar))
