@@ -3,6 +3,7 @@
 ## 0222
 
 * Fix docker_network bug. No graphs are being created do to config errors.
+	* https://github.com/munin-monitoring/contrib/issues/1182
 * Setup monitoring of current mongodb and heroku infra.
 * Develop monitoring bots.
 	* The idea is to have scriptable bots to test/graph/monitor use case scenarios for production services. Starting with the API.
