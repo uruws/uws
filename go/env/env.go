@@ -5,9 +5,7 @@
 package env
 
 import (
-	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -88,19 +86,11 @@ func init() {
 	loadEnv()
 }
 
-// Main prints current env to stdout.
-func Main(envFile string, getVar string) {
+// Load parses envFile content and loads it to current env.
+func Load(envFile string) error {
 	envFile = filepath.Clean(envFile)
 	if envFile != "." {
-		if err := parseFile(envFile); err != nil {
-			log.Fatal(err)
-		}
+		return parseFile(envFile)
 	}
-	if getVar != "" {
-		fmt.Printf("%s\n", e[getVar])
-	} else {
-		for k, v := range e {
-			fmt.Printf("%s=\"%s\"\n", k, v)
-		}
-	}
+	return nil
 }
