@@ -5,4 +5,5 @@
 package bot
 
 func Main() {
+	println("hello world!")
 }
