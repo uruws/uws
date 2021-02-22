@@ -18,18 +18,14 @@ import (
 
 var prefix string;
 var localPrefix string;
+var e map[string]string;
 
 func parseFile(fn string) error {
 	blob, err := ioutil.ReadFile(fn)
 	if err != nil {
 		return err
 	}
-	var e map[string]string
-	yaml.Unmarshal(blob, &e)
-	for k, v := range e {
-		fmt.Printf("%s: %s\n", k, v)
-	}
-	return nil
+	return yaml.Unmarshal(blob, &e)
 }
 
 func loadFile(fn string) {
@@ -65,11 +61,13 @@ func init() {
 
 // Main prints current env to stdout.
 func Main(envFile string) {
-	println("hello world!")
 	envFile = filepath.Clean(envFile)
 	if envFile != "." {
 		if err := parseFile(envFile); err != nil {
 			log.Fatal(err)
 		}
+	}
+	for k, v := range e {
+		fmt.Printf("%s=\"%s\"\n", k, v)
 	}
 }
