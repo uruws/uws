@@ -78,6 +78,8 @@ func init() {
 	if localPrefix == "." {
 		localPrefix = filepath.FromSlash("/uws/local")
 	}
+	os.Setenv("UWS_PREFIX", prefix)
+	os.Setenv("UWS_LOCAL_PREFIX", localPrefix)
 	loadEnv()
 }
 
