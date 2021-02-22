@@ -5,9 +5,14 @@
 package main
 
 import (
+	"flag"
+
 	"uws/env"
 )
 
 func main() {
-	env.Main()
+	var envFile string
+	flag.StringVar(&envFile, "env", "", "load env file")
+	flag.Parse()
+	env.Main(envFile)
 }

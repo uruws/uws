@@ -7,6 +7,7 @@ package env
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -18,17 +19,17 @@ import (
 var prefix string;
 var localPrefix string;
 
-func parseFile(fn string) {
+func parseFile(fn string) error {
 	blob, err := ioutil.ReadFile(fn)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "uwsenv[%d] ERROR: %s\n", os.Getpid(), err.Error())
-	} else {
-		var e map[string]string
-		yaml.Unmarshal(blob, &e)
-		for k, v := range e {
-			fmt.Printf("%s: %s\n", k, v)
-		}
+		return err
 	}
+	var e map[string]string
+	yaml.Unmarshal(blob, &e)
+	for k, v := range e {
+		fmt.Printf("%s: %s\n", k, v)
+	}
+	return nil
 }
 
 func loadFile(fn string) {
@@ -63,6 +64,12 @@ func init() {
 }
 
 // Main prints current env to stdout.
-func Main() {
+func Main(envFile string) {
 	println("hello world!")
+	envFile = filepath.Clean(envFile)
+	if envFile != "." {
+		if err := parseFile(envFile); err != nil {
+			log.Fatal(err)
+		}
+	}
 }
