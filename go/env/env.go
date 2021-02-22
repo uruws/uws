@@ -16,9 +16,9 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var prefix string;
-var localPrefix string;
-var e map[string]string;
+var prefix string
+var localPrefix string
+var e map[string]string
 
 func parseFile(fn string) error {
 	blob, err := ioutil.ReadFile(fn)
@@ -44,10 +44,32 @@ func loadEnv() {
 	if name != "." {
 		loadFile(name)
 	}
+	loadVars()
 	loadFile("override")
 }
 
+var validVars map[string]bool = map[string]bool{
+	"UWS_PREFIX": true,
+	"UWS_LOCAL_PREFIX": true,
+}
+
+func loadVars() {
+	for _, s := range os.Environ() {
+		if strings.HasPrefix(s, "UWS_") {
+			n := strings.SplitN(s, "=", 2)[0]
+			n = strings.TrimSpace(strings.Replace(n, "UWS_", "", 1))
+			if n != "" {
+				k := "UWS_" + n
+				if validVars[k] {
+					e[n] = os.Getenv(k)
+				}
+			}
+		}
+	}
+}
+
 func init() {
+	e = make(map[string]string)
 	prefix = filepath.Clean(os.Getenv("UWS_PREFIX"))
 	if prefix == "." {
 		prefix = filepath.FromSlash("/uws")
