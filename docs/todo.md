@@ -1,13 +1,16 @@
 # TODO
 
-## 0215
+## 0222
 
+* Fix docker_network bug. No graphs are being created do to config errors.
 * Setup monitoring of current mongodb and heroku infra.
 * Develop monitoring bots.
 	* The idea is to have scriptable bots to test/graph/monitor use case scenarios for production services. Starting with the API.
 * Develop servers CA certs manager web interface.
 	* So authorized people can get their certs using email validation.
 * Develop munin plugins for bots info.
+* Develop server tasks control.
+	* The idea is to have a tiny web interface on servers so auth people can dispatch pre-configured tasks/jobs on the server. Like start/stop of containers and such.
 * Develop packaging tools.
 	* Use bots deployment as alpha and beta testing for pkg tools.
 	* Then migrate current munin and munin-nodes setup to pkg tools.
