@@ -12,6 +12,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"gopkg.in/yaml.v3"
 )
@@ -19,12 +20,15 @@ import (
 var prefix string
 var localPrefix string
 var e map[string]string
+var emx *sync.Mutex
 
 func parseFile(fn string) error {
 	blob, err := ioutil.ReadFile(fn)
 	if err != nil {
 		return err
 	}
+	emx.Lock()
+	defer emx.Unlock()
 	return yaml.Unmarshal(blob, &e)
 }
 
@@ -70,6 +74,7 @@ func loadVars() {
 
 func init() {
 	e = make(map[string]string)
+	emx = new(sync.Mutex)
 	prefix = filepath.Clean(os.Getenv("UWS_PREFIX"))
 	if prefix == "." {
 		prefix = filepath.FromSlash("/uws")
