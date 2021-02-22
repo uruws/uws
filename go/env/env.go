@@ -88,11 +88,15 @@ func init() {
 
 // Get returns the value of keyName, it returns an empty string if not set.
 func Get(keyName string) string {
+	emx.Lock()
+	defer emx.Unlock()
 	return e[keyName]
 }
 
 // List lists env keys.
 func List() []string {
+	emx.Lock()
+	defer emx.Unlock()
 	l := make([]string, 0)
 	for k := range e {
 		l = append(l, k)
