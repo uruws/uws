@@ -99,3 +99,12 @@ func Load(envFile string) error {
 func Get(keyName string) string {
 	return e[keyName]
 }
+
+// List lists env keys.
+func List() []string {
+	l := make([]string, 0)
+	for k := range e {
+		l = append(l, k)
+	}
+	return l
+}
