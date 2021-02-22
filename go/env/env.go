@@ -94,3 +94,8 @@ func Load(envFile string) error {
 	}
 	return nil
 }
+
+// Get returns the value of keyName, it returns an empty string if not set.
+func Get(keyName string) string {
+	return e[keyName]
+}
