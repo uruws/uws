@@ -12,7 +12,7 @@ import (
 
 func main() {
 	var envFile string
-	flag.StringVar(&envFile, "env", "", "load env file")
+	flag.StringVar(&envFile, "env", "", "load env from yaml `filename`")
 	flag.Parse()
 	env.Main(envFile)
 }
