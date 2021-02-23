@@ -23,34 +23,57 @@ var localPrefix string
 var e map[string]string
 var emx *sync.Mutex
 
-func parseFile(fn string) error {
+func includeFiles(list string) error {
+	for _, n := range strings.Split(list, " ") {
+		if err := loadFile(n, true, false); err != nil {
+			return fmt.Errorf("include %s", err)
+		}
+	}
+	return nil
+}
+
+func parseFile(fn string, incEnable bool) error {
 	blob, err := ioutil.ReadFile(fn)
 	if err != nil {
 		return err
 	}
-	return yaml.Unmarshal(blob, &e)
+	p := make(map[string]string)
+	if err := yaml.Unmarshal(blob, &p); err != nil {
+		return err
+	} else {
+		for k, v := range p {
+			if k == "include" && incEnable {
+				if err := includeFiles(v); err != nil {
+					return err
+				}
+			} else {
+				e[k] = v
+			}
+		}
+	}
+	return nil
 }
 
-func loadFile(name string, reportError bool) error {
+func loadFile(name string, reportError bool, incEnable bool) error {
 	n := filepath.Clean(filepath.FromSlash(name))
 	if n != "." {
 		var found bool = false
 		fn := filepath.Join(prefix, "etc", "env", n)
 		localFn := filepath.Join(localPrefix, "etc", "env", n)
 		for _, fn := range []string{fn, localFn} {
-			if err := parseFile(fn); err != nil {
+			if err := parseFile(fn, incEnable); err != nil {
 				if reportError {
 					log.Debug("%v", err)
 				}
 			} else {
-				found = true
 				if reportError {
-					log.Debug("%s: env loaded", fn)
+					found = true
 				}
+				log.Debug("%s: env loaded", fn)
 			}
 		}
 		if reportError && !found {
-			return fmt.Errorf("%s: env not found", name)
+			return fmt.Errorf("could not load env: %s", name)
 		}
 	}
 	return nil
@@ -58,12 +81,12 @@ func loadFile(name string, reportError bool) error {
 
 func loadEnv() {
 	name := path.Clean(strings.TrimSpace(os.Getenv("UWSENV")))
-	loadFile("default", false)
+	loadFile("default", false, false)
 	if name != "." {
-		loadFile(name, false)
+		loadFile(name, false, true)
 	}
 	loadVars()
-	loadFile("override", false)
+	loadFile("override", false, false)
 }
 
 var validVars map[string]bool = map[string]bool{
@@ -137,7 +160,7 @@ func Load(envName ...string) error {
 	emx.Lock()
 	defer emx.Unlock()
 	n := path.Join(envName...)
-	return loadFile(n, true)
+	return loadFile(n, true, true)
 }
 
 // GetFilepath returns a Clean'ed and Abs if possible filepath value, if not empty.
