@@ -5,6 +5,7 @@
 package env
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -13,6 +14,8 @@ import (
 	"sync"
 
 	"gopkg.in/yaml.v3"
+
+	"uws/log"
 )
 
 var prefix string
@@ -30,15 +33,26 @@ func parseFile(fn string) error {
 	return yaml.Unmarshal(blob, &e)
 }
 
-func loadFile(fn string, reportError bool) error {
-	fn = filepath.Clean(filepath.FromSlash(fn))
-	if fn != "." {
-		fn = filepath.Join(prefix, "etc", "env", fn)
-		localFn := filepath.Join(localPrefix, "etc", "env", fn)
+func loadFile(name string, reportError bool) error {
+	n := filepath.Clean(filepath.FromSlash(name))
+	if n != "." {
+		var found bool = false
+		fn := filepath.Join(prefix, "etc", "env", n)
+		localFn := filepath.Join(localPrefix, "etc", "env", n)
 		for _, fn := range []string{fn, localFn} {
-			if err := parseFile(fn); err != nil && reportError {
-				return err
+			if err := parseFile(fn); err != nil {
+				if reportError {
+					log.Debug("%v", err)
+				}
+			} else {
+				found = true
+				if reportError {
+					log.Debug("%s: env loaded", fn)
+				}
 			}
+		}
+		if reportError && !found {
+			return fmt.Errorf("%s: env not found", name)
 		}
 	}
 	return nil

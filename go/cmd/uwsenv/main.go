@@ -9,10 +9,21 @@ import (
 	"fmt"
 
 	"uws/env"
+	"uws/log"
 )
 
 func main() {
+	log.Init("uwsenv")
+	var envName string
+	flag.StringVar(&envName, "env", "", "load env `name`")
 	flag.Parse()
+
+	if envName != "" {
+		if err := env.Load(envName); err != nil {
+			log.Fatal("%v", err)
+		}
+	}
+
 	if flag.NArg() > 0 {
 		for _, getVar := range flag.Args() {
 			fmt.Printf("%s\n", env.Get(getVar))
