@@ -22,6 +22,7 @@ func main() {
 		if err := env.Load(envName); err != nil {
 			log.Fatal("%v", err)
 		}
+		env.Set("ENV", envName)
 	}
 
 	if flag.NArg() > 0 {

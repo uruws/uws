@@ -140,6 +140,13 @@ func expand(v string) string {
 	return os.Expand(v, get)
 }
 
+// Set sets env key/value. No checks are done.
+func Set(key, value string) {
+	emx.Lock()
+	defer emx.Unlock()
+	e[key] = value
+}
+
 // Get returns the value of keyName, it returns an empty string if not set.
 func Get(keyName string) string {
 	emx.Lock()
