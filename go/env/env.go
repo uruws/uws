@@ -90,7 +90,10 @@ func init() {
 func Get(keyName string) string {
 	emx.Lock()
 	defer emx.Unlock()
-	return e[keyName]
+	if v, ok := e[keyName]; ok {
+		return v
+	}
+	return os.Getenv("UWS_" + keyName)
 }
 
 // List lists env keys.
