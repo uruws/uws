@@ -1,3 +1,3 @@
-# uws/bot env
+# uwsbot default env
 BOT: default
 BOTDIR: ${PREFIX}/share/uwsbot
