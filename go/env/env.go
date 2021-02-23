@@ -28,8 +28,6 @@ func parseFile(fn string) error {
 	if err != nil {
 		return err
 	}
-	emx.Lock()
-	defer emx.Unlock()
 	return yaml.Unmarshal(blob, &e)
 }
 
@@ -105,14 +103,22 @@ func init() {
 	loadEnv()
 }
 
-// Get returns the value of keyName, it returns an empty string if not set.
-func Get(keyName string) string {
-	emx.Lock()
-	defer emx.Unlock()
+func get(keyName string) string {
 	if v, ok := os.LookupEnv("UWS_" + keyName); ok {
 		return v
 	}
 	return e[keyName]
+}
+
+func expand(v string) string {
+	return os.Expand(v, get)
+}
+
+// Get returns the value of keyName, it returns an empty string if not set.
+func Get(keyName string) string {
+	emx.Lock()
+	defer emx.Unlock()
+	return expand(get(keyName))
 }
 
 // List lists env keys.
@@ -128,6 +134,8 @@ func List() []string {
 
 // Load searchs for envName file and loads it to current env.
 func Load(envName ...string) error {
+	emx.Lock()
+	defer emx.Unlock()
 	n := path.Join(envName...)
 	return loadFile(n, true)
 }
