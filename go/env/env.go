@@ -26,7 +26,9 @@ var emx *sync.Mutex
 func includeFiles(list string) error {
 	for _, n := range strings.Split(list, " ") {
 		if err := loadFile(n, true, false); err != nil {
-			return fmt.Errorf("include %s", err)
+			err = fmt.Errorf("include %s", err)
+			log.Error("%s", err)
+			return err
 		}
 	}
 	return nil
