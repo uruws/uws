@@ -15,22 +15,24 @@ import (
 func main() {
 	log.Init("uwsbot")
 
-	var botEnv string
-	flag.StringVar(&botEnv, "bot", "", "load bot `env`")
+	var botName string
+	flag.StringVar(&botName, "name", "", "load `bot` name")
 	flag.Parse()
 
-	if botEnv == "" {
-		botEnv = env.Get("BOT")
-		if botEnv == "" {
-			log.Debug("bot env not set, using default")
-			botEnv = "default"
-		}
-	}
-	if err := env.Load("bot", botEnv); err != nil {
-		log.Fatal("%v", err)
+	if env.Get("ENV") == "." {
+		log.Debug("set bot/default env")
+		env.Load("bot", "default")
+		//~ env.Set("ENV", "default")
 	}
 
-	botDir := filepath.Join(env.GetFilepath("BOTDIR"),
-		filepath.FromSlash(botEnv))
+	if botName == "" {
+		botName = env.Get("BOT")
+		if botName == "" {
+			log.Debug("bot name not set, using default")
+			botName = "default"
+		}
+	}
+
+	botDir := filepath.Join(env.GetFilepath("BOTDIR"), botName)
 	log.Debug("botdir: %s", botDir)
 }
