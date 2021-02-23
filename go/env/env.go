@@ -71,7 +71,7 @@ func loadFile(name string, reportError bool, incEnable bool) error {
 				if reportError {
 					found = true
 				}
-				log.Debug("%s: env loaded", fn)
+				log.Debug("env loaded: %s", fn)
 			}
 		}
 		if reportError && !found {

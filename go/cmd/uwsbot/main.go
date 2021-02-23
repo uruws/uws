@@ -21,8 +21,8 @@ func main() {
 
 	if env.Get("ENV") == "." {
 		log.Debug("set bot/default env")
-		env.Load("bot", "default")
-		//~ env.Set("ENV", "default")
+		env.Load("bot/default")
+		env.Set("ENV", "bot/default")
 	}
 
 	if botName == "" {
