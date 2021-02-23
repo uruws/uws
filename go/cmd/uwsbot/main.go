@@ -5,15 +5,24 @@
 package main
 
 import (
+	"flag"
+
 	"uws/env"
 	"uws/log"
 )
 
 func main() {
 	log.Init("uwsbot")
-	botEnv := env.Get("BOT")
+
+	var botEnv string
+	flag.StringVar(&botEnv, "bot", "", "load bot `env`")
+	flag.Parse()
+
 	if botEnv == "" {
-		log.Fatal("ERR: bot env not set")
+		botEnv = env.Get("BOT")
+		if botEnv == "" {
+			log.Fatal("bot env not set")
+		}
 	}
 	if err := env.Load("bot", botEnv); err != nil {
 		log.Debug("%v", err)
