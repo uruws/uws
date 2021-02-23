@@ -87,7 +87,7 @@ func loadEnv() {
 	if name != "." {
 		loadFile(name, false, true)
 	}
-	loadVars()
+	loadVars(name)
 	loadFile("override", false, false)
 }
 
@@ -97,7 +97,7 @@ var validVars map[string]bool = map[string]bool{
 	"UWS_LOG": true,
 }
 
-func loadVars() {
+func loadVars(name string) {
 	for _, s := range os.Environ() {
 		if strings.HasPrefix(s, "UWS_") {
 			n := strings.SplitN(s, "=", 2)[0]
@@ -110,6 +110,7 @@ func loadVars() {
 			}
 		}
 	}
+	e["ENV"] = name
 }
 
 func init() {
