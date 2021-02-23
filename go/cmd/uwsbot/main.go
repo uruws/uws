@@ -18,4 +18,6 @@ func main() {
 	if err := env.Load("bot", botEnv); err != nil {
 		log.Debug("%v", err)
 	}
+	botDir := env.GetFilepath("BOTDIR", botEnv)
+	log.Debug("botdir: %s", botDir)
 }
