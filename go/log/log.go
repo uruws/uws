@@ -52,3 +52,8 @@ func Debug(f string, v ...interface{}) {
 		l.Output(cdepth, fmt.Sprintf("[D] %s", fmt.Sprintf(f, v...)))
 	}
 }
+
+// Error prints an error message.
+func Error(f string, v ...interface{}) {
+	l.Output(cdepth, fmt.Sprintf("[ERROR] %s", fmt.Sprintf(f, v...)))
+}
