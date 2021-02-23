@@ -31,14 +31,20 @@ func Init(name string) {
 	l.SetOutput(os.Stderr)
 	if os.Getenv("UWS_LOG") == "debug" {
 		l.SetFlags(golog.Lmsgprefix | golog.Lmicroseconds | golog.Llongfile)
+		l.SetPrefix(fmt.Sprintf("[%d] ", os.Getpid()))
 	} else {
 		l.SetFlags(golog.Lmsgprefix | golog.Ldate | golog.Lmicroseconds)
+		l.SetPrefix(fmt.Sprintf("%s[%d]: ", name, os.Getpid()))
 	}
-	l.SetPrefix(fmt.Sprintf("%s[%d]: ", name, os.Getpid()))
 }
 
-// Fatal prints error log and exits with error status.
+// Fatal prints an error message and exits with error status.
 func Fatal(f string, v ...interface{}) {
 	l.Output(cdepth, fmt.Sprintf("[FATAL] %s", fmt.Sprintf(f, v...)))
 	os.Exit(1)
+}
+
+// Debug prints a debug message.
+func Debug(f string, v ...interface{}) {
+	l.Output(cdepth, fmt.Sprintf("[D] %s", fmt.Sprintf(f, v...)))
 }
