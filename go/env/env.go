@@ -30,24 +30,28 @@ func parseFile(fn string) error {
 	return yaml.Unmarshal(blob, &e)
 }
 
-func loadFile(fn string) {
+func loadFile(fn string, reportError bool) error {
 	fn = filepath.Clean(filepath.FromSlash(fn))
 	if fn != "." {
 		fn = filepath.Join(prefix, "etc", "env", fn)
 		localFn := filepath.Join(localPrefix, "etc", "env", fn)
-		parseFile(fn)
-		parseFile(localFn)
+		for _, fn := range []string{fn, localFn} {
+			if err := parseFile(fn); err != nil && reportError {
+				return err
+			}
+		}
 	}
+	return nil
 }
 
 func loadEnv() {
 	name := path.Clean(strings.TrimSpace(os.Getenv("UWSENV")))
-	loadFile("default")
+	loadFile("default", false)
 	if name != "." {
-		loadFile(name)
+		loadFile(name, false)
 	}
 	loadVars()
-	loadFile("override")
+	loadFile("override", false)
 }
 
 var validVars map[string]bool = map[string]bool{
@@ -105,4 +109,9 @@ func List() []string {
 		l = append(l, k)
 	}
 	return l
+}
+
+// Load searchs for envName file and loads it to current env.
+func Load(envName string) error {
+	return loadFile(envName, true)
 }
