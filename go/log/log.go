@@ -16,6 +16,7 @@ var (
 	l *golog.Logger
 	lmx *sync.Mutex
 	cdepth int
+	debugEnable bool
 )
 
 func init() {
@@ -30,6 +31,7 @@ func Init(name string) {
 	defer lmx.Unlock()
 	l.SetOutput(os.Stderr)
 	if os.Getenv("UWS_LOG") == "debug" {
+		debugEnable = true
 		l.SetFlags(golog.Lmsgprefix | golog.Lmicroseconds | golog.Llongfile)
 		l.SetPrefix(fmt.Sprintf("[%d] ", os.Getpid()))
 	} else {
@@ -46,5 +48,7 @@ func Fatal(f string, v ...interface{}) {
 
 // Debug prints a debug message.
 func Debug(f string, v ...interface{}) {
-	l.Output(cdepth, fmt.Sprintf("[D] %s", fmt.Sprintf(f, v...)))
+	if debugEnable {
+		l.Output(cdepth, fmt.Sprintf("[D] %s", fmt.Sprintf(f, v...)))
+	}
 }
