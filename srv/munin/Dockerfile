@@ -11,7 +11,7 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh rsyslog cron munin
 
-ENV MV 0d13497ed83dd5927b77aad70e982ba16005a633
+ENV MV 98aeca5f7b8e791360a962e625f5afcebdcce965
 ENV MT munstrap
 RUN wget -O munin-contrib.tgz \
 	https://github.com/munin-monitoring/contrib/archive/${MV}.tar.gz \
