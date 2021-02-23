@@ -13,9 +13,9 @@ func main() {
 	log.Init("uwsbot")
 	botEnv := env.Get("BOT")
 	if botEnv == "" {
-		log.Fatal("ERR: bot not set")
+		log.Fatal("ERR: bot env not set")
 	}
-	if err := env.Load(botEnv); err != nil {
-		log.Fatal("%v", err)
+	if err := env.Load("bot", botEnv); err != nil {
+		log.Debug("%v", err)
 	}
 }
