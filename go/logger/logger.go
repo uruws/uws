@@ -24,23 +24,21 @@ func init() {
 	lmx = new(sync.Mutex)
 }
 
-func newLogger() *Logger {
-	return &Logger{Logger: log.New(os.Stderr, "", log.Ldate | log.Lmsgprefix | log.Lmicroseconds)}
-}
-
-// New initializes a new Logger.
+// New initializes and returns the Logger instance.
 func New(name string) *Logger {
 	lmx.Lock()
 	defer lmx.Unlock()
-	l = newLogger()
+	l.SetOutput(os.Stderr)
 	if os.Getenv("UWS_LOG") == "debug" {
 		l.SetFlags(log.Lmsgprefix | log.Lmicroseconds | log.Llongfile)
+	} else {
+		l.SetFlags(log.Ldate | log.Lmsgprefix | log.Lmicroseconds)
 	}
 	l.SetPrefix(fmt.Sprintf("%s[%d]: ", name, os.Getpid()))
 	return l
 }
 
-// Get returns the current Logger instance.
+// Get returns the Logger instance.
 func Get() *Logger {
 	lmx.Lock()
 	defer lmx.Unlock()
