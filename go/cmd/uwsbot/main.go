@@ -6,6 +6,7 @@ package main
 
 import (
 	"flag"
+	"path/filepath"
 
 	"uws/env"
 	"uws/log"
@@ -21,12 +22,15 @@ func main() {
 	if botEnv == "" {
 		botEnv = env.Get("BOT")
 		if botEnv == "" {
-			log.Fatal("bot env not set")
+			log.Debug("bot env not set, using default")
+			botEnv = "default"
 		}
 	}
 	if err := env.Load("bot", botEnv); err != nil {
 		log.Debug("%v", err)
 	}
-	botDir := env.GetFilepath("BOTDIR", botEnv)
+
+	botDir := filepath.Join(env.GetFilepath("BOTDIR"),
+		filepath.FromSlash(botEnv))
 	log.Debug("botdir: %s", botDir)
 }
