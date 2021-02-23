@@ -57,6 +57,7 @@ func loadEnv() {
 var validVars map[string]bool = map[string]bool{
 	"UWS_PREFIX": true,
 	"UWS_LOCAL_PREFIX": true,
+	"UWS_LOG": true,
 }
 
 func loadVars() {
