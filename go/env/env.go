@@ -140,18 +140,14 @@ func Load(envName ...string) error {
 	return loadFile(n, true)
 }
 
-// GetFilepath returns a filepath.Clean'ed value, if not empty.
-func GetFilepath(keyName string, parts ...string) string {
+// GetFilepath returns a Clean'ed and Abs if possible filepath value, if not empty.
+func GetFilepath(keyName string) string {
 	v := Get(keyName)
 	if v != "" {
 		v = filepath.Clean(v)
 		if abs, err := filepath.Abs(v); err != nil {
 			v = abs
 		}
-	}
-	if len(parts) > 0 {
-		rel := filepath.Join(parts...)
-		v = filepath.Join(v, rel)
 	}
 	return v
 }
