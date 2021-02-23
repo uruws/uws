@@ -127,6 +127,7 @@ func List() []string {
 }
 
 // Load searchs for envName file and loads it to current env.
-func Load(envName string) error {
-	return loadFile(envName, true)
+func Load(envName ...string) error {
+	n := path.Join(envName...)
+	return loadFile(n, true)
 }
