@@ -3,7 +3,3 @@
 
 // Package bot implements a monitoring bot.
 package bot
-
-func Main() {
-	println("hello world!")
-}
