@@ -27,7 +27,7 @@ func main() {
 		}
 	}
 	if err := env.Load("bot", botEnv); err != nil {
-		log.Debug("%v", err)
+		log.Fatal("%v", err)
 	}
 
 	botDir := filepath.Join(env.GetFilepath("BOTDIR"),
