@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh golang-go golang-golang-x-tools
+RUN /root/bin/apt-install.sh golang-go golang-golang-x-tools make
 
 RUN mkdir -vp /go/src/uws /go/.cache /go/bin /uws \
 	&& chown -vR uws:uws /go /uws \
