@@ -14,16 +14,29 @@ import (
 )
 
 func main() {
+	var (
+		botName string
+		botEnv  string
+	)
+	flag.StringVar(&botName, "name", "", "load `bot` name")
+	flag.StringVar(&botEnv, "env", "", "load bot env `name`")
+
+	flag.Parse()
 	log.Init("uwsbot")
 
-	var botName string
-	flag.StringVar(&botName, "name", "", "load `bot` name")
-	flag.Parse()
-
-	if env.Get("ENV") == "." {
-		log.Debug("set bot/default env")
-		env.Load("bot/default")
-		env.Set("ENV", "bot/default")
+	if botEnv == "" {
+		if env.Get("ENV") == "." {
+			log.Debug("set bot/default env")
+			env.Load("bot/default")
+			env.Set("ENV", "bot/default")
+			botEnv = "bot/default"
+		}
+	} else {
+		log.Debug("set %s env", botEnv)
+		if err := env.Load(botEnv); err != nil {
+			log.Fatal("%s", err)
+		}
+		env.Set("ENV", botEnv)
 	}
 
 	if botName == "" {
@@ -39,5 +52,11 @@ func main() {
 	botDir := filepath.Join(env.GetFilepath("BOTDIR"), botName)
 	log.Debug("botdir: %s", botDir)
 
-	bot.CheckLoad(botDir)
+	bot.Load(botDir)
+	//~ dispatch(botDir)
+}
+
+func dispatch(bdir string) {
+	e := bot.Load(bdir)
+	bot.Run(e, bdir + "/run/login_logout.ank")
 }
