@@ -22,20 +22,18 @@ func (b *Bot) Get(url string) (*http.Response, error) {
 	return http.Get(url)
 }
 
-func CheckLoad(dir string) {
+func Load(dir string) *BotEnv {
 	fn := filepath.Join(dir, "bot.ank")
 	log.Debug("check load: %s", fn)
 	e := NewBotEnv()
 	if err := vmExec(e, fn); err != nil {
-		log.Fatal("bot load: %s", err)
+		log.Fatal("bot check load: %s", err)
 	}
+	return e
 }
 
-//~ func Load(dir string) *Bot {
-//~ }
-
-//~ func Dispatch(dir string) {
-//~ }
-
-//~ func Run(b *Bot, script string) {
-//~ }
+func Run(e *BotEnv, script string) {
+	if err := vmExec(e, script); err != nil {
+		log.Fatal("bot run: %s", err)
+	}
+}
