@@ -6,6 +6,8 @@ package bot
 import (
 	"fmt"
 
+	"uws/log"
+
 	"github.com/mattn/anko/env"
 )
 
@@ -19,8 +21,21 @@ func newVmEnv() *botEnv {
 	}
 }
 
+func check(err error) {
+	if err != nil {
+		log.Fatal("bot env define: %s", err)
+	}
+}
+
 func envDefine() *env.Env {
 	e := env.NewEnv()
-	e.Define("println", fmt.Println)
+	check(e.Define("println", fmt.Println))
+	if logm, err := e.NewModule("log"); err != nil {
+		log.Fatal("bot env define: %s", err)
+	} else {
+		check(logm.Define("fatal", log.Fatal))
+		check(logm.Define("debug", log.Debug))
+		check(logm.Define("error", log.Error))
+	}
 	return e
 }
