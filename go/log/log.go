@@ -13,14 +13,14 @@ import (
 )
 
 var (
-	l *golog.Logger
-	lmx *sync.Mutex
-	cdepth int
+	l           *golog.Logger
+	lmx         *sync.Mutex
+	cdepth      int
 	debugEnable bool
 )
 
 func init() {
-	l = golog.New(ioutil.Discard, "", golog.Ldate | golog.Ltime)
+	l = golog.New(ioutil.Discard, "", golog.Ldate|golog.Ltime)
 	lmx = new(sync.Mutex)
 	cdepth = 2
 }
