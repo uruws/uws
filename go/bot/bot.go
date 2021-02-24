@@ -5,7 +5,7 @@
 package bot
 
 import (
-	//~ "net/http"
+	"net/http"
 	"path/filepath"
 
 	"uws/log"
@@ -18,7 +18,8 @@ func New() *Bot {
 	return &Bot{}
 }
 
-func (b *Bot) Get() {
+func (b *Bot) Get(url string) (*http.Response, error) {
+	return http.Get(url)
 }
 
 func CheckLoad(dir string) {
