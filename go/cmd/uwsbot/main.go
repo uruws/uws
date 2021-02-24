@@ -8,6 +8,7 @@ import (
 	"flag"
 	"path/filepath"
 
+	"uws/bot"
 	"uws/env"
 	"uws/log"
 )
@@ -35,4 +36,6 @@ func main() {
 
 	botDir := filepath.Join(env.GetFilepath("BOTDIR"), botName)
 	log.Debug("botdir: %s", botDir)
+
+	bot.CheckLoad(botDir)
 }

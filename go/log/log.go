@@ -29,6 +29,9 @@ func init() {
 func Init(name string) {
 	lmx.Lock()
 	defer lmx.Unlock()
+	if name == "" {
+		name = os.Args[0]
+	}
 	l.SetOutput(os.Stderr)
 	if os.Getenv("UWS_LOG") == "debug" {
 		debugEnable = true
