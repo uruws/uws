@@ -31,4 +31,8 @@ RUN printf 'export PATH="%s:${PATH}"\n' /go/bin >>/home/uws/.profile
 RUN printf 'test -s %s && source %s\n' /go/src/uws/env/devel.env /go/src/uws/env/devel.env >>/home/uws/.profile
 
 WORKDIR /go/src/uws
+COPY --chown=uws:uws ./tmp/go.mod ./tmp/go.sum ./
+RUN go mod download -x \
+	&& rm -vf go.mod go.sum
+
 ENTRYPOINT ["/usr/bin/go"]
