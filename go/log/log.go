@@ -43,6 +43,13 @@ func Init(name string) {
 	}
 }
 
+// SetPrefix sets log messages prefix. Current proccess ID is always added too.
+func SetPrefix(p string) {
+	lmx.Lock()
+	defer lmx.Unlock()
+	l.SetPrefix(fmt.Sprintf("%s[%d] ", p, os.Getpid()))
+}
+
 // Fatal prints an error message and exits with error status.
 func Fatal(f string, v ...interface{}) {
 	l.Output(cdepth, fmt.Sprintf("[FATAL] %s", fmt.Sprintf(f, v...)))
