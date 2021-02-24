@@ -91,12 +91,6 @@ func loadEnv() {
 	loadFile("override", false, false)
 }
 
-var validVars map[string]bool = map[string]bool{
-	"UWS_PREFIX": true,
-	"UWS_LOCAL_PREFIX": true,
-	"UWS_LOG": true,
-}
-
 func loadVars(name string) {
 	for _, s := range os.Environ() {
 		if strings.HasPrefix(s, "UWS_") {
@@ -104,9 +98,7 @@ func loadVars(name string) {
 			n = strings.TrimSpace(strings.Replace(n, "UWS_", "", 1))
 			if n != "" {
 				k := "UWS_" + n
-				if validVars[k] {
-					e[n] = os.Getenv(k)
-				}
+				e[n] = os.Getenv(k)
 			}
 		}
 	}
