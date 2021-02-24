@@ -3,8 +3,8 @@
 ## 0222
 
 * Activity Log:
-	* [Infrastructure](/TalkingPts/Infrastructure/compare/86a9b4db...master)
-	* [MonitoringBots](/TalkingPts/MonitoringBots/compare/4bad28e9...master)
+	* [Infrastructure](../../../Infrastructure/compare/86a9b4db...master)
+	* [MonitoringBots](../../../MonitoringBots/compare/4bad28e9...master)
 
 * Develop monitoring bots.
 	* The idea is to have scriptable bots to test/graph/monitor use case scenarios for production services. Starting with the API.
