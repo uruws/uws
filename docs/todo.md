@@ -2,7 +2,9 @@
 
 ## 0222
 
-[ActivityLog](https://github.com/TalkingPts/Infrastructure/compare/86a9b4db6a6a39e8b7ed287c655e99f6ae10fdb3...master)
+* Activity Log:
+	* [Infrastructure](/TalkingPts/Infrastructure/compare/86a9b4db...master)
+	* [MonitoringBots](/TalkingPts/MonitoringBots/compare/4bad28e9...master)
 
 * Develop monitoring bots.
 	* The idea is to have scriptable bots to test/graph/monitor use case scenarios for production services. Starting with the API.
