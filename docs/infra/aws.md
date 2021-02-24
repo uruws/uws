@@ -3,6 +3,9 @@
 ## Regions
 
 * Main region used for devops infra: **us-east-1** *(N. Virginia)*
+* [jsbatch][jsbatch.uws] region: **us-west-1** *(N. California)*
+	* Used for batch processing against mongodb, using Google's bigquery service.
+	* Those services are hosted near to (or at) this location, so we use this region for that.
 
 ## Admin
 
@@ -31,7 +34,11 @@ Current OS version: Debian 10 (Buster).
 
 Addresses allocated using AWS EC2 elastic IP:
 
-* [54.204.105.139][janisip]: [uws.t.o][uws] [janis.uws.t.o][janis.uws]
+* us-east-1:
+	* [54.204.105.139][janisip]: [uws.t.o][uws] [janis.uws.t.o][janis.uws]
+
+* us-west-1:
+	* [50.18.246.15][jsbatchip]: [uws.t.o][uws] [jsbatch.uws.t.o][jsbatch.uws]
 
 
 
@@ -45,3 +52,6 @@ Addresses allocated using AWS EC2 elastic IP:
 
 [janis.uws]: https://janis.uws.talkingpts.org
 [janisip]: https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#ElasticIpDetails:AllocationId=eipalloc-0c5ae6d42089a8328
+
+[jsbatch.uws]: ./jsbatch.md
+[jsbatchip]: https://us-west-1.console.aws.amazon.com/ec2/v2/home?region=us-west-1#ElasticIpDetails:AllocationId=eipalloc-d4486fe4
