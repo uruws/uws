@@ -14,7 +14,6 @@ func CheckLoad(dir string) {
 	fn := filepath.Join(dir, "bot.ank")
 	log.Debug("check load: %s", fn)
 	e := newVmEnv()
-	log.Debug("%v", e)
 	if err := vmExec(e, fn); err != nil {
 		log.Fatal("bot load: %s", err)
 	}
