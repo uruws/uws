@@ -49,7 +49,7 @@ func parseFile(fn string, incEnable bool) error {
 					return err
 				}
 			} else {
-				e[k] = v
+				e[k[:]] = v[:]
 			}
 		}
 	}
@@ -144,7 +144,7 @@ func expand(v string) string {
 func Set(key, value string) {
 	emx.Lock()
 	defer emx.Unlock()
-	e[key] = value
+	e[key[:]] = value[:]
 }
 
 // Get returns the value of keyName, it returns an empty string if not set.
