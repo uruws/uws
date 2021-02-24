@@ -35,4 +35,7 @@ COPY --chown=uws:uws ./tmp/go.mod ./tmp/go.sum ./
 RUN go mod download -x \
 	&& rm -vf go.mod go.sum
 
+RUN mkdir -vp /uws/src
+VOLUME /uws/src
+
 ENTRYPOINT ["/usr/bin/go"]
