@@ -49,7 +49,7 @@ func Fatal(f string, v ...interface{}) {
 // Debug prints a debug message.
 func Debug(f string, v ...interface{}) {
 	if debugEnable {
-		l.Output(cdepth, fmt.Sprintf("[D] %s", fmt.Sprintf(f, v...)))
+		l.Output(cdepth, fmt.Sprintf(f, v...))
 	}
 }
 
