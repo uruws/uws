@@ -32,7 +32,7 @@ func Init(name string) {
 	l.SetOutput(os.Stderr)
 	if os.Getenv("UWS_LOG") == "debug" {
 		debugEnable = true
-		l.SetFlags(golog.Lmsgprefix | golog.Lmicroseconds | golog.Llongfile)
+		l.SetFlags(golog.Lmicroseconds | golog.Llongfile)
 		l.SetPrefix(fmt.Sprintf("[%d] ", os.Getpid()))
 	} else {
 		l.SetFlags(golog.Lmsgprefix | golog.Ldate | golog.Lmicroseconds)
