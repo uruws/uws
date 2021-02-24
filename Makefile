@@ -6,7 +6,7 @@ default: all
 
 .PHONY: clean
 clean:
-	@rm -rvf ./build ./tmp
+	@rm -rvf ./build ./tmp ./docker/golang/tmp
 
 .PHONY: prune
 prune:
