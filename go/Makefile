@@ -7,4 +7,4 @@ gofmt:
 
 .PHONY: godoc-start
 godoc-start:
-	@godoc -http=:6060 >/dev/null &
+	@godoc -http=:6060 >/dev/null 2>/dev/null &

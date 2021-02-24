@@ -17,7 +17,7 @@ func init() {
 	opts = &vm.Options{Debug: true}
 }
 
-func vmExec(e *botEnv, filename string) error {
+func vmExec(e *BotEnv, filename string) error {
 	log.Debug("execute: %s", filename)
 	blob, err := ioutil.ReadFile(filename)
 	if err != nil {

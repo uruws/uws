@@ -5,15 +5,26 @@
 package bot
 
 import (
+	//~ "net/http"
 	"path/filepath"
 
 	"uws/log"
 )
 
+type Bot struct {
+}
+
+func New() *Bot {
+	return &Bot{}
+}
+
+func (b *Bot) Get() {
+}
+
 func CheckLoad(dir string) {
 	fn := filepath.Join(dir, "bot.ank")
 	log.Debug("check load: %s", fn)
-	e := newVmEnv()
+	e := NewBotEnv()
 	if err := vmExec(e, fn); err != nil {
 		log.Fatal("bot load: %s", err)
 	}
