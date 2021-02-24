@@ -92,13 +92,20 @@ func loadEnv() {
 }
 
 func loadVars(name string) {
+	max := 128 // load up to max vars, just in case.
+	i := 0
 	for _, s := range os.Environ() {
+		if i >= max {
+			log.Init("")
+			log.Fatal("max load of vars limit reached: %d", i)
+		}
 		if strings.HasPrefix(s, "UWS_") {
 			n := strings.SplitN(s, "=", 2)[0]
 			n = strings.TrimSpace(strings.Replace(n, "UWS_", "", 1))
 			if n != "" {
 				k := "UWS_" + n
 				e[n] = os.Getenv(k)
+				i += 1
 			}
 		}
 	}
