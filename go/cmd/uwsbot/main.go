@@ -34,6 +34,8 @@ func main() {
 		}
 	}
 
+	log.SetPrefix("uwsbot." + botName)
+
 	botDir := filepath.Join(env.GetFilepath("BOTDIR"), botName)
 	log.Debug("botdir: %s", botDir)
 
