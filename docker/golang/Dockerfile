@@ -27,7 +27,8 @@ ENV GOPATH /go
 ENV GOENV /go/src/uws/go.env
 ENV GOCACHE /go/.cache
 
-RUN printf 'export PATH="%s:${PATH}"' /go/bin >>/home/uws/.profile
+RUN printf 'export PATH="%s:${PATH}"\n' /go/bin >>/home/uws/.profile
+RUN printf 'test -s %s && source %s\n' /go/src/uws/env/devel.env /go/src/uws/env/devel.env >>/home/uws/.profile
 
 WORKDIR /go/src/uws
 ENTRYPOINT ["/usr/bin/go"]
