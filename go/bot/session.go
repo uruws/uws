@@ -12,6 +12,7 @@ var _ Session = &botSession{}
 type Session interface {
 	SetBaseURL(string) error
 	Login(string) error
+	Logout(string) error
 }
 
 type botSession struct {
@@ -25,6 +26,12 @@ func (s *botSession) SetBaseURL(u string) error {
 }
 
 func (s *botSession) Login(u string) error {
+	var err error
+	s.baseURL, err = url.Parse(u)
+	return err
+}
+
+func (s *botSession) Logout(u string) error {
 	var err error
 	s.baseURL, err = url.Parse(u)
 	return err

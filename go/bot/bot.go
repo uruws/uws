@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 
 	"uws/log"
+
+	"github.com/mattn/anko/env"
 )
 
 func Load(dir string) *BotEnv {
@@ -35,8 +37,19 @@ func New() *Bot {
 	return &Bot{sess: new(botSession)}
 }
 
+func newModule(b *Bot, e *env.Env) {
+	if botm, err := e.NewModule("bot"); err != nil {
+		log.Fatal("bot env module: %s", err)
+	} else {
+		check(botm.Define("set_base_url", b.SetBaseURL))
+		check(botm.Define("login", b.Login))
+		check(botm.Define("logout", b.Logout))
+		check(botm.Define("get", b.Get))
+	}
+}
+
 func (b *Bot) SetBaseURL(url string) {
-	log.Debug("set base url %s")
+	log.Debug("set base url %s", url)
 	if err := b.sess.SetBaseURL(url); err != nil {
 		log.Fatal("bot.set_base_url %s: %s", url, err)
 	}
@@ -46,6 +59,13 @@ func (b *Bot) Login(url string) {
 	log.Debug("login %s", url)
 	if err := b.sess.Login(url); err != nil {
 		log.Fatal("bot.login %s: %s", url, err)
+	}
+}
+
+func (b *Bot) Logout(url string) {
+	log.Debug("logout %s", url)
+	if err := b.sess.Logout(url); err != nil {
+		log.Fatal("bot.logout %s: %s", url, err)
 	}
 }
 
