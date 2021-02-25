@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"time"
 
 	"uws/log"
 )
@@ -26,6 +27,13 @@ type botSession struct {
 	auth      bool
 	authToken string
 	userId    string
+	cli       *http.Client
+}
+
+func newBotSession() *botSession {
+	cli := new(http.Client)
+	cli.Timeout = 5 * time.Minute
+	return &botSession{cli: cli}
 }
 
 func (s *botSession) SetBaseURL(u string) error {
@@ -52,7 +60,7 @@ func (s *botSession) Login(u string) error {
 		resp *http.Response
 		err  error
 	)
-	resp, err = http.PostForm(s.baseURL + u,
+	resp, err = s.cli.PostForm(s.baseURL + u,
 		url.Values{"email": {"demo@lausd.org"}, "password": {"123456"}})
 	if err != nil {
 		return err
@@ -98,7 +106,7 @@ func (s *botSession) Logout(u string) error {
 		resp *http.Response
 		err  error
 	)
-	resp, err = http.PostForm(s.baseURL + u, nil)
+	resp, err = s.cli.PostForm(s.baseURL + u, nil)
 	if err != nil {
 		return err
 	}
