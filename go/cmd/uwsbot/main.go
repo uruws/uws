@@ -11,6 +11,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -69,14 +70,14 @@ func main() {
 		log.Print("%s %s", botEnv, botName)
 		bot.Load(botDir)
 		if ttl := env.Get("SCRIPT_TTL"); ttl != "" {
-			if d, err := time.ParseDuration(ttl); err == nil {
+			if d, err := time.ParseDuration(ttl); err != nil {
 				log.Error("script ttl: %s", err)
 			} else {
 				scriptTTL = d
 			}
 		}
 		if max := env.Get("SCRIPT_MAX"); max != "" {
-			if i, err := strconv.Atoi(max); err == nil {
+			if i, err := strconv.Atoi(max); err != nil {
 				log.Error("script max: %s", err)
 			} else {
 				scriptMax = i
@@ -88,19 +89,20 @@ func main() {
 		walk(ctx, wg, botEnv, botName, botDir)
 		wg.Wait()
 	} else {
-		runScript(botDir, botRun)
+		runfn := filepath.Join(botDir, "run", botRun)
+		runScript(botDir, runfn)
 	}
 }
 
 func walk(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string) {
 	rundir := filepath.Join(bdir, "run")
 	log.Debug("walk %s", rundir)
-	if err := filepath.Walk(rundir, dispatch(ctx, wg, benv, bname)); err != nil {
+	if err := filepath.Walk(rundir, dispatch(ctx, wg, benv, bname, bdir)); err != nil {
 		log.Fatal("%s", err)
 	}
 }
 
-func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname string) func(filename string, st os.FileInfo, err error) error {
+func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string) func(filename string, st os.FileInfo, err error) error {
 	scount := 0
 	return func(filename string, st os.FileInfo, err error) error {
 		if err != nil {
@@ -108,11 +110,12 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname string) func(
 			return nil
 		}
 		if filepath.Ext(filename) == ".ank" {
-			log.Debug("bot dispatch: %s %s %s", benv, bname, filename)
+			fn := strings.Replace(filename, filepath.Join(bdir, "run") + string(filepath.Separator), "", 1)
+			log.Debug("bot dispatch: %s %s %s", benv, bname, fn)
 			if scount < scriptMax {
 				wg.Add(1)
 				scount += 1
-				go worker(ctx, wg, benv, bname, filename)
+				go worker(ctx, wg, benv, bname, fn)
 			} else {
 				log.Error("max limit of running scripts reached: %d, refusing to dispatch another worker.", scount)
 			}
