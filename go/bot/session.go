@@ -4,8 +4,12 @@
 package bot
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	"uws/log"
 )
 
 var _ Session = &botSession{}
@@ -18,25 +22,75 @@ type Session interface {
 }
 
 type botSession struct {
-	baseURL *url.URL
+	baseURL   string
+	auth      bool
+	authToken string
+	userId    string
 }
 
 func (s *botSession) SetBaseURL(u string) error {
-	var err error
-	s.baseURL, err = url.Parse(u)
-	return err
+	x, err := url.Parse(u)
+	if err != nil {
+		return err
+	}
+	s.baseURL = x.String()
+	return nil
+}
+
+type respData struct {
+	AuthToken string `json:"authToken"`
+	UserId string `json:"userId"`
+}
+
+type loginResponse struct {
+	Status string `json:"status"`
+	Data   *respData `json:"data"`
 }
 
 func (s *botSession) Login(u string) error {
-	var err error
-	s.baseURL, err = url.Parse(u)
-	return err
+	var (
+		resp *http.Response
+		err  error
+	)
+	resp, err = http.PostForm(s.baseURL + u,
+		url.Values{"email": {"demo@lausd.org"}, "password": {"123456"}})
+	if err != nil {
+		return err
+	}
+	//~ log.Debug("resp %v", resp)
+	if resp.StatusCode != http.StatusOK {
+		return log.NewError("login invalid response status code: %d", resp.StatusCode)
+	}
+	ctype := resp.Header.Get("content-type")
+	if ctype != "application/json" {
+		return log.NewError("login invalid response content type: %s", ctype)
+	}
+	defer resp.Body.Close()
+	blob, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return log.NewError("login read response: %s", err)
+	}
+	body := &loginResponse{Data: new(respData)}
+	if err := json.Unmarshal(blob, &body); err != nil {
+		return log.NewError("read response body: %s", err)
+	}
+	if body.Status != "success" {
+		return log.NewError("response body status: %s", body.Status)
+	}
+	if body.Data.AuthToken == "" {
+		return log.NewError("response body empty auth token")
+	}
+	if body.Data.UserId == "" {
+		return log.NewError("response body empty user id")
+	}
+	s.authToken = body.Data.AuthToken
+	s.userId = body.Data.UserId
+	s.auth = true
+	return nil
 }
 
 func (s *botSession) Logout(u string) error {
-	var err error
-	s.baseURL, err = url.Parse(u)
-	return err
+	return nil
 }
 
 func (s *botSession) Get(u string) (*http.Response, error) {
