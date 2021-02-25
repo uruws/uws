@@ -5,6 +5,7 @@
 package log
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	golog "log"
@@ -76,4 +77,12 @@ func Warn(f string, v ...interface{}) {
 // Print prints a message.
 func Print(f string, v ...interface{}) {
 	l.Output(cdepth, fmt.Sprintf(f, v...))
+}
+
+// NewError creates a new error object, prints its message and returns it.
+// Useful for situations like: return log.NewError("custom message")
+func NewError(f string, v ...interface{}) error {
+	err := errors.New(fmt.Sprintf(f, v...))
+	l.Output(cdepth, fmt.Sprintf("[ERROR] %s", err))
+	return err
 }
