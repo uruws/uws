@@ -6,6 +6,7 @@ package main
 
 import (
 	"flag"
+	"os"
 	"path/filepath"
 
 	"uws/bot"
@@ -13,12 +14,13 @@ import (
 	"uws/log"
 )
 
+var (
+	botName string
+	botEnv  string
+)
+
 func main() {
-	var (
-		botName string
-		botEnv  string
-		botRun  string
-	)
+	var botRun  string
 	flag.StringVar(&botName, "name", "", "load `bot` name")
 	flag.StringVar(&botEnv, "env", "", "load bot env `name`")
 	flag.StringVar(&botRun, "run", "", "bot run script `filename`")
@@ -56,18 +58,33 @@ func main() {
 
 	if botRun == "" {
 		bot.Load(botDir)
-		//~ dispatch(botDir)
+		walk(botDir)
 	} else {
 		runScript(botDir, botRun)
 	}
 }
 
-func dispatch(bdir string) {
-	e := bot.Load(bdir)
-	bot.Run(e, bdir + "/run/login_logout.ank")
+func walk(bdir string) {
+	rundir := filepath.Join(bdir, "run")
+	log.Debug("walk %s", rundir)
+	if err := filepath.Walk(rundir, dispatch); err != nil {
+		log.Fatal("%s", err)
+	}
+}
+
+func dispatch(filename string, st os.FileInfo, err error) error {
+	if err != nil {
+		log.Error("dispatch: %s", err)
+		return nil
+	}
+	if filepath.Ext(filename) == ".ank" {
+		log.Debug("dispatch: %s %s %s", botEnv, botName, filename)
+	}
+	return nil
 }
 
 func runScript(bdir, filename string) {
+	log.Debug("run script %s", filename)
 	e := bot.Load(bdir)
-	bot.Run(e, bdir + "/run/" + filename)
+	bot.Run(e, filename)
 }
