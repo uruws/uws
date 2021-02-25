@@ -34,7 +34,7 @@ type Bot struct {
 }
 
 func New() *Bot {
-	return &Bot{sess: new(botSession)}
+	return &Bot{sess: newBotSession()}
 }
 
 func newModule(b *Bot, e *env.Env) {
