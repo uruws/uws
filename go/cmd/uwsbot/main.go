@@ -8,6 +8,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"uws/bot"
 	"uws/env"
@@ -58,33 +59,40 @@ func main() {
 
 	if botRun == "" {
 		bot.Load(botDir)
-		walk(botDir)
+		wg := new(sync.WaitGroup)
+		walk(wg, botDir)
+		wg.Wait()
 	} else {
 		runScript(botDir, botRun)
 	}
 }
 
-func walk(bdir string) {
+func walk(wg *sync.WaitGroup, bdir string) {
 	rundir := filepath.Join(bdir, "run")
 	log.Debug("walk %s", rundir)
-	if err := filepath.Walk(rundir, dispatch); err != nil {
+	if err := filepath.Walk(rundir, dispatch(wg)); err != nil {
 		log.Fatal("%s", err)
 	}
 }
 
-func dispatch(filename string, st os.FileInfo, err error) error {
-	if err != nil {
-		log.Error("dispatch: %s", err)
+func dispatch(wg *sync.WaitGroup) func(filename string, st os.FileInfo, err error) error {
+	return func(filename string, st os.FileInfo, err error) error {
+		if err != nil {
+			log.Error("dispatch: %s", err)
+			return nil
+		}
+		if filepath.Ext(filename) == ".ank" {
+			log.Print("bot dispatch: %s %s %s", botEnv, botName, filename)
+		}
 		return nil
 	}
-	if filepath.Ext(filename) == ".ank" {
-		log.Debug("dispatch: %s %s %s", botEnv, botName, filename)
-	}
-	return nil
 }
 
+//~ func worker(wg *sync.WaitGroup, benv, bname, runfn string) {
+//~ }
+
 func runScript(bdir, filename string) {
-	log.Debug("run script %s", filename)
+	log.Print("run script %s", filename)
 	e := bot.Load(bdir)
 	bot.Run(e, filename)
 }
