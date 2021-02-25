@@ -4,20 +4,28 @@
 package bot
 
 import (
-	"uws/log"
+	"net/url"
 )
 
-// BotSession manages a logged in http session.
-type BotSession struct {
+var _ Session = &botSession{}
+
+type Session interface {
+	SetBaseURL(string) error
+	Login(string) error
 }
 
-// Login returns a session logged in to uri. Any error is reported as log.Fatal.
-func Login(uri string) *BotSession {
-	log.Debug("session login %s", uri)
-	return &BotSession{}
+type botSession struct {
+	baseURL *url.URL
 }
 
-// Logout ends the current session. Any error is reported as log.Fatal.
-func (s *BotSession) Logout(uri string) {
-	log.Debug("session logout %s", uri)
+func (s *botSession) SetBaseURL(u string) error {
+	var err error
+	s.baseURL, err = url.Parse(u)
+	return err
+}
+
+func (s *botSession) Login(u string) error {
+	var err error
+	s.baseURL, err = url.Parse(u)
+	return err
 }
