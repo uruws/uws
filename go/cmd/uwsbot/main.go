@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"sync"
 	"time"
 
@@ -19,7 +20,8 @@ import (
 )
 
 var (
-	scriptTTL time.Duration = 4*time.Minute
+	scriptTTL time.Duration = 4 * time.Minute
+	scriptMax int           = 1000
 )
 
 func main() {
@@ -73,6 +75,13 @@ func main() {
 				scriptTTL = d
 			}
 		}
+		if max := env.Get("SCRIPT_MAX"); max != "" {
+			if i, err := strconv.Atoi(max); err == nil {
+				log.Error("script max: %s", err)
+			} else {
+				scriptMax = i
+			}
+		}
 		ctx, cancel := context.WithTimeout(context.Background(), scriptTTL)
 		defer cancel()
 		wg := new(sync.WaitGroup)
@@ -92,6 +101,7 @@ func walk(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string) {
 }
 
 func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname string) func(filename string, st os.FileInfo, err error) error {
+	scount := 0
 	return func(filename string, st os.FileInfo, err error) error {
 		if err != nil {
 			log.Error("dispatch: %s", err)
@@ -99,8 +109,13 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname string) func(
 		}
 		if filepath.Ext(filename) == ".ank" {
 			log.Debug("bot dispatch: %s %s %s", benv, bname, filename)
-			wg.Add(1)
-			go worker(ctx, wg, benv, bname, filename)
+			if scount < scriptMax {
+				wg.Add(1)
+				scount += 1
+				go worker(ctx, wg, benv, bname, filename)
+			} else {
+				log.Error("max limit of running scripts reached: %d, refusing to dispatch another worker.", scount)
+			}
 		}
 		return nil
 	}
