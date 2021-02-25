@@ -4,6 +4,7 @@
 package bot
 
 import (
+	"net/http"
 	"net/url"
 )
 
@@ -13,6 +14,7 @@ type Session interface {
 	SetBaseURL(string) error
 	Login(string) error
 	Logout(string) error
+	Get(string) (*http.Response, error)
 }
 
 type botSession struct {
@@ -35,4 +37,8 @@ func (s *botSession) Logout(u string) error {
 	var err error
 	s.baseURL, err = url.Parse(u)
 	return err
+}
+
+func (s *botSession) Get(u string) (*http.Response, error) {
+	return http.Get(u)
 }

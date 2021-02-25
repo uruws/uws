@@ -70,7 +70,7 @@ func (b *Bot) Logout(url string) {
 }
 
 func (b *Bot) Get(url string) *http.Response {
-	resp, err := http.Get(url)
+	resp, err := b.sess.Get(url)
 	if err != nil {
 		log.Fatal("bot.get %s: %s", url, err)
 	}
