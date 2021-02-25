@@ -5,15 +5,21 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"sync"
+	"time"
 
 	"uws/bot"
 	"uws/env"
 	"uws/log"
+)
+
+var (
+	scriptTTL time.Duration = 4*time.Minute
 )
 
 func main() {
@@ -60,23 +66,32 @@ func main() {
 	if botRun == "" {
 		log.Print("%s %s", botEnv, botName)
 		bot.Load(botDir)
+		if ttl := env.Get("SCRIPT_TTL"); ttl != "" {
+			if d, err := time.ParseDuration(ttl); err == nil {
+				log.Error("script ttl: %s", err)
+			} else {
+				scriptTTL = d
+			}
+		}
+		ctx, cancel := context.WithTimeout(context.Background(), scriptTTL)
+		defer cancel()
 		wg := new(sync.WaitGroup)
-		walk(wg, botEnv, botName, botDir)
+		walk(ctx, wg, botEnv, botName, botDir)
 		wg.Wait()
 	} else {
 		runScript(botDir, botRun)
 	}
 }
 
-func walk(wg *sync.WaitGroup, benv, bname, bdir string) {
+func walk(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string) {
 	rundir := filepath.Join(bdir, "run")
 	log.Debug("walk %s", rundir)
-	if err := filepath.Walk(rundir, dispatch(wg, benv, bname)); err != nil {
+	if err := filepath.Walk(rundir, dispatch(ctx, wg, benv, bname)); err != nil {
 		log.Fatal("%s", err)
 	}
 }
 
-func dispatch(wg *sync.WaitGroup, benv, bname string) func(filename string, st os.FileInfo, err error) error {
+func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname string) func(filename string, st os.FileInfo, err error) error {
 	return func(filename string, st os.FileInfo, err error) error {
 		if err != nil {
 			log.Error("dispatch: %s", err)
@@ -85,16 +100,17 @@ func dispatch(wg *sync.WaitGroup, benv, bname string) func(filename string, st o
 		if filepath.Ext(filename) == ".ank" {
 			log.Debug("bot dispatch: %s %s %s", benv, bname, filename)
 			wg.Add(1)
-			go worker(wg, benv, bname, filename)
+			go worker(ctx, wg, benv, bname, filename)
 		}
 		return nil
 	}
 }
 
-func worker(wg *sync.WaitGroup, benv, bname, runfn string) {
+func worker(ctx context.Context, wg *sync.WaitGroup, benv, bname, runfn string) {
 	defer wg.Done()
 	log.Debug("dispatch worker: %s %s %s", benv, bname, runfn)
-	cmd := exec.Command(os.Args[0], "-env", benv, "-name", bname, "-run", runfn)
+	cmd := exec.CommandContext(ctx, os.Args[0],
+		"-env", benv, "-name", bname, "-run", runfn)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
