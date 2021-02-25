@@ -17,9 +17,11 @@ func main() {
 	var (
 		botName string
 		botEnv  string
+		botRun  string
 	)
 	flag.StringVar(&botName, "name", "", "load `bot` name")
 	flag.StringVar(&botEnv, "env", "", "load bot env `name`")
+	flag.StringVar(&botRun, "run", "", "bot run script `filename`")
 
 	flag.Parse()
 	log.Init("uwsbot")
@@ -52,11 +54,20 @@ func main() {
 	botDir := filepath.Join(env.GetFilepath("BOTDIR"), botName)
 	log.Debug("botdir: %s", botDir)
 
-	bot.Load(botDir)
-	//~ dispatch(botDir)
+	if botRun == "" {
+		bot.Load(botDir)
+		//~ dispatch(botDir)
+	} else {
+		runScript(botDir, botRun)
+	}
 }
 
 func dispatch(bdir string) {
 	e := bot.Load(bdir)
 	bot.Run(e, bdir + "/run/login_logout.ank")
+}
+
+func runScript(bdir, filename string) {
+	e := bot.Load(bdir)
+	bot.Run(e, bdir + "/run/" + filename)
 }
