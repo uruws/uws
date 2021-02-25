@@ -68,6 +68,11 @@ func Error(f string, v ...interface{}) {
 	l.Output(cdepth, fmt.Sprintf("[ERROR] %s", fmt.Sprintf(f, v...)))
 }
 
+// Warn prints a warning message.
+func Warn(f string, v ...interface{}) {
+	l.Output(cdepth, fmt.Sprintf("[WARNING] %s", fmt.Sprintf(f, v...)))
+}
+
 // Print prints a message.
 func Print(f string, v ...interface{}) {
 	l.Output(cdepth, fmt.Sprintf(f, v...))
