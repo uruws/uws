@@ -106,7 +106,11 @@ func (s *botSession) Logout(u string) error {
 		resp *http.Response
 		err  error
 	)
-	resp, err = s.cli.PostForm(s.baseURL + u, nil)
+	req := newPostFormRequest(s.baseURL + u)
+	if s.auth {
+		requestAuth(req, s.authToken, s.userId)
+	}
+	resp, err = s.cli.Do(req)
 	if err != nil {
 		return err
 	}
