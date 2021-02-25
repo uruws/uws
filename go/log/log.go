@@ -67,3 +67,8 @@ func Debug(f string, v ...interface{}) {
 func Error(f string, v ...interface{}) {
 	l.Output(cdepth, fmt.Sprintf("[ERROR] %s", fmt.Sprintf(f, v...)))
 }
+
+// Print prints a message.
+func Print(f string, v ...interface{}) {
+	l.Output(cdepth, fmt.Sprintf(f, v...))
+}
