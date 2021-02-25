@@ -134,5 +134,5 @@ func (s *botSession) Logout(u string) error {
 }
 
 func (s *botSession) Get(u string) (*http.Response, error) {
-	return http.Get(u)
+	return s.cli.Get(u)
 }
