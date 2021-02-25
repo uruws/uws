@@ -18,6 +18,10 @@ func New() *Bot {
 	return &Bot{}
 }
 
+func (b *Bot) Login(url string) *BotSession {
+	return Login(url)
+}
+
 func (b *Bot) Get(url string) (*http.Response, error) {
 	return http.Get(url)
 }

@@ -41,6 +41,7 @@ func envDefine() *env.Env {
 	if botm, err := e.NewModule("bot"); err != nil {
 		log.Fatal("bot env module: %s", err)
 	} else {
+		check(botm.Define("login", b.Login))
 		check(botm.Define("get", b.Get))
 	}
 	return e
