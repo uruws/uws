@@ -15,13 +15,12 @@ import (
 	"uws/log"
 )
 
-var (
-	botName string
-	botEnv  string
-)
-
 func main() {
-	var botRun  string
+	var (
+		botName string
+		botEnv  string
+		botRun  string
+	)
 	flag.StringVar(&botName, "name", "", "load `bot` name")
 	flag.StringVar(&botEnv, "env", "", "load bot env `name`")
 	flag.StringVar(&botRun, "run", "", "bot run script `filename`")
@@ -60,31 +59,31 @@ func main() {
 	if botRun == "" {
 		bot.Load(botDir)
 		wg := new(sync.WaitGroup)
-		walk(wg, botDir)
+		walk(wg, botEnv, botName, botDir)
 		wg.Wait()
 	} else {
 		runScript(botDir, botRun)
 	}
 }
 
-func walk(wg *sync.WaitGroup, bdir string) {
+func walk(wg *sync.WaitGroup, benv, bname, bdir string) {
 	rundir := filepath.Join(bdir, "run")
 	log.Debug("walk %s", rundir)
-	if err := filepath.Walk(rundir, dispatch(wg)); err != nil {
+	if err := filepath.Walk(rundir, dispatch(wg, benv, bname)); err != nil {
 		log.Fatal("%s", err)
 	}
 }
 
-func dispatch(wg *sync.WaitGroup) func(filename string, st os.FileInfo, err error) error {
+func dispatch(wg *sync.WaitGroup, benv, bname string) func(filename string, st os.FileInfo, err error) error {
 	return func(filename string, st os.FileInfo, err error) error {
 		if err != nil {
 			log.Error("dispatch: %s", err)
 			return nil
 		}
 		if filepath.Ext(filename) == ".ank" {
-			log.Print("bot dispatch: %s %s %s", botEnv, botName, filename)
+			log.Print("bot dispatch: %s %s %s", benv, bname, filename)
 			wg.Add(1)
-			go worker(wg, botEnv, botName, filename)
+			go worker(wg, benv, bname, filename)
 		}
 		return nil
 	}
