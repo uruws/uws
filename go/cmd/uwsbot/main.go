@@ -7,6 +7,7 @@ package main
 import (
 	"flag"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sync"
 
@@ -57,6 +58,7 @@ func main() {
 	log.Debug("botdir: %s", botDir)
 
 	if botRun == "" {
+		log.Print("%s %s", botEnv, botName)
 		bot.Load(botDir)
 		wg := new(sync.WaitGroup)
 		walk(wg, botEnv, botName, botDir)
@@ -81,7 +83,7 @@ func dispatch(wg *sync.WaitGroup, benv, bname string) func(filename string, st o
 			return nil
 		}
 		if filepath.Ext(filename) == ".ank" {
-			log.Print("bot dispatch: %s %s %s", benv, bname, filename)
+			log.Debug("bot dispatch: %s %s %s", benv, bname, filename)
 			wg.Add(1)
 			go worker(wg, benv, bname, filename)
 		}
@@ -92,6 +94,12 @@ func dispatch(wg *sync.WaitGroup, benv, bname string) func(filename string, st o
 func worker(wg *sync.WaitGroup, benv, bname, runfn string) {
 	defer wg.Done()
 	log.Debug("dispatch worker: %s %s %s", benv, bname, runfn)
+	cmd := exec.Command(os.Args[0], "-env", benv, "-name", bname, "-run", runfn)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		log.Fatal("%s: %s", runfn, err)
+	}
 }
 
 func runScript(bdir, filename string) {
