@@ -83,13 +83,17 @@ func dispatch(wg *sync.WaitGroup) func(filename string, st os.FileInfo, err erro
 		}
 		if filepath.Ext(filename) == ".ank" {
 			log.Print("bot dispatch: %s %s %s", botEnv, botName, filename)
+			wg.Add(1)
+			go worker(wg, botEnv, botName, filename)
 		}
 		return nil
 	}
 }
 
-//~ func worker(wg *sync.WaitGroup, benv, bname, runfn string) {
-//~ }
+func worker(wg *sync.WaitGroup, benv, bname, runfn string) {
+	defer wg.Done()
+	log.Debug("dispatch worker: %s %s %s", benv, bname, runfn)
+}
 
 func runScript(bdir, filename string) {
 	log.Print("run script %s", filename)
