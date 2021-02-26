@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"uws/env"
+	"uws/fs"
 	"uws/log"
 )
 
@@ -48,6 +49,11 @@ func New(fieldName ...string) *Stats {
 
 func Save(st *Stats) {
 	dst := filepath.Join(st.stdir, st.fname)
+	log.Debug("stats lock %s", dst)
+	if err := fs.LockDir(dst); err != nil {
+		log.Fatal("stats lock: %s", err)
+	}
+	defer fs.UnlockDir(dst)
 	log.Debug("stats save remove %s", dst)
 	os.RemoveAll(dst)
 	log.Debug("stats save: %s -> %s", st.tmpdir, dst)
