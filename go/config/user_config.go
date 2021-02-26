@@ -20,9 +20,9 @@ func NewUserConfig() *UserConfig {
 	if err != nil {
 		dir, err = os.UserHomeDir()
 		if err != nil {
-			dir = filepath.FromSlash("/homeless/.uws/config")
+			dir = filepath.FromSlash("/.config/uws")
 		} else {
-			dir = filepath.Join(dir, ".uws", "config")
+			dir = filepath.Join(dir, ".config", "uws")
 		}
 	} else {
 		dir = filepath.Join(dir, "uws")
