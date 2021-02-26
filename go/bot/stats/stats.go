@@ -5,11 +5,13 @@
 package stats
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
 	"uws/env"
 	"uws/fs"
@@ -34,6 +36,7 @@ type Stats struct {
 	stdir  string
 	fname  string
 	tmpdir string
+	start  time.Time
 }
 
 func New(fieldName ...string) *Stats {
@@ -44,10 +47,11 @@ func New(fieldName ...string) *Stats {
 		log.Fatal("stats new: %s", err)
 	}
 	log.Debug("new %s %s %s", stdir, fname, tmpdir)
-	return &Stats{stdir, fname, tmpdir}
+	return &Stats{stdir, fname, tmpdir, time.Now()}
 }
 
 func Save(st *Stats) {
+	saveStats(st)
 	dst := filepath.Join(st.stdir, st.fname)
 	log.Debug("stats lock %s", dst)
 	if err := fs.LockDir(dst); err != nil {
@@ -62,5 +66,28 @@ func Save(st *Stats) {
 	}
 	if err := os.Rename(st.tmpdir, dst); err != nil {
 		log.Fatal("stats save: %s", err)
+	}
+}
+
+type StatsInfo struct {
+	Id string `json:"id"`
+	Label string `json:"label"`
+	Value int64 `json:"value"`
+}
+
+func saveStats(st *Stats) {
+	fn := filepath.Join(st.tmpdir, st.fname + ".stats")
+	log.Debug("save stats %s", fn)
+	inf := &StatsInfo{
+		Id: st.fname,
+		Label: st.fname,
+		Value: time.Now().Sub(st.start).Milliseconds(),
+	}
+	blob, err := json.Marshal(inf)
+	if err != nil {
+		log.Fatal("save stats %s: %s", fn, err)
+	}
+	if err := ioutil.WriteFile(fn, blob, 0640); err != nil {
+		log.Fatal("save stats: %s", err)
 	}
 }
