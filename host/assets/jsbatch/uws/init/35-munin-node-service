@@ -29,7 +29,6 @@ echo 'i - munin-node plugins enable'
 ${pl_ena} munin_stats
 ${pl_ena} munin_update
 
-rm -vf /etc/munin/plugins/docker_*
 ${pl_ena} contrib docker/docker_ docker_multi
 
 ls /etc/munin/plugins >/srv/run/uws-service-restart/munin-node.plugins
