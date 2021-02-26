@@ -9,7 +9,11 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	"uws/log"
 )
+
+var ErrLockDirTimeout error = errors.New("lock dir timeout")
 
 const (
 	lockDirWait time.Duration = 500 * time.Millisecond
@@ -54,7 +58,22 @@ func mkLockDir(name string) error {
 }
 
 func LockDir(name string) error {
-	return mkLockDir(name)
+	for n := 0; n <= lockDirMax; n += 1 {
+		if n == lockDirMax {
+			return ErrLockDirTimeout
+		}
+		if err := mkLockDir(name); err != nil {
+			if os.IsExist(err) {
+				log.Debug("%s #%d - wait...", err, n)
+				time.Sleep(lockDirWait)
+			} else {
+				return err
+			}
+		} else {
+			return nil
+		}
+	}
+	return nil
 }
 
 func UnlockDir(name string) error {
