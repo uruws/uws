@@ -1,0 +1,66 @@
+// Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+// See LICENSE file.
+
+package fs
+
+import (
+	"errors"
+	"fmt"
+	"os"
+	"path/filepath"
+	"time"
+)
+
+const (
+	lockDirWait time.Duration = 500 * time.Millisecond
+	lockDirMax  int           = 30 // 15 seconds
+)
+
+func lockDirName(name string, checkSource bool) (string, error) {
+	fn := filepath.Clean(name)
+	if abs, err := filepath.Abs(fn); err != nil {
+		return "", err
+	} else {
+		fn = abs
+	}
+	if checkSource {
+		if st, err := os.Stat(fn); err != nil {
+			return "", err
+		} else {
+			if !st.IsDir() {
+				return "", errors.New(fmt.Sprintf("%s: is not a directory", st.Name()))
+			}
+		}
+	}
+	fn = fn + ".uwslock"
+	return fn, nil
+}
+
+func mkLockDir(name string) error {
+	fn, err := lockDirName(name, true)
+	if err != nil {
+		return err
+	}
+	flag := os.O_CREATE | os.O_EXCL | os.O_TRUNC | os.O_WRONLY
+	if fh, err := os.OpenFile(fn, flag, 0600); err != nil {
+		return err
+	} else {
+		defer fh.Close()
+		if _, err := fh.WriteString(fmt.Sprintf("%d\n", os.Getpid())); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func LockDir(name string) error {
+	return mkLockDir(name)
+}
+
+func UnlockDir(name string) error {
+	fn, err := lockDirName(name, false)
+	if err != nil {
+		return err
+	}
+	return os.Remove(fn)
+}
