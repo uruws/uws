@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="2021.02.26"
 
 USER root:root

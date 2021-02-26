@@ -1,6 +1,6 @@
 FROM uws/munin
 
-LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="2021.02.09"
 
 USER root:root

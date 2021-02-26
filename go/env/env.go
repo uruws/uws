@@ -1,4 +1,4 @@
-// Copyright (c) Jeremías Casteglione <jeremias.tincan@gmail.com>
+// Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 // See LICENSE file.
 
 // Package env implements a config manager unsing files and env vars.

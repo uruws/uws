@@ -1,6 +1,6 @@
 FROM uws/base
 
-LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="2021.02.16"
 
 USER root:root
