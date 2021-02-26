@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"time"
 
+	"uws/config"
 	"uws/log"
 )
 
@@ -56,7 +57,17 @@ type loginResponse struct {
 }
 
 func (s *botSession) getCredentials() url.Values {
-	return url.Values{"email": {"NOEMAIL"}, "password": {"NOPASSWD"}}
+	cfg := config.NewUserConfig()
+	cfg.Load("bot", "credentials.yml")
+	e := cfg.Get("e")
+	if e == "" {
+		e = "NOEMAIL"
+	}
+	p := cfg.Get("p")
+	if p == "" {
+		p = "NOPASSWD"
+	}
+	return url.Values{"email": {e}, "password": {p}}
 }
 
 func (s *botSession) Login(u string) error {
