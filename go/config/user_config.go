@@ -27,12 +27,13 @@ func NewUserConfig() *UserConfig {
 	} else {
 		dir = filepath.Join(dir, "uws")
 	}
-	return &UserConfig{Config: New()}
+	return &UserConfig{Config: New(), dir: dir}
 }
 
 // Load searches for relname in user's config dir and loads it.
 func (c *UserConfig) Load(relname ...string) error {
 	n := filepath.Join(relname...)
+	n = filepath.Join(c.dir, n)
 	return parseFile(c.Config, n, true)
 }
 
