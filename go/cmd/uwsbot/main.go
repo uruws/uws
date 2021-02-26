@@ -67,7 +67,7 @@ func main() {
 	log.Debug("botdir: %s", botDir)
 
 	if botRun == "" {
-		log.Print("%s %s", botEnv, botName)
+		log.Print("init %s %s", botEnv, botName)
 		bot.Load(botDir)
 		if ttl := env.Get("SCRIPT_TTL"); ttl != "" {
 			if d, err := time.ParseDuration(ttl); err != nil {
@@ -88,6 +88,7 @@ func main() {
 		wg := new(sync.WaitGroup)
 		walk(ctx, wg, botEnv, botName, botDir)
 		wg.Wait()
+		log.Print("end %s %s", botEnv, botName)
 	} else {
 		runfn := filepath.Join(botDir, "run", botRun)
 		runScript(botDir, runfn)
@@ -115,7 +116,7 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string)
 			if scount < scriptMax {
 				wg.Add(1)
 				scount += 1
-				go worker(ctx, wg, benv, bname, fn)
+				go worker(ctx, wg, scount, benv, bname, fn)
 			} else {
 				log.Error("max limit of running scripts reached: %d, refusing to dispatch another worker.", scount)
 			}
@@ -124,15 +125,15 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string)
 	}
 }
 
-func worker(ctx context.Context, wg *sync.WaitGroup, benv, bname, runfn string) {
+func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, runfn string) {
 	defer wg.Done()
-	log.Debug("dispatch worker: %s %s %s", benv, bname, runfn)
+	log.Debug("dispatch worker #%d: %s %s %s", wno, benv, bname, runfn)
 	cmd := exec.CommandContext(ctx, os.Args[0],
 		"-env", benv, "-name", bname, "-run", runfn)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
-		log.Fatal("%s: %s", runfn, err)
+		log.Error("%s: %s", runfn, err)
 	}
 }
 

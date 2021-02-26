@@ -15,7 +15,7 @@ import (
 
 func Load(dir string) *BotEnv {
 	fn := filepath.Join(dir, "bot.ank")
-	log.Debug("check load: %s", fn)
+	log.Debug("load: %s", fn)
 	e := NewBotEnv()
 	if err := vmExec(e, fn); err != nil {
 		log.Fatal("bot check load: %s", err)
