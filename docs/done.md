@@ -8,7 +8,7 @@
 	* Bot engine: [uwsbot](./uwsbot.md)
 	* Bot scripts repo: [MonitoringBots][monbots.repo]
 
-[monbots.repo]: https://github.com/TalkingPoints/MonitoringBots
+[monbots.repo]: https://github.com/TalkingPts/MonitoringBots
 
 ## 0222
 
