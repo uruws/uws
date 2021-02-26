@@ -29,12 +29,8 @@ echo 'i - munin-node plugins enable'
 ${pl_ena} munin_stats
 ${pl_ena} munin_update
 
+rm -vf /etc/munin/plugins/docker_*
 ${pl_ena} contrib docker/docker_ docker_cpu
-${pl_ena} contrib docker/docker_ docker_images
-${pl_ena} contrib docker/docker_ docker_memory
-${pl_ena} contrib docker/docker_ docker_network
-${pl_ena} contrib docker/docker_ docker_status
-${pl_ena} contrib docker/docker_ docker_volumes
 
 ls /etc/munin/plugins >/srv/run/uws-service-restart/munin-node.plugins
 /uws/bin/service-restart.sh munin-node /etc/munin /srv/run/uws-service-restart/munin-node.plugins
