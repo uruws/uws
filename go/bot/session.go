@@ -55,13 +55,16 @@ type loginResponse struct {
 	Data   *respData `json:"data"`
 }
 
+func (s *botSession) getCredentials() url.Values {
+	return url.Values{"email": {"NOEMAIL"}, "password": {"NOPASSWD"}}
+}
+
 func (s *botSession) Login(u string) error {
 	var (
 		resp *http.Response
 		err  error
 	)
-	resp, err = s.cli.PostForm(s.baseURL + u,
-		url.Values{"email": {"demo@lausd.org"}, "password": {"123456"}})
+	resp, err = s.cli.PostForm(s.baseURL + u, s.getCredentials())
 	if err != nil {
 		return err
 	}
