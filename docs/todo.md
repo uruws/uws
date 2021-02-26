@@ -8,8 +8,6 @@
 ## 0222
 
 * Develop munin plugins for bots info.
-* Develop servers CA certs manager web interface.
-	* So authorized people can get their certs using email validation.
 * Develop packaging tools.
 	* Use bots deployment as alpha and beta testing for pkg tools.
 * Build package ditribution repo(s).
@@ -19,6 +17,8 @@
 		* services setup
 		* common configs
 		* host specific configs
+* Develop servers CA certs manager web interface.
+	* So authorized people can get their certs using email validation.
 * Develop server tasks control.
 	* The idea is to have a tiny web interface on servers so auth people can dispatch pre-configured tasks/jobs on the server. Like start/stop of containers and such.
 * Packaging tools.
