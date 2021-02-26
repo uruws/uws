@@ -29,13 +29,14 @@ func check(err error) {
 
 func envDefine() *env.Env {
 	e := env.NewEnv()
-	check(e.Define("println", fmt.Println))
 	if logm, err := e.NewModule("log"); err != nil {
 		log.Fatal("bot env log module: %s", err)
 	} else {
 		check(logm.Define("fatal", log.Fatal))
 		check(logm.Define("debug", log.Debug))
 		check(logm.Define("error", log.Error))
+		check(logm.Define("warn", log.Warn))
+		check(logm.Define("print", log.Print))
 	}
 	b := New()
 	newModule(b, e)
