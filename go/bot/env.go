@@ -4,8 +4,6 @@
 package bot
 
 import (
-	"fmt"
-
 	"uws/log"
 
 	"github.com/mattn/anko/env"

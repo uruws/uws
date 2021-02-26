@@ -16,7 +16,7 @@ import (
 	"time"
 
 	"uws/bot"
-	//~ "uws/bot/stats"
+	"uws/bot/stats"
 	"uws/env"
 	"uws/log"
 )
@@ -69,6 +69,8 @@ func main() {
 
 	if botRun == "" {
 		log.Print("init %s %s", botEnv, botName)
+		st := stats.New(botEnv, botName)
+		defer stats.Save(st)
 		bot.Load(botDir)
 		if ttl := env.Get("SCRIPT_TTL"); ttl != "" {
 			if d, err := time.ParseDuration(ttl); err != nil {
@@ -140,10 +142,6 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, runfn
 func runScript(benv, bname, bdir, runfn string) {
 	filename := filepath.Join(bdir, "run", runfn + ".ank")
 	log.Print("run script %s", filename)
-	//~ st := stats.Init(benv, bname)
-	//~ st.Start("load")
 	e := bot.Load(bdir)
-	//~ st.End("load")
-	//~ sst := st.Add("run", filename
 	bot.Run(e, filename)
 }

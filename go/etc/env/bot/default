@@ -2,3 +2,4 @@
 BOT: default
 BOTDIR: ${PREFIX}/share/uwsbot
 SCRIPT_TTL: 4m
+STATSDIR: ${PREFIX}/var/uwsbot/stats
