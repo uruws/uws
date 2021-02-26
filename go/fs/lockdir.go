@@ -5,6 +5,7 @@ package fs
 
 import (
 	"errors"
+	"io/ioutil"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -14,6 +15,7 @@ import (
 )
 
 var ErrLockDirTimeout error = errors.New("lock dir timeout")
+var ErrUnlockDirOwner error = errors.New("unlock dir wrong owner")
 
 const (
 	lockDirWait time.Duration = 500 * time.Millisecond
@@ -80,6 +82,13 @@ func UnlockDir(name string) error {
 	fn, err := lockDirName(name, false)
 	if err != nil {
 		return err
+	}
+	if blob, err := ioutil.ReadFile(fn); err != nil {
+		return err
+	} else {
+		if fmt.Sprintf("%d\n", os.Getpid()) != fmt.Sprintf("%s", blob) {
+			return ErrUnlockDirOwner
+		}
 	}
 	return os.Remove(fn)
 }
