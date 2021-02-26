@@ -16,6 +16,7 @@ import (
 	"time"
 
 	"uws/bot"
+	//~ "uws/bot/stats"
 	"uws/env"
 	"uws/log"
 )
@@ -90,8 +91,7 @@ func main() {
 		wg.Wait()
 		log.Print("end %s %s", botEnv, botName)
 	} else {
-		runfn := filepath.Join(botDir, "run", botRun)
-		runScript(botDir, runfn)
+		runScript(botEnv, botName, botDir, botRun)
 	}
 }
 
@@ -116,7 +116,7 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string)
 			if scount < scriptMax {
 				wg.Add(1)
 				scount += 1
-				go worker(ctx, wg, scount, benv, bname, fn)
+				go worker(ctx, wg, scount, benv, bname, fn[:len(fn)-4]) // remove .ank from run fn
 			} else {
 				log.Error("max limit of running scripts reached: %d, refusing to dispatch another worker.", scount)
 			}
@@ -137,8 +137,13 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, runfn
 	}
 }
 
-func runScript(bdir, filename string) {
+func runScript(benv, bname, bdir, runfn string) {
+	filename := filepath.Join(bdir, "run", runfn + ".ank")
 	log.Print("run script %s", filename)
+	//~ st := stats.Init(benv, bname)
+	//~ st.Start("load")
 	e := bot.Load(bdir)
+	//~ st.End("load")
+	//~ sst := st.Add("run", filename
 	bot.Run(e, filename)
 }
