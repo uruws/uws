@@ -27,6 +27,18 @@ func New() *Config {
 	}
 }
 
+// Open parses filename and creates a new config instance.
+func Open(filename ...string) (*Config, error) {
+	c := New()
+	return c, c.Load(filename...)
+}
+
+// Load parses filename and loads it config.
+func (c *Config) Load(filename ...string) error {
+	n := filepath.Join(filename...)
+	return parseFile(c, n, true)
+}
+
 // List lists config keys.
 func (c *Config) List() []string {
 	c.dx.Lock()
@@ -65,12 +77,9 @@ func (c *Config) Get(keyName string) string {
 
 // GetFilepath returns a Clean'ed and Abs if possible filepath value, if not empty.
 func (c *Config) GetFilepath(keyName string) string {
-	v := c.Get(keyName)
-	if v != "" {
-		v = filepath.Clean(v)
-		if abs, err := filepath.Abs(v); err != nil {
-			v = abs
-		}
+	v := filepath.Clean(c.Get(keyName))
+	if abs, err := filepath.Abs(v); err != nil {
+		v = abs
 	}
 	return v
 }
@@ -109,17 +118,6 @@ func parseFile(c *Config, fn string, incEnable bool) error {
 	return nil
 }
 
-func loadFile(c *Config, filename ...string) error {
-	n := filepath.Join(filename...)
-	return parseFile(c, n, true)
-}
-
-// Open parses filename and creates a new config instance.
-func Open(filename ...string) (*Config, error) {
-	c := New()
-	return c, loadFile(c, filename...)
-}
-
 // global config instance
 
 var cfg *Config
@@ -130,7 +128,7 @@ func init() {
 
 // Load parses filename and loads it to global config.
 func Load(filename ...string) error {
-	return loadFile(cfg, filename...)
+	return cfg.Load(filename...)
 }
 
 // List global config.
