@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 
 LABEL mantainer="Jeremías Casteglione <jeremias.tincan@gmail.com>"
-LABEL version="2021.02.12"
+LABEL version="2021.02.26"
 
 USER root:root
 WORKDIR /root
