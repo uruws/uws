@@ -58,7 +58,9 @@ type loginResponse struct {
 
 func (s *botSession) getCredentials() url.Values {
 	cfg := config.NewUserConfig()
-	cfg.Load("bot", "credentials.yml")
+	if err := cfg.Load("bot", "credentials.yml"); err != nil {
+		log.Error("%s", err)
+	}
 	e := cfg.Get("e")
 	if e == "" {
 		e = "NOEMAIL"
