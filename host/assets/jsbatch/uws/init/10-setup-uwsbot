@@ -14,6 +14,8 @@ if test -s /srv/uws/deploy/Makefile; then
 	install -v -m 755 ./docker/uwsbot/build/uwsbot-stats.bin /uws/bin/uwsbot-stats
 fi
 
+chown -v uws:uws /uws/etc/env/bot/stats
+
 rm -vf /etc/munin/plugins/uwsbot_stats
 ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
 
