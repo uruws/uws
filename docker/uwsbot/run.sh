@@ -13,6 +13,6 @@ mkdir -vp "${CFGDIR}" "${STATSDIR}"
 exec docker run --rm --name "uws-bot-${BOT_ENV}-${BOT_NAME}" \
 	--hostname "bot-${BOT_ENV}-${BOT_NAME}.uws.local" \
 	-v "${SRCDIR}:/uws/share/uwsbot:ro" \
-	-v "${CFGDIR}:/home/uws/.config/uws/bot:ro" \
+	-v "${CFGDIR}:/root/.config/uws/bot:ro" \
 	-v "${STATSDIR}:/uws/var/uwsbot/stats" \
-	-u uwsrun uws/uwsbot -env "${BOT_ENV}" -name "${BOT_NAME}"
+	-u root uws/uwsbot -env "${BOT_ENV}" -name "${BOT_NAME}"

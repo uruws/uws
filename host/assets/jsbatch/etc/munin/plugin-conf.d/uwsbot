@@ -1,4 +1,4 @@
 [uwsbot_stats]
-user uwsrun
+user root
 group uws
 env.UWSENV stats
