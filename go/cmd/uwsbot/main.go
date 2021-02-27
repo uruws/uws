@@ -89,20 +89,26 @@ func main() {
 		ctx, cancel := context.WithTimeout(context.Background(), scriptTTL)
 		defer cancel()
 		wg := new(sync.WaitGroup)
-		walk(ctx, wg, botEnv, botName, botDir, st.Dirname())
+		err := walk(ctx, wg, botEnv, botName, botDir, st.Dirname())
 		wg.Wait()
 		log.Print("end %s %s", botEnv, botName)
+		if err != nil {
+			st.SetError()
+			log.Fatal("%s", err)
+		}
 	} else {
 		runScript(botEnv, botName, botDir, botRun)
 	}
 }
 
-func walk(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir string) {
+func walk(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir string) error {
 	rundir := filepath.Join(bdir, "run")
 	log.Debug("walk %s", rundir)
-	if err := filepath.Walk(rundir, dispatch(ctx, wg, benv, bname, bdir, stdir)); err != nil {
-		log.Fatal("%s", err)
+	err := filepath.Walk(rundir, dispatch(ctx, wg, benv, bname, bdir, stdir))
+	if err != nil {
+		return err
 	}
+	return nil
 }
 
 func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir string) func(filename string, st os.FileInfo, err error) error {
@@ -120,7 +126,7 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir 
 				scount += 1
 				go worker(ctx, wg, scount, benv, bname, stdir, fn[:len(fn)-4]) // remove .ank from run fn
 			} else {
-				log.Error("max limit of running scripts reached: %d, refusing to dispatch another worker.", scount)
+				return log.NewError("max limit of running scripts reached: %d, refusing to dispatch another worker.", scount)
 			}
 		}
 		return nil
