@@ -48,11 +48,11 @@ func (s *botSession) SetBaseURL(u string) error {
 
 type respData struct {
 	AuthToken string `json:"authToken"`
-	UserId string `json:"userId"`
+	UserId    string `json:"userId"`
 }
 
 type loginResponse struct {
-	Status string `json:"status"`
+	Status string    `json:"status"`
 	Data   *respData `json:"data"`
 }
 
@@ -77,7 +77,7 @@ func (s *botSession) Login(u string) error {
 		resp *http.Response
 		err  error
 	)
-	resp, err = s.cli.PostForm(s.baseURL + u, s.getCredentials())
+	resp, err = s.cli.PostForm(s.baseURL+u, s.getCredentials())
 	if err != nil {
 		return err
 	}

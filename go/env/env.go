@@ -15,9 +15,9 @@ import (
 )
 
 var (
-	prefix string
+	prefix      string
 	localPrefix string
-	e *config.Config
+	e           *config.Config
 )
 
 func loadFile(name string, reportError bool) error {

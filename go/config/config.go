@@ -22,7 +22,7 @@ type Config struct {
 // New creates a new Config instance.
 func New() *Config {
 	return &Config{
-		d: make(map[string]string),
+		d:  make(map[string]string),
 		dx: new(sync.Mutex),
 	}
 }

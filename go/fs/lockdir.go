@@ -5,8 +5,8 @@ package fs
 
 import (
 	"errors"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"time"

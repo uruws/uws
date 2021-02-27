@@ -22,7 +22,7 @@ import (
 )
 
 var (
-	fieldRe  *regexp.Regexp
+	fieldRe *regexp.Regexp
 )
 
 func init() {
@@ -119,22 +119,22 @@ func Save(st *Stats) {
 }
 
 type Info struct {
-	Id string `json:"id"`
+	Id    string `json:"id"`
 	Label string `json:"label"`
-	Value int64 `json:"value"`
-	Error bool `json:"error"`
+	Value int64  `json:"value"`
+	Error bool   `json:"error"`
 }
 
 func saveStats(st *Stats) {
 	var fn string
 	if st.child {
-		fn = filepath.Join(st.tmpdir, st.fname + ".stats")
+		fn = filepath.Join(st.tmpdir, st.fname+".stats")
 	} else {
 		fn = filepath.Join(st.tmpdir, "stats")
 	}
 	log.Debug("save (child:%v) stats %s", st.child, fn)
 	inf := &Info{
-		Id: st.id,
+		Id:    st.id,
 		Label: st.label,
 		Value: time.Now().Sub(st.start).Milliseconds(),
 		Error: st.haserr,
@@ -161,7 +161,7 @@ func loadStats(fn string) (*Info, error) {
 }
 
 type Report struct {
-	l     *list.List
+	l *list.List
 }
 
 func Parse(stdir, benv, bname string) (*Report, error) {
@@ -176,7 +176,7 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 		bname = cleanFieldName(bname)
 	}
 	patt := filepath.Clean(stdir)
-	patt = filepath.Join(patt, benv + "_" + bname, "stats")
+	patt = filepath.Join(patt, benv+"_"+bname, "stats")
 	r := &Report{l: list.New()}
 	fl, err := filepath.Glob(patt)
 	if err != nil {
@@ -217,7 +217,7 @@ func (r *Report) Print() {
 		} else {
 			v = fmt.Sprintf("%d", i.Value)
 		}
-		fmt.Println(cleanFieldName(i.Id) + ".value", v)
+		fmt.Println(cleanFieldName(i.Id)+".value", v)
 	}
 }
 

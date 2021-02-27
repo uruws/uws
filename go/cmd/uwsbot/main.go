@@ -28,9 +28,9 @@ var (
 
 func main() {
 	var (
-		botName  string
-		botEnv   string
-		botRun   string
+		botName string
+		botEnv  string
+		botRun  string
 	)
 	flag.StringVar(&botName, "name", "", "load `bot` name")
 	flag.StringVar(&botEnv, "env", "", "load bot env `name`")
@@ -121,7 +121,7 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir 
 			return nil
 		}
 		if filepath.Ext(filename) == ".ank" {
-			fn := strings.Replace(filename, filepath.Join(bdir, "run") + string(filepath.Separator), "", 1)
+			fn := strings.Replace(filename, filepath.Join(bdir, "run")+string(filepath.Separator), "", 1)
 			log.Debug("bot dispatch: %s %s %s", benv, bname, fn)
 			if scount < scriptMax {
 				wg.Add(1)
@@ -151,7 +151,7 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir
 }
 
 func runScript(benv, bname, bdir, runfn string) {
-	filename := filepath.Join(bdir, "run", runfn + ".ank")
+	filename := filepath.Join(bdir, "run", runfn+".ank")
 	log.Print("run script %s", filename)
 	e := bot.Load(bdir)
 	bot.Run(e, filename)
