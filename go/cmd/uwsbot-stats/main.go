@@ -24,7 +24,7 @@ func main() {
 	log.Init("uwsbot-stats")
 
 	if botEnv == "" {
-		if env.Get("ENV") == "." {
+		if env.Get("ENV") == "." || env.Get("ENV") == "ALL" {
 			log.Debug("set bot/default env")
 			if err := env.Load("bot/default"); err != nil {
 				log.Error("%s", err)
@@ -43,7 +43,7 @@ func main() {
 	if botName == "" {
 		botName = env.Get("BOT")
 	}
-	if botName != "" {
+	if botName != "" && botName != "ALL" {
 		log.Debug("show stats for bot %s only", botName)
 	}
 
