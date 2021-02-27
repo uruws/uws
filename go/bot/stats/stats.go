@@ -72,12 +72,12 @@ func New(benv, bname string) *Stats {
 
 func NewChild(benv, bname, tmpdir, runfn string) *Stats {
 	st := newStats(runfn)
-	st.id = fmt.Sprintf("%s.%s", cleanFieldName(benv, bname), cleanFieldName(runfn))
+	st.id = cleanFieldName(runfn)
 	st.child = true
 	st.benv = benv
 	st.bname = bname
 	st.tmpdir = tmpdir
-	st.label = fmt.Sprintf("bot/%s %s %s", st.benv, st.bname, runfn)
+	st.label = runfn
 	log.Debug("new child %s %s %s", st.stdir, st.fname, st.tmpdir)
 	return st
 }
@@ -120,6 +120,7 @@ func Save(st *Stats) {
 
 type Info struct {
 	Id    string `json:"id"`
+	Name  string `json:"name"`
 	Label string `json:"label"`
 	Value int64  `json:"value"`
 	Error bool   `json:"error"`
@@ -135,6 +136,7 @@ func saveStats(st *Stats) {
 	log.Debug("save (child:%v) stats %s", st.child, fn)
 	inf := &Info{
 		Id:    st.id,
+		Name:  cleanFieldName(st.benv, st.bname),
 		Label: st.label,
 		Value: time.Now().Sub(st.start).Milliseconds(),
 		Error: st.haserr,
@@ -228,12 +230,23 @@ func (r *Report) Print() {
 		}
 		fmt.Println(cleanFieldName(i.Id)+".value", v)
 	}
+	for e := r.scripts.Front(); e != nil; e = e.Next() {
+		i := e.Value.(*Info)
+		var v string
+		if i.Error {
+			v = "U"
+		} else {
+			fmt.Printf("multigraph uwsbot.%s\n", i.Name)
+			v = fmt.Sprintf("%d", i.Value)
+		}
+		fmt.Println(cleanFieldName(i.Id)+".value", v)
+	}
 }
 
 func (r *Report) Config() {
 	fmt.Println("multigraph uwsbot")
 	fmt.Println("graph_title monitoring bots")
-	fmt.Println("graph_args --base 1000")
+	fmt.Println("graph_args --base 1000 -l 0")
 	fmt.Println("graph_vlabel seconds")
 	fmt.Println("graph_category uwsbot")
 	fmt.Println("graph_scale no")
@@ -242,5 +255,17 @@ func (r *Report) Config() {
 		id := cleanFieldName(i.Id)
 		fmt.Println(fmt.Sprintf("%s.label %s", id, i.Label))
 		fmt.Println(fmt.Sprintf("%s.min 0", id))
+	}
+	for e := r.scripts.Front(); e != nil; e = e.Next() {
+		i := e.Value.(*Info)
+		id := cleanFieldName(i.Id)
+		fmt.Printf("multigraph uwsbot.%s\n", i.Name)
+		fmt.Printf("graph_title %s\n", i.Name)
+		fmt.Println("graph_args --base 1000 -l 0")
+		fmt.Println("graph_vlabel seconds")
+		fmt.Println("graph_category uwsbot")
+		fmt.Println("graph_scale no")
+		fmt.Printf("%s.label %s\n", id, i.Label)
+		fmt.Printf("%s.min 0\n", id)
 	}
 }
