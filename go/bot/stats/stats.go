@@ -260,7 +260,7 @@ func (r *Report) Config() {
 		id := cleanFieldName(i.Id)
 		fmt.Println(fmt.Sprintf("%s.label %s", id, i.Label))
 		fmt.Println(fmt.Sprintf("%s.min 0", id))
-		fmt.Println(fmt.Sprintf("%s.cfef %s,1000,/", id, id))
+		fmt.Println(fmt.Sprintf("%s.cdef %s,1000,/", id, id))
 	}
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
