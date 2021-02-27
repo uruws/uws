@@ -228,7 +228,7 @@ func (r *Report) Config() {
 		fmt.Println(fmt.Sprintf("graph_title %s", i.Label))
 		fmt.Println("graph_args --base 1000")
 		fmt.Println("graph_vlabel seconds")
-		fmt.Println("graph_vlabel category uwsbot")
+		fmt.Println("graph_category uwsbot")
 		fmt.Println(fmt.Sprintf("graph_info Total %s elapsed time.", i.Label))
 		id := cleanFieldName(i.Id)
 		fmt.Println(fmt.Sprintf("%s.info Elapsed time.", id))
