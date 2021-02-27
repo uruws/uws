@@ -31,6 +31,7 @@ func init() {
 
 func cleanFieldName(n ...string) string {
 	f := strings.Join(n, "_")
+	f = strings.TrimSpace(f)
 	return fieldRe.ReplaceAllString(f, "_")
 }
 
@@ -201,4 +202,17 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 		}
 	}
 	return r, nil
+}
+
+func (r *Report) Print() {
+	for e := r.l.Front(); e != nil; e = e.Next() {
+		i := e.Value.(*Info)
+		var v string
+		if i.Error {
+			v = "U"
+		} else {
+			v = fmt.Sprintf("%d", i.Value)
+		}
+		fmt.Println(cleanFieldName(i.Id) + ".value", v)
+	}
 }

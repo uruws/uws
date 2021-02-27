@@ -50,5 +50,9 @@ func main() {
 	stdir := env.GetFilepath("STATSDIR")
 	log.Debug("stats dir: %s", stdir)
 
-	stats.Parse(stdir, botEnv, botName)
+	r, err := stats.Parse(stdir, botEnv, botName)
+	if err != nil {
+		log.Fatal("%s", err)
+	}
+	r.Print()
 }
