@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
 
-DIRS='/srv/uwsbot/stats'
+DIRS='/srv/uwsbot/stats /uws/etc /uws/etc/env /uws/etc/env/bot'
 mkdir -vp ${DIRS}
-chown -v uwsrun:uws ${DIRS}
+chown -v uws:uwsrun ${DIRS}
 chmod -v 0750 ${DIRS}
 
 uws='sudo -n -u uws'
@@ -14,7 +14,7 @@ if test -s /srv/uws/deploy/Makefile; then
 	install -v -m 755 ./docker/uwsbot/build/uwsbot-stats.bin /uws/bin/uwsbot-stats
 fi
 
-chown -v uws:uws /uws/etc/env/bot/stats
+chown -v uws:uwsrun /uws/etc/env/bot/stats
 
 rm -vf /etc/munin/plugins/uwsbot_stats
 ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
