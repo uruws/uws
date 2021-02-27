@@ -6,6 +6,7 @@ package stats
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -65,7 +66,9 @@ func NewChild(benv, bname, tmpdir string, fieldName ...string) *Stats {
 	st.benv = benv
 	st.bname = bname
 	st.tmpdir = tmpdir
-	log.Debug("new child %s %s %s %s", st.benv, st.bname, st.tmpdir, st.fname)
+	st.fname = fmt.Sprintf("%s.%s",
+		cleanFieldName(st.benv, st.bname), cleanFieldName(st.fname))
+	log.Debug("new child %s %s %s", st.stdir, st.fname, st.tmpdir)
 	return st
 }
 
@@ -74,9 +77,6 @@ func (s *Stats) Dirname() string {
 }
 
 func Save(st *Stats) {
-	if st.child {
-		return
-	}
 	saveStats(st)
 	dst := filepath.Join(st.stdir, st.fname)
 	log.Debug("stats lock %s", dst)
@@ -103,7 +103,7 @@ type StatsInfo struct {
 
 func saveStats(st *Stats) {
 	fn := filepath.Join(st.tmpdir, st.fname + ".stats")
-	log.Debug("save stats %s", fn)
+	log.Debug("save (child:%v) stats %s", st.child, fn)
 	inf := &StatsInfo{
 		Id: st.fname,
 		Label: st.fname,
