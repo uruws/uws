@@ -46,7 +46,7 @@ golang: base-testing
 	@./docker/golang/build.sh
 
 .PHONY: uwsbot
-uwsbot: base golang docker/uwsbot/build/uwsbot.bin
+uwsbot: base golang docker/uwsbot/build/uwsbot.bin docker/uwsbot/build/uwsbot-stats.bin
 	@./docker/uwsbot/build.sh
 
 docker/uwsbot/build/uwsbot.bin: docker/golang/build/uwsbot.bin
@@ -55,6 +55,13 @@ docker/uwsbot/build/uwsbot.bin: docker/golang/build/uwsbot.bin
 
 docker/golang/build/uwsbot.bin:
 	@./docker/golang/cmd.sh build -o /go/build/cmd/uwsbot.bin ./cmd/uwsbot
+
+docker/uwsbot/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
+	@mkdir -vp ./docker/uwsbot/build
+	@install -v docker/golang/build/uwsbot-stats.bin ./docker/uwsbot/build/uwsbot-stats.bin
+
+docker/golang/build/uwsbot-stats.bin:
+	@./docker/golang/cmd.sh build -o /go/build/cmd/uwsbot-stats.bin ./cmd/uwsbot-stats
 
 .PHONY: uwspkg
 uwspkg: base
