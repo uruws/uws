@@ -45,12 +45,12 @@ func main() {
 			if err := env.Load("bot/default"); err != nil {
 				log.Error("%s", err)
 			}
-			env.Set("ENV", "bot/default")
-			botEnv = "bot/default"
+			env.Set("ENV", "default")
+			botEnv = "default"
 		}
 	} else {
 		log.Debug("set %s env", botEnv)
-		if err := env.Load(botEnv); err != nil {
+		if err := env.Load("bot", botEnv); err != nil {
 			log.Fatal("%s", err)
 		}
 		env.Set("ENV", botEnv)

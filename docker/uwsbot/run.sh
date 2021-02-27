@@ -13,4 +13,4 @@ exec docker run --rm --name "uws-bot-${BOT_ENV}-${BOT_NAME}" \
 	--hostname "bot-${BOT_ENV}-${BOT_NAME}.uws.local" \
 	-v "${SRCDIR}:/uws/share/uwsbot:ro" \
 	-v "${CFGDIR}:/home/uws/.config/uws/bot:ro" \
-	-u uws uws/uwsbot -env "bot/${BOT_ENV}" -name "${BOT_NAME}"
+	-u uws uws/uwsbot -env "${BOT_ENV}" -name "${BOT_NAME}"
