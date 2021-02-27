@@ -5,6 +5,7 @@
 package stats
 
 import (
+	"container/list"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -112,7 +113,7 @@ func Save(st *Stats) {
 	}
 }
 
-type StatsInfo struct {
+type Info struct {
 	Id string `json:"id"`
 	Label string `json:"label"`
 	Value int64 `json:"value"`
@@ -127,7 +128,7 @@ func saveStats(st *Stats) {
 		fn = filepath.Join(st.tmpdir, "stats")
 	}
 	log.Debug("save (child:%v) stats %s", st.child, fn)
-	inf := &StatsInfo{
+	inf := &Info{
 		Id: st.id,
 		Label: st.label,
 		Value: time.Now().Sub(st.start).Milliseconds(),
@@ -140,4 +141,64 @@ func saveStats(st *Stats) {
 	if err := ioutil.WriteFile(fn, blob, 0640); err != nil {
 		log.Fatal("save stats: %s", err)
 	}
+}
+
+func loadStats(fn string) (*Info, error) {
+	blob, err := ioutil.ReadFile(fn)
+	if err != nil {
+		return nil, err
+	}
+	inf := new(Info)
+	if err := json.Unmarshal(blob, inf); err != nil {
+		return nil, err
+	}
+	return inf, nil
+}
+
+type Report struct {
+	l     *list.List
+}
+
+func Parse(stdir, benv, bname string) (*Report, error) {
+	if benv == "" || benv == "ALL" {
+		benv = "*"
+	} else {
+		benv = cleanFieldName(benv)
+	}
+	if bname == "" || bname == "ALL" {
+		bname = "*"
+	} else {
+		bname = cleanFieldName(bname)
+	}
+	patt := filepath.Clean(stdir)
+	patt = filepath.Join(patt, benv + "_" + bname, "stats")
+	r := &Report{l: list.New()}
+	fl, err := filepath.Glob(patt)
+	if err != nil {
+		return nil, err
+	}
+	for _, fn := range fl {
+		dn := filepath.Dir(fn)
+		log.Debug("parse load dir %s", dn)
+		patt := filepath.Join(dn, "*.stats")
+		sl, err := filepath.Glob(patt)
+		if err != nil {
+			return nil, err
+		}
+		log.Debug("parse %s", fn)
+		if inf, err := loadStats(fn); err != nil {
+			return nil, err
+		} else {
+			r.l.PushBack(inf)
+		}
+		for _, sfn := range sl {
+			log.Debug("parse %s", sfn)
+			if inf, err := loadStats(sfn); err != nil {
+				return nil, err
+			} else {
+				r.l.PushBack(inf)
+			}
+		}
+	}
+	return r, nil
 }

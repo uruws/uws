@@ -7,7 +7,7 @@ package main
 import (
 	"flag"
 
-	//~ "uws/bot/stats"
+	"uws/bot/stats"
 	"uws/env"
 	"uws/log"
 )
@@ -26,7 +26,9 @@ func main() {
 	if botEnv == "" {
 		if env.Get("ENV") == "." {
 			log.Debug("set bot/default env")
-			env.Load("bot/default")
+			if err := env.Load("bot/default"); err != nil {
+				log.Error("%s", err)
+			}
 			env.Set("ENV", "bot/default")
 			botEnv = "bot/default"
 		}
@@ -47,4 +49,6 @@ func main() {
 
 	stdir := env.GetFilepath("STATSDIR")
 	log.Debug("stats dir: %s", stdir)
+
+	stats.Parse(stdir, botEnv, botName)
 }
