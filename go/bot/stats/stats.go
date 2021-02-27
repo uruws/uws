@@ -260,6 +260,7 @@ func (r *Report) Config() {
 		id := cleanFieldName(i.Id)
 		fmt.Println(fmt.Sprintf("%s.label %s", id, i.Label))
 		fmt.Println(fmt.Sprintf("%s.min 0", id))
+		fmt.Println(fmt.Sprintf("%s.cfef %s,1000,/", id, id))
 	}
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
@@ -272,6 +273,7 @@ func (r *Report) Config() {
 		fmt.Println("graph_scale no")
 		fmt.Printf("%s.label %s\n", id, i.Label)
 		fmt.Printf("%s.min 0\n", id)
+		fmt.Printf("%s.cdef %s,1000,/\n", id, id)
 	}
 	fmt.Println("multigraph uwsbot.errors")
 	fmt.Println("graph_title monitoring bots errors")
