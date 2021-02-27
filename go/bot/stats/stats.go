@@ -244,7 +244,7 @@ func (r *Report) Print() {
 		}
 		fmt.Println(cleanFieldName(i.Id)+".value", v)
 	}
-	fmt.Println("multigraph uwsbot.errors")
+	fmt.Println("multigraph uwsbot_errors")
 	fmt.Printf("errors.value %d\n", errno)
 }
 
@@ -275,7 +275,7 @@ func (r *Report) Config() {
 		fmt.Printf("%s.min 0\n", id)
 		fmt.Printf("%s.cdef %s,1000,/\n", id, id)
 	}
-	fmt.Println("multigraph uwsbot.errors")
+	fmt.Println("multigraph uwsbot_errors")
 	fmt.Println("graph_title monitoring bots errors")
 	fmt.Println("graph_args --base 1000 -l 0")
 	fmt.Println("graph_vlabel number of errors")
