@@ -6,6 +6,7 @@ package stats
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -33,8 +34,10 @@ func cleanFieldName(n ...string) string {
 }
 
 type Stats struct {
+	id     string
 	stdir  string
 	fname  string
+	label  string
 	tmpdir string
 	start  time.Time
 	child  bool
@@ -49,10 +52,14 @@ func newStats(fieldName ...string) *Stats {
 	return &Stats{stdir: stdir, fname: fname, start: time.Now()}
 }
 
-func New(fieldName ...string) *Stats {
+func New(benv, bname string) *Stats {
 	var err error
-	st := newStats(fieldName...)
+	st := newStats(benv, bname)
+	st.id = st.fname
+	st.benv = benv
+	st.bname = bname
 	st.tmpdir, err = ioutil.TempDir("", "uwsbot-stats-*")
+	st.label = fmt.Sprintf("%s %s", st.benv, st.bname)
 	if err != nil {
 		log.Fatal("stats new: %s", err)
 	}
@@ -60,12 +67,14 @@ func New(fieldName ...string) *Stats {
 	return st
 }
 
-func NewChild(benv, bname, tmpdir string, fieldName ...string) *Stats {
-	st := newStats(fieldName...)
+func NewChild(benv, bname, tmpdir, runfn string) *Stats {
+	st := newStats(runfn)
+	st.id = fmt.Sprintf("%s.%s", cleanFieldName(benv, bname), cleanFieldName(runfn))
 	st.child = true
 	st.benv = benv
 	st.bname = bname
 	st.tmpdir = tmpdir
+	st.label = fmt.Sprintf("%s %s %s", st.benv, st.bname, runfn)
 	log.Debug("new child %s %s %s", st.stdir, st.fname, st.tmpdir)
 	return st
 }
@@ -119,8 +128,8 @@ func saveStats(st *Stats) {
 	}
 	log.Debug("save (child:%v) stats %s", st.child, fn)
 	inf := &StatsInfo{
-		Id: st.fname,
-		Label: st.fname,
+		Id: st.id,
+		Label: st.label,
 		Value: time.Now().Sub(st.start).Milliseconds(),
 		Error: st.haserr,
 	}
