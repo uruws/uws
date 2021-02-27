@@ -6,7 +6,6 @@ package stats
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -66,8 +65,6 @@ func NewChild(benv, bname, tmpdir string, fieldName ...string) *Stats {
 	st.benv = benv
 	st.bname = bname
 	st.tmpdir = tmpdir
-	st.fname = fmt.Sprintf("%s.%s",
-		cleanFieldName(st.benv, st.bname), cleanFieldName(st.fname))
 	log.Debug("new child %s %s %s", st.stdir, st.fname, st.tmpdir)
 	return st
 }
@@ -78,19 +75,25 @@ func (s *Stats) Dirname() string {
 
 func Save(st *Stats) {
 	saveStats(st)
+	if st.child {
+		return
+	}
 	dst := filepath.Join(st.stdir, st.fname)
+	if err := os.MkdirAll(dst, 0750); err != nil {
+		os.RemoveAll(st.tmpdir)
+		log.Fatal("stats save: %s", err)
+	}
 	log.Debug("stats lock %s", dst)
 	if err := fs.LockDir(dst); err != nil {
+		os.RemoveAll(st.tmpdir)
 		log.Fatal("stats lock: %s", err)
 	}
 	defer fs.UnlockDir(dst)
 	log.Debug("stats save remove %s", dst)
 	os.RemoveAll(dst)
 	log.Debug("stats save: %s -> %s", st.tmpdir, dst)
-	if err := os.MkdirAll(st.stdir, 0750); err != nil {
-		log.Fatal("stats save: %s", err)
-	}
 	if err := os.Rename(st.tmpdir, dst); err != nil {
+		os.RemoveAll(st.tmpdir)
 		log.Fatal("stats save: %s", err)
 	}
 }
@@ -102,7 +105,12 @@ type StatsInfo struct {
 }
 
 func saveStats(st *Stats) {
-	fn := filepath.Join(st.tmpdir, st.fname + ".stats")
+	var fn string
+	if st.child {
+		fn = filepath.Join(st.tmpdir, st.fname + ".stats")
+	} else {
+		fn = filepath.Join(st.tmpdir, "stats")
+	}
 	log.Debug("save (child:%v) stats %s", st.child, fn)
 	inf := &StatsInfo{
 		Id: st.fname,
