@@ -8,9 +8,11 @@ if ! test -d "${SRCDIR}"; then
 	exit 1
 fi
 CFGDIR=${UWS_CFGDIR:-"${HOME}/.uws/bot/${BOT_ENV}/${BOT_NAME}"}
-mkdir -vp ${CFGDIR}
+STATSDIR=${UWS_STATSDIR:-'/srv/uwsbot/stats'}
+mkdir -vp "${CFGDIR}" "${STATSDIR}"
 exec docker run --rm --name "uws-bot-${BOT_ENV}-${BOT_NAME}" \
 	--hostname "bot-${BOT_ENV}-${BOT_NAME}.uws.local" \
 	-v "${SRCDIR}:/uws/share/uwsbot:ro" \
 	-v "${CFGDIR}:/home/uws/.config/uws/bot:ro" \
+	-v "${STATSDIR}:/uws/var/uwsbot/stats" \
 	-u uws uws/uwsbot -env "${BOT_ENV}" -name "${BOT_NAME}"
