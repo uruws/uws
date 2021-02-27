@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -108,7 +109,10 @@ func Save(st *Stats) {
 	log.Debug("stats save remove %s", dst)
 	os.RemoveAll(dst)
 	log.Debug("stats save: %s -> %s", st.tmpdir, dst)
-	if err := os.Rename(st.tmpdir, dst); err != nil {
+	// FIXME: stop calling mv command
+	// we use mv though because of an issue wiht os.Rename under docker volumes
+	rename := exec.Command("mv", "-f", st.tmpdir, dst)
+	if err := rename.Run(); err != nil {
 		os.RemoveAll(st.tmpdir)
 		log.Fatal("stats save: %s", err)
 	}
