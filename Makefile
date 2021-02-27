@@ -8,6 +8,10 @@ default: all
 clean:
 	@rm -rvf ./build ./tmp ./docker/golang/tmp
 
+.PHONY: distclean
+distclean:
+	@rm -rvf ./docker/golang/build ./docker/uwsbot/build
+
 .PHONY: prune
 prune:
 	@docker system prune -f
@@ -41,6 +45,17 @@ mkcert: base
 golang: base-testing
 	@./docker/golang/build.sh
 
+.PHONY: uwsbot
+uwsbot: base golang docker/uwsbot/build/uwsbot.bin
+	@./docker/uwsbot/build.sh
+
+docker/uwsbot/build/uwsbot.bin: docker/golang/build/uwsbot.bin
+	@mkdir -vp ./docker/uwsbot/build
+	@install -v docker/golang/build/uwsbot.bin ./docker/uwsbot/build/uwsbot.bin
+
+docker/golang/build/uwsbot.bin:
+	@./docker/golang/cmd.sh build -o /go/build/cmd/uwsbot.bin ./cmd/uwsbot
+
 .PHONY: uwspkg
 uwspkg: base
 	@./docker/uwspkg/build.sh
@@ -62,7 +77,7 @@ munin-node: base-testing
 	@./srv/munin-node/build.sh
 
 .PHONY: all
-all: base base-testing awscli mkcert golang uwspkg acme munin munin-backend munin-node
+all: base base-testing awscli mkcert golang uwsbot uwspkg acme munin munin-backend munin-node
 
 .PHONY: publish
 publish: munin munin-backend munin-node

@@ -11,9 +11,9 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh golang-go golang-golang-x-tools make
 
-RUN mkdir -vp /go/src/uws /go/.cache /go/bin /uws \
-	&& chown -vR uws:uws /go /uws \
-	&& chmod -vR 0750 /go /uws
+RUN mkdir -vp /go/src/uws /go/.cache /go/bin \
+	&& chown -vR uws:uws /go \
+	&& chmod -vR 0750 /go
 
 VOLUME /go/src/uws
 VOLUME /go/.cache
@@ -30,8 +30,7 @@ ENV GOCACHE /go/.cache
 RUN printf 'export PATH="%s:${PATH}"\n' /go/bin >>/home/uws/.profile
 RUN printf 'test -s %s && source %s\n' /go/src/uws/env/devel.env /go/src/uws/env/devel.env >>/home/uws/.profile
 
-RUN mkdir -vp /uws/src
-VOLUME /uws/src
+RUN mkdir -vp /go/build/cmd
 
 WORKDIR /go/src/uws
 COPY --chown=uws:uws ./tmp/go.mod ./tmp/go.sum ./
