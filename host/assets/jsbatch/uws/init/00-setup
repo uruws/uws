@@ -3,7 +3,7 @@ set -eu
 
 mkdir -vp /srv/run
 chown -v root:root /srv/run
-chmod -v 0755 /srv/run
+chmod -v 0755 /srv/run /uws/bin
 
 mkdir -vp /srv/uws
 chown -v uws:uws /srv/uws

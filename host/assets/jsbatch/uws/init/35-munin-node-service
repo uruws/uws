@@ -32,6 +32,6 @@ ${pl_ena} munin_update
 ${pl_ena} contrib docker/docker_ docker_multi
 
 ls /etc/munin/plugins >/srv/run/uws-service-restart/munin-node.plugins
-/uws/bin/service-restart.sh munin-node /etc/munin /srv/run/uws-service-restart/munin-node.plugins
+/uws/bin/service-restart.sh munin-node /etc/munin /srv/run/uws-service-restart/munin-node.plugins /etc/munin/plugin-conf.d
 
 exit 0

@@ -6,4 +6,13 @@ mkdir -vp ${DIRS}
 chown -v uwsrun:uws ${DIRS}
 chmod -v 0750 ${DIRS}
 
+if test -s /srv/uws/deploy/Makefile; then
+	cd /srv/uws/deploy
+	make uwsbot
+	install -v -m 755 ./docker/uwsbot/build/uwsbot-stats.bin /uws/bin/uwsbot-stats
+fi
+
+rm -vf /etc/munin/plugins/uwsbot_stats
+ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
+
 exit 0
