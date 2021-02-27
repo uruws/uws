@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
-BOT_NAME=${1:-'default'}
-BOT_ENV=${2:-'default'}
+BOT_ENV=${1:-'default'}
+BOT_NAME=${2:-'default'}
 SRCDIR=${UWS_SRCDIR:-'/srv/deploy/monbots'}
 if ! test -d "${SRCDIR}"; then
 	echo "${SRCDIR}: dir not found" >&2

@@ -2,4 +2,4 @@
 MAILTO=root
 
 # bot/default api
-1,6,11,16,21,26,31,36,41,46,51,56 * * * *	uwsrun cd /srv/uws/deploy && ./docker/uwsbot/run.sh -env default -name api
+1,6,11,16,21,26,31,36,41,46,51,56 * * * *	uwsrun cd /srv/uws/deploy && ./docker/uwsbot/run.sh default api
