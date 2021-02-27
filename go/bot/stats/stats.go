@@ -62,7 +62,7 @@ func New(benv, bname string) *Stats {
 	st.benv = benv
 	st.bname = bname
 	st.tmpdir, err = ioutil.TempDir("", "uwsbot-stats-*")
-	st.label = fmt.Sprintf("%s %s", st.benv, st.bname)
+	st.label = fmt.Sprintf("bot/%s %s", st.benv, st.bname)
 	if err != nil {
 		log.Fatal("stats new: %s", err)
 	}
@@ -77,7 +77,7 @@ func NewChild(benv, bname, tmpdir, runfn string) *Stats {
 	st.benv = benv
 	st.bname = bname
 	st.tmpdir = tmpdir
-	st.label = fmt.Sprintf("%s %s %s", st.benv, st.bname, runfn)
+	st.label = fmt.Sprintf("bot/%s %s %s", st.benv, st.bname, runfn)
 	log.Debug("new child %s %s %s", st.stdir, st.fname, st.tmpdir)
 	return st
 }
@@ -161,7 +161,15 @@ func loadStats(fn string) (*Info, error) {
 }
 
 type Report struct {
-	l *list.List
+	bots    *list.List
+	scripts *list.List
+}
+
+func newReport() *Report {
+	return &Report{
+		bots: list.New(),
+		scripts: list.New(),
+	}
 }
 
 func Parse(stdir, benv, bname string) (*Report, error) {
@@ -177,7 +185,7 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 	}
 	patt := filepath.Clean(stdir)
 	patt = filepath.Join(patt, benv+"_"+bname, "stats")
-	r := &Report{l: list.New()}
+	r := newReport()
 	fl, err := filepath.Glob(patt)
 	if err != nil {
 		return nil, err
@@ -194,14 +202,14 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 		if inf, err := loadStats(fn); err != nil {
 			return nil, err
 		} else {
-			r.l.PushBack(inf)
+			r.bots.PushBack(inf)
 		}
 		for _, sfn := range sl {
 			log.Debug("parse %s", sfn)
 			if inf, err := loadStats(sfn); err != nil {
 				return nil, err
 			} else {
-				r.l.PushBack(inf)
+				r.scripts.PushBack(inf)
 			}
 		}
 	}
@@ -209,7 +217,8 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 }
 
 func (r *Report) Print() {
-	for e := r.l.Front(); e != nil; e = e.Next() {
+	fmt.Println("multigraph uwsbot")
+	for e := r.bots.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		var v string
 		if i.Error {
@@ -222,17 +231,15 @@ func (r *Report) Print() {
 }
 
 func (r *Report) Config() {
-	for e := r.l.Front(); e != nil; e = e.Next() {
+	fmt.Println("multigraph uwsbot")
+	fmt.Println("graph_title monitoring bots")
+	fmt.Println("graph_args --base 1000")
+	fmt.Println("graph_vlabel seconds")
+	fmt.Println("graph_category uwsbot")
+	fmt.Println("graph_scale no")
+	for e := r.bots.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
-		fmt.Println(fmt.Sprintf("multigraph %s", i.Id))
-		fmt.Println(fmt.Sprintf("graph_title %s", i.Label))
-		fmt.Println("graph_args --base 1000")
-		fmt.Println("graph_vlabel seconds")
-		fmt.Println("graph_category uwsbot")
-		fmt.Println("graph_scale no")
-		fmt.Println(fmt.Sprintf("graph_info Total %s elapsed time.", i.Label))
 		id := cleanFieldName(i.Id)
-		fmt.Println(fmt.Sprintf("%s.info Elapsed time.", id))
 		fmt.Println(fmt.Sprintf("%s.label %s", id, i.Label))
 		fmt.Println(fmt.Sprintf("%s.min 0", id))
 	}
