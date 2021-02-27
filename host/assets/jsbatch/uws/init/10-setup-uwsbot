@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+DIRS='/srv/uwsbot/stats'
+mkdir -vp ${DIRS}
+chown -v uwsrun:uws ${DIRS}
+chmod -v 0750 ${DIRS}
+
+exit 0
