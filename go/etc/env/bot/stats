@@ -1,0 +1,2 @@
+# uwsbot-stats env
+STATSDIR: ${PREFIX}/var/uwsbot/stats
