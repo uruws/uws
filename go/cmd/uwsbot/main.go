@@ -31,12 +31,10 @@ func main() {
 		botName  string
 		botEnv   string
 		botRun   string
-		botStats string
 	)
 	flag.StringVar(&botName, "name", "", "load `bot` name")
 	flag.StringVar(&botEnv, "env", "", "load bot env `name`")
 	flag.StringVar(&botRun, "run", "", "bot run script `filename`")
-	flag.StringVar(&botStats, "stats", "", "save script stats in `dirname`")
 
 	flag.Parse()
 	log.Init("uwsbot")
@@ -95,7 +93,7 @@ func main() {
 		wg.Wait()
 		log.Print("end %s %s", botEnv, botName)
 	} else {
-		runScript(botEnv, botName, botDir, botRun, botStats)
+		runScript(botEnv, botName, botDir, botRun)
 	}
 }
 
@@ -132,8 +130,10 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir 
 func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir, runfn string) {
 	defer wg.Done()
 	log.Debug("dispatch worker #%d: %s %s %s", wno, benv, bname, runfn)
+	st := stats.NewChild(benv, bname, stdir, runfn)
+	defer stats.Save(st)
 	cmd := exec.CommandContext(ctx, os.Args[0],
-		"-env", benv, "-name", bname, "-stats", stdir, "-run", runfn)
+		"-env", benv, "-name", bname, "-run", runfn)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
@@ -141,15 +141,7 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir
 	}
 }
 
-func runScript(benv, bname, bdir, runfn, stdir string) {
-	var st *stats.Stats
-	stdir = filepath.Clean(stdir)
-	if stdir != "." {
-		st = stats.NewChild(benv, bname, stdir, runfn)
-		defer stats.Save(st)
-	} else {
-		log.Debug("no stats")
-	}
+func runScript(benv, bname, bdir, runfn string) {
 	filename := filepath.Join(bdir, "run", runfn + ".ank")
 	log.Print("run script %s", filename)
 	e := bot.Load(bdir)
