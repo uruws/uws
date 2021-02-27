@@ -137,6 +137,7 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
+		st.SetError()
 		log.Error("%s: %s", runfn, err)
 	}
 }
