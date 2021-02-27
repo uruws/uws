@@ -1,5 +1,6 @@
 # uwsbot default env
-BOT: default
+# as default, we expect BOT to be empty
+BOT:
 BOTDIR: ${PREFIX}/share/uwsbot
 SCRIPT_TTL: 4m
 STATSDIR: ${PREFIX}/var/uwsbot/stats

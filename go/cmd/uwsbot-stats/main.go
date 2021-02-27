@@ -15,8 +15,10 @@ import (
 func main() {
 	var (
 		botEnv   string
+		botName  string
 	)
 	flag.StringVar(&botEnv, "env", "", "load bot env `name`")
+	flag.StringVar(&botName, "name", "", "stats for `bot` name only")
 
 	flag.Parse()
 	log.Init("uwsbot-stats")
@@ -34,6 +36,13 @@ func main() {
 			log.Fatal("%s", err)
 		}
 		env.Set("ENV", botEnv)
+	}
+
+	if botName == "" {
+		botName = env.Get("BOT")
+	}
+	if botName != "" {
+		log.Debug("show stats for bot %s only", botName)
 	}
 
 	stdir := env.GetFilepath("STATSDIR")
