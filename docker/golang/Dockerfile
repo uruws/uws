@@ -11,9 +11,9 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh golang-go golang-golang-x-tools make
 
-RUN mkdir -vp /go/src/uws /go/.cache /go/bin \
-	&& chown -vR uws:uws /go \
-	&& chmod -vR 0750 /go
+RUN mkdir -vp /go/src/uws /go/.cache /go/bin /uws \
+	&& chown -vR uws:uws /go /uws \
+	&& chmod -vR 0750 /go /uws
 
 VOLUME /go/src/uws
 VOLUME /go/.cache
