@@ -28,13 +28,15 @@ var (
 
 func main() {
 	var (
-		botName string
-		botEnv  string
-		botRun  string
+		botName  string
+		botEnv   string
+		botRun   string
+		botStats string
 	)
 	flag.StringVar(&botName, "name", "", "load `bot` name")
 	flag.StringVar(&botEnv, "env", "", "load bot env `name`")
 	flag.StringVar(&botRun, "run", "", "bot run script `filename`")
+	flag.StringVar(&botStats, "stats", "", "save script stats in `dirname`")
 
 	flag.Parse()
 	log.Init("uwsbot")
@@ -89,23 +91,23 @@ func main() {
 		ctx, cancel := context.WithTimeout(context.Background(), scriptTTL)
 		defer cancel()
 		wg := new(sync.WaitGroup)
-		walk(ctx, wg, botEnv, botName, botDir)
+		walk(ctx, wg, botEnv, botName, botDir, st.Dirname())
 		wg.Wait()
 		log.Print("end %s %s", botEnv, botName)
 	} else {
-		runScript(botEnv, botName, botDir, botRun)
+		runScript(botEnv, botName, botDir, botRun, botStats)
 	}
 }
 
-func walk(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string) {
+func walk(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir string) {
 	rundir := filepath.Join(bdir, "run")
 	log.Debug("walk %s", rundir)
-	if err := filepath.Walk(rundir, dispatch(ctx, wg, benv, bname, bdir)); err != nil {
+	if err := filepath.Walk(rundir, dispatch(ctx, wg, benv, bname, bdir, stdir)); err != nil {
 		log.Fatal("%s", err)
 	}
 }
 
-func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string) func(filename string, st os.FileInfo, err error) error {
+func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir string) func(filename string, st os.FileInfo, err error) error {
 	scount := 0
 	return func(filename string, st os.FileInfo, err error) error {
 		if err != nil {
@@ -118,7 +120,7 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string)
 			if scount < scriptMax {
 				wg.Add(1)
 				scount += 1
-				go worker(ctx, wg, scount, benv, bname, fn[:len(fn)-4]) // remove .ank from run fn
+				go worker(ctx, wg, scount, benv, bname, stdir, fn[:len(fn)-4]) // remove .ank from run fn
 			} else {
 				log.Error("max limit of running scripts reached: %d, refusing to dispatch another worker.", scount)
 			}
@@ -127,11 +129,11 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir string)
 	}
 }
 
-func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, runfn string) {
+func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir, runfn string) {
 	defer wg.Done()
 	log.Debug("dispatch worker #%d: %s %s %s", wno, benv, bname, runfn)
 	cmd := exec.CommandContext(ctx, os.Args[0],
-		"-env", benv, "-name", bname, "-run", runfn)
+		"-env", benv, "-name", bname, "-stats", stdir, "-run", runfn)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
@@ -139,7 +141,15 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, runfn
 	}
 }
 
-func runScript(benv, bname, bdir, runfn string) {
+func runScript(benv, bname, bdir, runfn, stdir string) {
+	var st *stats.Stats
+	stdir = filepath.Clean(stdir)
+	if stdir != "." {
+		st = stats.NewChild(benv, bname, stdir, runfn)
+		defer stats.Save(st)
+	} else {
+		log.Debug("no stats")
+	}
 	filename := filepath.Join(bdir, "run", runfn + ".ank")
 	log.Print("run script %s", filename)
 	e := bot.Load(bdir)

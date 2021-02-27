@@ -37,20 +37,46 @@ type Stats struct {
 	fname  string
 	tmpdir string
 	start  time.Time
+	child  bool
+	benv   string
+	bname  string
+}
+
+func newStats(fieldName ...string) *Stats {
+	stdir := env.GetFilepath("STATSDIR")
+	fname := cleanFieldName(fieldName...)
+	return &Stats{stdir: stdir, fname: fname, start: time.Now(), child: false}
 }
 
 func New(fieldName ...string) *Stats {
-	stdir := env.GetFilepath("STATSDIR")
-	fname := cleanFieldName(fieldName...)
-	tmpdir, err := ioutil.TempDir("", "uwsbot-stats-*")
+	var err error
+	st := newStats(fieldName...)
+	st.tmpdir, err = ioutil.TempDir("", "uwsbot-stats-*")
 	if err != nil {
 		log.Fatal("stats new: %s", err)
 	}
-	log.Debug("new %s %s %s", stdir, fname, tmpdir)
-	return &Stats{stdir, fname, tmpdir, time.Now()}
+	log.Debug("new %s %s %s", st.stdir, st.fname, st.tmpdir)
+	return st
+}
+
+func NewChild(benv, bname, tmpdir string, fieldName ...string) *Stats {
+	st := newStats(fieldName...)
+	st.child = true
+	st.benv = benv
+	st.bname = bname
+	st.tmpdir = tmpdir
+	log.Debug("new child %s %s %s %s", st.benv, st.bname, st.tmpdir, st.fname)
+	return st
+}
+
+func (s *Stats) Dirname() string {
+	return s.tmpdir
 }
 
 func Save(st *Stats) {
+	if st.child {
+		return
+	}
 	saveStats(st)
 	dst := filepath.Join(st.stdir, st.fname)
 	log.Debug("stats lock %s", dst)
