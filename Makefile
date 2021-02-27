@@ -19,7 +19,7 @@ upgrade:
 	@$(MAKE) all
 
 .PHONY: bootstrap
-bootstrap: acme mkcert uwspkg
+bootstrap: base acme mkcert uwspkg
 
 .PHONY: base
 base:
