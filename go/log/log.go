@@ -18,6 +18,7 @@ var (
 	lmx         *sync.Mutex
 	cdepth      int
 	debugEnable bool
+	verbose     bool
 )
 
 func init() {
@@ -34,13 +35,18 @@ func Init(name string) {
 		name = os.Args[0]
 	}
 	l.SetOutput(os.Stderr)
-	if os.Getenv("UWS_LOG") == "debug" {
+	lvl := os.Getenv("UWS_LOG")
+	verbose = true
+	if lvl == "debug" {
 		debugEnable = true
 		l.SetFlags(golog.Lmicroseconds | golog.Llongfile)
 		l.SetPrefix(fmt.Sprintf("[%d] ", os.Getpid()))
 	} else {
 		l.SetFlags(golog.Lmsgprefix | golog.Ldate | golog.Lmicroseconds)
 		l.SetPrefix(fmt.Sprintf("%s[%d]: ", name, os.Getpid()))
+	}
+	if lvl == "quiet" || lvl == "off" {
+		verbose = false
 	}
 }
 
@@ -76,7 +82,9 @@ func Warn(f string, v ...interface{}) {
 
 // Print prints a message.
 func Print(f string, v ...interface{}) {
-	l.Output(cdepth, fmt.Sprintf(f, v...))
+	if verbose {
+		l.Output(cdepth, fmt.Sprintf(f, v...))
+	}
 }
 
 // NewError creates a new error object, prints its message and returns it.
