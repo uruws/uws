@@ -42,7 +42,9 @@ func main() {
 	if botEnv == "" {
 		if env.Get("ENV") == "." {
 			log.Debug("set bot/default env")
-			env.Load("bot/default")
+			if err := env.Load("bot/default"); err != nil {
+				log.Error("%s", err)
+			}
 			env.Set("ENV", "bot/default")
 			botEnv = "bot/default"
 		}
