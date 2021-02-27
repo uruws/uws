@@ -97,7 +97,7 @@ ecr-login:
 	@./docker/ecr-login.sh
 
 .PHONY: deploy
-deploy: clean prune
+deploy: clean distclean prune
 	@echo "i - START deploy `date -R`"
 	@$(MAKE) bootstrap
 	@./host/ecr-login.sh $(AWS_REGION)
