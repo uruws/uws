@@ -216,3 +216,19 @@ func (r *Report) Print() {
 		fmt.Println(cleanFieldName(i.Id) + ".value", v)
 	}
 }
+
+func (r *Report) Config() {
+	for e := r.l.Front(); e != nil; e = e.Next() {
+		i := e.Value.(*Info)
+		fmt.Println(fmt.Sprintf("multigraph %s", i.Id))
+		fmt.Println(fmt.Sprintf("graph_title %s", i.Label))
+		fmt.Println("graph_args --base 1000")
+		fmt.Println("graph_vlabel seconds")
+		fmt.Println("graph_vlabel category uwsbot")
+		fmt.Println(fmt.Sprintf("graph_info Total %s elapsed time.", i.Label))
+		id := cleanFieldName(i.Id)
+		fmt.Println(fmt.Sprintf("%s.info Elapsed time.", id))
+		fmt.Println(fmt.Sprintf("%s.label %s", id, i.Label))
+		fmt.Println(fmt.Sprintf("%s.min 0", id))
+	}
+}
