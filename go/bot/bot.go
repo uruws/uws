@@ -12,21 +12,25 @@ import (
 )
 
 type Bot struct {
-	env  *botEnv
-	sess *botSession
+	benv  string
+	bname string
+	env   *botEnv
+	sess  *botSession
 }
 
-func New() *Bot {
+func New(benv, bname string) *Bot {
 	return &Bot{
-		env:  newBotEnv(),
-		sess: newBotSession(),
+		benv: benv,
+		bname: bname,
+		env:   newBotEnv(),
+		sess:  newBotSession(),
 	}
 }
 
-func Load(dir string) *Bot {
+func Load(benv, bname, dir string) *Bot {
 	fn := filepath.Join(dir, "bot.ank")
 	log.Debug("load: %s", fn)
-	b := New()
+	b := New(benv, bname)
 	envModule(b)
 	if err := vmExec(b, fn); err != nil {
 		log.Fatal("bot check load: %s", err)

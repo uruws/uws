@@ -73,22 +73,8 @@ func main() {
 		log.Print("init %s %s", botEnv, botName)
 		st := stats.New(botEnv, botName)
 		defer stats.Save(st)
-		bot.Load(botDir)
-		if ttl := env.Get("SCRIPT_TTL"); ttl != "" {
-			if d, err := time.ParseDuration(ttl); err != nil {
-				log.Error("script ttl: %s", err)
-			} else {
-				scriptTTL = d
-			}
-		}
-		if max := env.Get("SCRIPT_MAX"); max != "" {
-			if i, err := strconv.Atoi(max); err != nil {
-				log.Error("script max: %s", err)
-			} else {
-				scriptMax = i
-			}
-		}
-		ctx, cancel := context.WithTimeout(context.Background(), scriptTTL)
+		bot.Load(botEnv, botName, botDir)
+		ctx, cancel := context.WithTimeout(context.Background(), getScriptTtl())
 		defer cancel()
 		wg := new(sync.WaitGroup)
 		err := walk(ctx, wg, botEnv, botName, botDir, st.Dirname())
@@ -115,6 +101,7 @@ func walk(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir stri
 }
 
 func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir string) func(filename string, st os.FileInfo, err error) error {
+	runmax := getScriptMax()
 	scount := 0
 	return func(filename string, st os.FileInfo, err error) error {
 		if err != nil {
@@ -124,7 +111,7 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir 
 		if filepath.Ext(filename) == ".ank" {
 			fn := strings.Replace(filename, filepath.Join(bdir, "run")+string(filepath.Separator), "", 1)
 			log.Debug("bot dispatch: %s %s %s", benv, bname, fn)
-			if scount < scriptMax {
+			if scount < runmax {
 				wg.Add(1)
 				scount += 1
 				go worker(ctx, wg, scount, benv, bname, stdir, fn[:len(fn)-4]) // remove .ank from run fn
@@ -154,6 +141,28 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir
 func runScript(benv, bname, bdir, runfn string) {
 	filename := filepath.Join(bdir, "run", runfn+".ank")
 	log.Print("run script %s", filename)
-	e := bot.Load(bdir)
-	bot.Run(e, filename)
+	b := bot.Load(benv, bname, bdir)
+	bot.Run(b, filename)
+}
+
+func getScriptTtl() time.Duration {
+	var err error
+	d := scriptTTL
+	if ttl := env.Get("SCRIPT_TTL"); ttl != "" {
+		if d, err = time.ParseDuration(ttl); err != nil {
+			log.Error("get script ttl: %s", err)
+		}
+	}
+	return d
+}
+
+func getScriptMax() int {
+	var err error
+	i := scriptMax
+	if max := env.Get("SCRIPT_MAX"); max != "" {
+		if i, err = strconv.Atoi(max); err != nil {
+			log.Error("get script max: %s", err)
+		}
+	}
+	return i
 }
