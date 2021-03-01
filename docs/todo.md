@@ -8,6 +8,8 @@
 ## 0301
 
 * Improve munin bots graphs to get detailed POST/GET info.
+* Develop next round of api scripts.
+* Setup api bot for staging and production envs.
 * Develop packaging tools.
 	* Use bots deployment as alpha and beta testing for pkg tools.
 * Build package ditribution repo(s).
