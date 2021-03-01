@@ -73,9 +73,9 @@ func main() {
 		log.Print("init %s %s", botEnv, botName)
 		st := stats.New(botEnv, botName)
 		defer stats.Save(st)
-		bot.Load(botEnv, botName, botDir)
 		ctx, cancel := context.WithTimeout(context.Background(), getScriptTtl())
 		defer cancel()
+		bot.Load(ctx, botEnv, botName, botDir)
 		wg := new(sync.WaitGroup)
 		err := walk(ctx, wg, botEnv, botName, botDir, st.Dirname())
 		wg.Wait()
@@ -141,8 +141,10 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir
 func runScript(benv, bname, bdir, runfn string) {
 	filename := filepath.Join(bdir, "run", runfn+".ank")
 	log.Print("run script %s", filename)
-	b := bot.Load(benv, bname, bdir)
-	bot.Run(b, filename)
+	ctx, cancel := context.WithTimeout(context.Background(), getScriptTtl())
+	defer cancel()
+	b := bot.Load(ctx, benv, bname, bdir)
+	bot.Run(ctx, b, filename)
 }
 
 func getScriptTtl() time.Duration {

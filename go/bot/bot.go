@@ -5,6 +5,7 @@
 package bot
 
 import (
+	"context"
 	"net/http"
 	"path/filepath"
 
@@ -27,20 +28,20 @@ func New(benv, bname string) *Bot {
 	}
 }
 
-func Load(benv, bname, dir string) *Bot {
+func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	fn := filepath.Join(dir, "bot.ank")
 	log.Debug("load: %s", fn)
 	b := New(benv, bname)
 	envModule(b)
-	if err := vmExec(b, fn); err != nil {
+	if err := vmExec(ctx, b, fn); err != nil {
 		log.Fatal("bot check load: %s", err)
 	}
 	envModule(b)
 	return b
 }
 
-func Run(b *Bot, script string) {
-	if err := vmExec(b, script); err != nil {
+func Run(ctx context.Context, b *Bot, script string) {
+	if err := vmExec(ctx, b, script); err != nil {
 		log.Fatal("bot run: %s", err)
 	}
 }

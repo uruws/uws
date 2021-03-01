@@ -4,6 +4,7 @@
 package bot
 
 import (
+	"context"
 	"io/ioutil"
 
 	"github.com/mattn/anko/vm"
@@ -17,12 +18,12 @@ func init() {
 	opts = &vm.Options{Debug: true}
 }
 
-func vmExec(b *Bot, filename string) error {
+func vmExec(ctx context.Context, b *Bot, filename string) error {
 	log.Debug("execute: %s", filename)
 	blob, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
 	}
-	_, err = vm.Execute(b.env.Env, opts, string(blob))
+	_, err = vm.ExecuteContext(ctx, b.env.Env, opts, string(blob))
 	return err
 }
