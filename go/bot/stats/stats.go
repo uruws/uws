@@ -47,12 +47,13 @@ type Stats struct {
 	benv   string
 	bname  string
 	haserr bool
+	errval bool
 }
 
 func newStats(fieldName ...string) *Stats {
 	stdir := env.GetFilepath("STATSDIR")
 	fname := cleanFieldName(fieldName...)
-	return &Stats{stdir: stdir, fname: fname, start: time.Now()}
+	return &Stats{stdir: stdir, fname: fname, start: time.Now(), errval: true}
 }
 
 func New(benv, bname string) *Stats {
@@ -134,12 +135,15 @@ func saveStats(st *Stats) {
 		fn = filepath.Join(st.tmpdir, "stats")
 	}
 	log.Debug("save (child:%v) stats %s", st.child, fn)
+	if !st.haserr {
+		st.errval = false
+	}
 	inf := &Info{
 		Id:    st.id,
 		Name:  cleanFieldName(st.benv, st.bname),
 		Label: st.label,
 		Value: time.Now().Sub(st.start).Milliseconds(),
-		Error: st.haserr,
+		Error: st.errval,
 	}
 	blob, err := json.Marshal(inf)
 	if err != nil {
