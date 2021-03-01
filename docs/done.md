@@ -16,6 +16,12 @@
 	* https://github.com/munin-monitoring/contrib/issues/1182
 * Develop monitoring bots.
 	* The idea is to have scriptable bots to test/graph/monitor use case scenarios for production services. Starting with the API.
+* Develop munin plugins for bots info.
+
+### ChangeLog
+
+* [Infrastructure](../../../compare/86a9b4db...cd5a455c)
+* [MonitoringBots](../../../../MonitoringBots/compare/4bad28e9...56080e41)
 
 ## 0201
 

@@ -2,12 +2,12 @@
 
 ## live changelog
 
-* [Infrastructure](../../../compare/86a9b4db...master)
-* [MonitoringBots](../../../../MonitoringBots/compare/4bad28e9...master)
+* [Infrastructure](../../../compare/cd5a455c...master)
+* [MonitoringBots](../../../../MonitoringBots/compare/56080e41...master)
 
-## 0222
+## 0301
 
-* Develop munin plugins for bots info.
+* Improve munin bots graphs to get detailed POST/GET info.
 * Develop packaging tools.
 	* Use bots deployment as alpha and beta testing for pkg tools.
 * Build package ditribution repo(s).
