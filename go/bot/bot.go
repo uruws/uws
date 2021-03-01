@@ -13,11 +13,31 @@ import (
 	"uws/log"
 )
 
+type scriptStats struct {
+	benv  string
+	bname string
+	stdir string
+	runfn string
+}
+
+func newScriptStats(benv, bname, stdir, runfn string) *scriptStats {
+	return &scriptStats{benv, bname, stdir, runfn}
+}
+
+func (s *scriptStats) New(name ...string) *stats.Stats {
+	return stats.NewScript(s.benv, s.bname, s.stdir, s.runfn, name...)
+}
+
+func (s *scriptStats) Save(st *stats.Stats) {
+	stats.Save(st)
+}
+
 type Bot struct {
 	benv  string
 	bname string
 	env   *botEnv
 	sess  *botSession
+	stats *scriptStats
 }
 
 func New(benv, bname string) *Bot {
@@ -46,6 +66,7 @@ func Run(ctx context.Context, b *Bot, bdir, stdir, runfn string) {
 	log.Debug("bot run: %s", script)
 	st := stats.NewScript(b.benv, b.bname, stdir, runfn)
 	defer stats.Save(st)
+	b.setStats(stdir, runfn)
 	if err := vmExec(ctx, b, script); err != nil {
 		st.SetError()
 		stats.Save(st)
@@ -62,6 +83,10 @@ func envModule(b *Bot) {
 		check(botm.Define("logout", b.Logout))
 		check(botm.Define("get", b.Get))
 	}
+}
+
+func (b *Bot) setStats(stdir, runfn string) {
+	b.stats = newScriptStats(b.benv, b.bname, stdir, runfn)
 }
 
 func (b *Bot) SetBaseURL(url string) {
