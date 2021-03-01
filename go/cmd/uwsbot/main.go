@@ -26,6 +26,28 @@ var (
 	scriptMax int           = 1000
 )
 
+func getScriptTtl() time.Duration {
+	var err error
+	d := scriptTTL
+	if ttl := env.Get("SCRIPT_TTL"); ttl != "" {
+		if d, err = time.ParseDuration(ttl); err != nil {
+			log.Error("get script ttl: %s", err)
+		}
+	}
+	return d
+}
+
+func getScriptMax() int {
+	var err error
+	i := scriptMax
+	if max := env.Get("SCRIPT_MAX"); max != "" {
+		if i, err = strconv.Atoi(max); err != nil {
+			log.Error("get script max: %s", err)
+		}
+	}
+	return i
+}
+
 func main() {
 	var (
 		botName string
@@ -145,26 +167,4 @@ func runScript(benv, bname, bdir, runfn string) {
 	defer cancel()
 	b := bot.Load(ctx, benv, bname, bdir)
 	bot.Run(ctx, b, filename)
-}
-
-func getScriptTtl() time.Duration {
-	var err error
-	d := scriptTTL
-	if ttl := env.Get("SCRIPT_TTL"); ttl != "" {
-		if d, err = time.ParseDuration(ttl); err != nil {
-			log.Error("get script ttl: %s", err)
-		}
-	}
-	return d
-}
-
-func getScriptMax() int {
-	var err error
-	i := scriptMax
-	if max := env.Get("SCRIPT_MAX"); max != "" {
-		if i, err = strconv.Atoi(max); err != nil {
-			log.Error("get script max: %s", err)
-		}
-	}
-	return i
 }
