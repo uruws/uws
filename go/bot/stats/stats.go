@@ -169,7 +169,7 @@ type Report struct {
 
 func newReport() *Report {
 	return &Report{
-		bots: list.New(),
+		bots:    list.New(),
 		scripts: list.New(),
 	}
 }
@@ -192,6 +192,7 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 	if err != nil {
 		return nil, err
 	}
+	// all bots
 	for _, fn := range fl {
 		dn := filepath.Dir(fn)
 		log.Debug("parse load dir %s", dn)
@@ -206,6 +207,7 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 		} else {
 			r.bots.PushBack(inf)
 		}
+		// bot scripts
 		for _, sfn := range sl {
 			log.Debug("parse %s", sfn)
 			if inf, err := loadStats(sfn); err != nil {

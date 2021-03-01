@@ -21,7 +21,7 @@ type Bot struct {
 
 func New(benv, bname string) *Bot {
 	return &Bot{
-		benv: benv,
+		benv:  benv,
 		bname: bname,
 		env:   newBotEnv(),
 		sess:  newBotSession(),

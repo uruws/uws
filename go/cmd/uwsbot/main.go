@@ -7,6 +7,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -154,6 +155,9 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir
 		"-env", benv, "-name", bname, "-run", runfn)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	cmd.Env = append(os.Environ(),
+		fmt.Sprintf("UWS_STATSDIR=%s", stdir),
+	)
 	if err := cmd.Run(); err != nil {
 		st.SetError()
 		log.Error("%s: %s", runfn, err)
