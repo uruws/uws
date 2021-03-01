@@ -7,7 +7,6 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -51,13 +50,15 @@ func getScriptMax() int {
 
 func main() {
 	var (
-		botName string
-		botEnv  string
-		botRun  string
+		botName  string
+		botEnv   string
+		botRun   string
+		botStats string
 	)
 	flag.StringVar(&botName, "name", "", "load `bot` name")
 	flag.StringVar(&botEnv, "env", "", "load bot env `name`")
 	flag.StringVar(&botRun, "run", "", "bot run script `filename`")
+	flag.StringVar(&botStats, "stats", "", "bot stats `dirname`")
 
 	flag.Parse()
 	log.Init("uwsbot")
@@ -109,7 +110,7 @@ func main() {
 			os.RemoveAll(st.Dirname())
 		}
 	} else {
-		runScript(botEnv, botName, botDir, botRun)
+		runScript(botEnv, botName, botDir, botStats, botRun)
 	}
 }
 
@@ -152,23 +153,19 @@ func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir
 	st := stats.NewChild(benv, bname, stdir, runfn)
 	defer stats.Save(st)
 	cmd := exec.CommandContext(ctx, os.Args[0],
-		"-env", benv, "-name", bname, "-run", runfn)
+		"-env", benv, "-name", bname, "-stats", stdir, "-run", runfn)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	cmd.Env = append(os.Environ(),
-		fmt.Sprintf("UWS_STATSDIR=%s", stdir),
-	)
 	if err := cmd.Run(); err != nil {
 		st.SetError()
 		log.Error("%s: %s", runfn, err)
 	}
 }
 
-func runScript(benv, bname, bdir, runfn string) {
-	filename := filepath.Join(bdir, "run", runfn+".ank")
-	log.Print("run script %s", filename)
+func runScript(benv, bname, bdir, stdir, runfn string) {
+	log.Print("run script: %s %s", bdir, runfn)
 	ctx, cancel := context.WithTimeout(context.Background(), getScriptTtl())
 	defer cancel()
 	b := bot.Load(ctx, benv, bname, bdir)
-	bot.Run(ctx, b, filename)
+	bot.Run(ctx, b, bdir, stdir, runfn)
 }

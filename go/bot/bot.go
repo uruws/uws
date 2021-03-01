@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"uws/bot/stats"
 	"uws/log"
 )
 
@@ -40,8 +41,14 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	return b
 }
 
-func Run(ctx context.Context, b *Bot, script string) {
+func Run(ctx context.Context, b *Bot, bdir, stdir, runfn string) {
+	script := filepath.Join(bdir, "run", runfn+".ank")
+	log.Debug("bot run: %s", script)
+	st := stats.NewScript(b.benv, b.bname, stdir, runfn)
+	defer stats.Save(st)
 	if err := vmExec(ctx, b, script); err != nil {
+		st.SetError()
+		stats.Save(st)
 		log.Fatal("bot run: %s", err)
 	}
 }

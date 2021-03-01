@@ -83,6 +83,18 @@ func NewChild(benv, bname, tmpdir, runfn string) *Stats {
 	return st
 }
 
+func NewScript(benv, bname, tmpdir, runfn string) *Stats {
+	st := newStats(runfn)
+	st.id = cleanFieldName(runfn)
+	st.child = true
+	st.benv = benv
+	st.bname = bname
+	st.label = runfn
+	st.tmpdir = filepath.Join(tmpdir, st.id)
+	log.Debug("new child %s %s %s", st.stdir, st.fname, st.tmpdir)
+	return st
+}
+
 func (s *Stats) Dirname() string {
 	return s.tmpdir
 }
@@ -148,6 +160,9 @@ func saveStats(st *Stats) {
 	blob, err := json.Marshal(inf)
 	if err != nil {
 		log.Fatal("save stats %s: %s", fn, err)
+	}
+	if err := os.MkdirAll(filepath.Dir(fn), 0750); err != nil {
+		log.Error("save stats %s: %s", fn, err)
 	}
 	if err := ioutil.WriteFile(fn, blob, 0640); err != nil {
 		log.Fatal("save stats: %s", err)
