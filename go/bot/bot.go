@@ -9,36 +9,40 @@ import (
 	"path/filepath"
 
 	"uws/log"
-
-	"github.com/mattn/anko/env"
 )
 
-func Load(dir string) *BotEnv {
-	fn := filepath.Join(dir, "bot.ank")
-	log.Debug("load: %s", fn)
-	e := NewBotEnv()
-	if err := vmExec(e, fn); err != nil {
-		log.Fatal("bot check load: %s", err)
-	}
-	return e
-}
-
-func Run(e *BotEnv, script string) {
-	if err := vmExec(e, script); err != nil {
-		log.Fatal("bot run: %s", err)
-	}
-}
-
 type Bot struct {
+	env  *botEnv
 	sess *botSession
 }
 
 func New() *Bot {
-	return &Bot{sess: newBotSession()}
+	return &Bot{
+		env:  newBotEnv(),
+		sess: newBotSession(),
+	}
 }
 
-func newModule(b *Bot, e *env.Env) {
-	if botm, err := e.NewModule("bot"); err != nil {
+func Load(dir string) *Bot {
+	fn := filepath.Join(dir, "bot.ank")
+	log.Debug("load: %s", fn)
+	b := New()
+	envModule(b)
+	if err := vmExec(b, fn); err != nil {
+		log.Fatal("bot check load: %s", err)
+	}
+	envModule(b)
+	return b
+}
+
+func Run(b *Bot, script string) {
+	if err := vmExec(b, script); err != nil {
+		log.Fatal("bot run: %s", err)
+	}
+}
+
+func envModule(b *Bot) {
+	if botm, err := b.env.Env.NewModule("bot"); err != nil {
 		log.Fatal("bot env module: %s", err)
 	} else {
 		check(botm.Define("set_base_url", b.SetBaseURL))

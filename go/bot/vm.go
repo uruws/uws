@@ -17,12 +17,12 @@ func init() {
 	opts = &vm.Options{Debug: true}
 }
 
-func vmExec(e *BotEnv, filename string) error {
+func vmExec(b *Bot, filename string) error {
 	log.Debug("execute: %s", filename)
 	blob, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
 	}
-	_, err = vm.Execute(e.Env, opts, string(blob))
+	_, err = vm.Execute(b.env.Env, opts, string(blob))
 	return err
 }

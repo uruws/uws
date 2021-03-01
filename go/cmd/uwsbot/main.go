@@ -97,6 +97,7 @@ func main() {
 		if err != nil {
 			st.SetError()
 			log.Fatal("%s", err)
+			os.RemoveAll(st.Dirname())
 		}
 	} else {
 		runScript(botEnv, botName, botDir, botRun)

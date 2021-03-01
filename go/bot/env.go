@@ -9,12 +9,12 @@ import (
 	"github.com/mattn/anko/env"
 )
 
-type BotEnv struct {
+type botEnv struct {
 	*env.Env
 }
 
-func NewBotEnv() *BotEnv {
-	return &BotEnv{
+func newBotEnv() *botEnv {
+	return &botEnv{
 		Env: envDefine(),
 	}
 }
@@ -36,7 +36,5 @@ func envDefine() *env.Env {
 		check(logm.Define("warn", log.Warn))
 		check(logm.Define("print", log.Print))
 	}
-	b := New()
-	newModule(b, e)
 	return e
 }
