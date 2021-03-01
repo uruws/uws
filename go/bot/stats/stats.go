@@ -48,6 +48,7 @@ type Stats struct {
 	bname  string
 	haserr bool
 	errval bool
+	script string
 }
 
 func newStats(fieldName ...string) *Stats {
@@ -85,11 +86,11 @@ func NewChild(benv, bname, tmpdir, runfn string) *Stats {
 
 func NewScript(benv, bname, tmpdir, runfn string, name ...string) *Stats {
 	st := NewChild(benv, bname, tmpdir, runfn)
+	st.script = runfn
 	st.tmpdir = filepath.Join(tmpdir, st.id)
-	if len(name) > 0 {
-		id := cleanFieldName(name...)
-		st.id = cleanFieldName(st.id, id)
-	}
+	st.id = cleanFieldName(name...)
+	st.fname = cleanFieldName(name...)
+	st.label = strings.Join(name, " ")
 	log.Debug("script stats")
 	return st
 }
@@ -155,6 +156,9 @@ func saveStats(st *Stats) {
 		Label: st.label,
 		Value: time.Now().Sub(st.start).Milliseconds(),
 		Error: st.errval,
+	}
+	if st.script != "" {
+		inf.Name = fmt.Sprintf("%s.%s", inf.Name, cleanFieldName(st.script))
 	}
 	blob, err := json.Marshal(inf)
 	if err != nil {
