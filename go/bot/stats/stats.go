@@ -85,11 +85,11 @@ func NewChild(benv, bname, tmpdir, runfn string) *Stats {
 
 func NewScript(benv, bname, tmpdir, runfn string, name ...string) *Stats {
 	st := NewChild(benv, bname, tmpdir, runfn)
+	st.tmpdir = filepath.Join(tmpdir, st.id)
 	if len(name) > 0 {
 		id := cleanFieldName(name...)
 		st.id = cleanFieldName(st.id, id)
 	}
-	st.tmpdir = filepath.Join(tmpdir, st.id)
 	log.Debug("script stats")
 	return st
 }

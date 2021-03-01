@@ -24,8 +24,8 @@ func newScriptStats(benv, bname, stdir, runfn string) *scriptStats {
 	return &scriptStats{benv, bname, stdir, runfn}
 }
 
-func (s *scriptStats) New(name ...string) *stats.Stats {
-	return stats.NewScript(s.benv, s.bname, s.stdir, s.runfn, name...)
+func (s *scriptStats) New(args ...string) *stats.Stats {
+	return stats.NewScript(s.benv, s.bname, s.stdir, s.runfn, args...)
 }
 
 func (s *scriptStats) Save(st *stats.Stats) {
@@ -64,12 +64,8 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 func Run(ctx context.Context, b *Bot, bdir, stdir, runfn string) {
 	script := filepath.Join(bdir, "run", runfn+".ank")
 	log.Debug("bot run: %s", script)
-	st := stats.NewScript(b.benv, b.bname, stdir, runfn)
-	defer stats.Save(st)
 	b.setStats(stdir, runfn)
 	if err := vmExec(ctx, b, script); err != nil {
-		st.SetError()
-		stats.Save(st)
 		log.Fatal("bot run: %s", err)
 	}
 }
@@ -98,6 +94,8 @@ func (b *Bot) SetBaseURL(url string) {
 
 func (b *Bot) Login(url string) {
 	log.Debug("login %s", url)
+	st := b.stats.New("login", url)
+	defer b.stats.Save(st)
 	if err := b.sess.Login(url); err != nil {
 		log.Fatal("bot.login %s: %s", url, err)
 	}
@@ -105,12 +103,17 @@ func (b *Bot) Login(url string) {
 
 func (b *Bot) Logout(url string) {
 	log.Debug("logout %s", url)
+	st := b.stats.New("logout", url)
+	defer b.stats.Save(st)
 	if err := b.sess.Logout(url); err != nil {
 		log.Fatal("bot.logout %s: %s", url, err)
 	}
 }
 
 func (b *Bot) Get(url string) *http.Response {
+	log.Debug("get %s", url)
+	st := b.stats.New("get", url)
+	defer b.stats.Save(st)
 	resp, err := b.sess.Get(url)
 	if err != nil {
 		log.Fatal("bot.get %s: %s", url, err)
