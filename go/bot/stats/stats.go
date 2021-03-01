@@ -67,7 +67,7 @@ func New(benv, bname string) *Stats {
 	if err != nil {
 		log.Fatal("stats new: %s", err)
 	}
-	log.Debug("new %s %s %s", st.stdir, st.fname, st.tmpdir)
+	log.Debug("new %s %s %s %s %s", st.benv, st.bname, st.stdir, st.fname, st.tmpdir)
 	return st
 }
 
@@ -79,19 +79,14 @@ func NewChild(benv, bname, tmpdir, runfn string) *Stats {
 	st.bname = bname
 	st.tmpdir = tmpdir
 	st.label = runfn
-	log.Debug("new child %s %s %s", st.stdir, st.fname, st.tmpdir)
+	log.Debug("child stats")
 	return st
 }
 
 func NewScript(benv, bname, tmpdir, runfn string) *Stats {
-	st := newStats(runfn)
-	st.id = cleanFieldName(runfn)
-	st.child = true
-	st.benv = benv
-	st.bname = bname
-	st.label = runfn
+	st := NewChild(benv, bname, tmpdir, runfn)
 	st.tmpdir = filepath.Join(tmpdir, st.id)
-	log.Debug("new child %s %s %s", st.stdir, st.fname, st.tmpdir)
+	log.Debug("script stats")
 	return st
 }
 
