@@ -350,6 +350,14 @@ func (r *Report) Print() {
 	}
 }
 
+func getColour(n uint) string {
+	// http://munin-monitoring.org/wiki/fieldname.colour#Defaultpalette
+	if n > 28 {
+		n = 0
+	}
+	return fmt.Sprintf("COLOUR%d", n)
+}
+
 func (r *Report) Config() {
 	// all bots
 	fmt.Println("multigraph uwsbot")
@@ -358,11 +366,14 @@ func (r *Report) Config() {
 	fmt.Println("graph_vlabel seconds")
 	fmt.Println("graph_category uwsbot")
 	fmt.Println("graph_scale no")
+	colour := uint(0)
 	for e := r.bots.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		//~ if reportDevel { fmt.Printf("-- %s\n", i.fn) }
 		id := cleanFieldName(i.Id)
 		fmt.Println(fmt.Sprintf("%s.label %s", id, i.Label))
+		fmt.Println(fmt.Sprintf("%s.colour %s", id, getColour(colour)))
+		colour += 1
 		fmt.Println(fmt.Sprintf("%s.min 0", id))
 		fmt.Println(fmt.Sprintf("%s.cdef %s,1000,/", id, id))
 	}
@@ -374,14 +385,18 @@ func (r *Report) Config() {
 	fmt.Println("graph_vlabel number of errors")
 	fmt.Println("graph_category uwsbot")
 	fmt.Println("graph_scale no")
+	colour = 0
 	for e := r.bots.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		//~ if reportDevel { fmt.Printf("-- %s\n", i.fn) }
 		id := cleanFieldName(i.Id)
 		fmt.Printf("errors_%s.label %s errors\n", id, i.Label)
+		fmt.Printf("errors_%s.colour %s\n", id, getColour(colour))
+		colour += 1
 		fmt.Printf("errors_%s.warning 1\n", id)
 	}
 	// bots scripts
+	colour = 0
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		id := cleanFieldName(i.Id)
@@ -394,11 +409,14 @@ func (r *Report) Config() {
 		fmt.Println("graph_category uwsbot")
 		fmt.Println("graph_scale no")
 		fmt.Printf("%s.label %s\n", id, i.Label)
+		fmt.Printf("%s.colour %s\n", id, getColour(colour))
+		colour += 1
 		fmt.Printf("%s.min 0\n", id)
 		fmt.Printf("%s.warning 60000\n", id)
 		fmt.Printf("%s.cdef %s,1000,/\n", id, id)
 		// scripts info
 		cihead := true
+		ccol := uint(0)
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			if cihead {
@@ -413,12 +431,15 @@ func (r *Report) Config() {
 			}
 			//~ if reportDevel { fmt.Printf("-- %s\n", ci.fn) }
 			fmt.Printf("%s.label %s\n", ci.Id, ci.Label)
+			fmt.Printf("%s.colour %s\n", ci.Id, getColour(ccol))
+			ccol += 1
 			fmt.Printf("%s.min 0\n", ci.Id)
 			fmt.Printf("%s.warning 60000\n", ci.Id)
 			fmt.Printf("%s.cdef %s,1000,/\n", ci.Id, ci.Id)
 		}
 	}
 	// bots scripts errors
+	colour = 0
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		id := cleanFieldName(i.Id)
@@ -431,9 +452,12 @@ func (r *Report) Config() {
 		fmt.Println("graph_category uwsbot")
 		fmt.Println("graph_scale no")
 		fmt.Printf("errors_%s.label %s errors\n", id, i.Label)
+		fmt.Printf("errors_%s.colour %s\n", id, getColour(colour))
+		colour += 1
 		fmt.Printf("errors_%s.warning 1\n", id)
 		// scripts info errors
 		cihead := true
+		ccol := uint(0)
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			if cihead {
@@ -448,6 +472,8 @@ func (r *Report) Config() {
 			}
 			//~ if reportDevel { fmt.Printf("-- %s\n", ci.fn) }
 			fmt.Printf("errors_%s.label %s errors\n", ci.Id, ci.Label)
+			fmt.Printf("errors_%s.colour %s\n", ci.Id, getColour(ccol))
+			ccol += 1
 			fmt.Printf("errors_%s.warning 1\n", ci.Id)
 		}
 	}
