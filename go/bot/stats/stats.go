@@ -430,12 +430,14 @@ func (r *Report) Config() {
 				fmt.Println("graph_vlabel seconds")
 				fmt.Println("graph_category uwsbot")
 				fmt.Println("graph_scale no")
+				fmt.Println("graph_total Total elapsed time")
 				cihead = false
 			}
 			//~ if reportDevel { fmt.Printf("-- %s\n", ci.fn) }
 			fmt.Printf("%s.label %s\n", ci.Id, ci.Label)
 			fmt.Printf("%s.colour %s\n", ci.Id, getColour(ccol))
 			ccol += 1
+			fmt.Printf("%s.draw STACK\n", ci.Id)
 			fmt.Printf("%s.min 0\n", ci.Id)
 			fmt.Printf("%s.warning 60000\n", ci.Id)
 			fmt.Printf("%s.cdef %s,1000,/\n", ci.Id, ci.Id)
