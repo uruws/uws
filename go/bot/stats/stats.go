@@ -266,7 +266,7 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 	return r, nil
 }
 
-var reportDevel bool = false
+var reportDevel bool = true
 
 func (r *Report) Print() {
 	// all bots
@@ -392,7 +392,7 @@ func (r *Report) Config() {
 		id := cleanFieldName(i.Id)
 		if reportDevel { fmt.Println() }
 		//~ if reportDevel { fmt.Printf("-- %s\n", i.fn) }
-		fmt.Printf("multigraph uwsbot_%s_errors\n", i.Name)
+		fmt.Printf("multigraph uwsbot_errors_%s\n", i.Name)
 		fmt.Printf("graph_title bot %s errors\n", i.Name)
 		fmt.Println("graph_args --base 1000 -l 0")
 		fmt.Println("graph_vlabel number of errors")
@@ -400,5 +400,23 @@ func (r *Report) Config() {
 		fmt.Println("graph_scale no")
 		fmt.Printf("errors_%s.label %s errors\n", id, i.Label)
 		fmt.Printf("errors_%s.warning 1\n", id)
+		// scripts info
+		cihead := true
+		for c := i.children.Front(); c != nil; c = c.Next() {
+			ci := c.Value.(*Info)
+			if cihead {
+				if reportDevel { fmt.Println() }
+				fmt.Printf("multigraph uwsbot_errors_%s\n", ci.Name)
+				fmt.Printf("graph_title bot %s\n", ci.Name)
+				fmt.Println("graph_args --base 1000 -l 0")
+				fmt.Println("graph_vlabel number of errors")
+				fmt.Println("graph_category uwsbot")
+				fmt.Println("graph_scale no")
+				cihead = false
+			}
+			//~ if reportDevel { fmt.Printf("-- %s\n", ci.fn) }
+			fmt.Printf("errors_%s.label %s errors\n", ci.Id, ci.Label)
+			fmt.Printf("errors_%s.warning 1\n", ci.Id)
+		}
 	}
 }
