@@ -266,7 +266,7 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 	return r, nil
 }
 
-var reportDevel bool = true
+var reportDevel bool = false
 
 func (r *Report) Print() {
 	// all bots
@@ -304,17 +304,49 @@ func (r *Report) Print() {
 			v = fmt.Sprintf("%d", i.Value)
 		}
 		fmt.Println(cleanFieldName(i.Id)+".value", v)
+		// scripts info
+		cihead := true
+		for c := i.children.Front(); c != nil; c = c.Next() {
+			ci := c.Value.(*Info)
+			var v string
+			if cihead {
+				if reportDevel { fmt.Println() }
+				fmt.Printf("multigraph uwsbot_%s\n", ci.Name)
+				cihead = false
+			}
+			if ci.Error {
+				v = "U"
+			} else {
+				v = fmt.Sprintf("%d", ci.Value)
+			}
+			fmt.Println(cleanFieldName(ci.Id)+".value", v)
+		}
 	}
 	// bots scripts errors
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		if reportDevel { fmt.Println() }
-		fmt.Printf("multigraph uwsbot_%s\n", i.Name)
+		fmt.Printf("multigraph uwsbot_errors_%s\n", i.Name)
 		v := 0
 		if i.Error {
 			v = 1 // FIXME: count bot script errors
 		}
 		fmt.Printf("errors_%s.value %d\n", cleanFieldName(i.Id), v)
+		// scripts info errors
+		cihead := true
+		for c := i.children.Front(); c != nil; c = c.Next() {
+			ci := c.Value.(*Info)
+			if cihead {
+				if reportDevel { fmt.Println() }
+				fmt.Printf("multigraph uwsbot_errors_%s\n", ci.Name)
+				cihead = false
+			}
+			v := 0
+			if i.Error {
+				v = 1 // FIXME: count bot script errors
+			}
+			fmt.Printf("errors_%s.value %d\n", cleanFieldName(ci.Id), v)
+		}
 	}
 }
 
@@ -400,14 +432,14 @@ func (r *Report) Config() {
 		fmt.Println("graph_scale no")
 		fmt.Printf("errors_%s.label %s errors\n", id, i.Label)
 		fmt.Printf("errors_%s.warning 1\n", id)
-		// scripts info
+		// scripts info errors
 		cihead := true
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			if cihead {
 				if reportDevel { fmt.Println() }
 				fmt.Printf("multigraph uwsbot_errors_%s\n", ci.Name)
-				fmt.Printf("graph_title bot %s\n", ci.Name)
+				fmt.Printf("graph_title bot %s errors\n", ci.Name)
 				fmt.Println("graph_args --base 1000 -l 0")
 				fmt.Println("graph_vlabel number of errors")
 				fmt.Println("graph_category uwsbot")
