@@ -10,6 +10,10 @@
 
 [monbots.repo]: https://github.com/TalkingPts/MonitoringBots
 
+## 0301
+
+* Improve munin bots graphs to get detailed POST/GET info.
+
 # Archive
 
 * [202102](./archive/2021/02/202102-done.md)
