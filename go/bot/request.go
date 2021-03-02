@@ -10,6 +10,7 @@ import (
 	"uws/log"
 )
 
+const UserAgent string = "uwsbot"
 const reqTTL time.Duration = 5 * time.Minute
 
 func newRequest(method, uri string) (*http.Request, error) {
@@ -21,6 +22,7 @@ func newPostFormRequest(uri string) *http.Request {
 	if err != nil {
 		log.Fatal("bot new post form request: %s", err)
 	}
+	r.Header.Set("user-agent", UserAgent)
 	r.Header.Set("content-type", "application/x-www-form-urlencoded")
 	return r
 }
