@@ -69,6 +69,7 @@ func New(benv, bname string) *Stats {
 		log.Fatal("stats new: %s", err)
 	}
 	log.Debug("new %s %s %s %s %s", st.benv, st.bname, st.stdir, st.fname, st.tmpdir)
+	saveStats(st, true)
 	return st
 }
 
@@ -81,6 +82,7 @@ func NewChild(benv, bname, tmpdir, runfn string) *Stats {
 	st.tmpdir = tmpdir
 	st.label = runfn
 	log.Debug("child stats")
+	saveStats(st, true)
 	return st
 }
 
@@ -92,6 +94,7 @@ func NewScript(benv, bname, tmpdir, runfn string, name ...string) *Stats {
 	st.fname = cleanFieldName(name...)
 	st.label = strings.Join(name, " ")
 	log.Debug("script stats")
+	saveStats(st, true)
 	return st
 }
 
@@ -104,7 +107,7 @@ func (s *Stats) SetError() {
 }
 
 func Save(st *Stats) {
-	saveStats(st)
+	saveStats(st, st.haserr)
 	if st.child {
 		return
 	}
@@ -145,7 +148,7 @@ func newInfo() *Info {
 	return &Info{children: list.New()}
 }
 
-func saveStats(st *Stats) {
+func saveStats(st *Stats, haserr bool) {
 	var fn string
 	if st.child {
 		fn = filepath.Join(st.tmpdir, st.fname+".stats")
@@ -153,7 +156,7 @@ func saveStats(st *Stats) {
 		fn = filepath.Join(st.tmpdir, "stats")
 	}
 	log.Debug("save (child:%v) stats %s", st.child, fn)
-	if !st.haserr {
+	if !haserr {
 		st.errval = false
 	}
 	inf := &Info{
