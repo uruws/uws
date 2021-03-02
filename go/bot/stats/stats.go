@@ -437,7 +437,7 @@ func (r *Report) Config() {
 			fmt.Printf("%s.label %s\n", ci.Id, ci.Label)
 			fmt.Printf("%s.colour %s\n", ci.Id, getColour(ccol))
 			ccol += 1
-			fmt.Printf("%s.draw STACK\n", ci.Id)
+			fmt.Printf("%s.draw AREASTACK\n", ci.Id)
 			fmt.Printf("%s.min 0\n", ci.Id)
 			fmt.Printf("%s.warning 60000\n", ci.Id)
 			fmt.Printf("%s.cdef %s,1000,/\n", ci.Id, ci.Id)
