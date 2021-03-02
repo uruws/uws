@@ -154,5 +154,9 @@ func (s *botSession) Logout(u string) error {
 }
 
 func (s *botSession) Get(u string) (*http.Response, error) {
-	return s.cli.Get(u)
+	req := newGetRequest(s.baseURL + u)
+	if s.auth {
+		requestAuth(req, s.authToken, s.userId)
+	}
+	return s.cli.Do(req)
 }

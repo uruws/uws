@@ -25,6 +25,14 @@ func newPostFormRequest(uri string) *http.Request {
 	return r
 }
 
+func newGetRequest(uri string) *http.Request {
+	r, err := newRequest("GET", uri)
+	if err != nil {
+		log.Fatal("bot new get request: %s", err)
+	}
+	return r
+}
+
 func requestAuth(req *http.Request, authToken, userId string) {
 	req.Header.Set("x-auth-token", authToken)
 	req.Header.Set("x-user-id", userId)
