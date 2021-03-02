@@ -160,3 +160,11 @@ func (s *botSession) Get(u string) (*http.Response, error) {
 	}
 	return s.cli.Do(req)
 }
+
+func (s *botSession) PostForm(u string, v url.Values) (*http.Response, error) {
+	req := newPostFormRequest(s.baseURL + u)
+	if s.auth {
+		requestAuth(req, s.authToken, s.userId)
+	}
+	return s.cli.Do(req)
+}

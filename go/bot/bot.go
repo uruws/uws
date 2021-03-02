@@ -7,6 +7,7 @@ package bot
 import (
 	"context"
 	"net/http"
+	"net/url"
 	"path/filepath"
 
 	"uws/bot/stats"
@@ -85,38 +86,49 @@ func (b *Bot) setStats(stdir, runfn string) {
 	b.stats = newScriptStats(b.benv, b.bname, stdir, runfn)
 }
 
-func (b *Bot) SetBaseURL(url string) {
-	log.Debug("set base url %s", url)
-	if err := b.sess.SetBaseURL(url); err != nil {
-		log.Fatal("bot.set_base_url %s: %s", url, err)
+func (b *Bot) SetBaseURL(uri string) {
+	log.Debug("set base url %s", uri)
+	if err := b.sess.SetBaseURL(uri); err != nil {
+		log.Fatal("bot.set_base_url %s: %s", uri, err)
 	}
 }
 
-func (b *Bot) Login(url string) {
-	log.Debug("login %s", url)
-	st := b.stats.New("login", url)
+func (b *Bot) Login(uri string) {
+	log.Debug("login %s", uri)
+	st := b.stats.New("LOGIN", uri)
 	defer b.stats.Save(st)
-	if err := b.sess.Login(url); err != nil {
-		log.Fatal("bot.login %s: %s", url, err)
+	if err := b.sess.Login(uri); err != nil {
+		log.Fatal("bot.login %s: %s", uri, err)
 	}
 }
 
-func (b *Bot) Logout(url string) {
-	log.Debug("logout %s", url)
-	st := b.stats.New("logout", url)
+func (b *Bot) Logout(uri string) {
+	log.Debug("logout %s", uri)
+	st := b.stats.New("LOGOUT", uri)
 	defer b.stats.Save(st)
-	if err := b.sess.Logout(url); err != nil {
-		log.Fatal("bot.logout %s: %s", url, err)
+	if err := b.sess.Logout(uri); err != nil {
+		log.Fatal("bot.logout %s: %s", uri, err)
 	}
 }
 
-func (b *Bot) Get(url string) *http.Response {
-	log.Debug("get %s", url)
-	st := b.stats.New("get", url)
+func (b *Bot) Get(uri string) *http.Response {
+	log.Debug("get %s", uri)
+	st := b.stats.New("GET", uri)
 	defer b.stats.Save(st)
-	resp, err := b.sess.Get(url)
+	resp, err := b.sess.Get(uri)
 	if err != nil {
-		log.Fatal("bot.get %s: %s", url, err)
+		log.Fatal("bot.get %s: %s", uri, err)
+	}
+	return resp
+}
+
+func (b *Bot) PostForm(uri string, vals url.Values) *http.Response {
+	log.Debug("get %s", uri)
+	st := b.stats.New("POST", uri)
+	defer b.stats.Save(st)
+	resp, err := b.sess.PostForm(uri, vals)
+	if err != nil {
+		log.Fatal("bot.post %s: %s", uri, err)
 	}
 	return resp
 }
