@@ -7,11 +7,12 @@ import (
 	"os"
 	"path/filepath"
 
+	"uws/config"
 	"uws/env"
 )
 
 type AppConfig struct {
-	*UserConfig
+	*config.UserConfig
 }
 
 // NewAppConfig creates a new AppConfig instance.
@@ -20,5 +21,5 @@ func NewAppConfig() *AppConfig {
 	if dir == "." {
 		dir = filepath.FromSlash("/uws/etc")
 	}
-	return &AppConfig{&UserConfig{Config: New(), dir: dir}}
+	return &AppConfig{&config.UserConfig{Config: New(), dir: dir}}
 }
