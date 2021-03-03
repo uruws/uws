@@ -1,6 +1,7 @@
 #!/bin/sh
 set -eu
-mkdir -vp ./docker/uwsbot/build
-cp -va ./go/etc/env/bot/default ./docker/uwsbot/build/env.default
+rm -vfr ./docker/uwsbot/build/env/bot
+mkdir -vp ./docker/uwsbot/build/env/bot
+cp -va ./go/etc/env/bot ./docker/uwsbot/build/env/bot
 exec docker build $@ --rm -t uws/uwsbot \
 	./docker/uwsbot
