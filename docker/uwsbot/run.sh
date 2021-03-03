@@ -17,4 +17,5 @@ exec docker run --rm --name "uws-bot-${BOT_ENV}-${BOT_NAME}" \
 	-v "${CFGDIR}:/home/uws/.config/uws/bot:ro" \
 	-v "${STATSDIR}:/uws/var/uwsbot/stats" \
 	-e "UWS_LOG=quiet" \
+	-e "UWS_PREFIX=/uws" \
 	-u root uws/uwsbot -env "${BOT_ENV}" -name "${BOT_NAME}"
