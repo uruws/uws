@@ -1,0 +1,2 @@
+# uwsbot production env
+include: ./default

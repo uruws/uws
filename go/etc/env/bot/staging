@@ -1,2 +1,2 @@
-# api bot staging env
+# uwsbot staging env
 include: ./default
