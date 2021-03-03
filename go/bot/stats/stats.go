@@ -24,6 +24,7 @@ import (
 const (
 	scriptWarning  uint = 60
 	scriptCritical uint = 90
+	scriptMax      uint = 300
 )
 
 var (
@@ -420,8 +421,8 @@ func (r *Report) Config() {
 		fmt.Printf("%s.colour %s\n", id, getColour(colour))
 		colour += 1
 		fmt.Printf("%s.min 0\n", id)
-		fmt.Printf("%s.warning %d\n", id, scriptWarning)
-		fmt.Printf("%s.critical %d\n", id, scriptCritical)
+		fmt.Printf("%s.warning %d:%d\n", id, scriptWarning, scriptCritical)
+		fmt.Printf("%s.critical %d:%d\n", id, scriptCritical, scriptMax)
 		fmt.Printf("%s.cdef %s,1000,/\n", id, id)
 		// scripts info
 		cihead := true
@@ -445,8 +446,8 @@ func (r *Report) Config() {
 			ccol += 1
 			fmt.Printf("%s.draw AREASTACK\n", ci.Id)
 			fmt.Printf("%s.min 0\n", ci.Id)
-			fmt.Printf("%s.warning %d\n", ci.Id, scriptWarning)
-			fmt.Printf("%s.critical %d\n", ci.Id, scriptCritical)
+			fmt.Printf("%s.warning %d:%d\n", ci.Id, scriptWarning, scriptCritical)
+			fmt.Printf("%s.critical %d:%d\n", ci.Id, scriptCritical, scriptMax)
 			fmt.Printf("%s.cdef %s,1000,/\n", ci.Id, ci.Id)
 		}
 	}
