@@ -132,17 +132,13 @@ func Get(keyName string) string {
 	return expand(v)
 }
 
-// GetFilepath returns a Clean'ed and Abs if possible filepath value, if not empty.
+// GetFilepath returns a Clean'ed and Abs if possible filepath value.
 func GetFilepath(keyName string) string {
-	var v string
-	if p, ok := os.LookupEnv("UWS_" + keyName); ok {
-		p = filepath.Clean(p)
-		if abs, err := filepath.Abs(p); err != nil {
-			p = abs
-		}
-		v = p
+	p := filepath.Clean(Get(keyName))
+	if abs, err := filepath.Abs(p); err != nil {
+		log.Error("env get filepath: %s", err)
 	} else {
-		v = e.GetFilepath(keyName)
+		p = abs
 	}
-	return expand(v)
+	return p
 }
