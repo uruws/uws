@@ -27,13 +27,47 @@ func New() *Config {
 	}
 }
 
-// Open parses filename and creates a new config instance.
+// Open creates a new config and loads filename to it.
 func Open(filename ...string) (*Config, error) {
 	c := New()
 	return c, c.Load(filename...)
 }
 
-// Load parses filename and loads it config.
+func includeFiles(c *Config, list string) error {
+	for _, n := range strings.Split(list, " ") {
+		if err := parseFile(c, n, false); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func parseFile(c *Config, fn string, incEnable bool) error {
+	c.dx.Lock()
+	defer c.dx.Unlock()
+	blob, err := ioutil.ReadFile(fn)
+	if err != nil {
+		return err
+	}
+	p := make(map[string]string)
+	if err := yaml.Unmarshal(blob, &p); err != nil {
+		return err
+	} else {
+		for k, v := range p {
+			if k == "include" && incEnable {
+				if err := includeFiles(c, v); err != nil {
+					return err
+				}
+			}
+			if k != "include" {
+				c.d[k[:]] = v[:]
+			}
+		}
+	}
+	return nil
+}
+
+// Load parses filename and loads it to config.
 func (c *Config) Load(filename ...string) error {
 	n := filepath.Join(filename...)
 	return parseFile(c, n, true)
@@ -82,40 +116,6 @@ func (c *Config) GetFilepath(keyName string) string {
 		v = abs
 	}
 	return v
-}
-
-func includeFiles(c *Config, list string) error {
-	for _, n := range strings.Split(list, " ") {
-		if err := parseFile(c, n, false); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func parseFile(c *Config, fn string, incEnable bool) error {
-	c.dx.Lock()
-	defer c.dx.Unlock()
-	blob, err := ioutil.ReadFile(fn)
-	if err != nil {
-		return err
-	}
-	p := make(map[string]string)
-	if err := yaml.Unmarshal(blob, &p); err != nil {
-		return err
-	} else {
-		for k, v := range p {
-			if k == "include" && incEnable {
-				if err := includeFiles(c, v); err != nil {
-					return err
-				}
-			}
-			if k != "include" {
-				c.d[k[:]] = v[:]
-			}
-		}
-	}
-	return nil
 }
 
 // global config instance

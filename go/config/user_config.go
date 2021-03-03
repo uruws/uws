@@ -1,7 +1,6 @@
 // Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 // See LICENSE file.
 
-// Package config implements a config files manager.
 package config
 
 import (
