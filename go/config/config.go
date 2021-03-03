@@ -33,9 +33,15 @@ func Open(filename ...string) (*Config, error) {
 	return c, c.Load(filename...)
 }
 
-func includeFiles(c *Config, list string) error {
+func includeFiles(c *Config, src, list string) error {
+	d := filepath.Dir(src)
 	for _, n := range strings.Split(list, " ") {
-		if err := parseFile(c, n, false); err != nil {
+		fn, err := filepath.Abs(filepath.Join(filepath.Clean(d), n))
+		if err != nil {
+			return err
+		}
+		println("INCLUDE: " + fn)
+		if err := parseFile(c, fn, false); err != nil {
 			return err
 		}
 	}
@@ -53,7 +59,7 @@ func parseFile(c *Config, fn string, incEnable bool) error {
 	} else {
 		for k, v := range p {
 			if k == "include" && incEnable {
-				if err := includeFiles(c, v); err != nil {
+				if err := includeFiles(c, fn, v); err != nil {
 					return err
 				}
 			}
