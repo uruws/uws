@@ -107,22 +107,42 @@ func Set(key, value string) {
 	e.Set(key, value)
 }
 
-// Get returns the value of keyName, it returns an empty string if not set.
-func Get(keyName string) string {
+func get(keyName string) string {
 	if v, ok := os.LookupEnv("UWS_" + keyName); ok {
 		return v
 	}
 	return e.Get(keyName)
 }
 
+func expand(v string) string {
+	if v != "" {
+		return os.Expand(v, get)
+	}
+	return ""
+}
+
+// Get returns the value of keyName, it returns an empty string if not set.
+func Get(keyName string) string {
+	var v string
+	if x, ok := os.LookupEnv("UWS_" + keyName); ok {
+		v = x
+	} else {
+		v = e.Get(keyName)
+	}
+	return expand(v)
+}
+
 // GetFilepath returns a Clean'ed and Abs if possible filepath value, if not empty.
 func GetFilepath(keyName string) string {
+	var v string
 	if p, ok := os.LookupEnv("UWS_" + keyName); ok {
 		p = filepath.Clean(p)
 		if abs, err := filepath.Abs(p); err != nil {
 			p = abs
 		}
-		return p
+		v = p
+	} else {
+		v = e.GetFilepath(keyName)
 	}
-	return e.GetFilepath(keyName)
+	return expand(v)
 }
