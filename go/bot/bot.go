@@ -68,6 +68,11 @@ func cfgModule(b *Bot) {
 	if m, err := b.env.Env.NewModule("config"); err != nil {
 		log.Fatal("config module: %s", err)
 	} else {
+		fn := b.benv + ".yml"
+		if err := b.cfg.Load(fn); err != nil {
+			log.Fatal("config module load file: %s", err)
+		}
+		log.Debug("%s config loaded", fn)
 		check(m.Define("get", b.cfg.Get))
 	}
 }
