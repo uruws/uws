@@ -111,7 +111,7 @@ func get(keyName string) string {
 	if v, ok := os.LookupEnv("UWS_" + keyName); ok {
 		return v
 	}
-	return e.Get(keyName)
+	return e.GetRaw(keyName)
 }
 
 func expand(v string) string {
@@ -127,7 +127,7 @@ func Get(keyName string) string {
 	if x, ok := os.LookupEnv("UWS_" + keyName); ok {
 		v = x
 	} else {
-		v = e.Get(keyName)
+		v = get(keyName)
 	}
 	return expand(v)
 }

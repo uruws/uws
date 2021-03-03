@@ -9,6 +9,7 @@ import (
 
 	"uws/config"
 	"uws/env"
+	"uws/log"
 )
 
 type Config struct {
@@ -23,5 +24,6 @@ func New() *Config {
 	}
 	c := config.NewUserConfig()
 	c.SetConfigDir(dir)
+	log.Debug("appcfg %s", dir)
 	return &Config{c}
 }

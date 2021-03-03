@@ -91,21 +91,22 @@ func (c *Config) Set(key, value string) {
 	c.d[key[:]] = value[:]
 }
 
-func (c *Config) get(keyName string) string {
+// GetRaw returns the raw value (not expanded).
+func (c *Config) GetRaw(keyName string) string {
+	c.dx.Lock()
+	defer c.dx.Unlock()
 	return c.d[keyName]
 }
 
 func (c *Config) expand(v string) string {
 	if v != "" {
-		return os.Expand(v, c.get)
+		return os.Expand(v, c.GetRaw)
 	}
 	return ""
 }
 
 // Get returns the value of keyName, it returns an empty string if not set.
 func (c *Config) Get(keyName string) string {
-	c.dx.Lock()
-	defer c.dx.Unlock()
 	return c.expand(c.d[keyName])
 }
 
