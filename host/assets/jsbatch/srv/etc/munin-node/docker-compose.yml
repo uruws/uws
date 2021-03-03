@@ -10,7 +10,7 @@ services:
     container_name: uws-munin-node-app-service
     volumes:
       - ./prod/app:/srv/etc/munin-node:ro
-      - /srv/uwsbot/stats/production_api:/srv/uwsbot/stats/production_api:ro
+      - /srv/uwsbot/stats/production:/uws/var/uwsbot/stats:ro
     restart: on-failure
     ports:
       - 4950:4949
@@ -33,7 +33,7 @@ services:
     container_name: uws-munin-node-staging-app-service
     volumes:
       - ./staging/app:/srv/etc/munin-node:ro
-      - /srv/uwsbot/stats/staging_api:/srv/uwsbot/stats/staging_api:ro
+      - /srv/uwsbot/stats/staging:/uws/var/uwsbot/stats:ro
     restart: on-failure
     ports:
       - 4952:4949

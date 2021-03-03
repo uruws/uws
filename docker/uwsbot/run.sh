@@ -9,6 +9,7 @@ if ! test -d "${SRCDIR}"; then
 fi
 CFGDIR=${UWS_CFGDIR:-"${HOME}/.uws/bot/${BOT_ENV}/${BOT_NAME}"}
 STATSDIR=${UWS_STATSDIR:-'/srv/uwsbot/stats'}
+STATSDIR="${STATSDIR}/${BOT_ENV}"
 mkdir -vp "${CFGDIR}" "${STATSDIR}"
 exec docker run --rm --name "uws-bot-${BOT_ENV}-${BOT_NAME}" \
 	--hostname "bot-${BOT_ENV}-${BOT_NAME}.uws.local" \
@@ -16,5 +17,4 @@ exec docker run --rm --name "uws-bot-${BOT_ENV}-${BOT_NAME}" \
 	-v "${CFGDIR}:/home/uws/.config/uws/bot:ro" \
 	-v "${STATSDIR}:/uws/var/uwsbot/stats" \
 	-e "UWS_LOG=quiet" \
-	-e "UWSENV=bot/${BOT_ENV}" \
 	-u root uws/uwsbot -env "${BOT_ENV}" -name "${BOT_NAME}"
