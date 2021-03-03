@@ -112,7 +112,7 @@ func (c *Config) Get(keyName string) string {
 // GetFilepath returns a Clean'ed and Abs if possible filepath value, if not empty.
 func (c *Config) GetFilepath(keyName string) string {
 	v := filepath.Clean(c.Get(keyName))
-	if abs, err := filepath.Abs(v); err != nil {
+	if abs, err := filepath.Abs(v); err == nil {
 		v = abs
 	}
 	return v
