@@ -64,10 +64,11 @@ func envModule(b *Bot) {
 	}
 }
 
-func cfgModule(b *Bot) {
+func cfgModule(b *Bot, cfgdir string) {
 	if m, err := b.env.Env.NewModule("config"); err != nil {
 		log.Fatal("config module: %s", err)
 	} else {
+		b.cfg.SetConfigDir(cfgdir)
 		fn := b.benv + ".yml"
 		if err := b.cfg.Load(fn); err != nil {
 			log.Fatal("config module load file: %s", err)
@@ -82,7 +83,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	log.Debug("load: %s", fn)
 	b := New(benv, bname)
 	envModule(b)
-	cfgModule(b)
+	cfgModule(b, filepath.Join(dir, "config"))
 	if err := vmExec(ctx, b, fn); err != nil {
 		log.Fatal("bot check load: %s", err)
 	}
