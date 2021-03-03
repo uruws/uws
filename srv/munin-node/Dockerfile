@@ -24,7 +24,10 @@ ADD ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
 COPY --chown=uws:uws ./build/uwsbot-stats.bin /uws/bin/uwsbot-stats
-RUN chmod -v 0755 /uws/bin/uwsbot-stats
+RUN chmod -v 0750 /uws/bin/uwsbot-stats
+
+COPY --chown=uws:uws ./build/uwsbot-stats.env /uws/etc/env/bot/stats
+RUN chmod -v 0640 /uws/etc/env/bot/stats
 
 COPY ./build/uwsbot-plugin.conf /etc/munin/plugin-conf.d/uwsbot
 RUN chmod -v 0640 /etc/munin/plugin-conf.d/uwsbot
