@@ -88,6 +88,7 @@ func main() {
 		}
 	}
 
+	env.Set("BOT", botName)
 	log.SetPrefix("uwsbot." + botName)
 
 	botDir := filepath.Join(env.GetFilepath("BOTDIR"), botName)
