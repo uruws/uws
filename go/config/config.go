@@ -43,8 +43,6 @@ func includeFiles(c *Config, list string) error {
 }
 
 func parseFile(c *Config, fn string, incEnable bool) error {
-	c.dx.Lock()
-	defer c.dx.Unlock()
 	blob, err := ioutil.ReadFile(fn)
 	if err != nil {
 		return err
