@@ -4,3 +4,4 @@ BOT:
 BOTDIR: ${PREFIX}/share/uwsbot
 SCRIPT_TTL: 4m
 STATSDIR: ${PREFIX}/var/uwsbot/stats
+CONFIGDIR: ${BOTDIR}/${BOT}/config

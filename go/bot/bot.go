@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 
 	"uws/bot/stats"
+	"uws/config/appcfg"
 	"uws/log"
 )
 
@@ -39,6 +40,7 @@ type Bot struct {
 	env   *botEnv
 	sess  *botSession
 	stats *scriptStats
+	cfg   *appcfg.Config
 }
 
 func New(benv, bname string) *Bot {
@@ -47,6 +49,26 @@ func New(benv, bname string) *Bot {
 		bname: bname,
 		env:   newBotEnv(),
 		sess:  newBotSession(),
+		cfg:   appcfg.New(),
+	}
+}
+
+func envModule(b *Bot) {
+	if botm, err := b.env.Env.NewModule("bot"); err != nil {
+		log.Fatal("bot module: %s", err)
+	} else {
+		check(botm.Define("set_base_url", b.SetBaseURL))
+		check(botm.Define("login", b.Login))
+		check(botm.Define("logout", b.Logout))
+		check(botm.Define("get", b.Get))
+	}
+}
+
+func cfgModule(b *Bot) {
+	if m, err := b.env.Env.NewModule("config"); err != nil {
+		log.Fatal("config module: %s", err)
+	} else {
+		check(m.Define("get", b.cfg.Get))
 	}
 }
 
@@ -55,6 +77,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	log.Debug("load: %s", fn)
 	b := New(benv, bname)
 	envModule(b)
+	cfgModule(b)
 	if err := vmExec(ctx, b, fn); err != nil {
 		log.Fatal("bot check load: %s", err)
 	}
@@ -67,17 +90,6 @@ func Run(ctx context.Context, b *Bot, bdir, stdir, runfn string) {
 	b.setStats(stdir, runfn)
 	if err := vmExec(ctx, b, script); err != nil {
 		log.Fatal("bot run: %s", err)
-	}
-}
-
-func envModule(b *Bot) {
-	if botm, err := b.env.Env.NewModule("bot"); err != nil {
-		log.Fatal("bot env module: %s", err)
-	} else {
-		check(botm.Define("set_base_url", b.SetBaseURL))
-		check(botm.Define("login", b.Login))
-		check(botm.Define("logout", b.Logout))
-		check(botm.Define("get", b.Get))
 	}
 }
 
