@@ -1,4 +1,4 @@
 [docker_*]
-user uwsrun
+user root
 group docker
 env.DOCKER_HOST unix://run/docker.sock
