@@ -40,7 +40,6 @@ func includeFiles(c *Config, src, list string) error {
 		if err != nil {
 			return err
 		}
-		println("INCLUDE: " + fn)
 		if err := parseFile(c, fn, false); err != nil {
 			return err
 		}
