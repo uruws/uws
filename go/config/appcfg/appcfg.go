@@ -1,25 +1,27 @@
 // Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 // See LICENSE file.
 
-package config
+// Package appcfg implements an app config manager.
+package appcfg
 
 import (
-	"os"
 	"path/filepath"
 
 	"uws/config"
 	"uws/env"
 )
 
-type AppConfig struct {
+type Config struct {
 	*config.UserConfig
 }
 
-// NewAppConfig creates a new AppConfig instance.
-func NewAppConfig() *AppConfig {
+// New creates a new app Config instance.
+func New() *Config {
 	dir := env.GetFilepath("CONFIGDIR")
 	if dir == "." {
 		dir = filepath.FromSlash("/uws/etc")
 	}
-	return &AppConfig{&config.UserConfig{Config: New(), dir: dir}}
+	c := config.NewUserConfig()
+	c.SetConfigDir(dir)
+	return &Config{c}
 }
