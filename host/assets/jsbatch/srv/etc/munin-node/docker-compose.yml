@@ -1,0 +1,39 @@
+version: '3.6'
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  app:
+    image: 789470191893.dkr.ecr.us-west-1.amazonaws.com/uws:munin-node
+    container_name: uws-munin-node-app-service
+    volumes:
+      - ./prod/app:/srv/etc/munin-node:ro
+    restart: on-failure
+    ports:
+      - 4950:4949
+    networks:
+      - default
+
+  www:
+    image: 789470191893.dkr.ecr.us-west-1.amazonaws.com/uws:munin-node
+    container_name: uws-munin-node-www-service
+    volumes:
+      - ./prod/www:/srv/etc/munin-node:ro
+    restart: on-failure
+    ports:
+      - 4951:4949
+    networks:
+      - default
+
+  staging-app:
+    image: 789470191893.dkr.ecr.us-west-1.amazonaws.com/uws:munin-node
+    container_name: uws-munin-node-staging-app-service
+    volumes:
+      - ./staging/app:/srv/etc/munin-node:ro
+    restart: on-failure
+    ports:
+      - 4952:4949
+    networks:
+      - default
