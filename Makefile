@@ -10,7 +10,7 @@ clean:
 
 .PHONY: distclean
 distclean:
-	@rm -rvf ./docker/golang/build ./docker/uwsbot/build
+	@rm -rvf ./docker/golang/build ./docker/uwsbot/build ./srv/munin-node/build
 
 .PHONY: prune
 prune:
@@ -80,8 +80,12 @@ munin-backend: munin
 	@./srv/munin-backend/build.sh
 
 .PHONY: munin-node
-munin-node: base-testing
+munin-node: base-testing srv/munin-node/build/uwsbot-stats.bin
 	@./srv/munin-node/build.sh
+
+srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
+	@mkdir -vp ./srv/munin-node/build
+	@install -v docker/golang/build/uwsbot-stats.bin ./srv/munin-node/build/uwsbot-stats.bin
 
 .PHONY: all
 all: base base-testing awscli mkcert golang uwsbot uwspkg acme munin munin-backend munin-node
