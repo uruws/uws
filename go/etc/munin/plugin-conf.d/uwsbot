@@ -1,0 +1,4 @@
+[uwsbot_stats]
+user root
+group uws
+env.UWSENV stats

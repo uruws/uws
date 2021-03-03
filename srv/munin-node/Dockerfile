@@ -26,6 +26,9 @@ RUN chmod -v 0750 /root/bin /root/bin/*.sh
 COPY --chown=uws:uws ./build/uwsbot-stats.bin /usr/local/bin/uwsbot-stats
 RUN chmod -v 0755 /usr/local/bin/uwsbot-stats
 
+COPY ./build/uwsbot-plugin.conf /etc/munin/plugin-conf.d/uwsbot
+RUN chmod -v 0640 /etc/munin/plugin-conf.d/uwsbot
+
 #~ VOLUME /var/lib/munin
 #~ VOLUME /var/cache/munin/www
 #~ VOLUME /var/log/munin
