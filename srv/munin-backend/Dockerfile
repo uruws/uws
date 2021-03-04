@@ -1,7 +1,7 @@
 FROM uws/munin
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.02.09"
+LABEL version="2021.03.04"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh apache2 ssl-cert
+RUN /root/bin/apt-install.sh apache2 ssl-cert libapache2-mod-fcgid
 
 VOLUME /var/cache/munin/www
 
@@ -19,5 +19,4 @@ RUN chmod -v 0750 /root/bin /root/bin/*.sh
 COPY ./files/etc/apache2 /etc/apache2
 COPY --chown=root:www-data ./files/var/www/html /var/www/html
 
-#~ CMD exec /bin/bash -l
 ENTRYPOINT exec /root/bin/munin-backend-start.sh
