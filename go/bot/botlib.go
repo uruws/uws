@@ -67,9 +67,13 @@ func postNewValues() url.Values {
 }
 
 func postModule(b *Bot) {
+//uwsdoc: -----
+//uwsdoc: post module:
 	if m, err := b.env.Env.NewModule("post"); err != nil {
 		log.Fatal("post module: %s", err)
 	} else {
-		check(m.Define("values", url.Values{}))
+	//uwsdoc: post.new_values() -> url_values
+	//uwsdoc: 	Creates a new object where to store post values.
+		check(m.Define("new_values", postNewValues))
 	}
 }
