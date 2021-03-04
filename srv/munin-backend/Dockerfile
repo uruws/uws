@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh apache2 ssl-cert libapache2-mod-fcgid
+RUN /root/bin/apt-install.sh apache2 ssl-cert libapache2-mod-fcgid libcgi-fast-perl
 
 VOLUME /var/cache/munin/www
 
