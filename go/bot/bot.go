@@ -54,17 +54,33 @@ func New(benv, bname string) *Bot {
 }
 
 func envModule(b *Bot) {
+//uwsdoc: --------------------------------------------------------------------------------
+//uwsdoc: bot module:
 	if botm, err := b.env.Env.NewModule("bot"); err != nil {
 		log.Fatal("bot module: %s", err)
 	} else {
+	//uwsdoc: bot.set_base_url(url)
+	//uwsdoc: 	Sets the base url for future requests.
 		check(botm.Define("set_base_url", b.SetBaseURL))
+	//uwsdoc: bot.login(url)
+	//uwsdoc: 	Logs in to url using configured email/pass credentials.
+	//uwsdoc: 	It also sets the auth session headers used to
+	//uwsdoc: 	authenticate future requests.
 		check(botm.Define("login", b.Login))
+	//uwsdoc: bot.logout(url)
+	//uwsdoc: 	Logs out from url using auth session (if any).
 		check(botm.Define("logout", b.Logout))
+	//uwsdoc: bot.get(url) -> resp
+	//uwsdoc: 	Returns a response from a GET request to url.
 		check(botm.Define("get", b.Get))
+	//uwsdoc: bot.post_form(url, values) -> resp
+	//uwsdoc: 	Returns a response from a POST (form-urlencoded) request to url.
 	}
 }
 
 func cfgModule(b *Bot, cfgdir string) {
+//uwsdoc: --------------------------------------------------------------------------------
+//uwsdoc: config module:
 	if m, err := b.env.Env.NewModule("config"); err != nil {
 		log.Fatal("config module: %s", err)
 	} else {
@@ -74,6 +90,8 @@ func cfgModule(b *Bot, cfgdir string) {
 			log.Fatal("config module load file: %s", err)
 		}
 		log.Debug("%s config loaded", fn)
+	//uwsdoc: config.get(key) -> string
+	//uwsdoc: 	Returns the config key value.
 		check(m.Define("get", b.cfg.Get))
 	}
 }
@@ -105,6 +123,7 @@ func (b *Bot) setStats(stdir, runfn string) {
 	b.stats = newScriptStats(b.benv, b.bname, stdir, runfn)
 }
 
+// SetBaseUrl sets the base url for future requests.
 func (b *Bot) SetBaseURL(uri string) {
 	log.Debug("set base url %s", uri)
 	if err := b.sess.SetBaseURL(uri); err != nil {
@@ -112,6 +131,7 @@ func (b *Bot) SetBaseURL(uri string) {
 	}
 }
 
+// Login logs in to url using configured email/pass credentials.
 func (b *Bot) Login(uri string) {
 	log.Debug("login %s", uri)
 	st := b.stats.New("LOGIN", uri)
@@ -121,6 +141,7 @@ func (b *Bot) Login(uri string) {
 	}
 }
 
+// Logout logs out from url using auth headers from Login.
 func (b *Bot) Logout(uri string) {
 	log.Debug("logout %s", uri)
 	st := b.stats.New("LOGOUT", uri)
@@ -130,6 +151,7 @@ func (b *Bot) Logout(uri string) {
 	}
 }
 
+// Get returns a response from a GET request to uri.
 func (b *Bot) Get(uri string) *http.Response {
 	log.Debug("get %s", uri)
 	st := b.stats.New("GET", uri)
@@ -141,6 +163,7 @@ func (b *Bot) Get(uri string) *http.Response {
 	return resp
 }
 
+// PostForm returns a response from a POST request to url.
 func (b *Bot) PostForm(uri string, vals url.Values) *http.Response {
 	log.Debug("get %s", uri)
 	st := b.stats.New("POST", uri)

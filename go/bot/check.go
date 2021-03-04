@@ -17,10 +17,14 @@ func newCheck() *Check {
 }
 
 func checkModule(b *Bot) {
+//uwsdoc: --------------------------------------------------------------------------------
+//uwsdoc: check module:
 	ck := newCheck()
 	if m, err := b.env.Env.NewModule("check"); err != nil {
 		log.Fatal("check module: %s", err)
 	} else {
+	//uwsdoc: check.http_status(resp, status_code) -> bool
+	//uwsdoc: 	Checks response http status code. Returns true if it matches.
 		check(m.Define("http_status", ck.HTTPStatus))
 	}
 }
