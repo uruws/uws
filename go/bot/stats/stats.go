@@ -406,17 +406,21 @@ func (r *Report) Config() {
 	}
 	// bots scripts
 	colour = 0
+	bhead := "__NONE__"
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		id := cleanFieldName(i.Id)
-		if reportDevel { fmt.Println() }
-		//~ if reportDevel { fmt.Printf("-- %s\n", i.fn) }
-		fmt.Printf("multigraph uwsbot_%s\n", i.Name)
-		fmt.Printf("graph_title bot %s\n", i.Name)
-		fmt.Println("graph_args --base 1000 -l 0")
-		fmt.Println("graph_vlabel seconds")
-		fmt.Println("graph_category uwsbot")
-		fmt.Println("graph_scale no")
+		if i.Name != bhead {
+			if reportDevel { fmt.Println() }
+			//~ if reportDevel { fmt.Printf("-- %s\n", i.fn) }
+			fmt.Printf("multigraph uwsbot_%s\n", i.Name)
+			fmt.Printf("graph_title bot %s\n", i.Name)
+			fmt.Println("graph_args --base 1000 -l 0")
+			fmt.Println("graph_vlabel seconds")
+			fmt.Println("graph_category uwsbot")
+			fmt.Println("graph_scale no")
+			bhead = i.Name
+		}
 		fmt.Printf("%s.label %s\n", id, i.Label)
 		fmt.Printf("%s.colour %s\n", id, getColour(colour))
 		colour += 1
@@ -424,12 +428,15 @@ func (r *Report) Config() {
 		fmt.Printf("%s.warning %d\n", id, scriptWarning)
 		fmt.Printf("%s.critical %d\n", id, scriptCritical)
 		fmt.Printf("%s.cdef %s,1000,/\n", id, id)
-		// scripts info
-		cihead := true
+	}
+	// scripts info
+	for e := r.scripts.Front(); e != nil; e = e.Next() {
+		i := e.Value.(*Info)
+		cihead := "__NONE__"
 		ccol := uint(0)
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
-			if cihead {
+			if ci.Name != cihead {
 				if reportDevel { fmt.Println() }
 				fmt.Printf("multigraph uwsbot_%s\n", ci.Name)
 				fmt.Printf("graph_title bot %s\n", ci.Name)
@@ -438,7 +445,7 @@ func (r *Report) Config() {
 				fmt.Println("graph_category uwsbot")
 				fmt.Println("graph_scale no")
 				fmt.Println("graph_total Total elapsed time")
-				cihead = false
+				cihead = ci.Name
 			}
 			//~ if reportDevel { fmt.Printf("-- %s\n", ci.fn) }
 			fmt.Printf("%s.label %s\n", ci.Id, ci.Label)
@@ -453,27 +460,36 @@ func (r *Report) Config() {
 	}
 	// bots scripts errors
 	colour = 0
+	bhead = "__NONE__"
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		id := cleanFieldName(i.Id)
-		if reportDevel { fmt.Println() }
-		//~ if reportDevel { fmt.Printf("-- %s\n", i.fn) }
-		fmt.Printf("multigraph uwsbot_errors_%s\n", i.Name)
-		fmt.Printf("graph_title bot %s errors\n", i.Name)
-		fmt.Println("graph_args --base 1000 -l 0")
-		fmt.Println("graph_vlabel number of errors")
-		fmt.Println("graph_category uwsbot")
-		fmt.Println("graph_scale no")
+		if i.Name != bhead {
+			if reportDevel { fmt.Println() }
+			//~ if reportDevel { fmt.Printf("-- %s\n", i.fn) }
+			fmt.Printf("multigraph uwsbot_errors_%s\n", i.Name)
+			fmt.Printf("graph_title bot %s errors\n", i.Name)
+			fmt.Println("graph_args --base 1000 -l 0")
+			fmt.Println("graph_vlabel number of errors")
+			fmt.Println("graph_category uwsbot")
+			fmt.Println("graph_scale no")
+			bhead = i.Name
+		}
 		fmt.Printf("errors_%s.label %s errors\n", id, i.Label)
 		fmt.Printf("errors_%s.colour %s\n", id, getColour(colour))
 		colour += 1
 		fmt.Printf("errors_%s.warning 1\n", id)
+	}
+	// scripts info errors
+	colour = 0
+	for e := r.scripts.Front(); e != nil; e = e.Next() {
+		i := e.Value.(*Info)
 		// scripts info errors
-		cihead := true
+		cihead := "__NONE__"
 		ccol := uint(0)
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
-			if cihead {
+			if ci.Name != cihead {
 				if reportDevel { fmt.Println() }
 				fmt.Printf("multigraph uwsbot_errors_%s\n", ci.Name)
 				fmt.Printf("graph_title bot %s errors\n", ci.Name)
@@ -481,7 +497,7 @@ func (r *Report) Config() {
 				fmt.Println("graph_vlabel number of errors")
 				fmt.Println("graph_category uwsbot")
 				fmt.Println("graph_scale no")
-				cihead = false
+				cihead = ci.Name
 			}
 			//~ if reportDevel { fmt.Printf("-- %s\n", ci.fn) }
 			fmt.Printf("errors_%s.label %s errors\n", ci.Id, ci.Label)
