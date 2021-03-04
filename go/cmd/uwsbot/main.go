@@ -7,6 +7,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -89,7 +90,7 @@ func main() {
 	}
 
 	env.Set("BOT", botName)
-	log.SetPrefix("uwsbot." + botName)
+	log.SetPrefix(fmt.Sprintf("uwsbot.%s_%s", botEnv, botName))
 
 	botDir := filepath.Join(env.GetFilepath("BOTDIR"), botName)
 	log.Debug("botdir: %s", botDir)
