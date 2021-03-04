@@ -125,13 +125,7 @@ func expand(v string) string {
 
 // Get returns the value of keyName, it returns an empty string if not set.
 func Get(keyName string) string {
-	var v string
-	if x, ok := os.LookupEnv("UWS_" + keyName); ok {
-		v = x
-	} else {
-		v = get(keyName)
-	}
-	return expand(v)
+	return expand(get(keyName))
 }
 
 // GetFilepath returns a Clean'ed and Abs if possible filepath value.
