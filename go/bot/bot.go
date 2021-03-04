@@ -85,6 +85,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	envModule(b)
 	cfgModule(b, filepath.Join(dir, "config"))
 	checkModule(b)
+	libModules(b)
 	if err := vmExec(ctx, b, fn); err != nil {
 		log.Fatal("bot load: %s", err)
 	}
