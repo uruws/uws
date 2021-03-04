@@ -80,7 +80,7 @@ munin-backend: munin
 	@./srv/munin-backend/build.sh
 
 .PHONY: munin-node
-munin-node: base-testing srv/munin-node/build/uwsbot-stats.bin
+munin-node: base-testing golang srv/munin-node/build/uwsbot-stats.bin
 	@./srv/munin-node/build.sh
 
 srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
