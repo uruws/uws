@@ -275,7 +275,7 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 	return r, nil
 }
 
-var reportDevel bool = false
+var reportDevel bool = true
 
 func (r *Report) Print() {
 	// all bots
@@ -370,7 +370,7 @@ func getColour(n uint) string {
 func (r *Report) Config() {
 	// all bots
 	fmt.Println("multigraph uwsbot")
-	fmt.Println("graph_title monitoring bots")
+	fmt.Println("graph_title all bots")
 	fmt.Println("graph_args --base 1000 -l 0")
 	fmt.Println("graph_vlabel seconds")
 	fmt.Println("graph_category uwsbot")
@@ -389,7 +389,7 @@ func (r *Report) Config() {
 	// all bots errors
 	if reportDevel { fmt.Println() }
 	fmt.Println("multigraph uwsbot_errors")
-	fmt.Println("graph_title monitoring bots errors")
+	fmt.Println("graph_title all bots errors")
 	fmt.Println("graph_args --base 1000 -l 0")
 	fmt.Println("graph_vlabel number of errors")
 	fmt.Println("graph_category uwsbot")
