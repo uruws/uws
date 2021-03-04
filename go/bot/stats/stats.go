@@ -157,7 +157,7 @@ func newInfo() *Info {
 func saveStats(st *Stats, haserr bool) {
 	var fn string
 	if st.child {
-		fn = filepath.Join(st.tmpdir, st.fname+".stats")
+		fn = filepath.Join(st.tmpdir, fmt.Sprintf("%s.stats", st.fname))
 	} else {
 		fn = filepath.Join(st.tmpdir, "stats")
 	}
@@ -174,6 +174,7 @@ func saveStats(st *Stats, haserr bool) {
 	}
 	if st.script != "" {
 		inf.Name = fmt.Sprintf("%s.%s", inf.Name, cleanFieldName(st.script))
+		fn = filepath.Join(st.tmpdir, fmt.Sprintf("%d-%s.stats", st.start.UnixNano(), st.fname))
 	}
 	blob, err := json.Marshal(inf)
 	if err != nil {
