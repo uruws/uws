@@ -9,6 +9,8 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
+RUN /root/bin/apt-install.sh less
+
 RUN mkdir -vp /uws/var /uws/etc/env \
 	&& chown -vR uws:uws /uws \
 	&& chmod -vR 0750 /uws
