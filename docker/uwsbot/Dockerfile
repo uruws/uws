@@ -20,6 +20,9 @@ RUN chmod -v 0755 /usr/local/bin/uwsbot*
 COPY --chown=uws:uws ./build/env/bot /uws/etc/env/
 RUN chmod -v 0640 /uws/etc/env/bot/*
 
+COPY --chown=uws:uws ./build/uwsbot.docs /uws/share/doc/uwsbot.txt
+RUN chmod -v 0640 /uws/share/doc/uwsbot.txt
+
 USER uws:uws
 WORKDIR /home/uws
 

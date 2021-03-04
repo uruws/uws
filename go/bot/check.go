@@ -17,7 +17,7 @@ func newCheck() *Check {
 }
 
 func checkModule(b *Bot) {
-//uwsdoc: --------------------------------------------------------------------------------
+//uwsdoc: -----
 //uwsdoc: check module:
 	ck := newCheck()
 	if m, err := b.env.Env.NewModule("check"); err != nil {

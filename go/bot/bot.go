@@ -54,7 +54,7 @@ func New(benv, bname string) *Bot {
 }
 
 func envModule(b *Bot) {
-//uwsdoc: --------------------------------------------------------------------------------
+//uwsdoc: -----
 //uwsdoc: bot module:
 	if botm, err := b.env.Env.NewModule("bot"); err != nil {
 		log.Fatal("bot module: %s", err)
@@ -79,7 +79,7 @@ func envModule(b *Bot) {
 }
 
 func cfgModule(b *Bot, cfgdir string) {
-//uwsdoc: --------------------------------------------------------------------------------
+//uwsdoc: -----
 //uwsdoc: config module:
 	if m, err := b.env.Env.NewModule("config"); err != nil {
 		log.Fatal("config module: %s", err)
