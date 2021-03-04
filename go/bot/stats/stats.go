@@ -275,7 +275,7 @@ func Parse(stdir, benv, bname string) (*Report, error) {
 	return r, nil
 }
 
-var reportDevel bool = true
+var reportDevel bool = false
 
 func (r *Report) Print() {
 	// all bots
@@ -302,26 +302,33 @@ func (r *Report) Print() {
 		fmt.Printf("errors_%s.value %d\n", cleanFieldName(i.Id), v)
 	}
 	// bots scripts
+	bhead := "__NONE__"
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		var v string
-		if reportDevel { fmt.Println() }
-		fmt.Printf("multigraph uwsbot_%s\n", i.Name)
+		if i.Name != bhead {
+			if reportDevel { fmt.Println() }
+			fmt.Printf("multigraph uwsbot_%s\n", i.Name)
+			bhead = i.Name
+		}
 		if i.Error {
 			v = "U"
 		} else {
 			v = fmt.Sprintf("%d", i.Value)
 		}
 		fmt.Println(cleanFieldName(i.Id)+".value", v)
-		// scripts info
-		cihead := true
+	}
+	// scripts info
+	for e := r.scripts.Front(); e != nil; e = e.Next() {
+		i := e.Value.(*Info)
+		cihead := "__NONE__"
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			var v string
-			if cihead {
+			if ci.Name != cihead {
 				if reportDevel { fmt.Println() }
 				fmt.Printf("multigraph uwsbot_%s\n", ci.Name)
-				cihead = false
+				cihead = ci.Name
 			}
 			if ci.Error {
 				v = "U"
@@ -332,23 +339,30 @@ func (r *Report) Print() {
 		}
 	}
 	// bots scripts errors
+	bhead = "__NONE__"
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
-		if reportDevel { fmt.Println() }
-		fmt.Printf("multigraph uwsbot_errors_%s\n", i.Name)
+		if i.Name != bhead {
+			if reportDevel { fmt.Println() }
+			fmt.Printf("multigraph uwsbot_errors_%s\n", i.Name)
+			bhead = i.Name
+		}
 		v := 0
 		if i.Error {
 			v = 1 // FIXME: count bot script errors
 		}
 		fmt.Printf("errors_%s.value %d\n", cleanFieldName(i.Id), v)
-		// scripts info errors
-		cihead := true
+	}
+	// scripts info errors
+	for e := r.scripts.Front(); e != nil; e = e.Next() {
+		i := e.Value.(*Info)
+		cihead := "__NONE__"
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
-			if cihead {
+			if ci.Name != cihead {
 				if reportDevel { fmt.Println() }
 				fmt.Printf("multigraph uwsbot_errors_%s\n", ci.Name)
-				cihead = false
+				cihead = ci.Name
 			}
 			v := 0
 			if i.Error {
