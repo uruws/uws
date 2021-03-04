@@ -11,6 +11,9 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh apache2 ssl-cert libapache2-mod-fcgid libcgi-fast-perl
 
+# give read access to web server user
+RUN chmod -v 0644 /etc/munin/munin.conf
+
 VOLUME /var/cache/munin/www
 
 ADD ./utils /root/bin
