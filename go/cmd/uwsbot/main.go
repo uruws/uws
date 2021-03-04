@@ -112,6 +112,9 @@ func main() {
 			os.RemoveAll(st.Dirname())
 		}
 	} else {
+		if botStats == "" {
+			botStats = env.GetFilepath("STATSDIR")
+		}
 		runScript(botEnv, botName, botDir, botStats, botRun)
 	}
 }
