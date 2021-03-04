@@ -72,8 +72,8 @@ func loadEnv() {
 	if name != "." {
 		loadFile(name, true)
 	}
-	loadVars(name)
 	loadFile("override", false)
+	loadVars(name)
 }
 
 func init() {
