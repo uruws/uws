@@ -5,12 +5,14 @@ package bot
 
 import (
 	"net/http"
+	"net/url"
 
 	"uws/log"
 )
 
 func libModules(b *Bot) {
 	httpModule(b)
+	postModule(b)
 }
 
 func httpModule(b *Bot) {
@@ -38,5 +40,13 @@ func httpModule(b *Bot) {
 		check(m.Define("status_not_implemented", http.StatusNotImplemented))
 		check(m.Define("status_bad_gateway", http.StatusBadGateway))
 		check(m.Define("status_gateway_timeout", http.StatusGatewayTimeout))
+	}
+}
+
+func postModule(b *Bot) {
+	if m, err := b.env.Env.NewModule("post"); err != nil {
+		log.Fatal("post module: %s", err)
+	} else {
+		check(m.Define("values", url.Values{}))
 	}
 }
