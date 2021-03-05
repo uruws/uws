@@ -12,6 +12,7 @@ import (
 )
 
 type Check struct {
+	assert bool
 }
 
 func newCheck() *Check {
@@ -19,6 +20,15 @@ func newCheck() *Check {
 }
 
 func (c *Check) doAssert() {
+	c.assert = true
+}
+
+func (c *Check) report(fmt string, args ...interface{}) {
+	if c.assert {
+		log.Fatal(fmt, args...)
+	} else {
+		log.Error(fmt, args...)
+	}
 }
 
 func checkModule(b *Bot) {
@@ -53,7 +63,7 @@ func defineCkmod(m *env.Env, ck *Check) {
 
 func (c *Check) HTTPStatus(resp *http.Response, expect int) bool {
 	if resp.StatusCode != expect {
-		log.Error("check.http_status got %d - expect: %d", resp.StatusCode, expect)
+		c.report("check.http_status got %d - expect: %d", resp.StatusCode, expect)
 		return false
 	}
 	return true
