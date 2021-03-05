@@ -5,6 +5,7 @@ package bot
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 
 	"github.com/mattn/anko/vm"
@@ -24,6 +25,10 @@ func vmExec(ctx context.Context, b *Bot, filename string) error {
 	if err != nil {
 		return err
 	}
-	_, err = vm.ExecuteContext(ctx, b.env.Env, opts, string(blob))
+	var exit interface{}
+	exit, err = vm.ExecuteContext(ctx, b.env.Env, opts, string(blob))
+	if exit != nil {
+		return fmt.Errorf("%s: %s", filename, exit)
+	}
 	return err
 }
