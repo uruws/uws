@@ -4,10 +4,10 @@
 package bot
 
 import (
-	"encoding/json"
 	"io/ioutil"
 
 	"github.com/mattn/anko/env"
+	"github.com/nsf/jsondiff"
 
 	"uws/log"
 )
@@ -63,12 +63,10 @@ func defineCkmod(m *env.Env, ck *Check) {
 	//uwsdoc: check.http_header(resp, key, value) -> bool
 	//uwsdoc: 	Checks response http header key value.
 	check(m.Define("http_header", ck.HTTPHeader))
-	//uwsdoc: check.json_value(resp, key, value) -> bool
-	//uwsdoc: 	Checks response json body content key value.
-	check(m.Define("json_value", ck.JSONValue))
-	//uwsdoc: check.json_has_key(resp, key) -> bool
-	//uwsdoc: 	Checks if response json body has key in its content.
-	check(m.Define("json_has_key", ck.JSONHasKey))
+	//uwsdoc: check.json_match(resp, tag, json_string) -> bool
+	//uwsdoc: 	Checks if response json body is a superset of json_string.
+	//uwsdoc: 	The tag is used for error messages.
+	check(m.Define("json_match", ck.JSONMatch))
 }
 
 // HTTPStatus checks http response status code.
@@ -90,54 +88,43 @@ func (c *Check) HTTPHeader(resp *Response, key, expect string) bool {
 	return true
 }
 
-type jsonResponse map[string]interface{}
-
-func (c *Check) jsonRead(resp *Response) jsonResponse {
+func (c *Check) readBody(resp *Response) []byte {
 	if resp.body == nil {
 		defer resp.r.Body.Close()
 		blob, err := ioutil.ReadAll(resp.r.Body)
 		if err != nil {
-			c.report("json read response: %s", err)
+			c.report("read response body: %s", err)
 			return nil
 		}
 		resp.body = blob
 	}
-	var body jsonResponse
-	if err := json.Unmarshal(resp.body, &body); err != nil {
-		c.report("json read body: %s", err)
-		return nil
-	}
-	return body
+	return resp.body
 }
 
-// JSONValue checks response json body content value.
-func (c *Check) JSONValue(resp *Response, key, expect string) bool {
-	body := c.jsonRead(resp)
+var jsondiffOptions jsondiff.Options = jsondiff.DefaultConsoleOptions()
+
+// JSONMatch checks if response json content is a superset of expect json string.
+func (c *Check) JSONMatch(resp *Response, tag string, expect []byte) bool {
+	body := c.readBody(resp)
 	if body == nil {
 		return false
 	}
-	var got string
-	if v, ok := body[key]; ok {
-		got = v.(string)
-	} else {
-		c.report("check.json_value '%s': key not found", key)
+	m, diff := jsondiff.Compare(body, expect, &jsondiffOptions)
+	if m == jsondiff.BothArgsAreInvalidJson {
+		log.Error("check.json_match error '%s': invalid json response", tag)
+		c.report("check.json_match error '%s': invalid json string", tag)
 		return false
 	}
-	if got != expect {
-		c.report("check.json_value got: '%s' - expect: '%s'", got, expect)
+	if m == jsondiff.FirstArgIsInvalidJson {
+		c.report("check.json_match error '%s': invalid json response", tag)
 		return false
 	}
-	return true
-}
-
-// JSONHasKey checks if response has json key name in its content.
-func (c *Check) JSONHasKey(resp *Response, name string) bool {
-	body := c.jsonRead(resp)
-	if body == nil {
+	if m == jsondiff.SecondArgIsInvalidJson {
+		c.report("check.json_match error '%s': invalid json string", tag)
 		return false
 	}
-	if _, ok := body[name]; !ok {
-		c.report("check.json_has_key '%s': not found", name)
+	if m == jsondiff.NoMatch {
+		c.report("check.json_match '%s' failed: '%s'", tag)
 		return false
 	}
 	return true
