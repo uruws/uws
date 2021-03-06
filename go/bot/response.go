@@ -11,8 +11,9 @@ import (
 
 type Response struct {
 	r *http.Response
+	body []byte
 }
 
 func newResponse(r *http.Response) *Response {
-	return &Response{r}
+	return &Response{r, nil}
 }

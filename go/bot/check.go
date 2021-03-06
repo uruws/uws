@@ -93,14 +93,17 @@ func (c *Check) HTTPHeader(resp *Response, key, expect string) bool {
 type jsonResponse map[string]interface{}
 
 func (c *Check) jsonRead(resp *Response) jsonResponse {
-	defer resp.r.Body.Close()
-	blob, err := ioutil.ReadAll(resp.r.Body)
-	if err != nil {
-		c.report("json read response: %s", err)
-		return nil
+	if resp.body == nil {
+		defer resp.r.Body.Close()
+		blob, err := ioutil.ReadAll(resp.r.Body)
+		if err != nil {
+			c.report("json read response: %s", err)
+			return nil
+		}
+		resp.body = blob
 	}
 	var body jsonResponse
-	if err := json.Unmarshal(blob, &body); err != nil {
+	if err := json.Unmarshal(resp.body, &body); err != nil {
 		c.report("json read body: %s", err)
 		return nil
 	}
