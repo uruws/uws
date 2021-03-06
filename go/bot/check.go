@@ -109,7 +109,7 @@ func (c *Check) JSONMatch(resp *Response, tag string, expect []byte) bool {
 	if body == nil {
 		return false
 	}
-	m, diff := jsondiff.Compare(body, expect, &jsondiffOptions)
+	m, _ := jsondiff.Compare(body, expect, &jsondiffOptions)
 	if m == jsondiff.BothArgsAreInvalidJson {
 		log.Error("check.json_match error '%s': invalid json response", tag)
 		c.report("check.json_match error '%s': invalid json string", tag)
