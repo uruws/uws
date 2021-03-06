@@ -59,11 +59,25 @@ func defineCkmod(m *env.Env, ck *Check) {
 	//uwsdoc: check.http_status(resp, status_code) -> bool
 	//uwsdoc: 	Checks response http status code. Returns true if it matches.
 	check(m.Define("http_status", ck.HTTPStatus))
+	//uwsdoc: check.http_header(resp, key, value) -> bool
+	//uwsdoc: 	Checks response http header key value.
+	check(m.Define("http_header", ck.HTTPHeader))
 }
 
+// HTTPStatus checks http response status code.
 func (c *Check) HTTPStatus(resp *http.Response, expect int) bool {
 	if resp.StatusCode != expect {
 		c.report("check.http_status got %d - expect: %d", resp.StatusCode, expect)
+		return false
+	}
+	return true
+}
+
+// HTTPHeader checks http response header value.
+func (c *Check) HTTPHeader(resp *http.Response, key, expect string) bool {
+	v := resp.Header.Get(key)
+	if v != expect {
+		c.report("check.http_header got '%s' - expect: '%s'", v, expect)
 		return false
 	}
 	return true
