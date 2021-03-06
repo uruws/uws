@@ -6,7 +6,6 @@ package bot
 import (
 	"encoding/json"
 	"io/ioutil"
-	"net/http"
 
 	"github.com/mattn/anko/env"
 
@@ -73,17 +72,17 @@ func defineCkmod(m *env.Env, ck *Check) {
 }
 
 // HTTPStatus checks http response status code.
-func (c *Check) HTTPStatus(resp *http.Response, expect int) bool {
-	if resp.StatusCode != expect {
-		c.report("check.http_status got: %d - expect: %d", resp.StatusCode, expect)
+func (c *Check) HTTPStatus(resp *Response, expect int) bool {
+	if resp.r.StatusCode != expect {
+		c.report("check.http_status got: %d - expect: %d", resp.r.StatusCode, expect)
 		return false
 	}
 	return true
 }
 
 // HTTPHeader checks http response header value.
-func (c *Check) HTTPHeader(resp *http.Response, key, expect string) bool {
-	v := resp.Header.Get(key)
+func (c *Check) HTTPHeader(resp *Response, key, expect string) bool {
+	v := resp.r.Header.Get(key)
 	if v != expect {
 		c.report("check.http_header got: '%s' - expect: '%s'", v, expect)
 		return false
@@ -93,23 +92,23 @@ func (c *Check) HTTPHeader(resp *http.Response, key, expect string) bool {
 
 type jsonResponse map[string]interface{}
 
-func (c *Check) jsonRead(resp *http.Response) jsonResponse {
-	defer resp.Body.Close()
-	blob, err := ioutil.ReadAll(resp.Body)
+func (c *Check) jsonRead(resp *Response) jsonResponse {
+	defer resp.r.Body.Close()
+	blob, err := ioutil.ReadAll(resp.r.Body)
 	if err != nil {
-		log.Error("json read response: %s", err)
+		c.report("json read response: %s", err)
 		return nil
 	}
 	var body jsonResponse
 	if err := json.Unmarshal(blob, &body); err != nil {
-		log.Error("json read body: %s", err)
+		c.report("json read body: %s", err)
 		return nil
 	}
 	return body
 }
 
 // JSONValue checks response json body content value.
-func (c *Check) JSONValue(resp *http.Response, key, expect string) bool {
+func (c *Check) JSONValue(resp *Response, key, expect string) bool {
 	body := c.jsonRead(resp)
 	if body == nil {
 		return false
@@ -129,7 +128,7 @@ func (c *Check) JSONValue(resp *http.Response, key, expect string) bool {
 }
 
 // JSONHasKey checks if response has json key name in its content.
-func (c *Check) JSONHasKey(resp *http.Response, name string) bool {
+func (c *Check) JSONHasKey(resp *Response, name string) bool {
 	body := c.jsonRead(resp)
 	if body == nil {
 		return false

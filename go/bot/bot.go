@@ -6,7 +6,6 @@ package bot
 
 import (
 	"context"
-	"net/http"
 	"net/url"
 	"path/filepath"
 
@@ -152,7 +151,7 @@ func (b *Bot) Logout(uri string) {
 }
 
 // Get returns a response from a GET request to uri.
-func (b *Bot) Get(uri string) *http.Response {
+func (b *Bot) Get(uri string) *Response {
 	log.Debug("get %s", uri)
 	st := b.stats.New("GET", uri)
 	defer b.stats.Save(st)
@@ -160,11 +159,11 @@ func (b *Bot) Get(uri string) *http.Response {
 	if err != nil {
 		log.Fatal("bot.get %s: %s", uri, err)
 	}
-	return resp
+	return newResponse(resp)
 }
 
 // PostForm returns a response from a POST request to url.
-func (b *Bot) PostForm(uri string, vals url.Values) *http.Response {
+func (b *Bot) PostForm(uri string, vals url.Values) *Response {
 	log.Debug("get %s", uri)
 	st := b.stats.New("POST", uri)
 	defer b.stats.Save(st)
@@ -172,5 +171,5 @@ func (b *Bot) PostForm(uri string, vals url.Values) *http.Response {
 	if err != nil {
 		log.Fatal("bot.post %s: %s", uri, err)
 	}
-	return resp
+	return newResponse(resp)
 }
