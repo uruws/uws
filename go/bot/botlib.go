@@ -57,6 +57,8 @@ func httpModule(b *Bot) {
 		check(m.Define("status_not_implemented", http.StatusNotImplemented))
 	//uwsdoc: http.status_bad_gateway           = 502
 		check(m.Define("status_bad_gateway", http.StatusBadGateway))
+	//uwsdoc: http.status_service_unavailable   = 503
+		check(m.Define("status_bad_gateway", http.StatusServiceUnavailable))
 	//uwsdoc: http.status_gateway_timeout       = 504
 		check(m.Define("status_gateway_timeout", http.StatusGatewayTimeout))
 	}
