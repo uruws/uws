@@ -109,13 +109,15 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	return b
 }
 
-func Run(ctx context.Context, b *Bot, bdir, stdir, runfn string) {
+func Run(ctx context.Context, b *Bot, bdir, stdir, runfn string) error {
 	script := filepath.Join(bdir, "run", runfn+".ank")
 	log.Debug("bot run: %s", script)
 	b.setStats(stdir, runfn)
 	if err := vmExec(ctx, b, script); err != nil {
-		log.Fatal("bot run: %s", err)
+		log.Debug("bot run: %s", err)
+		return err
 	}
+	return nil
 }
 
 func (b *Bot) setStats(stdir, runfn string) {

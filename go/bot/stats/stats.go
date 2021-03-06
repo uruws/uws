@@ -93,10 +93,13 @@ func NewChild(benv, bname, tmpdir, runfn string) *Stats {
 }
 
 func NewScript(benv, bname, tmpdir, runfn string, name ...string) *Stats {
-	st := NewChild(benv, bname, tmpdir, runfn)
-	st.script = runfn
-	st.tmpdir = filepath.Join(tmpdir, st.id)
+	st := newStats(benv, bname, tmpdir, runfn)
 	st.id = cleanFieldName(name...)
+	st.child = true
+	st.benv = benv
+	st.bname = bname
+	st.script = runfn
+	st.tmpdir = filepath.Join(tmpdir, cleanFieldName(runfn))
 	st.fname = cleanFieldName(name...)
 	st.label = strings.Join(name, " ")
 	log.Debug("script stats")

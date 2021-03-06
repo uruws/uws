@@ -115,7 +115,9 @@ func main() {
 		if botStats == "" {
 			botStats = env.GetFilepath("STATSDIR")
 		}
-		runScript(botEnv, botName, botDir, botStats, botRun)
+		if err := runScript(botEnv, botName, botDir, botStats, botRun); err != nil {
+			log.Fatal("%s", err)
+		}
 	}
 }
 
@@ -155,22 +157,25 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir 
 func worker(ctx context.Context, wg *sync.WaitGroup, wno int, benv, bname, stdir, runfn string) {
 	defer wg.Done()
 	log.Debug("dispatch worker #%d: %s %s %s", wno, benv, bname, runfn)
-	st := stats.NewChild(benv, bname, stdir, runfn)
-	defer stats.Save(st)
 	cmd := exec.CommandContext(ctx, os.Args[0],
 		"-env", benv, "-name", bname, "-stats", stdir, "-run", runfn)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
-		st.SetError()
 		log.Error("%s: %s", runfn, err)
 	}
 }
 
-func runScript(benv, bname, bdir, stdir, runfn string) {
+func runScript(benv, bname, bdir, stdir, runfn string) error {
 	log.Print("run script: %s %s", bdir, runfn)
 	ctx, cancel := context.WithTimeout(context.Background(), getScriptTtl())
 	defer cancel()
+	st := stats.NewChild(benv, bname, stdir, runfn)
+	defer stats.Save(st)
 	b := bot.Load(ctx, benv, bname, bdir)
-	bot.Run(ctx, b, bdir, stdir, runfn)
+	if err := bot.Run(ctx, b, bdir, stdir, runfn); err != nil {
+		st.SetError()
+		return err
+	}
+	return nil
 }
