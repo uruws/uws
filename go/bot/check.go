@@ -4,6 +4,8 @@
 package bot
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/mattn/anko/env"
@@ -62,12 +64,15 @@ func defineCkmod(m *env.Env, ck *Check) {
 	//uwsdoc: check.http_header(resp, key, value) -> bool
 	//uwsdoc: 	Checks response http header key value.
 	check(m.Define("http_header", ck.HTTPHeader))
+	//uwsdoc: check.json_value(resp, key, value) -> bool
+	//uwsdoc: 	Checks response json body content key value.
+	check(m.Define("json_value", ck.JSONValue))
 }
 
 // HTTPStatus checks http response status code.
 func (c *Check) HTTPStatus(resp *http.Response, expect int) bool {
 	if resp.StatusCode != expect {
-		c.report("check.http_status got %d - expect: %d", resp.StatusCode, expect)
+		c.report("check.http_status got: %d - expect: %d", resp.StatusCode, expect)
 		return false
 	}
 	return true
@@ -77,7 +82,34 @@ func (c *Check) HTTPStatus(resp *http.Response, expect int) bool {
 func (c *Check) HTTPHeader(resp *http.Response, key, expect string) bool {
 	v := resp.Header.Get(key)
 	if v != expect {
-		c.report("check.http_header got '%s' - expect: '%s'", v, expect)
+		c.report("check.http_header got: '%s' - expect: '%s'", v, expect)
+		return false
+	}
+	return true
+}
+
+// JSONValue checks response json body content value.
+func (c *Check) JSONValue(resp *http.Response, key, expect string) bool {
+	defer resp.Body.Close()
+	blob, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Error("json read response: %s", err)
+		return false
+	}
+	var body map[string]interface{}
+	if err := json.Unmarshal(blob, &body); err != nil {
+		log.Error("json body: %s", err)
+		return false
+	}
+	var got string
+	if v, ok := body[key]; ok {
+		got = v.(string)
+	} else {
+		c.report("check.json_value '%s': key not found", key)
+		return false
+	}
+	if got != expect {
+		c.report("check.json_value got: '%s' - expect: '%s'", got, expect)
 		return false
 	}
 	return true
