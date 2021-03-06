@@ -67,6 +67,9 @@ func defineCkmod(m *env.Env, ck *Check) {
 	//uwsdoc: check.json_value(resp, key, value) -> bool
 	//uwsdoc: 	Checks response json body content key value.
 	check(m.Define("json_value", ck.JSONValue))
+	//uwsdoc: check.json_has_key(resp, key) -> bool
+	//uwsdoc: 	Checks if response json body has key in its content.
+	check(m.Define("json_has_key", ck.JSONHasKey))
 }
 
 // HTTPStatus checks http response status code.
@@ -88,17 +91,27 @@ func (c *Check) HTTPHeader(resp *http.Response, key, expect string) bool {
 	return true
 }
 
-// JSONValue checks response json body content value.
-func (c *Check) JSONValue(resp *http.Response, key, expect string) bool {
+type jsonResponse map[string]interface{}
+
+func (c *Check) jsonRead(resp *http.Response) jsonResponse {
 	defer resp.Body.Close()
 	blob, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Error("json read response: %s", err)
-		return false
+		return nil
 	}
-	var body map[string]interface{}
+	var body jsonResponse
 	if err := json.Unmarshal(blob, &body); err != nil {
-		log.Error("json body: %s", err)
+		log.Error("json read body: %s", err)
+		return nil
+	}
+	return body
+}
+
+// JSONValue checks response json body content value.
+func (c *Check) JSONValue(resp *http.Response, key, expect string) bool {
+	body := c.jsonRead(resp)
+	if body == nil {
 		return false
 	}
 	var got string
@@ -110,6 +123,19 @@ func (c *Check) JSONValue(resp *http.Response, key, expect string) bool {
 	}
 	if got != expect {
 		c.report("check.json_value got: '%s' - expect: '%s'", got, expect)
+		return false
+	}
+	return true
+}
+
+// JSONHasKey checks if response has json key name in its content.
+func (c *Check) JSONHasKey(resp *http.Response, name string) bool {
+	body := c.jsonRead(resp)
+	if body == nil {
+		return false
+	}
+	if _, ok := body[name]; !ok {
+		c.report("check.json_has_key '%s': not found", name)
 		return false
 	}
 	return true
