@@ -28,7 +28,7 @@ func vmExec(ctx context.Context, b *Bot, filename string) error {
 	var exit interface{}
 	exit, err = vm.ExecuteContext(ctx, b.env.Env, opts, string(blob))
 	if exit != nil {
-		return fmt.Errorf("%s: %s", filename, exit)
+		return fmt.Errorf("%s: %s - %s", filename, exit, err)
 	}
 	return err
 }
