@@ -4,6 +4,7 @@
 package bot
 
 import (
+	"fmt"
 	"io/ioutil"
 
 	"github.com/mattn/anko/env"
@@ -67,6 +68,9 @@ func defineCkmod(m *env.Env, ck *Check) {
 	//uwsdoc: 	Checks if response json body is a superset of json_string.
 	//uwsdoc: 	The tag is used for error messages.
 	check(m.Define("json_match", ck.JSONMatch))
+	//uwsdoc: check.json_matchf(resp, tag, json_format_string, args...) -> bool
+	//uwsdoc: 	Works like check.json_match but using a formatted json string.
+	check(m.Define("json_matchf", ck.JSONMatchf))
 }
 
 // HTTPStatus checks http response status code.
@@ -128,4 +132,9 @@ func (c *Check) JSONMatch(resp *Response, tag string, expect []byte) bool {
 		return false
 	}
 	return true
+}
+
+// JSONMatchf works like JSONMatch but using a formatted json string.
+func (c *Check) JSONMatchf(resp *Response, tag string, expect []byte, args ...interface{}) bool {
+	return c.JSONMatch(resp, tag, []byte(fmt.Sprintf(string(expect), args...)))
 }
