@@ -2,13 +2,13 @@
 
 ## live changelog
 
-* [Infrastructure](../../../compare/cd5a455c...master)
-* [MonitoringBots](../../../../MonitoringBots/compare/56080e41...master)
+* [Infrastructure](../../../compare/867502b1...master)
+* [MonitoringBots](../../../../MonitoringBots/compare/f71731f2...master)
 
-## 0301
+## 0308
 
-* Setup api bot for staging and production envs.
-* Develop next round of api scripts.
+* Setup monitoring of current mongodb and heroku infra.
+* Mail smarthost service.
 * Develop packaging tools.
 	* Use bots deployment as alpha and beta testing for pkg tools.
 * Build package ditribution repo(s).
@@ -29,5 +29,3 @@
 * fail2ban setup for already in production services: ssh and http(s)
 	* ssh is already enabled by default on Debian (but we should check).
 	* http(s) need some extra setup as we run the web services inside containers.
-* Setup monitoring of current mongodb and heroku infra.
-* Mail smarthost docker service.
