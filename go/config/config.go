@@ -76,6 +76,8 @@ func parseFile(c *Config, fn string, incEnable bool) error {
 
 // Load parses filename and loads it to config.
 func (c *Config) Load(filename ...string) error {
+	c.dx.Lock()
+	defer c.dx.Unlock()
 	n := filepath.Join(filename...)
 	return parseFile(c, n, true)
 }
