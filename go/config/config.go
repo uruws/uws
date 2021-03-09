@@ -12,6 +12,8 @@ import (
 	"sync"
 
 	"gopkg.in/yaml.v3"
+
+	"uws/log"
 )
 
 type Config struct {
@@ -42,6 +44,8 @@ func includeFiles(c *Config, src, list string) error {
 		}
 		if err := parseFile(c, fn, false); err != nil {
 			return err
+		} else {
+			log.Debug("config file %s: included", fn)
 		}
 	}
 	return nil
