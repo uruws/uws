@@ -67,6 +67,17 @@ docker/uwsbot/build/uwsbot.docs: go/bot/*.go
 	@mkdir -vp ./docker/uwsbot/build
 	@./go/bot/gendocs.sh >./docker/uwsbot/build/uwsbot.docs
 
+.PHONY: uwsbot-devel
+uwsbot-devel: uwsbot
+	@rm -rfv ./docker/uwsbot/build/devel
+	@mkdir -vp ./docker/uwsbot/build/devel/uws/bin ./docker/uwsbot/build/devel/uws/etc/env/bot
+	@(cd ./docker/uwsbot/build \
+		&& cp -va env/bot/bot/default env/bot/bot/staging env/bot/bot/stats \
+			devel/uws/etc/env/bot/ \
+		&& cp -va uwsbot.bin devel/uws/bin/uwsbot \
+		&& cp -va uwsbot-stats.bin devel/uws/bin/uwsbot-stats \
+		&& tar -cvzf uwsbot-devel.tgz -C devel .)
+
 .PHONY: uwspkg
 uwspkg: base
 	@./docker/uwspkg/build.sh

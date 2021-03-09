@@ -2,16 +2,28 @@
 set -eu
 
 DIRS='/srv/uwsbot/stats /uws/etc /uws/etc/env /uws/etc/env/bot'
-mkdir -vp ${DIRS}
+WWW_DIRS='/srv/uwsbot/release'
+mkdir -vp ${DIRS} ${WWW_DIRS}
 chown -v uws:uwsrun ${DIRS}
-chmod -v 0750 ${DIRS}
+chown -v uws:www-data ${WWW_DIRS}
+chmod -v 0750 ${DIRS} ${WWW_DIRS}
 
 uws='sudo -n -u uws'
 
 if test -s /srv/uws/deploy/Makefile; then
+	oldwd=${PWD}
 	cd /srv/uws/deploy
+	# deploy uwsbot
 	${uws} make uwsbot
 	install -v -m 755 ./docker/uwsbot/build/uwsbot-stats.bin /uws/bin/uwsbot-stats
+	# deploy uwsbot devel setup for docker container on the MonitoringBots repo
+	${uws} make uwsbot-devel
+	install -v -m 644 ./docker/uwsbot/build/uwsbot-devel.tgz /srv/uwsbot/release
+	install -v -m 644 ./docker/uwsbot/build/uwsbot.docs /srv/uwsbot/release/docs.txt
+	cd /srv/uwsbot/release
+	CK=$(sha256sum uwsbot-devel.tgz | cut -d ' ' -f 1)
+	mv -vf uwsbot-devel.tgz ${CK}.tgz
+	cd ${oldwd}
 fi
 
 chown -v uws:uwsrun /uws/etc/env/bot/stats
