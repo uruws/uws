@@ -52,6 +52,7 @@ func includeFiles(c *Config, src, list string) error {
 }
 
 func parseFile(c *Config, fn string, incEnable bool) error {
+	log.Debug("parse %s", fn)
 	blob, err := ioutil.ReadFile(fn)
 	if err != nil {
 		return err
@@ -60,13 +61,15 @@ func parseFile(c *Config, fn string, incEnable bool) error {
 	if err := yaml.Unmarshal(blob, &p); err != nil {
 		return err
 	} else {
-		for k, v := range p {
-			if k == "include" && incEnable {
-				if err := includeFiles(c, fn, v); err != nil {
-					return err
-				}
+		if inc, ok := p["include"]; ok {
+			log.Debug("include files: %v", inc)
+			if err := includeFiles(c, fn, inc); err != nil {
+				return err
 			}
+		}
+		for k, v := range p {
 			if k != "include" {
+				log.Debug("set %s", k[:])
 				c.d[k[:]] = v[:]
 			}
 		}
