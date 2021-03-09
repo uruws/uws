@@ -113,7 +113,8 @@ func main() {
 		}
 	} else {
 		if botStats == "" {
-			botStats = env.GetFilepath("STATSDIR")
+			botStats = filepath.Join(env.GetFilepath("STATSDIR"),
+				fmt.Sprintf("%s_%s", botEnv, botName))
 		}
 		if err := runScript(botEnv, botName, botDir, botStats, botRun); err != nil {
 			log.Fatal("%s", err)
