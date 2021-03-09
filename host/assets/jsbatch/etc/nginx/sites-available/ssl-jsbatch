@@ -21,6 +21,11 @@ server {
 
 	include /srv/etc/nginx/ssl-verify-client.conf;
 
+	location /uwsbot/ {
+		alias /srv/uwsbot/release/;
+		try_files $uri =404;
+	}
+
 	location /munin/ {
 		include /srv/etc/nginx/uws-cache.conf;
 		proxy_pass http://127.0.0.1:8049/munin/;
