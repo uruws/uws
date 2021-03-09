@@ -7,11 +7,11 @@ default: all
 .PHONY: clean
 clean:
 	@rm -rvf ./build ./tmp
-	@rm -rvf ./docker/golang/build ./docker/uwsbot/build ./srv/munin-node/build
 
 .PHONY: distclean
 distclean: clean
 	@rm -rvf ./docker/golang/tmp
+	@rm -rvf ./docker/golang/build ./docker/uwsbot/build ./srv/munin-node/build
 
 .PHONY: prune
 prune:
@@ -46,6 +46,8 @@ mkcert: base
 golang: base-testing
 	@./docker/golang/build.sh
 
+UWS_BOT_DEPS != find go/bot go/cmd/uwsbot* go/env go/config go/log -type f -name '*.go'
+
 .PHONY: uwsbot
 uwsbot: base golang docker/uwsbot/build/uwsbot.bin docker/uwsbot/build/uwsbot-stats.bin docker/uwsbot/build/uwsbot.docs
 	@./docker/uwsbot/build.sh
@@ -54,22 +56,24 @@ docker/uwsbot/build/uwsbot.bin: docker/golang/build/uwsbot.bin
 	@mkdir -vp ./docker/uwsbot/build
 	@install -v docker/golang/build/uwsbot.bin ./docker/uwsbot/build/uwsbot.bin
 
-docker/golang/build/uwsbot.bin:
+docker/golang/build/uwsbot.bin: $(UWS_BOT_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/uwsbot.bin ./cmd/uwsbot
 
 docker/uwsbot/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
 	@mkdir -vp ./docker/uwsbot/build
 	@install -v docker/golang/build/uwsbot-stats.bin ./docker/uwsbot/build/uwsbot-stats.bin
 
-docker/golang/build/uwsbot-stats.bin:
+docker/golang/build/uwsbot-stats.bin: $(UWS_BOT_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/uwsbot-stats.bin ./cmd/uwsbot-stats
 
-docker/uwsbot/build/uwsbot.docs: go/bot/*.go
+docker/uwsbot/build/uwsbot.docs: $(UWS_BOT_DEPS)
 	@mkdir -vp ./docker/uwsbot/build
 	@./go/bot/gendocs.sh >./docker/uwsbot/build/uwsbot.docs
 
 .PHONY: uwsbot-devel
-uwsbot-devel: uwsbot
+uwsbot-devel: docker/uwsbot/build/uwsbot-devel.tgz
+
+docker/uwsbot/build/uwsbot-devel.tgz: docker/uwsbot/build/uwsbot.bin docker/uwsbot/build/uwsbot-stats.bin docker/uwsbot/build/uwsbot.docs
 	@rm -rfv ./docker/uwsbot/build/devel
 	@mkdir -vp ./docker/uwsbot/build/devel/uws/bin ./docker/uwsbot/build/devel/uws/etc/env/bot
 	@(cd ./docker/uwsbot/build \
