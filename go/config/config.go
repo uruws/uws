@@ -69,7 +69,7 @@ func parseFile(c *Config, fn string, incEnable bool) error {
 		}
 		for k, v := range p {
 			if k != "include" {
-				log.Debug("set %s", k[:])
+				//~ log.Debug("set %s", k[:])
 				c.d[k[:]] = v[:]
 			}
 		}
