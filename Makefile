@@ -6,11 +6,12 @@ default: all
 
 .PHONY: clean
 clean:
-	@rm -rvf ./build ./tmp ./docker/golang/tmp
+	@rm -rvf ./build ./tmp
+	@rm -rvf ./docker/golang/build ./docker/uwsbot/build ./srv/munin-node/build
 
 .PHONY: distclean
-distclean:
-	@rm -rvf ./docker/golang/build ./docker/uwsbot/build ./srv/munin-node/build
+distclean: clean
+	@rm -rvf ./docker/golang/tmp
 
 .PHONY: prune
 prune:
@@ -116,7 +117,7 @@ ecr-login:
 	@./docker/ecr-login.sh
 
 .PHONY: deploy
-deploy: clean distclean prune
+deploy: clean prune
 	@echo "i - START deploy `date -R`"
 	@$(MAKE) bootstrap
 	@./host/ecr-login.sh $(AWS_REGION)
