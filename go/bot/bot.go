@@ -78,7 +78,7 @@ func envModule(b *Bot) {
 	}
 }
 
-func cfgModule(b *Bot, cfgdir string) error {
+func cfgModule(b *Bot, cfgdir string) {
 //uwsdoc: -----
 //uwsdoc: config module:
 	if m, err := b.env.Env.NewModule("config"); err != nil {
@@ -87,14 +87,13 @@ func cfgModule(b *Bot, cfgdir string) error {
 		b.cfg.SetConfigDir(cfgdir)
 		fn := b.benv + ".yml"
 		if err := b.cfg.Load(fn); err != nil {
-			return err
+			log.Fatal("config module load file: %s", err)
 		}
 		log.Debug("%s config loaded", fn)
 	//uwsdoc: config.get(key) -> string
 	//uwsdoc: 	Returns the config key value.
 		check(m.Define("get", b.cfg.Get))
 	}
-	return nil
 }
 
 func Load(ctx context.Context, benv, bname, dir string) *Bot {
@@ -102,10 +101,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	log.Debug("load: %s", fn)
 	b := New(benv, bname)
 	envModule(b)
-	// wait for config to finish loading...
-	if err := cfgModule(b, filepath.Join(dir, "config")); err != nil {
-		log.Fatal("config module load file: %s", err)
-	}
+	cfgModule(b, filepath.Join(dir, "config"))
 	checkModule(b)
 	libModules(b)
 	if err := vmExec(ctx, b, fn); err != nil {
