@@ -23,6 +23,7 @@ server {
 
 	location /uwsbot/ {
 		alias /srv/uwsbot/release/;
+		ssl_verify_client off;
 		try_files $uri =404;
 	}
 
