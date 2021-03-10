@@ -4,6 +4,7 @@
 package bot
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -12,7 +13,7 @@ import (
 
 func libModules(b *Bot) {
 	httpModule(b)
-	postModule(b)
+	urlModule(b)
 }
 
 func httpModule(b *Bot) {
@@ -64,18 +65,32 @@ func httpModule(b *Bot) {
 	}
 }
 
-func postNewValues() url.Values {
-	return url.Values{}
+func urlModule(b *Bot) {
+	//uwsdoc: -----
+	//uwsdoc: url module:
+	if m, err := b.env.Env.NewModule("url"); err != nil {
+		log.Fatal("url module: %s", err)
+	} else {
+		//uwsdoc: url.parse_query(string) -> values
+		//uwsdoc: 	Parse an url string and returns its values to be used as a query
+		//uwsdoc: 	string or as form (url-encoded) data.
+		check(m.Define("parse_query", urlParseQuery))
+		//uwsdoc: url.parse_queryf(format, args...) -> values
+		//uwsdoc: 	It works like url.parse_query but you can format the query
+		//uwsdoc: 	string. Like in example:
+		//uwsdoc: 		url.parse_queryf("id=%d&name=%s", id, name)
+		check(m.Define("parse_queryf", urlParseQueryf))
+	}
 }
 
-func postModule(b *Bot) {
-	//uwsdoc: -----
-	//uwsdoc: post module:
-	if m, err := b.env.Env.NewModule("post"); err != nil {
-		log.Fatal("post module: %s", err)
-	} else {
-		//uwsdoc: post.new_values() -> url_values
-		//uwsdoc: 	Creates a new object where to store post values.
-		check(m.Define("new_values", postNewValues))
+func urlParseQuery(q string) url.Values {
+	v, err := url.ParseQuery(q)
+	if err != nil {
+		log.Fatal("url.parse_query: %s", err)
 	}
+	return v
+}
+
+func urlParseQueryf(format string, args ...interface{}) url.Values {
+	return urlParseQuery(fmt.Sprintf(format, args...))
 }
