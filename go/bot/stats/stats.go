@@ -144,13 +144,13 @@ func Save(st *Stats) {
 }
 
 type Info struct {
-	Id    string `json:"id"`
-	Name  string `json:"name"`
-	Label string `json:"label"`
-	Value int64  `json:"value"`
-	Error bool   `json:"error"`
+	Id       string `json:"id"`
+	Name     string `json:"name"`
+	Label    string `json:"label"`
+	Value    int64  `json:"value"`
+	Error    bool   `json:"error"`
 	children *list.List
-	fn    string
+	fn       string
 }
 
 func newInfo() *Info {
@@ -295,7 +295,9 @@ func (r *Report) Print() {
 		fmt.Println(cleanFieldName(i.Id)+".value", v)
 	}
 	// all bots errors
-	if reportDevel { fmt.Println() }
+	if reportDevel {
+		fmt.Println()
+	}
 	fmt.Println("multigraph uwsbot_errors")
 	for e := r.bots.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
@@ -311,7 +313,9 @@ func (r *Report) Print() {
 		i := e.Value.(*Info)
 		var v string
 		if i.Name != bhead {
-			if reportDevel { fmt.Println() }
+			if reportDevel {
+				fmt.Println()
+			}
 			fmt.Printf("multigraph uwsbot_%s\n", i.Name)
 			bhead = i.Name
 		}
@@ -330,7 +334,9 @@ func (r *Report) Print() {
 			ci := c.Value.(*Info)
 			var v string
 			if ci.Name != cihead {
-				if reportDevel { fmt.Println() }
+				if reportDevel {
+					fmt.Println()
+				}
 				fmt.Printf("multigraph uwsbot_%s\n", ci.Name)
 				cihead = ci.Name
 			}
@@ -347,7 +353,9 @@ func (r *Report) Print() {
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		if i.Name != bhead {
-			if reportDevel { fmt.Println() }
+			if reportDevel {
+				fmt.Println()
+			}
 			fmt.Printf("multigraph uwsbot_errors_%s\n", i.Name)
 			bhead = i.Name
 		}
@@ -364,7 +372,9 @@ func (r *Report) Print() {
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			if ci.Name != cihead {
-				if reportDevel { fmt.Println() }
+				if reportDevel {
+					fmt.Println()
+				}
 				fmt.Printf("multigraph uwsbot_errors_%s\n", ci.Name)
 				cihead = ci.Name
 			}
@@ -405,7 +415,9 @@ func (r *Report) Config() {
 		fmt.Println(fmt.Sprintf("%s.cdef %s,1000,/", id, id))
 	}
 	// all bots errors
-	if reportDevel { fmt.Println() }
+	if reportDevel {
+		fmt.Println()
+	}
 	fmt.Println("multigraph uwsbot_errors")
 	fmt.Println("graph_title all bots errors")
 	fmt.Println("graph_args --base 1000 -l 0")
@@ -429,7 +441,9 @@ func (r *Report) Config() {
 		i := e.Value.(*Info)
 		id := cleanFieldName(i.Id)
 		if i.Name != bhead {
-			if reportDevel { fmt.Println() }
+			if reportDevel {
+				fmt.Println()
+			}
 			//~ if reportDevel { fmt.Printf("-- %s\n", i.fn) }
 			fmt.Printf("multigraph uwsbot_%s\n", i.Name)
 			fmt.Printf("graph_title bot %s\n", i.Name)
@@ -455,7 +469,9 @@ func (r *Report) Config() {
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			if ci.Name != cihead {
-				if reportDevel { fmt.Println() }
+				if reportDevel {
+					fmt.Println()
+				}
 				fmt.Printf("multigraph uwsbot_%s\n", ci.Name)
 				fmt.Printf("graph_title bot %s\n", ci.Name)
 				fmt.Println("graph_args --base 1000 -l 0")
@@ -483,7 +499,9 @@ func (r *Report) Config() {
 		i := e.Value.(*Info)
 		id := cleanFieldName(i.Id)
 		if i.Name != bhead {
-			if reportDevel { fmt.Println() }
+			if reportDevel {
+				fmt.Println()
+			}
 			//~ if reportDevel { fmt.Printf("-- %s\n", i.fn) }
 			fmt.Printf("multigraph uwsbot_errors_%s\n", i.Name)
 			fmt.Printf("graph_title bot %s errors\n", i.Name)
@@ -508,7 +526,9 @@ func (r *Report) Config() {
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			if ci.Name != cihead {
-				if reportDevel { fmt.Println() }
+				if reportDevel {
+					fmt.Println()
+				}
 				fmt.Printf("multigraph uwsbot_errors_%s\n", ci.Name)
 				fmt.Printf("graph_title bot %s errors\n", ci.Name)
 				fmt.Println("graph_args --base 1000 -l 0")

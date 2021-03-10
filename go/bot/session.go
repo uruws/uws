@@ -122,7 +122,7 @@ func (s *botSession) Logout(u string) error {
 		resp *http.Response
 		err  error
 	)
-	req := newPostFormRequest(s.baseURL + u, nil)
+	req := newPostFormRequest(s.baseURL+u, nil)
 	if s.auth {
 		requestAuth(req, s.authToken, s.userId)
 	}
@@ -162,7 +162,7 @@ func (s *botSession) Get(u string) (*http.Response, error) {
 }
 
 func (s *botSession) PostForm(u string, v url.Values) (*http.Response, error) {
-	req := newPostFormRequest(s.baseURL + u, v)
+	req := newPostFormRequest(s.baseURL+u, v)
 	if s.auth {
 		requestAuth(req, s.authToken, s.userId)
 	}

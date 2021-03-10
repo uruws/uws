@@ -5,12 +5,11 @@ package bot
 
 import (
 	"net/http"
-
 	//~ "uws/log"
 )
 
 type Response struct {
-	r *http.Response
+	r    *http.Response
 	body []byte
 }
 

@@ -53,34 +53,34 @@ func New(benv, bname string) *Bot {
 }
 
 func envModule(b *Bot) {
-//uwsdoc: -----
-//uwsdoc: bot module:
+	//uwsdoc: -----
+	//uwsdoc: bot module:
 	if botm, err := b.env.Env.NewModule("bot"); err != nil {
 		log.Fatal("bot module: %s", err)
 	} else {
-	//uwsdoc: bot.set_base_url(url)
-	//uwsdoc: 	Sets the base url for future requests.
+		//uwsdoc: bot.set_base_url(url)
+		//uwsdoc: 	Sets the base url for future requests.
 		check(botm.Define("set_base_url", b.SetBaseURL))
-	//uwsdoc: bot.login(url)
-	//uwsdoc: 	Logs in to url using configured email/pass credentials.
-	//uwsdoc: 	It also sets the auth session headers used to
-	//uwsdoc: 	authenticate future requests.
+		//uwsdoc: bot.login(url)
+		//uwsdoc: 	Logs in to url using configured email/pass credentials.
+		//uwsdoc: 	It also sets the auth session headers used to authenticate
+		//uwsdoc: 	future requests.
 		check(botm.Define("login", b.Login))
-	//uwsdoc: bot.logout(url)
-	//uwsdoc: 	Logs out from url using auth session (if any).
+		//uwsdoc: bot.logout(url)
+		//uwsdoc: 	Logs out from url using auth session (if any).
 		check(botm.Define("logout", b.Logout))
-	//uwsdoc: bot.get(url) -> resp
-	//uwsdoc: 	Returns a response from a GET request to url.
+		//uwsdoc: bot.get(url) -> resp
+		//uwsdoc: 	Returns a response from a GET request to url.
 		check(botm.Define("get", b.Get))
-	//uwsdoc: bot.post_form(url, values) -> resp
-	//uwsdoc: 	Returns a response from a POST (form-urlencoded) request to url.
+		//uwsdoc: bot.post_form(url, values) -> resp
+		//uwsdoc: 	Returns a response from a POST (form-urlencoded) request to url.
 		check(botm.Define("post_form", b.PostForm))
 	}
 }
 
 func cfgModule(b *Bot, cfgdir string) {
-//uwsdoc: -----
-//uwsdoc: config module:
+	//uwsdoc: -----
+	//uwsdoc: config module:
 	if m, err := b.env.Env.NewModule("config"); err != nil {
 		log.Fatal("config module: %s", err)
 	} else {
@@ -90,8 +90,8 @@ func cfgModule(b *Bot, cfgdir string) {
 			log.Fatal("config module load file: %s", err)
 		}
 		log.Debug("%s config loaded", fn)
-	//uwsdoc: config.get(key) -> string
-	//uwsdoc: 	Returns the config key value.
+		//uwsdoc: config.get(key) -> string
+		//uwsdoc: 	Returns the config key value.
 		check(m.Define("get", b.cfg.Get))
 	}
 }

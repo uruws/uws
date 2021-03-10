@@ -34,14 +34,14 @@ func (c *Check) report(fmt string, args ...interface{}) {
 }
 
 func checkModule(b *Bot) {
-//uwsdoc: -----
-//uwsdoc: assert module:
-//uwsdoc: 	Assert module shares the same methods as check module (see below).
-//uwsdoc: 	But any error is reported as fatal, so the script aborts its execution.
-//uwsdoc: 	In example:
-//uwsdoc: 		assert.http_status(resp, status_code)
-//uwsdoc: -----
-//uwsdoc: check module:
+	//uwsdoc: -----
+	//uwsdoc: assert module:
+	//uwsdoc: 	Assert module shares the same methods as check module (see below).
+	//uwsdoc: 	But any error is reported as fatal, so the script aborts its execution.
+	//uwsdoc: 	In example:
+	//uwsdoc: 		assert.http_status(resp, status_code)
+	//uwsdoc: -----
+	//uwsdoc: check module:
 	ck := newCheck()
 	cm, cmerr := b.env.Env.NewModule("check")
 	if cmerr != nil {
@@ -53,24 +53,23 @@ func checkModule(b *Bot) {
 	if amerr != nil {
 		log.Fatal("assert module: %s", amerr)
 	}
+	defineCkmod := func(m *env.Env, ck *Check) {
+		//uwsdoc: check.http_status(resp, status_code) -> bool
+		//uwsdoc: 	Checks response http status code. Returns true if it matches.
+		check(m.Define("http_status", ck.HTTPStatus))
+		//uwsdoc: check.http_header(resp, key, value) -> bool
+		//uwsdoc: 	Checks response http header key value.
+		check(m.Define("http_header", ck.HTTPHeader))
+		//uwsdoc: check.json_match(resp, tag, json_string) -> bool
+		//uwsdoc: 	Checks if response json body is a superset of json_string.
+		//uwsdoc: 	The tag is used for error messages.
+		check(m.Define("json_match", ck.JSONMatch))
+		//uwsdoc: check.json_matchf(resp, tag, json_format_string, args...) -> bool
+		//uwsdoc: 	Works like check.json_match but using a formatted json string.
+		check(m.Define("json_matchf", ck.JSONMatchf))
+	}
 	defineCkmod(cm, ck)
 	defineCkmod(am, assert)
-}
-
-func defineCkmod(m *env.Env, ck *Check) {
-	//uwsdoc: check.http_status(resp, status_code) -> bool
-	//uwsdoc: 	Checks response http status code. Returns true if it matches.
-	check(m.Define("http_status", ck.HTTPStatus))
-	//uwsdoc: check.http_header(resp, key, value) -> bool
-	//uwsdoc: 	Checks response http header key value.
-	check(m.Define("http_header", ck.HTTPHeader))
-	//uwsdoc: check.json_match(resp, tag, json_string) -> bool
-	//uwsdoc: 	Checks if response json body is a superset of json_string.
-	//uwsdoc: 	The tag is used for error messages.
-	check(m.Define("json_match", ck.JSONMatch))
-	//uwsdoc: check.json_matchf(resp, tag, json_format_string, args...) -> bool
-	//uwsdoc: 	Works like check.json_match but using a formatted json string.
-	check(m.Define("json_matchf", ck.JSONMatchf))
 }
 
 // HTTPStatus checks http response status code.
