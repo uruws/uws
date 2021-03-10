@@ -15,6 +15,7 @@
 * Improve munin bots graphs to get detailed POST/GET info.
 * Setup api bot for staging and production envs.
 * Develop next round of api scripts.
+* Released [uwsbot v0.1](../../../releases/tag/release%2Fuwsbot-v0.1).
 
 ### ChangeLog
 
