@@ -107,8 +107,12 @@ srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/uwsbot-stats.bin ./srv/munin-node/build/uwsbot-stats.bin
 
+.PHONY: heroku
+heroku: base-testing
+	@./docker/heroku/build.sh
+
 .PHONY: all
-all: base base-testing awscli mkcert golang uwsbot uwspkg acme munin munin-backend munin-node
+all: base base-testing awscli mkcert golang uwsbot uwspkg acme munin munin-backend munin-node heroku
 
 .PHONY: publish
 publish: munin munin-backend munin-node
