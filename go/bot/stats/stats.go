@@ -330,6 +330,7 @@ func (r *Report) Print() {
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		cihead := "__NONE__"
+		idx := 0
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			var v string
@@ -345,7 +346,8 @@ func (r *Report) Print() {
 			} else {
 				v = fmt.Sprintf("%d", ci.Value)
 			}
-			fmt.Println(cleanFieldName(ci.Id)+".value", v)
+			fmt.Printf("f%d_%s.value %s\n", idx, cleanFieldName(ci.Id), v)
+			idx += 1
 		}
 	}
 	// bots scripts errors
@@ -369,6 +371,7 @@ func (r *Report) Print() {
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
 		i := e.Value.(*Info)
 		cihead := "__NONE__"
+		idx := 0
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			if ci.Name != cihead {
@@ -382,7 +385,8 @@ func (r *Report) Print() {
 			if i.Error {
 				v = 1 // FIXME: count bot script errors
 			}
-			fmt.Printf("errors_%s.value %d\n", cleanFieldName(ci.Id), v)
+			fmt.Printf("errors_f%d_%s.value %d\n", idx, cleanFieldName(ci.Id), v)
+			idx += 1
 		}
 	}
 }
@@ -466,6 +470,7 @@ func (r *Report) Config() {
 		i := e.Value.(*Info)
 		cihead := "__NONE__"
 		ccol := uint(0)
+		idx := 0
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			if ci.Name != cihead {
@@ -482,14 +487,15 @@ func (r *Report) Config() {
 				cihead = ci.Name
 			}
 			//~ if reportDevel { fmt.Printf("-- %s\n", ci.fn) }
-			fmt.Printf("%s.label %s\n", ci.Id, ci.Label)
-			fmt.Printf("%s.colour %s\n", ci.Id, getColour(ccol))
+			fmt.Printf("f%d_%s.label %s\n", idx, ci.Id, ci.Label)
+			fmt.Printf("f%d_%s.colour %s\n", idx, ci.Id, getColour(ccol))
 			ccol += 1
-			fmt.Printf("%s.draw AREASTACK\n", ci.Id)
-			fmt.Printf("%s.min 0\n", ci.Id)
-			fmt.Printf("%s.warning %d\n", ci.Id, scriptWarning)
-			fmt.Printf("%s.critical %d\n", ci.Id, scriptCritical)
-			fmt.Printf("%s.cdef %s,1000,/\n", ci.Id, ci.Id)
+			fmt.Printf("f%d_%s.draw AREASTACK\n", idx, ci.Id)
+			fmt.Printf("f%d_%s.min 0\n", idx, ci.Id)
+			fmt.Printf("f%d_%s.warning %d\n", idx, ci.Id, scriptWarning)
+			fmt.Printf("f%d_%s.critical %d\n", idx, ci.Id, scriptCritical)
+			fmt.Printf("f%d_%s.cdef %s,1000,/\n", idx, ci.Id, ci.Id)
+			idx += 1
 		}
 	}
 	// bots scripts errors
@@ -523,6 +529,7 @@ func (r *Report) Config() {
 		// scripts info errors
 		cihead := "__NONE__"
 		ccol := uint(0)
+		idx := 0
 		for c := i.children.Front(); c != nil; c = c.Next() {
 			ci := c.Value.(*Info)
 			if ci.Name != cihead {
@@ -538,10 +545,11 @@ func (r *Report) Config() {
 				cihead = ci.Name
 			}
 			//~ if reportDevel { fmt.Printf("-- %s\n", ci.fn) }
-			fmt.Printf("errors_%s.label %s errors\n", ci.Id, ci.Label)
-			fmt.Printf("errors_%s.colour %s\n", ci.Id, getColour(ccol))
+			fmt.Printf("errors_f%d_%s.label %s errors\n", idx, ci.Id, ci.Label)
+			fmt.Printf("errors_f%d_%s.colour %s\n", idx, ci.Id, getColour(ccol))
 			ccol += 1
-			fmt.Printf("errors_%s.warning 1\n", ci.Id)
+			fmt.Printf("errors_f%d_%s.warning 1\n", idx, ci.Id)
+			idx += 1
 		}
 	}
 }
