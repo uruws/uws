@@ -494,7 +494,7 @@ func (r *Report) Config() {
 			fmt.Printf("f%d_%s.min 0\n", idx, ci.Id)
 			fmt.Printf("f%d_%s.warning %d\n", idx, ci.Id, scriptWarning)
 			fmt.Printf("f%d_%s.critical %d\n", idx, ci.Id, scriptCritical)
-			fmt.Printf("f%d_%s.cdef %s,1000,/\n", idx, ci.Id, ci.Id)
+			fmt.Printf("f%d_%s.cdef f%d_%s,1000,/\n", idx, ci.Id, idx, ci.Id)
 			idx += 1
 		}
 	}
