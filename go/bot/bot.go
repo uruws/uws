@@ -52,7 +52,7 @@ func New(benv, bname string) *Bot {
 	}
 }
 
-func envModule(b *Bot) {
+func botModule(b *Bot) {
 	//uwsdoc: -----
 	//uwsdoc: bot module:
 	if botm, err := b.env.Env.NewModule("bot"); err != nil {
@@ -100,7 +100,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	fn := filepath.Join(dir, "bot.ank")
 	log.Debug("load: %s", fn)
 	b := New(benv, bname)
-	envModule(b)
+	botModule(b)
 	cfgModule(b, filepath.Join(dir, "config"))
 	checkModule(b)
 	libModules(b)
