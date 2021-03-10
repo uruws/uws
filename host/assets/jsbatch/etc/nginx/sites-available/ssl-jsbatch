@@ -9,7 +9,7 @@ server {
 	server_name jsbatch.uws.talkingpts.org;
 	server_tokens off;
 
-	root /var/www/html;
+	root /srv/www/ssl;
 
 	ssl_certificate /srv/acme/cert/jsbatch.uws.talkingpts.org.crt;
 	ssl_certificate_key /srv/acme/key/jsbatch.uws.talkingpts.org.key;
