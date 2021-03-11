@@ -24,5 +24,7 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-RUN heroku version
+RUN heroku version \
+	&& heroku plugins:install heroku-slugs
+
 CMD exec /usr/local/bin/uws-login.sh
