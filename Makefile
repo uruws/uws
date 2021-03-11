@@ -115,8 +115,12 @@ heroku: base-testing
 clamav: base-testing
 	@./docker/clamav/build.sh
 
+.PHONY: api
+api: base
+	@./srv/api/build.sh
+
 .PHONY: all
-all: base base-testing awscli mkcert golang uwsbot uwspkg acme munin munin-backend munin-node heroku clamav
+all: base base-testing awscli mkcert golang uwsbot uwspkg acme munin munin-backend munin-node heroku clamav api
 
 .PHONY: publish
 publish: munin munin-backend munin-node
