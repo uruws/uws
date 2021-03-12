@@ -4,5 +4,6 @@ HRKDIR=${HOME}/uws/heroku/staging
 mkdir -vp ${HRKDIR}
 exec docker run -it --rm --name uws-api-devel \
 	--hostname api-devel.uws.local \
-	-v ${HRKDIR}:/home/uws/api \
+	-v "${HRKDIR}:/home/uws/api:ro" \
+	--entrypoint /usr/local/bin/uws-login.sh \
 	-u uws uws/api
