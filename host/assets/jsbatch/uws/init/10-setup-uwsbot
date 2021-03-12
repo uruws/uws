@@ -34,4 +34,7 @@ chown -vR uws:uwsrun /uws/etc/env/bot
 rm -vf /etc/munin/plugins/uwsbot_stats
 ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
 
+# adduser uws to uwsrun group so it can access deployed monbots repo.
+adduser uws uwsrun
+
 exit 0
