@@ -1,0 +1,3 @@
+# uwsbot testing env
+include: ./default
+BOTDIR: /srv/deploy/monbots
