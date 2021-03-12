@@ -19,7 +19,7 @@ git checkout ${newrev} 2>&1 | tee -a ${logf}
 git status 2>&1 | tee -a ${logf}
 
 sleep 1
-echo 'i - make deploy-jsbatch' | tee -a ${logf}
+echo 'i - make deploy' | tee -a ${logf}
 make deploy AWS_REGION=us-west-1 DEPLOY_SERVER=jsbatch 2>&1 | tee -a ${logf}
 
 echo "i - END $(date -R)" | tee -a ${logf}

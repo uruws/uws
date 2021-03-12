@@ -134,7 +134,7 @@ ecr-login:
 
 .PHONY: deploy
 deploy: clean prune
-	@echo "i - START deploy `date -R`"
+	@echo "i - START deploy `date -R` as ${USER}"
 	@$(MAKE) bootstrap
 	@./host/ecr-login.sh $(AWS_REGION)
 	@AWS_REGION=$(AWS_REGION) ./env/make.sh prod publish
