@@ -2,7 +2,7 @@
 set -eu
 
 cd /srv/uws/deploy
-make api
+sudo -n -u uws make api
 
 if ! systemctl is-enabled uws-meteor.service; then
 	systemctl enable uws-meteor.service
