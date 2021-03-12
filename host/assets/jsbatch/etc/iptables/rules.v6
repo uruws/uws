@@ -8,6 +8,9 @@
 # allow dhclient
 -A INPUT -p udp -m udp --dport 546 -j ACCEPT
 -A INPUT -p udp -m udp --sport 546 -j ACCEPT
+# allow ntp/chrony
+-A INPUT -p udp -m udp --dport 123 -j ACCEPT
+-A INPUT -p udp -m udp --sport 123 -j ACCEPT
 # allow ssh
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 # allow http
