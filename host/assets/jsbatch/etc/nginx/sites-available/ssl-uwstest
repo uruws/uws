@@ -1,6 +1,7 @@
 #
 # SSL test.uws.t.o
 #
+include /srv/etc/nginx/uws-test-cache-setup.conf;
 server {
 	listen 443 ssl;
 	listen [::]:443 ssl;
