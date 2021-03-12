@@ -1,8 +1,13 @@
 # cron-jobs for uwsbot
 MAILTO=uws
+UWS_LOG=quiet
+UWS_PREFIX=/uws
 
 # bot/staging api
 1,6,11,16,21,26,31,36,41,46,51,56 * * * *	uwsrun cd /srv/uws/deploy && ./docker/uwsbot/run.sh staging api
 
 # bot/production api
 2,7,12,17,22,27,32,37,42,47,52,57 * * * *	uwsrun cd /srv/uws/deploy && ./docker/uwsbot/run.sh production api
+
+# bot/testing api
+3,8,13,18,23,28,33,38,43,48,53,58 * * * *	uws /uws/bin/uwsbot -env testing -name api

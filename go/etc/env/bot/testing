@@ -1,3 +1,4 @@
 # uwsbot testing env
 include: ./default
 BOTDIR: /srv/deploy/monbots
+STATSDIR: ${PREFIX}/var/uwsbot/stats/testing
