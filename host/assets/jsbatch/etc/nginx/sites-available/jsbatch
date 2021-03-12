@@ -4,8 +4,8 @@
 #	redirect to main HTTPS domain anything else
 #
 server {
-	listen 80;
-	listen [::]:80;
+	listen 80 default_server;
+	listen [::]:80 default_server;
 
 	server_name jsbatch.uws.talkingpts.org;
 	server_tokens off;
