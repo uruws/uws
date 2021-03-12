@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+if ! systemctl is-enabled uws-meteor.service; then
+	systemctl enable uws-meteor.service
+fi
+
+/uws/bin/service-restart.sh uws-meteor /srv/uws/deploy/srv/api
+
+exit 0

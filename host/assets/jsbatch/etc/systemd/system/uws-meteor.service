@@ -1,0 +1,20 @@
+[Unit]
+Description=uws-meteor
+Requires=syslog.service
+Requires=docker.service
+After=docker.service
+AssertFileIsExecutable=/usr/bin/docker
+AssertFileIsExecutable=/srv/uws/deploy/srv/api/run.sh
+
+[Service]
+Type=exec
+Restart=on-failure
+StandardError=syslog
+User=uws
+Group=uws
+WorkingDirectory=/home/uws
+ExecStop=/usr/bin/docker stop uws-meteor
+ExecStart=/srv/uws/deploy/srv/api/run.sh
+
+[Install]
+WantedBy=multi-user.target
