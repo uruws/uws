@@ -1,4 +1,0 @@
-# uwsbot-stats env
-BOT: ALL
-ENV: ALL
-STATSDIR: /srv/uwsbot/stats

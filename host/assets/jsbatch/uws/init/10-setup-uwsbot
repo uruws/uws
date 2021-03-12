@@ -15,6 +15,7 @@ if test -s /srv/uws/deploy/Makefile; then
 	cd /srv/uws/deploy
 	# deploy uwsbot
 	${uws} make uwsbot
+	install -v -m 755 ./docker/uwsbot/build/uwsbot.bin /uws/bin/uwsbot
 	install -v -m 755 ./docker/uwsbot/build/uwsbot-stats.bin /uws/bin/uwsbot-stats
 	# deploy uwsbot devel setup for docker container on the MonitoringBots repo
 	${uws} make uwsbot-devel
@@ -26,7 +27,9 @@ if test -s /srv/uws/deploy/Makefile; then
 	cd ${oldwd}
 fi
 
-chown -v uws:uwsrun /uws/etc/env/bot/stats
+rm -vf /uws/etc/env/bot/*
+install -v -m 640 -o uws -g uwsrun /srv/uws/deploy/go/etc/env/bot/* /uws/etc/env/bot
+chown -vR uws:uwsrun /uws/etc/env/bot
 
 rm -vf /etc/munin/plugins/uwsbot_stats
 ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
