@@ -1,0 +1,28 @@
+#
+# SSL test.uws.t.o
+#
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	server_name test.uws.talkingpts.org;
+	server_tokens off;
+
+	root /srv/www/testssl;
+
+	ssl_certificate /srv/acme/cert/test.uws.talkingpts.org.crt;
+	ssl_certificate_key /srv/acme/key/test.uws.talkingpts.org.key;
+
+	include /srv/etc/nginx/ssl.conf;
+
+	access_log /var/log/nginx/test_access.log ssluser;
+	error_log /var/log/nginx/test_error.log;
+
+	include /srv/etc/nginx/ssl-verify-client.conf;
+
+	location / {
+		include /srv/etc/nginx/uws-test-cache.conf;
+		proxy_pass http://127.0.0.1:4080/;
+		include /etc/nginx/proxy_params;
+	}
+}
