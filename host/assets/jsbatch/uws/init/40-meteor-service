@@ -1,6 +1,9 @@
 #!/bin/sh
 set -eu
 
+cd /srv/uws/deploy
+make api
+
 if ! systemctl is-enabled uws-meteor.service; then
 	systemctl enable uws-meteor.service
 fi
