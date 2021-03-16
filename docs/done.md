@@ -10,12 +10,24 @@
 
 [monbots.repo]: https://github.com/TalkingPts/MonitoringBots
 
+## 0308
+
+* Released [uwsbot v0.1](../../../releases/tag/release%2Fuwsbot-v0.1).
+* Setup monitoring of current mongodb and heroku infra.
+	* We created a testing env on our aws infra using the built app from heroku staging.
+	* We also enabled some munin checks against the container running the app.
+	* We also enabled some checks against mongodb servers, which are still hosted outside.
+
+### ChangeLog
+
+* [Infrastructure](../../../compare/867502b1...8035cc33)
+* [MonitoringBots](../../../../MonitoringBots/compare/f71731f2...3cc8daf5)
+
 ## 0301
 
 * Improve munin bots graphs to get detailed POST/GET info.
 * Setup api bot for staging and production envs.
 * Develop next round of api scripts.
-* Released [uwsbot v0.1](../../../releases/tag/release%2Fuwsbot-v0.1).
 
 ### ChangeLog
 
