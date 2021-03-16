@@ -11,14 +11,16 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh rsyslog cron munin
 
-ENV MV 98aeca5f7b8e791360a962e625f5afcebdcce965
+ENV MN munin-contrib
+ENV MR uruws/${MN}
+ENV MV 52861dd158e7a9b77b46dd718fae4ddea9cd0790
 ENV MT munstrap
 RUN wget -O munin-contrib.tgz \
-	https://github.com/munin-monitoring/contrib/archive/${MV}.tar.gz \
+	https://github.com/${MR}/archive/${MV}.tar.gz \
 	&& tar -xzf munin-contrib.tgz \
 	&& rm -vf munin-contrib.tgz \
 	&& mkdir -vp /uws/munin \
-	&& mv -vf contrib-${MV} /uws/munin/contrib \
+	&& mv -vf ${MN}-${MV} /uws/munin/contrib \
 	&& rm -rvf /etc/munin/templates /etc/munin/static \
 	&& cp -vr /uws/munin/contrib/templates/${MT}/templates /etc/munin \
 	&& cp -vr /uws/munin/contrib/templates/${MT}/static /etc/munin \
