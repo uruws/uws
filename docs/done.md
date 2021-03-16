@@ -10,6 +10,13 @@
 
 [monbots.repo]: https://github.com/TalkingPts/MonitoringBots
 
+## 0315
+
+* Patched munin contrib mongodb plugins and propose them to upstream.
+	* [fix](https://github.com/munin-monitoring/contrib/pull/1189) mongo_collection_.
+	* [pu](https://github.com/munin-monitoring/contrib/pull/1190) MONGO_DB_URI env config.
+	* [pu](https://github.com/munin-monitoring/contrib/pull/1191) configurable graph_category.
+
 ## 0308
 
 * Released [uwsbot v0.1](../../../releases/tag/release%2Fuwsbot-v0.1).

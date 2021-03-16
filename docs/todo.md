@@ -4,6 +4,7 @@
 
 * [Infrastructure](../../../compare/8035cc33...master)
 * [MonitoringBots](../../../../MonitoringBots/compare/3cc8daf5...master)
+* [munin-contrib](https://github.com/munin-monitoring/contrib/compare/master...uruws:master)
 
 ## 0315
 
