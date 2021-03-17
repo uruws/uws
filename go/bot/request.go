@@ -4,7 +4,6 @@
 package bot
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -20,7 +19,7 @@ const reqTTL time.Duration = 5 * time.Minute
 func newRequest(script, method, uri string) (*http.Request, error) {
 	r, err := http.NewRequest(method, uri, nil)
 	r.Header.Set("user-agent", userAgent)
-	r.Header.Set("x-uwsbot", fmt.Sprintf("%s-%d", script, time.Now().UnixNano()))
+	r.Header.Set("x-uwsbot", script)
 	return r, err
 }
 

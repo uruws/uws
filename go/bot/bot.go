@@ -6,8 +6,10 @@ package bot
 
 import (
 	"context"
+	"fmt"
 	"net/url"
 	"path/filepath"
+	"time"
 
 	"uws/bot/stats"
 	"uws/config/appcfg"
@@ -116,7 +118,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 func Run(ctx context.Context, b *Bot, bdir, stdir, runfn string) error {
 	script := filepath.Join(bdir, "run", runfn+".ank")
 	log.Debug("bot run: %s", script)
-	b.sess.setScript(runfn)
+	b.sess.setScript(fmt.Sprintf("%s-%d", runfn, time.Now().UnixNano()))
 	b.setStats(stdir, runfn)
 	if err := vmExec(ctx, b, script); err != nil {
 		log.Debug("bot run: %s", err)
