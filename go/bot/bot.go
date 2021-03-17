@@ -14,7 +14,7 @@ import (
 	"uws/log"
 )
 
-const version string = '0.1'
+const version string = "0.1"
 
 type scriptStats struct {
 	benv  string
