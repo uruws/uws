@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+DIRS='/srv/heroku'
+mkdir -vp ${DIRS}
+chown -v uws:uwsrun ${DIRS}
+chmod -v 0750 ${DIRS}
+
+uws='sudo -n -u uws'
+
+if test -s /srv/uws/deploy/Makefile; then
+	oldwd=${PWD}
+	cd /srv/uws/deploy
+	# build container
+	${uws} make heroku
+	cd ${oldwd}
+fi
+
+exit 0
