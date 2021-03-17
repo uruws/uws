@@ -77,7 +77,11 @@ func (s *botSession) Login(u string) error {
 		resp *http.Response
 		err  error
 	)
-	resp, err = s.cli.PostForm(s.baseURL+u, s.getCredentials())
+	req := newPostFormRequest(s.baseURL+u, s.getCredentials())
+	if s.auth {
+		return log.NewError("bot is already logged in!")
+	}
+	resp, err = s.cli.Do(req)
 	if err != nil {
 		return err
 	}
