@@ -14,6 +14,8 @@ import (
 	"uws/log"
 )
 
+const version string = '0.1'
+
 type scriptStats struct {
 	benv  string
 	bname string

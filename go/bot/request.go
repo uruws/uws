@@ -13,7 +13,7 @@ import (
 	"uws/log"
 )
 
-const UserAgent string = "uwsbot"
+const UserAgent string = "uwsbot/" + version
 const reqTTL time.Duration = 5 * time.Minute
 
 func newRequest(method, uri string) (*http.Request, error) {
