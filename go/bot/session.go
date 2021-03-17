@@ -29,12 +29,17 @@ type botSession struct {
 	authToken string
 	userId    string
 	cli       *http.Client
+	script    string
 }
 
 func newBotSession() *botSession {
 	cli := new(http.Client)
 	cli.Timeout = 5 * time.Minute
 	return &botSession{cli: cli}
+}
+
+func (s *botSession) setScript(n string) {
+	s.script = n
 }
 
 func (s *botSession) SetBaseURL(u string) error {
@@ -77,7 +82,7 @@ func (s *botSession) Login(u string) error {
 		resp *http.Response
 		err  error
 	)
-	req := newPostFormRequest(s.baseURL+u, s.getCredentials())
+	req := newPostFormRequest(s.script, s.baseURL+u, s.getCredentials())
 	if s.auth {
 		return log.NewError("bot is already logged in!")
 	}
@@ -126,7 +131,7 @@ func (s *botSession) Logout(u string) error {
 		resp *http.Response
 		err  error
 	)
-	req := newPostFormRequest(s.baseURL+u, nil)
+	req := newPostFormRequest(s.script, s.baseURL+u, nil)
 	if s.auth {
 		requestAuth(req, s.authToken, s.userId)
 	}
@@ -158,7 +163,7 @@ func (s *botSession) Logout(u string) error {
 }
 
 func (s *botSession) Get(u string) (*http.Response, error) {
-	req := newGetRequest(s.baseURL + u)
+	req := newGetRequest(s.script, s.baseURL + u)
 	if s.auth {
 		requestAuth(req, s.authToken, s.userId)
 	}
@@ -166,7 +171,7 @@ func (s *botSession) Get(u string) (*http.Response, error) {
 }
 
 func (s *botSession) PostForm(u string, v url.Values) (*http.Response, error) {
-	req := newPostFormRequest(s.baseURL+u, v)
+	req := newPostFormRequest(s.script, s.baseURL+u, v)
 	if s.auth {
 		requestAuth(req, s.authToken, s.userId)
 	}

@@ -16,14 +16,15 @@ import (
 var userAgent string = "uwsbot/" + version
 const reqTTL time.Duration = 5 * time.Minute
 
-func newRequest(method, uri string) (*http.Request, error) {
+func newRequest(script, method, uri string) (*http.Request, error) {
 	r, err := http.NewRequest(method, uri, nil)
 	r.Header.Set("user-agent", userAgent)
+	r.Header.Set("x-uwsbot", script)
 	return r, err
 }
 
-func newPostFormRequest(uri string, v url.Values) *http.Request {
-	r, err := newRequest("POST", uri)
+func newPostFormRequest(script, uri string, v url.Values) *http.Request {
+	r, err := newRequest(script, "POST", uri)
 	if err != nil {
 		log.Fatal("bot new post form request: %s", err)
 	}
@@ -47,8 +48,8 @@ func newPostFormRequest(uri string, v url.Values) *http.Request {
 	return r
 }
 
-func newGetRequest(uri string) *http.Request {
-	r, err := newRequest("GET", uri)
+func newGetRequest(script, uri string) *http.Request {
+	r, err := newRequest(script, "GET", uri)
 	if err != nil {
 		log.Fatal("bot new get request: %s", err)
 	}

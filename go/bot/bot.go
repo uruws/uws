@@ -36,12 +36,13 @@ func (s *scriptStats) Save(st *stats.Stats) {
 }
 
 type Bot struct {
-	benv  string
-	bname string
-	env   *botEnv
-	sess  *botSession
-	stats *scriptStats
-	cfg   *appcfg.Config
+	benv   string
+	bname  string
+	env    *botEnv
+	sess   *botSession
+	stats  *scriptStats
+	cfg    *appcfg.Config
+	script string
 }
 
 func New(benv, bname string) *Bot {
@@ -115,6 +116,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 func Run(ctx context.Context, b *Bot, bdir, stdir, runfn string) error {
 	script := filepath.Join(bdir, "run", runfn+".ank")
 	log.Debug("bot run: %s", script)
+	b.sess.setScript(runfn)
 	b.setStats(stdir, runfn)
 	if err := vmExec(ctx, b, script); err != nil {
 		log.Debug("bot run: %s", err)
