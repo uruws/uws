@@ -17,7 +17,9 @@ const UserAgent string = "uwsbot"
 const reqTTL time.Duration = 5 * time.Minute
 
 func newRequest(method, uri string) (*http.Request, error) {
-	return http.NewRequest(method, uri, nil)
+	r, err := http.NewRequest(method, uri, nil)
+	r.Header.Set("user-agent", UserAgent)
+	return r, err
 }
 
 func newPostFormRequest(uri string, v url.Values) *http.Request {
@@ -25,7 +27,6 @@ func newPostFormRequest(uri string, v url.Values) *http.Request {
 	if err != nil {
 		log.Fatal("bot new post form request: %s", err)
 	}
-	r.Header.Set("user-agent", UserAgent)
 	r.Header.Set("content-type", "application/x-www-form-urlencoded")
 	if len(v) > 0 {
 		fh, err := ioutil.TempFile("", "uwsbot_post_*.form")
