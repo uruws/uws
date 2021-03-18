@@ -14,14 +14,14 @@ import (
 	"uws/log"
 )
 
-type stat struct {
+type Info struct {
 	session int64
 	script  string
 	next    int
 	R       map[int]map[string]int64 `json:"stats"`
 }
 
-func (s *stat) Add(apiMethod, elapsedTime string) {
+func (s *Info) Add(apiMethod, elapsedTime string) {
 	i, err := strconv.ParseInt(elapsedTime, 10, 64)
 	if err != nil {
 		log.Fatal("%s", err)
@@ -31,19 +31,19 @@ func (s *stat) Add(apiMethod, elapsedTime string) {
 }
 
 type Reg struct {
-	R map[string]*stat `json:"scripts"`
+	R map[string]*Info `json:"scripts"`
 }
 
 func NewReg() *Reg {
-	return &Reg{R: make(map[string]*stat)}
+	return &Reg{R: make(map[string]*Info)}
 }
 
 func (s *Reg) Len() int {
 	return len(s.R)
 }
 
-func (s *Reg) newStat(session int64, script string) *stat {
-	return &stat{
+func (s *Reg) newStat(session int64, script string) *Info {
+	return &Info{
 		session: session,
 		script: script,
 		next: 0,
@@ -51,10 +51,22 @@ func (s *Reg) newStat(session int64, script string) *stat {
 	}
 }
 
-//~ func (s *Reg) Get(session, script string) *stat {
-//~ }
+// List returns the list of script names.
+func (s *Reg) List() []string {
+	l := make([]string, s.Len())
+	for k := range s.R {
+		l = append(l, k)
+	}
+	return l
+}
 
-func (s *Reg) get(session, script string) *stat {
+// Get returns the stats info for script name. Returns bool flag to check if it was found.
+func (s *Reg) Get(script string) (*Info, bool) {
+	st, ok := s.R[script]
+	return st, ok
+}
+
+func (s *Reg) get(session, script string) *Info {
 	sid, err := strconv.ParseInt(session, 10, 64)
 	if err != nil {
 		log.Fatal("%s", err)
@@ -67,7 +79,7 @@ func (s *Reg) get(session, script string) *stat {
 	return s.newStat(sid, script)
 }
 
-func (s *Reg) add(st *stat) {
+func (s *Reg) add(st *Info) {
 	s.R[st.script] = nil
 	s.R[st.script] = st
 }
