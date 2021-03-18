@@ -36,7 +36,7 @@ func main() {
 		err = Config(st, env)
 	} else {
 		cmd = "report"
-		err = Report(st)
+		err = Report(st, env)
 	}
 
 	if err != nil {
@@ -95,7 +95,27 @@ func Config(st *stats.Reg, env string) error {
 }
 
 // Report prints munin plugin values.
-func Report(st *stats.Reg) error {
+func Report(st *stats.Reg, env string) error {
 	log.Debug("report: %d", st.Len())
+	fmt.Printf("multigraph uwsapi_%s\n", env)
+	for _, script := range st.List() {
+		var took int64
+		inf, _ := st.Get(script)
+		xlen := inf.Len()
+		for x := 0; x < xlen; x += 1 {
+			i, _ := inf.Get(x)
+			took += i.Took
+		}
+		fmt.Printf("%s.value %d\n", script, took)
+	}
+	for _, script := range st.List() {
+		fmt.Printf("multigraph uwsapi_%s.%s\n", env, script)
+		inf, _ := st.Get(script)
+		xlen := inf.Len()
+		for x := 0; x < xlen; x += 1 {
+			i, _ := inf.Get(x)
+			fmt.Printf("f%d_%s.value %d\n", x, i.Name, i.Took)
+		}
+	}
 	return nil
 }
