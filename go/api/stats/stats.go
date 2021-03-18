@@ -51,7 +51,10 @@ func (s *Reg) newStat(session int64, script string) *stat {
 	}
 }
 
-func (s *Reg) Get(session, script string) *stat {
+//~ func (s *Reg) Get(session, script string) *stat {
+//~ }
+
+func (s *Reg) get(session, script string) *stat {
 	sid, err := strconv.ParseInt(session, 10, 64)
 	if err != nil {
 		log.Fatal("%s", err)
@@ -64,7 +67,7 @@ func (s *Reg) Get(session, script string) *stat {
 	return s.newStat(sid, script)
 }
 
-func (s *Reg) Add(st *stat) {
+func (s *Reg) add(st *stat) {
 	s.R[st.script] = nil
 	s.R[st.script] = st
 }
@@ -101,9 +104,9 @@ func Scan(stats *Reg, check string, fh io.Reader) (string, error) {
 			sessionId := m[6]
 			if last == "" || tstamp > last {
 				log.Debug("%s %s %s %s %s", tstamp, sessionId, scriptName, apiMethod, elapsedTime)
-				st := stats.Get(sessionId, scriptName)
+				st := stats.get(sessionId, scriptName)
 				st.Add(apiMethod, elapsedTime)
-				stats.Add(st)
+				stats.add(st)
 				last = tstamp
 			}
 		}

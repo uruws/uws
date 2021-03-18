@@ -48,12 +48,12 @@ func main() {
 
 // Config generates munin plugin config output.
 func Config(st *stats.Reg) error {
-	log.Debug("config")
+	log.Debug("config: %d", st.Len())
 	return nil
 }
 
 // Report prints munin plugin values.
 func Report(st *stats.Reg) error {
-	log.Debug("report")
+	log.Debug("report: %d", st.Len())
 	return nil
 }
