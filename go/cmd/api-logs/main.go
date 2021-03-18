@@ -12,6 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"uws/log"
@@ -55,6 +56,16 @@ func main() {
 
 type stat struct {
 	script string
+	next   int
+	r      map[int]map[string]int64
+}
+
+func (s *stat) Add(apiMethod, elapsedTime string) {
+	i, err := strconv.ParseInt(elapsedTime, 10, 64)
+	if err != nil {
+		log.Fatal("%s", err)
+	}
+	s.r[s.next] = map[string]int64{apiMethod: i}
 }
 
 type statsreg struct {
@@ -70,7 +81,11 @@ func (s *statsreg) Len() int {
 }
 
 func (s *statsreg) New(script string) *stat {
-	return &stat{script: script}
+	return &stat{
+		script: script,
+		next: 0,
+		r: make(map[int]map[string]int64),
+	}
 }
 
 func (s *statsreg) Add(st *stat) {
@@ -99,7 +114,7 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 		return "", err
 	}
 	if stats.Len() > 0 {
-		log.Debug("%v %d", stats, stats.Len())
+		log.Debug("%#v %d", stats, stats.Len())
 	}
 	return last, err
 }
@@ -123,6 +138,7 @@ func scan(stats *statsreg, check string, fh io.Reader) (string, error) {
 			if last == "" || tstamp > last {
 				log.Debug("%s %s %s %s %s", tstamp, sessionId, scriptName, apiMethod, elapsedTime)
 				st := stats.New(scriptName)
+				st.Add(apiMethod, elapsedTime)
 				stats.Add(st)
 				last = tstamp
 			}
