@@ -56,7 +56,7 @@ func main() {
 }
 
 type stat struct {
-	session string
+	session int64
 	script  string
 	next    int
 	R       map[int]map[string]int64 `json:"stats"`
@@ -83,11 +83,7 @@ func (s *statsreg) Len() int {
 	return len(s.R)
 }
 
-func (s *statsreg) getId(sessionId, scriptName string) string {
-	return sessionId + ":" + scriptName
-}
-
-func (s *statsreg) newStat(session, script string) *stat {
+func (s *statsreg) newStat(session int64, script string) *stat {
 	return &stat{
 		session: session,
 		script: script,
@@ -97,17 +93,21 @@ func (s *statsreg) newStat(session, script string) *stat {
 }
 
 func (s *statsreg) Get(session, script string) *stat {
-	id := s.getId(session, script)
-	if st, ok := s.R[id]; ok {
-		return st
+	sid, err := strconv.ParseInt(session, 10, 64)
+	if err != nil {
+		log.Fatal("%s", err)
 	}
-	return s.newStat(session, script)
+	if st, ok := s.R[script]; ok {
+		if st.session >= sid {
+			return st
+		}
+	}
+	return s.newStat(sid, script)
 }
 
 func (s *statsreg) Add(st *stat) {
-	id := s.getId(st.session, st.script)
-	s.R[id] = nil
-	s.R[id] = st
+	s.R[st.script] = nil
+	s.R[st.script] = st
 }
 
 func (s *statsreg) String() string {
@@ -144,7 +144,7 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 	return last, err
 }
 
-var re = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER_([^_]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
+var re = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER_([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
 
 func scan(stats *statsreg, check string, fh io.Reader) (string, error) {
 	last := check[:]
