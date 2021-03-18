@@ -82,12 +82,19 @@ func (s *statsreg) Len() int {
 	return len(s.R)
 }
 
-func (s *statsreg) New(script string) *stat {
+func (s *statsreg) newStat(script string) *stat {
 	return &stat{
 		script: script,
 		next: 0,
 		R: make(map[int]map[string]int64),
 	}
+}
+
+func (s *statsreg) Get(script string) *stat {
+	if st, ok := s.R[script]; ok {
+		return st
+	}
+	return s.newStat(script)
 }
 
 func (s *statsreg) Add(st *stat) {
@@ -147,7 +154,7 @@ func scan(stats *statsreg, check string, fh io.Reader) (string, error) {
 			sessionId := m[6]
 			if last == "" || tstamp > last {
 				log.Debug("%s %s %s %s %s", tstamp, sessionId, scriptName, apiMethod, elapsedTime)
-				st := stats.New(scriptName)
+				st := stats.Get(scriptName)
 				st.Add(apiMethod, elapsedTime)
 				stats.Add(st)
 				last = tstamp
