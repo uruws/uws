@@ -6,6 +6,7 @@ package main
 
 import (
 	"flag"
+	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -28,7 +29,7 @@ func main() {
 	flag.StringVar(&filter, "filter", filter, "filter log `file`")
 	flag.Parse()
 
-	lastfn := filepath.Join(filepath.Clean(statedir), filepath.Clean(env) + ".last")
+	lastfn := filepath.Join(filepath.Clean(statedir), filepath.Clean(env), ".api-logs.last")
 	last := ""
 	if blob, err := ioutil.ReadFile(lastfn); err != nil {
 		log.Debug("read lastfn: %s", err)
@@ -36,24 +37,38 @@ func main() {
 		last = strings.TrimSpace(string(blob))
 	}
 
+	var err error
 	if filter != "" {
-		Filter(last, filter, logsdir, env)
+		last, err = Filter(last, filter, logsdir, env)
+	}
+	if err != nil {
+		log.Fatal("%s", err)
+	}
+	if err := ioutil.WriteFile(lastfn, []byte(last), 0660); err != nil {
+		log.Fatal("%s", err)
 	}
 }
 
 // Filter parses log lines from filename (stdin if - provided) and avoid duplicates from previous runs.
-func Filter(last, filename, logsdir, env string) {
+func Filter(last, filename, logsdir, env string) (string, error) {
 	var fh *os.File
 	if filename == "-" {
-		fh = os.Stdin
+		return scan(last, os.Stdin)
 	} else {
 		var err error
 		fn := filepath.Join(filepath.Clean(logsdir),
 			filepath.Clean(env), filepath.Clean(filename))
 		fh, err = os.Open(fn)
 		if err != nil {
-			log.Fatal("%s", err)
+			return "", err
 		}
 		defer fh.Close()
+		return scan(last, fh)
 	}
+}
+
+func scan(last string, fh io.Reader) (string, error) {
+	log.Debug("scan last '%s'", last)
+	new := ""
+	return new, nil
 }
