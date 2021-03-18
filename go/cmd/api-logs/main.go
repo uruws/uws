@@ -70,7 +70,7 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 	}
 }
 
-var re = regexp.MustCompile(`PARSER_([^_]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
+var re = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER_([^_]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
 
 func scan(last string, fh io.Reader) (string, error) {
 	log.Debug("scan last '%s'", last)
@@ -79,12 +79,14 @@ func scan(last string, fh io.Reader) (string, error) {
 	for x.Scan() {
 		line := x.Text()
 		m := re.FindStringSubmatch(line)
-		if len(m) == 5 {
-			apiMethod := m[1]
-			elapsedTime := m[2]
-			scriptName := m[3]
-			sessionId := m[4]
-			fmt.Println(sessionId, scriptName, apiMethod, elapsedTime)
+		if len(m) == 7 {
+			tstamp := m[1]
+			tag := m[2]
+			apiMethod := m[3]
+			elapsedTime := m[4]
+			scriptName := m[5]
+			sessionId := m[6]
+			fmt.Println(tstamp, tag, sessionId, scriptName, apiMethod, elapsedTime)
 		}
 	}
 	return new, nil
