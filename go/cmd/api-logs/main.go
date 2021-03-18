@@ -79,8 +79,12 @@ func scan(last string, fh io.Reader) (string, error) {
 	for x.Scan() {
 		line := x.Text()
 		m := re.FindStringSubmatch(line)
-		if len(m) > 0 {
-			fmt.Println(m)
+		if len(m) == 5 {
+			apiMethod := m[1]
+			elapsedTime := m[2]
+			scriptName := m[3]
+			sessionId := m[4]
+			fmt.Println(sessionId, scriptName, apiMethod, elapsedTime)
 		}
 	}
 	return new, nil
