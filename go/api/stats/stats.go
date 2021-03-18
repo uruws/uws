@@ -11,15 +11,39 @@ import (
 	"io/ioutil"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"uws/log"
 )
+
+var fieldRe = regexp.MustCompile(`\W`)
+
+func cleanFieldName(n ...string) string {
+	f := strings.Join(n, "_")
+	f = strings.TrimSpace(f)
+	return fieldRe.ReplaceAllString(f, "_")
+}
+
+type Stat struct {
+	Name  string `json:"name"`
+	Took  int64 `json:"took"`
+	Label string `json:"label"`
+}
 
 type Info struct {
 	session int64
 	script  string
 	next    int
-	R       map[int]map[string]int64 `json:"stats"`
+	R       map[int]*Stat `json:"stats"`
+}
+
+func (s *Info) Get(id int) (*Stat, bool) {
+	st, ok := s.R[id]
+	return st, ok
+}
+
+func (s *Info) Len() int {
+	return len(s.R)
 }
 
 func (s *Info) Add(apiMethod, elapsedTime string) {
@@ -27,7 +51,8 @@ func (s *Info) Add(apiMethod, elapsedTime string) {
 	if err != nil {
 		log.Fatal("%s", err)
 	}
-	s.R[s.next] = map[string]int64{apiMethod: i}
+	s.R[s.next] = &Stat{Name: cleanFieldName(apiMethod), Took: i,
+		Label: apiMethod}
 	s.next += 1
 }
 
@@ -48,7 +73,7 @@ func (s *Reg) newStat(session int64, script string) *Info {
 		session: session,
 		script: script,
 		next: 0,
-		R: make(map[int]map[string]int64),
+		R: make(map[int]*Stat),
 	}
 }
 
@@ -88,8 +113,8 @@ func (s *Reg) add(st *Info) {
 }
 
 func (s *Reg) Encode() []byte {
-	//~ blob, err := json.MarshalIndent(s, "", "  ")
-	blob, err := json.Marshal(s)
+	blob, err := json.MarshalIndent(s, "", "  ")
+	//~ blob, err := json.Marshal(s)
 	if err != nil {
 		log.Fatal("stats encode: %s", err)
 	}

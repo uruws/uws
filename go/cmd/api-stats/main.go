@@ -6,10 +6,8 @@ package main
 
 import (
 	"flag"
-	//~ "io/ioutil"
-	//~ "os"
+	"fmt"
 	"path/filepath"
-	//~ "strings"
 
 	"uws/api/stats"
 	"uws/log"
@@ -35,7 +33,7 @@ func main() {
 	var err error
 	cmd := flag.Arg(0)
 	if cmd == "config" {
-		err = Config(st)
+		err = Config(st, env)
 	} else {
 		cmd = "report"
 		err = Report(st)
@@ -46,9 +44,53 @@ func main() {
 	}
 }
 
+func getColour(i int) (int, string) {
+	if i > 28 {
+		i = 0
+	}
+	n := fmt.Sprintf("COLOUR%d", i)
+	return i+1, n
+}
+
 // Config generates munin plugin config output.
-func Config(st *stats.Reg) error {
+func Config(st *stats.Reg, env string) error {
 	log.Debug("config: %d", st.Len())
+	fmt.Printf("multigraph uwsapi_%s\n", env)
+	fmt.Printf("graph_title bot %s api\n", env)
+	fmt.Println("graph_args --base 1000 -l 0")
+	fmt.Println("graph_vlabel seconds")
+	fmt.Println("graph_category api")
+	fmt.Println("graph_scale no")
+	col := 0
+	coln := ""
+	for _, script := range st.List() {
+		fmt.Printf("%s.label %s\n", script, script)
+		col, coln = getColour(col)
+		fmt.Printf("%s.colour %s\n", script, coln)
+		fmt.Printf("%s.min 0\n", script)
+		fmt.Printf("%s.cdef %s,1000,/\n", script, script)
+	}
+	for _, script := range st.List() {
+		fmt.Printf("multigraph uwsapi_%s.%s\n", env, script)
+		fmt.Printf("graph_title bot %s api %s\n", env, script)
+		fmt.Println("graph_args --base 1000 -l 0")
+		fmt.Println("graph_vlabel seconds")
+		fmt.Println("graph_category api")
+		fmt.Println("graph_scale no")
+		fmt.Println("graph_total Total elapsed time")
+		inf, _ := st.Get(script)
+		xlen := inf.Len()
+		col = 0
+		for x := 0; x < xlen; x += 1 {
+			i, _ := inf.Get(x)
+			fmt.Printf("f%d_%s.label /%s\n", x, i.Name, i.Label)
+			col, coln = getColour(col)
+			fmt.Printf("f%d_%s.colour %s\n", x, i.Name, coln)
+			fmt.Printf("f%d_%s.draw AREASTACK\n", x, i.Name)
+			fmt.Printf("f%d_%s.min 0\n", x, i.Name)
+			fmt.Printf("f%d_%s.cdef f%d_%s,1000,/\n", x, i.Name, x, i.Name)
+		}
+	}
 	return nil
 }
 
