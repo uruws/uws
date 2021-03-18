@@ -6,6 +6,7 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"flag"
 	"io"
 	"io/ioutil"
@@ -57,7 +58,7 @@ func main() {
 type stat struct {
 	script string
 	next   int
-	r      map[int]map[string]int64
+	R      map[int]map[string]int64 `json:"stats"`
 }
 
 func (s *stat) Add(apiMethod, elapsedTime string) {
@@ -65,32 +66,41 @@ func (s *stat) Add(apiMethod, elapsedTime string) {
 	if err != nil {
 		log.Fatal("%s", err)
 	}
-	s.r[s.next] = map[string]int64{apiMethod: i}
+	s.R[s.next] = map[string]int64{apiMethod: i}
+	s.next += 1
 }
 
 type statsreg struct {
-	r map[string]*stat
+	R map[string]*stat `json:"scripts"`
 }
 
 func newStatsreg() *statsreg {
-	return &statsreg{r: make(map[string]*stat)}
+	return &statsreg{R: make(map[string]*stat)}
 }
 
 func (s *statsreg) Len() int {
-	return len(s.r)
+	return len(s.R)
 }
 
 func (s *statsreg) New(script string) *stat {
 	return &stat{
 		script: script,
 		next: 0,
-		r: make(map[int]map[string]int64),
+		R: make(map[int]map[string]int64),
 	}
 }
 
 func (s *statsreg) Add(st *stat) {
-	s.r[st.script] = nil
-	s.r[st.script] = st
+	s.R[st.script] = nil
+	s.R[st.script] = st
+}
+
+func (s *statsreg) String() string {
+	blob, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		log.Fatal("%s", err)
+	}
+	return string(blob)
 }
 
 // Filter parses log lines from filename (stdin if - provided) and avoid duplicates from previous runs.
@@ -114,7 +124,7 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 		return "", err
 	}
 	if stats.Len() > 0 {
-		log.Debug("%#v %d", stats, stats.Len())
+		log.Debug("%s %d", stats, stats.Len())
 	}
 	return last, err
 }
