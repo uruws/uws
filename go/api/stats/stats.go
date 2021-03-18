@@ -110,3 +110,8 @@ func Scan(stats *Reg, check string, fh io.Reader) (string, error) {
 	}
 	return last, nil
 }
+
+// Load loads stats info from filename to stats reg.
+func Load(st *Reg, filename string) error {
+	return nil
+}

@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	//~ "strings"
 
-	//~ "uws/api/stats"
+	"uws/api/stats"
 	"uws/log"
 )
 
@@ -25,4 +25,35 @@ func main() {
 		"directory `where` to load stats info from")
 	flag.StringVar(&env, "env", env, "env `name`")
 	flag.Parse()
+
+	st := stats.NewReg()
+	fn := filepath.Join(filepath.Clean(statsdir), filepath.Clean(env), "stats")
+	if err := stats.Load(st, fn); err != nil {
+		log.Fatal("stats load: %s", err)
+	}
+
+	var err error
+	cmd := flag.Arg(0)
+	if cmd == "config" {
+		err = Config(st)
+	} else {
+		cmd = "report"
+		err = Report(st)
+	}
+
+	if err != nil {
+		log.Fatal("stats %s: %s", cmd, err)
+	}
+}
+
+// Config generates munin plugin config output.
+func Config(st *stats.Reg) error {
+	log.Debug("config")
+	return nil
+}
+
+// Report prints munin plugin values.
+func Report(st *stats.Reg) error {
+	log.Debug("report")
+	return nil
 }
