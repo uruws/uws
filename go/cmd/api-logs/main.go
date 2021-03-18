@@ -5,6 +5,7 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"io"
 	"io/ioutil"
@@ -21,7 +22,7 @@ func main() {
 		statedir string = filepath.FromSlash("/uws/var/api/logs")
 		logsdir  string = filepath.FromSlash("/uws/var/api/logs")
 		env      string = "default"
-		filter   string = "heroku.log"
+		filter   string = ""
 	)
 	flag.StringVar(&statedir, "statedir", statedir, "directory `where` to keep state info")
 	flag.StringVar(&logsdir, "logsdir", logsdir, "directory `where` to read logs from")
@@ -70,5 +71,10 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 func scan(last string, fh io.Reader) (string, error) {
 	log.Debug("scan last '%s'", last)
 	new := ""
+	x := bufio.NewScanner(fh)
+	for x.Scan() {
+		line := x.Text()
+		println(line)
+	}
 	return new, nil
 }
