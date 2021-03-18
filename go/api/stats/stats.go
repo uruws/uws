@@ -55,8 +55,10 @@ func (s *Reg) newStat(session int64, script string) *Info {
 // List returns the list of script names.
 func (s *Reg) List() []string {
 	l := make([]string, s.Len())
+	idx := 0
 	for k := range s.R {
-		l = append(l, k)
+		l[idx] = k
+		idx += 1
 	}
 	return l
 }
