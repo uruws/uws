@@ -72,22 +72,25 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 
 var re = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER_([^_]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
 
-func scan(last string, fh io.Reader) (string, error) {
+func scan(check string, fh io.Reader) (string, error) {
+	last := check[:]
 	log.Debug("scan last '%s'", last)
-	new := ""
 	x := bufio.NewScanner(fh)
 	for x.Scan() {
 		line := x.Text()
 		m := re.FindStringSubmatch(line)
 		if len(m) == 7 {
 			tstamp := m[1]
-			tag := m[2]
+			//tag := m[2]
 			apiMethod := m[3]
 			elapsedTime := m[4]
 			scriptName := m[5]
 			sessionId := m[6]
-			fmt.Println(tstamp, tag, sessionId, scriptName, apiMethod, elapsedTime)
+			if last == "" || tstamp > last {
+				fmt.Println(tstamp, sessionId, scriptName, apiMethod, elapsedTime)
+				last = tstamp
+			}
 		}
 	}
-	return new, nil
+	return last, nil
 }
