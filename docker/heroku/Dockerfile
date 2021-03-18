@@ -18,9 +18,6 @@ RUN echo 'deb https://cli-assets.heroku.com/apt ./' >/etc/apt/sources.list.d/her
 	&& rm -vf heroku.key \
 	&& /root/bin/apt-install.sh heroku
 
-COPY --chown=uws:uws utils/*.sh /usr/local/bin/
-RUN chmod -v 0750 /usr/local/bin/*.sh
-
 USER uws:uws
 WORKDIR /home/uws
 
@@ -31,5 +28,8 @@ RUN mkdir -vp ~/.cache/heroku
 
 RUN heroku version \
 	&& heroku plugins:install heroku-slugs
+
+COPY --chown=uws:uws utils/logger.sh /usr/local/bin/
+RUN chmod -v 0750 /usr/local/bin/logger.sh
 
 CMD exec /usr/local/bin/uws-login.sh
