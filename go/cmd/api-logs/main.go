@@ -45,7 +45,7 @@ func main() {
 
 	var err error
 	if filter != "" {
-		last, err = Filter(last, filter, logsdir, env)
+		last, err = Filter(last, filter, logsdir, statsdir, env)
 	}
 	if err != nil {
 		log.Fatal("%s", err)
@@ -110,16 +110,21 @@ func (s *statsreg) Add(st *stat) {
 	s.R[st.script] = st
 }
 
-func (s *statsreg) String() string {
-	blob, err := json.MarshalIndent(s, "", "  ")
+func (s *statsreg) encode() []byte {
+	//~ blob, err := json.MarshalIndent(s, "", "  ")
+	blob, err := json.Marshal(s)
 	if err != nil {
-		log.Fatal("%s", err)
+		log.Fatal("stats encode: %s", err)
 	}
-	return string(blob)
+	return blob
+}
+
+func (s *statsreg) String() string {
+	return string(s.encode())
 }
 
 // Filter parses log lines from filename (stdin if - provided) and avoid duplicates from previous runs.
-func Filter(last, filename, logsdir, env string) (string, error) {
+func Filter(last, filename, logsdir, statsdir, env string) (string, error) {
 	var fh *os.File
 	var err error
 	stats := newStatsreg()
@@ -139,7 +144,13 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 		return "", err
 	}
 	if stats.Len() > 0 {
-		log.Debug("%s %d", stats, stats.Len())
+		log.Debug("stats %d", stats.Len())
+		fn := filepath.Join(filepath.Clean(statsdir),
+			filepath.Clean(env), "stats.json")
+		if err := ioutil.WriteFile(fn, stats.encode(), 0660); err != nil {
+			return "", err
+		}
+		log.Debug("%s: saved!", fn)
 	}
 	return last, err
 }
