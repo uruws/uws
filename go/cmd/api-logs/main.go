@@ -7,7 +7,6 @@ package main
 import (
 	"bufio"
 	"flag"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -122,7 +121,7 @@ func scan(stats *statsreg, check string, fh io.Reader) (string, error) {
 			scriptName := m[5]
 			sessionId := m[6]
 			if last == "" || tstamp > last {
-				fmt.Println(tstamp, sessionId, scriptName, apiMethod, elapsedTime)
+				log.Debug("%s %s %s %s %s", tstamp, sessionId, scriptName, apiMethod, elapsedTime)
 				last = tstamp
 			}
 		}
