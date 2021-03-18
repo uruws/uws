@@ -55,17 +55,37 @@ func main() {
 }
 
 type stat struct {
+	script string
 }
 
-type statsreg map[string]stat
+type statsreg struct {
+	r map[string]*stat
+}
+
+func newStatsreg() *statsreg {
+	return &statsreg{r: make(map[string]*stat)}
+}
+
+func (s *statsreg) Len() int {
+	return len(s.r)
+}
+
+func (s *statsreg) New(script string) *stat {
+	return &stat{script: script}
+}
+
+func (s *statsreg) Add(st *stat) {
+	s.r[st.script] = nil
+	s.r[st.script] = st
+}
 
 // Filter parses log lines from filename (stdin if - provided) and avoid duplicates from previous runs.
 func Filter(last, filename, logsdir, env string) (string, error) {
 	var fh *os.File
 	var err error
-	stats := make(statsreg)
+	stats := newStatsreg()
 	if filename == "-" {
-		last, err = scan(&stats, last, os.Stdin)
+		last, err = scan(stats, last, os.Stdin)
 	} else {
 		fn := filepath.Join(filepath.Clean(logsdir),
 			filepath.Clean(env), filepath.Clean(filename))
@@ -74,7 +94,13 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 			return "", err
 		}
 		defer fh.Close()
-		last, err = scan(&stats, last, fh)
+		last, err = scan(stats, last, fh)
+	}
+	if err != nil {
+		return "", err
+	}
+	if stats.Len() > 0 {
+		log.Debug("%v %d", stats, stats.Len())
 	}
 	return last, err
 }
