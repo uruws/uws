@@ -7,10 +7,12 @@ package main
 import (
 	"bufio"
 	"flag"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"uws/log"
@@ -68,12 +70,18 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 	}
 }
 
+var re = regexp.MustCompile(`PARSER_([^_]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
+
 func scan(last string, fh io.Reader) (string, error) {
 	log.Debug("scan last '%s'", last)
 	new := ""
 	x := bufio.NewScanner(fh)
 	for x.Scan() {
 		line := x.Text()
+		m := re.FindStringSubmatch(line)
+		if len(m) > 0 {
+			fmt.Println(m)
+		}
 	}
 	return new, nil
 }
