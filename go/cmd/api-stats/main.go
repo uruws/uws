@@ -27,7 +27,7 @@ func main() {
 	flag.Parse()
 
 	st := stats.NewReg()
-	fn := filepath.Join(filepath.Clean(statsdir), filepath.Clean(env), "stats")
+	fn := filepath.Join(filepath.Clean(statsdir), filepath.Clean(env), "stats.json")
 	if err := stats.Load(st, fn); err != nil {
 		log.Fatal("stats load: %s", err)
 	}

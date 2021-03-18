@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"io"
+	"io/ioutil"
 	"regexp"
 	"strconv"
 
@@ -128,5 +129,9 @@ func Scan(stats *Reg, check string, fh io.Reader) (string, error) {
 
 // Load loads stats info from filename to stats reg.
 func Load(st *Reg, filename string) error {
-	return nil
+	blob, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(blob, st)
 }
