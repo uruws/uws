@@ -14,6 +14,7 @@ import (
 )
 
 var userAgent string = "uwsbot/" + version
+
 const reqTTL time.Duration = 5 * time.Minute
 
 func newRequest(script, method, uri string) (*http.Request, error) {

@@ -74,7 +74,6 @@ func scan(last string, fh io.Reader) (string, error) {
 	x := bufio.NewScanner(fh)
 	for x.Scan() {
 		line := x.Text()
-		println(line)
 	}
 	return new, nil
 }

@@ -163,7 +163,7 @@ func (s *botSession) Logout(u string) error {
 }
 
 func (s *botSession) Get(u string) (*http.Response, error) {
-	req := newGetRequest(s.script, s.baseURL + u)
+	req := newGetRequest(s.script, s.baseURL+u)
 	if s.auth {
 		requestAuth(req, s.authToken, s.userId)
 	}
