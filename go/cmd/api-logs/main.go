@@ -23,11 +23,13 @@ func main() {
 	var (
 		statedir string = filepath.FromSlash("/uws/var/api/logs")
 		logsdir  string = filepath.FromSlash("/uws/var/api/logs")
+		statsdir string = filepath.FromSlash("/uws/var/api/stats")
 		env      string = "default"
 		filter   string = ""
 	)
 	flag.StringVar(&statedir, "statedir", statedir, "directory `where` to keep state info")
 	flag.StringVar(&logsdir, "logsdir", logsdir, "directory `where` to read logs from")
+	flag.StringVar(&statsdir, "statsdir", statsdir, "directory `where` to keep stats info")
 	flag.StringVar(&env, "env", env, "env `name`")
 	flag.StringVar(&filter, "filter", filter, "filter log `file`")
 	flag.Parse()
@@ -52,13 +54,19 @@ func main() {
 	}
 }
 
+type stat struct {
+}
+
+type statsreg map[string]stat
+
 // Filter parses log lines from filename (stdin if - provided) and avoid duplicates from previous runs.
 func Filter(last, filename, logsdir, env string) (string, error) {
 	var fh *os.File
+	var err error
+	stats := make(statsreg)
 	if filename == "-" {
-		return scan(last, os.Stdin)
+		last, err = scan(&stats, last, os.Stdin)
 	} else {
-		var err error
 		fn := filepath.Join(filepath.Clean(logsdir),
 			filepath.Clean(env), filepath.Clean(filename))
 		fh, err = os.Open(fn)
@@ -66,13 +74,14 @@ func Filter(last, filename, logsdir, env string) (string, error) {
 			return "", err
 		}
 		defer fh.Close()
-		return scan(last, fh)
+		last, err = scan(&stats, last, fh)
 	}
+	return last, err
 }
 
 var re = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER_([^_]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
 
-func scan(check string, fh io.Reader) (string, error) {
+func scan(stats *statsreg, check string, fh io.Reader) (string, error) {
 	last := check[:]
 	log.Debug("scan last '%s'", last)
 	x := bufio.NewScanner(fh)
