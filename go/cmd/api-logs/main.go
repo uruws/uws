@@ -122,6 +122,8 @@ func scan(stats *statsreg, check string, fh io.Reader) (string, error) {
 			sessionId := m[6]
 			if last == "" || tstamp > last {
 				log.Debug("%s %s %s %s %s", tstamp, sessionId, scriptName, apiMethod, elapsedTime)
+				st := stats.New(scriptName)
+				stats.Add(st)
 				last = tstamp
 			}
 		}
