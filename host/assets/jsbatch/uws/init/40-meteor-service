@@ -6,6 +6,8 @@ mkdir -vp ${DIRS}
 chown -v uws:uws ${DIRS}
 chmod -v 0750 ${DIRS}
 
+chmod -v 0755 /uws/bin/api-logger.sh
+
 cd /srv/uws/deploy
 sudo -n -u uws make api
 
