@@ -33,6 +33,7 @@ services:
     container_name: uws-munin-node-staging-app-service
     volumes:
       - ./staging/app:/srv/etc/munin-node:ro
+      - /srv/etc/sec/staging:/srv/etc/sec:ro
       - /srv/uwsbot/stats/staging:/uws/var/uwsbot/stats:ro
       - /srv/heroku/stats/staging:/uws/var/api/stats/staging:ro
     restart: on-failure

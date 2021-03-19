@@ -12,6 +12,9 @@ fi
 if test -d /srv/etc/munin-node/plugin-conf.d; then
 	cp -vr /srv/etc/munin-node/plugin-conf.d /etc/munin
 fi
+if test -d /srv/etc/sec/munin-node/plugin-conf.d; then
+	cp -vr /srv/etc/sec/munin-node/plugin-conf.d /etc/munin
+fi
 # do prepare
 /etc/init.d/munin-node start
 /etc/init.d/munin-node stop
