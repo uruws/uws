@@ -34,9 +34,7 @@ RUN chmod -v 0640 /uws/etc/env/bot/stats
 COPY ./build/uwsbot-plugin.conf /etc/munin/plugin-conf.d/uwsbot
 RUN chmod -v 0640 /etc/munin/plugin-conf.d/uwsbot
 
-#~ VOLUME /var/lib/munin
-#~ VOLUME /var/cache/munin/www
-#~ VOLUME /var/log/munin
+COPY --chown=uws:uws ./build/api-stats.bin /uws/bin/api-stats
+RUN chmod -v 0750 /uws/bin/api-stats
 
-#~ CMD exec /bin/bash -l
 ENTRYPOINT exec /root/bin/mn-start.sh
