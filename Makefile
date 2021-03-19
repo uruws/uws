@@ -112,8 +112,17 @@ heroku: base-testing
 	@./docker/heroku/build.sh
 
 .PHONY: heroku-logger
-heroku-logger: heroku
+heroku-logger: heroku docker/heroku/build/api-logs.bin
 	@./docker/heroku/build-logger.sh
+
+docker/heroku/build/api-logs.bin: docker/golang/build/api-logs.bin
+	@mkdir -vp ./docker/heroku/build
+	@install -v docker/golang/build/api-logs.bin docker/heroku/build/api-logs.bin
+
+API_LOGS_DEPS != find go/api go/cmd/api-logs go/log -type f -name '*.go'
+
+docker/golang/build/api-logs.bin: $(API_LOGS_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/api-logs.bin ./cmd/api-logs
 
 .PHONY: clamav
 clamav: base-testing

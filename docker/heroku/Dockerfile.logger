@@ -12,5 +12,8 @@ ENV HOME /home/uws
 COPY --chown=uws:uws utils/logger.sh /usr/local/bin/
 RUN chmod -v 0750 /usr/local/bin/logger.sh
 
-ENTRYPOINT ["/usr/local/bin/logger.sh"]
+COPY --chown=uws:uws build/api-logs.bin /usr/local/bin/api-logs
+RUN chmod -v 0750 /usr/local/bin/api-logs
+
 CMD ["default"]
+ENTRYPOINT ["/usr/local/bin/logger.sh"]
