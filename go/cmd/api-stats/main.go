@@ -21,7 +21,10 @@ func main() {
 	if env == "" {
 		env = "default"
 	}
-	statsdir := filepath.FromSlash("/uws/var/api/stats")
+	statsdir := strings.TrimSpace(os.Getenv("statsdir"))
+	if statsdir == "" {
+		statsdir = filepath.FromSlash("/uws/var/api/stats")
+	}
 	flag.StringVar(&statsdir, "statsdir", statsdir,
 		"directory `where` to load stats info from")
 	flag.StringVar(&env, "env", env, "env `name`")
