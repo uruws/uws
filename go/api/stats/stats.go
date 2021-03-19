@@ -125,12 +125,21 @@ func (s *Reg) String() string {
 	return string(s.Encode())
 }
 
-var re = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER_([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
+var (
+	reDocker = regexp.MustCompile(`^([^ ]+) PARSER_([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
+	reHeroku = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER_([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
+)
 
 // Scan checks for lines newer than check time stamp and adds new ones to stats reg.
-func Scan(stats *Reg, check string, fh io.Reader) (string, error) {
+func Scan(stats *Reg, kind, check string, fh io.Reader) (string, error) {
+	var re *regexp.Regexp
 	last := check[:]
 	log.Debug("scan last '%s'", last)
+	if kind == "heroku" {
+		re = reHeroku
+	} else {
+		re = reDocker
+	}
 	x := bufio.NewScanner(fh)
 	for x.Scan() {
 		line := x.Text()

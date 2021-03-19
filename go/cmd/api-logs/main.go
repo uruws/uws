@@ -24,12 +24,14 @@ func main() {
 		statsdir string = filepath.FromSlash("/uws/var/api/stats")
 		env      string = "default"
 		filter   string = ""
+		kind     string = "docker"
 	)
 	flag.StringVar(&statedir, "statedir", statedir, "directory `where` to keep state info")
 	flag.StringVar(&logsdir, "logsdir", logsdir, "directory `where` to read logs from")
 	flag.StringVar(&statsdir, "statsdir", statsdir, "directory `where` to keep stats info")
 	flag.StringVar(&env, "env", env, "env `name`")
 	flag.StringVar(&filter, "filter", filter, "filter log `file`")
+	flag.StringVar(&kind, "kind", kind, "kind of log file `name`")
 	flag.Parse()
 
 	lastfn := filepath.Join(filepath.Clean(statedir), filepath.Clean(env), ".api-logs.last")
@@ -42,7 +44,7 @@ func main() {
 
 	var err error
 	if filter != "" {
-		last, err = Filter(last, filter, logsdir, statsdir, env)
+		last, err = Filter(last, filter, kind, logsdir, statsdir, env)
 	}
 	if err != nil {
 		log.Fatal("%s", err)
@@ -53,12 +55,12 @@ func main() {
 }
 
 // Filter parses log lines from filename (stdin if - provided) and avoid duplicates from previous runs.
-func Filter(last, filename, logsdir, statsdir, env string) (string, error) {
+func Filter(last, filename, kind, logsdir, statsdir, env string) (string, error) {
 	var fh *os.File
 	var err error
 	st := stats.NewReg()
 	if filename == "-" {
-		last, err = stats.Scan(st, last, os.Stdin)
+		last, err = stats.Scan(st, kind, last, os.Stdin)
 	} else {
 		fn := filepath.Join(filepath.Clean(logsdir),
 			filepath.Clean(env), filepath.Clean(filename))
@@ -67,7 +69,7 @@ func Filter(last, filename, logsdir, statsdir, env string) (string, error) {
 			return "", err
 		}
 		defer fh.Close()
-		last, err = stats.Scan(st, last, fh)
+		last, err = stats.Scan(st, kind, last, fh)
 	}
 	if err != nil {
 		return "", err
