@@ -140,7 +140,7 @@ clamav: base-testing
 	@./docker/clamav/build.sh
 
 .PHONY: api
-api: base
+api: base docker/golang/build/api-logs.bin
 	@./srv/api/build.sh
 
 .PHONY: all

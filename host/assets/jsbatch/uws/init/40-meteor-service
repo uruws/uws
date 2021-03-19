@@ -11,6 +11,8 @@ chmod -v 0755 /uws/bin/api-logger.sh
 cd /srv/uws/deploy
 sudo -n -u uws make api
 
+install -v -m 0755 ./docker/golang/build/api-logs.bin /uws/bin/api-logs
+
 if ! systemctl is-enabled uws-meteor.service; then
 	systemctl enable uws-meteor.service
 fi
