@@ -46,7 +46,7 @@ func main() {
 	if err != nil {
 		log.Fatal("%s", err)
 	}
-	if err := ioutil.WriteFile(lastfn, []byte(last), 0660); err != nil {
+	if err := ioutil.WriteFile(lastfn, []byte(last), 0640); err != nil {
 		log.Fatal("%s", err)
 	}
 }
@@ -75,7 +75,7 @@ func Filter(last, filename, logsdir, statsdir, env string) (string, error) {
 		log.Debug("stats %d", st.Len())
 		fn := filepath.Join(filepath.Clean(statsdir),
 			filepath.Clean(env), "stats.json")
-		if err := ioutil.WriteFile(fn, st.Encode(), 0660); err != nil {
+		if err := ioutil.WriteFile(fn, st.Encode(), 0664); err != nil {
 			return "", err
 		}
 		log.Debug("%s: saved!", fn)
