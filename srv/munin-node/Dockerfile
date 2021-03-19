@@ -22,6 +22,9 @@ RUN wget -O munin-contrib.tgz \
 	&& mkdir -vp /uws/munin \
 	&& mv -vf ${MN}-${MV} /uws/munin/contrib
 
+# mongodb plugins deps
+RUN /root/bin/apt-install.sh python3-pymongo
+
 ADD ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
