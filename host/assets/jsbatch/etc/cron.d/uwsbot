@@ -16,4 +16,4 @@ UWS_PREFIX=/uws
 3,8,13,18,23,28,33,38,43,48,53,58 * * * *	uws /uws/bin/uwsbot -env testing -name api
 
 # bot/testing api docker logger
-*/3 * * * *	uws /uws/bin/api-logger.sh uws-meteor testing /srv/heroku/stats
+*/3 * * * *	uws /uws/bin/api-logger.sh uws-meteor testing /srv/api/stats

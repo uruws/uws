@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
 
+DIRS='/srv/api /srv/api/stats'
+mkdir -vp ${DIRS}
+chown -v uws:uws ${DIRS}
+chmod -v 0750 ${DIRS}
+
 cd /srv/uws/deploy
 sudo -n -u uws make api
 
