@@ -6,7 +6,7 @@ UWS_PREFIX=/uws
 # bot/staging api
 1,6,11,16,21,26,31,36,41,46,51,56 * * * *	uwsrun cd /srv/uws/deploy && ./docker/uwsbot/run.sh staging api
 
-# bot/staging api logger
+# bot/staging api heroku logger
 */1	* * * *	uwsrun /srv/uws/deploy/docker/heroku/logger.sh staging /srv/heroku/stats
 
 # bot/production api
@@ -14,3 +14,6 @@ UWS_PREFIX=/uws
 
 # bot/testing api
 3,8,13,18,23,28,33,38,43,48,53,58 * * * *	uws /uws/bin/uwsbot -env testing -name api
+
+# bot/testing api docker logger
+*/3 * * * *	uws /uws/bin/api-logger.sh uws-meteor testing /srv/heroku/stats
