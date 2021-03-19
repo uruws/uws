@@ -142,22 +142,39 @@ func Scan(stats *Reg, kind, check string, fh io.Reader) (string, error) {
 	}
 	x := bufio.NewScanner(fh)
 	for x.Scan() {
+		var (
+			tstamp      string
+			apiMethod   string
+			elapsedTime string
+			scriptName  string
+			sessionId   string
+		)
 		line := x.Text()
 		m := re.FindStringSubmatch(line)
-		if len(m) == 7 {
-			tstamp := m[1]
-			//tag := m[2]
-			apiMethod := m[3]
-			elapsedTime := m[4]
-			scriptName := m[5]
-			sessionId := m[6]
-			if last == "" || tstamp > last {
-				log.Debug("%s %s %s %s %s", tstamp, sessionId, scriptName, apiMethod, elapsedTime)
-				st := stats.get(sessionId, scriptName)
-				st.Add(apiMethod, elapsedTime)
-				stats.add(st)
-				last = tstamp
+		if kind == "heroku" {
+			if len(m) == 7 {
+				tstamp = m[1]
+				//tag = m[2]
+				apiMethod = m[3]
+				elapsedTime = m[4]
+				scriptName = m[5]
+				sessionId = m[6]
 			}
+		} else {
+			if len(m) == 6 {
+				tstamp = m[1]
+				apiMethod = m[2]
+				elapsedTime = m[3]
+				scriptName = m[4]
+				sessionId = m[5]
+			}
+		}
+		if last == "" || tstamp > last {
+			log.Debug("%s %s %s %s %s", tstamp, sessionId, scriptName, apiMethod, elapsedTime)
+			st := stats.get(sessionId, scriptName)
+			st.Add(apiMethod, elapsedTime)
+			stats.add(st)
+			last = tstamp
 		}
 	}
 	return last, nil
