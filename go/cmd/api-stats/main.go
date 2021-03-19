@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"uws/api/stats"
+	"uws/fs"
 	"uws/log"
 )
 
@@ -32,9 +33,13 @@ func main() {
 
 	st := stats.NewReg()
 	fn := filepath.Join(filepath.Clean(statsdir), filepath.Clean(env), "stats.json")
+	lockd := filepath.Dir(fn)
+	fs.LockDir(lockd)
 	if err := stats.Load(st, fn); err != nil {
+		fs.UnlockDir(lockd)
 		log.Fatal("stats load: %s", err)
 	}
+	fs.UnlockDir(lockd)
 
 	var err error
 	cmd := flag.Arg(0)

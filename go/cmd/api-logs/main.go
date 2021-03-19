@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"uws/api/stats"
+	"uws/fs"
 	"uws/log"
 )
 
@@ -75,6 +76,9 @@ func Filter(last, filename, logsdir, statsdir, env string) (string, error) {
 		log.Debug("stats %d", st.Len())
 		fn := filepath.Join(filepath.Clean(statsdir),
 			filepath.Clean(env), "stats.json")
+		lockd := filepath.Dir(fn)
+		fs.LockDir(lockd)
+		defer fs.UnlockDir(lockd)
 		if err := ioutil.WriteFile(fn, st.Encode(), 0664); err != nil {
 			return "", err
 		}
