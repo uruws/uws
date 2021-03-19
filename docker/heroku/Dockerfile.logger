@@ -1,0 +1,16 @@
+FROM uws/heroku
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="2021.03.18"
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+COPY --chown=uws:uws utils/logger.sh /usr/local/bin/
+RUN chmod -v 0750 /usr/local/bin/logger.sh
+
+ENTRYPOINT ["/usr/local/bin/logger.sh"]
+CMD ["default"]

@@ -1,7 +1,7 @@
 FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.03.10"
+LABEL version="2021.03.18"
 
 USER root:root
 WORKDIR /root
@@ -25,11 +25,7 @@ ENV USER uws
 ENV HOME /home/uws
 
 RUN mkdir -vp ~/.cache/heroku
-
 RUN heroku version \
 	&& heroku plugins:install heroku-slugs
-
-COPY --chown=uws:uws utils/logger.sh /usr/local/bin/
-RUN chmod -v 0750 /usr/local/bin/logger.sh
 
 CMD exec /usr/local/bin/uws-login.sh

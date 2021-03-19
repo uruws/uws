@@ -111,6 +111,10 @@ srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
 heroku: base-testing
 	@./docker/heroku/build.sh
 
+.PHONY: heroku-logger
+heroku-logger: heroku
+	@./docker/heroku/build-logger.sh
+
 .PHONY: clamav
 clamav: base-testing
 	@./docker/clamav/build.sh
@@ -120,7 +124,7 @@ api: base
 	@./srv/api/build.sh
 
 .PHONY: all
-all: base base-testing awscli mkcert golang uwsbot uwspkg acme munin munin-backend munin-node heroku clamav api
+all: base base-testing awscli mkcert golang uwsbot uwspkg acme munin munin-backend munin-node heroku heroku-logger clamav api
 
 .PHONY: publish
 publish: munin munin-backend munin-node
