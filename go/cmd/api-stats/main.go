@@ -7,7 +7,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"path/filepath"
+	"strings"
 
 	"uws/api/stats"
 	"uws/log"
@@ -15,10 +17,11 @@ import (
 
 func main() {
 	log.Init("api-stats")
-	var (
-		statsdir string = filepath.FromSlash("/uws/var/api/stats")
-		env      string = "default"
-	)
+	env := strings.TrimSpace(os.Getenv("api_env"))
+	if env == "" {
+		env = "default"
+	}
+	statsdir := filepath.FromSlash("/uws/var/api/stats")
 	flag.StringVar(&statsdir, "statsdir", statsdir,
 		"directory `where` to load stats info from")
 	flag.StringVar(&env, "env", env, "env `name`")
