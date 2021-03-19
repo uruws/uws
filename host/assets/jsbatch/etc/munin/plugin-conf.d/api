@@ -1,7 +1,0 @@
-[api_stats_*]
-user uwsrun
-group uwsrun
-env.statsdir /srv/heroku/stats
-
-[api_stats_staging]
-env.api_env staging

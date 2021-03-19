@@ -38,7 +38,7 @@ ${pl_ena} contrib mongodb/mongo_mem mongo_mem
 ${pl_ena} contrib mongodb/mongo_ops mongo_ops
 
 rm -vf /etc/munin/plugins/api_stats*
-ln -vsf /uws/bin/api-stats /etc/munin/plugins/api_stats_staging
+rm -vf /etc/munin/plugin-conf.d/api
 
 ls /etc/munin/plugins >/srv/run/uws-service-restart/munin-node.plugins
 /uws/bin/service-restart.sh munin-node /etc/munin /srv/run/uws-service-restart/munin-node.plugins /etc/munin/plugin-conf.d
