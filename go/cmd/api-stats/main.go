@@ -62,7 +62,7 @@ func getColour(i int) (int, string) {
 func Config(st *stats.Reg, env string) error {
 	log.Debug("config: %d", st.Len())
 	fmt.Printf("multigraph uwsapi_%s\n", env)
-	fmt.Printf("graph_title bot %s api\n", env)
+	fmt.Printf("graph_title %s api\n", env)
 	fmt.Println("graph_args --base 1000 -l 0")
 	fmt.Println("graph_vlabel seconds")
 	fmt.Println("graph_category api")
@@ -78,7 +78,7 @@ func Config(st *stats.Reg, env string) error {
 	}
 	for _, script := range st.List() {
 		fmt.Printf("multigraph uwsapi_%s.%s\n", env, script)
-		fmt.Printf("graph_title bot %s api %s\n", env, script)
+		fmt.Printf("graph_title %s api %s\n", env, script)
 		fmt.Println("graph_args --base 1000 -l 0")
 		fmt.Println("graph_vlabel seconds")
 		fmt.Println("graph_category api")
