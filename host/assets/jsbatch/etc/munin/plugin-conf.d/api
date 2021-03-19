@@ -1,0 +1,5 @@
+[api_stats_testing]
+user uws
+group uws
+env.statsdir /srv/api/stats
+env.api_env testing
