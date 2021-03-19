@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-DIRS='/srv/heroku'
+DIRS='/srv/heroku /srv/heroku/stats'
 mkdir -vp ${DIRS}
 chown -v uws:uwsrun ${DIRS}
 chmod -v 0750 ${DIRS}
@@ -13,6 +13,8 @@ if test -s /srv/uws/deploy/Makefile; then
 	cd /srv/uws/deploy
 	# build container
 	${uws} make heroku
+	${uws} make heroku-logger
+	install -v -C ./docker/heroku/build/api-stats.bin /uws/bin/api-stats
 	cd ${oldwd}
 fi
 
