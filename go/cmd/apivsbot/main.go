@@ -54,16 +54,15 @@ func main() {
 		bst *botstats.Report
 	)
 
-	bst, err = botstats.Parse(botsdir, env, "api")
-	if err != nil {
-		log.Fatal("bot stats load: %s", err)
-	}
-
 	cmd := flag.Arg(0)
 	if cmd == "config" {
-		err = Config(st, env, bst)
+		err = Config(st, env)
 	} else {
 		cmd = "report"
+		bst, err = botstats.Parse(botsdir, env, "api")
+		if err != nil {
+			log.Fatal("bot stats load: %s", err)
+		}
 		err = Report(st, env, bst)
 	}
 
@@ -81,43 +80,25 @@ func getColour(i int) (int, string) {
 }
 
 // Config generates munin plugin config output.
-func Config(st *stats.Reg, env string, bst *botstats.Report) error {
-	log.Debug("config: %d %d", st.Len(), bst.Len())
-	fmt.Printf("multigraph uwsapi_%s\n", env)
-	fmt.Printf("graph_title %s api\n", env)
-	fmt.Println("graph_args --base 1000 -l 0")
-	fmt.Println("graph_vlabel seconds")
-	fmt.Println("graph_category api")
-	fmt.Println("graph_scale no")
-	col := 0
-	coln := ""
+func Config(st *stats.Reg, env string) error {
+	log.Debug("config: %d", st.Len())
 	for _, script := range st.List() {
-		fmt.Printf("%s.label %s\n", script, script)
-		col, coln = getColour(col)
-		fmt.Printf("%s.colour %s\n", script, coln)
-		fmt.Printf("%s.min 0\n", script)
-		fmt.Printf("%s.cdef %s,1000,/\n", script, script)
-	}
-	for _, script := range st.List() {
-		fmt.Printf("multigraph uwsapi_%s.%s\n", env, script)
-		fmt.Printf("graph_title %s api %s\n", env, script)
+		inf, _ := st.Get(script)
+		fmt.Printf("multigraph apivsbot_%s_%s\n", env, script)
+		fmt.Printf("graph_title api vs bot: %s %s\n", env, inf.Name)
 		fmt.Println("graph_args --base 1000 -l 0")
 		fmt.Println("graph_vlabel seconds")
 		fmt.Println("graph_category api")
 		fmt.Println("graph_scale no")
 		fmt.Println("graph_total Total elapsed time")
-		inf, _ := st.Get(script)
-		xlen := inf.Len()
-		col = 0
-		for x := 0; x < xlen; x += 1 {
-			i, _ := inf.Get(x)
-			fmt.Printf("f%d_%s.label /%s\n", x, i.Name, i.Label)
-			col, coln = getColour(col)
-			fmt.Printf("f%d_%s.colour %s\n", x, i.Name, coln)
-			fmt.Printf("f%d_%s.draw AREASTACK\n", x, i.Name)
-			fmt.Printf("f%d_%s.min 0\n", x, i.Name)
-			fmt.Printf("f%d_%s.cdef f%d_%s,1000,/\n", x, i.Name, x, i.Name)
-		}
+		fmt.Println("api.label api")
+		fmt.Println("api.colour COLOUR0")
+		fmt.Println("api.min 0")
+		fmt.Println("api.cdef api,1000,/")
+		fmt.Println("bot.label bot")
+		fmt.Println("bot.colour COLOUR1")
+		fmt.Println("bot.min 0")
+		fmt.Println("bot.cdef bot,1000,/")
 	}
 	return nil
 }
