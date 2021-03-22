@@ -90,7 +90,6 @@ func Config(st *stats.Reg, env string) error {
 		fmt.Println("graph_vlabel seconds")
 		fmt.Println("graph_category apivsbot")
 		fmt.Println("graph_scale no")
-		fmt.Println("graph_total Total elapsed time")
 		fmt.Println("api.label api")
 		fmt.Println("api.colour COLOUR0")
 		fmt.Println("api.min 0")
