@@ -113,8 +113,8 @@ func (s *Reg) add(st *Info) {
 }
 
 func (s *Reg) Encode() []byte {
-	blob, err := json.MarshalIndent(s, "", "  ")
-	//~ blob, err := json.Marshal(s)
+	//~ blob, err := json.MarshalIndent(s, "", "  ")
+	blob, err := json.Marshal(s)
 	if err != nil {
 		log.Fatal("stats encode: %s", err)
 	}
