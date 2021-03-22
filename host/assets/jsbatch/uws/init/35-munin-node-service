@@ -43,8 +43,9 @@ ${pl_ena} contrib mongodb/mongo_lag mongo_lag
 ${pl_ena} contrib mongodb/mongo_mem mongo_mem
 ${pl_ena} contrib mongodb/mongo_ops mongo_ops
 
-rm -vf /etc/munin/plugins/api_stats*
+rm -vf /etc/munin/plugins/api*
 ln -vsf /uws/bin/api-stats /etc/munin/plugins/api_stats_testing
+ln -vsf /uws/bin/apivsbot /etc/munin/plugins/apivsbot_testing
 
 ls /etc/munin/plugins >/srv/run/uws-service-restart/munin-node.plugins
 /uws/bin/service-restart.sh munin-node /etc/munin /srv/run/uws-service-restart/munin-node.plugins /etc/munin/plugin-conf.d

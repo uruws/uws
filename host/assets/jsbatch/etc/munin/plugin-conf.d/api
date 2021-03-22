@@ -3,3 +3,10 @@ user uws
 group uws
 env.statsdir /srv/api/stats
 env.api_env testing
+
+[apivsbot_testing]
+user uws
+group uws
+env.statsdir /srv/api/stats
+env.botsdir /srv/uwsbot/stats
+env.api_env testing

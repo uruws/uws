@@ -12,6 +12,7 @@ cd /srv/uws/deploy
 sudo -n -u uws make api
 
 install -v -m 0755 ./docker/golang/build/api-logs.bin /uws/bin/api-logs
+install -v -m 0755 ./docker/golang/build/apivsbot.bin /uws/bin/apivsbot
 
 if ! systemctl is-enabled uws-meteor.service; then
 	systemctl enable uws-meteor.service
