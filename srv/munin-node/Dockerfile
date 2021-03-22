@@ -40,4 +40,7 @@ RUN chmod -v 0640 /etc/munin/plugin-conf.d/uwsbot
 COPY --chown=uws:uws ./build/api-stats.bin /uws/bin/api-stats
 RUN chmod -v 0750 /uws/bin/api-stats
 
+COPY --chown=uws:uws ./build/apivsbot.bin /uws/bin/apivsbot
+RUN chmod -v 0750 /uws/bin/apivsbot
+
 ENTRYPOINT exec /root/bin/mn-start.sh

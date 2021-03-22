@@ -100,7 +100,7 @@ munin-backend: munin
 	@./srv/munin-backend/build.sh
 
 .PHONY: munin-node
-munin-node: base-testing golang srv/munin-node/build/uwsbot-stats.bin srv/munin-node/build/api-stats.bin
+munin-node: base-testing golang srv/munin-node/build/uwsbot-stats.bin srv/munin-node/build/api-stats.bin srv/munin-node/build/apivsbot.bin
 	@./srv/munin-node/build.sh
 
 srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
@@ -110,6 +110,10 @@ srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
 srv/munin-node/build/api-stats.bin: docker/golang/build/api-stats.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/api-stats.bin ./srv/munin-node/build/api-stats.bin
+
+srv/munin-node/build/apivsbot.bin: docker/golang/build/apivsbot.bin
+	@mkdir -vp ./srv/munin-node/build
+	@install -v docker/golang/build/apivsbot.bin ./srv/munin-node/build/apivsbot.bin
 
 .PHONY: heroku
 heroku: base-testing
