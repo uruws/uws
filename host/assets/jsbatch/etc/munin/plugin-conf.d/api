@@ -8,5 +8,5 @@ env.api_env testing
 user uws
 group uws
 env.statsdir /srv/api/stats
-env.botsdir /srv/uwsbot/stats
+env.botsdir /srv/uwsbot/stats/testing
 env.api_env testing
