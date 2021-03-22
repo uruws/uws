@@ -88,7 +88,7 @@ func Config(st *stats.Reg, env string) error {
 		fmt.Printf("graph_title api vs bot: %s %s\n", env, inf.Name)
 		fmt.Println("graph_args --base 1000 -l 0")
 		fmt.Println("graph_vlabel seconds")
-		fmt.Println("graph_category api")
+		fmt.Println("graph_category apivsbot")
 		fmt.Println("graph_scale no")
 		fmt.Println("graph_total Total elapsed time")
 		fmt.Println("api.label api")
