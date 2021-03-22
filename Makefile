@@ -127,7 +127,7 @@ docker/heroku/build/api-stats.bin: docker/golang/build/api-stats.bin
 	@mkdir -vp ./docker/heroku/build
 	@install -v docker/golang/build/api-stats.bin docker/heroku/build/api-stats.bin
 
-API_LOGS_DEPS != find go/api go/cmd/api-* go/log -type f -name '*.go'
+API_LOGS_DEPS != find go/api go/cmd/api* go/log go/fs -type f -name '*.go'
 
 docker/golang/build/api-logs.bin: $(API_LOGS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-logs.bin ./cmd/api-logs
@@ -135,12 +135,15 @@ docker/golang/build/api-logs.bin: $(API_LOGS_DEPS)
 docker/golang/build/api-stats.bin: $(API_LOGS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-stats.bin ./cmd/api-stats
 
+docker/golang/build/apivsbot.bin: $(API_LOGS_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/apivsbot.bin ./cmd/apivsbot
+
 .PHONY: clamav
 clamav: base-testing
 	@./docker/clamav/build.sh
 
 .PHONY: api
-api: base docker/golang/build/api-logs.bin
+api: base docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
 	@./srv/api/build.sh
 
 .PHONY: all
