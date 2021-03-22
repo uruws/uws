@@ -34,6 +34,7 @@ type Info struct {
 	session int64
 	script  string
 	next    int
+	Name    string `json:"name"`
 	R       map[int]*Stat `json:"stats"`
 }
 
@@ -71,8 +72,10 @@ func (s *Reg) Len() int {
 func (s *Reg) newStat(session int64, script string) *Info {
 	return &Info{
 		session: session,
-		script: script,
 		next: 0,
+		script: cleanFieldName(script),
+
+		Name: script,
 		R: make(map[int]*Stat),
 	}
 }
@@ -99,7 +102,7 @@ func (s *Reg) get(session, script string) *Info {
 	if err != nil {
 		log.Fatal("%s", err)
 	}
-	if st, ok := s.R[script]; ok {
+	if st, ok := s.R[cleanFieldName(script)]; ok {
 		if st.session >= sid {
 			return st
 		}
