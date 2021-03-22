@@ -99,6 +99,10 @@ func Config(st *stats.Reg, env string) error {
 		fmt.Println("bot.colour COLOUR1")
 		fmt.Println("bot.min 0")
 		fmt.Println("bot.cdef bot,1000,/")
+		fmt.Println("diff.label diff")
+		fmt.Println("diff.colour COLOUR2")
+		fmt.Println("diff.min 0")
+		fmt.Println("diff.cdef diff,1000,/")
 	}
 	return nil
 }
@@ -119,8 +123,10 @@ func Report(st *stats.Reg, env string, bst *botstats.Report) error {
 		fmt.Printf("api.value %d\n", took)
 		if v, ok := r[script]; ok {
 			fmt.Printf("bot.value %d\n", v)
+			fmt.Printf("diff.value %d\n", v - took)
 		} else {
 			fmt.Println("bot.value U")
+			fmt.Println("diff.value U")
 		}
 	}
 	return nil
