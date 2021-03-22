@@ -216,6 +216,10 @@ func newReport() *Report {
 	}
 }
 
+func (r *Report) Len() int {
+	return r.scripts.Len()
+}
+
 func Parse(stdir, benv, bname string) (*Report, error) {
 	if benv == "" || benv == "ALL" {
 		benv = "*"
