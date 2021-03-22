@@ -14,6 +14,8 @@ import (
 	"uws/api/stats"
 	"uws/fs"
 	"uws/log"
+
+	botstats "uws/bot/stats"
 )
 
 func main() {
@@ -43,17 +45,26 @@ func main() {
 	fs.LockDir(lockd)
 	if err := stats.Load(st, fn); err != nil {
 		fs.UnlockDir(lockd)
-		log.Fatal("stats load: %s", err)
+		log.Fatal("api stats load: %s", err)
 	}
 	fs.UnlockDir(lockd)
 
-	var err error
+	var (
+		err error
+		bst *botstats.Report
+	)
+
+	bst, err = botstats.Parse(botsdir, env, "api")
+	if err != nil {
+		log.Fatal("bot stats load: %s", err)
+	}
+
 	cmd := flag.Arg(0)
 	if cmd == "config" {
-		err = Config(st, env)
+		err = Config(st, env, bst)
 	} else {
 		cmd = "report"
-		err = Report(st, env)
+		err = Report(st, env, bst)
 	}
 
 	if err != nil {
@@ -70,8 +81,8 @@ func getColour(i int) (int, string) {
 }
 
 // Config generates munin plugin config output.
-func Config(st *stats.Reg, env string) error {
-	log.Debug("config: %d", st.Len())
+func Config(st *stats.Reg, env string, bst *botstats.Report) error {
+	log.Debug("config: %d %d", st.Len(), bst.Len())
 	fmt.Printf("multigraph uwsapi_%s\n", env)
 	fmt.Printf("graph_title %s api\n", env)
 	fmt.Println("graph_args --base 1000 -l 0")
@@ -112,8 +123,8 @@ func Config(st *stats.Reg, env string) error {
 }
 
 // Report prints munin plugin values.
-func Report(st *stats.Reg, env string) error {
-	log.Debug("report: %d", st.Len())
+func Report(st *stats.Reg, env string, bst *botstats.Report) error {
+	log.Debug("report: %d %d", st.Len(), bst.Len())
 	fmt.Printf("multigraph uwsapi_%s\n", env)
 	for _, script := range st.List() {
 		var took int64
