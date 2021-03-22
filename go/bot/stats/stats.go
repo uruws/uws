@@ -561,3 +561,18 @@ func (r *Report) Config() {
 		}
 	}
 }
+
+// Get returns a report representation.
+func (r *Report) Get() map[string]int64 {
+	x := make(map[string]int64)
+	for e := r.scripts.Front(); e != nil; e = e.Next() {
+		var took int64
+		i := e.Value.(*Info)
+		for c := i.children.Front(); c != nil; c = c.Next() {
+			ci := c.Value.(*Info)
+			took += ci.Value
+		}
+		x[i.Id] = took
+	}
+	return x
+}
