@@ -106,6 +106,7 @@ func Config(st *stats.Reg, env string) error {
 // Report prints munin plugin values.
 func Report(st *stats.Reg, env string, bst *botstats.Report) error {
 	log.Debug("report: %d %d", st.Len(), bst.Len())
+	r := bst.Get()
 	for _, script := range st.List() {
 		var took int64
 		fmt.Printf("multigraph apivsbot_%s_%s\n", env, script)
@@ -116,6 +117,11 @@ func Report(st *stats.Reg, env string, bst *botstats.Report) error {
 			took += i.Took
 		}
 		fmt.Printf("api.value %d\n", took)
+		if v, ok := r[script]; ok {
+			fmt.Printf("bot.value %d\n", v)
+		} else {
+			fmt.Println("bot.value U")
+		}
 	}
 	return nil
 }
