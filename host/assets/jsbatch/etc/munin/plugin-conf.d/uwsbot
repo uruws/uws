@@ -1,4 +1,4 @@
 [uwsbot_stats]
 user uws
 group uws
-env.UWS_STATSDIR /uws/var/uwsbot/stats/testing
+env.UWS_STATSDIR /srv/uwsbot/stats/testing
