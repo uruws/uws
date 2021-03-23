@@ -8,6 +8,9 @@ chmod -v 0750 ${DIRS}
 
 chmod -v 0755 /uws/bin/api-logger.sh
 
+chown -v uws:uwsrun /uws/bin/uwsbot-testing.sh
+chmod -v 0750 /uws/bin/uwsbot-testing.sh
+
 cd /srv/uws/deploy
 sudo -n -u uws make api
 
