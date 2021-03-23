@@ -10,7 +10,9 @@ services:
     container_name: uws-munin-node-app-service
     volumes:
       - ./prod/app:/srv/etc/munin-node:ro
+      - /srv/etc/sec/production:/srv/etc/sec:ro
       - /srv/uwsbot/stats/production:/uws/var/uwsbot/stats:ro
+      - /srv/heroku/stats/production:/uws/var/api/stats/production:ro
     restart: on-failure
     ports:
       - 4950:4949
