@@ -109,6 +109,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	cfgModule(b, filepath.Join(dir, "config"))
 	checkModule(b)
 	libModules(b)
+	mongodbModule(b)
 	if err := vmExec(ctx, b, fn); err != nil {
 		log.Fatal("bot load: %s", err)
 	}
