@@ -114,7 +114,7 @@ func secModule(b *Bot) {
 		b.sec.SetConfigDir(secdir)
 		fn := b.benv + ".yml"
 		if err := b.sec.Load(fn); err != nil {
-			log.Error("secret module load file: %s", err)
+			log.Debug("secret module load file ERROR: %s", err)
 		} else {
 			log.Debug("%s secret loaded", fn)
 		}
