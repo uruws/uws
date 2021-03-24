@@ -133,7 +133,6 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	secModule(b)
 	checkModule(b)
 	libModules(b)
-	mongodbModule(b)
 	if err := vmExec(ctx, b, fn); err != nil {
 		log.Fatal("bot load: %s", err)
 	}
@@ -145,6 +144,7 @@ func Run(ctx context.Context, b *Bot, bdir, stdir, runfn string) error {
 	log.Debug("bot run: %s", script)
 	b.sess.setScript(fmt.Sprintf("%s-%d", runfn, time.Now().UnixNano()))
 	b.setStats(stdir, runfn)
+	mongodbModule(b)
 	if err := vmExec(ctx, b, script); err != nil {
 		log.Debug("bot run: %s", err)
 		return err
