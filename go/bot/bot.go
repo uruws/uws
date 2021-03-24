@@ -44,6 +44,7 @@ type Bot struct {
 	sess   *botSession
 	stats  *scriptStats
 	cfg    *appcfg.Config
+	sec    *appcfg.Config
 	script string
 }
 
@@ -54,6 +55,7 @@ func New(benv, bname string) *Bot {
 		env:   newBotEnv(),
 		sess:  newBotSession(),
 		cfg:   appcfg.New(),
+		sec:   appcfg.New(),
 	}
 }
 
@@ -101,12 +103,32 @@ func cfgModule(b *Bot, cfgdir string) {
 	}
 }
 
+func secModule(b *Bot, secdir string) {
+	//uwsdoc: -----
+	//uwsdoc: secret module:
+	if m, err := b.env.Env.NewModule("secret"); err != nil {
+		log.Fatal("secret module: %s", err)
+	} else {
+		b.sec.SetConfigDir(secdir)
+		fn := b.benv + ".yml"
+		if err := b.sec.Load(fn); err != nil {
+			log.Error("secret module load file: %s", err)
+		} else {
+			log.Debug("%s secret loaded", fn)
+		}
+		//uwsdoc: secret.get(key) -> string
+		//uwsdoc: 	Returns the secret key value.
+		check(m.Define("get", b.sec.Get))
+	}
+}
+
 func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	fn := filepath.Join(dir, "bot.ank")
 	log.Debug("load: %s", fn)
 	b := New(benv, bname)
 	botModule(b)
 	cfgModule(b, filepath.Join(dir, "config"))
+	secModule(b, filepath.Join(dir, "secret"))
 	checkModule(b)
 	libModules(b)
 	mongodbModule(b)
