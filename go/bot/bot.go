@@ -13,6 +13,7 @@ import (
 
 	"uws/bot/stats"
 	"uws/config/appcfg"
+	"uws/env"
 	"uws/log"
 )
 
@@ -103,7 +104,8 @@ func cfgModule(b *Bot, cfgdir string) {
 	}
 }
 
-func secModule(b *Bot, secdir string) {
+func secModule(b *Bot) {
+	secdir := env.GetFilepath("SECDIR")
 	//uwsdoc: -----
 	//uwsdoc: secret module:
 	if m, err := b.env.Env.NewModule("secret"); err != nil {
@@ -128,7 +130,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	b := New(benv, bname)
 	botModule(b)
 	cfgModule(b, filepath.Join(dir, "config"))
-	secModule(b, filepath.Join(dir, "secret"))
+	secModule(b)
 	checkModule(b)
 	libModules(b)
 	mongodbModule(b)
