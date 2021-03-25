@@ -84,7 +84,7 @@ func (s *botSession) Login(u string) error {
 	)
 	req := newPostFormRequest(s.script, s.baseURL+u, s.getCredentials())
 	if s.auth {
-		return log.NewError("bot is already logged in!")
+		return log.Error("bot is already logged in!")
 	}
 	resp, err = s.cli.Do(req)
 	if err != nil {
@@ -92,29 +92,29 @@ func (s *botSession) Login(u string) error {
 	}
 	//~ log.Debug("resp %v", resp)
 	if resp.StatusCode != http.StatusOK {
-		return log.NewError("login invalid response status code: %d", resp.StatusCode)
+		return log.Error("login invalid response status code: %d", resp.StatusCode)
 	}
 	ctype := resp.Header.Get("content-type")
 	if ctype != "application/json" {
-		return log.NewError("login invalid response content type: %s", ctype)
+		return log.Error("login invalid response content type: %s", ctype)
 	}
 	defer resp.Body.Close()
 	blob, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return log.NewError("login read response: %s", err)
+		return log.Error("login read response: %s", err)
 	}
 	body := &loginResponse{Data: new(respData)}
 	if err := json.Unmarshal(blob, &body); err != nil {
-		return log.NewError("login response body: %s", err)
+		return log.Error("login response body: %s", err)
 	}
 	if body.Status != "success" {
-		return log.NewError("login response body status: %s", body.Status)
+		return log.Error("login response body status: %s", body.Status)
 	}
 	if body.Data.AuthToken == "" {
-		return log.NewError("login response body empty auth token")
+		return log.Error("login response body empty auth token")
 	}
 	if body.Data.UserId == "" {
-		return log.NewError("login response body empty user id")
+		return log.Error("login response body empty user id")
 	}
 	s.authToken = body.Data.AuthToken
 	s.userId = body.Data.UserId
@@ -141,23 +141,23 @@ func (s *botSession) Logout(u string) error {
 	}
 	//~ log.Debug("resp: %v", resp)
 	if resp.StatusCode != http.StatusOK {
-		return log.NewError("logout invalid response status code: %d", resp.StatusCode)
+		return log.Error("logout invalid response status code: %d", resp.StatusCode)
 	}
 	ctype := resp.Header.Get("content-type")
 	if ctype != "application/json" {
-		return log.NewError("logout invalid response content type: %s", ctype)
+		return log.Error("logout invalid response content type: %s", ctype)
 	}
 	defer resp.Body.Close()
 	blob, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return log.NewError("logout read response: %s", err)
+		return log.Error("logout read response: %s", err)
 	}
 	body := &logoutResponse{}
 	if err := json.Unmarshal(blob, &body); err != nil {
-		return log.NewError("logout response body: %s", err)
+		return log.Error("logout response body: %s", err)
 	}
 	if body.Status != "success" {
-		return log.NewError("logout response body status: %s", body.Status)
+		return log.Error("logout response body status: %s", body.Status)
 	}
 	return nil
 }

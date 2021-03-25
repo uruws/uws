@@ -39,7 +39,7 @@ func loadFile(name string, reportError bool) error {
 			}
 		}
 		if reportError && !found {
-			return log.NewError("could not load env: %s", name)
+			return log.Error("could not load env: %s", name)
 		}
 	}
 	return nil

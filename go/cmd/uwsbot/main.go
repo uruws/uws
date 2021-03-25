@@ -148,7 +148,7 @@ func dispatch(ctx context.Context, wg *sync.WaitGroup, benv, bname, bdir, stdir 
 				scount += 1
 				go worker(ctx, wg, scount, benv, bname, stdir, fn[:len(fn)-4]) // remove .ank from run fn
 			} else {
-				return log.NewError("max limit of running scripts reached: %d, refusing to dispatch another worker.", scount)
+				return log.Error("max limit of running scripts reached: %d, refusing to dispatch another worker.", scount)
 			}
 		}
 		return nil

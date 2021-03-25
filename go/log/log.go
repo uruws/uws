@@ -1,96 +1,213 @@
 // Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 // See LICENSE file.
 
-// Package log implements a logger.
+// Package log provides the logger functionalities.
 package log
 
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
-	golog "log"
+	"io"
+	"log"
 	"os"
-	"sync"
+	"strings"
+
+	"uws/log/internal/logger"
 )
 
 var (
-	l           *golog.Logger
-	lmx         *sync.Mutex
-	cdepth      int
-	debugEnable bool
-	verbose     bool
+	cdepth     int  = 1
+	debug      bool = false
+	info       bool = true
+	verbose    bool = true
+	warn       bool = true
+	debugFlags int  = log.Llongfile
+	stdFlags   int  = log.Ldate | log.Ltime | log.Lmicroseconds | log.Lmsgprefix
 )
 
+var l *logger.Logger
+
 func init() {
-	l = golog.New(ioutil.Discard, "", golog.Ldate|golog.Ltime)
-	lmx = new(sync.Mutex)
-	cdepth = 2
+	l = logger.New()
+	l.SetDepth(cdepth)
+	l.SetFlags(stdFlags)
+	setVerbose()
 }
 
-// Init initializes the logger.
-func Init(name string) {
-	lmx.Lock()
-	defer lmx.Unlock()
-	if name == "" {
-		name = os.Args[0]
+func setDebugFlags(s string) {
+	l.Lock()
+	defer l.Unlock()
+	switch s {
+	case "std":
+		debugFlags = stdFlags
+		return
+	case "all":
+		debugFlags = stdFlags | log.Llongfile
+		return
 	}
-	l.SetOutput(os.Stderr)
-	lvl := os.Getenv("UWS_LOG")
+	var flags int
+	for _, f := range strings.Fields(s) {
+		switch f {
+		case "date":
+			flags = flags | log.Ldate
+		case "time":
+			flags = flags | log.Ltime
+		case "microseconds":
+			flags = flags | log.Lmicroseconds
+		case "longfile":
+			flags = flags | log.Llongfile
+		case "shortfile":
+			flags = flags | log.Lshortfile
+		case "UTC":
+			flags = flags | log.LUTC
+		}
+	}
+	if flags == 0 {
+		flags = log.Llongfile
+	}
+	debugFlags = flags
+}
+
+func setQuiet() {
+	l.SetDebug(false)
+	l.SetFlags(stdFlags)
+	l.Lock()
+	defer l.Unlock()
+	debug = false
+	info = false
+	verbose = false
+	warn = false
+}
+
+func setDebug() {
+	l.SetFlags(debugFlags)
+	l.SetDebug(true)
+	l.Lock()
+	defer l.Unlock()
+	debug = true
+	info = true
 	verbose = true
-	if lvl == "debug" {
-		debugEnable = true
-		l.SetFlags(golog.Lmicroseconds | golog.Llongfile)
-		l.SetPrefix(fmt.Sprintf("[%d] ", os.Getpid()))
+	warn = true
+}
+
+func setInfo() {
+	l.SetDebug(false)
+	l.SetFlags(stdFlags)
+	l.Lock()
+	defer l.Unlock()
+	debug = false
+	info = true
+	verbose = false
+	warn = true
+}
+
+func setVerbose() {
+	l.SetDebug(false)
+	l.SetFlags(stdFlags)
+	l.Lock()
+	defer l.Unlock()
+	debug = false
+	info = true
+	verbose = true
+	warn = true
+}
+
+func setWarning() {
+	l.SetDebug(false)
+	l.SetFlags(stdFlags)
+	l.Lock()
+	defer l.Unlock()
+	debug = false
+	info = false
+	verbose = false
+	warn = true
+}
+
+func setMode(lvl string) {
+	switch lvl {
+	case "quiet":
+		setQuiet()
+	case "debug":
+		setDebug()
+	case "info":
+		setInfo()
+	case "warn":
+		setWarning()
+	default:
+		setVerbose()
+	}
+}
+
+func setColors(cfg string) {
+	l.SetColors(cfg)
+}
+
+func SetPrefix(name string) {
+	p := fmt.Sprintf("[%s:%d] ", name, os.Getpid())
+	l.SetPrefix(p)
+}
+
+func setOutput(out io.Writer) {
+	l.SetOutput(out)
+}
+
+func Init(progname string) {
+	SetPrefix(progname)
+	if mode := os.Getenv("UWS_LOG"); mode != "" {
+		setMode(mode)
 	} else {
-		l.SetFlags(golog.Lmsgprefix | golog.Ldate | golog.Lmicroseconds)
-		l.SetPrefix(fmt.Sprintf("%s[%d]: ", name, os.Getpid()))
+		setMode("default")
 	}
-	if lvl == "quiet" || lvl == "off" {
-		verbose = false
-	}
-}
-
-// SetPrefix sets log messages prefix. Current proccess ID is always added too.
-func SetPrefix(p string) {
-	lmx.Lock()
-	defer lmx.Unlock()
-	l.SetPrefix(fmt.Sprintf("%s[%d] ", p, os.Getpid()))
-}
-
-// Fatal prints an error message and exits with error status.
-func Fatal(f string, v ...interface{}) {
-	l.Output(cdepth, fmt.Sprintf("[FATAL] %s", fmt.Sprintf(f, v...)))
-	os.Exit(1)
-}
-
-// Debug prints a debug message.
-func Debug(f string, v ...interface{}) {
-	if debugEnable {
-		l.Output(cdepth, fmt.Sprintf(f, v...))
+	if colors := os.Getenv("UWS_LOG_COLORS"); colors != "" {
+		setColors(colors)
+	} else {
+		setColors("auto")
 	}
 }
 
-// Error prints an error message.
-func Error(f string, v ...interface{}) {
-	l.Output(cdepth, fmt.Sprintf("[ERROR] %s", fmt.Sprintf(f, v...)))
+func Output(calldepth int, s string) error {
+	return l.Output(calldepth, s)
 }
 
-// Warn prints a warning message.
-func Warn(f string, v ...interface{}) {
-	l.Output(cdepth, fmt.Sprintf("[WARNING] %s", fmt.Sprintf(f, v...)))
+func Panic(format string, v ...interface{}) {
+	err := errors.New(fmt.Sprintf(format, v...))
+	l.Printf(logger.PANIC, format, v...)
+	panic(err)
 }
 
-// Print prints a message.
-func Print(f string, v ...interface{}) {
+func Print(format string, v ...interface{}) {
 	if verbose {
-		l.Output(cdepth, fmt.Sprintf(f, v...))
+		l.Printf(logger.MSG, format, v...)
 	}
 }
 
-// NewError creates a new error object, prints its message and returns it.
-// Useful for situations like: return log.NewError("custom message")
-func NewError(f string, v ...interface{}) error {
-	err := errors.New(fmt.Sprintf(f, v...))
-	l.Output(cdepth, fmt.Sprintf("[ERROR] %s", err))
+func Debug(format string, v ...interface{}) {
+	if debug {
+		l.Printf(logger.DEBUG, format, v...)
+	}
+}
+
+func Error(format string, v ...interface{}) error {
+	err := errors.New(fmt.Sprintf(format, v...))
+	l.Printf(logger.ERROR, format, v...)
 	return err
+}
+
+var osExit func(int) = os.Exit
+
+func Fatal(format string, v ...interface{}) {
+	l.Printf(logger.FATAL, format, v...)
+	osExit(2)
+}
+
+func Warn(format string, v ...interface{}) {
+	if warn {
+		l.Printf(logger.WARN, format, v...)
+	}
+}
+
+func Info(format string, v ...interface{}) {
+	if info {
+		l.Printf(logger.INFO, format, v...)
+	}
 }
