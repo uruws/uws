@@ -10,4 +10,5 @@ exec docker run --rm \
 	-v "${statsdir}:/home/uws/stats" \
 	-v "${authdir}:/home/uws/auth:ro" \
 	-u uws \
+	-e UWS_LOG=${UWS_LOG:-'quiet'} \
 	uws/heroku-logger "${env}"

@@ -157,7 +157,7 @@ func Scan(stats *Reg, kind, check string, fh io.Reader) (string, error) {
 		)
 		line := x.Text()
 		m := re.FindStringSubmatch(line)
-		if kind == "heroku" {
+		if kind == "heroku" || kind == "ugly" {
 			if len(m) == 7 {
 				tstamp = m[1]
 				//tag = m[2]
