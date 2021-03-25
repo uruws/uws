@@ -1,12 +1,21 @@
 #!/bin/sh
 set -eu
 
-DIRS='/srv/uwsbot/stats /uws/etc /uws/etc/env /uws/etc/env/bot /uws/var/uwsbot /uws/var/uwsbot/stats'
+DIRS='/srv/uwsbot/stats /uws/etc /uws/etc/env /uws/etc/env/bot /srv/uwsbot /srv/uwsbot/stats'
+SECDIRS='/srv/uwsbot/sec'
 WWW_DIRS='/srv/uwsbot/release'
-mkdir -vp ${DIRS} ${WWW_DIRS}
+mkdir -vp ${DIRS} ${SECDIRS} ${WWW_DIRS}
 chown -v uws:uwsrun ${DIRS}
 chown -v uws:www-data ${WWW_DIRS}
 chmod -v 0750 ${DIRS} ${WWW_DIRS}
+chown -v root:uws ${SECDIRS}
+chmod -v 0750 ${SECDIRS}
+
+find "${SECDIRS}" -type f -exec chown -v root:uws {} \;
+find "${SECDIRS}" -type f -exec chmod -v 0640 {} \;
+
+find "${SECDIRS}" -type d -exec chown -v root:uws {} \;
+find "${SECDIRS}" -type d -exec chmod -v 0750 {} \;
 
 uws='sudo -n -u uws'
 
