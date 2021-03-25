@@ -161,7 +161,7 @@ func Init(progname string) {
 	if colors := os.Getenv("UWS_LOG_COLORS"); colors != "" {
 		setColors(colors)
 	} else {
-		setColors("auto")
+		setColors("off")
 	}
 }
 
