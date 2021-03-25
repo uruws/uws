@@ -131,7 +131,7 @@ func (s *Reg) String() string {
 var (
 	reDocker = regexp.MustCompile(`^([^ ]+) PARSER_([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
 	reHeroku = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER_([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
-	reUgly = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER\^([\w/-]+)\^([0-9]+)_([\w-]+)-([0-9]+)\^ENDPARSER$`)
+	reUgly = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER\^([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
 )
 
 // Scan checks for lines newer than check time stamp and adds new ones to stats reg.
