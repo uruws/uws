@@ -12,7 +12,7 @@ STATSDIR=${UWS_STATSDIR:-'/srv/uwsbot/stats'}
 STATSDIR="${STATSDIR}/${BOT_ENV}"
 SECDIR=${UWS_SECDIR:-'/srv/uwsbot/sec'}
 SECDIR="${SECDIR}/${BOT_ENV}"
-mkdir -vp "${CFGDIR}" "${STATSDIR}" "${SECDIR}"
+mkdir -vp "${CFGDIR}" "${STATSDIR}"
 exec docker run --rm --name "uws-bot-${BOT_ENV}-${BOT_NAME}" \
 	--hostname "bot-${BOT_ENV}-${BOT_NAME}.uws.local" \
 	-v "${SRCDIR}:/uws/share/uwsbot:ro" \
