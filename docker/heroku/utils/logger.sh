@@ -10,4 +10,4 @@ if test 'Xproduction' = "X${env}"; then
 	app="tapo"
 fi
 exec heroku logs -a "${app}" -s app -d web | grep -F ': PARSER' | sort -k1,1 -u |
-	api-logs -env ${env} -statedir ${stdir} -statsdir ${stdir} -kind ugly -filter -
+	api-logs -env ${env} -statedir ${stdir} -statsdir ${stdir} -kind heroku -filter -

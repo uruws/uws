@@ -131,7 +131,6 @@ func (s *Reg) String() string {
 var (
 	reDocker = regexp.MustCompile(`^([^ ]+) PARSER_([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
 	reHeroku = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER_([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
-	reUgly = regexp.MustCompile(`^([^ ]+) ([^:]+): PARSER\^([\w/-]+)_([0-9]+)_([\w-]+)-([0-9]+)_ENDPARSER$`)
 )
 
 // Scan checks for lines newer than check time stamp and adds new ones to stats reg.
@@ -141,8 +140,6 @@ func Scan(stats *Reg, kind, check string, fh io.Reader) (string, error) {
 	log.Debug("scan last '%s'", last)
 	if kind == "heroku" {
 		re = reHeroku
-	} else if kind == "ugly" {
-		re = reUgly
 	} else {
 		re = reDocker
 	}
@@ -157,7 +154,7 @@ func Scan(stats *Reg, kind, check string, fh io.Reader) (string, error) {
 		)
 		line := x.Text()
 		m := re.FindStringSubmatch(line)
-		if kind == "heroku" || kind == "ugly" {
+		if kind == "heroku" {
 			if len(m) == 7 {
 				tstamp = m[1]
 				//tag = m[2]
