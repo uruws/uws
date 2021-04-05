@@ -153,6 +153,9 @@ func Scan(stats *Reg, kind, check string, fh io.Reader) (string, error) {
 			sessionId   string
 		)
 		line := x.Text()
+		if x.Err() != nil {
+			return last, log.DebugError(x.Err())
+		}
 		m := re.FindStringSubmatch(line)
 		if kind == "heroku" {
 			if len(m) == 7 {
