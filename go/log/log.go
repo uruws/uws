@@ -7,7 +7,6 @@ package log
 import (
 	"errors"
 	"fmt"
-	"io"
 	"log"
 	"os"
 	"strings"
@@ -142,17 +141,16 @@ func setColors(cfg string) {
 	l.SetColors(cfg)
 }
 
-func SetPrefix(name string) {
+func setPrefix(name string) {
 	p := fmt.Sprintf("[%s:%d] ", name, os.Getpid())
 	l.SetPrefix(p)
 }
 
-func setOutput(out io.Writer) {
-	l.SetOutput(out)
-}
-
 func Init(progname string) {
-	SetPrefix(progname)
+	if progname == "" {
+		progname = os.Args[0]
+	}
+	setPrefix(progname)
 	if mode := os.Getenv("UWS_LOG"); mode != "" {
 		setMode(mode)
 	} else {
@@ -161,7 +159,7 @@ func Init(progname string) {
 	if colors := os.Getenv("UWS_LOG_COLORS"); colors != "" {
 		setColors(colors)
 	} else {
-		setColors("off")
+		setColors("auto")
 	}
 }
 
@@ -189,7 +187,7 @@ func Debug(format string, v ...interface{}) {
 
 func Error(format string, v ...interface{}) error {
 	err := errors.New(fmt.Sprintf(format, v...))
-	l.Printf(logger.ERROR, format, v...)
+	l.Printf(logger.ERROR, "%v", err)
 	return err
 }
 
@@ -210,4 +208,19 @@ func Info(format string, v ...interface{}) {
 	if info {
 		l.Printf(logger.INFO, format, v...)
 	}
+}
+
+func DebugError(err error) error {
+	if debug {
+		l.Printf(logger.DEBUG, "[ERROR] %v", err)
+	}
+	return err
+}
+
+func NewError(format string, v ...interface{}) error {
+	err := errors.New(fmt.Sprintf(format, v...))
+	if debug {
+		l.Printf(logger.DEBUG, "[ERROR] %v", err)
+	}
+	return err
 }
