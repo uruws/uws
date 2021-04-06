@@ -163,7 +163,7 @@ func (m *mdb) Collections() ([]string, error) {
 		return l, err
 	}
 	for _, cn := range cl {
-		if strings.HasSuffix(".jobs", cn) {
+		if strings.HasSuffix(cn, ".jobs") {
 			l = append(l, cn)
 		}
 	}
