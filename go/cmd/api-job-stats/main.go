@@ -128,7 +128,7 @@ func Report(st *stats.Stats, env string) error {
 	fmt.Printf("multigraph apijob_%s\n", env)
 	for _, job := range st.List() {
 		total += 1
-		if job.Error != nil {
+		if job.Error {
 			errors += 1
 		}
 	}
@@ -137,23 +137,23 @@ func Report(st *stats.Stats, env string) error {
 
 	fmt.Printf("multigraph apijob_%s_elapsed_time\n", env)
 	for _, job := range st.List() {
-		if job.Error != nil {
-			fmt.Printf("%s.value %d\n", job.ID, job.Took)
-		} else {
+		if job.Error {
 			fmt.Printf("%s.value U\n", job.ID)
+		} else {
+			fmt.Printf("%s.value %d\n", job.ID, job.Took)
 		}
 	}
 
 	for _, job := range st.List() {
 		fmt.Printf("multigraph apijob_%s.%s\n", env, job.ID)
-		if job.Error != nil {
-			fmt.Printf("f0_ready.value %d\n", job.Ready)
-			fmt.Printf("f1_running.value %d\n", job.Running)
-			fmt.Printf("f2_failed.value %d\n", job.Failed)
-		} else {
+		if job.Error {
 			fmt.Println("f0_ready.value U")
 			fmt.Println("f1_running.value U")
 			fmt.Println("f2_failed.value U")
+		} else {
+			fmt.Printf("f0_ready.value %d\n", job.Ready)
+			fmt.Printf("f1_running.value %d\n", job.Running)
+			fmt.Printf("f2_failed.value %d\n", job.Failed)
 		}
 	}
 	return nil
