@@ -70,8 +70,22 @@ func getColour(i int) (int, string) {
 // Config generates munin plugin config output.
 func Config(st *stats.Stats, env string) error {
 	log.Debug("config: %d", st.Len())
+
 	fmt.Printf("multigraph apijob_%s\n", env)
 	fmt.Printf("graph_title %s api jobs\n", env)
+	fmt.Println("graph_args --base 1000 -l 0")
+	fmt.Println("graph_vlabel seconds")
+	fmt.Println("graph_category apijob")
+	fmt.Println("graph_scale no")
+	fmt.Println("f0_total.label number of jobs")
+	fmt.Println("f0_total.colour COLOUR0")
+	fmt.Println("f0_total.min 0")
+	fmt.Println("f1_errors.label job number of errors")
+	fmt.Println("f1_errors.colour COLOUR0")
+	fmt.Println("f1_errors.min 0")
+
+	fmt.Printf("multigraph apijob_%s_elapsed_time\n", env)
+	fmt.Printf("graph_title %s api jobs stats elapsed time\n", env)
 	fmt.Println("graph_args --base 1000 -l 0")
 	fmt.Println("graph_vlabel seconds")
 	fmt.Println("graph_category apijob")
@@ -84,6 +98,7 @@ func Config(st *stats.Stats, env string) error {
 		fmt.Printf("%s.colour %s\n", job.ID, coln)
 		fmt.Printf("%s.min 0\n", job.ID)
 	}
+
 	for _, job := range st.List() {
 		fmt.Printf("multigraph apijob_%s.%s\n", env, job.ID)
 		fmt.Printf("graph_title %s api %s\n", env, job.Name)
@@ -107,7 +122,20 @@ func Config(st *stats.Stats, env string) error {
 // Report prints munin plugin values.
 func Report(st *stats.Stats, env string) error {
 	log.Debug("report: %d", st.Len())
+
+	total := 0
+	errors := 0
 	fmt.Printf("multigraph apijob_%s\n", env)
+	for _, job := range st.List() {
+		total += 1
+		if job.Error != nil {
+			errors += 1
+		}
+	}
+	fmt.Printf("f0_total.value %d\n", total)
+	fmt.Printf("f1_errors.value %d\n", errors)
+
+	fmt.Printf("multigraph apijob_%s_elapsed_time\n", env)
 	for _, job := range st.List() {
 		if job.Error != nil {
 			fmt.Printf("%s.value %d\n", job.ID, job.Took)
@@ -115,6 +143,7 @@ func Report(st *stats.Stats, env string) error {
 			fmt.Printf("%s.value U\n", job.ID)
 		}
 	}
+
 	for _, job := range st.List() {
 		fmt.Printf("multigraph apijob_%s.%s\n", env, job.ID)
 		if job.Error != nil {
