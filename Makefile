@@ -147,7 +147,7 @@ docker/golang/build/api-stats.bin: $(API_LOGS_DEPS)
 docker/golang/build/apivsbot.bin: $(API_LOGS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/apivsbot.bin ./cmd/apivsbot
 
-docker/golang/build/apivsbot.bin: $(API_JOB_DEPS)
+docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
 
 .PHONY: clamav
