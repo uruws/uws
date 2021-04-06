@@ -16,5 +16,6 @@ ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
 rm -vf /etc/munin/plugins/api*
 ln -svf /uws/bin/api-stats /etc/munin/plugins/api_stats
 ln -svf /uws/bin/apivsbot /etc/munin/plugins/apivsbot
+ln -svf /uws/bin/api-job-stats /etc/munin/plugins/api_job_stats
 
 exit 0
