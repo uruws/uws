@@ -43,4 +43,7 @@ RUN chmod -v 0750 /uws/bin/api-stats
 COPY --chown=uws:uws ./build/apivsbot.bin /uws/bin/apivsbot
 RUN chmod -v 0750 /uws/bin/apivsbot
 
+COPY --chown=uws:uws ./build/api-job-stats.bin /uws/bin/api-job-stats
+RUN chmod -v 0750 /uws/bin/api-job-stats
+
 ENTRYPOINT exec /root/bin/mn-start.sh

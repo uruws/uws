@@ -115,6 +115,10 @@ srv/munin-node/build/apivsbot.bin: docker/golang/build/apivsbot.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/apivsbot.bin ./srv/munin-node/build/apivsbot.bin
 
+srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
+	@mkdir -vp ./srv/munin-node/build
+	@install -v docker/golang/build/api-job-stats.bin ./srv/munin-node/build/api-job-stats.bin
+
 .PHONY: heroku
 heroku: base-testing
 	@./docker/heroku/build.sh
@@ -132,6 +136,7 @@ docker/heroku/build/api-stats.bin: docker/golang/build/api-stats.bin
 	@install -v docker/golang/build/api-stats.bin docker/heroku/build/api-stats.bin
 
 API_LOGS_DEPS != find go/api go/cmd/api* go/log go/fs -type f -name '*.go'
+API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
 
 docker/golang/build/api-logs.bin: $(API_LOGS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-logs.bin ./cmd/api-logs
@@ -141,6 +146,9 @@ docker/golang/build/api-stats.bin: $(API_LOGS_DEPS)
 
 docker/golang/build/apivsbot.bin: $(API_LOGS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/apivsbot.bin ./cmd/apivsbot
+
+docker/golang/build/apivsbot.bin: $(API_JOB_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
 
 .PHONY: clamav
 clamav: base-testing
