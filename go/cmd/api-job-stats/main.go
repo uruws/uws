@@ -89,7 +89,7 @@ func Config(st *stats.Stats, env string) error {
 	fmt.Println("graph_args --base 1000 -l 0")
 	fmt.Println("graph_vlabel seconds")
 	fmt.Println("graph_category apijob")
-	fmt.Println("graph_scale yes")
+	fmt.Println("graph_scale no")
 	col := 0
 	coln := ""
 	for _, job := range st.List() {
@@ -97,6 +97,7 @@ func Config(st *stats.Stats, env string) error {
 		col, coln = getColour(col)
 		fmt.Printf("%s.colour %s\n", job.ID, coln)
 		fmt.Printf("%s.min 0\n", job.ID)
+		fmt.Printf("%s.cdef %s,1000,/\n", job.ID, job.ID)
 	}
 
 	for _, job := range st.List() {
