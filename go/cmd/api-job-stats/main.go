@@ -86,7 +86,7 @@ func Config(st *stats.Stats, env string) error {
 	}
 	for _, job := range st.List() {
 		fmt.Printf("multigraph apijob_%s.%s\n", env, job.ID)
-		fmt.Printf("graph_title %s api %s jobs\n", env, job.Name)
+		fmt.Printf("graph_title %s api %s\n", env, job.Name)
 		fmt.Println("graph_args --base 1000 -l 0")
 		fmt.Println("graph_vlabel number of")
 		fmt.Println("graph_category api")
