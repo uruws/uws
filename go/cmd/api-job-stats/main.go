@@ -109,13 +109,23 @@ func Report(st *stats.Stats, env string) error {
 	log.Debug("report: %d", st.Len())
 	fmt.Printf("multigraph apijob_%s\n", env)
 	for _, job := range st.List() {
-		fmt.Printf("%s.value %d\n", job.ID, job.Took)
+		if job.Error != nil {
+			fmt.Printf("%s.value %d\n", job.ID, job.Took)
+		} else {
+			fmt.Printf("%s.value U\n", job.ID)
+		}
 	}
 	for _, job := range st.List() {
 		fmt.Printf("multigraph apijob_%s.%s\n", env, job.ID)
-		fmt.Printf("f0_ready.value %d\n", job.Ready)
-		fmt.Printf("f1_running.value %d\n", job.Running)
-		fmt.Printf("f2_failed.value %d\n", job.Failed)
+		if job.Error != nil {
+			fmt.Printf("f0_ready.value %d\n", job.Ready)
+			fmt.Printf("f1_running.value %d\n", job.Running)
+			fmt.Printf("f2_failed.value %d\n", job.Failed)
+		} else {
+			fmt.Println("f0_ready.value U")
+			fmt.Println("f1_running.value U")
+			fmt.Println("f2_failed.value U")
+		}
 	}
 	return nil
 }
