@@ -26,7 +26,7 @@ func cleanFieldName(n ...string) string {
 
 type Stat struct {
 	Name  string `json:"name"`
-	Took  int64 `json:"took"`
+	Took  int64  `json:"took"`
 	Label string `json:"label"`
 }
 
@@ -34,7 +34,7 @@ type Info struct {
 	session int64
 	script  string
 	next    int
-	Name    string `json:"name"`
+	Name    string        `json:"name"`
 	R       map[int]*Stat `json:"stats"`
 }
 
@@ -72,11 +72,11 @@ func (s *Reg) Len() int {
 func (s *Reg) newStat(session int64, script string) *Info {
 	return &Info{
 		session: session,
-		next: 0,
-		script: cleanFieldName(script),
+		next:    0,
+		script:  cleanFieldName(script),
 
 		Name: script,
-		R: make(map[int]*Stat),
+		R:    make(map[int]*Stat),
 	}
 }
 

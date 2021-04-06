@@ -76,7 +76,7 @@ func getColour(i int) (int, string) {
 		i = 0
 	}
 	n := fmt.Sprintf("COLOUR%d", i)
-	return i+1, n
+	return i + 1, n
 }
 
 // Config generates munin plugin config output.
@@ -122,7 +122,7 @@ func Report(st *stats.Reg, env string, bst *botstats.Report) error {
 		fmt.Printf("api.value %d\n", took)
 		if v, ok := r[script]; ok {
 			fmt.Printf("bot.value %d\n", v)
-			fmt.Printf("diff.value %d\n", v - took)
+			fmt.Printf("diff.value %d\n", v-took)
 		} else {
 			fmt.Println("bot.value U")
 			fmt.Println("diff.value U")

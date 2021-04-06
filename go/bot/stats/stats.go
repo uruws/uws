@@ -401,7 +401,7 @@ func getColour(n uint) (uint, string) {
 		n = 0
 	}
 	c := fmt.Sprintf("COLOUR%d", n)
-	return n+1, c
+	return n + 1, c
 }
 
 func (r *Report) Config() {

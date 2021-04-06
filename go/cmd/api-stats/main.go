@@ -60,7 +60,7 @@ func getColour(i int) (int, string) {
 		i = 0
 	}
 	n := fmt.Sprintf("COLOUR%d", i)
-	return i+1, n
+	return i + 1, n
 }
 
 // Config generates munin plugin config output.
