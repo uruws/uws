@@ -48,6 +48,11 @@ func (m *MongoDB) Ping(uri string) bool {
 		log.Error("connect: %s", err)
 		return false
 	}
+	defer func() {
+		if err := cli.Disconnect(ctx); err != nil {
+			log.Error("disconnect: %s", err)
+		}
+	}()
 	if err = cli.Ping(ctx, nil); err != nil {
 		st.SetError()
 		log.Error("ping: %s", err)
