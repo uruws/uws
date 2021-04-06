@@ -99,8 +99,13 @@ munin: base-testing
 munin-backend: munin
 	@./srv/munin-backend/build.sh
 
+MUNIN_NODE_DEPS := srv/munin-node/build/uwsbot-stats.bin
+MUNIN_NODE_DEPS += srv/munin-node/build/api-stats.bin
+MUNIN_NODE_DEPS += srv/munin-node/build/apivsbot.bin
+MUNIN_NODE_DEPS += srv/munin-node/build/api-job-stats.bin
+
 .PHONY: munin-node
-munin-node: base-testing golang srv/munin-node/build/uwsbot-stats.bin srv/munin-node/build/api-stats.bin srv/munin-node/build/apivsbot.bin
+munin-node: base-testing golang $(MUNIN_NODE_DEPS)
 	@./srv/munin-node/build.sh
 
 srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
