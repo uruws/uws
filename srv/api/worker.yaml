@@ -6,9 +6,7 @@ services:
     networks:
       - mworker-net
     volumes:
-      - source: /srv/worker/${APP}
-        target: /home/uws/meteor/app
-        type: bind
+      - mworkerapp:/home/uws/meteor/app:ro
     secrets:
       - source: mworker-env
         target: /home/uws/meteor/app.env
@@ -26,8 +24,18 @@ services:
         max_attempts: 3
         window: 120s
 
+volumes:
+  mworkerapp:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      #~ device: ${HOME}/uws/worker/${APP}
+      device: /srv/worker/${APP}
+
 secrets:
   mworker-env:
+    #~ file: ${HOME}/uws/worker/${APP}.env
     file: /srv/worker/${APP}.env
 
 networks:
