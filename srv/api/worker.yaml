@@ -12,8 +12,8 @@ services:
         target: /home/uws/meteor/app.env
     deploy:
       replicas: 10
-      placement:
-        max_replicas_per_node: 10
+      #~ placement:
+        #~ max_replicas_per_node: 10
       update_config:
         parallelism: 2
         delay: 10s
