@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  meteor-worker:
+    image: uws/api
+    networks:
+      - mworker-net
+    volumes:
+      - mworkerapp:/home/uws/meteor/app:ro
+    secrets:
+      - source: mworker-env
+        target: /home/uws/meteor/app.env
+        mode: 0440
+    deploy:
+      replicas: 10
+      placement:
+        max_replicas_per_node: 10
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+
+volumes:
+  mworkerapp:
+    external: true
+
+secrets:
+  mworker-env:
+    file: /srv/worker/${APP}.env
+
+networks:
+  mworker-net: {}
