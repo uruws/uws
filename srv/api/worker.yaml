@@ -10,7 +10,6 @@ services:
     secrets:
       - source: mworker-env
         target: /home/uws/meteor/app.env
-        mode: 0440
     deploy:
       replicas: 10
       placement:
