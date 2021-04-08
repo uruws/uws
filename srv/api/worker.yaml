@@ -6,7 +6,9 @@ services:
     networks:
       - mworker-net
     volumes:
-      - mworkerapp:/home/uws/meteor/app:ro
+      - source: /srv/worker/${APP}
+        target: /home/uws/meteor/app
+        type: bind
     secrets:
       - source: mworker-env
         target: /home/uws/meteor/app.env
@@ -23,10 +25,6 @@ services:
         delay: 10s
         max_attempts: 3
         window: 120s
-
-volumes:
-  mworkerapp:
-    external: true
 
 secrets:
   mworker-env:

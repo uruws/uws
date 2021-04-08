@@ -1,5 +1,15 @@
 #!/bin/sh
 set -eu
+echo "--- DEBUG"
+echo "--- env"
+env | sort
+echo "--- meteor"
+ls -lh /home/uws/meteor
+ls -lh /home/uws/meteor/app
+echo "--- mount"
+mount | grep /home/uws/meteor/app
+echo "--- DEBUG"
+set -x
 if ! test -s /home/uws/meteor/app.env; then
 	echo "api/app.env: file not found" >&2
 	exit 1
