@@ -1,0 +1,13 @@
+version: '3.7'
+
+volumes:
+  mworkerapp:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/uws/worker/${APP}
+
+secrets:
+  mworker-env:
+    file: ${HOME}/uws/worker/${APP}.env

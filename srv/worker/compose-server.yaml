@@ -1,0 +1,13 @@
+version: '3.7'
+
+volumes:
+  mworkerapp:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /srv/worker/${APP}/app
+
+secrets:
+  mworker-env:
+    file: /srv/worker/${APP}.env

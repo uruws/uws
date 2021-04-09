@@ -24,19 +24,5 @@ services:
         max_attempts: 3
         window: 120s
 
-volumes:
-  mworkerapp:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      #~ device: ${HOME}/uws/worker/${APP}
-      device: /srv/worker/${APP}/app
-
-secrets:
-  mworker-env:
-    #~ file: ${HOME}/uws/worker/${APP}.env
-    file: /srv/worker/${APP}.env
-
 networks:
   mworker-net: {}
