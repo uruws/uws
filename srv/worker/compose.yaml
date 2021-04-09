@@ -31,7 +31,7 @@ volumes:
       type: none
       o: bind
       #~ device: ${HOME}/uws/worker/${APP}
-      device: /srv/worker/${APP}
+      device: /srv/worker/${APP}/app
 
 secrets:
   mworker-env:
