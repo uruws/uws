@@ -6,5 +6,6 @@ export APP=${appname}
 myfn=$(realpath -e $0)
 mydir=$(dirname ${myfn})
 compose=${mydir}/compose.yaml
-docker stack deploy -c "${compose}" "${appenv}"
+srv_compose=${mydir}/compose-server.yaml
+docker stack deploy -c "${compose}" -c "{srv_compose}" "${appenv}"
 exit 0

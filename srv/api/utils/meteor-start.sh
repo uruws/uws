@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 echo "--- DEBUG"
+echo "--- user"
+id -a
 echo "--- env"
 env | sort
 echo "--- meteor"
