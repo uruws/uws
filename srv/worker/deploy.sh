@@ -11,6 +11,7 @@ srv_compose=${mydir}/compose-local.yaml
 
 #~ docker stack deploy -c "${compose}" -c "${srv_compose}" "${appenv}"
 docker-compose -f "${compose}" -f "${srv_compose}" -p "${appenv}" \
-	up --scale meteor-worker=10 --no-color meteor-worker
+	up --no-recreate --no-build --no-color --timeout 15 \
+	--scale meteor-worker=10 meteor-worker
 
 exit 0
