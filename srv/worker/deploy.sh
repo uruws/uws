@@ -7,7 +7,7 @@ export APP=${appname}
 myfn=$(realpath -e $0)
 mydir=$(dirname ${myfn})
 compose=${mydir}/compose.yaml
-srv_compose=${mydir}/compose-local.yaml
+srv_compose=${mydir}/compose-server.yaml
 
 app_scale=${APP_SCALE:-'10'}
 
