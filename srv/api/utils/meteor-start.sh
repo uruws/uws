@@ -7,7 +7,7 @@ echo "--- meteor"
 ls -lh /home/uws/meteor
 ls -lh /home/uws/meteor/app
 echo "--- mount"
-mount | grep /home/uws/meteor/app
+(mount | grep /home/uws/meteor/app) || true
 echo "--- DEBUG"
 set -x
 if ! test -s /home/uws/meteor/app.env; then
