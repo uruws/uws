@@ -1,4 +1,5 @@
-version: '3.7'
+version: '3.3'
+#~ version: '3.7'
 
 services:
   meteor-worker:
@@ -17,7 +18,7 @@ services:
       update_config:
         parallelism: 2
         delay: 10s
-        order: stop-first
+        #~ order: stop-first
       restart_policy:
         condition: on-failure
         delay: 10s
