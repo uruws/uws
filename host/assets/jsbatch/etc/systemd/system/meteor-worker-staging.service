@@ -6,6 +6,7 @@ After=docker.service
 AssertFileIsExecutable=/usr/bin/docker
 AssertFileIsExecutable=/usr/bin/docker-compose
 AssertFileIsExecutable=/srv/uws/deploy/srv/worker/deploy.sh
+AssertFileIsExecutable=/srv/uws/deploy/srv/worker/stop.sh
 
 [Service]
 Type=exec
@@ -14,7 +15,7 @@ StandardError=syslog
 User=uws
 Group=uws
 WorkingDirectory=/home/uws
-ExecStop=/usr/bin/docker service rm staging_meteor-worker
+ExecStop=/srv/uws/deploy/srv/worker/stop.sh staging
 ExecStart=/srv/uws/deploy/srv/worker/deploy.sh tapostaging staging
 
 [Install]
