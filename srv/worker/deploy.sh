@@ -12,8 +12,7 @@ srv_compose=${mydir}/compose-server.yaml
 app_scale=${APP_SCALE:-'10'}
 
 #~ docker stack deploy -c "${compose}" -c "${srv_compose}" "${appenv}"
-docker-compose -f "${compose}" -f "${srv_compose}" -p "${appenv}" \
+
+exec docker-compose -f "${compose}" -f "${srv_compose}" -p "${appenv}" \
 	up --no-recreate --no-build --no-color --timeout 15 \
 	--scale meteor-worker=${app_scale} meteor-worker
-
-exit 0

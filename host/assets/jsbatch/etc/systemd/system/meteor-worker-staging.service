@@ -1,0 +1,21 @@
+[Unit]
+Description=meteor-worker
+Requires=syslog.service
+Requires=docker.service
+After=docker.service
+AssertFileIsExecutable=/usr/bin/docker
+AssertFileIsExecutable=/usr/bin/docker-compose
+AssertFileIsExecutable=/srv/uws/deploy/srv/worker/deploy.sh
+
+[Service]
+Type=exec
+Restart=on-failure
+StandardError=syslog
+User=uws
+Group=uws
+WorkingDirectory=/home/uws
+ExecStop=/usr/bin/docker service rm staging_meteor-worker
+ExecStart=/srv/uws/deploy/srv/worker/deploy.sh tapostaging staging
+
+[Install]
+WantedBy=multi-user.target
