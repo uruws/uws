@@ -5,7 +5,6 @@ package bot
 
 import (
 	"fmt"
-	"io/ioutil"
 
 	"github.com/mattn/anko/env"
 	"github.com/nsf/jsondiff"
@@ -91,17 +90,12 @@ func (c *Check) HTTPHeader(resp *Response, key, expect string) bool {
 	return true
 }
 
-func (c *Check) readBody(resp *Response) []byte {
-	if resp.body == nil {
-		defer resp.r.Body.Close()
-		blob, err := ioutil.ReadAll(resp.r.Body)
-		if err != nil {
-			c.report("read response body: %s", err)
-			return nil
-		}
-		resp.body = blob
+func (c *Check) readBody(r *Response) []byte {
+	blob := r.readBody()
+	if blob == nil {
+		c.report("read response body: nil")
 	}
-	return resp.body
+	return blob
 }
 
 var jsondiffOptions jsondiff.Options = jsondiff.DefaultConsoleOptions()

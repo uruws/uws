@@ -133,6 +133,7 @@ func Load(ctx context.Context, benv, bname, dir string) *Bot {
 	secModule(b)
 	checkModule(b)
 	libModules(b)
+	responseModule(b)
 	if err := vmExec(ctx, b, fn); err != nil {
 		log.Fatal("bot load: %s", err)
 	}
