@@ -9,7 +9,7 @@ heroku slugs -a ${APP} | head >${APP}-slugs.head
 cat ${APP}-slugs.head | grep -E '^v[[:digit:]]+: ' |
 	head -n1 | cut -d ' ' -f 2 >${APP}.new
 
-slug_new='NONE'
+slug_new=''
 if test -s ./${APP}.cur; then
 	slug_cur=$(cat ${APP}.cur)
 	slug_new=$(cat ${APP}.new)
