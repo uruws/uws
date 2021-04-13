@@ -182,3 +182,16 @@ func (s *botSession) PostForm(u string, v url.Values) (*http.Response, error) {
 	}()
 	return s.cli.Do(req)
 }
+
+func (s *botSession) PostJSON(u string, v string) (*http.Response, error) {
+	req := newPostJSONRequest(s.script, s.baseURL+u, v)
+	if s.auth {
+		requestAuth(req, s.authToken, s.userId)
+	}
+	defer func() {
+		if req.Body != nil {
+			req.Body.Close()
+		}
+	}()
+	return s.cli.Do(req)
+}

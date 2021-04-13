@@ -83,6 +83,9 @@ func botModule(b *Bot) {
 		//uwsdoc: bot.post_form(url, values) -> resp
 		//uwsdoc: 	Returns a response from a POST (form-urlencoded) request to url.
 		check(botm.Define("post_form", b.PostForm))
+		//uwsdoc: bot.post_json(url, string) -> resp
+		//uwsdoc: 	Returns a response from a POST (json) request to url.
+		check(botm.Define("post_json", b.PostJSON))
 	}
 }
 
@@ -199,12 +202,24 @@ func (b *Bot) Get(uri string) *Response {
 
 // PostForm returns a response from a POST request to url.
 func (b *Bot) PostForm(uri string, vals url.Values) *Response {
-	log.Debug("get %s", uri)
+	log.Debug("post_form %s", uri)
 	st := b.stats.New("POST", uri)
 	defer b.stats.Save(st)
 	resp, err := b.sess.PostForm(uri, vals)
 	if err != nil {
-		log.Fatal("bot.post %s: %s", uri, err)
+		log.Fatal("bot.post_form %s: %s", uri, err)
+	}
+	return newResponse(resp)
+}
+
+// PostJSON returns a response from a POST request to url.
+func (b *Bot) PostJSON(uri string, v string) *Response {
+	log.Debug("post_json %s", uri)
+	st := b.stats.New("POST", uri)
+	defer b.stats.Save(st)
+	resp, err := b.sess.PostJSON(uri, v)
+	if err != nil {
+		log.Fatal("bot.post_json %s: %s", uri, err)
 	}
 	return newResponse(resp)
 }

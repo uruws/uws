@@ -12,6 +12,10 @@ import (
 )
 
 func libModules(b *Bot) {
+	//uwsdoc: -----
+	//uwsdoc: builtins:
+	//uwsdoc: 	sprintf(fmt, args...) -> string
+	check(b.env.Env.Define("sprintf", fmt.Sprintf))
 	httpModule(b)
 	urlModule(b)
 }

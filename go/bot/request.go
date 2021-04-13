@@ -49,6 +49,31 @@ func newPostFormRequest(script, uri string, v url.Values) *http.Request {
 	return r
 }
 
+func newPostJSONRequest(script, uri string, v string) *http.Request {
+	r, err := newRequest(script, "POST", uri)
+	if err != nil {
+		log.Fatal("bot new post form request: %s", err)
+	}
+	r.Header.Set("content-type", "application/json")
+	if v != "" {
+		fh, err := ioutil.TempFile("", "uwsbot_post_*.json")
+		if err != nil {
+			log.Fatal("bot new post form values: %s", err)
+		}
+		if _, err := fh.WriteString(v); err != nil {
+			log.Fatal("bot new post body: %s", err)
+		}
+		if err := os.Remove(fh.Name()); err != nil {
+			log.Error("bot new post could not remove tempfile: %s", err)
+		}
+		if _, err := fh.Seek(0, 0); err != nil {
+			log.Fatal("bot new post body: %s", err)
+		}
+		r.Body = fh
+	}
+	return r
+}
+
 func newGetRequest(script, uri string) *http.Request {
 	r, err := newRequest(script, "GET", uri)
 	if err != nil {
