@@ -62,6 +62,10 @@ func New(benv, bname string) *Bot {
 
 func botModule(b *Bot) {
 	//uwsdoc: -----
+	//uwsdoc: builtins:
+	//uwsdoc: 	sprintf(fmt, args...) -> string
+	check(b.env.Env.Define("sprintf", fmt.Sprintf))
+	//uwsdoc: -----
 	//uwsdoc: bot module:
 	if botm, err := b.env.Env.NewModule("bot"); err != nil {
 		log.Fatal("bot module: %s", err)

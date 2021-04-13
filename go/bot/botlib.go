@@ -4,6 +4,7 @@
 package bot
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -12,12 +13,9 @@ import (
 )
 
 func libModules(b *Bot) {
-	//uwsdoc: -----
-	//uwsdoc: builtins:
-	//uwsdoc: 	sprintf(fmt, args...) -> string
-	check(b.env.Env.Define("sprintf", fmt.Sprintf))
 	httpModule(b)
 	urlModule(b)
+	jsonModule(b)
 }
 
 func httpModule(b *Bot) {
@@ -97,4 +95,31 @@ func urlParseQuery(q string) url.Values {
 
 func urlParseQueryf(format string, args ...interface{}) url.Values {
 	return urlParseQuery(fmt.Sprintf(format, args...))
+}
+
+func jsonModule(b *Bot) {
+	//uwsdoc: -----
+	//uwsdoc: json module:
+	if m, err := b.env.Env.NewModule("json"); err != nil {
+		log.Fatal("json module: %s", err)
+	} else {
+		//uwsdoc: json.marshal(object) -> (string, error)
+		//uwsdoc: 	JSON marshal object to string
+		check(m.Define("marshal", jsonMarshal))
+		//uwsdoc: json.unmarshal(string, object) -> error
+		//uwsdoc: 	JSON unmarshal string to object
+		check(m.Define("unmarshal", jsonUnmarshal))
+	}
+}
+
+func jsonMarshal(v interface{}) (string, error) {
+	blob, err := json.Marshal(v)
+	if err != nil {
+		return "", log.DebugError(err)
+	}
+	return string(blob), nil
+}
+
+func jsonUnmarshal(s string, o interface{}) error {
+	return json.Unmarshal([]byte(s), &o)
 }
