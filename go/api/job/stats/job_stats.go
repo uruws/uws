@@ -4,10 +4,6 @@
 // Package stats implements api job stats manager.
 package stats
 
-// e.j.  db.getCollection("contactInbox.jobs").find({status: 'ready'}).count()
-// e.j.  db.getCollection("contactInbox.jobs").find({status: 'running'}).count()
-// e.j.  db.getCollection("contactInbox.jobs").find({status: 'failed'}).count()
-
 import (
 	"context"
 	"regexp"
@@ -129,7 +125,7 @@ type mdb struct {
 }
 
 func newDB(name string) *mdb {
-	ttl := 2 * time.Minute
+	ttl := 3 * time.Minute
 	ctx, cancel := context.WithTimeout(context.Background(), ttl)
 	return &mdb{ctx: ctx, cancel: cancel, name: name}
 }
@@ -173,7 +169,7 @@ func (m *mdb) Collections() ([]string, error) {
 func (m *mdb) Get(job *Job) error {
 	coll := m.db.Collection(job.Name, options.Collection())
 	opts := options.Count()
-	opts.SetMaxTime(5 * time.Second)
+	opts.SetMaxTime(15 * time.Second)
 	var err error
 	job.Ready, err = coll.CountDocuments(m.ctx, bson.D{{"status", "ready"}}, opts)
 	if err != nil {
