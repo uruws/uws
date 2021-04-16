@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh awscli kubernetes-client
+RUN /root/bin/apt-install.sh awscli
 
 RUN chgrp uws /usr/local/bin && chmod g+w /usr/local/bin
 
@@ -18,6 +18,12 @@ WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
+
+RUN wget https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl \
+	&& wget https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256 \
+	&& sha256sum -c kubectl.sha256 \
+	&& install -v -m 0755 kubectl /usr/local/bin \
+	&& rm -vf kubectl kubectl.sha256
 
 RUN wget https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz \
 	&& wget https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_checksums.txt \
