@@ -159,6 +159,10 @@ docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 clamav: base-testing
 	@./docker/clamav/build.sh
 
+.PHONY: eks
+eks: base-testing
+	@./docker/eks/build.sh
+
 .PHONY: api
 api: base docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
 	@./srv/api/build.sh
