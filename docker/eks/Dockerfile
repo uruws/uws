@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh awscli
+RUN /root/bin/apt-install.sh awscli python3 less
 
 RUN chgrp uws /usr/local/bin && chmod g+w /usr/local/bin
 
@@ -48,5 +48,7 @@ WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
+
+RUN printf 'export PATH="/home/uws/bin:${PATH}"\n' >>.bashrc
 
 CMD exec /usr/local/bin/uws-login.sh
