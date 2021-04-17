@@ -30,6 +30,8 @@ def _createCluster(args):
 	cmd += ' --instance-prefix %s' % args.name
 	cmd += ' --fargate'
 	cmd += ' --auto-kubeconfig'
+	cmd += ' --disable-pod-imds'
+	cmd += ' --asg-access'
 	return cmd
 
 if __name__ == '__main__':
