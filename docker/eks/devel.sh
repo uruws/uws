@@ -1,18 +1,13 @@
 #!/bin/sh
 set -eu
-awsdir=${HOME}/.uws/eks/aws
-kubedir=${HOME}/.uws/eks/kube
-mkdir -vp ${awsdir} ${kubedir}
+awsdir=${PWD}/secret/eks/aws
+kubedir=${PWD}/secret/eks/kube
 utils=${PWD}/docker/eks/utils
 files=${PWD}/secret/eks/files
-test -d ${utils} || {
-	echo "${utils}: directory not found" >&2
-	exit 1
-}
 exec docker run -it --rm --name uws-eks-devel \
 	--hostname eks-devel.uws.local -u uws \
 	-v ${utils}:/home/uws/bin:ro \
 	-v ${files}:/home/uws/files:ro \
 	-v ${awsdir}:/home/uws/.aws:ro \
-	-v ${kubedir}:/home/uws/.kube \
+	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters \
 	uws/eks $@

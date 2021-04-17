@@ -32,22 +32,15 @@ RUN wget https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Li
 	&& install -v -m 0755 /tmp/eksctl /usr/local/bin \
 	&& rm -vf eksctl_*.* /tmp/eksctl
 
-#USER root:root
-#WORKDIR /root
+RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
+	&& install -v -d -m 0750 /home/uws/.aws \
+	&& install -v -d -m 0750 /home/uws/bin \
+	&& install -v -d -m 0750 /home/uws/files
 
-#ENV USER root
-#ENV HOME /root
-
-#COPY --chown=uws:uws ./utils/*.sh /usr/local/bin/
-#RUN chmod -v 0550 /usr/local/bin/*.sh
-
+VOLUME /home/uws/.kube/eksctl/clusters
 VOLUME /home/uws/.aws
-
-USER uws:uws
-WORKDIR /home/uws
-
-ENV USER uws
-ENV HOME /home/uws
+VOLUME /home/uws/bin
+VOLUME /home/uws/files
 
 RUN printf 'export PATH="/home/uws/bin:${PATH}"\n' >>.bashrc
 
