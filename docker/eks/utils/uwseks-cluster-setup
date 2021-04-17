@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+cluster=${1:?'cluster name?'}
+files=/home/uws/files
+kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${cluster}"
+
+${kubectl} apply -f ${files}/aws-auth.yaml
+
+exit 0

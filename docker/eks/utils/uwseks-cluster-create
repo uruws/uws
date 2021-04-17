@@ -19,6 +19,12 @@ def main():
 		subprocess.run(cmd, shell = True, check = True)
 	except Exception:
 		return 1
+	cmd = 'uwseks-cluster-setup %s' % args.name
+	print(cmd)
+	try:
+		subprocess.run(cmd, shell = True, check = True)
+	except Exception:
+		return 2
 	return 0
 
 def _createCluster(args):
