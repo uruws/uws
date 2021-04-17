@@ -7,4 +7,5 @@ mkdir -vp ${awsdir} ${kubedir}
 exec docker run -it --rm --name uws-eks-devel \
 	--hostname eks-devel.uws.local -u uws \
 	-v ${awsdir}:/home/uws/.aws:ro \
+	-v ${kubedir}:/home/uws/.kube \
 	uws/eks $@
