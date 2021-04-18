@@ -4,6 +4,6 @@ name=${1:-'uwsdev'}
 
 set -x
 
-uwseks-cluster-delete --profile uwsdev --region us-west-2 ${name}
+uwseks-cluster-delete --profile uwsdev --region us-west-2 --wait ${name}
 
 exit 0
