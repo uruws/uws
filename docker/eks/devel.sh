@@ -2,7 +2,8 @@
 set -eu
 awsdir=${PWD}/secret/eks/aws
 kubedir=${PWD}/secret/eks/kube
-files=${PWD}/secret/eks/files
+secrets=${PWD}/secret/eks/files
+files=${PWD}/docker/eks/files
 utils=${PWD}/docker/eks/utils
 k8s=${PWD}/k8s
 cluster=${PWD}/cluster
@@ -16,6 +17,7 @@ exec docker run -it --rm \
 	-v ${k8s}:/home/uws/k8s:ro \
 	-v ${cluster}:/home/uws/cluster:ro \
 	-v ${files}:/home/uws/files:ro \
+	-v ${secrets}:/home/uws/secret:ro \
 	-v ${awsdir}:/home/uws/.aws:ro \
 	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters \
 	uws/eks $@
