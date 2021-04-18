@@ -27,7 +27,9 @@ eksctl create iamserviceaccount -v4 \
 	--attach-policy-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:policy/eksClusterAutoscaler \
 	--approve
 
-${kubectl} apply -f ${files}/cluster-autoscaler-one-asg.yaml
+sed "s#\[UWSEKS_CLUSTER]#${cluster}#" ${files}/cluster-autoscaler.yaml >/tmp/cluster-autoscaler-${cluster}.yaml
+cat /tmp/cluster-autoscaler-${cluster}.yaml
+${kubectl} apply -f /tmp/cluster-autoscaler-${cluster}.yaml
 
 #~ ${kubectl} annotate serviceaccount cluster-autoscaler \
 	#~ --namespace=kube-system \
