@@ -7,9 +7,9 @@ from argparse import ArgumentParser
 
 def main():
 	parser = ArgumentParser()
-	parser.add_argument('--profile', help = 'aws credentials profile')
-	parser.add_argument('--region', help = 'aws region', default = 'us-west-2')
-	parser.add_argument('--zones', help = 'aws region zones', default = 'us-west-2a,us-west-2a')
+	parser.add_argument('--profile', help = 'aws credentials profile', default = 'default')
+	parser.add_argument('--region', help = 'aws region')
+	parser.add_argument('--zones', help = 'aws region zones')
 	parser.add_argument('--nodes-min', help = 'min number of nodes', default = 2)
 	parser.add_argument('--nodes-max', help = 'max number of nodes', default = 2)
 	parser.add_argument('--instance-types', help = 'instance types', default = 't2.small')
@@ -18,8 +18,6 @@ def main():
 	parser.add_argument('-v', help = 'verbose level', default = '3')
 	parser.add_argument('name', help = 'cluster name')
 	args = parser.parse_args()
-	if args.profile is None:
-		args.profile = args.name
 	cmd = _createCluster(args)
 	print(cmd)
 	try:
@@ -38,8 +36,10 @@ def main():
 def _createCluster(args):
 	cmd = 'eksctl -v %s create cluster --name %s' % (args.v, args.name)
 	cmd += ' --profile %s' % args.profile
-	cmd += ' --region %s' % args.region
-	# ~ cmd += ' --zones %s' % args.zones
+	if args.region is not None:
+		cmd += ' --region %s' % args.region
+	if args.zones is not None:
+		cmd += ' --zones %s' % args.zones
 	cmd += ' --tags uwseks=%s' % args.name
 	cmd += ' --version 1.19'
 	if args.fargate:
