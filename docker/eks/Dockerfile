@@ -32,6 +32,12 @@ RUN wget https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Li
 	&& install -v -m 0755 /tmp/eksctl /usr/local/bin \
 	&& rm -vf eksctl_*.* /tmp/eksctl
 
+# https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+RUN wget -O helm.tgz https://get.helm.sh/helm-v3.5.4-linux-amd64.tar.gz \
+	&& tar -vxzf helm.tgz \
+	&& install -v -m 0755 linux-amd64/heml /usr/local/bin \
+	&& rm -rvf helm.tgz linux-amd64
+
 RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 	&& install -v -d -m 0750 /home/uws/.aws \
 	&& install -v -d -m 0750 /home/uws/bin \
