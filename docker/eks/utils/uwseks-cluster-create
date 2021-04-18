@@ -58,6 +58,7 @@ def _createCluster(args):
 		cmd += ' --instance-types %s' % args.instance_types
 		# ~ cmd += ' --disable-pod-imds'
 		cmd += ' --asg-access'
+	cmd += ' --full-ecr-access'
 	cmd += ' --auto-kubeconfig'
 	return cmd
 
