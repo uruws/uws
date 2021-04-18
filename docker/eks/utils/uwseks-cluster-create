@@ -50,13 +50,11 @@ def _createCluster(args):
 		cmd += ' --fargate'
 	else:
 		cmd += ' --managed'
-		cmd += ' --nodegroup-name %s-ng' % args.name
+		cmd += ' --nodegroup-name main'
 		cmd += ' --nodes %d' % args.nodes
 		cmd += ' --nodes-min %d' % args.nodes_min
 		cmd += ' --nodes-max %d' % args.nodes_max
-		# ~ cmd += ' --instance-prefix %s' % args.name
 		cmd += ' --instance-types %s' % args.instance_types
-		# ~ cmd += ' --disable-pod-imds'
 		cmd += ' --asg-access'
 	cmd += ' --full-ecr-access'
 	cmd += ' --auto-kubeconfig'
