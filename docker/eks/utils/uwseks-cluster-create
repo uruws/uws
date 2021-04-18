@@ -9,6 +9,11 @@ def main():
 	parser = ArgumentParser()
 	parser.add_argument('--profile', help = 'aws credentials profile')
 	parser.add_argument('--region', help = 'aws region', default = 'us-west-2')
+	parser.add_argument('--zones', help = 'aws region zones', default = 'us-west-2a,us-west-2a')
+	parser.add_argument('--nodes-min', help = 'min number of nodes', default = 2)
+	parser.add_argument('--nodes-max', help = 'max number of nodes', default = 2)
+	parser.add_argument('--instance-types', help = 'instance types', default = 't2.small')
+	parser.add_argument('--no-setup', help = 'do not run cluster setup', action = 'store_true')
 	parser.add_argument('name', help = 'cluster name')
 	args = parser.parse_args()
 	if args.profile is None:
@@ -19,25 +24,32 @@ def main():
 		subprocess.run(cmd, shell = True, check = True)
 	except Exception:
 		return 1
-	cmd = 'uwseks-cluster-setup %s' % args.name
-	print(cmd)
-	try:
-		subprocess.run(cmd, shell = True, check = True)
-	except Exception:
-		return 2
+	if not args.no_setup:
+		cmd = 'uwseks-cluster-setup %s' % args.name
+		print(cmd)
+		try:
+			subprocess.run(cmd, shell = True, check = True)
+		except Exception:
+			return 2
 	return 0
 
 def _createCluster(args):
 	cmd = 'eksctl create cluster --name %s' % args.name
 	cmd += ' --profile %s' % args.profile
 	cmd += ' --region %s' % args.region
+	# ~ cmd += ' --zones %s' % args.zones
 	cmd += ' --tags uwseks=%s' % args.name
-	cmd += ' --nodegroup-name %s-ng' % args.name
-	cmd += ' --instance-prefix %s' % args.name
+	cmd += ' --version 1.19'
 	cmd += ' --fargate'
-	cmd += ' --auto-kubeconfig'
-	cmd += ' --disable-pod-imds'
+	cmd += ' --nodegroup-name %s-ng' % args.name
+	cmd += ' --nodes-min %d' % args.nodes_min
+	cmd += ' --nodes-max %d' % args.nodes_max
+	cmd += ' --instance-prefix %s' % args.name
+	cmd += ' --instance-types %s' % args.instance_types
+	# ~ cmd += ' --disable-pod-imds'
+	cmd += ' --managed'
 	cmd += ' --asg-access'
+	cmd += ' --auto-kubeconfig'
 	return cmd
 
 if __name__ == '__main__':
