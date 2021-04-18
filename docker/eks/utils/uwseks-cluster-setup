@@ -14,12 +14,12 @@ ${kubectl} apply -f ${files}/aws-auth.yaml
 # cluster autoscaler
 # https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html
 
-eksctl utils associate-iam-oidc-provider -v4 \
+eksctl utils associate-iam-oidc-provider \
 	--cluster=${cluster} \
 	--profile=${cluster} \
 	--approve
 
-eksctl create iamserviceaccount -v4 \
+eksctl create iamserviceaccount \
 	--cluster=${cluster} \
 	--namespace=kube-system \
 	--name=cluster-autoscaler \
@@ -28,7 +28,6 @@ eksctl create iamserviceaccount -v4 \
 	--approve
 
 sed "s#\[UWSEKS_CLUSTER]#${cluster}#" ${files}/cluster-autoscaler.yaml >/tmp/cluster-autoscaler-${cluster}.yaml
-cat /tmp/cluster-autoscaler-${cluster}.yaml
 ${kubectl} apply -f /tmp/cluster-autoscaler-${cluster}.yaml
 
 #~ ${kubectl} annotate serviceaccount cluster-autoscaler \

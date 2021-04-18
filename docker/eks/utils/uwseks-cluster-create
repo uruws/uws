@@ -14,6 +14,7 @@ def main():
 	parser.add_argument('--nodes-max', help = 'max number of nodes', default = 2)
 	parser.add_argument('--instance-types', help = 'instance types', default = 't2.small')
 	parser.add_argument('--no-setup', help = 'do not run cluster setup', action = 'store_true')
+	parser.add_argument('-v', help = 'verbose level', default = '3')
 	parser.add_argument('name', help = 'cluster name')
 	args = parser.parse_args()
 	if args.profile is None:
@@ -34,17 +35,17 @@ def main():
 	return 0
 
 def _createCluster(args):
-	cmd = 'eksctl create cluster --name %s' % args.name
+	cmd = 'eksctl -v %s create cluster --name %s' % (args.v, args.name)
 	cmd += ' --profile %s' % args.profile
 	cmd += ' --region %s' % args.region
 	# ~ cmd += ' --zones %s' % args.zones
 	cmd += ' --tags uwseks=%s' % args.name
 	cmd += ' --version 1.19'
-	cmd += ' --fargate'
+	# ~ cmd += ' --fargate'
 	cmd += ' --nodegroup-name %s-ng' % args.name
 	cmd += ' --nodes-min %d' % args.nodes_min
 	cmd += ' --nodes-max %d' % args.nodes_max
-	cmd += ' --instance-prefix %s' % args.name
+	# ~ cmd += ' --instance-prefix %s' % args.name
 	cmd += ' --instance-types %s' % args.instance_types
 	# ~ cmd += ' --disable-pod-imds'
 	cmd += ' --managed'
