@@ -6,8 +6,6 @@ files=/home/uws/files
 kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${cluster}"
 helm="helm --kubeconfig /home/uws/.kube/eksctl/clusters/${cluster}"
 
-. ${files}/secret.env
-
 ${kubectl} create namespace prometheus
 
 ${helm} repo add prometheus-community https://prometheus-community.github.io/helm-charts

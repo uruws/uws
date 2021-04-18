@@ -28,6 +28,7 @@ eksctl create iamserviceaccount \
 	--approve
 
 sed "s#\[UWSEKS_CLUSTER]#${cluster}#" ${files}/cluster-autoscaler.yaml >/tmp/cluster-autoscaler-${cluster}.yaml
+
 ${kubectl} apply -f /tmp/cluster-autoscaler-${cluster}.yaml
 
 #~ ${kubectl} annotate serviceaccount cluster-autoscaler \

@@ -5,7 +5,7 @@ cluster=${1:?'cluster name?'}
 files=/home/uws/files
 kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${cluster}"
 
-${kubectl} apply -f ${files}/k8s-dashboard.yaml
-${kubectl} apply -f ${files}/k8s-dashboard-auth.yaml
+${kubectl} delete -f ${files}/k8s-dashboard.yaml
+${kubectl} delete -f ${files}/k8s-dashboard-auth.yaml
 
 exit 0

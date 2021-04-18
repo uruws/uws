@@ -5,8 +5,6 @@ cluster=${1:?'cluster name?'}
 files=/home/uws/files
 kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${cluster}"
 
-. ${files}/secret.env
-
 ${kubectl} apply -f ${files}/metrics-server.yaml
 
 exit 0
