@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+cluster=${1:?'cluster name?'}
+exec uwskube ${cluster} -n kube-system describe secret $(uwskube ${cluster} -n kube-system get secret | grep uwsadm-token | awk '{print $1}')
