@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+cluster=${1:?'cluster name?'}
+helm="helm --kubeconfig /home/uws/.kube/eksctl/clusters/${cluster}"
+
+${helm} uninstall --namespace cert-manager cert-manager
+
+exit 0

@@ -4,6 +4,7 @@ name=${1:-'uwsdev'}
 
 set -x
 
+uwseks-cluster-teardown-cert-manager ${name}
 uwseks-cluster-teardown-metrics-server ${name}
 uwseks-cluster-teardown-dashboard ${name}
 

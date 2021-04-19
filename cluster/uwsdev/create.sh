@@ -11,5 +11,6 @@ uwseks-cluster-create --profile uwsdev --region us-west-2 \
 
 uwseks-cluster-setup-dashboard ${name}
 uwseks-cluster-setup-metrics-server ${name}
+uwseks-cluster-setup-cert-manager ${name}
 
 exit 0
