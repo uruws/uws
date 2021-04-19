@@ -1,0 +1,12 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cluster-certificate
+spec:
+  secretName: cluster-certificate
+  dnsNames:
+    - devel.uws.talkingpts.org
+  issuerRef:
+    name: acme-staging
+    kind: ClusterIssuer

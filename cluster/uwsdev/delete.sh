@@ -6,6 +6,8 @@ k8s=/home/uws/k8s
 
 set -x
 
+${kubectl} delete -f ${k8s}/gateway.yaml
+${kubectl} delete -f ${k8s}/certificates.yaml
 ${kubectl} delete -f ${k8s}/acme-staging.yaml
 
 uwseks-cluster-teardown-nginx-ingress ${name}

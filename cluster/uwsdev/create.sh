@@ -17,5 +17,7 @@ uwseks-cluster-setup-cert-manager ${name}
 uwseks-cluster-setup-nginx-ingress ${name}
 
 ${kubectl} apply -f ${k8s}/acme-staging.yaml
+${kubectl} apply -f ${k8s}/certificates.yaml
+${kubectl} apply -f ${k8s}/gateway.yaml
 
 exit 0
