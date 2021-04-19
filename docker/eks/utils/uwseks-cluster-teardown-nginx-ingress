@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+cluster=${1:?'cluster name?'}
+kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${cluster}"
+files=/home/uws/files
+${kubectl} delete -f ${files}/nginx-ingress.yaml
+exit 0
