@@ -8,6 +8,7 @@ cluster=/home/uws/cluster/${name}
 
 set -x
 
+# FIXME: teardown of cluster gateway removes AWS load balancer
 ${kubectl} delete secret basic-auth
 ${kubectl} delete -f ${cluster}/gateway.yaml
 
