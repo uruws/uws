@@ -1,0 +1,24 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cluster-certificate
+spec:
+  secretName: cluster-certificate
+  dnsNames:
+    - amybeta.uws.talkingpts.org
+  issuerRef:
+    name: acme
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: amybeta-certificate
+spec:
+  secretName: amybeta-certificate
+  dnsNames:
+    - beta.talkingpts.org
+  issuerRef:
+    name: acme
+    kind: ClusterIssuer
