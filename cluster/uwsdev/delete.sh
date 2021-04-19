@@ -3,11 +3,14 @@ set -eu
 name=${1:-'uwsdev'}
 kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${name}"
 k8s=/home/uws/k8s
+cluster=/home/uws/cluster/${name}
 
 set -x
 
-${kubectl} delete -f ${k8s}/gateway.yaml
-${kubectl} delete -f ${k8s}/certificates.yaml
+${kubectl} delete secret basic-auth
+${kubectl} delete -f ${cluster}/gateway.yaml
+
+${kubectl} delete -f ${cluster}/certificates.yaml
 ${kubectl} delete -f ${k8s}/acme-staging.yaml
 
 uwseks-cluster-teardown-nginx-ingress ${name}
