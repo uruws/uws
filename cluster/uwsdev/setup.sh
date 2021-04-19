@@ -13,6 +13,7 @@ uwseks-cluster-setup-dashboard ${name}
 uwseks-cluster-setup-metrics-server ${name}
 uwseks-cluster-setup-cert-manager ${name}
 uwseks-cluster-setup-nginx-ingress ${name}
+uwseks-cluster-setup-prometheus ${name}
 
 ${kubectl} apply -f ${k8s}/acme-staging.yaml
 ${kubectl} apply -f ${cluster}/certificates.yaml
