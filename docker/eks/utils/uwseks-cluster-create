@@ -20,7 +20,6 @@ def main():
 	parser.add_argument('--max-pods-per-node', help = 'max number of pods per node',
 		type = int, default = 0)
 	parser.add_argument('--instance-types', help = 'instance types', default = 't2.small')
-	parser.add_argument('--no-setup', help = 'do not run cluster setup', action = 'store_true')
 	parser.add_argument('--fargate', help = 'setup fargate nodes', action = 'store_true')
 	parser.add_argument('-v', help = 'verbose level', default = '3')
 	parser.add_argument('name', help = 'cluster name')
@@ -31,13 +30,6 @@ def main():
 		subprocess.run(cmd, shell = True, check = True)
 	except Exception:
 		return 1
-	if not args.no_setup:
-		cmd = 'uwseks-cluster-setup %s' % args.name
-		print(cmd)
-		try:
-			subprocess.run(cmd, shell = True, check = True)
-		except Exception:
-			return 2
 	return 0
 
 def _createCluster(args):

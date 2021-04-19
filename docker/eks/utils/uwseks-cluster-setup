@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 
+export AWS_PROFILE=${AWS_PROFILE:-'default'}
+
 cluster=${1:?'cluster name?'}
 files=/home/uws/files
 secret=/home/uws/secret
