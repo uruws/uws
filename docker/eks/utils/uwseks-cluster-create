@@ -17,6 +17,8 @@ def main():
 		type = int, default = 2)
 	parser.add_argument('--nodes-max', help = 'max number of nodes',
 		type = int, default = 2)
+	parser.add_argument('--max-pods-per-node', help = 'max number of pods per node',
+		type = int, default = 0)
 	parser.add_argument('--instance-types', help = 'instance types', default = 't2.small')
 	parser.add_argument('--no-setup', help = 'do not run cluster setup', action = 'store_true')
 	parser.add_argument('--fargate', help = 'setup fargate nodes', action = 'store_true')
@@ -49,14 +51,16 @@ def _createCluster(args):
 	cmd += ' --version 1.19'
 	if args.fargate:
 		cmd += ' --fargate'
+		if args.max_pods_per_node > 0:
+			cmd += ' --max-pods-per-node %d' % args.max_pods_per_node
 	else:
 		cmd += ' --managed'
-		cmd += ' --nodegroup-name main'
-		cmd += ' --nodes %d' % args.nodes
-		cmd += ' --nodes-min %d' % args.nodes_min
-		cmd += ' --nodes-max %d' % args.nodes_max
-		cmd += ' --instance-types %s' % args.instance_types
 		cmd += ' --asg-access'
+	cmd += ' --nodegroup-name main'
+	cmd += ' --nodes %d' % args.nodes
+	cmd += ' --nodes-min %d' % args.nodes_min
+	cmd += ' --nodes-max %d' % args.nodes_max
+	cmd += ' --instance-types %s' % args.instance_types
 	cmd += ' --ssh-access'
 	cmd += ' --ssh-public-key %s' % os.path.expanduser('~/secret/ssh/node.pub')
 	cmd += ' --full-ecr-access'
