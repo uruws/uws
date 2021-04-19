@@ -14,7 +14,9 @@ ${kubectl} delete -f ${cluster}/gateway.yaml
 ${kubectl} delete -f ${cluster}/certificates.yaml
 ${kubectl} delete -f ${k8s}/acme-staging.yaml
 
+# FIXME: teardown nginx-ingress fails
 uwseks-cluster-teardown-nginx-ingress ${name}
+
 uwseks-cluster-teardown-cert-manager ${name}
 uwseks-cluster-teardown-metrics-server ${name}
 uwseks-cluster-teardown-dashboard ${name}
