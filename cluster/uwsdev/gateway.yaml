@@ -7,6 +7,14 @@ spec:
   type: ExternalName
   externalName: kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+spec:
+  type: ExternalName
+  externalName: loki-grafana.prometheus.svc.cluster.local
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -35,3 +43,10 @@ spec:
                 name: k8s-dashboard
                 port:
                   number: 443
+          - pathType: Prefix
+            path: /grafana/(.*)
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3001
