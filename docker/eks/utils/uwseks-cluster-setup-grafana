@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+cluster=${1:?'cluster name?'}
+files=/home/uws/files
+kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${cluster}"
+helm="helm --kubeconfig /home/uws/.kube/eksctl/clusters/${cluster}"
+
+#~ ${kubectl} create namespace prometheus
+
+${helm} repo add grafana https://grafana.github.io/helm-charts
+${helm} repo update
+
+${helm} upgrade -i loki-grafana grafana/grafana \
+	--namespace prometheus
+
+exit 0

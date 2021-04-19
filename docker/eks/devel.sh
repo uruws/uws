@@ -9,6 +9,7 @@ k8s=${PWD}/k8s
 cluster=${PWD}/cluster
 exec docker run -it --rm \
 	--hostname eks-devel.uws.local -u uws \
+	-p 127.0.0.1:8001:3000 \
 	-p 127.0.0.1:8001:8001 \
 	-p 127.0.0.1:9090:9090 \
 	-p 127.0.0.1:9091:9091 \
