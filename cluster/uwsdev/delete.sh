@@ -1,8 +1,12 @@
 #!/bin/sh
 set -eu
 name=${1:-'uwsdev'}
+kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${name}"
+k8s=/home/uws/k8s
 
 set -x
+
+${kubectl} delete -f ${k8s}/acme-staging.yaml
 
 uwseks-cluster-teardown-nginx-ingress ${name}
 uwseks-cluster-teardown-cert-manager ${name}

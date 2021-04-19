@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 name=${1:-'uwsdev'}
+kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${name}"
+k8s=/home/uws/k8s
 
 set -x
 
@@ -13,5 +15,7 @@ uwseks-cluster-setup-dashboard ${name}
 uwseks-cluster-setup-metrics-server ${name}
 uwseks-cluster-setup-cert-manager ${name}
 uwseks-cluster-setup-nginx-ingress ${name}
+
+${kubectl} apply -f ${k8s}/acme-staging.yaml
 
 exit 0

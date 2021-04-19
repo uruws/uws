@@ -1,0 +1,16 @@
+# from https://cert-manager.io/docs/configuration/acme/
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: acme-prod
+spec:
+  acme:
+    email: jeremias@talkingpts.org
+    server: https://acme-v02.api.letsencrypt.org/directory
+    preferredChain: "ISRG Root X1"
+    privateKeySecretRef:
+      name: acme-prod-account-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
