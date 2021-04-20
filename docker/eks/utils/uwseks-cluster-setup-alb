@@ -11,24 +11,24 @@ secret=/home/uws/secret
 
 . ${secret}/secret.env
 
-#~ aws iam create-policy \
-	#~ --policy-name uwseks-${cluster}-AWSLoadBalancerControllerIAMPolicy \
-	#~ --policy-document file://${files}/alb-iam-policy.json
+aws iam create-policy \
+	--policy-name uwseks-${cluster}-AWSLoadBalancerControllerIAMPolicy \
+	--policy-document file://${files}/alb-iam-policy.json
 
-#~ eksctl create iamserviceaccount \
-	#~ --cluster=${cluster} \
-	#~ --profile=${AWS_PROFILE} \
-	#~ --namespace=kube-system \
-	#~ --name=alb-controller \
-	#~ --attach-policy-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:policy/uwseks-${cluster}-AWSLoadBalancerControllerIAMPolicy \
-	#~ --override-existing-serviceaccounts \
-	#~ --approve
+eksctl create iamserviceaccount \
+	--cluster=${cluster} \
+	--profile=${AWS_PROFILE} \
+	--namespace=kube-system \
+	--name=alb-controller \
+	--attach-policy-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:policy/uwseks-${cluster}-AWSLoadBalancerControllerIAMPolicy \
+	--override-existing-serviceaccounts \
+	--approve
 
-#~ ${helm} repo add eks https://aws.github.io/eks-charts
-#~ ${helm} repo update
+${helm} repo add eks https://aws.github.io/eks-charts
+${helm} repo update
 
-#~ ${kubectl} apply -k \
-	#~ "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+${kubectl} apply -k \
+	"github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
 
 ${helm} upgrade -i alb-controller eks/aws-load-balancer-controller \
 	-n kube-system \
