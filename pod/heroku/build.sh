@@ -1,3 +1,11 @@
 #!/bin/sh
 set -eu
-exec docker build --rm -t uwspod/heroku ./pod/heroku
+app=${1:?'app env?'}
+build_dir=/srv/heroku
+
+rm -vfr ${build_dir}/Dockerfile ${build_dir}/utils
+cp -va ./pod/heroku/Dockerfile ${build_dir}/
+cp -va ./pod/heroku/utils ${build_dir}/
+
+cd ${build_dir}
+exec docker build --rm -t uwspod/heroku .
