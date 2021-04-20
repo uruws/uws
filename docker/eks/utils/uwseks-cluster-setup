@@ -19,11 +19,12 @@ ${kubectl} apply -f ${secret}/aws-auth.yaml
 
 eksctl utils associate-iam-oidc-provider \
 	--cluster=${cluster} \
-	--profile=${cluster} \
+	--profile=${AWS_PROFILE} \
 	--approve
 
 eksctl create iamserviceaccount \
 	--cluster=${cluster} \
+	--profile=${AWS_PROFILE} \
 	--namespace=kube-system \
 	--name=cluster-autoscaler \
 	--override-existing-serviceaccounts \

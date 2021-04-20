@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh awscli python3 less
+RUN /root/bin/apt-install.sh awscli python3 less git vim
 
 RUN chgrp uws /usr/local/bin && chmod g+w /usr/local/bin
 
