@@ -8,4 +8,4 @@ cp -va ./pod/heroku/Dockerfile ${build_dir}/
 cp -va ./pod/heroku/utils ${build_dir}/
 
 cd ${build_dir}
-exec docker build --rm -t uwspod/heroku .
+exec docker build --rm --build-arg APP=${app} -t uwspod/heroku .
