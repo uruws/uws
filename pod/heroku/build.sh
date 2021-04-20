@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-app=${1:?'app env?'}
+app=${1:?'app name?'}
 build_dir=/srv/heroku
 
 rm -vfr ${build_dir}/Dockerfile ${build_dir}/utils
