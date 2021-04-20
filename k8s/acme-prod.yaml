@@ -8,6 +8,7 @@ spec:
     email: jeremias@talkingpts.org
     server: https://acme-v02.api.letsencrypt.org/directory
     preferredChain: "ISRG Root X1"
+    disableAccountKeyGeneration: true
     privateKeySecretRef:
       name: acme-prod-account-key
     solvers:

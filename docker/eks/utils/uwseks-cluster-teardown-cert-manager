@@ -2,8 +2,11 @@
 set -eu
 
 cluster=${1:?'cluster name?'}
+kubectl="uwskube ${cluster}"
 helm="helm --kubeconfig /home/uws/.kube/eksctl/clusters/${cluster}"
 
 ${helm} uninstall --namespace cert-manager cert-manager
+${kubectl} delete secret -n cert-manager acme-prod-account-key
+${kubectl} delete namespace cert-manager
 
 exit 0
