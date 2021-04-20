@@ -8,7 +8,7 @@ spec:
   dnsNames:
     - amybeta.uws.talkingpts.org
   issuerRef:
-    name: acme
+    name: acme-prod
     kind: ClusterIssuer
 ---
 apiVersion: cert-manager.io/v1
@@ -20,5 +20,5 @@ spec:
   dnsNames:
     - beta.talkingpts.org
   issuerRef:
-    name: acme
+    name: acme-prod
     kind: ClusterIssuer
