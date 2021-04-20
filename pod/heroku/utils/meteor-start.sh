@@ -10,14 +10,15 @@ ls -lh /home/uws/meteor
 ls -lh /home/uws/meteor/app
 echo "--- mount"
 (mount | grep /home/uws/meteor/app) || true
-echo "--- app.env"
-if ! test -s /run/app.env; then
-	echo "/run/app.env: file not found" >&2
+appenv=/run/meteor/app.env
+echo "--- ${appenv}"
+if ! test -s ${appenv}; then
+	echo "${appenv}: file not found" >&2
 	exit 1
 fi
-ls -lh /run/app.env
-tail /run/app.env
+ls -lh ${appenv}
+tail ${appenv}
 echo "--- DEBUG end"
-. /run/app.env
+. ${appenv}
 cd /home/uws/meteor/app
 exec ./.meteor/heroku_build/bin/node ./.meteor/heroku_build/app/main.js
