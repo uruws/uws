@@ -14,11 +14,19 @@ spec:
         app.kubernetes.io/name: heroku-meteor
     spec:
       containers:
-      - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uwspod:heroku-20210420
-        imagePullPolicy: IfNotPresent
-        name: heroku-meteor
-        ports:
-        - containerPort: 4080
+        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uwspod:heroku-20210420-1
+          imagePullPolicy: IfNotPresent
+          name: heroku-meteor
+          ports:
+            - containerPort: 4080
+          volumeMounts:
+            - name: appenv
+              mountPath: "/run/app.env"
+              readOnly: true
+      volumes:
+        - name: appenv
+          secret:
+            secretName: heroku-meteor-app-env
 ---
 apiVersion: v1
 kind: Service
