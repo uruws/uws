@@ -42,6 +42,6 @@ spec:
             path: /
             backend:
               service:
-                name: heroku-meteor-service
+                name: heroku-meteor-ingress
                 port:
                   number: 443
