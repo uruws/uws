@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
 
-cluster='amybeta'
-kubectl="uwskube ${cluster}"
+kubectl='uwskube amybeta'
 pod=/home/uws/pod/heroku
+cluster=/home/uws/cluster/amybeta
 
 appenv=${1:?'app.env?'}
 

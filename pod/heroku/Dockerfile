@@ -24,6 +24,6 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-EXPOSE 4080
+EXPOSE 3000
 
 ENTRYPOINT exec /usr/local/bin/meteor-start.sh

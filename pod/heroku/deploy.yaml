@@ -18,7 +18,7 @@ spec:
           imagePullPolicy: IfNotPresent
           name: heroku-meteor
           ports:
-            - containerPort: 4080
+            - containerPort: 3000
           volumeMounts:
             - name: appenv
               mountPath: "/run/meteor"
@@ -39,8 +39,8 @@ metadata:
   name: heroku-meteor-service
 spec:
   ports:
-    - port: 4080
-      targetPort: 4080
+    - port: 3000
+      targetPort: 3000
       protocol: TCP
   selector:
     app.kubernetes.io/name: heroku-meteor
