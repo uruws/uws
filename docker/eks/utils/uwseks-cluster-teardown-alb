@@ -21,7 +21,6 @@ eksctl delete iamserviceaccount \
 	--profile=${AWS_PROFILE} \
 	--namespace=kube-system \
 	--name=alb-controller \
-	--approve \
 	--wait
 
 aws iam delete-policy \
