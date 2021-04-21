@@ -14,7 +14,7 @@ spec:
         app.kubernetes.io/name: heroku-meteor
     spec:
       containers:
-        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uwspod:heroku-20210420-3
+        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uwspod:heroku-20210420-5
           imagePullPolicy: IfNotPresent
           name: heroku-meteor
           ports:
@@ -42,25 +42,5 @@ spec:
     - port: 4080
       targetPort: 4080
       protocol: TCP
-  type: NodePort
   selector:
     app.kubernetes.io/name: heroku-meteor
----
-apiVersion: autoscaling/v2beta2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: heroku-meteor-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: heroku-meteor-deployment
-  minReplicas: 3
-  maxReplicas: 100
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 75
