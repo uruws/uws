@@ -1,0 +1,46 @@
+#~ ---
+#~ apiVersion: extensions/v1beta1
+#~ kind: Ingress
+#~ metadata:
+  #~ name: heroku-meteor-ingress
+  #~ annotations:
+    #~ kubernetes.io/ingress.class: alb
+    #~ alb.ingress.kubernetes.io/group.name: uwseks-alb
+    #~ alb.ingress.kubernetes.io/scheme: internal
+    #~ alb.ingress.kubernetes.io/target-type: ip
+    #~ alb.ingress.kubernetes.io/backend-protocol: HTTP
+    #~ alb.ingress.kubernetes.io/ip-address-type: ipv4
+#~ spec:
+  #~ rules:
+    #~ - http:
+        #~ paths:
+          #~ - path: /*
+            #~ backend:
+              #~ serviceName: heroku-meteor-service
+              #~ servicePort: 4080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: heroku-meteor-gateway
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/issuer: acme-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - beta.talkingpts.org
+      secretName: amybeta-certificate
+  rules:
+    - host: beta.talkingpts.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: uwspod-test-service
+                port:
+                  number: 8699

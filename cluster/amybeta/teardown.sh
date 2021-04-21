@@ -7,8 +7,6 @@ cluster=/home/uws/cluster/amybeta
 
 set -x
 
-uwseks-cluster-teardown-alb amybeta
-
 # FIXME: teardown of cluster gateway removes AWS load balancer
 ${kubectl} delete secret basic-auth
 ${kubectl} delete -f ${cluster}/gateway.yaml

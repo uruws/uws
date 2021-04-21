@@ -22,6 +22,4 @@ ${kubectl} create secret generic basic-auth --from-file=auth=${secret}/auth
 ${kubectl} get secret basic-auth -o yaml
 ${kubectl} apply -f ${cluster}/gateway.yaml
 
-uwseks-cluster-setup-alb amybeta
-
 exit 0
