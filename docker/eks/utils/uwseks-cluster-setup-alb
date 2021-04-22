@@ -4,7 +4,6 @@ set -eu
 . ~/bin/env.export
 
 cluster=${UWS_CLUSTER}
-kubectl="uwskube ${cluster}"
 helm="helm --kubeconfig ~/.kube/eksctl/clusters/${cluster}"
 files=~/files
 secret=~/secret
@@ -15,9 +14,7 @@ aws iam create-policy \
 	--policy-name uwseks-${cluster}-AWSLoadBalancerControllerIAMPolicy \
 	--policy-document file://${files}/alb-iam-policy.json
 
-eksctl create iamserviceaccount \
-	--cluster=${cluster} \
-	--profile=${AWS_PROFILE} \
+uwseks create iamserviceaccount \
 	--namespace=kube-system \
 	--name=alb-controller \
 	--attach-policy-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:policy/uwseks-${cluster}-AWSLoadBalancerControllerIAMPolicy \
@@ -27,7 +24,7 @@ eksctl create iamserviceaccount \
 ${helm} repo add eks https://aws.github.io/eks-charts
 ${helm} repo update
 
-${kubectl} apply -k \
+uwskube apply -k \
 	"github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
 
 ${helm} upgrade -i alb-controller eks/aws-load-balancer-controller \

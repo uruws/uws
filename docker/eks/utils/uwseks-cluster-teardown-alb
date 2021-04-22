@@ -4,7 +4,6 @@ set -eu
 . ~/bin/env.export
 
 cluster=${UWS_CLUSTER}
-kubectl="uwskube ${cluster}"
 helm="helm --kubeconfig ~/.kube/eksctl/clusters/${cluster}"
 files=~/files
 secret=~/secret
@@ -13,12 +12,10 @@ secret=~/secret
 
 ${helm} uninstall -n kube-system alb-controller
 
-${kubectl} delete -k \
+uwskube delete -k \
 	"github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
 
-eksctl delete iamserviceaccount \
-	--cluster=${cluster} \
-	--profile=${AWS_PROFILE} \
+uwseks delete iamserviceaccount \
 	--namespace=kube-system \
 	--name=alb-controller \
 	--wait

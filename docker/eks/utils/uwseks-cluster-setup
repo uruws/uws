@@ -6,25 +6,19 @@ set -eu
 cluster=${UWS_CLUSTER}
 files=~/files
 secret=~/secret
-kubectl="kubectl --kubeconfig=~/.kube/eksctl/clusters/${cluster}"
 
 . ${secret}/secret.env
 
 # aws users auth
 
-${kubectl} apply -f ${secret}/aws-auth.yaml
+uwskube apply -f ${secret}/aws-auth.yaml
 
 # cluster autoscaler
 # https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html
 
-eksctl utils associate-iam-oidc-provider \
-	--cluster=${cluster} \
-	--profile=${AWS_PROFILE} \
-	--approve
+uwseks utils associate-iam-oidc-provider --approve
 
-eksctl create iamserviceaccount \
-	--cluster=${cluster} \
-	--profile=${AWS_PROFILE} \
+uwseks create iamserviceaccount \
 	--namespace=kube-system \
 	--name=cluster-autoscaler \
 	--override-existing-serviceaccounts \
@@ -33,13 +27,13 @@ eksctl create iamserviceaccount \
 
 sed "s#\[UWSEKS_CLUSTER]#${cluster}#" ${files}/cluster-autoscaler.yaml >/tmp/cluster-autoscaler-${cluster}.yaml
 
-${kubectl} apply -f /tmp/cluster-autoscaler-${cluster}.yaml
+uwskube apply -f /tmp/cluster-autoscaler-${cluster}.yaml
 
-#~ ${kubectl} annotate serviceaccount cluster-autoscaler \
+#~ uwskube annotate serviceaccount cluster-autoscaler \
 	#~ --namespace=kube-system \
 	#~ eks.amazonaws.com/role-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:role/eksClusterAutoscalerRole
 
-${kubectl} patch deployment cluster-autoscaler --namespace=kube-system \
+uwskube patch deployment cluster-autoscaler --namespace=kube-system \
 	-p '{"spec":{"template":{"metadata":{"annotations":{"cluster-autoscaler.kubernetes.io/safe-to-evict": "false"}}}}}'
 
 exit 0

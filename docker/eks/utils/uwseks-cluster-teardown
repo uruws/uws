@@ -5,10 +5,9 @@ set -eu
 
 cluster=${UWS_CLUSTER}
 files=~/files
-kubectl="kubectl --kubeconfig=~/.kube/eksctl/clusters/${cluster}"
 
 sed "s#\[UWSEKS_CLUSTER]#${cluster}#" ${files}/cluster-autoscaler.yaml >/tmp/cluster-autoscaler-${cluster}.yaml
 
-${kubectl} delete -f /tmp/cluster-autoscaler-${cluster}.yaml
+uwskube delete -f /tmp/cluster-autoscaler-${cluster}.yaml
 
 exit 0
