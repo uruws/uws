@@ -1,9 +1,11 @@
 #!/bin/sh
 set -eu
 
-cluster=${1:?'cluster name?'}
-files=/home/uws/files
-kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${cluster}"
+. ~/bin/env.export
+
+cluster=${UWS_CLUSTER}
+files=~/files
+kubectl="kubectl --kubeconfig=~/.kube/eksctl/clusters/${cluster}"
 
 # FIXME: teardown k8s-dashboard fails
 ${kubectl} delete -f ${files}/k8s-dashboard.yaml

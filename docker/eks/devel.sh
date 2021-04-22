@@ -1,15 +1,22 @@
 #!/bin/sh
 set -eu
+
+aws_profile=${AWS_PROFILE:-'uwsdev'}
+aws_region=${AWS_REGION:-'us-west-2'}
+uws_cluster=${UWS_CLUSTER:-'uwsdev'}
+
 awsdir=${PWD}/secret/eks/aws
 kubedir=${PWD}/secret/eks/kube
-secrets=${PWD}/secret/eks/files
+secret=${PWD}/secret/eks/files
 files=${PWD}/docker/eks/files
 utils=${PWD}/docker/eks/utils
 k8s=${PWD}/k8s
 pod=${PWD}/pod
 cluster=${PWD}/cluster
+
 tmpdir=${PWD}/tmp
 mkdir -vp ${tmpdir}
+
 exec docker run -it --rm \
 	--hostname eks-devel.uws.local -u uws \
 	-p 127.0.0.1:0:3000 \
@@ -17,13 +24,16 @@ exec docker run -it --rm \
 	-p 127.0.0.1:0:9090 \
 	-p 127.0.0.1:0:9091 \
 	-p 127.0.0.1:0:9093 \
-	-v ${tmpdir}:/home/uws/tmp \
 	-v ${utils}:/home/uws/bin:ro \
 	-v ${k8s}:/home/uws/k8s:ro \
 	-v ${pod}:/home/uws/pod:ro \
 	-v ${cluster}:/home/uws/cluster:ro \
 	-v ${files}:/home/uws/files:ro \
-	-v ${secrets}:/home/uws/secret:ro \
+	-v ${secret}:/home/uws/secret:ro \
 	-v ${awsdir}:/home/uws/.aws:ro \
 	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters \
+	-v ${tmpdir}:/home/uws/tmp \
+	-e AWS_PROFILE=${aws_profile} \
+	-e AWS_REGION=${aws_region} \
+	-e UWS_CLUSTER=${uws_cluster} \
 	uws/eks $@

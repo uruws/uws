@@ -41,13 +41,17 @@ RUN wget -O helm.tgz https://get.helm.sh/helm-v3.5.4-linux-amd64.tar.gz \
 RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 	&& install -v -d -m 0750 /home/uws/.aws \
 	&& install -v -d -m 0750 /home/uws/bin \
-	&& install -v -d -m 0750 /home/uws/files
+	&& install -v -d -m 0750 /home/uws/files \
+	&& install -v -d -m 0750 /home/uws/k8s \
+	&& install -v -d -m 0750 /home/uws/pod \
+	&& install -v -d -m 0750 /home/uws/cluster \
+	&& install -v -d -m 0750 /home/uws/secret \
+	&& install -v -d -m 0750 /home/uws/tmp
 
-VOLUME /home/uws/.kube/eksctl/clusters
-VOLUME /home/uws/.aws
-VOLUME /home/uws/bin
-VOLUME /home/uws/files
+ENV AWS_PROFILE uwsdev
+ENV AWS_REGION us-west-2
+ENV UWS_CLUSTER uwsdev
 
-RUN printf 'export PATH="/home/uws/bin:${PATH}"\n' >>.bashrc
+RUN printf 'export PS1="${UWS_CLUSTER}@${AWS_PROFILE}.${AWS_REGION}:\W\$ "\n' >>.profile
 
 CMD exec /usr/local/bin/uws-login.sh

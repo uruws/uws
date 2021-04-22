@@ -1,13 +1,13 @@
 #!/bin/sh
 set -eu
 
-export AWS_PROFILE=${AWS_PROFILE}
+. ~/bin/env.export
 
-cluster=${1:?'cluster name?'}
+cluster=${UWS_CLUSTER}
 kubectl="uwskube ${cluster}"
-helm="helm --kubeconfig /home/uws/.kube/eksctl/clusters/${cluster}"
-files=/home/uws/files
-secret=/home/uws/secret
+helm="helm --kubeconfig ~/.kube/eksctl/clusters/${cluster}"
+files=~/files
+secret=~/secret
 
 . ${secret}/secret.env
 

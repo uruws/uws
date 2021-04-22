@@ -1,10 +1,11 @@
 #!/bin/sh
 set -eu
+. ~/bin/env.export
 
-cluster=${1:?'cluster name?'}
-files=/home/uws/files
-kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${cluster}"
-helm="helm --kubeconfig /home/uws/.kube/eksctl/clusters/${cluster}"
+cluster=${UWS_CLUSTER}
+files=~/files
+kubectl="kubectl --kubeconfig=~/.kube/eksctl/clusters/${cluster}"
+helm="helm --kubeconfig ~/.kube/eksctl/clusters/${cluster}"
 
 ${helm} uninstall prometheus --namespace prometheus
 

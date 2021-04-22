@@ -1,11 +1,11 @@
 #!/bin/sh
 set -eu
 
-export AWS_PROFILE=${AWS_PROFILE:-'default'}
+. ~/bin/env.export
 
-cluster=${1:?'cluster name?'}
-files=/home/uws/files
-kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${cluster}"
+cluster=${UWS_CLUSTER}
+files=~/files
+kubectl="kubectl --kubeconfig=~/.kube/eksctl/clusters/${cluster}"
 
 sed "s#\[UWSEKS_CLUSTER]#${cluster}#" ${files}/cluster-autoscaler.yaml >/tmp/cluster-autoscaler-${cluster}.yaml
 
