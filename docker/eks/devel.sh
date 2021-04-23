@@ -24,12 +24,15 @@ tmpdir=${PWD}/tmp
 mkdir -vp ${tmpdir}
 
 cluster_perms='rw'
+hostname="${uws_cluster}.${aws_region}.eks"
 if test 'Xtrue' = "X${client_mode}"; then
 	cluster_perms='ro'
+	awsdir=${awsdir}/client
+	hostname="${hostname}cli"
 fi
 
 exec docker run -it --rm \
-	--hostname ${uws_cluster}.${aws_region}.eks -u uws \
+	--hostname ${hostname} -u uws \
 	-p 127.0.0.1:0:3000 \
 	-p 127.0.0.1:0:8001 \
 	-p 127.0.0.1:0:9090 \
