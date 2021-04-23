@@ -52,6 +52,6 @@ ENV AWS_PROFILE uwsdev
 ENV AWS_REGION us-west-2
 ENV UWS_CLUSTER uwsdev
 
-RUN printf 'export PS1="${UWS_CLUSTER}@eks.${AWS_PROFILE}.${AWS_REGION}:\W\$ "\n' >>.profile
+RUN printf 'export PS1="${AWS_PROFILE}@${UWS_CLUSTER}.${AWS_REGION}.eks:\W\$ "\n' >>.profile
 
 CMD exec /usr/local/bin/uws-login.sh

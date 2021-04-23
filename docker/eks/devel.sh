@@ -29,7 +29,7 @@ if test 'Xtrue' = "X${client_mode}"; then
 fi
 
 exec docker run -it --rm \
-	--hostname eks-devel.uws.local -u uws \
+	--hostname ${uws_cluster}.${aws_region}.eks -u uws \
 	-p 127.0.0.1:0:3000 \
 	-p 127.0.0.1:0:8001 \
 	-p 127.0.0.1:0:9090 \
