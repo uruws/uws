@@ -5,6 +5,12 @@ aws_profile=${AWS_PROFILE:-'uwsdev'}
 aws_region=${AWS_REGION:-'us-west-2'}
 uws_cluster=${UWS_CLUSTER:-'uwsdev'}
 
+client_mode='false'
+if test 'X--client' = "X${1:-'NONE'}"; then
+	client_mode='true'
+	shift
+fi
+
 awsdir=${PWD}/secret/eks/aws
 kubedir=${PWD}/secret/eks/kube
 secret=${PWD}/secret/eks/files
@@ -16,6 +22,11 @@ cluster=${PWD}/cluster
 
 tmpdir=${PWD}/tmp
 mkdir -vp ${tmpdir}
+
+cluster_perms='rw'
+if test 'Xtrue' = "X${client_mode}"; then
+	cluster_perms='ro'
+fi
 
 exec docker run -it --rm \
 	--hostname eks-devel.uws.local -u uws \
@@ -31,7 +42,7 @@ exec docker run -it --rm \
 	-v ${files}:/home/uws/files:ro \
 	-v ${secret}:/home/uws/secret:ro \
 	-v ${awsdir}:/home/uws/.aws:ro \
-	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters \
+	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters:${cluster_perms} \
 	-v ${tmpdir}:/home/uws/tmp \
 	-e AWS_PROFILE=${aws_profile} \
 	-e AWS_REGION=${aws_region} \
