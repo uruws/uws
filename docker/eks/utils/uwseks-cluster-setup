@@ -42,8 +42,4 @@ uwskube patch deployment cluster-autoscaler --namespace=kube-system \
 ~/k8s/dashboard/setup.sh
 ~/k8s/prometheus/setup.sh
 
-# cluster gateway
-
-uwskube apply -f ~/cluster/${cluster}/gateway.yaml
-
 exit 0
