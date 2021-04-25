@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 . ~/bin/env.export
-exec uwskube -n kube-system logs -f deployment.apps/cluster-autoscaler
+exec uwskube -n kube-system logs deployment.apps/cluster-autoscaler $@
