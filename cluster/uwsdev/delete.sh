@@ -1,5 +1,8 @@
 #!/bin/sh
 set -eu
-name=${1:-'uwsdev'}
+. ~/bin/env.export
 set -x
-exec uwseks-cluster-delete --profile uwsdev --region us-west-2 ${name}
+uwseks-cluster-teardown
+set +x
+uwseks-cluster-delete --profile ${AWS_PROFILE} --region ${AWS_REGION} ${UWS_CLUSTER}
+exit 0

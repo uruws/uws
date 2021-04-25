@@ -155,7 +155,7 @@ spec:
             - --skip-nodes-with-local-storage=false
             - --balance-similar-node-groups
             - --expander=least-waste
-            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/[UWSEKS_CLUSTER]
+            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/[UWS_CLUSTER]
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-bundle.crt

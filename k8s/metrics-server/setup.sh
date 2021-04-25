@@ -1,12 +1,5 @@
 #!/bin/sh
 set -eu
-
 . ~/bin/env.export
-
-cluster=${UWS_CLUSTER}
-files=~/files
-kubectl="kubectl --kubeconfig=~/.kube/eksctl/clusters/${cluster}"
-
-${kubectl} apply -f ${files}/metrics-server.yaml
-
+uwskube apply -f ~/k8s/metrics-server/deploy.yaml
 exit 0

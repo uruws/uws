@@ -1,8 +1,17 @@
 #!/bin/sh
 set -eu
-name=${1:-'uwsdev'}
+. ~/bin/env.export
+
+nodes=2
+nodes_min=2
+nodes_max=10
+instance_types='t3a.small'
+
+uwseks-cluster-create --profile ${AWS_PROFILE} --region ${AWS_REGION} \
+	--nodes ${nodes} --nodes-min ${nodes_min} --nodes-max ${nodes_max} \
+	--instance-types "${instance_types}" \
+	${UWS_CLUSTER}
+
 set -x
-exec uwseks-cluster-create --profile uwsdev --region us-west-2 \
-	--nodes 2 --nodes-min 2 --nodes-max 10 \
-	--instance-types t3a.small \
-	${name}
+uwseks-cluster-setup
+exit 0

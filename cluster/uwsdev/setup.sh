@@ -1,25 +1,16 @@
 #!/bin/sh
 set -eu
 
-name=${1:-'uwsdev'}
-kubectl="kubectl --kubeconfig=/home/uws/.kube/eksctl/clusters/${name}"
-k8s=/home/uws/k8s
-secret=/home/uws/secret
-cluster=/home/uws/cluster/${name}
+. ~/bin/env.export
+
+cluster=~/cluster/${UWS_CLUSTER}
 
 set -x
 
-uwseks-cluster-setup-dashboard ${name}
-uwseks-cluster-setup-metrics-server ${name}
-uwseks-cluster-setup-cert-manager ${name}
-uwseks-cluster-setup-nginx-ingress ${name}
-uwseks-cluster-setup-prometheus ${name}
+uwskube apply -f ~/k8s/acme-staging.yaml
+uwskube apply -f ${cluster}/certificates.yaml
 
-${kubectl} apply -f ${k8s}/acme-staging.yaml
-${kubectl} apply -f ${cluster}/certificates.yaml
-
-${kubectl} create secret generic basic-auth --from-file=auth=${secret}/auth
-${kubectl} get secret basic-auth -o yaml
-${kubectl} apply -f ${cluster}/gateway.yaml
+uwskube create secret generic basic-auth --from-file=auth=~/secret/auth
+uwskube get secret basic-auth -o yaml
 
 exit 0
