@@ -26,8 +26,8 @@ RUN echo 'en_US.UTF-8 UTF-8' >/etc/locale.gen \
 ARG UWS_UID=1000
 ARG UWS_GID=1000
 
-RUN groupadd -g ${UWS_GID} uws \
-	&& useradd -d /home/uws -m -c 'uws' -g ${UWS_GID} -u ${UWS_UID} uws \
+RUN groupadd -o -g ${UWS_GID} uws \
+	&& useradd -o -d /home/uws -m -c 'uws' -g ${UWS_GID} -u ${UWS_UID} uws \
 	&& chmod -v 0750 /home/uws
 
 USER uws:uws
