@@ -1,7 +1,7 @@
 FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.4.16"
+LABEL version="2021.4.26"
 
 USER root:root
 WORKDIR /root
@@ -11,7 +11,7 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh awscli python3 less git vim
 
-RUN chown 0:${UWS_GID} /usr/local/bin && chmod g+w /usr/local/bin
+RUN chgrp ${UWS_GID} /usr/local/bin && chmod g+w /usr/local/bin
 
 USER uws:uws
 WORKDIR /home/uws

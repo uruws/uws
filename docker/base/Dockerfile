@@ -30,6 +30,9 @@ RUN groupadd -o -g ${UWS_GID} uws \
 	&& useradd -o -d /home/uws -m -c 'uws' -g ${UWS_GID} -u ${UWS_UID} uws \
 	&& chmod -v 0750 /home/uws
 
+ENV UWS_UID ${UWS_UID}
+ENV UWS_GID ${UWS_GID}
+
 USER uws:uws
 WORKDIR /home/uws
 
