@@ -14,6 +14,4 @@ uwskube get secret basic-auth -o yaml
 
 uwskube apply -f ~/cluster/${cluster}/gateway.yaml
 
-uwskube apply -f ${cluster}/certificates.yaml
-
 exit 0
