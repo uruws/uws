@@ -13,7 +13,7 @@ RUN /root/bin/apt-install.sh awscli python3 less git vim
 
 RUN chgrp ${UWS_GID} /usr/local/bin && chmod g+w /usr/local/bin
 
-USER uws:uws
+USER ${UWS_UID}:${UWS_GID}
 WORKDIR /home/uws
 
 ENV USER uws
