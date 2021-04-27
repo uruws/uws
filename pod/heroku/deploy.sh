@@ -1,13 +1,12 @@
 #!/bin/sh
 set -eu
 
-cluster=${UWS_CLUSTER}
-kubectl="uwskube ${cluster}"
-pod=/home/uws/pod/heroku
-
 appenv=${1:?'app.env?'}
 
-${kubectl} create secret generic heroku-meteor-app-env --from-file="app.env=${appenv}"
-${kubectl} apply -f ${pod}/deploy.yaml
+pod=/home/uws/pod/heroku
+
+uwskube delete secret heroku-meteor-app-env || true
+uwskube create secret generic heroku-meteor-app-env --from-file="app.env=${appenv}"
+uwskube apply -f ${pod}/deploy.yaml
 
 exit 0
