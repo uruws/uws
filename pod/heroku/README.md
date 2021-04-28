@@ -7,7 +7,6 @@
     uws@janis:deploy$ export HEROKU_API_KEY=XXXX-XXX-XXX
     uws@janis:deploy$ rm -rf /srv/heroku/download/tapo-beta
     uws@janis:deploy$ ./docker/heroku/cmd.sh slug-update.sh tapo-beta
-    uws@janis:deploy$
 
 ## build
 
