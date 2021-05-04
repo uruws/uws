@@ -7,6 +7,13 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     cert-manager.io/issuer: acme-prod
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: balanced
+    nginx.ingress.kubernetes.io/session-cookie-name: TAPOBETA
+    nginx.ingress.kubernetes.io/session-cookie-path: /
+    nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "43200"
+    nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
 spec:
   ingressClassName: nginx
   tls:
