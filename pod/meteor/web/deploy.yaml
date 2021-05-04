@@ -14,7 +14,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: meteor-web-deployment
+  name: meteor-web
 spec:
   selector:
     matchLabels:
@@ -76,7 +76,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: meteor-web-deployment
+    name: meteor-web
   minReplicas: 5
   maxReplicas: 100
   metrics:
