@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meteor-worker
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: meteor-worker
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: meteor-worker
+    spec:
+      containers:
+        - image: 789470191893.dkr.ecr.us-west-2.amazonaws.com/uws:meteor-app-2.1.3-2579-g1e4d18e50-1
+          imagePullPolicy: IfNotPresent
+          name: meteor-worker
+          ports:
+            - containerPort: 3000
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsUser: 3000
+            runAsGroup: 3000
+          volumeMounts:
+            - name: appenv
+              mountPath: "/run/meteor"
+              readOnly: true
+          env:
+            - name: PORT
+              value: "3000"
+            - name: DISABLE_JOBS
+              value: "FALSE"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+              httpHeaders:
+                - name: User-Agent
+                  value: k8s-check-ready
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+              httpHeaders:
+                - name: User-Agent
+                  value: k8s-check-live
+            initialDelaySeconds: 15
+            periodSeconds: 15
+      volumes:
+        - name: appenv
+          secret:
+            secretName: meteor-worker-env
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: meteor-worker-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: meteor-worker
+  minReplicas: 5
+  maxReplicas: 100
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 75
