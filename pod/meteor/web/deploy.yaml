@@ -39,6 +39,11 @@ spec:
           envFrom:
             - secretRef:
                 name: meteor-web-env
+          env:
+            - name: PORT
+              value: "3000"
+            - name: DISABLE_JOBS
+              value: "TRUE"
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
