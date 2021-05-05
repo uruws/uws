@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
 pod=/home/uws/pod/meteor/worker
-meteor-worker delete secret -n meteor-web meteor-web-env
-meteor-worker delete -n meteor-web -f ${pod}/deploy.yaml
+uwskube delete secret -n meteor-worker meteor-worker-env
+uwskube delete -n meteor-worker -f ${pod}/deploy.yaml
 exit 0
