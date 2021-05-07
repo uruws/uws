@@ -28,6 +28,10 @@ spec:
             readOnlyRootFilesystem: true
             runAsUser: 3000
             runAsGroup: 3000
+          resources:
+            requests:
+              cpu: 15m
+              memory: 350Mi
       volumes:
         - name: appenv
           secret:
