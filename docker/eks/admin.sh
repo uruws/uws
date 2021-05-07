@@ -47,7 +47,8 @@ exec docker run -it --rm \
 	-v ${awsdir}:/home/uws/.aws:ro \
 	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters:${cluster_perms} \
 	-v ${tmpdir}:/home/uws/tmp \
+	-e UWS_CLUSTER=${uws_cluster} \
 	-e AWS_PROFILE=${aws_profile} \
 	-e AWS_REGION=${aws_region} \
-	-e UWS_CLUSTER=${uws_cluster} \
+	-e AWS_INSTANCE_TYPES=${AWS_INSTANCE_TYPES} \
 	uws/eks $@
