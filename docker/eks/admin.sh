@@ -51,4 +51,5 @@ exec docker run -it --rm \
 	-e AWS_PROFILE=${aws_profile} \
 	-e AWS_REGION=${aws_region} \
 	-e AWS_INSTANCE_TYPES=${AWS_INSTANCE_TYPES} \
+	-e AWS_ZONES=${AWS_ZONES} \
 	uws/eks $@
