@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 5
+  replicas: 15
   template:
     metadata:
       labels:
@@ -31,24 +31,6 @@ spec:
           env:
             - name: PORT
               value: "3000"
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 3000
-              httpHeaders:
-                - name: User-Agent
-                  value: k8s-check-ready
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 3000
-              httpHeaders:
-                - name: User-Agent
-                  value: k8s-check-live
-            initialDelaySeconds: 15
-            periodSeconds: 15
       volumes:
         - name: appenv
           secret:
@@ -63,7 +45,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: meteor-worker
-  minReplicas: 5
+  minReplicas: 15
   maxReplicas: 100
   metrics:
   - type: Resource
@@ -71,4 +53,4 @@ spec:
       name: memory
       target:
         type: Utilization
-        averageUtilization: 75
+        averageUtilization: 50
