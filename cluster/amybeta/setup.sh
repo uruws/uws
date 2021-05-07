@@ -3,8 +3,6 @@ set -eu
 
 cluster=/home/uws/cluster/amybeta
 
-set -x
-
 uwskube create secret generic basic-auth --from-file=auth=${HOME}/secret/auth
 uwskube get secret basic-auth -o yaml
 
