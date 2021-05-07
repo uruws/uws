@@ -12,7 +12,7 @@ kind: Ingress
 metadata:
   name: cluster-gateway
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     cert-manager.io/issuer: acme-staging
     #~ nginx.ingress.kubernetes.io/auth-type: basic
@@ -34,4 +34,4 @@ spec:
               service:
                 name: k8s-dashboard
                 port:
-                  number: 443
+                  number: 9090
