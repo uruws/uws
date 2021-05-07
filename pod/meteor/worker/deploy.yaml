@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 15
+  replicas: 40
   template:
     metadata:
       labels:
@@ -45,9 +45,15 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: meteor-worker
-  minReplicas: 30
+  minReplicas: 40
   maxReplicas: 100
   metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
   - type: Resource
     resource:
       name: memory
