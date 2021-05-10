@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 40
+  replicas: 25
   template:
     metadata:
       labels:
@@ -31,6 +31,13 @@ spec:
           env:
             - name: PORT
               value: "3000"
+          resources:
+            requests:
+              cpu: 200m
+              memory: 600Mi
+            limits:
+              cpu: 400m
+              memory: 1300Mi
       volumes:
         - name: appenv
           secret:
@@ -45,18 +52,12 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: meteor-worker
-  minReplicas: 40
+  minReplicas: 25
   maxReplicas: 100
   metrics:
   - type: Resource
     resource:
       name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 50
-  - type: Resource
-    resource:
-      name: memory
       target:
         type: Utilization
         averageUtilization: 50
