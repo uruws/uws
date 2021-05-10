@@ -106,8 +106,8 @@ func Config(st *stats.Stats, env string) error {
 	fmt.Println("graph_vlabel seconds")
 	fmt.Println("graph_category apijob")
 	fmt.Println("graph_scale no")
-	col := 0
-	coln := ""
+	col = 0
+	coln = ""
 	for _, job := range st.List() {
 		fmt.Printf("%s.label %s failed\n", job.ID, job.Label)
 		col, coln = getColour(col)
