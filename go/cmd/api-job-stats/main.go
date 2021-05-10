@@ -100,6 +100,21 @@ func Config(st *stats.Stats, env string) error {
 		fmt.Printf("%s.cdef %s,1000,/\n", job.ID, job.ID)
 	}
 
+	fmt.Printf("multigraph apijob_%s_failed\n", env)
+	fmt.Printf("graph_title %s api jobs failed\n", env)
+	fmt.Println("graph_args --base 1000 -l 0")
+	fmt.Println("graph_vlabel seconds")
+	fmt.Println("graph_category apijob")
+	fmt.Println("graph_scale no")
+	col := 0
+	coln := ""
+	for _, job := range st.List() {
+		fmt.Printf("%s.label %s failed\n", job.ID, job.Label)
+		col, coln = getColour(col)
+		fmt.Printf("%s.colour %s\n", job.ID, coln)
+		fmt.Printf("%s.min 0\n", job.ID)
+	}
+
 	for _, job := range st.List() {
 		fmt.Printf("multigraph apijob_%s.%s\n", env, job.ID)
 		fmt.Printf("graph_title %s api %s\n", env, job.Name)
@@ -113,9 +128,6 @@ func Config(st *stats.Stats, env string) error {
 		fmt.Println("f1_running.label running")
 		fmt.Println("f1_running.colour COLOUR1")
 		fmt.Println("f1_running.min 0")
-		fmt.Println("f2_failed.label failed")
-		fmt.Println("f2_failed.colour COLOUR2")
-		fmt.Println("f2_failed.min 0")
 	}
 	return nil
 }
@@ -145,16 +157,23 @@ func Report(st *stats.Stats, env string) error {
 		}
 	}
 
+	fmt.Printf("multigraph apijob_%s_failed\n", env)
+	for _, job := range st.List() {
+		if job.Error {
+			fmt.Printf("%s.value U\n", job.ID)
+		} else {
+			fmt.Printf("%s.value %d\n", job.ID, job.Failed)
+		}
+	}
+
 	for _, job := range st.List() {
 		fmt.Printf("multigraph apijob_%s.%s\n", env, job.ID)
 		if job.Error {
 			fmt.Println("f0_ready.value U")
 			fmt.Println("f1_running.value U")
-			fmt.Println("f2_failed.value U")
 		} else {
 			fmt.Printf("f0_ready.value %d\n", job.Ready)
 			fmt.Printf("f1_running.value %d\n", job.Running)
-			fmt.Printf("f2_failed.value %d\n", job.Failed)
 		}
 	}
 	return nil
