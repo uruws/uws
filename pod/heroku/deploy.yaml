@@ -48,3 +48,28 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: heroku-meteor
+#~ ---
+#~ apiVersion: autoscaling/v2beta2
+#~ kind: HorizontalPodAutoscaler
+#~ metadata:
+  #~ name: heroku-meteor-hpa
+#~ spec:
+  #~ scaleTargetRef:
+    #~ apiVersion: apps/v1
+    #~ kind: Deployment
+    #~ name: heroku-meteor-deployment
+  #~ minReplicas: 5
+  #~ maxReplicas: 100
+  #~ metrics:
+  #~ - type: Resource
+    #~ resource:
+      #~ name: cpu
+      #~ target:
+        #~ type: Utilization
+        #~ averageUtilization: 5
+  #~ - type: Resource
+    #~ resource:
+      #~ name: memory
+      #~ target:
+        #~ type: Utilization
+        #~ averageUtilization: 95
