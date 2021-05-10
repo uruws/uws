@@ -1,4 +1,23 @@
 ---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: meteor-worker-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: meteor-worker
+  minReplicas: 25
+  maxReplicas: 120
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 95
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,31 +52,12 @@ spec:
               value: "3000"
           resources:
             requests:
-              cpu: 200m
+              cpu: 120m
               memory: 600Mi
             limits:
-              cpu: 400m
+              cpu: 300m
               memory: 1300Mi
       volumes:
         - name: appenv
           secret:
             secretName: meteor-worker-env
----
-apiVersion: autoscaling/v2beta2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: meteor-worker-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: meteor-worker
-  minReplicas: 25
-  maxReplicas: 100
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 85
