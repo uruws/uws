@@ -24,7 +24,7 @@ upgrade:
 	@$(MAKE) all
 
 .PHONY: bootstrap
-bootstrap: base acme mkcert uwspkg
+bootstrap: base acme mkcert
 
 .PHONY: base
 base:
@@ -168,7 +168,7 @@ api: base docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
 	@./srv/api/build.sh
 
 .PHONY: all
-all: base base-testing awscli mkcert golang uwsbot uwspkg acme munin munin-backend munin-node heroku heroku-logger clamav api
+all: base base-testing awscli mkcert golang uwsbot acme munin munin-backend munin-node
 
 .PHONY: publish
 publish: munin munin-backend munin-node
