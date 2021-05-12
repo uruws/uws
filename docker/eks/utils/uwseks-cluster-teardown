@@ -9,4 +9,11 @@ sed "s#\[UWS_CLUSTER]#${cluster}#" ~/k8s/autoscaler/deploy.yaml.in >/tmp/cluster
 
 uwskube delete -f /tmp/cluster-autoscaler-${cluster}.yaml
 
+~/k8s/dashboard/teardown.sh
+~/k8s/metrics-server/rollin.sh
+~/k8s/metrics-server/teardown.sh
+~/k8s/acme-teardown.sh
+~/k8s/nginx-ingress/teardown.sh
+~/k8s/cert-manager/teardown.sh
+
 exit 0

@@ -37,10 +37,10 @@ uwskube patch deployment cluster-autoscaler --namespace=kube-system \
 	-p '{"spec":{"template":{"metadata":{"annotations":{"cluster-autoscaler.kubernetes.io/safe-to-evict":"false"}}}}}'
 
 ~/k8s/metrics-server/setup.sh
+~/k8s/metrics-server/deploy.sh
 ~/k8s/nginx-ingress/setup.sh
 ~/k8s/cert-manager/setup.sh
 ~/k8s/dashboard/setup.sh
-
 ~/k8s/acme-setup.sh
 
 exit 0
