@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
-uwskube apply -f ~/k8s/metrics-server/deploy.yaml
+uwskube apply -f ~/k8s/metrics-server/setup.yaml
 exit 0
