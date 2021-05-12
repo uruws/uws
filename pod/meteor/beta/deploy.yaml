@@ -8,8 +8,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: meteor-beta
-  minReplicas: 5
-  maxReplicas: 100
+  minReplicas: 10
+  maxReplicas: 120
   metrics:
   - type: Resource
     resource:
@@ -38,7 +38,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-beta
-  replicas: 5
+  replicas: 10
   template:
     metadata:
       labels:
@@ -66,11 +66,11 @@ spec:
               value: "TRUE"
           resources:
             requests:
-              cpu: 20m
-              memory: 400Mi
+              cpu: 180m
+              memory: 600Mi
             limits:
-              cpu: 200m
-              memory: 900Mi
+              cpu: 400m
+              memory: 1300Mi
           #~ readinessProbe:
             #~ httpGet:
               #~ path: /
