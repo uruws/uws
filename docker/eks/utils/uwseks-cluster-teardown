@@ -4,9 +4,8 @@ set -eu
 . ~/bin/env.export
 
 cluster=${UWS_CLUSTER}
-files=~/files
 
-sed "s#\[UWSEKS_CLUSTER]#${cluster}#" ${files}/cluster-autoscaler.yaml >/tmp/cluster-autoscaler-${cluster}.yaml
+sed "s#\[UWS_CLUSTER]#${cluster}#" ~/k8s/autoscaler/deploy.yaml.in >/tmp/cluster-autoscaler-${cluster}.yaml
 
 uwskube delete -f /tmp/cluster-autoscaler-${cluster}.yaml
 
