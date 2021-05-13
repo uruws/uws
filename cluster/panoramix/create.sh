@@ -9,4 +9,6 @@ uwseks-cluster-create --profile "${AWS_PROFILE}" --region "${AWS_REGION}" \
 
 uwseks-cluster-setup
 
+~/k8s/ca/setup.sh
+
 exit 0
