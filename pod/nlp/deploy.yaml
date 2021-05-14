@@ -30,9 +30,9 @@ spec:
             requests:
               cpu: 400m
               memory: 6700Mi
-            #~ limits:
-              #~ cpu: 1800m
-              #~ memory: 7000Mi
+            limits:
+              cpu: 1600m
+              memory: 7000Mi
 ---
 apiVersion: v1
 kind: Service
