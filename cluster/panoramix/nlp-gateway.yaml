@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nlp-api
+spec:
+  type: ExternalName
+  externalName: api.nlp.svc.cluster.local
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nlp-gateway
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/issuer: acme-prod
+    nginx.ingress.kubernetes.io/auth-tls-secret: default/ca-certificate
+    nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    #~ nginx.ingress.kubernetes.io/auth-tls-error-page: "/authca"
+    nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "false"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - nlp.uws.talkingpts.org
+      secretName: nlp-certificate
+  rules:
+    - host: nlp.uws.talkingpts.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: /(.*)
+            backend:
+              service:
+                name: nlp-api
+                port:
+                  number: 5000
