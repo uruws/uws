@@ -14,6 +14,7 @@ fi
 awsdir=${PWD}/secret/eks/aws
 kubedir=${PWD}/secret/eks/kube
 secret=${PWD}/secret/eks/files
+cadir=${PWD}/secret/ca
 files=${PWD}/docker/eks/files
 utils=${PWD}/docker/eks/utils
 k8s=${PWD}/k8s
@@ -44,6 +45,7 @@ exec docker run -it --rm \
 	-v ${cluster}:/home/uws/cluster:ro \
 	-v ${files}:/home/uws/files:ro \
 	-v ${secret}:/home/uws/secret:ro \
+	-v ${cadir}:/home/uws/ca:ro \
 	-v ${awsdir}:/home/uws/.aws:ro \
 	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters:${cluster_perms} \
 	-v ${tmpdir}:/home/uws/tmp \
