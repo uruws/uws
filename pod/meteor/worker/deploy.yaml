@@ -8,7 +8,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: meteor-worker
-  minReplicas: 50
+  minReplicas: 60
   maxReplicas: 250
   metrics:
   - type: Resource
