@@ -48,6 +48,8 @@ spec:
             - name: appenv
               mountPath: "/run/meteor"
               readOnly: true
+            - name: tmpdir
+              mountPath: "/opt/app/bundle/tmp"
           env:
             - name: PORT
               value: "3000"
@@ -62,3 +64,5 @@ spec:
         - name: appenv
           secret:
             secretName: meteor-worker-env
+        - name: tmpdir
+          emptyDir: {}
