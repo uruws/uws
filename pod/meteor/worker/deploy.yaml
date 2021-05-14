@@ -9,14 +9,14 @@ spec:
     kind: Deployment
     name: meteor-worker
   minReplicas: 40
-  maxReplicas: 250
+  maxReplicas: 220
   metrics:
   - type: Resource
     resource:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 65
+        averageUtilization: 60
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -26,7 +26,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 25
+  replicas: 40
   template:
     metadata:
       labels:
@@ -53,10 +53,10 @@ spec:
               value: "3000"
           resources:
             requests:
-              cpu: 250m
+              cpu: 200m
               memory: 400Mi
             limits:
-              cpu: 400m
+              cpu: 500m
               memory: 900Mi
       volumes:
         - name: appenv
