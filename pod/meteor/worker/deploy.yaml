@@ -16,7 +16,7 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 60
+        averageUtilization: 50
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -55,8 +55,8 @@ spec:
               value: "3000"
           resources:
             requests:
-              cpu: 200m
-              memory: 400Mi
+              cpu: 130m
+              memory: 350Mi
             limits:
               cpu: 500m
               memory: 900Mi
