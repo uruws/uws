@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: nlp
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nlp-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nlp-api
+    spec:
+      containers:
+        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:nlp-d32f157
+          imagePullPolicy: IfNotPresent
+          name: nlp-api
+          ports:
+            - containerPort: 5000
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 3000
+            runAsGroup: 3000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 2Gi
+            limits:
+              cpu: 200m
+              memory: 2.5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: nlp
+spec:
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: nlp-api
