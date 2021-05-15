@@ -19,7 +19,7 @@ UWS_PREFIX=/uws
 
 
 # bot/testing api
-3,8,13,18,23,28,33,38,43,48,53,58 * * * *	uws /uws/bin/uwsbot-testing.sh
+#3,8,13,18,23,28,33,38,43,48,53,58 * * * *	uws /uws/bin/uwsbot-testing.sh
 
 # bot/testing api docker logger
 */3 * * * *	uws /uws/bin/api-logger.sh uws-meteor testing /srv/api/stats
