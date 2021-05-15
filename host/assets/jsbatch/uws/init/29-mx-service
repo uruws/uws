@@ -4,7 +4,8 @@ set -eu
 chmod -v 0644 /etc/opendkim.conf /etc/default/opendkim
 /uws/bin/service-restart.sh opendkim /etc/opendkim.conf /etc/default/opendkim /etc/dkimkeys
 
+chmod -v 0644 /etc/postfix/main.cf /etc/mailname /etc/aliases
 newaliases
-/uws/bin/service-restart.sh postfix /etc/postfix
+/uws/bin/service-restart.sh postfix /etc/postfix /etc/mailname /etc/aliases /etc/aliases.db
 
 exit 0
