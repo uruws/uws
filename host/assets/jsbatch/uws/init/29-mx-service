@@ -1,6 +1,10 @@
 #!/bin/sh
 set -eu
+
 chmod -v 0644 /etc/opendkim.conf /etc/default/opendkim
 /uws/bin/service-restart.sh opendkim /etc/opendkim.conf /etc/default/opendkim /etc/dkimkeys
+
+newaliases
 /uws/bin/service-restart.sh postfix /etc/postfix
+
 exit 0
