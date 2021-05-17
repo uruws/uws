@@ -9,7 +9,7 @@ spec:
     kind: Deployment
     name: meteor-worker
   minReplicas: 40
-  maxReplicas: 220
+  maxReplicas: 200
   metrics:
   - type: Resource
     resource:
