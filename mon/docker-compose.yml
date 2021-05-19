@@ -10,7 +10,6 @@ services:
     container_name: prometheus
     volumes:
       - ${PWD}/etc/prometheus:/etc/prometheus:ro
-    restart: on-failure
     ports:
       - 127.0.0.1:9090:9090
     networks:
@@ -23,7 +22,6 @@ services:
       - '--path.rootfs=/host'
     volumes:
       - /:/host:ro,rslave
-    restart: on-failure
     ports:
       - 127.0.0.1:9100:9100
     networks:
@@ -36,7 +34,6 @@ services:
       - ${PWD}/etc/grafana:/etc/grafana:ro
       - ${HOME}/uws/grafana/db:/var/lib/grafana
       - ${HOME}/uws/grafana/log:/var/log/grafana
-    restart: on-failure
     ports:
       - 127.0.0.1:3000:3000
     networks:
