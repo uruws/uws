@@ -1,4 +1,3 @@
 #!/bin/sh
 set -eu
-. ~/bin/env.export
-exec uwskube -n kube-system logs deployment.apps/cluster-autoscaler $@
+exec uwskube logs deploy/cluster-autoscaler -n kube-system --tail=1 $@
