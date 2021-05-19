@@ -1,0 +1,43 @@
+version: '3.6'
+
+networks:
+  prometheus:
+    driver: bridge
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.27.1
+    container_name: prometheus
+    volumes:
+      - ${PWD}/etc/prometheus:/etc/prometheus:ro
+    restart: on-failure
+    ports:
+      - 127.0.0.1:9090:9090
+    networks:
+      - prometheus
+
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:v1.1.2
+    container_name: prometheus-node-exporter
+    command:
+      - '--path.rootfs=/host'
+    volumes:
+      - /:/host:ro,rslave
+    restart: on-failure
+    ports:
+      - 127.0.0.1:9100:9100
+    networks:
+      - prometheus
+
+  grafana:
+    image: grafana/grafana:7.5.7
+    container_name: prometheus-grafana
+    volumes:
+      - ${PWD}/etc/grafana:/etc/grafana:ro
+      - ${HOME}/uws/grafana/db:/var/lib/grafana
+      - ${HOME}/uws/grafana/log:/var/log/grafana
+    restart: on-failure
+    ports:
+      - 127.0.0.1:3000:3000
+    networks:
+      - prometheus
