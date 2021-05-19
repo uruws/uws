@@ -6,5 +6,5 @@ if test -n ${1:-''}; then
 		exit 0
 	fi
 fi
-uwskube logs -n meteor-worker --tail=10 --max-log-requests=300 --prefix=true --timestamps --ignore-errors -l 'app.kubernetes.io/name=meteor-worker' $@
+uwskube logs -n meteor-worker --tail=1 --max-log-requests=300 --prefix=true --timestamps --ignore-errors -l 'app.kubernetes.io/name=meteor-worker' $@
 exit 0
