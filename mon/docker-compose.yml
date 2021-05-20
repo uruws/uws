@@ -34,6 +34,7 @@ services:
     container_name: grafana
     volumes:
       - ${PWD}/etc/grafana:/etc/grafana:ro
+      - ${PWD}/dashboard:/usr/local/etc/dashboard:ro
       - ${HOME}/uws/grafana/db:/var/lib/grafana
       - ${HOME}/uws/grafana/log:/var/log/grafana
     ports:
