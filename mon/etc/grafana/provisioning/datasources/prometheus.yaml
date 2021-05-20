@@ -9,8 +9,9 @@ datasources:
     orgId: 1
     type: prometheus
     access: proxy
-    uid: 1
     isDefault: true
     editable: false
-    version: 1
     url: http://prometheus:9090
+    jsonData:
+      httpMethod: POST
+    version: 2
