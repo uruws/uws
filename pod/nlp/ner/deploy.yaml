@@ -15,7 +15,7 @@ spec:
         app.kubernetes.io/name: nlp-ner
     spec:
       containers:
-        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:nlp-ner-c11d1c2
+        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:nlp-ner-973d026
           imagePullPolicy: IfNotPresent
           name: nlp-ner
           ports:
