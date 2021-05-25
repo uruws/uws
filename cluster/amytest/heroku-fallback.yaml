@@ -1,0 +1,34 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: heroku-fallback
+spec:
+  type: ExternalName
+  externalName: staging.talkingpts.org.herokudns.com
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: heroku-fallback
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/issuer: acme-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - tapotest.uws.talkingpts.org
+      secretName: tapotest-certificate
+  rules:
+    - host: tapotest.uws.talkingpts.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: /(.*)
+            backend:
+              service:
+                name: heroku-fallback
+                port:
+                  number: 443
