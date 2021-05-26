@@ -33,7 +33,7 @@ spec:
         app.kubernetes.io/name: meteor-worker
     spec:
       containers:
-        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.1.7
+        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.1.9
           imagePullPolicy: IfNotPresent
           name: meteor-worker
           ports:
@@ -50,6 +50,9 @@ spec:
               readOnly: true
             - name: tmpdir
               mountPath: "/opt/app/bundle/tmp"
+            - name: nlpcert
+              mountPath: "/opt/app/bundle/programs/server/assets/app/certs/nlp"
+              readOnly: true
           env:
             - name: PORT
               value: "3000"
@@ -66,3 +69,6 @@ spec:
             secretName: meteor-worker-env
         - name: tmpdir
           emptyDir: {}
+        - name: nlpcert
+          secret:
+            secretName: nlp-client-cert
