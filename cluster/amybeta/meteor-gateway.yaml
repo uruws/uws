@@ -27,7 +27,7 @@ spec:
   tls:
     - hosts:
         - beta.talkingpts.org
-      secretName: amybeta-certificate
+      secretName: beta-certificate
   rules:
     - host: beta.talkingpts.org
       http:
