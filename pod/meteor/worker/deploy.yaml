@@ -33,7 +33,7 @@ spec:
         app.kubernetes.io/name: meteor-worker
     spec:
       containers:
-        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.2.0-cbfddfd9
+        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.44.0-cae33029
           imagePullPolicy: IfNotPresent
           name: meteor-worker
           ports:
