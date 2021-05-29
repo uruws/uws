@@ -26,7 +26,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 30
+  replicas: 200
   template:
     metadata:
       labels:
