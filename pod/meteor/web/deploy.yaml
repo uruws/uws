@@ -79,6 +79,7 @@ spec:
         maxSurge: 50%
       revisionHistoryLimit: 3
       restartPolicy: OnFailure
+      terminationGracePeriodSeconds: 120
 ---
 apiVersion: v1
 kind: Service
