@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
-uwskube delete namespace meteor-web
+uwskube delete namespace web
 exit 0
