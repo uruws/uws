@@ -8,8 +8,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: meteor-worker
-  minReplicas: 200
-  maxReplicas: 200
+  minReplicas: 100
+  maxReplicas: 100
   metrics:
   - type: Resource
     resource:
@@ -26,14 +26,14 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 200
+  replicas: 100
   template:
     metadata:
       labels:
         app.kubernetes.io/name: meteor-worker
     spec:
       containers:
-        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.44.0-cae33029
+        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.44.1-d948c909
           imagePullPolicy: IfNotPresent
           name: meteor-worker
           ports:
