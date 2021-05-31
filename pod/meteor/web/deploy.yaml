@@ -29,12 +29,19 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-web
-  replicas: 50
+  replicas: 3
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
   template:
     metadata:
       labels:
         app.kubernetes.io/name: meteor-web
     spec:
+      terminationGracePeriodSeconds: 120
       containers:
         - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.44.1-d948c909
           imagePullPolicy: IfNotPresent
@@ -65,6 +72,14 @@ spec:
               cpu: 900m
             limits:
               cpu: 1000m
+          readinessProbe:
+            exec:
+              command:
+                - node
+                - --version
+            initialDelaySeconds: 120
+            periodSeconds: 5
+            timeoutSeconds: 15
       volumes:
         - name: appenv
           secret:
@@ -73,21 +88,6 @@ spec:
           emptyDir: {}
         - name: tmpdir
           emptyDir: {}
-      strategy:
-        type: RollingUpdate
-        maxUnavailable: 50%
-        maxSurge: 50%
-      revisionHistoryLimit: 3
-      restartPolicy: OnFailure
-      terminationGracePeriodSeconds: 120
-      readinessProbe:
-        exec:
-          command:
-            - node
-            - --version
-        initialDelaySeconds: 120
-        periodSeconds: 5
-        timeoutSeconds: 15
 ---
 apiVersion: v1
 kind: Service
