@@ -2,14 +2,15 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: meteor-worker-hpa
+  name: worker-hpa
+  namespace: worker
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: meteor-worker
-  minReplicas: 100
-  maxReplicas: 100
+    name: meteor
+  minReplicas: 50
+  maxReplicas: 50
   metrics:
   - type: Resource
     resource:
@@ -21,17 +22,25 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: meteor-worker
+  name: meteor
+  namespace: worker
 spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 100
+  replicas: 50
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
   template:
     metadata:
       labels:
         app.kubernetes.io/name: meteor-worker
     spec:
+      terminationGracePeriodSeconds: 120
       containers:
         - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.44.1-d948c909
           imagePullPolicy: IfNotPresent
@@ -60,6 +69,14 @@ spec:
               cpu: 900m
             limits:
               cpu: 1000m
+          readinessProbe:
+            exec:
+              command:
+                - node
+                - --version
+            initialDelaySeconds: 120
+            periodSeconds: 5
+            timeoutSeconds: 15
       volumes:
         - name: appenv
           secret:
@@ -68,15 +85,3 @@ spec:
           emptyDir: {}
         - name: tmpdir
           emptyDir: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: meteor-worker-service
-spec:
-  ports:
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: meteor-worker

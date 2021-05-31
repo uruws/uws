@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube delete secret -n meteor-worker meteor-worker-env
-uwskube delete namespace meteor-worker
+uwskube delete secret -n worker meteor-app-env
+uwskube delete namespace worker
 exit 0
