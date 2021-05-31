@@ -76,7 +76,7 @@ spec:
               command:
                 - node
                 - --version
-            initialDelaySeconds: 120
+            initialDelaySeconds: 90
             periodSeconds: 5
             timeoutSeconds: 15
       volumes:
