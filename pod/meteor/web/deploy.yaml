@@ -78,6 +78,7 @@ spec:
         maxUnavailable: 50%
         maxSurge: 50%
       revisionHistoryLimit: 3
+      restartPolicy: OnFailure
 ---
 apiVersion: v1
 kind: Service
