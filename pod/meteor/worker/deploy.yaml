@@ -84,7 +84,7 @@ spec:
       volumes:
         - name: appenv
           secret:
-            secretName: meteor-worker-env
+            secretName: meteor-app-env
         - name: app-tmpdir
           emptyDir: {}
         - name: tmpdir
