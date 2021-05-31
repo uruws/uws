@@ -64,6 +64,10 @@ spec:
           env:
             - name: PORT
               value: "3000"
+            - name: METEOR_POLLING_INTERVAL_MS
+              value: "300"
+            - name: METEOR_POLLING_THROTTLE_MS
+              value: "50"
           resources:
             requests:
               cpu: 900m
