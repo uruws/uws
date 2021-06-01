@@ -9,8 +9,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: meteor
-  minReplicas: 100
-  maxReplicas: 100
+  minReplicas: 150
+  maxReplicas: 150
   metrics:
   - type: Resource
     resource:
@@ -28,7 +28,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-web
-  replicas: 100
+  replicas: 150
   revisionHistoryLimit: 3
   strategy:
     type: RollingUpdate
