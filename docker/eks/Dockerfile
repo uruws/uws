@@ -38,6 +38,13 @@ RUN wget -O helm.tgz https://get.helm.sh/helm-v3.5.4-linux-amd64.tar.gz \
 	&& install -v -m 0755 linux-amd64/helm /usr/local/bin \
 	&& rm -rvf helm.tgz linux-amd64
 
+# https://github.com/timescale/tobs/blob/0.4.1/README.md
+RUN wget https://github.com/timescale/tobs/releases/download/0.4.1/tobs_0.4.1_Linux_x86_64 \
+	&& wget -O tobs_checksum.txt https://github.com/timescale/tobs/releases/download/0.4.1/checksums.txt \
+	&& sha256sum --ignore-missing -c tobs_checksum.txt \
+	&& install -v -m 0755 tobs_0.4.1_Linux_x86_64 /usr/local/bin/tobs \
+	&& rm -vf tobs_*
+
 RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 	&& install -v -d -m 0750 /home/uws/.aws \
 	&& install -v -d -m 0750 /home/uws/bin \
