@@ -28,6 +28,10 @@ scrape_configs:
     static_configs:
     - targets: ['prometheus:9090']
 
+  #~ - job_name: node
+    #~ static_configs:
+      #~ - targets: ['node-exporter:9100']
+
   - job_name: node
-    static_configs:
-      - targets: ['node-exporter:9100']
+    kubernetes_sd_configs:
+      - role: node

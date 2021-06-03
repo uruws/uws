@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
-uwskube create namespace meteor-web
+uwskube create namespace web
 exit 0
