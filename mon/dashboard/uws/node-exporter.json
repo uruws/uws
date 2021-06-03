@@ -58,6 +58,8 @@
   "editable": true,
   "gnetId": 1860,
   "graphTooltip": 0,
+  "id": null,
+  "iteration": 1614605016686,
   "links": [
     {
       "icon": "external link",
@@ -13975,7 +13977,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Node",
-  "uid": "uwsnode",
-  "version": 1
+  "title": "Node Exporter Full",
+  "uid": "rYdddlPWk",
+  "version": 56
 }
