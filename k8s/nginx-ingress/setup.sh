@@ -1,5 +1,4 @@
 #!/bin/sh
 set -eu
-. ~/bin/env.export
-uwskube apply -f ~/k8s/nginx-ingress/deploy.yaml
+uwskube apply -f ~/k8s/nginx-ingress/setup.yaml
 exit 0

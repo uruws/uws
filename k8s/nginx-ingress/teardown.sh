@@ -1,8 +1,4 @@
 #!/bin/sh
 set -eu
-. ~/bin/env.export
-cluster=${UWS_CLUSTER}
-kubectl="kubectl --kubeconfig=~/.kube/eksctl/clusters/${cluster}"
-files=~/files
-${kubectl} delete -f ${files}/nginx-ingress.yaml
+uwskube delete -f ~/k8s/nginx-ingress/setup.yaml
 exit 0
