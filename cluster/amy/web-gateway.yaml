@@ -14,7 +14,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    cert-manager.io/issuer: acme-prod
+    #~ cert-manager.io/issuer: acme-prod
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/affinity-mode: balanced
     nginx.ingress.kubernetes.io/session-cookie-name: TAPOSID
@@ -29,15 +29,9 @@ spec:
   tls:
     - hosts:
         - app.talkingpts.org
-      secretName: meteor-web-certificate
-  rules:
-    - host: app.talkingpts.org
-      http:
-        paths:
-          - pathType: Prefix
-            path: /(.*)
-            backend:
-              service:
-                name: meteor-web
-                port:
-                  number: 3000
+      secretName: tapo-wild-certificate
+  defaultBackend:
+    service:
+      name: meteor-web
+      port:
+        number: 3000

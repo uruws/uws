@@ -26,6 +26,11 @@ spec:
     - hosts:
         - amy.uws.talkingpts.org
       secretName: cluster-certificate
+  defaultBackend:
+    service:
+      name: meteor-web
+      port:
+        number: 3000
   rules:
     - host: amy.uws.talkingpts.org
       http:
