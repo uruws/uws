@@ -24,6 +24,11 @@ spec:
     - hosts:
         - amybeta.uws.talkingpts.org
       secretName: cluster-certificate
+  defaultBackend:
+    service:
+      name: meteor-beta
+      port:
+        number: 3000
   rules:
     - host: amybeta.uws.talkingpts.org
       http:
