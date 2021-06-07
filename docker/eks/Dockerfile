@@ -1,7 +1,7 @@
 FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.4.26"
+LABEL version="20210607"
 
 USER root:root
 WORKDIR /root
@@ -19,14 +19,20 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-RUN wget https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl \
-	&& wget https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256 \
+RUN KUBE_VERSION 1.19.6/2021-01-05
+RUN KUBE_URL https://amazon-eks.s3.us-west-2.amazonaws.com/${KUBE_VERSION}
+
+RUN wget ${KUBE_URL}/bin/linux/amd64/kubectl \
+	&& wget ${KUBE_URL}/bin/linux/amd64/kubectl.sha256 \
 	&& sha256sum -c kubectl.sha256 \
 	&& install -v -m 0755 kubectl /usr/local/bin \
 	&& rm -vf kubectl kubectl.sha256
 
-RUN wget https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz \
-	&& wget https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_checksums.txt \
+ENV EKS_VERSION 0.52.0
+ENV EKS_URL https://github.com/weaveworks/eksctl/releases/download/${EKS_VERSION}
+
+RUN wget ${EKS_URL}/eksctl_Linux_amd64.tar.gz \
+	&& wget ${EKS_URL}/eksctl_checksums.txt \
 	&& sha256sum --ignore-missing -c eksctl_checksums.txt \
 	&& tar -C /tmp -xvzf eksctl_Linux_amd64.tar.gz \
 	&& install -v -m 0755 /tmp/eksctl /usr/local/bin \
