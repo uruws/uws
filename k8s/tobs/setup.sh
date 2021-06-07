@@ -14,7 +14,7 @@ uwskube apply -n mon -f ~/k8s/tobs/certificate.yaml
 
 helm repo add timescale https://charts.timescale.com/
 helm repo update
-helm upgrade --install --version 0.4.1 -f ~/k8s/tobs/values.yaml \
+helm upgrade --install --version 0.4.1 -f ~/k8s/tobs/values-single.yaml \
 	--namespace mon --devel tobs timescale/tobs
 
 exit 0
