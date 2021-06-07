@@ -19,8 +19,8 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-RUN KUBE_VERSION 1.19.6/2021-01-05
-RUN KUBE_URL https://amazon-eks.s3.us-west-2.amazonaws.com/${KUBE_VERSION}
+ENV KUBE_VERSION 1.19.6/2021-01-05
+ENV KUBE_URL https://amazon-eks.s3.us-west-2.amazonaws.com/${KUBE_VERSION}
 
 RUN wget ${KUBE_URL}/bin/linux/amd64/kubectl \
 	&& wget ${KUBE_URL}/bin/linux/amd64/kubectl.sha256 \
