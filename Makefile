@@ -21,7 +21,6 @@ prune:
 upgrade:
 	@./docker/base/build.sh --pull
 	@./docker/awscli/build.sh --pull
-	@./docker/base-testing/build.sh --pull
 	@$(MAKE) all
 
 .PHONY: bootstrap
@@ -160,8 +159,12 @@ docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 clamav: base-testing
 	@./docker/clamav/build.sh
 
+.PHONY: k8s
+k8s: base-testing
+	@./docker/k8s/build.sh
+
 .PHONY: eks
-eks: base-testing
+eks: k8s
 	@./docker/eks/build.sh
 
 .PHONY: api
