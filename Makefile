@@ -21,6 +21,7 @@ prune:
 upgrade:
 	@./docker/base/build.sh --pull
 	@./docker/awscli/build.sh --pull
+	@./docker/base-testing/build.sh --pull
 	@$(MAKE) all
 
 .PHONY: bootstrap
