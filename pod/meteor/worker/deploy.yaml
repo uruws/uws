@@ -68,6 +68,8 @@ spec:
               value: "300"
             - name: METEOR_POLLING_THROTTLE_MS
               value: "50"
+            - name: SNOWFLAKE_SYNC_ENABLED
+              value: "TRUE"
           resources:
             requests:
               cpu: 900m
