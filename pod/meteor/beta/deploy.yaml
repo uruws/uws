@@ -44,6 +44,7 @@ spec:
       labels:
         app.kubernetes.io/name: meteor-beta
     spec:
+      terminationGracePeriodSeconds: 120
       containers:
         - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-beta-20210511
           imagePullPolicy: IfNotPresent
@@ -71,24 +72,22 @@ spec:
             limits:
               cpu: 400m
               memory: 1300Mi
-          #~ readinessProbe:
-            #~ httpGet:
-              #~ path: /
-              #~ port: 3000
-              #~ httpHeaders:
-                #~ - name: User-Agent
-                  #~ value: k8s-check-ready
-            #~ initialDelaySeconds: 60
-            #~ periodSeconds: 15
-          #~ livenessProbe:
-            #~ httpGet:
-              #~ path: /
-              #~ port: 3000
-              #~ httpHeaders:
-                #~ - name: User-Agent
-                  #~ value: k8s-check-live
-            #~ initialDelaySeconds: 120
-            #~ periodSeconds: 15
+          startupProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 60
+            timeoutSeconds: 15
+            failureThreshold: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 15
+            timeoutSeconds: 15
+            failureThreshold: 3
+            periodSeconds: 30
       volumes:
         - name: appenv
           secret:
