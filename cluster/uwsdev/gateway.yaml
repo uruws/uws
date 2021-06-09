@@ -2,10 +2,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: k8s-dashboard
+  name: uwsctl
 spec:
   type: ExternalName
-  externalName: kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local
+  externalName: ctl.uws.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uwsca
+spec:
+  type: ExternalName
+  externalName: ca.uws.svc.cluster.local
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -14,7 +22,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    cert-manager.io/issuer: acme-staging
+    cert-manager.io/issuer: acme-prod
     #~ nginx.ingress.kubernetes.io/auth-type: basic
     #~ nginx.ingress.kubernetes.io/auth-secret: basic-auth
     #~ nginx.ingress.kubernetes.io/auth-realm: 'Who are you?'
@@ -29,9 +37,16 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /k8s/dashboard/(.*)
+            path: /ca/(.*)
             backend:
               service:
-                name: k8s-dashboard
+                name: uwsca
                 port:
-                  number: 9090
+                  number: 2801
+          - pathType: Prefix
+            path: /(.*)
+            backend:
+              service:
+                name: uwsctl
+                port:
+                  number: 2800

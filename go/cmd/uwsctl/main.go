@@ -1,7 +1,7 @@
 // Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 // See LICENSE file.
 
-// Package main implements uwsca util.
+// Package main implements uwsctl util.
 package main
 
 import (
@@ -12,13 +12,13 @@ import (
 
 func main() {
 	http.HandleFunc("/", mainHandler)
-	http.ListenAndServe(":2801", nil)
+	http.ListenAndServe(":2800", nil)
 }
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
 	if hostname, err := os.Hostname(); err != nil {
 		fmt.Fprintf(w, "ERROR: %s\n", err)
 	} else {
-		fmt.Fprintf(w, "uwsca@%s\n", hostname)
+		fmt.Fprintf(w, "uwsctl@%s\n", hostname)
 	}
 }
