@@ -20,8 +20,8 @@ prune:
 .PHONY: upgrade
 upgrade:
 	@./docker/base/build.sh --pull
-	@./docker/awscli/build.sh --pull
 	@./docker/base-testing/build.sh
+	@./docker/awscli/build.sh --pull
 
 .PHONY: bootstrap
 bootstrap: base acme mkcert
