@@ -11,6 +11,5 @@ uwseks-cluster-create --profile ${AWS_PROFILE} --region ${AWS_REGION} \
 	--instance-types "${AWS_INSTANCE_TYPES}" \
 	${UWS_CLUSTER}
 
-set -x
 uwseks-cluster-setup
 exit 0
