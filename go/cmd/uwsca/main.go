@@ -13,6 +13,7 @@ import (
 
 	"uws/log"
 	"uws/wapp"
+	"uws/wapp/view/ca"
 )
 
 var tplDir string
@@ -31,17 +32,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	http.HandleFunc("/", mainHandler)
+	http.HandleFunc("/", ca.Index)
 
 	log.Debug("listen http://0.0.0.0:%d/", port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
 		log.Error("%s", err)
 	}
 	log.Debug("end")
-}
-
-func mainHandler(w http.ResponseWriter, r *http.Request) {
-	p := wapp.NewPage("ca/index.html")
-	p.Title = "uwsca"
-	wapp.Render(w, p)
 }
