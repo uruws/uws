@@ -15,6 +15,8 @@ RUN mkdir -vp /go/src/uws /go/.cache /go/bin /uws \
 	&& chown -vR uws:uws /go /uws \
 	&& chmod -vR 0750 /go /uws
 
+COPY --chown=uws:uws ./godoc.sh /usr/local/bin/godoc.sh
+
 VOLUME /go/src/uws
 VOLUME /go/.cache
 

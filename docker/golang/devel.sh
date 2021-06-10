@@ -8,7 +8,6 @@ exec docker run -it --rm --name uws-golang-devel \
 	-v ${TMPDIR}:/go/tmp \
 	-v ${PWD}/go:/go/src/uws \
 	-v ${BUILD_CACHE}:/go/.cache \
-	-p 127.0.0.1:6060:6060 \
 	-p 127.0.0.1:2800:2800 \
 	-p 127.0.0.1:2801:2801 \
 	--entrypoint /usr/local/bin/uws-login.sh \
