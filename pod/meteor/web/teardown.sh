@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube delete namespace web
+ns=${1:?'namespace?'}
+uwskube delete namespace ${ns}
 exit 0

@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube create namespace web
+ns=${1:?'namespace?'}
+uwskube create namespace ${ns}
 exit 0
