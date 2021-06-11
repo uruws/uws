@@ -68,16 +68,16 @@ spec:
               value: "TRUE"
           resources:
             requests:
-              cpu: 400m
-              memory: 500Mi
+              cpu: 600m
+              memory: 800Mi
           readinessProbe:
             exec:
               command:
                 - node
                 - --version
-            initialDelaySeconds: 90
-            periodSeconds: 5
-            timeoutSeconds: 15
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 3
       volumes:
         - name: appenv
           secret:
