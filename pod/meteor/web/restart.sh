@@ -1,5 +1,4 @@
 #!/bin/sh
 set -eu
-ns=${1:?'namespace?'}
-uwskube rollout restart deployment -n ${ns}
+uwskube rollout restart deployment -n web
 exit 0
