@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eu
 ns=${1:?'namespace?'}
-if test -n ${2:-''}; then
+shift
+if test -n ${1:-''}; then
 	if test 'X-f' != "X${1}"; then
 		uwskube logs -n ${ns} --tail=10 --timestamps $@
 		exit 0
