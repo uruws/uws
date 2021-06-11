@@ -27,7 +27,7 @@ func main() {
 	flag.IntVar(&port, "port", 2801, "tcp port to bind to")
 	flag.Parse()
 
-	if err := wapp.LoadTemplates(tplDir); err != nil {
+	if err := wapp.LoadTemplates(tplDir, "ca"); err != nil {
 		log.Error("%s", err)
 		os.Exit(1)
 	}

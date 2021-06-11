@@ -10,24 +10,36 @@ import (
 	"uws/log"
 )
 
-var baseTpl *template.Template
-var errorTpl *template.Template
+var tpls map[string]*template.Template
 
-func LoadTemplates(tpldir string) error {
-	log.Debug("load templates")
-	var err error
+func init() {
+	tpls = make(map[string]*template.Template)
+}
 
-	baseFn := filepath.Join(tpldir, "base.html")
-	baseTpl, err = template.New("base").ParseFiles(baseFn)
+func LoadTemplates(tpldir, appdir string) error {
+	if err := loadBaseTemplates(tpldir); err != nil {
+		return err
+	}
+	log.Debug("load templates done!")
+	return nil
+}
+
+func loadBaseTemplates(tpldir string) error {
+	log.Debug("load base templates")
+
+	fn := filepath.Join(tpldir, "base.html")
+	tpl, err := template.New("base.html").ParseFiles(fn)
 	if err != nil {
 		return log.DebugError(err)
 	}
+	tpls["base.html"] = tpl
 
-	errorFn := filepath.Join(tpldir, "error.html")
-	errorTpl, err = template.New("error").ParseFiles(errorFn)
+	fn = filepath.Join(tpldir, "error.html")
+	tpl, err = template.New("error.html").ParseFiles(fn)
 	if err != nil {
 		return log.DebugError(err)
 	}
+	tpls["error.html"] = tpl
 
 	return nil
 }
