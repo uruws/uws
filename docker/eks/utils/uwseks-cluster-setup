@@ -38,6 +38,7 @@ uwskube patch deployment cluster-autoscaler --namespace=kube-system \
 
 ~/k8s/metrics-server/setup.sh
 ~/k8s/nginx-ingress/setup.sh
+~/k8s/nginx-ingress/deploy.sh
 ~/k8s/cert-manager/setup.sh
 ~/k8s/acme/setup.sh
 
