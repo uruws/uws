@@ -16,14 +16,18 @@ import (
 	"uws/wapp/view/ca"
 )
 
-var tplDir string
-var port int
+var (
+	tplDir string
+	stDir  string
+	port   int
+)
 
 func main() {
 	log.Init("uwsca")
 	log.Debug("init")
 
 	flag.StringVar(&tplDir, "tpldir", filepath.FromSlash("./wapp/tpl"), "templates dir")
+	flag.StringVar(&stDir, "stdir", filepath.FromSlash("./wapp/static"), "static files dir")
 	flag.IntVar(&port, "port", 2801, "tcp port to bind to")
 	flag.Parse()
 
@@ -32,6 +36,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	wapp.ServeStatic(stDir)
 	http.HandleFunc("/", ca.Index)
 
 	log.Debug("listen http://0.0.0.0:%d/", port)
