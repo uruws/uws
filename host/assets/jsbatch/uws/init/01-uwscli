@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+chmod -v 0755 /home/uwscli/bin
+chmod -v 0755 /home/uwscli/bin/*
+exit 0
