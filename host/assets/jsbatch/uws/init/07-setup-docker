@@ -6,6 +6,7 @@ uws='sudo -u uws'
 
 adduser uws docker
 adduser uwsrun docker
+adduser uwscli docker
 
 # executable utils
 
