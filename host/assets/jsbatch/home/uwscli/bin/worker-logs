@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+cd /srv/uws/deploy
+exec ./docker/k8s/cli.sh amy ./pod/meteor/worker/logs.sh $@
