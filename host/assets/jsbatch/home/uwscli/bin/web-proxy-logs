@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+cd /srv/uws/deploy
+(./docker/k8s/cli.sh amy-east ./k8s/nginx-ingress/logs.sh $@)
+(./docker/k8s/cli.sh amy-west ./k8s/nginx-ingress/logs.sh $@)
+wait
+exit 0
