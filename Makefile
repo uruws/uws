@@ -172,7 +172,7 @@ api: base docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
 	@./srv/api/build.sh
 
 .PHONY: all
-all: base base-testing awscli mkcert golang uwsbot acme munin munin-backend munin-node
+all: base base-testing awscli mkcert golang uwsbot acme munin munin-backend munin-node k8s
 
 .PHONY: publish
 publish: munin munin-backend munin-node
