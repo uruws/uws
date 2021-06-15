@@ -185,10 +185,11 @@ ecr-login:
 	@./docker/ecr-login.sh
 
 .PHONY: deploy
-deploy: clean prune
+deploy:
 	@echo "i - START deploy `date -R` as ${USER}"
 	@$(MAKE) bootstrap
 	@./host/ecr-login.sh $(AWS_REGION)
 	@AWS_REGION=$(AWS_REGION) ./env/make.sh prod publish
 	@./host/deploy.sh local $(DEPLOY_SERVER)
+	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
