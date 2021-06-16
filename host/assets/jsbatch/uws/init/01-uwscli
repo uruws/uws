@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
-chmod -v 0755 /home/uwscli/bin
-chmod -v 0755 /home/uwscli/bin/*
+chmod -v 0750 ~uwscli
+chmod -v 0755 ~uwscli/bin
+chmod -v 0755 ~uwscli/bin/*
 exit 0
