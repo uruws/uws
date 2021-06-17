@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 cd /srv/uws/deploy
-exec ./docker/k8s/cli.sh amy-wrk ./pod/meteor/worker/logs.sh $@
+exec ./docker/k8s/cli.sh amy-wrkr ./pod/meteor/worker/logs.sh $@
