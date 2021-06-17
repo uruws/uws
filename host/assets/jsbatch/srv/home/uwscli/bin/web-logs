@@ -1,7 +1,23 @@
-#!/bin/sh
-set -eu
-cd /srv/uws/deploy
-(./docker/k8s/cli.sh amy-east ./pod/meteor/web/logs.sh $@)
-(./docker/k8s/cli.sh amy-west ./pod/meteor/web/logs.sh $@)
-wait
-exit 0
+#!/usr/bin/env python3
+
+from os import chdir
+from subprocess import Popen
+from sys import exit, stdout, stderr
+
+try:
+	chdir('/srv/uws/deploy')
+except Exception as err:
+	print(err)
+	exit(1)
+
+# ~ (./docker/k8s/cli.sh amy-east ./pod/meteor/web/logs.sh $@)
+# ~ (./docker/k8s/cli.sh amy-west ./pod/meteor/web/logs.sh $@)
+
+cli = './docker/k8s/cli.sh'
+logs_cmd = './pod/meteor/web/logs.sh'
+
+amy_east = Popen([cli, 'amy-east', logs_cmd])
+amy_west = Popen([cli, 'amy-west', logs_cmd])
+
+amy_west.wait()
+amy_east.kill()
