@@ -57,7 +57,8 @@ def _createCluster(args):
 	cmd += ' --nodes-max %d' % args.nodes_max
 	cmd += ' --instance-types %s' % args.instance_types
 	cmd += ' --ssh-access'
-	cmd += ' --ssh-public-key %s' % os.path.expanduser('~/secret/ssh/node.pub')
+	node_ssh_key = os.path.expanduser('~/secret/ssh/%s/node.pub' % args.name)
+	cmd += ' --ssh-public-key %s' % node_ssh_key
 	cmd += ' --full-ecr-access'
 	cmd += ' --auto-kubeconfig'
 	return cmd
