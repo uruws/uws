@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
 region=${1:?'east or west?'}
+shift
 cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amy-${region} ./pod/meteor/web/logs.sh $@
