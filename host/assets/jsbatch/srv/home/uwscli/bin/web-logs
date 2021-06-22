@@ -2,5 +2,15 @@
 set -eu
 region=${1:?'east or west?'}
 shift
+case ${region} in
+	east)
+	;;
+	west)
+	;;
+	*)
+	echo "invalid cluster region: ${region}" >&2
+	exit 1
+	;;
+esac
 cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amy-${region} ./pod/meteor/web/logs.sh $@
