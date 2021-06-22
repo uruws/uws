@@ -1,28 +1,5 @@
-#!/usr/bin/env python3
-
-from os import chdir
-from subprocess import Popen
-from sys import exit, argv
-
-try:
-	chdir('/srv/uws/deploy')
-except Exception as err:
-	print(err)
-	exit(1)
-
-cli = './docker/k8s/cli.sh'
-logs_cmd = './k8s/nginx-ingress/logs.sh'
-
-def cmd(cluster):
-	x = [cli, cluster, logs_cmd]
-	if len(argv[1:]) > 0:
-		x.extend(argv[1:])
-	return Popen(x)
-
-amy_east = cmd('amy-east')
-amy_west = cmd('amy-west')
-
-amy_west.wait()
-amy_east.kill()
-
-exit(0)
+#!/bin/sh
+set -eu
+region=${1:?'east or west?'}
+cd /srv/uws/deploy
+exec ./docker/k8s/cli.sh amy-${region} ./k8s/nginx-ingress/logs.sh $@
