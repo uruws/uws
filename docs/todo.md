@@ -28,3 +28,4 @@
     * k8s 1.20 already available (we run 1.19)
 
 * re-design meteor app build to avoid including NLP certs inside container image
+    * change buildpack repo app/certs/
