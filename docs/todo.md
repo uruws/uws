@@ -13,4 +13,10 @@
     * nginx stats
 
 * monitoring
-    * setup nagios
+    * setup nagios and alerts
+
+* internal CA
+
+* productions services maintenance
+    * upgrades schedule: nginx, autoscaler and such...
+    * k8s 1.20 already available (we run 1.19)
