@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 export NQDIR=${HOME}/.nq
-exec fq -n $@
+exec fq $@
