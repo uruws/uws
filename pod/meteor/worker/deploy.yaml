@@ -42,7 +42,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 120
       containers:
-        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.45.7-9a189ffc
+        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.45.8-aa873e73
           imagePullPolicy: IfNotPresent
           name: meteor-worker
           ports:
