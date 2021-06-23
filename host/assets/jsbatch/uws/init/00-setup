@@ -15,9 +15,4 @@ chmod -v 0750 ~uwsrun
 
 systemctl daemon-reload
 
-if test -s /etc/doas.conf; then
-	chmod -v 0640 /etc/doas.conf
-	chown -v root:root /etc/doas.conf
-fi
-
 exit 0
