@@ -1,8 +1,5 @@
 # uws
 
-Uruworks sysadmin tools.
-
-## talkingpts infrastructure
+Uruworks sysadmin tools for Talking Points infrastructure.
 
 * [TODO](./docs/todo.md)
-* [DONE](./docs/done.md)
