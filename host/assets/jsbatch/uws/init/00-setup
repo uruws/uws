@@ -17,6 +17,7 @@ systemctl daemon-reload
 
 sudoers=/etc/sudoers.d/99-uws
 if test -s ${sudoers}; then
+	chmod -v 0755 /etc/sudoers.d
 	chmod -v 0640 ${sudoers}
 	chown -v root:root ${sudoers}
 fi
