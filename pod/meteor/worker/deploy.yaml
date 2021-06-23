@@ -17,7 +17,7 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 50
+          averageUtilization: 70
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,7 +42,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 120
       containers:
-        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.45.6-72ecbb86
+        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-app-2.45.7-9a189ffc
           imagePullPolicy: IfNotPresent
           name: meteor-worker
           ports:
