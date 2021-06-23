@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+export NQDIR=${HOME}/.nq
+mkdir -p ${NQDIR}
+exec nq -q -c $@

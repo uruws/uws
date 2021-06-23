@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+release=${1:?'app release?'}
+uwsnq /srv/deploy/Buildpack/build.sh ${release}
+exit 0
