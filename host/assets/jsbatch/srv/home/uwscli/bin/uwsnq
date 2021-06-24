@@ -2,4 +2,4 @@
 set -eu
 export NQDIR=${HOME}/.nq
 mkdir -p ${NQDIR}
-exec nq -c -- sudo -H -n -s -u uws -- $@
+exec nq -c -- sudo -H -n -u uws -- $@
