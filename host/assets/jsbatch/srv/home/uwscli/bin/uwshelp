@@ -7,12 +7,12 @@ show_help() {
 }
 
 cmd_help() {
-	local cmd=~/bin/${1}
-	if ! test -x ${cmd}; then
-		echo "help for $(basename ${cmd}) error: invalid command" >&2
+	local cmd=${1}
+	if ! test -x ~/bin/${cmd}; then
+		echo "help for ${cmd} error: invalid command" >&2
 		exit 1
 	fi
-	grep -Eh '^#uwsdoc:' ${cmd} | sed 's/^#uwsdoc://'
+	grep -Eh '^#uwsdoc:' ~/bin/${cmd} | sed 's/^#uwsdoc://'
 }
 
 if test "X${cmd}" = 'X'; then
