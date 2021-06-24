@@ -8,4 +8,4 @@ exit 0
 
 #uwsdoc:meteor-build X.Y.Z
 #uwsdoc:
-#uwsdoc:	build meteor app from X.Y.Z git tag.
+#uwsdoc:  Build meteor app from X.Y.Z git tag.

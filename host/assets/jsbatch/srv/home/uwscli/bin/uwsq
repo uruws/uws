@@ -7,6 +7,6 @@ exec fq $@
 
 #uwsdoc:uwsq
 #uwsdoc:
-#uwsdoc:	It will show current running job output or information about last
-#uwsdoc:    failed task. If there's no output, there are no running tasks nor
-#uwsdoc:	any that failed either.
+#uwsdoc:  It will show current running job output or information about last
+#uwsdoc:  failed task. If there's no output, there are no running tasks nor
+#uwsdoc:  any that failed either.

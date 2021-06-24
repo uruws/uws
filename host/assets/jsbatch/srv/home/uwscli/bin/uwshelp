@@ -29,5 +29,5 @@ exit 0
 
 #uwsdoc:uwshelp [cmd]
 #uwsdoc:
-#uwsdoc:	With no arguments it will show a brief information for all available
-#uwsdoc:	commands. Run uwshelp cmd to get more information about cmd usage.
+#uwsdoc:  With no arguments it will show a brief information for all available
+#uwsdoc:  commands. Run uwshelp cmd to get more information about cmd usage.

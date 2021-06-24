@@ -7,6 +7,6 @@ exec ./docker/k8s/cli.sh amy-wrkr ./pod/meteor/worker/logs.sh $@
 
 #uwsdoc:web-logs [pod-name] [-f] [--tail=N]
 #uwsdoc:
-#uwsdoc:	pod-name - if specified, show output from that pod/container only.
-#uwsdoc:	-f - follow the output (wait for and show new entries).
-#uwsdoc:	--tail=N - get latest N log lines.
+#uwsdoc:  pod-name - if specified, show output from that pod/container only.
+#uwsdoc:  -f - follow the output (wait for and show new entries).
+#uwsdoc:  --tail=N - get latest N log lines.
