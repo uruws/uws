@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+cmd=${1:-''}
+
+show_help() {
+	grep -Eh '^#uwscli:' ~/bin/* | sed 's/^#uwscli://'
+}
+
+cmd_help() {
+	local cmd=~/bin/${1}
+	if ! test -x ${cmd}; then
+		echo "help for $(basename ${cmd}) error: invalid command" >&2
+		exit 1
+	fi
+	grep -Eh '^#uwsdoc:' ${cmd} | sed 's/^#uwsdoc://'
+}
+
+if test "X${cmd}" = 'X'; then
+	show_help
+else
+	cmd_help ${cmd}
+fi
+exit 0

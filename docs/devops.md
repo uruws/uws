@@ -11,7 +11,7 @@ You need to access to the operations server using SSH:
 Your ssh credentials need to be authorized first so contact your sysadmin if
 that doesn't work for you.
 
-From now on all the command are documented as being run on the operations server.
+From now on all the commands are documented as being run on the operations server.
 
 ## Help
 
