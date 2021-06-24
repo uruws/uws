@@ -1,3 +1,3 @@
-Cmd_Alias UWSCLI = /srv/deploy/Buildpack/build.sh
+Cmnd_Alias UWSCLI = /srv/deploy/Buildpack/build.sh
 
-uwscli ALL = (uws) NOPASSWD:UWSCLI
+uwscli ALL = (uws) NOPASSWD: UWSCLI
