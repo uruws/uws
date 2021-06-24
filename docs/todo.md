@@ -2,7 +2,7 @@
 
 * uwscli integration
     * meteor logs (done!)
-    * meteor buildpack
+    * meteor buildpack (done!)
     * control meteor services: deploy/restart
 
 * cache web assets

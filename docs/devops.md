@@ -1,45 +1,20 @@
-# DevOps
+# TalkingPoints Operations
 
-* [uws.t.o][uws] devops website.
-* [Janis][janis.uws] is the main server for managing the infrastructure.
-	* Services:
-		* [munin][munin]
-		* munin-nodes: [www][www.t.o] and [app][app.t.o]
-		* build and deploy infra from git repo
-		* packaging main repo and builder
+Operations tasks using `uwscli` command line interface.
 
-### Devops: host deploy
+## SSH access
 
-Host deploy to EC2 instances is being done using [cloud-init][cloud-init-20.2] (v20.2) system.
+You need to access to the operations server using SSH:
 
-* Deploy host configs: [host/config](../host/config)
-* Deploy host assets: [host/assets](../host/assets)
-* Deploy script: [host/deploy.sh](../host/deploy.sh)
+    $ ssh -l uwscli ops.uws.talkingpts.org
 
-Deploys can be done manually (if you have the right accesses) using
-`host/deploy.sh` or a full deploy of the infra can be done via a push to the
-git repostitory `uws@uws.talkingpts.org:/srv/uws/deploy.git` hosted at *janis*.
+Your ssh credentials need to be authorized first so contact your sysadmin if
+that doesn't work for you.
 
-* Git update hook: [janis/uws/git-uws-update.sh](../host/assets/janis/uws/git-uws-update.sh)
-* Git deploy script: [janis/uws/git-uws-deploy.sh](../host/assets/janis/uws/git-uws-deploy.sh)
+From now on all the command are documented as being run on the operations server.
 
-### Devops: packaging system
+## Help
 
-We use [FreeBSD packaging system][pkgng] for internal software and configuration
-distribution.
+Run `uwshelp` command to get a brief description of all the available commands.
 
-It's being developed in a separate repository: [TalkingPts/Packaging][tpts.pkg].
-
-
-
-[uws]: https://uws.talkingpts.org
-[janis.uws]: https://janis.uws.talkingpts.org
-
-[munin]: https://uws.talkingpts.org/munin/
-[app.t.o]: https://uws.talkingpts.org/munin/t.o/app.t.o/index.html
-[www.t.o]: https://uws.talkingpts.org/munin/t.o/www.t.o/index.html
-
-[cloud-init-20.2]: https://cloudinit.readthedocs.io/en/20.2/
-
-[pkgng]: https://github.com/freebsd/pkg
-[tpts.pkg]: https://github.com/TalkingPts/Packaging
+Run `uwshelp <cmd>` to get information about an specific util.
