@@ -14,3 +14,10 @@ case ${region} in
 esac
 cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amy-${region} ./pod/meteor/web/logs.sh $@
+
+#uwscli:web-logs - get meteor web logs/output from all running containers
+
+#uwsdoc:web-logs [pod-name] [-f] [--tail=N]
+#uwsdoc:	pod-name - if specified, show output from that pod/container only.
+#uwsdoc:	-f - follow the output (wait for and show new entries).
+#uwsdoc:	--tail=N - get latest N log lines.
