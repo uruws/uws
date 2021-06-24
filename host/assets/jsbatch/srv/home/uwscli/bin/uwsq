@@ -6,5 +6,7 @@ exec fq $@
 #uwscli:uwsq - show information about uws tasks queue
 
 #uwsdoc:uwsq
-#uwsdoc:	It will show current running job output or information about last failed task.
-#uwsdoc:	If there's no output, there are no running tasks nor any that failed either.
+#uwsdoc:
+#uwsdoc:	It will show current running job output or information about last
+#uwsdoc:    failed task. If there's no output, there are no running tasks nor
+#uwsdoc:	any that failed either.
