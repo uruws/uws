@@ -1,6 +1,14 @@
 #!/bin/sh
 set -eu
+
 chmod -v 0750 ~uwscli
 chmod -v 0755 ~uwscli/bin
 chmod -v 0755 ~uwscli/bin/*
+
+sudoers=/etc/sudoers.d/99-uwscli
+if test -s ${sudoers}; then
+	chmod -v 0640 ${sudoers}
+	chown -v root:root ${sudoers}
+fi
+
 exit 0
