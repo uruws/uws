@@ -1,9 +1,8 @@
 #!/bin/sh
 set -eu
 
-aws_profile=${AWS_PROFILE:-'uwsdev'}
-aws_region=${AWS_REGION:-'us-west-2'}
-uws_cluster=${UWS_CLUSTER:-'uwsdev'}
+uws_cluster=${1:?'cluster?'}
+shift
 
 client_mode='false'
 if test 'X--client' = "X${1:-'NONE'}"; then
@@ -21,6 +20,7 @@ k8s=${PWD}/k8s
 pod=${PWD}/pod
 mon=${PWD}/mon
 cluster=${PWD}/cluster
+eksenv=${PWD}/eks/env/${uws_cluster}.env
 
 tmpdir=${PWD}/tmp
 mkdir -vp ${tmpdir}
@@ -51,9 +51,5 @@ exec docker run -it --rm \
 	-v ${awsdir}:/home/uws/.aws:ro \
 	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters:${cluster_perms} \
 	-v ${tmpdir}:/home/uws/tmp \
-	-e UWS_CLUSTER=${uws_cluster} \
-	-e AWS_PROFILE=${aws_profile} \
-	-e AWS_REGION=${aws_region} \
-	-e AWS_INSTANCE_TYPES=${AWS_INSTANCE_TYPES} \
-	-e AWS_ZONES=${AWS_ZONES} \
+	--env-file ${eksenv} \
 	uws/eks $@

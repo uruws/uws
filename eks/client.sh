@@ -1,5 +1,4 @@
 #!/bin/sh
 set -eu
-eksenv=${1:?'cluster env?'}
-. ./eks/env/${eksenv}.env
-exec ./docker/eks/admin.sh --client
+cluster=${1:?'cluster?'}
+exec ./docker/eks/admin.sh ${cluster} --client

@@ -1,7 +1,7 @@
 FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210607"
+LABEL version="20210624"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh awscli python3
+RUN /root/bin/apt-install.sh gettext-base awscli python3
 
 RUN chgrp ${UWS_GID} /usr/local/bin && chmod g+w /usr/local/bin
 

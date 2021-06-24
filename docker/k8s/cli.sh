@@ -1,14 +1,14 @@
 #!/bin/sh
 set -eu
 
-eksenv=${1:?'cluster env?'}
+cluster=${1:?'cluster env?'}
 shift
-. ./eks/env/${eksenv}.env
 
 k8s=${PWD}/k8s
 pod=${PWD}/pod
 awsdir=${PWD}/secret/eks/aws/client
 kubedir=${PWD}/secret/eks/kube
+eksenv=${PWD}/eks/env/${eksenv}.env
 
 hostname="${UWS_CLUSTER}.${AWS_REGION}.k8scli"
 
@@ -18,7 +18,5 @@ exec docker run -it --rm \
 	-v ${pod}:/home/uws/pod:ro \
 	-v ${awsdir}:/home/uws/.aws:ro \
 	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters:ro \
-	-e UWS_CLUSTER=${UWS_CLUSTER} \
-	-e AWS_PROFILE=${AWS_PROFILE} \
-	-e AWS_REGION=${AWS_REGION} \
+	--env-file ${eksenv} \
 	uws/k8s $@
