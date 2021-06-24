@@ -25,8 +25,10 @@ eksenv=${PWD}/eks/env/${uws_cluster}.env
 tmpdir=${PWD}/tmp
 mkdir -vp ${tmpdir}
 
+. ${eksenv}
+
 cluster_perms='rw'
-hostname="${uws_cluster}.${aws_region}.eks"
+hostname="${UWS_CLUSTER}.${AWS_REGION}.eks"
 if test 'Xtrue' = "X${client_mode}"; then
 	cluster_perms='ro'
 	awsdir=${awsdir}/client
