@@ -21,3 +21,9 @@ else
 	cmd_help ${cmd}
 fi
 exit 0
+
+#uwscli:uwshelp - show uwscli utils usage description
+
+#uwsdoc:uwshelp [cmd]
+#uwsdoc:	With no arguments it will show a brief information for all available commands.
+#uwsdoc:	Run uwshelp cmd to get more information about cmd usage.

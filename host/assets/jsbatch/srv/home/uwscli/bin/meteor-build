@@ -7,4 +7,4 @@ exit 0
 #uwscli:meteor-build - build meteor app version/tag
 
 #uwsdoc:meteor-build X.Y.Z
-#uwsdoc:	build meteor app from X.Y.Z git tag
+#uwsdoc:	build meteor app from X.Y.Z git tag.
