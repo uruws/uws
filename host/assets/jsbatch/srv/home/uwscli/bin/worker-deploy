@@ -29,6 +29,7 @@ exit 0
 
 #uwscli:worker-deploy - deploy meteor worker release
 
-#uwsdoc:worker-deploy X.Y.Z-abc123
+#uwsdoc:worker-deploy [X.Y.Z-abc123]
 #uwsdoc:
-#uwsdoc:  Deploy meteor worker build X.Y.Z-abc123
+#uwsdoc:  Deploy meteor worker build X.Y.Z-abc123.
+#uwsdoc:  With not arguments it lists built images available for deploy.
