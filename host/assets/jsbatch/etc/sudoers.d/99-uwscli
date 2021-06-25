@@ -1,3 +1,4 @@
-Cmnd_Alias UWSCLI = /srv/deploy/Buildpack/build.sh
+Cmnd_Alias UWSCLI = /srv/deploy/Buildpack/build.sh,\
+	/srv/uws/deploy/cli/meteor-deploy.sh
 
 uwscli ALL = (uws) NOPASSWD: UWSCLI
