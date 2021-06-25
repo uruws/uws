@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-release="${1:-'NONE'}"
+release="${1:-''}"
 
 list_images() {
 	docker images --format '{{.Tag}}\t{{.Size}}\t{{.CreatedAt}}' \
@@ -13,12 +13,14 @@ deploy() {
 	uwsnq /srv/uws/deploy/cli/meteor-deploy.sh amy-wrkr worker "${1}"
 }
 
+if test "X${release}" = 'X'; then
+	list_images
+	exit 0
+fi
+
 case "${release}" in
 	-h|--help)
 		exec uwshelp worker-deploy
-	;;
-	NONE)
-		list_images
 	;;
 	*)
 		deploy "${release}"
