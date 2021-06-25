@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+release="${1:-'NONE'}"
+
+list_images() {
+	docker images --format '{{.Tag}}\t{{.Size}}\t{{.CreatedAt}}' \
+		789470191893.dkr.ecr.us-east-1.amazonaws.com/uws |
+		grep -F meteor-app | sort -u | sed 's/^meteor-app-//'
+}
+
+deploy() {
+	uwsnq /srv/uws/deploy/cli/meteor-deploy.sh amy-wrkr worker "${1}"
+}
+
+case "${release}" in
+	-h|--help)
+		exec uwshelp worker-deploy
+	;;
+	NONE)
+		list_images
+	;;
+	*)
+		deploy "${release}"
+	;;
+esac
+
+exit 0
+
+#uwscli:worker-deploy - deploy meteor worker release
+
+#uwsdoc:worker-deploy X.Y.Z-abc123
+#uwsdoc:
+#uwsdoc:  Deploy meteor worker build X.Y.Z-abc123
