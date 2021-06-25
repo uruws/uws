@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
-pod=/home/uws/pod/meteor/worker
-uwskube delete -f ${pod}/deploy.yaml
+uwskube delete hpa -n worker
+uwskube delete deploy/meteor -n worker
 exit 0
