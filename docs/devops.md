@@ -21,10 +21,10 @@ Run `uwshelp <cmd>` to get more information about an specific util.
 ## Jobs queue
 
 Some commands, like in example `meteor-build`, add the job to the tasks queue so
-the job can be run in the background and to ensure that it will be only one job
-running at the time.
+the job can run in the background to avoid connection issues and to ensure that
+no more than one (large/big) job will be running at the same time.
 
-To check the queue status you use `uwsq` util, which will show the current
+To check the queue status you can use `uwsq` util, which will show the current
 status of the queue.
 
 Check `uwshelp uwsq` to get more information about `uwsq` usage.
