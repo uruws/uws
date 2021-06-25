@@ -1,9 +1,10 @@
 # TODO
 
 * uwscli integration
-    * meteor logs (done!)
-    * meteor buildpack (done!)
-    * control meteor services: deploy/restart
+    * meteor logs - DONE!
+    * meteor buildpack - DONE!
+    * control meteor services: deploy/restart/rollin
+    * autoscaler logs
 
 * cache web assets
     * setup nginx expire headers
