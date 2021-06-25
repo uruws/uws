@@ -3,10 +3,10 @@ set -eu
 export NQDIR=${HOME}/.nq
 exec fq $@
 
-#uwscli:uwsq - show information about uws tasks queue
+#uwscli:uwsq - show information about uws jobs queue
 
 #uwsdoc:uwsq
 #uwsdoc:
 #uwsdoc:  It will show current running job output or information about last
-#uwsdoc:  failed task. If there's no output, there are no running tasks nor
+#uwsdoc:  failed job. If there's no output, there are no running jobs nor
 #uwsdoc:  any that failed either.
