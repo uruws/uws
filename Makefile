@@ -174,12 +174,6 @@ api: base docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
 .PHONY: all
 all: base base-testing awscli mkcert golang uwsbot acme munin munin-backend munin-node
 
-.PHONY: publish
-publish:
-	@AWS_REGION=$(AWS_REGION) ./docker/ecr-push.sh munin
-	@AWS_REGION=$(AWS_REGION) ./docker/ecr-push.sh munin-backend
-	@AWS_REGION=$(AWS_REGION) ./docker/ecr-push.sh munin-node
-
 .PHONY: ecr-login
 ecr-login:
 	@./docker/ecr-login.sh
@@ -188,8 +182,6 @@ ecr-login:
 deploy:
 	@echo "i - START deploy `date -R` as ${USER}"
 	@$(MAKE) bootstrap k8s
-	@./host/ecr-login.sh $(AWS_REGION)
-	@AWS_REGION=$(AWS_REGION) ./env/make.sh prod publish
 	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
