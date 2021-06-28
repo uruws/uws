@@ -1,0 +1,43 @@
+#!/bin/sh
+set -eu
+
+region=${1:?'east or west?'}
+release=${2:-''}
+
+list_images() {
+	docker images --format '{{.Tag}}\t{{.Size}}\t{{.CreatedAt}}' \
+		789470191893.dkr.ecr.us-east-1.amazonaws.com/uws |
+		grep -F meteor-app | sort -u | sed 's/^meteor-app-//'
+}
+
+deploy() {
+	uwsnq /srv/uws/deploy/cli/meteor-deploy.sh "amy-${1}" web "${2}"
+}
+
+if test "${region}" != 'east' && test "${region}" != 'west'; then
+	echo "invalid amy region: ${region}" >&2
+	exit 1
+fi
+
+if test "X${release}" = 'X'; then
+	list_images
+	exit 0
+fi
+
+case "${release}" in
+	-h|--help)
+		exec uwshelp web-deploy
+	;;
+	*)
+		deploy "${region}" "${release}"
+	;;
+esac
+
+exit 0
+
+#uwscli:web-deploy - deploy meteor web release
+
+#uwsdoc:web-deploy [X.Y.Z-abc123]
+#uwsdoc:
+#uwsdoc:  Deploy meteor web build X.Y.Z-abc123.
+#uwsdoc:  With no arguments it lists built images available for deploy.
