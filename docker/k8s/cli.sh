@@ -8,7 +8,7 @@ k8s=${PWD}/k8s
 pod=${PWD}/pod
 awsdir=${PWD}/secret/eks/aws/client
 kubedir=${PWD}/secret/eks/kube
-eksenv=${PWD}/eks/env/${eksenv}.env
+eksenv=${PWD}/eks/env/${cluster}.env
 
 hostname="${UWS_CLUSTER}.${AWS_REGION}.k8scli"
 
