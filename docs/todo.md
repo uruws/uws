@@ -3,7 +3,7 @@
 * uwscli integration
     * meteor logs - DONE!
     * meteor buildpack - DONE!
-    * control meteor services: deploy/restart/rollin
+    * control meteor services: deploy/restart/rollin - DONE!
     * autoscaler logs
 
 * cache web assets
