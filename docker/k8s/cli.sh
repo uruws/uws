@@ -10,6 +10,7 @@ awsdir=${PWD}/secret/eks/aws/client
 kubedir=${PWD}/secret/eks/kube
 eksenv=${PWD}/eks/env/${cluster}.env
 
+. ${eksenv}
 hostname="${UWS_CLUSTER}.${AWS_REGION}.k8scli"
 
 exec docker run -it --rm \
