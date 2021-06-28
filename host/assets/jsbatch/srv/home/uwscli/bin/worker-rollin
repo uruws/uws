@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+uwsnq /srv/uws/deploy/cli/meteor-ctl.sh amy-wrkr worker rollin
+exit 0
+
+#uwscli:worker-rollin - rollin meteor worker deployment
+
+#uwsdoc:worker-rollin
+#uwsdoc:
+#uwsdoc:  Rollin meteor worker deployment.
