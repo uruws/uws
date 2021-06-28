@@ -4,9 +4,8 @@ set -eu
 release=${1:-''}
 
 list_images() {
-	docker images --format '{{.Tag}}\t{{.Size}}\t{{.CreatedAt}}' \
-		789470191893.dkr.ecr.us-east-1.amazonaws.com/uws |
-		grep -F meteor-app | sort -u | sed 's/^meteor-app-//'
+	aws ecr list-images --output text --repository-name uws --region us-east-1 |
+		grep -F meteor-app | awk '{ print $3 }' | sed 's/^meteor-app-//'
 }
 
 deploy() {
