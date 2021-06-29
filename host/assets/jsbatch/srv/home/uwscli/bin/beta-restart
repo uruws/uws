@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+uwsnq /srv/uws/deploy/cli/meteor-ctl.sh amybeta beta restart
+exit 0
+
+#uwscli:beta-restart - restart meteor beta deployment
+
+#uwsdoc:beta-restart
+#uwsdoc:
+#uwsdoc:  Restart meteor beta deployment.

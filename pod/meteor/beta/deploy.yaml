@@ -52,7 +52,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 120
       containers:
-        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:meteor-beta-20210511
+        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:meteor-${METEOR_APP}
           imagePullPolicy: IfNotPresent
           name: meteor-beta
           ports:

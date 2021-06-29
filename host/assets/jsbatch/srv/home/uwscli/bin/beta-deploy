@@ -1,0 +1,36 @@
+#!/bin/sh
+set -eu
+
+release=${1:-''}
+
+list_images() {
+	aws ecr list-images --output text --repository-name uws --region us-east-2 |
+		grep -F meteor-app | awk '{ print $3 }' | sed 's/^meteor-app-//'
+}
+
+deploy() {
+	uwsnq /srv/uws/deploy/cli/meteor-deploy.sh amybeta beta "${1}"
+}
+
+if test "X${release}" = 'X'; then
+	list_images
+	exit 0
+fi
+
+case "${release}" in
+	-h|--help)
+		exec uwshelp beta-deploy
+	;;
+	*)
+		deploy "${release}"
+	;;
+esac
+
+exit 0
+
+#uwscli:beta-deploy - deploy meteor beta release
+
+#uwsdoc:beta-deploy [X.Y.Z-abc123]
+#uwsdoc:
+#uwsdoc:  Deploy meteor beta build X.Y.Z-abc123.
+#uwsdoc:  With no arguments it lists built images available for deploy.
