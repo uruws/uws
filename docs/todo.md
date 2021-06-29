@@ -1,13 +1,15 @@
 # TODO
 
 * uwscli integration
-    * control meteor services: deploy/restart/rollin - DONE!
-    * autoscaler logs - DONE!
-    * web and worker status helper - DONE!
-    * meteor-build check available disk space before to start a new build
-    * meteor-build cleanup helper
+    * control meteor services: deploy/restart/rollin - `DONE!`
+    * autoscaler logs - `DONE!`
+    * web and worker status helper - `DONE!`
+    * meteor-build
+        * check available disk space before to start a new build
+        * cleanup helper
+        * github webhook integration
 
-* setup uwscli for amybeta - DONE!
+* setup uwscli for amybeta - `DONE!`
 
 * update buildpack to support amybeta uwscli
 
