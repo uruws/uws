@@ -7,6 +7,7 @@ if test "X${appver}" != 'X'; then
 fi
 envf=$(mktemp -p /tmp meteor-worker-deploy.XXXXXXXX)
 ~/pod/meteor/getcfg.sh >${envf}
+cat ${envf}
 . ${envf}
 rm -f ${envf}
 envsubst <${pod}/deploy.yaml | uwskube apply -f -
