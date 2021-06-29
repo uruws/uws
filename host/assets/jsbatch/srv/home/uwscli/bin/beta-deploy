@@ -4,8 +4,11 @@ set -eu
 release=${1:-''}
 
 list_images() {
+	echo 'Available release:'
 	aws ecr list-images --output text --repository-name uws --region us-east-2 |
-		grep -F meteor-beta | awk '{ print $3 }' | sed 's/^meteor-//'
+		grep -F meteor-beta | awk '{ print $3 }' | sed 's/^meteor-/  /'
+	echo 'Build a release: meteor-build --beta X.Y.Z'
+	echo '    Deploy with: beta-deploy X.Y.Z-deadbeef'
 }
 
 deploy() {
