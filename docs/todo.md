@@ -4,10 +4,10 @@
     * control meteor services: deploy/restart/rollin - DONE!
     * autoscaler logs - DONE!
     * web and worker status helper - DONE!
-    * meteor-build: check available disk space before to start a new build
+    * meteor-build check available disk space before to start a new build
     * meteor-build cleanup helper
 
-* setup uwscli for amybeta
+* setup uwscli for amybeta - DONE!
 
 * cache web assets
     * setup nginx expire headers
