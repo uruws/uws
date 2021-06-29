@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube kustomize ~/k8s/metrics-server/deploy/base | uwskube apply -f -
+release=${1:-'release'}
+uwskube kustomize ~/k8s/metrics-server/deploy/${release} | uwskube apply -f -
 exit 0
