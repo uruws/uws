@@ -4,7 +4,8 @@ cmd=${1:-''}
 
 show_help() {
 	echo 'uwscli utils help:'
-	grep -Eh '^#uwscli:' ~/bin/* | sed 's/^#uwscli:/\n  /'
+	echo
+	grep -Eh '^#uwscli:' ~/bin/* | sed 's/^#uwscli:/  /'
 	echo
 	echo 'run `uwshelp cmd` to get more information about cmd usage.'
 }

@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
+cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amybeta ./pod/meteor/beta/status.sh $@
 exit 0
 
