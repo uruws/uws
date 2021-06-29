@@ -9,7 +9,7 @@ show_help() {
 	echo
 	grep -Eh '^#uwscli:' ~/bin/* | sed 's/^#uwscli:/  /'
 	echo
-	echo 'run `uwshelp cmd` to get more information about cmd usage.'
+	echo 'run `uwshelp cmd` to get more information about cmd usage'
 }
 
 cmd_help() {
@@ -28,7 +28,7 @@ else
 fi
 exit 0
 
-#uwscli:uwshelp		- show uwscli utils usage description
+#uwscli:uwshelp			- show uwscli utils usage description
 
 #uwsdoc:uwshelp [cmd]
 #uwsdoc:

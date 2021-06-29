@@ -4,7 +4,7 @@ release=${1:?'app release?'}
 uwsnq /srv/deploy/Buildpack/build.sh ${release}
 exit 0
 
-#uwscli:meteor-build		- build meteor app version/tag
+#uwscli:meteor-build			- build meteor app version/tag
 
 #uwsdoc:meteor-build X.Y.Z
 #uwsdoc:

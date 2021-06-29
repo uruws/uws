@@ -31,7 +31,7 @@ esac
 
 exit 0
 
-#uwscli:beta-deploy		- deploy meteor beta release
+#uwscli:beta-deploy			- deploy meteor beta release
 
 #uwsdoc:beta-deploy [X.Y.Z-abc123]
 #uwsdoc:

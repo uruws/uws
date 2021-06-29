@@ -5,7 +5,7 @@ cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh "amy-${1}" ./pod/meteor/web/status.sh $@
 exit 0
 
-#uwscli:web-status		- show meteor web deployment status
+#uwscli:web-status			- show meteor web deployment status
 
 #uwsdoc:web-status
 #uwsdoc:

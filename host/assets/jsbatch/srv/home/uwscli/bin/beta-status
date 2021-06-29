@@ -4,7 +4,7 @@ cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amybeta ./pod/meteor/beta/status.sh $@
 exit 0
 
-#uwscli:beta-status		- show meteor beta deployment status
+#uwscli:beta-status			- show meteor beta deployment status
 
 #uwsdoc:beta-status
 #uwsdoc:

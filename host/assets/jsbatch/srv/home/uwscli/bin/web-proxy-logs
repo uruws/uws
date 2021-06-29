@@ -15,7 +15,7 @@ esac
 cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amy-${region} ./k8s/nginx-ingress/logs.sh $@
 
-#uwscli:web-proxy-logs		- get logs from meteor app web proxy.
+#uwscli:web-proxy-logs		- get logs from meteor app web proxy
 
 #uwsdoc:web-proxy-logs [-f] [--tail=N]
 #uwsdoc:

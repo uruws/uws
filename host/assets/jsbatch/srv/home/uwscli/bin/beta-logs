@@ -3,7 +3,7 @@ set -eu
 cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amybeta ./pod/meteor/beta/logs.sh $@
 
-#uwscli:beta-logs		- get meteor beta logs from all running containers
+#uwscli:beta-logs			- get meteor beta logs
 
 #uwsdoc:beta-logs [pod-name] [-f] [--tail=N]
 #uwsdoc:

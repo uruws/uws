@@ -3,7 +3,7 @@ set -eu
 cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amybeta ./k8s/autoscaler/logs.sh $@
 
-#uwscli:beta-autoscaler-logs	- get meteor beta autoscaler logs
+#uwscli:beta-autoscaler-logs		- get meteor beta autoscaler logs
 
 #uwsdoc:beta-autoscaler-logs [-f] [--tail=N]
 #uwsdoc:
