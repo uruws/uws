@@ -50,7 +50,7 @@ spec:
       labels:
         app.kubernetes.io/name: meteor-beta
     spec:
-      terminationGracePeriodSeconds: 120
+      terminationGracePeriodSeconds: 150
       containers:
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:meteor-${METEOR_APP}
           imagePullPolicy: IfNotPresent
