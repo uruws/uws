@@ -1,8 +1,9 @@
 # TODO
 
 * uwscli integration
-    * autoscaler logs
-    * web and worker status helper
+    * control meteor services: deploy/restart/rollin - DONE!
+    * autoscaler logs - DONE!
+    * web and worker status helper - DONE!
     * meteor-build: check available disk space before to start a new build
     * meteor-build cleanup helper
 

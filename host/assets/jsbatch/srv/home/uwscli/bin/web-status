@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+region=${1:?'east or west?'}
+exec ./docker/k8s/cli.sh "amy-${1}" ./pod/meteor/web/status.sh $@
+exit 0
+
+#uwscli:web-status - show meteor web deployment status
+
+#uwsdoc:web-status
+#uwsdoc:
+#uwsdoc:  Show meteor web deployment status.
