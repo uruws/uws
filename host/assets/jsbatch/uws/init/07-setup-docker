@@ -20,23 +20,4 @@ if test 'Xtrue' = "X$(cat /etc/iptables.uws-reload 2>/dev/null)"; then
 	systemctl restart docker
 fi
 
-# docker login
-
-rm -vf /var/tmp/cloud-init/uws-setup-docker.*
-tmpfn=$(mktemp /var/tmp/cloud-init/uws-setup-docker.XXXXXXXX)
-${uws} aws ecr get-login --region us-east-1 | sed 's/-e none //' >${tmpfn}
-chmod -v 0755 ${tmpfn}
-${uws} ${tmpfn}
-rm -vf ${tmpfn}
-
-# docker pull images
-
-REPO='789470191893.dkr.ecr.us-west-1.amazonaws.com/uws'
-IMAGES='munin munin-backend munin-node'
-
-for img in $(echo ${IMAGES}); do
-	uri="${REPO}:${img}"
-	${uws} docker pull ${uri}
-done
-
 exit 0
