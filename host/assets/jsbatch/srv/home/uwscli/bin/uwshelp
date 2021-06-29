@@ -3,7 +3,9 @@ set -eu
 cmd=${1:-''}
 
 show_help() {
-	echo 'uwscli utils help:'
+	echo 'uws command line interface'
+	echo
+	echo 'available commands:'
 	echo
 	grep -Eh '^#uwscli:' ~/bin/* | sed 's/^#uwscli:/  /'
 	echo
