@@ -26,7 +26,7 @@ else
 fi
 exit 0
 
-#uwscli:uwshelp - show uwscli utils usage description
+#uwscli:uwshelp		- show uwscli utils usage description
 
 #uwsdoc:uwshelp [cmd]
 #uwsdoc:

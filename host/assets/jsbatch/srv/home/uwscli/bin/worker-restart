@@ -3,7 +3,7 @@ set -eu
 uwsnq /srv/uws/deploy/cli/meteor-ctl.sh amy-wrkr worker restart
 exit 0
 
-#uwscli:worker-restart - restart meteor worker deployment
+#uwscli:worker-restart		- restart meteor worker deployment
 
 #uwsdoc:worker-restart
 #uwsdoc:

@@ -15,7 +15,7 @@ esac
 cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amy-${region} ./k8s/autoscaler/logs.sh $@
 
-#uwscli:web-autoscaler-logs - get meteor web autoscaler logs
+#uwscli:web-autoscaler-logs	- get meteor web autoscaler logs
 
 #uwsdoc:web-autoscaler-logs [-f] [--tail=N]
 #uwsdoc:

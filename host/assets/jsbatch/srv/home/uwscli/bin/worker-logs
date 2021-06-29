@@ -3,7 +3,7 @@ set -eu
 cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amy-wrkr ./pod/meteor/worker/logs.sh $@
 
-#uwscli:worker-logs - get meteor worker logs/output from all running containers
+#uwscli:worker-logs		- get meteor worker logs/output from all running containers
 
 #uwsdoc:worker-logs [pod-name] [-f] [--tail=N]
 #uwsdoc:

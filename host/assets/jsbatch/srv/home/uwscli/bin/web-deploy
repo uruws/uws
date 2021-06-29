@@ -34,7 +34,7 @@ esac
 
 exit 0
 
-#uwscli:web-deploy - deploy meteor web release
+#uwscli:web-deploy		- deploy meteor web release
 
 #uwsdoc:web-deploy region [X.Y.Z-abc123]
 #uwsdoc:

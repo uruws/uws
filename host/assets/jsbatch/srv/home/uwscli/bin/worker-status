@@ -4,7 +4,7 @@ cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amy-wrkr ./pod/meteor/worker/status.sh $@
 exit 0
 
-#uwscli:worker-status - show meteor worker deployment status
+#uwscli:worker-status		- show meteor worker deployment status
 
 #uwsdoc:worker-status
 #uwsdoc:

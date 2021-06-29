@@ -28,7 +28,7 @@ esac
 
 exit 0
 
-#uwscli:worker-deploy - deploy meteor worker release
+#uwscli:worker-deploy		- deploy meteor worker release
 
 #uwsdoc:worker-deploy [X.Y.Z-abc123]
 #uwsdoc:

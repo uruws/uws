@@ -15,7 +15,7 @@ esac
 cd /srv/uws/deploy
 exec ./docker/k8s/cli.sh amy-${region} ./pod/meteor/web/logs.sh $@
 
-#uwscli:web-logs - get meteor web logs/output from all running containers
+#uwscli:web-logs		- get meteor web logs from all running containers
 
 #uwsdoc:web-logs [pod-name] [-f] [--tail=N]
 #uwsdoc:
