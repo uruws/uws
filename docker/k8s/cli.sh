@@ -13,6 +13,9 @@ eksenv=${PWD}/eks/env/${cluster}.env
 . ${eksenv}
 hostname="${UWS_CLUSTER}.${AWS_REGION}.k8scli"
 
+kube_cache=${HOME}/.uwscli/kube/cache
+mkdir -p ${kube_cache}
+
 exec docker run -it --rm \
 	--hostname ${hostname} -u uws \
 	-v ${k8s}:/home/uws/k8s:ro \
