@@ -9,6 +9,8 @@
 
 * setup uwscli for amybeta - DONE!
 
+* update buildpack to support amybeta uwscli
+
 * cache web assets
     * setup nginx expire headers
 
@@ -24,8 +26,8 @@
 * improve web deploys
     * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.
     * some ideas:
-        * use more than one ingress (maybe in sep name spaces)
-        * use different nodegroups for "core" services like nginx and the "main" nodegroup to run the our services (web, workers, etc...), using node affinity annotations.
+        * use more than one ingress (maybe in sep namespaces)
+        * use different nodegroups for "core" services like nginx and the "main" nodegroup to run our services (web, workers, etc...), using node affinity annotations.
 
 * productions services maintenance
     * upgrades schedule: nginx, autoscaler and such...
