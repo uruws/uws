@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
-uwskube get deploy,rs,hpa -n beta
+uwskube get deploy,rs,hpa -n meteor-beta
 echo
-echo 'DEPLOY CONFIG'
+echo 'DEPLOY ENV'
 ~/pod/meteor/getcfg.sh
 exit 0

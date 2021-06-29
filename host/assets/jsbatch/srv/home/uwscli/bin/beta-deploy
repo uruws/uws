@@ -5,7 +5,7 @@ release=${1:-''}
 
 list_images() {
 	aws ecr list-images --output text --repository-name uws --region us-east-2 |
-		grep -F meteor-app | awk '{ print $3 }' | sed 's/^meteor-app-//'
+		grep -F meteor-beta | awk '{ print $3 }' | sed 's/^meteor-//'
 }
 
 deploy() {
