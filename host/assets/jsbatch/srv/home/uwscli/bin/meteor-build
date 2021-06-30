@@ -1,12 +1,21 @@
 #!/bin/sh
 set -eu
+
+case $1 in
+	-h|--help)
+		exec uwshelp meteor-build
+	;;
+esac
+
 target=""
 if test "X${1}" = 'X--beta'; then
 	shift
 	target="beta"
 fi
+
 release=${1:?'app release?'}
 uwsnq /srv/deploy/Buildpack/build.sh ${release} ${target}
+
 exit 0
 
 #uwscli:meteor-build			- build meteor app version/tag
