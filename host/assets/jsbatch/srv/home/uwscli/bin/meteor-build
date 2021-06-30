@@ -1,11 +1,18 @@
 #!/bin/sh
 set -eu
+target=""
+if test "X${1}" = 'X--beta'; then
+	shift
+	target="beta"
+fi
 release=${1:?'app release?'}
-uwsnq /srv/deploy/Buildpack/build.sh ${release}
+uwsnq /srv/deploy/Buildpack/build.sh ${release} ${target}
 exit 0
 
 #uwscli:meteor-build			- build meteor app version/tag
 
-#uwsdoc:meteor-build X.Y.Z
+#uwsdoc:meteor-build [--beta] X.Y.Z
 #uwsdoc:
 #uwsdoc:  Build meteor app from X.Y.Z git tag.
+#uwsdoc:
+#uwsdoc:  --beta - build a beta release.
