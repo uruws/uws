@@ -28,3 +28,33 @@ To check the queue status you can use `uwsq` util, which will show the current
 status of the queue.
 
 Check `uwshelp uwsq` to get more information about `uwsq` usage.
+
+# Meteor Operations
+
+## Build
+
+To build a new release of the meteor run:
+
+    meteor-build X.Y.Z
+
+Where *X.Y.Z* is a release tag in the App git repository.
+
+Check `uwshelp meteor-build` for more information.
+
+## Deploy
+
+To check available releases for deploy run:
+
+    worker-deploy
+
+To deploy a release run:
+
+    worker-deploy X.Y.Z-deadbeef
+
+Where *X.Y.Z* is the tag from the git repository and *deadbeef* is the buildpack
+version that created the release.
+
+Check `uwshelp worker-deploy` for more information.
+
+Use `web-deploy` or `beta-deploy` for those cases (web and beta), but the usage
+syntax applies for all of them.
