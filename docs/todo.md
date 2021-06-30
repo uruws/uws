@@ -11,7 +11,7 @@
 
 * setup uwscli for amybeta - `DONE!`
 
-* update buildpack to support amybeta uwscli
+* update buildpack to support amybeta uwscli - `DONE!`
 
 * cache web assets
     * setup nginx expire headers
