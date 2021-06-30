@@ -23,6 +23,9 @@
 * monitoring
     * setup nagios and alerts
 
+* uwscli
+    * uwsq: clean failed jobs
+
 * internal CA
 
 * improve web deploys
