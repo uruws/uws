@@ -13,6 +13,12 @@
 
 * update buildpack to support amybeta uwscli - `DONE!`
 
+* meteor test - https://talkingpointsorg.atlassian.net/browse/DEV-441
+    * buildpack integration
+        * https://guide.meteor.com/testing.html
+    * meteor-build integration
+        * based on official docs we could do: test, build, install, deploy
+
 * cache web assets
     * setup nginx expire headers
 
