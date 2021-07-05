@@ -1,10 +1,7 @@
 # TODO
 
-* meteor test - https://talkingpointsorg.atlassian.net/browse/DEV-441
-    * buildpack integration
-        * https://guide.meteor.com/testing.html
-    * meteor-build integration
-        * based on official docs we could do: test, build, install, deploy
+* meteor test - https://talkingpointsorg.atlassian.net/browse/DEV-441 - `DONE!`
+    * once test.sh script is created on App repo the buildpack will run it before to start the build.
 
 * uwscli integration
     * meteor-build
