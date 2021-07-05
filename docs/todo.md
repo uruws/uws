@@ -24,6 +24,8 @@
 * monitoring
     * setup nagios and alerts
 
+* add munin checks/graphs for NLP
+
 * uwscli
     * uwsq: clean failed jobs
 
