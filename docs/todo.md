@@ -1,23 +1,18 @@
 # TODO
 
-* uwscli integration
-    * control meteor services: deploy/restart/rollin - `DONE!`
-    * autoscaler logs - `DONE!`
-    * web and worker status helper - `DONE!`
-    * meteor-build
-        * check available disk space before to start a new build
-        * cleanup helper
-        * github webhook integration
-
-* setup uwscli for amybeta - `DONE!`
-
-* update buildpack to support amybeta uwscli - `DONE!`
-
 * meteor test - https://talkingpointsorg.atlassian.net/browse/DEV-441
     * buildpack integration
         * https://guide.meteor.com/testing.html
     * meteor-build integration
         * based on official docs we could do: test, build, install, deploy
+
+* uwscli integration
+    * meteor-build
+        * github webhook integration
+        * check available disk space before to start a new build
+        * cleanup helper
+
+* setup amy staging cluster
 
 * cache web assets
     * setup nginx expire headers
