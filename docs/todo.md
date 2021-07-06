@@ -1,7 +1,8 @@
 # TODO
 
-* meteor test - https://talkingpointsorg.atlassian.net/browse/DEV-441 - `DONE!`
-    * once test.sh script is created on App repo the buildpack will run it before to start the build.
+* meteor test - https://talkingpointsorg.atlassian.net/browse/DEV-441
+    * once test.sh script is created on App repo the buildpack will run it before to start the build. - `DONE!`
+    * add --ignore-tests or similar flag so we can build even if tests fail
 
 * uwscli integration
     * meteor-build
@@ -9,6 +10,8 @@
         * check available disk space before to start a new build
         * cleanup helper
     * devel API for UI interaction
+    * let Jira know about deployments status
+        * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
 
 * setup amy staging cluster
 
