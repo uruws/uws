@@ -8,6 +8,7 @@
         * github webhook integration
         * check available disk space before to start a new build
         * cleanup helper
+    * devel API for UI interaction
 
 * setup amy staging cluster
 
