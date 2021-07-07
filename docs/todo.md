@@ -2,7 +2,7 @@
 
 * meteor test - https://talkingpointsorg.atlassian.net/browse/DEV-441
     * once test.sh script is created on App repo the buildpack will run it before to start the build. - `DONE!`
-    * add --ignore-tests or similar flag so we can build even if tests fail
+    * add --no-test flag so we can build even if tests fail - `DONE!`
 
 * re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
 
