@@ -4,6 +4,8 @@
     * once test.sh script is created on App repo the buildpack will run it before to start the build. - `DONE!`
     * add --ignore-tests or similar flag so we can build even if tests fail
 
+* re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
+
 * crowdsourcing setup
     * new cluster
     * build/deploy/status
