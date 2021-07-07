@@ -7,7 +7,7 @@ release=${2:-''}
 list_images() {
 	echo 'Available release:'
 	aws ecr list-images --output text --repository-name uws --region us-east-1 |
-		grep -F meteor-app | awk '{ print $3 }' | sed 's/^meteor-app-/  /'
+		grep -F meteor-app | awk '{ print $3 }' | sed 's/^meteor-app-/  /' | sort -un
 	echo 'Build a release: meteor-build X.Y.Z'
 	echo 'Deploy with:     web-deploy <region> X.Y.Z-deadbeef'
 }
