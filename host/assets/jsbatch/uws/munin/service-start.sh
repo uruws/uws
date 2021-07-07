@@ -9,6 +9,6 @@ set -eu
 	-v /srv/munin/cache/www:/var/cache/munin/www \
 	-v /srv/munin/var/log:/var/log/munin \
 	-v /srv/etc/munin:/srv/etc/munin \
-	789470191893.dkr.ecr.us-west-1.amazonaws.com/uws:munin
+	uws/munin
 
 exit 0

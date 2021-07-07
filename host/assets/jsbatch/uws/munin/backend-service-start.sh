@@ -8,6 +8,6 @@ set -eu
 	-v /srv/munin/var/lib:/var/lib/munin:ro \
 	-v /srv/munin/var/lib/cgi-tmp:/var/lib/munin/cgi-tmp \
 	-v /srv/munin/cache/www:/var/cache/munin/www:ro \
-	789470191893.dkr.ecr.us-west-1.amazonaws.com/uws:munin-backend
+	uws/munin-backend
 
 exit 0
