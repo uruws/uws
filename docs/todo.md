@@ -9,6 +9,7 @@
         * github webhook integration
         * check available disk space before to start a new build
         * cleanup helper
+        * we should be able to properly stop/abort a building process
     * devel API for UI interaction
     * let Jira know about deployments status
         * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
