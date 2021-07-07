@@ -4,6 +4,11 @@
     * once test.sh script is created on App repo the buildpack will run it before to start the build. - `DONE!`
     * add --ignore-tests or similar flag so we can build even if tests fail
 
+* crowdsourcing setup
+    * new cluster
+    * build/deploy/status
+    * uwscli integration
+
 * uwscli integration
     * meteor-build
         * github webhook integration
