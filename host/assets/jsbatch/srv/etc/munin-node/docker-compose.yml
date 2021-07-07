@@ -6,7 +6,7 @@ networks:
 
 services:
   app:
-    image: 789470191893.dkr.ecr.us-west-1.amazonaws.com/uws:munin-node
+    image: uws/munin-node
     container_name: uws-munin-node-app-service
     volumes:
       - ./prod/app:/srv/etc/munin-node:ro
@@ -20,7 +20,7 @@ services:
       - default
 
   www:
-    image: 789470191893.dkr.ecr.us-west-1.amazonaws.com/uws:munin-node
+    image: uws/munin-node
     container_name: uws-munin-node-www-service
     volumes:
       - ./prod/www:/srv/etc/munin-node:ro
@@ -31,7 +31,7 @@ services:
       - default
 
   staging-app:
-    image: 789470191893.dkr.ecr.us-west-1.amazonaws.com/uws:munin-node
+    image: uws/munin-node
     container_name: uws-munin-node-staging-app-service
     volumes:
       - ./staging/app:/srv/etc/munin-node:ro
@@ -41,5 +41,16 @@ services:
     restart: on-failure
     ports:
       - 4952:4949
+    networks:
+      - default
+
+  crowd:
+    image: uws/munin-node
+    container_name: uws-munin-node-crowd-service
+    volumes:
+      - ./prod/crowd:/srv/etc/munin-node:ro
+    restart: on-failure
+    ports:
+      - 4953:4949
     networks:
       - default
