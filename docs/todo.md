@@ -7,6 +7,7 @@
 * re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
 
 * crowdsourcing setup
+    * munin stats - `DONE!`
     * new cluster
     * build/deploy/status
     * uwscli integration
