@@ -23,6 +23,8 @@
     * develop munin plugins to graph k8s info
     * nginx stats
 
+* web deploy autoscale setup on custom metrics
+
 * monitoring
     * setup nagios and alerts
 
