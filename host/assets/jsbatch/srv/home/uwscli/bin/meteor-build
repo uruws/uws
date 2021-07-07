@@ -13,10 +13,16 @@ if test "X${1}" = 'X--beta'; then
 	target="beta"
 fi
 
+test_flags=""
+if test "X${1}" = 'X--no-test'; then
+	shift
+	test_flags='--no-test'
+fi
+
 release=${1:?'app release?'}
 shift
 
-uwsnq /srv/deploy/Buildpack/build.sh ${release} ${target} $@
+uwsnq /srv/deploy/Buildpack/build.sh ${release} ${target} ${test_flags}
 
 exit 0
 
