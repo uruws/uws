@@ -14,14 +14,17 @@ if test "X${1}" = 'X--beta'; then
 fi
 
 release=${1:?'app release?'}
-uwsnq /srv/deploy/Buildpack/build.sh ${release} ${target}
+shift
+
+uwsnq /srv/deploy/Buildpack/build.sh ${release} ${target} $@
 
 exit 0
 
 #uwscli:meteor-build			- build meteor app version/tag
 
-#uwsdoc:meteor-build [--beta] X.Y.Z
+#uwsdoc:meteor-build [--beta] [--no-test] X.Y.Z
 #uwsdoc:
-#uwsdoc:  Build meteor app from X.Y.Z git tag.
+#uwsdoc:Build meteor app from X.Y.Z git tag.
 #uwsdoc:
-#uwsdoc:  --beta - build a beta release.
+#uwsdoc:  --beta    - build a beta release.
+#uwsdoc:  --no-test - do not run app tests.
