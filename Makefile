@@ -171,6 +171,10 @@ eks: k8s
 api: base docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
 	@./srv/api/build.sh
 
+.PHONY: proftpd
+proftpd:
+	@./srv/proftpd/build.sh
+
 .PHONY: all
 all: base base-testing awscli mkcert golang uwsbot acme munin munin-backend munin-node
 
