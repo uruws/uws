@@ -5,13 +5,18 @@
     * add --no-test flag so we can build even if tests fail - `DONE!`
 
 * update buildpack tools to support multiple apps
-    * versioned meteor setup
+    * versioned meteor setup - `DONE!`
+    * build app, beta, crowdsourcing and more...
 
 * crowdsourcing setup
     * munin stats - `DONE!`
     * setup on web cluster
     * build/deploy/status
     * uwscli integration
+
+* SFTP server for data sharing with schools
+    * server setup
+    * web integration for user/pass management
 
 * re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
 
