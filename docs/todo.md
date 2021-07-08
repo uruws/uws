@@ -4,13 +4,16 @@
     * once test.sh script is created on App repo the buildpack will run it before to start the build. - `DONE!`
     * add --no-test flag so we can build even if tests fail - `DONE!`
 
-* re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
+* update buildpack tools to support multiple apps
+    * versioned meteor setup
 
 * crowdsourcing setup
     * munin stats - `DONE!`
-    * new cluster
+    * setup on web cluster
     * build/deploy/status
     * uwscli integration
+
+* re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
 
 * uwscli integration
     * meteor-build
