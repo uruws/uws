@@ -12,7 +12,8 @@ ENV HOME /root
 RUN /root/bin/apt-install.sh proftpd-core proftpd-mod-crypto
 
 COPY ./config/ /etc/proftpd/
+COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN proftpd --configtest
 
-ENTRYPOINT /usr/sbin/proftpd -n -4 -S 0.0.0.0 -d 3
+ENTRYPOINT /usr/local/bin/entrypoint.sh
