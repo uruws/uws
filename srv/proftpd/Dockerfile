@@ -15,6 +15,12 @@ COPY ./secret/ssh/ /etc/ssh/
 RUN chmod -v 0600 /etc/ssh/ssh_host_*_key \
 	&& chmod -v 0640 /etc/ssh/ssh_host_*_key.pub
 
+COPY ./secret/auth/passwd /etc/ftp.passwd
+RUN chmod -v 0640 /etc/ftp.passwd
+
+COPY ./secret/auth/group /etc/ftp.group
+RUN chmod -v 0640 /etc/ftp.group
+
 COPY ./config/ /etc/proftpd/
 COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
 
