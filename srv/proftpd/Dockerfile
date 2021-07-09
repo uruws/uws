@@ -11,6 +11,10 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh proftpd-core proftpd-mod-crypto
 
+COPY ./secret/ssh/ /etc/ssh/
+RUN chmod -v 0600 /etc/ssh/ssh_host_*_key \
+	&& chmod -v 0640 /etc/ssh/ssh_host_*_key.pub
+
 COPY ./config/ /etc/proftpd/
 COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
 
