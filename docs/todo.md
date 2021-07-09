@@ -15,6 +15,7 @@
     * uwscli integration
 
 * SFTP server for data sharing with schools
+    * service setup - `DONE!`
     * server setup
     * web integration for user/pass management
 
