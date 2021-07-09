@@ -15,4 +15,4 @@ COPY ./config/ /etc/proftpd/
 
 RUN proftpd --configtest
 
-ENTRYPOINT /usr/sbin/proftpd -n -4 -S 0.0.0.0 -d 1
+ENTRYPOINT /usr/sbin/proftpd -n -4 -S 0.0.0.0 -d 3
