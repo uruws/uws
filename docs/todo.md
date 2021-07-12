@@ -1,23 +1,24 @@
 # TODO
 
-* meteor test - https://talkingpointsorg.atlassian.net/browse/DEV-441
-    * once test.sh script is created on App repo the buildpack will run it before to start the build. - `DONE!`
-    * add --no-test flag so we can build even if tests fail - `DONE!`
+* heroku contingency plan
+    * we need to have in place a setup to route web traffic to heroku in case of aws failure as faster and easier as possible
+
+* custom workers autoscaler
+    * scale up every 5 min or so
+    * scale down hourly, if needed
 
 * update buildpack tools to support multiple apps
-    * versioned meteor setup - `DONE!`
     * build app, beta, crowdsourcing and more...
 
 * crowdsourcing setup
-    * munin stats - `DONE!`
     * setup on web cluster
     * build/deploy/status
     * uwscli integration
 
 * SFTP server for data sharing with schools
-    * service setup - `DONE!`
     * server setup
     * web integration for user/pass management
+    * hook to check/validate uploaded files
 
 * re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
 
@@ -32,9 +33,6 @@
         * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
 
 * setup amy staging cluster
-
-* heroku contingency plan
-    * we need to have in place a setup to route web traffic to heroku in case of aws failure as faster and easier as possible
 
 * cache web assets
     * setup nginx expire headers
