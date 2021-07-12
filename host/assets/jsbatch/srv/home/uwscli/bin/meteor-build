@@ -24,6 +24,23 @@ shift
 
 uwsnq /srv/deploy/Buildpack/build.sh ${release} ${target} ${test_flags}
 
+echo ''
+echo 'Check build job with: uwsq'
+echo ''
+echo 'Deploy and check status with:'
+echo ''
+echo "  Workers: worker-deploy ${release}"
+echo '           worker-status'
+echo ''
+echo "  Web: web-deploy (east|west) ${release}"
+echo '       web-status (east|west)'
+echo ''
+echo "  Beta: beta-deploy ${release}"
+echo '        beta-status'
+echo ''
+echo 'Run uwshelp for more information.'
+echo ''
+
 exit 0
 
 #uwscli:meteor-build			- build meteor app version/tag

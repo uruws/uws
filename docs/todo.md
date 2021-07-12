@@ -9,6 +9,7 @@
 
 * update buildpack tools to support multiple apps
     * build app, beta, crowdsourcing and more...
+    * add deploy/status help to the end of build log
 
 * crowdsourcing setup
     * setup on web cluster
@@ -18,7 +19,7 @@
 * SFTP server for data sharing with schools
     * server setup
     * web integration for user/pass management
-    * hook to check/validate uploaded files
+    * hook to check/validate uploaded files (try mod_exec)
 
 * re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
 
