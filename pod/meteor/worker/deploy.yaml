@@ -1,23 +1,23 @@
----
-apiVersion: autoscaling/v2beta2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: worker-hpa
-  namespace: worker
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: meteor
-  minReplicas: 50
-  maxReplicas: 200
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 70
+#~ ---
+#~ apiVersion: autoscaling/v2beta2
+#~ kind: HorizontalPodAutoscaler
+#~ metadata:
+  #~ name: worker-hpa
+  #~ namespace: worker
+#~ spec:
+  #~ scaleTargetRef:
+    #~ apiVersion: apps/v1
+    #~ kind: Deployment
+    #~ name: meteor
+  #~ minReplicas: 100
+  #~ maxReplicas: 100
+  #~ metrics:
+    #~ - type: Resource
+      #~ resource:
+        #~ name: cpu
+        #~ target:
+          #~ type: Utilization
+          #~ averageUtilization: 70
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -28,7 +28,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 50
+  replicas: 100
   revisionHistoryLimit: 3
   strategy:
     type: RollingUpdate
