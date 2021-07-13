@@ -14,7 +14,10 @@ Group=uws
 WorkingDirectory=/home/uwsrun
 ExecStop=/usr/bin/docker kill uws-proftpd
 SuccessExitStatus=SIGKILL
-Environment=SFTP_HOME='/srv/sftp/home' SFTP_ADDR='0.0.0.0' SFTP_PORT='2222'
+Environment=SFTP_HOME='/srv/sftp/home'
+Environment=SFTP_ADDR='0.0.0.0'
+Environment=SFTP_PORT='2222'
+PassEnvironment=SFTP_HOME SFTP_ADDR SFTP_PORT
 ExecStart=/srv/uws/deploy/srv/proftpd/run.sh
 
 [Install]
