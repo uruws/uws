@@ -11,19 +11,19 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh proftpd-core proftpd-mod-crypto
 
-COPY ./secret/ssh/ /etc/ssh/
-RUN chmod -v 0600 /etc/ssh/ssh_host_*_key \
-	&& chmod -v 0640 /etc/ssh/ssh_host_*_key.pub
+COPY ./secret/ssh/ /usr/local/etc/ssh/
+RUN chmod -v 0600 /usr/local/etc/ssh/ssh_host_*_key \
+	&& chmod -v 0640 /usr/local/etc/ssh/ssh_host_*_key.pub
 
-COPY ./secret/auth/passwd /etc/ftp.passwd
-RUN chmod -v 0640 /etc/ftp.passwd
+COPY ./secret/auth/passwd /usr/local/etc/ftp.passwd
+RUN chmod -v 0640 /usr/local/etc/ftp.passwd
 
-COPY ./secret/auth/group /etc/ftp.group
-RUN chmod -v 0640 /etc/ftp.group
+COPY ./secret/auth/group /usr/local/etc/ftp.group
+RUN chmod -v 0640 /usr/local/etc/ftp.group
 
-COPY ./config/ /etc/proftpd/
+COPY ./config/ /usr/local/etc/proftpd/
 COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
 
-RUN proftpd --configtest
+RUN proftpd -c /usr/local/etc/proftpd/proftpd.conf --configtest
 
 ENTRYPOINT /usr/local/bin/entrypoint.sh
