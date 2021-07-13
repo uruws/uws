@@ -1,11 +1,10 @@
 #!/bin/sh
 set -eu
-mkdir -vp /srv/uws/sftp/run /srv/uws/sftp/home
+mkdir -vp /srv/uws/sftp/home
 exec docker run -it --rm --name uws-proftpd \
 	--hostname proftpd.uws.local \
-	--read-only \
+	--read-only -u root \
 	-p 127.0.0.1:2222:22 \
-	-v /srv/uws/sftp/run:/run \
 	-v /srv/uws/sftp/home:/srv/ftp \
-	-u root \
+	--tmpfs /run:rw,mode=1777,size=10m \
 	uws/proftpd
