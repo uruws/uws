@@ -17,7 +17,8 @@ SuccessExitStatus=SIGKILL
 Environment=SFTP_HOME='/srv/sftp/home'
 Environment=SFTP_ADDR='0.0.0.0'
 Environment=SFTP_PORT='2222'
-PassEnvironment=SFTP_HOME SFTP_ADDR SFTP_PORT
+Environment=SFTP_MODE='--rm'
+PassEnvironment=SFTP_HOME SFTP_ADDR SFTP_PORT SFTP_MODE
 ExecStart=/srv/uws/deploy/srv/proftpd/run.sh
 
 [Install]
