@@ -1,0 +1,21 @@
+[Unit]
+Description=uws-sftp
+Requires=syslog.service
+Requires=docker.service
+After=docker.service
+AssertFileIsExecutable=/srv/uws/deploy/srv/proftpd/run.sh
+
+[Service]
+Type=exec
+Restart=on-failure
+StandardError=syslog
+User=uwsrun
+Group=uws
+WorkingDirectory=/home/uwsrun
+ExecStop=/usr/bin/docker kill uws-proftpd
+SuccessExitStatus=SIGKILL
+Environment=SFTP_HOME='/srv/sftp/home' SFTP_ADDR='0.0.0.0' SFTP_PORT='2222'
+ExecStart=/srv/uws/deploy/srv/proftpd/run.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+mkdir -vp /srv/sftp/home
+chown -v uwsrun:nogroup /srv/sftp
+chmod -v 750 /srv/sftp/home
+chown -v uwsrun:nogroup /srv/sftp/home
+chmod -v 770 /srv/sftp/home
+
+if ! systemctl is-enabled uws-sftp.service; then
+	systemctl enable uws-sftp.service
+	systemctl start uws-sftp
+fi
+
+/uws/bin/service-restart.sh uws-sftp /srv/uws/deploy/srv/proftpd
+
+exit 0
