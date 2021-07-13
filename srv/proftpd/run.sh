@@ -7,4 +7,5 @@ exec docker run -it --rm --name uws-proftpd \
 	-p 127.0.0.1:2222:22 \
 	-v /srv/uws/sftp/run:/run \
 	-v /srv/uws/sftp/home:/srv/ftp \
+	-u root \
 	uws/proftpd
