@@ -7,6 +7,8 @@ chmod -v 750 /srv/sftp/home
 chown -v uwsrun:nogroup /srv/sftp/home
 chmod -v 770 /srv/sftp/home
 
+sudo -n -u uws -D /srv/uws/deploy make proftpd
+
 if ! systemctl is-enabled uws-sftp.service; then
 	systemctl enable uws-sftp.service
 	systemctl start uws-sftp
