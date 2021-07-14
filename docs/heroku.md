@@ -19,10 +19,14 @@ following image:
 Edit the **Weighted** records as needed.
 
 If all the records have the **same** weight, the DNS will work as a **round robin** setup,
-so if the 3 records (east, west and heroku) has the same value (100) 1/3 of the
+so if the 3 records (east, west and heroku) have the same value (ie: 100), 1/3 of the
 traffic will go to each of them.
 
 Any record set with a **0 (zero)** weight will **not** be used.
 
 So if you need to send **all** the traffic to heroku, set the **heroku** record to **100**
 and set **east** and **west** records to **0 (zero)**.
+
+You can play with the weight values as needed, in example: set heroku to 100,
+east to 50 and west to 50, so most of the traffic will be sent to heroku but aws
+clusters will still get some traffic. And so...
