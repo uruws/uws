@@ -17,7 +17,7 @@
     * uwscli integration
 
 * SFTP server for data sharing with schools
-    * server setup
+    * server setup - `DONE!`
         * Had to deal with https://github.com/proftpd/proftpd/issues/1111 bug!! =(
     * web integration for user/pass management
     * hook to check/validate uploaded files (try mod_exec)
