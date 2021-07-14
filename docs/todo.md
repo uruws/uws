@@ -1,6 +1,6 @@
 # TODO
 
-* heroku contingency plan
+* heroku contingency plan - `DONE!`
     * we need to have in place a setup to route web traffic to heroku in case of aws failure as faster and easier as possible
 
 * custom workers autoscaler
