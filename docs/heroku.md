@@ -8,6 +8,9 @@ Deploy web containers to heroku [tapo webapp](https://dashboard.heroku.com/apps/
 
 ## Route traffic
 
+Login to [AWS console](https://console.aws.amazon.com/) with *uwsadm* IAM user
+credentials. (Check secret/aws.txt).
+
 Update [AWS DNS](https://console.aws.amazon.com/route53/v2/hostedzones#ListRecordSets/Z007316630R8ZSSQX09RD)
 settings to route traffic to heroku.
 
