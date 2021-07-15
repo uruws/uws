@@ -7,7 +7,9 @@ case $1 in
 	;;
 esac
 
-target=""
+src="app/src"
+target="app"
+
 if test "X${1}" = 'X--beta'; then
 	shift
 	target="beta"
@@ -20,9 +22,9 @@ if test "X${1}" = 'X--no-test'; then
 fi
 
 release=${1:?'app release?'}
-shift
 
-uwsnq /srv/deploy/Buildpack/build.sh ${release} ${target} ${test_flags}
+uwsnq /srv/deploy/Buildpack/build.py --src ${src} --target ${target} \
+	${release} -- ${test_flags}
 
 echo ''
 echo 'Check build job with: uwsq'
