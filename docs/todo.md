@@ -3,6 +3,9 @@
 * heroku contingency plan - `DONE!`
     * we need to have in place a setup to route web traffic to heroku in case of aws failure as faster and easier as possible
 
+* worker job stats
+    * add graph for waiting status
+
 * custom workers autoscaler
     * scale up every 5 min or so
     * scale down hourly, if needed

@@ -30,6 +30,7 @@ type Job struct {
 	Name    string
 	Label   string
 	Error   bool
+	Waiting int64
 	Ready   int64
 	Running int64
 	Failed  int64
@@ -171,6 +172,10 @@ func (m *mdb) Get(job *Job) error {
 	opts := options.Count()
 	opts.SetMaxTime(15 * time.Second)
 	var err error
+	job.Waiting, err = coll.CountDocuments(m.ctx, bson.D{{"status", "waiting"}}, opts)
+	if err != nil {
+		return log.DebugError(err)
+	}
 	job.Ready, err = coll.CountDocuments(m.ctx, bson.D{{"status", "ready"}}, opts)
 	if err != nil {
 		return log.DebugError(err)
