@@ -5,6 +5,7 @@
 
 * worker job stats
     * add graph for waiting status
+        * it needs to be configurable per job
 
 * custom workers autoscaler
     * scale up every 5 min or so
