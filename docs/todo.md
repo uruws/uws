@@ -43,6 +43,7 @@
         * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
     * show events log or auto-refresh status info
     * check deploy tag already exists (*-deploy scripts)
+    * control deploy replicas?
 
 * setup amy staging cluster
 
