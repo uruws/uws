@@ -122,15 +122,15 @@ func Config(st *stats.Stats, env string) error {
 		fmt.Println("graph_vlabel number of")
 		fmt.Println("graph_category api")
 		fmt.Println("graph_scale no")
-		//~ fmt.Println("f0_waiting.label waiting")
-		//~ fmt.Println("f0_waiting.colour COLOUR0")
-		//~ fmt.Println("f0_waiting.min 0")
-		fmt.Println("f1_ready.label ready")
-		fmt.Println("f1_ready.colour COLOUR1")
-		fmt.Println("f1_ready.min 0")
-		fmt.Println("f2_running.label running")
-		fmt.Println("f2_running.colour COLOUR2")
-		fmt.Println("f2_running.min 0")
+		fmt.Println("f0_ready.label ready")
+		fmt.Println("f0_ready.colour COLOUR0")
+		fmt.Println("f0_ready.min 0")
+		fmt.Println("f1_running.label running")
+		fmt.Println("f1_running.colour COLOUR1")
+		fmt.Println("f1_running.min 0")
+		//~ fmt.Println("f2_waiting.label waiting")
+		//~ fmt.Println("f2_waiting.colour COLOUR2")
+		//~ fmt.Println("f2_waiting.min 0")
 	}
 	return nil
 }
@@ -172,13 +172,13 @@ func Report(st *stats.Stats, env string) error {
 	for _, job := range st.List() {
 		fmt.Printf("multigraph apijob_%s.%s\n", env, job.ID)
 		if job.Error {
-			//~ fmt.Println("f0_waiting.value U")
-			fmt.Println("f1_ready.value U")
-			fmt.Println("f2_running.value U")
+			fmt.Println("f0_ready.value U")
+			fmt.Println("f1_running.value U")
+			//~ fmt.Println("f2_waiting.value U")
 		} else {
-			//~ fmt.Printf("f0_waiting.value %d\n", job.Waiting)
-			fmt.Printf("f1_ready.value %d\n", job.Ready)
-			fmt.Printf("f2_running.value %d\n", job.Running)
+			fmt.Printf("f0_ready.value %d\n", job.Ready)
+			fmt.Printf("f1_running.value %d\n", job.Running)
+			//~ fmt.Printf("f2_waiting.value %d\n", job.Waiting)
 		}
 	}
 	return nil
