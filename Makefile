@@ -24,14 +24,14 @@ upgrade:
 	@./docker/awscli/build.sh --pull
 
 .PHONY: bootstrap
-bootstrap: base acme mkcert
+bootstrap: base base-testing golang acme mkcert awscli
 
 .PHONY: base
 base:
 	@./docker/base/build.sh
 
 .PHONY: base-testing
-base-testing: base
+base-testing:
 	@./docker/base-testing/build.sh
 
 .PHONY: awscli
@@ -39,17 +39,17 @@ awscli:
 	@./docker/awscli/build.sh
 
 .PHONY: mkcert
-mkcert: base
+mkcert:
 	@./docker/mkcert/build.sh
 
 .PHONY: golang
-golang: base-testing
+golang:
 	@./docker/golang/build.sh
 
 UWS_BOT_DEPS != find go/bot go/cmd/uwsbot* go/env go/config go/log -type f -name '*.go'
 
 .PHONY: uwsbot
-uwsbot: base golang docker/uwsbot/build/uwsbot.bin docker/uwsbot/build/uwsbot-stats.bin docker/uwsbot/build/uwsbot.docs
+uwsbot: docker/uwsbot/build/uwsbot.bin docker/uwsbot/build/uwsbot-stats.bin docker/uwsbot/build/uwsbot.docs
 	@./docker/uwsbot/build.sh
 
 docker/uwsbot/build/uwsbot.bin: docker/golang/build/uwsbot.bin
@@ -84,19 +84,19 @@ docker/uwsbot/build/uwsbot-devel.tgz: docker/uwsbot/build/uwsbot.bin docker/uwsb
 		&& tar -cvzf uwsbot-devel.tgz -C devel .)
 
 .PHONY: uwspkg
-uwspkg: base
+uwspkg:
 	@./docker/uwspkg/build.sh
 
 .PHONY: acme
-acme: base
+acme:
 	@./srv/acme/build.sh
 
 .PHONY: munin
-munin: base-testing
+munin:
 	@./srv/munin/build.sh
 
 .PHONY: munin-backend
-munin-backend: munin
+munin-backend:
 	@./srv/munin-backend/build.sh
 
 MUNIN_NODE_DEPS := srv/munin-node/build/uwsbot-stats.bin
@@ -105,7 +105,7 @@ MUNIN_NODE_DEPS += srv/munin-node/build/apivsbot.bin
 MUNIN_NODE_DEPS += srv/munin-node/build/api-job-stats.bin
 
 .PHONY: munin-node
-munin-node: base-testing golang $(MUNIN_NODE_DEPS)
+munin-node: $(MUNIN_NODE_DEPS)
 	@./srv/munin-node/build.sh
 
 srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
@@ -125,11 +125,11 @@ srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 	@install -v docker/golang/build/api-job-stats.bin ./srv/munin-node/build/api-job-stats.bin
 
 .PHONY: heroku
-heroku: base-testing
+heroku:
 	@./docker/heroku/build.sh
 
 .PHONY: heroku-logger
-heroku-logger: heroku docker/heroku/build/api-logs.bin docker/heroku/build/api-stats.bin
+heroku-logger: docker/heroku/build/api-logs.bin docker/heroku/build/api-stats.bin
 	@./docker/heroku/build-logger.sh
 
 docker/heroku/build/api-logs.bin: docker/golang/build/api-logs.bin
@@ -156,19 +156,19 @@ docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
 
 .PHONY: clamav
-clamav: base-testing
+clamav:
 	@./docker/clamav/build.sh
 
 .PHONY: k8s
-k8s: base-testing
+k8s:
 	@./docker/k8s/build.sh
 
 .PHONY: eks
-eks: k8s
+eks:
 	@./docker/eks/build.sh
 
 .PHONY: api
-api: base docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
+api: docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
 	@./srv/api/build.sh
 
 .PHONY: proftpd
@@ -176,7 +176,7 @@ proftpd:
 	@./srv/proftpd/build.sh
 
 .PHONY: all
-all: base base-testing awscli mkcert golang uwsbot acme munin munin-backend munin-node
+all: bootstrap uwsbot munin munin-backend munin-node proftpd
 
 .PHONY: ecr-login
 ecr-login:

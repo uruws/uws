@@ -8,6 +8,8 @@ chmod -v 0750 ${DIRS}
 chown -v root:uws /uws/munin/*.sh
 chmod -v 0750 /uws/munin/*.sh
 
+sudo -n -u uws -D /srv/uws/deploy make munin
+
 if ! systemctl is-enabled uws-munin.service; then
 	systemctl enable uws-munin.service
 	systemctl start uws-munin
