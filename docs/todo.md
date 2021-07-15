@@ -7,6 +7,10 @@
     * add graph for waiting status
         * it needs to be configurable per job
 
+* investigate how to get the number of active users
+    * check open sockets on the web server?
+        * mobile apps also keep a session on redis (REDISCLOUD_URL)
+
 * custom workers autoscaler
     * scale up every 5 min or so
     * scale down hourly, if needed
