@@ -1,7 +1,7 @@
 FROM uws/munin
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.03.04"
+LABEL version="20210715"
 
 USER root:root
 WORKDIR /root
