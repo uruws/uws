@@ -16,8 +16,9 @@
     * scale down hourly, if needed
 
 * update buildpack tools to support multiple apps
-    * build app, beta, crowdsourcing and more...
-    * add deploy/status help to the end of build log
+    * add meteor 2.2 - `DONE!`
+    * build app, beta, crowdsourcing and more... - `DONE!`
+        * https://github.com/TalkingPts/Buildpack/compare/1b23fc78a1b1858ebaed5f3833c1acd2aa6470df...0b4414b6277a5d4456e6466e16dd3d116c97aab8
 
 * crowdsourcing setup
     * setup on web cluster
