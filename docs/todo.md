@@ -1,7 +1,10 @@
 # TODO
 
-* heroku contingency plan - `DONE!`
-    * we need to have in place a setup to route web traffic to heroku in case of aws failure as faster and easier as possible
+* crowdsourcing setup
+    * buildpack setup
+    * deploy on web cluster, or maybe use beta cluster?
+    * build/deploy/status
+    * uwscli integration
 
 * worker job stats
     * add graph for waiting status
@@ -14,21 +17,7 @@
     * scale up every 5 min or so
     * scale down hourly, if needed
 
-* update buildpack tools to support multiple apps
-    * add meteor 2.2 - `DONE!`
-    * build app, beta, crowdsourcing and more... - `DONE!`
-        * https://github.com/TalkingPts/Buildpack/compare/1b23fc78a1b1858ebaed5f3833c1acd2aa6470df...0b4414b6277a5d4456e6466e16dd3d116c97aab8
-    * add unit tests to avoid breaking stuff...
-
-* crowdsourcing setup
-    * buildpack setup
-    * deploy on web cluster, or maybe use beta cluster?
-    * build/deploy/status
-    * uwscli integration
-
 * SFTP server for data sharing with schools
-    * server setup - `DONE!`
-        * Had to deal with https://github.com/proftpd/proftpd/issues/1111 bug!! =(
     * web integration for user/pass management
     * hook to check/validate uploaded files (try mod_exec)
 
