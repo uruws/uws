@@ -7,9 +7,8 @@
     * add graph for waiting status
         * it needs to be configurable per job
 
-* investigate how to get the number of active users
-    * check open sockets on the web server?
-        * mobile apps also keep a session on redis (REDISCLOUD_URL)
+* graph app number of active users/sessions
+    * count mongo activeSessions collection (once it gets to prod)
 
 * custom workers autoscaler
     * scale up every 5 min or so
@@ -19,9 +18,11 @@
     * add meteor 2.2 - `DONE!`
     * build app, beta, crowdsourcing and more... - `DONE!`
         * https://github.com/TalkingPts/Buildpack/compare/1b23fc78a1b1858ebaed5f3833c1acd2aa6470df...0b4414b6277a5d4456e6466e16dd3d116c97aab8
+    * add unit tests to avoid breaking stuff...
 
 * crowdsourcing setup
-    * setup on web cluster
+    * buildpack setup
+    * deploy on web cluster, or maybe use beta cluster?
     * build/deploy/status
     * uwscli integration
 
