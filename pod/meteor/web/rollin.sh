@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
-pod=/home/uws/pod/meteor/web
-uwskube delete -f ${pod}/deploy.yaml
+uwskube delete hpa web-hpa -n web || true
+uwskube delete deploy meteor -n web
 exit 0
