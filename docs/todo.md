@@ -1,7 +1,12 @@
 # TODO
 
+* Security
+    * docs about Mac and Windows hard disk encryption
+
+* buildpack internal tests  - `DONE!`
+
 * crowdsourcing setup
-    * buildpack setup
+    * buildpack setup - `DONE!`
     * deploy on web cluster, or maybe use beta cluster?
     * build/deploy/status
     * uwscli integration
