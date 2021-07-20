@@ -7,12 +7,17 @@ case $1 in
 	;;
 esac
 
-src="app/src"
-target="app"
-
-if test "X${1}" = 'X--beta'; then
+src='app/src'
+target='app'
+if test "X${1}" = 'X--app'; then
+	shift
+elif test "X${1}" = 'X--beta'; then
 	shift
 	target="beta"
+elif test "X${1}" = 'X--cs'; then
+	shift
+	src='cs/src'
+	target='crowdsourcing'
 fi
 
 test_flags=""
@@ -40,6 +45,9 @@ echo ''
 echo "  Beta: beta-deploy ${release}"
 echo '        beta-status'
 echo ''
+echo "  Crowdsourcing: cs-deploy ${release}"
+echo '                 cs-status'
+echo ''
 echo 'Run uwshelp for more information.'
 echo ''
 
@@ -47,9 +55,11 @@ exit 0
 
 #uwscli:meteor-build			- build meteor app version/tag
 
-#uwsdoc:meteor-build [--beta] [--no-test] X.Y.Z
+#uwsdoc:meteor-build [--app|--beta|--cs] [--no-test] X.Y.Z
 #uwsdoc:
-#uwsdoc:Build meteor app from X.Y.Z git tag.
+#uwsdoc:Build meteor app from X.Y.Z release.
 #uwsdoc:
-#uwsdoc:  --beta    - build a beta release.
+#uwsdoc:  --app     - App release (default).
+#uwsdoc:  --beta    - App beta release.
+#uwsdoc:  --cs      - Crowdsourcing release.
 #uwsdoc:  --no-test - do not run app tests.
