@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+uwsnq /srv/uws/deploy/cli/meteor-ctl.sh amybeta cs restart
+exit 0
+
+#uwscli:cs-restart			- restart crowdsourcing deployment
+
+#uwsdoc:cs-restart
+#uwsdoc:
+#uwsdoc:  Restart crowdsourcing deployment.

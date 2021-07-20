@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+uwsnq /srv/uws/deploy/cli/meteor-ctl.sh amybeta cs rollin
+exit 0
+
+#uwscli:cs-rollin			- rollin crowdsourcing deployment
+
+#uwsdoc:cs-rollin
+#uwsdoc:
+#uwsdoc:  Rollin crowdsourcing deployment.

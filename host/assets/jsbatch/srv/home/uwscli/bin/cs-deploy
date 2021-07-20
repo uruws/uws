@@ -1,0 +1,40 @@
+#!/bin/sh
+set -eu
+
+release=${1:-''}
+
+list_images() {
+	echo 'Available release:'
+	aws ecr list-images --output text --repository-name uws --region us-east-2 |
+		grep -F meteor-crowdsourcing | awk '{ print $3 }' |
+			sed 's/^meteor-crowdsourcing-/  /' | sort -n
+	echo 'Build a release: meteor-build --cs X.Y.Z'
+	echo 'Deploy with:     cs-deploy X.Y.Z-bpX'
+}
+
+deploy() {
+	uwsnq /srv/uws/deploy/cli/meteor-deploy.sh amybeta cs "${1}"
+}
+
+if test "X${release}" = 'X'; then
+	list_images
+	exit 0
+fi
+
+case "${release}" in
+	-h|--help)
+		exec uwshelp cs-deploy
+	;;
+	*)
+		deploy "${release}"
+	;;
+esac
+
+exit 0
+
+#uwscli:cs-deploy			- deploy crowdsourcing release
+
+#uwsdoc:cs-deploy [X.Y.Z-bpX]
+#uwsdoc:
+#uwsdoc:  Deploy crowdsourcing build X.Y.Z-bpX.
+#uwsdoc:  With no arguments it lists built images available for deploy.
