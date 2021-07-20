@@ -35,18 +35,22 @@ echo ''
 echo 'Check build job with: uwsq'
 echo ''
 echo 'Deploy and check status with:'
-echo ''
-echo "  Workers: worker-deploy ${release}"
-echo '           worker-status'
-echo ''
-echo "  Web: web-deploy (east|west) ${release}"
-echo '       web-status (east|west)'
-echo ''
-echo "  Beta: beta-deploy ${release}"
-echo '        beta-status'
-echo ''
-echo "  Crowdsourcing: cs-deploy ${release}"
-echo '                 cs-status'
+if test "X${target}" = 'Xapp'; then
+	echo ''
+	echo "  Workers: worker-deploy ${release}"
+	echo '           worker-status'
+	echo ''
+	echo "  Web: web-deploy (east|west) ${release}"
+	echo '       web-status (east|west)'
+elif test "X${target}" = 'Xbeta'; then
+	echo ''
+	echo "  Beta: beta-deploy ${release}"
+	echo '        beta-status'
+elif test "X${target}" = 'Xcrowdsourcing'; then
+	echo ''
+	echo "  Crowdsourcing: cs-deploy ${release}"
+	echo '                 cs-status'
+fi
 echo ''
 echo 'Run uwshelp for more information.'
 echo ''
