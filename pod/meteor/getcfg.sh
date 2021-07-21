@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube get configmap deploy-env -n meteor -o jsonpath='{.data.deploy-env}'
+app=${1:?'app name?'}
+uwskube get configmap deploy-${app}-env -n meteor -o jsonpath='{.data.deploy-env}'
 exit 0
