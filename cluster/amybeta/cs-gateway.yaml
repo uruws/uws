@@ -28,8 +28,14 @@ spec:
     - hosts:
         - cs.uws.talkingpts.org
       secretName: cs-certificate
-  defaultBackend:
-    service:
-      name: meteor-cs
-      port:
-        number: 3000
+  rules:
+    - host: cs.uws.talkingpts.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: /(.*)
+            backend:
+              service:
+                name: meteor-cs
+                port:
+                  number: 3000
