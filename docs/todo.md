@@ -39,6 +39,7 @@
     * show events log or auto-refresh status info
     * check deploy tag already exists (*-deploy scripts)
     * control deploy replicas?
+    * add NLP control scripts
 
 * setup amy staging cluster
 
