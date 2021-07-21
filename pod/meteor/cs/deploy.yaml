@@ -10,7 +10,7 @@ spec:
     kind: Deployment
     name: meteor-cs
   minReplicas: 10
-  maxReplicas: 120
+  maxReplicas: 100
   metrics:
   - type: Resource
     resource:
@@ -53,7 +53,7 @@ spec:
       labels:
         app.kubernetes.io/name: meteor
     spec:
-      terminationGracePeriodSeconds: 150
+      terminationGracePeriodSeconds: 60
       containers:
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:meteor-crowdsourcing-${METEOR_APP}
           imagePullPolicy: IfNotPresent
@@ -72,19 +72,18 @@ spec:
           env:
             - name: PORT
               value: "3000"
-          #~ resources:
-            #~ requests:
-              #~ cpu: 180m
-              #~ memory: 600Mi
-            #~ limits:
-              #~ cpu: 400m
-              #~ memory: 1300Mi
+          resources:
+            requests:
+              cpu: 25m
+              memory: 180Mi
+            limits:
+              memory: 500Mi
           readinessProbe:
             exec:
               command:
                 - node
                 - --version
-            initialDelaySeconds: 60
+            initialDelaySeconds: 30
             periodSeconds: 15
             timeoutSeconds: 3
             successThreshold: 1
