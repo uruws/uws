@@ -14,7 +14,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    cert-manager.io/issuer: acme-prod
+    #~ cert-manager.io/issuer: acme-prod
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/affinity-mode: balanced
     nginx.ingress.kubernetes.io/session-cookie-name: CROWDSRCSID
@@ -26,10 +26,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - cs.uws.talkingpts.org
-      secretName: cs-certificate
+        - crowdsourcing.talkingpts.org
+      secretName: tapo-wild-certificate
   rules:
-    - host: cs.uws.talkingpts.org
+    - host: crowdsourcing.talkingpts.org
       http:
         paths:
           - pathType: Prefix
