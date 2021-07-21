@@ -7,7 +7,7 @@
 
 * crowdsourcing setup
     * buildpack setup - `DONE!`
-    * deploy on beta cluster
+    * deploy on beta cluster - `DONE!`
     * uwscli build/deploy/status - `DONE!`
 
 * worker job stats
