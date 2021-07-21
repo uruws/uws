@@ -7,8 +7,8 @@
 
 * crowdsourcing setup
     * buildpack setup - `DONE!`
-    * deploy on web cluster, or maybe use beta cluster?
-    * uwscli build/deploy/status
+    * deploy on beta cluster
+    * uwscli build/deploy/status - `DONE!`
 
 * worker job stats
     * add graph for waiting status
