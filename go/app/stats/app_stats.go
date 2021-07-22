@@ -71,8 +71,9 @@ func ActiveSessionsConfig(env string) {
 }
 
 func ActiveSessions(m *MDB, env string) {
+	fmt.Printf("multigraph appstats_%s_active_sessions\n", env)
 	if as, err := m.CountAll("activeSessions"); err != nil {
-		log.Error("%s count active sessions: %s", env, err)
+		log.Error("%s app count active sessions: %s", env, err)
 		fmt.Println("f0_active_sessions.value U")
 	} else {
 		fmt.Printf("f0_active_sessions.value %d\n", as)
