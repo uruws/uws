@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+uws='sudo -n -u uws -D /srv/uws/deploy'
+install='install -v -g uws -m 0750 -C'
+
+${uws} make app-stats
+${install} /srv/uws/deploy/docker/golang/build/app-stats.bin /uws/bin/app-stats
+
+exit 0
