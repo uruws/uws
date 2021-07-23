@@ -10,7 +10,7 @@
     * deploy on beta cluster - `DONE!`
     * uwscli build/deploy/status - `DONE!`
 
-* worker job stats
+* worker job stats - `DONE!`
     * add graph for waiting status
         * it needs to be configurable per job
 
