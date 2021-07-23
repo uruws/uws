@@ -64,6 +64,7 @@ func ActiveSessionsConfig(env string) {
 	fmt.Println("graph_vlabel active sessions")
 	fmt.Println("graph_category app")
 	fmt.Println("graph_scale no")
+	fmt.Println("graph_printf %3.0lf")
 	fmt.Println("f0_active_sessions.label active sessions")
 	fmt.Println("f0_active_sessions.draw AREASTACK")
 	fmt.Println("f0_active_sessions.colour COLOUR0")
