@@ -25,6 +25,10 @@ func cleanFieldName(n ...string) string {
 	return fieldRe.ReplaceAllString(f, "_")
 }
 
+type Cfg struct {
+	Waiting bool
+}
+
 type Job struct {
 	ID      string
 	Name    string
@@ -35,17 +39,23 @@ type Job struct {
 	Running int64
 	Failed  int64
 	Took    int64
+	Config  *Cfg
 	start   time.Time
 }
 
 func newJob(collection string) *Job {
-	return &Job{
-		ID:    cleanFieldName(collection),
-		Name:  collection,
-		Label: collection,
-		Error: true,
-		start: time.Now(),
+	j := &Job{
+		ID:     cleanFieldName(collection),
+		Name:   collection,
+		Label:  collection,
+		Error:  true,
+		Config: &Cfg{},
+		start:  time.Now(),
 	}
+	if j.Name == "cleverSynch.jobs" {
+		j.Config.Waiting = true
+	}
+	return j
 }
 
 type Stats struct {
@@ -172,10 +182,6 @@ func (m *mdb) Get(job *Job) error {
 	opts := options.Count()
 	opts.SetMaxTime(15 * time.Second)
 	var err error
-	//~ job.Waiting, err = coll.CountDocuments(m.ctx, bson.D{{"status", "waiting"}}, opts)
-	//~ if err != nil {
-		//~ return log.DebugError(err)
-	//~ }
 	job.Ready, err = coll.CountDocuments(m.ctx, bson.D{{"status", "ready"}}, opts)
 	if err != nil {
 		return log.DebugError(err)
@@ -187,6 +193,12 @@ func (m *mdb) Get(job *Job) error {
 	job.Failed, err = coll.CountDocuments(m.ctx, bson.D{{"status", "failed"}}, opts)
 	if err != nil {
 		return log.DebugError(err)
+	}
+	if job.Config.Waiting {
+		job.Waiting, err = coll.CountDocuments(m.ctx, bson.D{{"status", "waiting"}}, opts)
+		if err != nil {
+			return log.DebugError(err)
+		}
 	}
 	return nil
 }

@@ -128,9 +128,11 @@ func Config(st *stats.Stats, env string) error {
 		fmt.Println("f1_running.label running")
 		fmt.Println("f1_running.colour COLOUR1")
 		fmt.Println("f1_running.min 0")
-		//~ fmt.Println("f2_waiting.label waiting")
-		//~ fmt.Println("f2_waiting.colour COLOUR2")
-		//~ fmt.Println("f2_waiting.min 0")
+		if job.Config.Waiting {
+			fmt.Println("f2_waiting.label waiting")
+			fmt.Println("f2_waiting.colour COLOUR2")
+			fmt.Println("f2_waiting.min 0")
+		}
 	}
 	return nil
 }
@@ -174,11 +176,15 @@ func Report(st *stats.Stats, env string) error {
 		if job.Error {
 			fmt.Println("f0_ready.value U")
 			fmt.Println("f1_running.value U")
-			//~ fmt.Println("f2_waiting.value U")
+			if job.Config.Waiting {
+				fmt.Println("f2_waiting.value U")
+			}
 		} else {
 			fmt.Printf("f0_ready.value %d\n", job.Ready)
 			fmt.Printf("f1_running.value %d\n", job.Running)
-			//~ fmt.Printf("f2_waiting.value %d\n", job.Waiting)
+			if job.Config.Waiting {
+				fmt.Printf("f2_waiting.value %d\n", job.Waiting)
+			}
 		}
 	}
 	return nil
