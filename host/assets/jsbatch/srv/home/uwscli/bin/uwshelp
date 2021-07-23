@@ -2,23 +2,26 @@
 set -eu
 cmd=${1:-''}
 
+bindir=$(dirname $0)
+
 show_help() {
 	echo 'uws command line interface'
 	echo
 	echo 'available commands:'
 	echo
-	grep -Eh '^#uwscli:' ~/bin/* | sed 's/^#uwscli:/  /'
+	grep -E '^__doc__' ${bindir}/* | sed "s/'//g" | sed "s/^${bindir}\//  /" |
+		sed "s/__doc__ =//" | sed 's/:/ -/'
 	echo
 	echo 'run `uwshelp cmd` to get more information about cmd usage'
 }
 
 cmd_help() {
 	local cmd=${1}
-	if ! test -x ~/bin/${cmd}; then
+	if ! test -x ${bindir}/${cmd}; then
 		echo "help for ${cmd} error: invalid command" >&2
 		exit 1
 	fi
-	grep -Eh '^#uwsdoc:' ~/bin/${cmd} | sed 's/^#uwsdoc://'
+	exec ${bindir}/${cmd} --help
 }
 
 if test "X${cmd}" = 'X'; then
@@ -27,10 +30,3 @@ else
 	cmd_help ${cmd}
 fi
 exit 0
-
-#uwscli:uwshelp			- show uwscli utils usage description
-
-#uwsdoc:uwshelp [cmd]
-#uwsdoc:
-#uwsdoc:  With no arguments it will show a brief information for all available
-#uwsdoc:  commands. Run uwshelp cmd to get more information about cmd usage.
