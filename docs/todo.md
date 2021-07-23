@@ -15,7 +15,8 @@
         * it needs to be configurable per job
 
 * graph app number of active users/sessions
-    * count mongo activeSessions collection (once it gets to prod)
+    * count mongo activeSessions (staging) - `DONE!`
+    * set it up on prod
 
 * custom workers autoscaler
     * scale up every 5 min or so
