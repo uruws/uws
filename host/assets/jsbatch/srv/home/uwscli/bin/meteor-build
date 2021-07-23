@@ -1,69 +1,71 @@
-#!/bin/sh
-set -eu
+#!/usr/bin/env python3
 
-case $1 in
-	-h|--help)
-		exec uwshelp meteor-build
-	;;
-esac
+import sys
 
-src='app/src'
-target='app'
-if test "X${1}" = 'X--app'; then
-	shift
-elif test "X${1}" = 'X--beta'; then
-	shift
-	target="beta"
-elif test "X${1}" = 'X--cs'; then
-	shift
-	src='cs/src'
-	target='crowdsourcing'
-fi
+from argparse import ArgumentParser
+from os import system
 
-test_flags=""
-if test "X${1}" = 'X--no-test'; then
-	shift
-	test_flags='--no-test'
-fi
+def nq(target, version, tflags):
+	cmd = "uwsnq /srv/deploy/Buildpack/build.py --target %s %s" % (target, version)
+	if tflags != '':
+		cmd += " -- %s" % tflags
+	return system(cmd)
 
-release=${1:?'app release?'}
+__doc__ = 'build meteor app release'
 
-uwsnq /srv/deploy/Buildpack/build.py --src ${src} --target ${target} \
-	${release} -- ${test_flags}
+def main():
+	flags = ArgumentParser(description = __doc__)
+	flags.add_argument('--app', action = 'store_true', default = True,
+		help = 'build App (default)')
+	flags.add_argument('--beta', action = 'store_true', default = False,
+		help = 'build App beta')
+	flags.add_argument('--cs', action = 'store_true', default = False,
+		help = 'build Crowdsourcing')
+	flags.add_argument('--no-test', action = 'store_true', default = False,
+		help = 'do not run app tests')
+	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
 
-echo ''
-echo 'Check build job with: uwsq'
-echo ''
-echo 'Deploy and check status with:'
-if test "X${target}" = 'Xapp'; then
-	echo ''
-	echo "  Workers: worker-deploy ${release}"
-	echo '           worker-status'
-	echo ''
-	echo "  Web: web-deploy (east|west) ${release}"
-	echo '       web-status (east|west)'
-elif test "X${target}" = 'Xbeta'; then
-	echo ''
-	echo "  Beta: beta-deploy ${release}"
-	echo '        beta-status'
-elif test "X${target}" = 'Xcrowdsourcing'; then
-	echo ''
-	echo "  Crowdsourcing: cs-deploy ${release}"
-	echo '                 cs-status'
-fi
-echo ''
-echo 'Run uwshelp for more information.'
-echo ''
+	args = flags.parse_args()
 
-exit 0
+	target = 'app'
+	if args.beta:
+		target = 'beta'
+	elif args.cs:
+		target = 'crowdsourcing'
 
-#uwscli:meteor-build			- build meteor app version/tag
+	tflags = ''
+	if args.no_test:
+		tflags = '--no-test'
 
-#uwsdoc:meteor-build [--app|--beta|--cs] [--no-test] X.Y.Z
-#uwsdoc:
-#uwsdoc:Build meteor app from X.Y.Z release.
-#uwsdoc:
-#uwsdoc:  --app     - App release (default).
-#uwsdoc:  --beta    - App beta release.
-#uwsdoc:  --cs      - Crowdsourcing release.
-#uwsdoc:  --no-test - do not run app tests.
+	rc = nq(target, args.version, tflags)
+	if rc != 0:
+		print("enqueue of %s build job failed!" % target, file = sys.stderr)
+		return rc
+
+	print('')
+	print('Check build job with:')
+	print('  uwsq')
+	print('')
+	print('Deploy and check status with:')
+	if target == 'app':
+		print('')
+		print("  Workers: worker-deploy %s" % args.version)
+		print('           worker-status')
+		print('')
+		print("  Web: web-deploy (east|west) %s" % args.version)
+		print('       web-status (east|west)')
+	elif target == 'beta':
+		print("  beta-deploy %s" % args.version)
+		print('  beta-status')
+	elif target == 'crowdsourcing':
+		print("  cs-deploy %s" % args.version)
+		print('  cs-status')
+	print('')
+	print('Run uwshelp for more information.')
+
+	return 0
+
+if __name__ == '__main__':
+	sys.stdout.reconfigure(line_buffering = False)
+	sys.stderr.reconfigure(line_buffering = False)
+	sys.exit(main())
