@@ -3,28 +3,14 @@
 * Security
     * docs about Mac and Windows hard disk encryption
 
-* buildpack internal tests  - `DONE!`
-
-* crowdsourcing setup
-    * buildpack setup - `DONE!`
-    * deploy on beta cluster - `DONE!`
-    * uwscli build/deploy/status - `DONE!`
-
-* worker job stats - `DONE!`
-    * add graph for waiting status
-        * it needs to be configurable per job
-
 * graph app number of active users/sessions
-    * count mongo activeSessions (staging) - `DONE!`
     * set it up on prod
 
 * custom workers autoscaler
     * scale up every 5 min or so
     * scale down hourly, if needed
 
-* SFTP server for data sharing with schools
-    * web integration for user/pass management
-    * hook to check/validate uploaded files (try mod_exec)
+* web deploy autoscale setup on custom metrics
 
 * re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
 
@@ -51,8 +37,6 @@
     * develop munin plugins to graph k8s info
     * nginx stats
 
-* web deploy autoscale setup on custom metrics
-
 * monitoring
     * setup nagios and alerts
 
@@ -62,6 +46,10 @@
     * uwsq: clean failed jobs
 
 * internal CA
+
+* SFTP server for data sharing with schools
+    * web integration for user/pass management
+    * hook to check/validate uploaded files (try mod_exec)
 
 * improve web deploys
     * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.
