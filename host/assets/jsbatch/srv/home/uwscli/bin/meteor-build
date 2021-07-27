@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
+
 import sys
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from os import system
 
-def nq(target, version, tflags):
-	cmd = "uwsnq /srv/deploy/Buildpack/build.py --target %s %s" % (target, version)
+import uwscli
+
+def nq(app, version, tflags):
+	cmd = "uwsnq /srv/deploy/Buildpack/build.py --target %s %s" % (app, version)
 	if tflags != '':
 		cmd += " -- %s" % tflags
 	return system(cmd)
@@ -14,32 +19,23 @@ def nq(target, version, tflags):
 __doc__ = 'build meteor app release'
 
 def main():
-	flags = ArgumentParser(description = __doc__)
-	flags.add_argument('--app', action = 'store_true', default = True,
-		help = 'build App (default)')
-	flags.add_argument('--beta', action = 'store_true', default = False,
-		help = 'build App beta')
-	flags.add_argument('--cs', action = 'store_true', default = False,
-		help = 'build Crowdsourcing')
+	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
+		description = __doc__, epilog = uwscli.app_description())
 	flags.add_argument('--no-test', action = 'store_true', default = False,
 		help = 'do not run app tests')
+	flags.add_argument('app', metavar = 'app', choices = sorted(uwscli.app.keys()),
+		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
 
 	args = flags.parse_args()
-
-	target = 'app'
-	if args.beta:
-		target = 'beta'
-	elif args.cs:
-		target = 'crowdsourcing'
 
 	tflags = ''
 	if args.no_test:
 		tflags = '--no-test'
 
-	rc = nq(target, args.version, tflags)
+	rc = nq(args.app, args.version, tflags)
 	if rc != 0:
-		print("enqueue of %s build job failed!" % target, file = sys.stderr)
+		print("enqueue of %s build job failed!" % args.app, file = sys.stderr)
 		return rc
 
 	print('')
@@ -47,17 +43,17 @@ def main():
 	print('  uwsq')
 	print('')
 	print('Deploy and check status with:')
-	if target == 'app':
+	if args.app == 'app':
 		print('')
 		print("  Workers: worker-deploy %s" % args.version)
 		print('           worker-status')
 		print('')
 		print("  Web: web-deploy (east|west) %s" % args.version)
 		print('       web-status (east|west)')
-	elif target == 'beta':
+	elif args.app == 'beta':
 		print("  beta-deploy %s" % args.version)
 		print('  beta-status')
-	elif target == 'crowdsourcing':
+	elif args.app == 'cs':
 		print("  cs-deploy %s" % args.version)
 		print('  cs-status')
 	print('')
