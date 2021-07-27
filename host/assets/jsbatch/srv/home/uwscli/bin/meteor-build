@@ -4,19 +4,17 @@
 # See LICENSE file.
 
 import sys
-
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
-from os import system
 
 import uwscli
 
-def nq(app, version, tflags):
-	cmd = "uwsnq /srv/deploy/Buildpack/build.py --target %s --version %s" % (app, version)
-	if tflags != '':
-		cmd += " -- %s" % tflags
-	return system(cmd)
-
 __doc__ = 'build meteor app release'
+
+def nq(app, version, tflags):
+	args = "--target %s --version %s" % (app, version)
+	if tflags != '':
+		args += " -- %s" % tflags
+	return uwscli.nq('Buildpack/build.py', args)
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,

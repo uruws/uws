@@ -1,11 +1,16 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from os import path, system
+
 app = {
 	'app': {'desc': 'App'},
 	'beta': {'desc': 'App beta'},
 	'cs': {'desc': 'Crowdsourcing'},
 }
+
+bindir = path.abspath(path.dirname(__file__))
+cmddir = '/srv/deploy'
 
 def app_list():
 	return sorted(app.keys())
@@ -15,3 +20,7 @@ def app_description():
 	for n in app_list():
 		d += "  %s\t- %s\n" % (n, app[n]['desc'])
 	return d
+
+def nq(cmd, args):
+	q = "%s/uwsnq %s/%s %s" % (bindir, cmddir, cmd, args)
+	return system(q)
