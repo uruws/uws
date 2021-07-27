@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
+
+import sys
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from subprocess import check_output, CalledProcessError
+
+import uwscli
+
+__doc__ = 'deploy app build'
+
+def deploy(app, version):
+	args = "%s %s %s" % (uwscli.deploy[app]['cluster'],
+		uwscli.deploy[app]['pod'], version)
+	return uwscli.nq('meteor-deploy.sh', args)
+
+def list_images(app):
+	cluster = uwscli.deploy[app]['cluster']
+	cmd = "aws ecr list-images --output text --repository-name uws"
+	cmd += " --region %s" % uwscli.cluster[cluster]['region']
+	cmd += " | grep -F '%s'" % uwscli.deploy[app]['image']['filter']
+	cmd += " | awk '{ print $3 }'"
+	cmd += " | sed 's/^%s/  /'" % uwscli.deploy[app]['image']['strip']
+	cmd += " | sort -n"
+	out = check_output(cmd, shell = True)
+	return out.splitlines()
+
+def main():
+	epilog = uwscli.deploy_description()
+	epilog += '\nif no app version is provided a list of available builds will be shown'
+
+	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
+		description = __doc__, epilog = epilog)
+	flags.add_argument('app', metavar = 'app', choices = uwscli.deploy_list(),
+		default = 'app', help = 'app name')
+	flags.add_argument('version', metavar = 'X.Y.Z-bpV', nargs = '?',
+		default = '', help = 'app version including buildpack version too')
+
+	args = flags.parse_args()
+
+	if args.version != '':
+		if not args.version in list_images(args.app):
+			print("invalid %s build: %s" % (args.app, args.version),
+				file = sys.stderr)
+			return 1
+		rc = deploy(args.app, args.version)
+		if rc != 0:
+			print("enqueue of %s deploy job failed!" % args.app,
+				file = sys.stderr)
+			return rc
+	else:
+		try:
+			images = list_images(args.app)
+		except CalledProcessError as err:
+			print("get %s build images error: %s" % (args.app, err.output),
+				file = sys.stderr)
+			return err.returncode
+		print('available', args.app, 'builds:')
+		for n in images:
+			print(' ', n)
+
+	return 0
+
+if __name__ == '__main__':
+	sys.stdout.reconfigure(line_buffering = False)
+	sys.stderr.reconfigure(line_buffering = False)
+	sys.exit(main())

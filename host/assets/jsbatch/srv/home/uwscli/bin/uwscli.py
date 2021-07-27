@@ -19,27 +19,65 @@ app = {
 }
 
 cluster = {
-	'amy-east': {},
-	'amy-west': {},
-	'amybeta': {},
+	'amy-east': {
+		'region': 'us-east-1',
+	},
+	'amy-west': {
+		'region': 'us-west-1',
+	},
+	'amy-wrkr': {
+		'region': 'us-east-1',
+	},
+	'amybeta': {
+		'region': 'us-east-2',
+	},
 }
 
 deploy = {
 	'app-east': {
 		'cluster': 'amy-east',
-		'desc': 'App east cluster',
+		'desc': 'App web, east cluster',
+		'pod': 'web',
+		'image': {
+			'filter': 'meteor-app',
+			'strip': 'meteor-app-',
+		},
 	},
 	'app-west': {
 		'cluster': 'amy-west',
-		'desc': 'App west cluster',
+		'desc': 'App web, west cluster',
+		'pod': 'web',
+		'image': {
+			'filter': 'meteor-app',
+			'strip': 'meteor-app-',
+		},
+	},
+	'worker': {
+		'cluster': 'amy-wrkr',
+		'desc': 'App worker',
+		'pod': 'worker',
+		'image': {
+			'filter': 'meteor-app',
+			'strip': 'meteor-app-',
+		},
 	},
 	'beta': {
 		'cluster': 'amybeta',
 		'desc': app['beta']['desc'],
+		'pod': 'beta',
+		'image': {
+			'filter': 'meteor-beta',
+			'strip': 'meteor-',
+		},
 	},
 	'cs': {
 		'cluster': 'amybeta',
 		'desc': app['cs']['desc'],
+		'pod': 'cs',
+		'image': {
+			'filter': 'meteor-crowdsourcing',
+			'strip': 'meteor-crowdsourcing-',
+		},
 	},
 }
 
