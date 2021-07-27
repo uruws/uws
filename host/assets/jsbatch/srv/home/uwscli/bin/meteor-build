@@ -11,7 +11,7 @@ from os import system
 import uwscli
 
 def nq(app, version, tflags):
-	cmd = "uwsnq /srv/deploy/Buildpack/build.py --target %s %s" % (app, version)
+	cmd = "uwsnq /srv/deploy/Buildpack/build.py --target %s --version %s" % (app, version)
 	if tflags != '':
 		cmd += " -- %s" % tflags
 	return system(cmd)
