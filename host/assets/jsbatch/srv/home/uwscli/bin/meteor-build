@@ -23,7 +23,7 @@ def main():
 		description = __doc__, epilog = uwscli.app_description())
 	flags.add_argument('--no-test', action = 'store_true', default = False,
 		help = 'do not run app tests')
-	flags.add_argument('app', metavar = 'app', choices = sorted(uwscli.app.keys()),
+	flags.add_argument('app', metavar = 'app', choices = uwscli.app_list(),
 		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
 

@@ -7,8 +7,11 @@ app = {
 	'cs': {'desc': 'Crowdsourcing'},
 }
 
+def app_list():
+	return sorted(app.keys())
+
 def app_description():
 	d = 'available apps:\n'
-	for n in app.keys():
+	for n in app_list():
 		d += "  %s\t- %s\n" % (n, app[n]['desc'])
 	return d
