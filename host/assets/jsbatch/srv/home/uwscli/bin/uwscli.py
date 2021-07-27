@@ -10,7 +10,7 @@ app = {
 }
 
 bindir = path.abspath(path.dirname(__file__))
-cmddir = '/srv/deploy'
+cmddir = '/srv/uws/deploy/cli'
 
 def app_list():
 	return sorted(app.keys())
@@ -21,6 +21,5 @@ def app_description():
 		d += "  %s\t- %s\n" % (n, app[n]['desc'])
 	return d
 
-def nq(cmd, args):
-	q = "%s/uwsnq %s/%s %s" % (bindir, cmddir, cmd, args)
-	return system(q)
+def nq(cmd, args, cmddir = cmddir):
+	return system("%s/uwsnq %s/%s %s" % (bindir, cmddir, cmd, args))

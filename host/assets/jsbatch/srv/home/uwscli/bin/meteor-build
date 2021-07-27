@@ -14,7 +14,7 @@ def nq(app, version, tflags):
 	args = "--target %s --version %s" % (app, version)
 	if tflags != '':
 		args += " -- %s" % tflags
-	return uwscli.nq('Buildpack/build.py', args)
+	return uwscli.nq('build.py', args, '/srv/deploy/Buildpack')
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
