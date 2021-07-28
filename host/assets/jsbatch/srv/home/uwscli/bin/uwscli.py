@@ -117,3 +117,6 @@ def deploy_description():
 
 def nq(cmd, args, cmddir = cmddir):
 	return system("%s/uwsnq %s/%s %s" % (bindir, cmddir, cmd, args))
+
+def run(cmd, args):
+	return system("%s/%s %s" % (cmddir, cmd, args))
