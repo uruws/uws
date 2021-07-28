@@ -20,7 +20,7 @@ Run `uwshelp <cmd>` to get more information about an specific util.
 
 ## Jobs queue
 
-Some commands, like in example `meteor-build`, add the job to the tasks queue so
+Some commands, like in example `app-build`, add the job to the tasks queue so
 the job can run in the background to avoid connection issues and to ensure that
 no more than one (large/big) job will be running at the same time.
 
@@ -35,26 +35,23 @@ Check `uwshelp uwsq` to get more information about `uwsq` usage.
 
 To build a new release of the meteor run:
 
-    meteor-build X.Y.Z
+    app-build app X.Y.Z
 
 Where *X.Y.Z* is a release tag in the App git repository.
 
-Check `uwshelp meteor-build` for more information.
+Check `uwshelp app-build` for more information.
 
 ## Deploy
 
 To check available releases for deploy run:
 
-    worker-deploy
+    app-deploy app
 
 To deploy a release run:
 
-    worker-deploy X.Y.Z-deadbeef
+    app-deploy app X.Y.Z-bpV
 
-Where *X.Y.Z* is the tag from the git repository and *deadbeef* is the buildpack
+Where *X.Y.Z* is the tag from the git repository and *bpV* is the buildpack
 version that created the release.
 
-Check `uwshelp worker-deploy` for more information.
-
-Use `web-deploy` or `beta-deploy` for those cases (web and beta), but the usage
-syntax applies for all of them.
+Check `uwshelp app-deploy` for more information.
