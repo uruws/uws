@@ -37,7 +37,7 @@ deploy = {
 	'app-east': {
 		'cluster': 'amy-east',
 		'desc': 'App web, east cluster',
-		'pod': 'web',
+		'pod': 'meteor/web',
 		'image': {
 			'filter': 'meteor-app',
 			'strip': 'meteor-app-',
@@ -46,7 +46,7 @@ deploy = {
 	'app-west': {
 		'cluster': 'amy-west',
 		'desc': 'App web, west cluster',
-		'pod': 'web',
+		'pod': 'meteor/web',
 		'image': {
 			'filter': 'meteor-app',
 			'strip': 'meteor-app-',
@@ -55,7 +55,7 @@ deploy = {
 	'worker': {
 		'cluster': 'amy-wrkr',
 		'desc': 'App worker',
-		'pod': 'worker',
+		'pod': 'meteor/worker',
 		'image': {
 			'filter': 'meteor-app',
 			'strip': 'meteor-app-',
@@ -64,7 +64,7 @@ deploy = {
 	'beta': {
 		'cluster': 'amybeta',
 		'desc': app['beta']['desc'],
-		'pod': 'beta',
+		'pod': 'meteor/beta',
 		'image': {
 			'filter': 'meteor-beta',
 			'strip': 'meteor-',
@@ -73,7 +73,7 @@ deploy = {
 	'cs': {
 		'cluster': 'amybeta',
 		'desc': app['cs']['desc'],
-		'pod': 'cs',
+		'pod': 'meteor/cs',
 		'image': {
 			'filter': 'meteor-crowdsourcing',
 			'strip': 'meteor-crowdsourcing-',

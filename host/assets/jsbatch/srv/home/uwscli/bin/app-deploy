@@ -14,7 +14,7 @@ __doc__ = 'deploy app build'
 def deploy(app, version):
 	args = "%s %s %s" % (uwscli.deploy[app]['cluster'],
 		uwscli.deploy[app]['pod'], version)
-	return uwscli.nq('meteor-deploy.sh', args)
+	return uwscli.nq('app-deploy.sh', args)
 
 def list_images(app):
 	cluster = uwscli.deploy[app]['cluster']
