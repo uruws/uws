@@ -43,17 +43,14 @@ def main():
 	print('Deploy and check status with:')
 	if args.app == 'app':
 		print('')
-		print("  Workers: worker-deploy %s" % args.version)
-		print('           worker-status')
+		print("  Workers: app-deploy worker %s" % args.version)
+		print('           app-status worker')
 		print('')
-		print("  Web: web-deploy (east|west) %s" % args.version)
-		print('       web-status (east|west)')
-	elif args.app == 'beta':
-		print("  beta-deploy %s" % args.version)
-		print('  beta-status')
-	elif args.app == 'cs':
-		print("  cs-deploy %s" % args.version)
-		print('  cs-status')
+		print("  Web: app-deploy app-(east|west) %s" % args.version)
+		print('       app-status app-(east|west)')
+	else:
+		print('  app-deploy', args.app, args.version)
+		print('  app-status', args.app)
 	print('')
 	print('Run uwshelp for more information.')
 
