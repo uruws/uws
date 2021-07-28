@@ -22,9 +22,9 @@ def list_images(app):
 	cmd += " --region %s" % uwscli.cluster[cluster]['region']
 	cmd += " | grep -F '%s'" % uwscli.deploy[app]['image']['filter']
 	cmd += " | awk '{ print $3 }'"
-	cmd += " | sed 's/^%s/  /'" % uwscli.deploy[app]['image']['strip']
+	cmd += " | sed 's/^%s//'" % uwscli.deploy[app]['image']['strip']
 	cmd += " | sort -n"
-	out = check_output(cmd, shell = True)
+	out = check_output(cmd, shell = True).decode()
 	return out.splitlines()
 
 def main():
