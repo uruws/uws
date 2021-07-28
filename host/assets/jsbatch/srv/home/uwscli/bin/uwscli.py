@@ -1,10 +1,10 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from os import path, system
+from os import path, system, getenv
 
 bindir = path.abspath(path.dirname(__file__))
-cmddir = '/srv/uws/deploy/cli'
+cmddir = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
 
 app = {
 	'app': {
