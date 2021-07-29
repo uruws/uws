@@ -1,7 +1,7 @@
 # TODO
 
 * Security
-    * docs about Mac and Windows hard disk encryption
+    * docs about Mac and Windows hard disk encryption - `DONE!`
 
 * graph app number of active users/sessions
     * set it up on prod
@@ -12,10 +12,10 @@
 
 * web deploy autoscale setup on custom metrics
 
-* re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
+* re-implement uwscli tools in python to avoid code duplication, improve args parsing and such... - `DONE!`
 
 * uwscli integration
-    * meteor-build
+    * app-build
         * github webhook integration
         * check available disk space before to start a new build
         * cleanup helper
