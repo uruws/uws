@@ -8,7 +8,7 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
 
-__doc__ = 'restart app deploy'
+__doc__ = 'restart app'
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,

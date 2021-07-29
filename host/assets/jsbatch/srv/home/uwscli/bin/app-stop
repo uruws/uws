@@ -8,7 +8,7 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
 
-__doc__ = 'stop app deploy'
+__doc__ = 'stop app'
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
