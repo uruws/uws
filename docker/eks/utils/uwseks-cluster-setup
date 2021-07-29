@@ -7,8 +7,6 @@ cluster=${UWS_CLUSTER}
 
 . ~/secret/secret.env
 
-set -x
-
 # aws users auth
 
 uwskube apply -f ~/secret/aws-auth.yaml
@@ -25,17 +23,7 @@ uwseks create iamserviceaccount \
 	--attach-policy-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:policy/eksClusterAutoscaler \
 	--approve
 
-sed "s#\[UWS_CLUSTER]#${cluster}#" ~/k8s/autoscaler/deploy.yaml.in >/tmp/cluster-autoscaler-${cluster}.yaml
-
-uwskube apply -f /tmp/cluster-autoscaler-${cluster}.yaml
-
-#uwskube annotate serviceaccount cluster-autoscaler \
-#	--namespace=kube-system \
-#	eks.amazonaws.com/role-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:role/eksClusterAutoscalerRole
-
-uwskube patch deployment cluster-autoscaler --namespace=kube-system \
-	-p '{"spec":{"template":{"metadata":{"annotations":{"cluster-autoscaler.kubernetes.io/safe-to-evict":"false"}}}}}'
-
+~/k8s/autoscaler/setup.sh
 ~/k8s/metrics-server/setup.sh
 ~/k8s/nginx-ingress/setup.sh
 ~/k8s/nginx-ingress/deploy.sh
