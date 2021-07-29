@@ -1,36 +1,56 @@
-#!/bin/sh
-set -eu
-cmd=${1:-''}
+#!/usr/bin/env python3
 
-show_help() {
-	echo 'uws command line interface'
-	echo
-	echo 'available commands:'
-	echo
-	grep -Eh '^#uwscli:' ~/bin/* | sed 's/^#uwscli:/  /'
-	echo
-	echo 'run `uwshelp cmd` to get more information about cmd usage'
-}
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
 
-cmd_help() {
-	local cmd=${1}
-	if ! test -x ~/bin/${cmd}; then
-		echo "help for ${cmd} error: invalid command" >&2
-		exit 1
-	fi
-	grep -Eh '^#uwsdoc:' ~/bin/${cmd} | sed 's/^#uwsdoc://'
-}
+import sys
+from argparse import ArgumentParser
+from os import system
+from subprocess import check_output
 
-if test "X${cmd}" = 'X'; then
-	show_help
-else
-	cmd_help ${cmd}
-fi
-exit 0
+import uwscli
 
-#uwscli:uwshelp			- show uwscli utils usage description
+def __out_split(out):
+	lmax = 0
+	lines = {}
+	for l in out.splitlines():
+		i = l.split(':', 1)
+		lines[i[0]] = ':'.join(i[1:])
+		llen = len(i[0])
+		if llen > lmax:
+			lmax = llen
+	return (lmax, lines)
 
-#uwsdoc:uwshelp [cmd]
-#uwsdoc:
-#uwsdoc:  With no arguments it will show a brief information for all available
-#uwsdoc:  commands. Run uwshelp cmd to get more information about cmd usage.
+def all_help():
+	cmd = "grep -sE '^__doc__' %s/*" % uwscli.bindir
+	cmd += """ | sed "s/'//g" | sed "s#"""
+	cmd += "%s\/" % uwscli.bindir
+	cmd += '##" | sed "s/__doc__ = //"'
+	out = check_output(cmd, shell = True, text = True)
+	lmax, lines = __out_split(out)
+	print('uws command line interface')
+	print('')
+	print('available commands:')
+	print('')
+	for c in lines.keys():
+		print('  ', c, ' '*(lmax - len(c)), ' - ', lines[c], sep = '')
+	print('')
+	print('run `uwshelp cmd` to get more information about cmd usage')
+	return 0
+
+def main():
+	flags = ArgumentParser(description = 'show uwscli commands help')
+	flags.add_argument('cmd', metavar = 'cmd', default = '', nargs = '?',
+		help = 'command')
+
+	args = flags.parse_args()
+
+	if args.cmd == '':
+		return all_help()
+
+	return system("%s/%s --help" % (uwscli.bindir, args.cmd))
+
+if __name__ == '__main__':
+	sys.stdout.reconfigure(line_buffering = False)
+	sys.stderr.reconfigure(line_buffering = False)
+	sys.exit(main())

@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
+
+import sys
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
+
+import uwscli
+
+__doc__ = 'build app release'
+
+def nq(app, version, tflags):
+	args = "--target %s --version %s" % (app, version)
+	if tflags != '':
+		args += " -- %s" % tflags
+	return uwscli.nq('build.py', args, '/srv/deploy/Buildpack')
+
+def main():
+	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
+		description = __doc__, epilog = uwscli.app_description())
+	flags.add_argument('--no-test', action = 'store_true', default = False,
+		help = 'do not run app tests')
+	flags.add_argument('app', metavar = 'app', choices = uwscli.app_list(),
+		default = 'app', help = 'app name')
+	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
+
+	args = flags.parse_args()
+
+	tflags = ''
+	if args.no_test:
+		tflags = '--no-test'
+
+	rc = nq(args.app, args.version, tflags)
+	if rc != 0:
+		print("enqueue of %s build job failed!" % args.app, file = sys.stderr)
+		return rc
+
+	print('')
+	print('Check build job with:')
+	print('  uwsq')
+	print('')
+	print('Deploy and check status with:')
+	if args.app == 'app':
+		print('')
+		print("  Workers: app-deploy worker %s" % args.version)
+		print('           app-status worker')
+		print('')
+		print("  Web: app-deploy app-(east|west) %s" % args.version)
+		print('       app-status app-(east|west)')
+	else:
+		print('  app-deploy', args.app, args.version)
+		print('  app-status', args.app)
+	print('')
+	print('Run uwshelp for more information.')
+
+	return 0
+
+if __name__ == '__main__':
+	sys.stdout.reconfigure(line_buffering = False)
+	sys.stderr.reconfigure(line_buffering = False)
+	sys.exit(main())
