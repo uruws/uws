@@ -15,6 +15,8 @@
 * re-implement uwscli tools in python to avoid code duplication, improve args parsing and such... - `DONE!`
 
 * uwscli integration
+    * check deploy tag already exists (app-deploy) - `DONE!`
+    * add NLP control scripts
     * app-build
         * github webhook integration
         * check available disk space before to start a new build
@@ -24,9 +26,7 @@
     * let Jira know about deployments status
         * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
     * show events log or auto-refresh status info
-    * check deploy tag already exists (app-deploy) - `DONE!`
     * control deploy replicas?
-    * add NLP control scripts
 
 * setup amy staging cluster
 
