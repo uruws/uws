@@ -12,14 +12,14 @@ __doc__ = 'restart app'
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
-		description = __doc__, epilog = uwscli.deploy_description())
-	flags.add_argument('app', metavar = 'app', choices = uwscli.deploy_list(),
+		description = __doc__, epilog = uwscli.app_description('deploy'))
+	flags.add_argument('app', metavar = 'app', choices = uwscli.app_list('deploy'),
 		default = 'app', help = 'app name')
 
 	args = flags.parse_args()
 
-	cmd_args = "%s %s restart" % (uwscli.deploy[args.app]['cluster'],
-		uwscli.deploy[args.app]['pod'])
+	cmd_args = "%s %s restart" % (uwscli.app[args.app].cluster,
+		uwscli.app[args.app].pod)
 
 	return uwscli.run('app-ctl.sh', cmd_args)
 

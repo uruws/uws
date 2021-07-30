@@ -6,16 +6,84 @@ from os import path, system, getenv
 bindir = path.abspath(path.dirname(__file__))
 cmddir = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
 
+class App(object):
+	def __init__(self, app, cluster = None, desc = None, pod = None, build = None, actions = []):
+		self.app = app
+		self.cluster = cluster
+		self.desc = desc
+		self.pod = pod
+		self.build = build
+		self.actions = actions
+
+class AppBuild(object):
+	def __init__(self, dir, script, image, filter = None):
+		self.dir = dir
+		self.script = script
+		self.image = image
+		self.filter = filter
+		if self.filter is None:
+			self.filter = "%s-" % image
+
 app = {
-	'app': {
-		'desc': 'App',
-	},
-	'beta': {
-		'desc': 'App beta',
-	},
-	'cs': {
-		'desc': 'Crowdsourcing',
-	},
+	'app': App(False,
+		desc = 'App web and workers',
+		build = AppBuild('/srv/deploy/Buildpack', 'build.py', 'meteor-app'),
+	),
+	'app-east': App(True,
+		cluster = 'amy-east',
+		desc = 'App web, east cluster',
+		pod = 'meteor/web',
+		actions = ['deploy'],
+	),
+	'app-west': App(True,
+		cluster = 'amy-west',
+		desc = 'App web, west cluster',
+		pod = 'meteor/web',
+		actions = ['deploy'],
+	),
+	'worker': App(True,
+		cluster = 'amy-wrkr',
+		desc = 'App worker',
+		pod = 'meteor/worker',
+		actions = ['deploy'],
+	),
+	'beta': App(True,
+		cluster = 'amybeta',
+		desc = 'App beta',
+		pod = 'meteor/beta',
+		build = AppBuild('/srv/deploy/Buildpack', 'build.py', 'meteor-app-beta',
+			filter = 'meteor-app-'),
+		actions = ['deploy'],
+	),
+	'cs': App(True,
+		cluster = 'amybeta',
+		desc = 'Crowdsourcing',
+		pod = 'meteor/cs',
+		build = AppBuild('/srv/deploy/Buildpack', 'build.py', 'meteor-crowdsourcing'),
+		actions = ['deploy'],
+	),
+	'nlp': App(False,
+		cluster = 'panoramix',
+		desc = 'NLP: api, ner and sentiment',
+		build = AppBuild('/srv/deploy/NLP', 'build.sh', 'nlp-api'),
+		pod = 'nlp',
+		actions = ['deploy'],
+	),
+	'nlp-api': App(True,
+		cluster = 'panoramix',
+		desc = 'NLP api',
+		pod = 'nlp/api',
+	),
+	'nlp-ner': App(True,
+		cluster = 'panoramix',
+		desc = 'NLP ner',
+		pod = 'nlp/ner',
+	),
+	'nlp-sentiment': App(True,
+		cluster = 'panoramix',
+		desc = 'NLP sentiment',
+		pod = 'nlp/sentiment',
+	),
 }
 
 cluster = {
@@ -31,53 +99,8 @@ cluster = {
 	'amybeta': {
 		'region': 'us-east-2',
 	},
-}
-
-deploy = {
-	'app-east': {
-		'cluster': 'amy-east',
-		'desc': 'App web, east cluster',
-		'pod': 'meteor/web',
-		'image': {
-			'filter': 'meteor-app',
-			'strip': 'meteor-app-',
-		},
-	},
-	'app-west': {
-		'cluster': 'amy-west',
-		'desc': 'App web, west cluster',
-		'pod': 'meteor/web',
-		'image': {
-			'filter': 'meteor-app',
-			'strip': 'meteor-app-',
-		},
-	},
-	'worker': {
-		'cluster': 'amy-wrkr',
-		'desc': 'App worker',
-		'pod': 'meteor/worker',
-		'image': {
-			'filter': 'meteor-app',
-			'strip': 'meteor-app-',
-		},
-	},
-	'beta': {
-		'cluster': 'amybeta',
-		'desc': app['beta']['desc'],
-		'pod': 'meteor/beta',
-		'image': {
-			'filter': 'meteor-beta',
-			'strip': 'meteor-',
-		},
-	},
-	'cs': {
-		'cluster': 'amybeta',
-		'desc': app['cs']['desc'],
-		'pod': 'meteor/cs',
-		'image': {
-			'filter': 'meteor-crowdsourcing',
-			'strip': 'meteor-crowdsourcing-',
-		},
+	'panoramix': {
+		'region': 'us-east-1',
 	},
 }
 
@@ -95,24 +118,24 @@ def __descsep(k, m):
 		s += ' '
 	return s
 
-def app_list():
-	return sorted(app.keys())
+def app_list(action = ''):
+	return sorted([n for n in app.keys() if (action == '' and app[n].app) or action in app[n].actions])
 
-def app_description():
-	m = __descmax(app.keys())
+def app_description(action = ''):
+	m = __descmax(app_list(action))
 	d = 'available apps:\n'
-	for n in app_list():
-		d += "  %s%s- %s\n" % (n, __descsep(n, m), app[n]['desc'])
+	for n in app_list(action):
+		d += "  %s%s- %s\n" % (n, __descsep(n, m), app[n].desc)
 	return d
 
-def deploy_list():
-	return sorted(deploy.keys())
+def build_list():
+	return sorted([n for n in app.keys() if app[n].build is not None])
 
-def deploy_description():
-	m = __descmax(deploy.keys())
+def build_description():
+	m = __descmax(build_list())
 	d = 'available apps:\n'
-	for n in deploy_list():
-		d += "  %s%s- %s\n" % (n, __descsep(n, m), deploy[n]['desc'])
+	for n in build_list():
+		d += "  %s%s- %s\n" % (n, __descsep(n, m), app[n].desc)
 	return d
 
 def nq(cmd, args, cmddir = cmddir):

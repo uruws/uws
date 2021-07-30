@@ -14,14 +14,16 @@ def nq(app, version, tflags):
 	args = "--target %s --version %s" % (app, version)
 	if tflags != '':
 		args += " -- %s" % tflags
-	return uwscli.nq('build.py', args, '/srv/deploy/Buildpack')
+	build_dir = uwscli.app[app].build.dir
+	build_script = uwscli.app[app].build.script
+	return uwscli.nq(build_script, args, build_dir)
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
-		description = __doc__, epilog = uwscli.app_description())
+		description = __doc__, epilog = uwscli.build_description())
 	flags.add_argument('--no-test', action = 'store_true', default = False,
 		help = 'do not run app tests')
-	flags.add_argument('app', metavar = 'app', choices = uwscli.app_list(),
+	flags.add_argument('app', metavar = 'app', choices = uwscli.build_list(),
 		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
 
