@@ -128,7 +128,7 @@ def __desc(apps):
 	return d
 
 def app_list():
-	return sorted([n for n in app.keys() if app[n].app)
+	return sorted([n for n in app.keys() if app[n].app])
 
 def app_description():
 	return __desc(app_list())
@@ -140,7 +140,7 @@ def build_description():
 	return __desc(build_list())
 
 def deploy_list():
-	return sorted([n for n in app.keys() if app[n].deploy is not None)
+	return sorted([n for n in app.keys() if app[n].deploy is not None])
 
 def deploy_description():
 	return __desc(deploy_list())
