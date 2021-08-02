@@ -1,2 +1,3 @@
 #!/bin/sh
-exec ~/pod/meteor/status.sh meteor-beta
+export APP_NAMESPACE='meteor-beta'
+exec ~/pod/meteor/status.sh beta

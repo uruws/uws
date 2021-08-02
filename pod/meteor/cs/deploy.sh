@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 appver=${1:-''}
-exec ${HOME}/pod/meteor/deploy.sh cs "${appver}"
+exec ${HOME}/pod/meteor/deploy.sh cs ${appver}
