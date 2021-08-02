@@ -7,18 +7,21 @@ bindir = path.abspath(path.dirname(__file__))
 cmddir = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
 
 class App(object):
-	def __init__(self, app, cluster = None, desc = None, pod = None, build = None, actions = []):
+	def __init__(self, app, cluster = None, desc = None, pod = None, build = None, deploy = None):
 		self.app = app
 		self.cluster = cluster
 		self.desc = desc
 		self.pod = pod
 		self.build = build
-		self.actions = actions
+		self.deploy = deploy
 
 class AppBuild(object):
-	def __init__(self, dir, script, image, filter = None):
+	def __init__(self, dir, script):
 		self.dir = dir
 		self.script = script
+
+class AppDeploy(object):
+	def __init__(self, image, filter = None):
 		self.image = image
 		self.filter = filter
 		if self.filter is None:
@@ -27,49 +30,46 @@ class AppBuild(object):
 app = {
 	'app': App(False,
 		desc = 'App web and workers',
-		build = AppBuild('/srv/deploy/Buildpack', 'build.py',
-			'meteor-app'),
+		build = AppBuild('/srv/deploy/Buildpack', 'build.py'),
 	),
 	'app-east': App(True,
 		cluster = 'amy-east',
 		desc = 'App web, east cluster',
 		pod = 'meteor/web',
-		actions = ['deploy'],
+		deploy = AppDeploy('meteor-app'),
 	),
 	'app-west': App(True,
 		cluster = 'amy-west',
 		desc = 'App web, west cluster',
 		pod = 'meteor/web',
-		actions = ['deploy'],
+		deploy = AppDeploy('meteor-app'),
 	),
 	'worker': App(True,
 		cluster = 'amy-wrkr',
 		desc = 'App worker',
 		pod = 'meteor/worker',
-		actions = ['deploy'],
+		deploy = AppDeploy('meteor-app'),
 	),
 	'beta': App(True,
 		cluster = 'amybeta',
 		desc = 'App beta',
 		pod = 'meteor/beta',
-		build = AppBuild('/srv/deploy/Buildpack', 'build.py',
-			'meteor-beta'),
-		actions = ['deploy'],
+		build = AppBuild('/srv/deploy/Buildpack', 'build.py'),
+		deploy = AppDeploy('meteor-beta'),
 	),
 	'cs': App(True,
 		cluster = 'amybeta',
 		desc = 'Crowdsourcing',
 		pod = 'meteor/cs',
-		build = AppBuild('/srv/deploy/Buildpack', 'build.py',
-			'meteor-crowdsourcing'),
-		actions = ['deploy'],
+		build = AppBuild('/srv/deploy/Buildpack', 'build.py'),
+		deploy = AppDeploy('meteor-crowdsourcing'),
 	),
 	'nlp': App(False,
 		cluster = 'panoramix',
 		desc = 'NLP: api, ner and sentiment',
-		build = AppBuild('/srv/deploy/NLP', 'build.sh', 'nlp-api'),
 		pod = 'nlp',
-		actions = ['deploy'],
+		build = AppBuild('/srv/deploy/NLP', 'build.sh'),
+		deploy = AppDeploy('nlp-api'),
 	),
 	'nlp-api': App(True,
 		cluster = 'panoramix',
@@ -120,25 +120,30 @@ def __descsep(k, m):
 		s += ' '
 	return s
 
-def app_list(action = ''):
-	return sorted([n for n in app.keys() if (action == '' and app[n].app) or action in app[n].actions])
-
-def app_description(action = ''):
-	m = __descmax(app_list(action))
+def __desc(apps):
+	m = __descmax(apps)
 	d = 'available apps:\n'
-	for n in app_list(action):
+	for n in apps:
 		d += "  %s%s- %s\n" % (n, __descsep(n, m), app[n].desc)
 	return d
+
+def app_list():
+	return sorted([n for n in app.keys() if app[n].app)
+
+def app_description():
+	return __desc(app_list())
 
 def build_list():
 	return sorted([n for n in app.keys() if app[n].build is not None])
 
 def build_description():
-	m = __descmax(build_list())
-	d = 'available apps:\n'
-	for n in build_list():
-		d += "  %s%s- %s\n" % (n, __descsep(n, m), app[n].desc)
-	return d
+	return __desc(build_list())
+
+def deploy_list():
+	return sorted([n for n in app.keys() if app[n].deploy is not None)
+
+def deploy_description():
+	return __desc(deploy_list())
 
 def nq(cmd, args, cmddir = cmddir):
 	return system("%s/uwsnq %s/%s %s" % (bindir, cmddir, cmd, args))

@@ -12,9 +12,9 @@ __doc__ = 'rollin (remove) app deployment'
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
-		description = __doc__, epilog = uwscli.app_description('deploy'))
-	flags.add_argument('app', metavar = 'app', choices = uwscli.app_list('deploy'),
-		default = 'app', help = 'app name')
+		description = __doc__, epilog = uwscli.deploy_description())
+	flags.add_argument('app', metavar = 'app', default = 'app',
+		help = 'app name', choices = uwscli.deploy_list())
 
 	args = flags.parse_args()
 
