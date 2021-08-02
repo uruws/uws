@@ -1,4 +1,5 @@
-Cmnd_Alias UWSCLI = /srv/deploy/Buildpack/build.py,\
-	/srv/uws/deploy/cli/app-ctl.sh
+Cmnd_Alias UWSCLI = /srv/uws/deploy/cli/app-ctl.sh,\
+	/srv/deploy/Buildpack/build.py,\
+	/srv/deploy/NLP/build.sh
 
 uwscli ALL = (uws) NOPASSWD: UWSCLI
