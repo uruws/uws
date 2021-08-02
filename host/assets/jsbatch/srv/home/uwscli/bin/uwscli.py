@@ -34,7 +34,7 @@ buildpack = AppBuild('/srv/deploy/Buildpack', 'build.py', type = 'pack'),
 app = {
 	'app': App(False,
 		desc = 'App web and workers',
-		build = buildpack
+		build = buildpack,
 	),
 	'app-east': App(True,
 		cluster = 'amy-east',
@@ -58,14 +58,14 @@ app = {
 		cluster = 'amybeta',
 		desc = 'App beta',
 		pod = 'meteor/beta',
-		build = buildpack
+		build = buildpack,
 		deploy = AppDeploy('meteor-beta'),
 	),
 	'cs': App(True,
 		cluster = 'amybeta',
 		desc = 'Crowdsourcing',
 		pod = 'meteor/cs',
-		build = buildpack
+		build = buildpack,
 		deploy = AppDeploy('meteor-crowdsourcing'),
 	),
 	'nlp': App(False,
