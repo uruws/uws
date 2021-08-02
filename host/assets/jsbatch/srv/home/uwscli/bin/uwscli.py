@@ -5,6 +5,7 @@ from os import path, system, getenv
 
 bindir = path.abspath(path.dirname(__file__))
 cmddir = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
+docker_storage = '/srv/docker/lib'
 
 class App(object):
 	def __init__(self, app, cluster = None, desc = None, pod = None, build = None, deploy = None):
