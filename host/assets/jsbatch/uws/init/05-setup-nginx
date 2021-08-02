@@ -27,9 +27,6 @@ if test -s /srv/etc/ssl/ca/last/rootCA.pem; then
 	if test -s /srv/acme/cert/jsbatch.uws.talkingpts.org.crt; then
 		install -v /etc/nginx/sites-available/ssl-jsbatch /etc/nginx/sites-enabled
 	fi
-	if test -s /srv/acme/cert/test.uws.talkingpts.org.crt; then
-		install -v /etc/nginx/sites-available/ssl-uwstest /etc/nginx/sites-enabled
-	fi
 fi
 
 exit 0
