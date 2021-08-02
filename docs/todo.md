@@ -16,7 +16,7 @@
 
 * uwscli integration
     * check deploy tag already exists (app-deploy) - `DONE!`
-    * add NLP control scripts
+    * add NLP control scripts - `DONE!`
     * app-build
         * github webhook integration
         * check available disk space before to start a new build
