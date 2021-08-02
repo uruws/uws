@@ -18,8 +18,8 @@ def main():
 
 	args = flags.parse_args()
 
-	cmd_args = "%s %s status" % (uwscli.deploy[args.app]['cluster'],
-		uwscli.deploy[args.app]['pod'])
+	cmd_args = "%s %s status" % (uwscli.app[args.app].cluster,
+		uwscli.app[args.app].pod)
 
 	return uwscli.run('app-ctl.sh', cmd_args)
 
