@@ -30,12 +30,17 @@ def check_storage():
 	return 0
 
 def nq(app, version, tflags):
-	args = "--target %s --version %s" % (app, version)
-	if tflags != '':
-		args += " -- %s" % tflags
+	builder = uwscli.app[app].build.type
 	build_dir = uwscli.app[app].build.dir
 	build_script = uwscli.app[app].build.script
-	return uwscli.nq(build_script, args, build_dir)
+	if builder == 'pack':
+		args = "--target %s --version %s" % (app, version)
+		if tflags != '':
+			args += " -- %s" % tflags
+		return uwscli.nq(build_script, args, build_dir)
+	else:
+		args = "%s %s %s" % (build_dir, build_script, version)
+		return uwscli.nq('app-build.sh', args)
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
