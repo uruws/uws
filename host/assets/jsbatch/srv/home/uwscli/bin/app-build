@@ -5,10 +5,29 @@
 
 import sys
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from subprocess import getstatusoutput
 
 import uwscli
 
 __doc__ = 'build app release'
+
+storage_min = 5000000
+
+def check_storage():
+	x = "df -kl %s" % uwscli.docker_storage
+	x += " | tail -n1 | awk '{ print $4 }'"
+	rc, out = getstatusoutput(x)
+	if rc != 0:
+		print(out, file = sys.stderr)
+		return rc
+	try:
+		s = int(out)
+	except ValueError:
+		print('value error:', out, file = sys.stderr)
+		return 9
+	if s < storage_min:
+		return 8
+	return 0
 
 def nq(app, version, tflags):
 	args = "--target %s --version %s" % (app, version)
@@ -32,6 +51,11 @@ def main():
 	tflags = ''
 	if args.no_test:
 		tflags = '--no-test'
+
+	rc = check_storage()
+	if rc != 0:
+		print('ERROR: not enough disk space!', file = sys.stderr)
+		return rc
 
 	rc = nq(args.app, args.version, tflags)
 	if rc != 0:

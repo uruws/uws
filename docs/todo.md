@@ -19,7 +19,7 @@
     * add NLP control scripts - `DONE!`
     * app-build
         * github webhook integration
-        * check available disk space before to start a new build
+        * check available disk space before to start a new build - `DONE!`
         * cleanup helper
         * we should be able to properly stop/abort a building process
     * devel API for UI interaction
