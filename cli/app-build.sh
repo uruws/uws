@@ -5,7 +5,7 @@ build_dir=${1:?'build dir?'}
 build_script=${2:?'build script?'}
 version=${3:?'version?'}
 
-cd ${builddir}
+cd ${build_dir}
 git fetch --tags --prune --prune-tags
 git checkout ${version}
 
