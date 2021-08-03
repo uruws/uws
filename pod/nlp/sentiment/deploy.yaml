@@ -15,7 +15,7 @@ spec:
         app.kubernetes.io/name: nlp-sentiment
     spec:
       containers:
-        - image: 789470191893.dkr.ecr.us-east-2.amazonaws.com/uws:nlp-sentiment-973d026
+        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nlp-sentiment-${APP_VERSION}
           imagePullPolicy: IfNotPresent
           name: nlp-sentiment
           ports:

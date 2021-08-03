@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
-pod=/home/uws/pod/nlp
-uwskube apply -f ${pod}/api/deploy.yaml
-uwskube apply -f ${pod}/ner/deploy.yaml
-uwskube apply -f ${pod}/sentiment/deploy.yaml
+version=${1:-''}
+~/pod/lib/deploy.sh nlp nlp/api ${version}
+~/pod/lib/deploy.sh nlp nlp/ner
+~/pod/lib/deploy.sh nlp nlp/sentiment
 exit 0
