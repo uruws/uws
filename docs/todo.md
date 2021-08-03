@@ -1,8 +1,5 @@
 # TODO
 
-* Security
-    * docs about Mac and Windows hard disk encryption - `DONE!`
-
 * graph app number of active users/sessions
     * set it up on prod
 
@@ -12,14 +9,9 @@
 
 * web deploy autoscale setup on custom metrics
 
-* re-implement uwscli tools in python to avoid code duplication, improve args parsing and such... - `DONE!`
-
 * uwscli integration
-    * check deploy tag already exists (app-deploy) - `DONE!`
-    * add NLP control scripts - `DONE!`
     * app-build
         * github webhook integration
-        * check available disk space before to start a new build - `DONE!`
         * cleanup helper
         * we should be able to properly stop/abort a building process
     * devel API for UI interaction
