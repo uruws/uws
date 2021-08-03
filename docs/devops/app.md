@@ -23,29 +23,13 @@ the workers run on its own separte cluster.
 So the idea is to deploy them *one at a time* trying to reduce end user impact
 in case of a failure.
 
-### East web cluster
-
-Deploy:
-
-    $ app-deploy app-east X.Y.Z-bpV
-
-X.Y.Z-bpV is the release tag we built in previous step, with the buildpack version included (ie: 2.49.1-bp1).
-
-Check deploy status:
-
-    $ app-status app-east
-
-Check logs:
-
-    $ app-logs app-east -f
-
-Once you are certain that it all worked as expected, deploy the workers.
-
 ### Workers cluster
 
 Deploy:
 
     $ app-deploy worker X.Y.X-bpV
+
+X.Y.Z-bpV is the release tag we built in previous step, with the buildpack version included (ie: 2.49.1-bp1).
 
 Check deploy status:
 
@@ -55,7 +39,23 @@ Check logs:
 
     $ app-logs worker -f
 
-Once you are certain that it all worked as expected, deploy the remaining web cluster.
+Once you are certain that it all worked as expected, deploy the web clusters.
+
+### East web cluster
+
+Deploy:
+
+    $ app-deploy app-east X.Y.Z-bpV
+
+Check deploy status:
+
+    $ app-status app-east
+
+Check logs:
+
+    $ app-logs app-east -f
+
+Once you are certain that it all worked as expected, deploy the other web cluster.
 
 ### West web cluster
 
