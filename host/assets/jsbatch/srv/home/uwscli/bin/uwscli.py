@@ -29,7 +29,7 @@ class AppDeploy(object):
 		if self.filter is None:
 			self.filter = "%s-" % image
 
-buildpack = AppBuild('/srv/deploy/Buildpack', 'build.py', type = 'pack'),
+buildpack = AppBuild('/srv/deploy/Buildpack', 'build.py', type = 'pack')
 
 app = {
 	'app': App(False,
