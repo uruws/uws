@@ -1,7 +1,7 @@
 FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.02.11"
+LABEL version="20210715"
 
 USER root:root
 WORKDIR /root
@@ -14,7 +14,7 @@ RUN /root/bin/apt-install.sh munin-node psmisc procps munin-plugins-core munin-p
 
 ENV MN munin-contrib
 ENV MR uruws/${MN}
-ENV MV 52861dd158e7a9b77b46dd718fae4ddea9cd0790
+ENV MV ddc4539a9d2a0c65722f6e851a62218bde9a9153
 RUN wget -O munin-contrib.tgz \
 	https://github.com/${MR}/archive/${MV}.tar.gz \
 	&& tar -xzf munin-contrib.tgz \

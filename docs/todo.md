@@ -1,40 +1,24 @@
 # TODO
 
-* heroku contingency plan
-    * we need to have in place a setup to route web traffic to heroku in case of aws failure as faster and easier as possible
+* graph app number of active users/sessions
+    * set it up on prod
 
 * custom workers autoscaler
     * scale up every 5 min or so
     * scale down hourly, if needed
 
-* update buildpack tools to support multiple apps
-    * build app, beta, crowdsourcing and more...
-    * add deploy/status help to the end of build log
-
-* crowdsourcing setup
-    * setup on web cluster
-    * build/deploy/status
-    * uwscli integration
-
-* SFTP server for data sharing with schools
-    * server setup - `DONE!`
-        * Had to deal with https://github.com/proftpd/proftpd/issues/1111 bug!! =(
-    * web integration for user/pass management
-    * hook to check/validate uploaded files (try mod_exec)
-
-* re-implement uwscli tools in python to avoid code duplication, improve args parsing and such...
+* web deploy autoscale setup on custom metrics
 
 * uwscli integration
-    * meteor-build
+    * app-build
         * github webhook integration
-        * check available disk space before to start a new build
         * cleanup helper
         * we should be able to properly stop/abort a building process
     * devel API for UI interaction
     * let Jira know about deployments status
         * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
     * show events log or auto-refresh status info
-    * check deploy tag already exists (*-deploy scripts)
+    * control deploy replicas?
 
 * setup amy staging cluster
 
@@ -45,8 +29,6 @@
     * develop munin plugins to graph k8s info
     * nginx stats
 
-* web deploy autoscale setup on custom metrics
-
 * monitoring
     * setup nagios and alerts
 
@@ -56,6 +38,10 @@
     * uwsq: clean failed jobs
 
 * internal CA
+
+* SFTP server for data sharing with schools
+    * web integration for user/pass management
+    * hook to check/validate uploaded files (try mod_exec)
 
 * improve web deploys
     * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.

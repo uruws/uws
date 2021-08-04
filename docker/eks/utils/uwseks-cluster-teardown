@@ -1,18 +1,9 @@
 #!/bin/sh
 set -eu
-
-. ~/bin/env.export
-
-cluster=${UWS_CLUSTER}
-
-sed "s#\[UWS_CLUSTER]#${cluster}#" ~/k8s/autoscaler/deploy.yaml.in >/tmp/cluster-autoscaler-${cluster}.yaml
-
-uwskube delete -f /tmp/cluster-autoscaler-${cluster}.yaml
-
 ~/k8s/dashboard/teardown.sh
 ~/k8s/metrics-server/teardown.sh
 ~/k8s/acme/teardown.sh
 ~/k8s/nginx-ingress/teardown.sh
 ~/k8s/cert-manager/teardown.sh
-
+~/k8s/autoscaler/teardown.sh
 exit 0

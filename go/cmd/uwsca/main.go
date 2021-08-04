@@ -5,8 +5,8 @@
 package main
 
 import (
-	"fmt"
 	"flag"
+	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
