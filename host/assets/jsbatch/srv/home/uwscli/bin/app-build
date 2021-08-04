@@ -39,7 +39,7 @@ def nq(app, version, tflags):
 			args += " -- %s" % tflags
 		return uwscli.nq(build_script, args, build_dir)
 	else:
-		args = "%s %s %s" % (build_dir, build_script, version)
+		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.nq('app-build.sh', args)
 
 def main():
