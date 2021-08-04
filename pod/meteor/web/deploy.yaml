@@ -69,7 +69,9 @@ spec:
           resources:
             requests:
               cpu: 600m
-              memory: 800Mi
+              memory: 3000Mi
+            limits:
+              memory: 3000Mi
           readinessProbe:
             exec:
               command:

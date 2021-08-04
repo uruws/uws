@@ -9,8 +9,8 @@
     #~ apiVersion: apps/v1
     #~ kind: Deployment
     #~ name: meteor
-  #~ minReplicas: 100
-  #~ maxReplicas: 100
+  #~ minReplicas: 30
+  #~ maxReplicas: 90
   #~ metrics:
     #~ - type: Resource
       #~ resource:
@@ -28,7 +28,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 100
+  replicas: 90
   revisionHistoryLimit: 3
   strategy:
     type: RollingUpdate
@@ -73,9 +73,9 @@ spec:
           resources:
             requests:
               cpu: 200m
-              memory: 1100Mi
+              memory: 3000Mi
             limits:
-              memory: 2000Mi
+              memory: 3000Mi
           readinessProbe:
             exec:
               command:
