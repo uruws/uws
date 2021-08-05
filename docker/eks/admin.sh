@@ -18,7 +18,6 @@ files=${PWD}/docker/eks/files
 utils=${PWD}/docker/eks/utils
 k8s=${PWD}/k8s
 pod=${PWD}/pod
-mon=${PWD}/mon
 cluster=${PWD}/cluster
 eksenv=${PWD}/eks/env/${uws_cluster}.env
 
@@ -45,7 +44,6 @@ exec docker run -it --rm \
 	-v ${utils}:/home/uws/bin:ro \
 	-v ${k8s}:/home/uws/k8s:ro \
 	-v ${pod}:/home/uws/pod:ro \
-	-v ${mon}:/home/uws/mon:ro \
 	-v ${cluster}:/home/uws/cluster:ro \
 	-v ${files}:/home/uws/files:ro \
 	-v ${secret}:/home/uws/secret:ro \
