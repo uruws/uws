@@ -177,10 +177,6 @@ k8s:
 eks:
 	@./docker/eks/build.sh
 
-.PHONY: api
-api: docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
-	@./srv/api/build.sh
-
 .PHONY: proftpd
 proftpd:
 	@./srv/proftpd/build.sh
