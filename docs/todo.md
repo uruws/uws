@@ -7,6 +7,8 @@
     * amy-east (web)
     * amy-west (web)
 
+* improve beta and crowdsourcing autoscaling and resource limits - `DONE!`
+
 * graph app number of active users/sessions
     * set it up on prod
 
