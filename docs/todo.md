@@ -1,5 +1,12 @@
 # TODO
 
+* upgrade cluster node groups to latest AMI version
+    * panoramix (NLP) - `DONE!`
+    * amybeta (beta and crowdsourcing) - `DONE!`
+    * amy-wrkr (workers)
+    * amy-east (web)
+    * amy-west (web)
+
 * graph app number of active users/sessions
     * set it up on prod
 
