@@ -1,13 +1,10 @@
 # TODO
 
 * upgrade cluster node groups to latest AMI version
-    * panoramix (NLP) - `DONE!`
-    * amybeta (beta and crowdsourcing) - `DONE!`
-    * amy-wrkr (workers) - `DONE!`
-    * amy-east (web)
-    * amy-west (web)
+    * amy-east (web) - `DONE!`
+    * amy-west (web) - `DONE!`
 
-* improve beta and crowdsourcing autoscaling and resource limits - `DONE!`
+* set node v8 heap memory size for meteor workers - `DONE!`
 
 * graph app number of active users/sessions
     * set it up on prod
