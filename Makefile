@@ -100,8 +100,6 @@ munin-backend:
 	@./srv/munin-backend/build.sh
 
 MUNIN_NODE_DEPS := srv/munin-node/build/uwsbot-stats.bin
-MUNIN_NODE_DEPS += srv/munin-node/build/api-stats.bin
-MUNIN_NODE_DEPS += srv/munin-node/build/apivsbot.bin
 MUNIN_NODE_DEPS += srv/munin-node/build/api-job-stats.bin
 
 .PHONY: munin-node
@@ -112,14 +110,6 @@ srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/uwsbot-stats.bin ./srv/munin-node/build/uwsbot-stats.bin
 
-srv/munin-node/build/api-stats.bin: docker/golang/build/api-stats.bin
-	@mkdir -vp ./srv/munin-node/build
-	@install -v docker/golang/build/api-stats.bin ./srv/munin-node/build/api-stats.bin
-
-srv/munin-node/build/apivsbot.bin: docker/golang/build/apivsbot.bin
-	@mkdir -vp ./srv/munin-node/build
-	@install -v docker/golang/build/apivsbot.bin ./srv/munin-node/build/apivsbot.bin
-
 srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/api-job-stats.bin ./srv/munin-node/build/api-job-stats.bin
@@ -128,29 +118,7 @@ srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 heroku:
 	@./docker/heroku/build.sh
 
-.PHONY: heroku-logger
-heroku-logger: docker/heroku/build/api-logs.bin docker/heroku/build/api-stats.bin
-	@./docker/heroku/build-logger.sh
-
-docker/heroku/build/api-logs.bin: docker/golang/build/api-logs.bin
-	@mkdir -vp ./docker/heroku/build
-	@install -v docker/golang/build/api-logs.bin docker/heroku/build/api-logs.bin
-
-docker/heroku/build/api-stats.bin: docker/golang/build/api-stats.bin
-	@mkdir -vp ./docker/heroku/build
-	@install -v docker/golang/build/api-stats.bin docker/heroku/build/api-stats.bin
-
-API_LOGS_DEPS != find go/api go/cmd/api* go/log go/fs -type f -name '*.go'
 API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
-
-docker/golang/build/api-logs.bin: $(API_LOGS_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/api-logs.bin ./cmd/api-logs
-
-docker/golang/build/api-stats.bin: $(API_LOGS_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/api-stats.bin ./cmd/api-stats
-
-docker/golang/build/apivsbot.bin: $(API_LOGS_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/apivsbot.bin ./cmd/apivsbot
 
 docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats

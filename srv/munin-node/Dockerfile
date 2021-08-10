@@ -37,12 +37,6 @@ RUN chmod -v 0640 /uws/etc/env/bot/stats
 COPY ./build/uwsbot-plugin.conf /etc/munin/plugin-conf.d/uwsbot
 RUN chmod -v 0640 /etc/munin/plugin-conf.d/uwsbot
 
-COPY --chown=uws:uws ./build/api-stats.bin /uws/bin/api-stats
-RUN chmod -v 0750 /uws/bin/api-stats
-
-COPY --chown=uws:uws ./build/apivsbot.bin /uws/bin/apivsbot
-RUN chmod -v 0750 /uws/bin/apivsbot
-
 COPY --chown=uws:uws ./build/api-job-stats.bin /uws/bin/api-job-stats
 RUN chmod -v 0750 /uws/bin/api-job-stats
 

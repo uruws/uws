@@ -12,7 +12,6 @@ services:
       - ./prod/app:/srv/etc/munin-node:ro
       - /srv/etc/sec/production:/srv/etc/sec:ro
       - /srv/uwsbot/stats/production:/uws/var/uwsbot/stats:ro
-      - /srv/heroku/stats/production:/uws/var/api/stats/production:ro
     restart: on-failure
     ports:
       - 4950:4949
@@ -37,7 +36,6 @@ services:
       - ./staging/app:/srv/etc/munin-node:ro
       - /srv/etc/sec/staging:/srv/etc/sec:ro
       - /srv/uwsbot/stats/staging:/uws/var/uwsbot/stats:ro
-      - /srv/heroku/stats/staging:/uws/var/api/stats/staging:ro
     restart: on-failure
     ports:
       - 4952:4949
