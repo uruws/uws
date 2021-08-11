@@ -46,6 +46,8 @@ mkcert:
 golang:
 	@./docker/golang/build.sh
 
+# uwsbot
+
 UWS_BOT_DEPS != find go/bot go/cmd/uwsbot* go/env go/config go/log -type f -name '*.go'
 
 .PHONY: uwsbot
@@ -83,13 +85,14 @@ docker/uwsbot/build/uwsbot-devel.tgz: docker/uwsbot/build/uwsbot.bin docker/uwsb
 		&& cp -va uwsbot-stats.bin devel/uws/bin/uwsbot-stats \
 		&& tar -cvzf uwsbot-devel.tgz -C devel .)
 
-.PHONY: uwspkg
-uwspkg:
-	@./docker/uwspkg/build.sh
+# api-job-stats
 
-.PHONY: acme
-acme:
-	@./srv/acme/build.sh
+API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
+
+docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
+
+# munin
 
 .PHONY: munin
 munin:
@@ -114,14 +117,20 @@ srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/api-job-stats.bin ./srv/munin-node/build/api-job-stats.bin
 
+MON_TAG ?= NOTAG
+
+.PHONY: munin-deploy
+munin-deploy: awscli munin munin-backend munin-node
+	@./docker/ecr-login.sh us-east-1
+	@./cluster/ecr-push.sh us-east-1 uws/munin uws:munin-$(MON_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-backend uws:munin-web-$(MON_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-node uws:munin-node-$(MON_TAG)
+
+# heroku
+
 .PHONY: heroku
 heroku:
 	@./docker/heroku/build.sh
-
-API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
-
-docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
 
 # app-stats
 
@@ -132,6 +141,16 @@ app-stats: docker/golang/build/app-stats.bin
 
 docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/app-stats.bin ./cmd/app-stats
+
+# utils
+
+.PHONY: uwspkg
+uwspkg:
+	@./docker/uwspkg/build.sh
+
+.PHONY: acme
+acme:
+	@./srv/acme/build.sh
 
 .PHONY: clamav
 clamav:
@@ -150,7 +169,7 @@ proftpd:
 	@./srv/proftpd/build.sh
 
 .PHONY: all
-all: bootstrap uwsbot munin munin-backend munin-node proftpd
+all: bootstrap k8s uwsbot munin munin-backend munin-node proftpd
 
 .PHONY: ecr-login
 ecr-login:
