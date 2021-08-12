@@ -52,9 +52,10 @@ spec:
               mountPath: "/var/lib/munin/cgi-tmp"
           resources:
             requests:
-              memory: 300Mi
+              cpu: 20m
+              memory: 100Mi
             limits:
-              memory: 300Mi
+              memory: 100Mi
           readinessProbe:
             exec:
               command:
@@ -84,9 +85,10 @@ spec:
               mountPath: "/var/lib/munin/cgi-tmp"
           resources:
             requests:
-              memory: 300Mi
+              cpu: 20m
+              memory: 100Mi
             limits:
-              memory: 300Mi
+              memory: 100Mi
           readinessProbe:
             exec:
               command:
