@@ -1,26 +1,19 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: munin
   namespace: mon
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: munin
-  replicas: 1
-  revisionHistoryLimit: 3
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
   template:
     metadata:
       labels:
         app.kubernetes.io/name: munin
     spec:
-      terminationGracePeriodSeconds: 30
       containers:
         - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin
           imagePullPolicy: IfNotPresent
@@ -29,13 +22,12 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
           volumeMounts:
-            - name: appenv
-              mountPath: "/run/meteor"
-              readOnly: true
-            - name: app-tmpdir
-              mountPath: "/opt/app/bundle/tmp"
-            - name: tmpdir
-              mountPath: "/tmp"
+            - name: db
+              mountPath: "/var/lib/munin"
+            - name: cache
+              mountPath: "/var/cache/munin/www"
+            - name: log
+              mountPath: "/var/log/munin"
           resources:
             requests:
               memory: 300Mi
@@ -51,11 +43,25 @@ spec:
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 1
-      volumes:
-        - name: appenv
-          secret:
-            secretName: meteor-app-env
-        - name: app-tmpdir
-          emptyDir: {}
-        - name: tmpdir
-          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: db
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 3Gi
+    - metadata:
+        name: cache
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: log
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
