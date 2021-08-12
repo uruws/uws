@@ -15,7 +15,7 @@ spec:
         app.kubernetes.io/name: munin-node
     spec:
       containers:
-        - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin-node
+        - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin-node-${VERSION}
           imagePullPolicy: IfNotPresent
           name: munin-node
           securityContext:

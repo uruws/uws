@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube apply -f ~/k8s/mon/munin/deploy.yaml
+export VERSION="$(cat ~/k8s/mon/VERSION)"
+envsubst <~/k8s/mon/munin/deploy.yaml | uwskube apply -f -
 exit 0
