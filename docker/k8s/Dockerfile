@@ -38,6 +38,8 @@ COPY ./utils/uwskube /tmp/uwskube
 RUN install -v -m 0755 /tmp/uwskube /usr/local/bin/uwskube \
 	&& rm -vf /tmp/uwskube
 
+COPY ./build/k8smon.bin /usr/local/bin/k8smon
+
 USER uws:uws
 WORKDIR /home/uws
 

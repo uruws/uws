@@ -188,7 +188,11 @@ deploy:
 K8SMON_DEPS != find go/cmd/k8smon -type f -name '*.go'
 
 .PHONY: k8smon
-k8smon: docker/golang/build/k8smon.bin
+k8smon: docker/k8s/build/k8smon.bin
+
+docker/k8s/build/k8smon.bin: docker/golang/build/k8smon.bin
+	@mkdir -vp ./docker/k8s/build
+	@install -v docker/golang/build/k8smon.bin ./docker/k8s/build/k8smon.bin
 
 docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/k8smon.bin ./cmd/k8smon
