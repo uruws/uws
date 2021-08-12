@@ -2,15 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: uwsctl
-spec:
-  type: ExternalName
-  externalName: ctl.uws.svc.cluster.local
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: uwsca
+  name: munin-web
 spec:
   type: ExternalName
   externalName: ca.uws.svc.cluster.local
@@ -23,9 +15,6 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     cert-manager.io/issuer: acme-prod
-    #~ nginx.ingress.kubernetes.io/auth-type: basic
-    #~ nginx.ingress.kubernetes.io/auth-secret: basic-auth
-    #~ nginx.ingress.kubernetes.io/auth-realm: 'Who are you?'
 spec:
   ingressClassName: nginx
   tls:
@@ -37,16 +26,16 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /ca/(.*)
+            path: /(munin/.*)
             backend:
               service:
-                name: uwsca
+                name: munin-web
                 port:
-                  number: 2801
+                  number: 80
           - pathType: Prefix
-            path: /(.*)
+            path: /(munin-cgi/.*)
             backend:
               service:
-                name: uwsctl
+                name: munin-web
                 port:
-                  number: 2800
+                  number: 80
