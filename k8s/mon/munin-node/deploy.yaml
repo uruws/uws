@@ -27,15 +27,16 @@ spec:
           name: munin-node
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
           volumeMounts:
             - name: tmpdir
               mountPath: "/tmp"
+            - name: rundir
+              mountPath: "/run"
           resources:
             requests:
-              memory: 300Mi
+              memory: 100Mi
             limits:
-              memory: 300Mi
+              memory: 100Mi
           readinessProbe:
             exec:
               command:
@@ -48,4 +49,6 @@ spec:
             failureThreshold: 1
       volumes:
         - name: tmpdir
+          emptyDir: {}
+        - name: rundir
           emptyDir: {}
