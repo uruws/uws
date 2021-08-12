@@ -29,6 +29,10 @@ spec:
               mountPath: "/var/cache/munin/www"
             - name: log
               mountPath: "/var/log/munin"
+            - name: tmpdir
+              mountPath: "/tmp"
+            - name: rundir
+              mountPath: "/run"
           resources:
             requests:
               memory: 300Mi
@@ -44,6 +48,11 @@ spec:
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 1
+      volumes:
+        - name: tmpdir
+          emptyDir: {}
+        - name: rundir
+          emptyDir: {}
   volumeClaimTemplates:
     - metadata:
         name: db
