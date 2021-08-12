@@ -5,6 +5,7 @@ metadata:
   name: munin
   namespace: mon
 spec:
+  serviceName: munin
   replicas: 1
   selector:
     matchLabels:
