@@ -17,7 +17,7 @@ kube_cache=${HOME}/.uwscli/kube/cache
 mkdir -p ${kube_cache}
 chmod 1777 ${kube_cache}
 
-exec docker run -it --rm \
+exec docker run --rm \
 	--hostname ${hostname} -u uws \
 	-v ${k8s}:/home/uws/k8s:ro \
 	-v ${pod}:/home/uws/pod:ro \
