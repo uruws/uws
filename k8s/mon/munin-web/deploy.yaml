@@ -19,6 +19,7 @@ metadata:
   name: munin-web
   namespace: mon
 spec:
+  serviceName: munin-web
   replicas: 1
   selector:
     matchLabels:
