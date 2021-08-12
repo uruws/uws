@@ -157,7 +157,7 @@ clamav:
 	@./docker/clamav/build.sh
 
 .PHONY: k8s
-k8s:
+k8s: k8smon
 	@./docker/k8s/build.sh
 
 .PHONY: eks
@@ -182,3 +182,13 @@ deploy:
 	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
+
+# k8smon
+
+K8SMON_DEPS != find go/cmd/k8smon -type f -name '*.go'
+
+.PHONY: k8smon
+k8smon: docker/golang/build/k8smon.bin
+
+docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/k8smon.bin ./cmd/k8smon
