@@ -1,4 +1,19 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: munin-web
+  namespace: mon
+  labels:
+    app.kubernetes.io/name: munin-web
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: munin
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -33,6 +48,8 @@ spec:
               mountPath: "/tmp"
             - name: rundir
               mountPath: "/run"
+            - name: cgi-tmp
+              mountPath: "/var/lib/munin/cgi-tmp"
           resources:
             requests:
               memory: 300Mi
@@ -48,10 +65,44 @@ spec:
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 1
+        - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin-web-${VERSION}
+          imagePullPolicy: IfNotPresent
+          name: munin-web
+          ports:
+            - containerPort: 80
+              name: web
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: db
+              mountPath: "/var/lib/munin"
+              readOnly: true
+            - name: cache
+              mountPath: "/var/cache/munin/www"
+              readOnly: true
+            - name: cgi-tmp
+              mountPath: "/var/lib/munin/cgi-tmp"
+          resources:
+            requests:
+              memory: 300Mi
+            limits:
+              memory: 300Mi
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /etc/munin/apache24.conf
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 1
       volumes:
         - name: tmpdir
           emptyDir: {}
         - name: rundir
+          emptyDir: {}
+        - name: cgi-tmp
           emptyDir: {}
   volumeClaimTemplates:
     - metadata:
