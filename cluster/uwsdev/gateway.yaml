@@ -5,7 +5,7 @@ metadata:
   name: munin-web
 spec:
   type: ExternalName
-  externalName: ca.uws.svc.cluster.local
+  externalName: munin-web.mon.svc.cluster.local
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
