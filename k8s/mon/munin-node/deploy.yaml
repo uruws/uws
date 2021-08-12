@@ -41,7 +41,7 @@ spec:
             exec:
               command:
                 - cat
-                - /etc/munin/munin.conf
+                - /etc/munin/munin-node.conf
             initialDelaySeconds: 15
             periodSeconds: 15
             timeoutSeconds: 3
