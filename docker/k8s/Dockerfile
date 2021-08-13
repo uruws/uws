@@ -28,6 +28,9 @@ RUN wget ${KUBE_URL}/bin/linux/amd64/kubectl \
 	&& install -v -m 0755 kubectl /usr/local/bin \
 	&& rm -vf kubectl kubectl.sha256
 
+RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
+	&& install -v -d -m 0750 /home/uws/.kube/cache
+
 USER root:root
 WORKDIR /root
 
