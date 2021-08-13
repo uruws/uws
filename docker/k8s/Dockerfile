@@ -37,6 +37,10 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
+RUN groupadd -o -g 3000 uwsrun \
+	&& useradd -o -d /home/uwsrun -m -c 'uwsrun' -g 3000 -u 3000 uwsrun \
+	&& chmod -v 0750 /home/uwsrun
+
 COPY ./utils/uwskube /tmp/uwskube
 RUN install -v -m 0755 /tmp/uwskube /usr/local/bin/uwskube \
 	&& rm -vf /tmp/uwskube

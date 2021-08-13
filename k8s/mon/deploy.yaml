@@ -43,8 +43,8 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsNonRoot: true
-            runAsUser: 65534
-            runAsGroup: 65534
+            runAsUser: 3000
+            runAsGroup: 3000
           ports:
             - containerPort: 2800
               name: k8smon
