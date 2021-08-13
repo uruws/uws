@@ -26,16 +26,17 @@ func main() {
 }
 
 func logRequest(r *http.Request, status int) {
-	log.Print("%s %s %s %s - %d", r.RemoteAddr, r.Method, r.URL, r.Proto, status)
+	log.Print("%s %s %s %s %d", r.RemoteAddr, r.Method, r.URL, r.Proto, status)
 }
 
-func writeError(w http.ResponseWriter, r *http.Request, message string, args ...interface{}) {
-	http.Error(w, fmt.Sprintf(message, args...), http.StatusInternalServerError)
+func writeError(w http.ResponseWriter, r *http.Request, err error) {
+	log.Error("%s", err)
+	http.Error(w, fmt.Sprintf("error: %s\n", err), http.StatusInternalServerError)
 	logRequest(r, http.StatusInternalServerError)
 }
 
 func writeNotFound(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, fmt.Sprintf("%s: not found\n", r.URL.Path), http.StatusNotFound)
+	http.Error(w, fmt.Sprintf("not found: %s\n", r.URL.Path), http.StatusNotFound)
 	logRequest(r, http.StatusNotFound)
 }
 
@@ -45,12 +46,16 @@ func write(w http.ResponseWriter, r *http.Request, message string, args ...inter
 }
 
 func healthzHandler(w http.ResponseWriter, r *http.Request) {
-	write(w, r, "ok\n")
+	if _, err := os.Hostname(); err != nil {
+		writeError(w, r, err)
+	} else {
+		write(w, r, "ok\n")
+	}
 }
 
 func pingHandler(w http.ResponseWriter, r *http.Request) {
 	if hostname, err := os.Hostname(); err != nil {
-		writeError(w, r, "ERROR: %s\n", err)
+		writeError(w, r, err)
 	} else {
 		write(w, r, "uwsctl@%s\n", hostname)
 	}
