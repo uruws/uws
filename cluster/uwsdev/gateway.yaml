@@ -53,7 +53,7 @@ spec:
                 port:
                   number: 80
           - pathType: Prefix
-            path: /k8s/(.*)
+            path: /k8smon/(.*)
             backend:
               service:
                 name: k8smon
