@@ -7,6 +7,14 @@ spec:
   type: ExternalName
   externalName: munin-web.mon.svc.cluster.local
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8smon
+spec:
+  type: ExternalName
+  externalName: k8s.mon.svc.cluster.local
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -44,3 +52,10 @@ spec:
                 name: munin-web
                 port:
                   number: 80
+          - pathType: Prefix
+            path: /k8s/(.*)
+            backend:
+              service:
+                name: k8smon
+                port:
+                  number: 2800
