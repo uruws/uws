@@ -32,10 +32,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - devel.uws.talkingpts.org
+        - ${CLUSTER_HOST}.uws.talkingpts.org
       secretName: cluster-certificate
   rules:
-    - host: devel.uws.talkingpts.org
+    - host: ${CLUSTER_HOST}.uws.talkingpts.org
       http:
         paths:
           - pathType: Prefix

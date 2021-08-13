@@ -41,7 +41,6 @@ RUN install -v -m 0755 helm-wrapper.sh /usr/local/bin/helm \
 RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 	&& install -v -d -m 0750 /home/uws/.aws \
 	&& install -v -d -m 0750 /home/uws/bin \
-	&& install -v -d -m 0750 /home/uws/files \
 	&& install -v -d -m 0750 /home/uws/k8s \
 	&& install -v -d -m 0750 /home/uws/pod \
 	&& install -v -d -m 0750 /home/uws/cluster \
