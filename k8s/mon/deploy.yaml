@@ -23,7 +23,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: k8s
   replicas: 1
-  revisionHistoryLimit: 3
+  revisionHistoryLimit: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -59,16 +59,22 @@ spec:
           command:
             - /usr/local/bin/k8smon
           readinessProbe:
-            exec:
-              command:
-                - test
-                - "-x"
-                - /usr/local/bin/k8smon
+            httpGet:
+              path: /_/ping
+              port: 2800
             initialDelaySeconds: 5
             periodSeconds: 15
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /_/healthz
+              port: 2800
+            periodSeconds: 15
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
       volumes:
         - name: tmpdir
           emptyDir: {}
