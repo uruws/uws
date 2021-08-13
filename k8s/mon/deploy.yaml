@@ -45,7 +45,7 @@ spec:
             exec:
               command:
                 - test
-                - "-s"
+                - "-x"
                 - /usr/local/bin/k8smon
             initialDelaySeconds: 5
             periodSeconds: 15
