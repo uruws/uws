@@ -1,4 +1,4 @@
 #!/bin/sh
-set -eu
-uwskube delete namespace mon
-exit 0
+set -u
+uwskube delete secret cluster-env -n mon
+exec uwskube delete namespace mon

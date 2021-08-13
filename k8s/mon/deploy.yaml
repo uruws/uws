@@ -51,6 +51,8 @@ spec:
           volumeMounts:
             - name: tmpdir
               mountPath: "/tmp"
+            - name: cluster-env
+              mountPath: "/home/uwsrun/.kube/eksctl/clusters"
           #~ resources:
             #~ requests:
               #~ memory: 100Mi
@@ -78,3 +80,6 @@ spec:
       volumes:
         - name: tmpdir
           emptyDir: {}
+        - name: cluster-env
+          secret:
+            secretName: cluster-env

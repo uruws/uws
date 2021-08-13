@@ -41,6 +41,9 @@ RUN groupadd -o -g 3000 uwsrun \
 	&& useradd -o -d /home/uwsrun -m -c 'uwsrun' -g 3000 -u 3000 uwsrun \
 	&& chmod -v 0750 /home/uwsrun
 
+RUN install -v -d -o uwsrun -g uwsrun -m 0750 /home/uwsrun/.kube/eksctl/clusters \
+	&& install -v -d -o uwsrun -g uwsrun -m 0750 /home/uwsrun/.kube/cache
+
 COPY ./utils/uwskube /tmp/uwskube
 RUN install -v -m 0755 /tmp/uwskube /usr/local/bin/uwskube \
 	&& rm -vf /tmp/uwskube
