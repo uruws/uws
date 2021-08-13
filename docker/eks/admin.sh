@@ -17,11 +17,13 @@ cadir=${PWD}/secret/ca
 utils=${PWD}/docker/eks/utils
 k8s=${PWD}/k8s
 pod=${PWD}/pod
-cluster=${PWD}/cluster
 eksenv=${PWD}/eks/env/${uws_cluster}.env
 
 tmpdir=${PWD}/tmp
 mkdir -vp ${tmpdir}
+
+cluster=${PWD}/cluster/${uws_cluster}
+mkdir -vp ${cluster}
 
 . ${eksenv}
 
