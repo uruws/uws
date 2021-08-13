@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: munin-web
+spec:
+  type: ExternalName
+  externalName: munin-web.mon.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8smon
+spec:
+  type: ExternalName
+  externalName: k8s.mon.svc.cluster.local
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cluster-gateway
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/issuer: acme-prod
+    nginx.ingress.kubernetes.io/auth-tls-secret: default/ca-certificate
+    nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    #~ nginx.ingress.kubernetes.io/auth-tls-error-page: "/authca"
+    nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "false"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ${CLUSTER_HOST}.uws.talkingpts.org
+      secretName: cluster-certificate
+  rules:
+    - host: ${CLUSTER_HOST}.uws.talkingpts.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: /(munin/.*)
+            backend:
+              service:
+                name: munin-web
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /(munin-cgi/.*)
+            backend:
+              service:
+                name: munin-web
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /k8smon/(.*)
+            backend:
+              service:
+                name: k8smon
+                port:
+                  number: 2800

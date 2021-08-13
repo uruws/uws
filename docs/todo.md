@@ -4,7 +4,11 @@
     * amy-east (web) - `DONE!`
     * amy-west (web) - `DONE!`
 
-* set node v8 heap memory size for meteor workers - `DONE!`
+* web and workers tunning - `DONE!`
+    * set node v8 heap memory size
+    * set resources and limits so we run:
+        * 2 workers per node
+        * 3 webs per node
 
 * graph app number of active users/sessions
     * set it up on prod

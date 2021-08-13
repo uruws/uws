@@ -28,6 +28,9 @@ RUN wget ${KUBE_URL}/bin/linux/amd64/kubectl \
 	&& install -v -m 0755 kubectl /usr/local/bin \
 	&& rm -vf kubectl kubectl.sha256
 
+RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
+	&& install -v -d -m 0750 /home/uws/.kube/cache
+
 USER root:root
 WORKDIR /root
 
@@ -37,6 +40,8 @@ ENV HOME /root
 COPY ./utils/uwskube /tmp/uwskube
 RUN install -v -m 0755 /tmp/uwskube /usr/local/bin/uwskube \
 	&& rm -vf /tmp/uwskube
+
+COPY ./build/k8smon.bin /usr/local/bin/k8smon
 
 USER uws:uws
 WORKDIR /home/uws

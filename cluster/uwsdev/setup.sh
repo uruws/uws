@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
-cluster=~/cluster/${UWS_CLUSTER}
-uwskube apply -f ${cluster}/gateway.yaml
+~/k8s/ca/setup.sh
+~/k8s/gateway/setup.sh
 exit 0
