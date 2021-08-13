@@ -152,7 +152,7 @@ k8s: k8smon
 	@./docker/k8s/build.sh
 
 .PHONY: eks
-eks:
+eks: k8s
 	@./docker/eks/build.sh
 
 .PHONY: proftpd
