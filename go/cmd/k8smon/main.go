@@ -8,13 +8,21 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+
+	"uws/log"
 )
 
 func main() {
+	log.Init("k8smon")
+	log.Debug("main init")
+
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_/ping", pingHandler)
+
 	http.HandleFunc("/", mainHandler)
 	http.ListenAndServe(":2800", nil)
+
+	log.Debug("main end")
 }
 
 func healthzHandler(w http.ResponseWriter, r *http.Request) {
