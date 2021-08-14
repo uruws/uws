@@ -60,6 +60,8 @@ spec:
           volumeMounts:
             - name: tmpdir
               mountPath: "/tmp"
+            - name: kube-cache
+              mountPath: "/home/uwsrun/.kube/cache"
             - name: cluster-auth
               mountPath: "/home/uwsrun/.kube/eksctl/clusters"
               readOnly: true
@@ -89,7 +91,11 @@ spec:
             failureThreshold: 3
       volumes:
         - name: tmpdir
-          emptyDir: {}
+          emptyDir:
+            sizeLimit: 3Gi
         - name: cluster-auth
           secret:
             secretName: cluster-auth
+        - name: kube-cache
+          emptyDir:
+            sizeLimit: 3Gi
