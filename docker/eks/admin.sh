@@ -10,7 +10,7 @@ if test 'X--client' = "X${1:-'NONE'}"; then
 	shift
 fi
 
-awsdir=${PWD}/secret/eks/aws
+awsdir=${PWD}/secret/eks/aws/admin/${uws_cluster}
 secret=${PWD}/secret/eks/files
 cadir=${PWD}/secret/ca
 utils=${PWD}/docker/eks/utils
