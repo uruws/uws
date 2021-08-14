@@ -10,7 +10,7 @@ import (
 )
 
 func NodesConfig(w http.ResponseWriter, r *http.Request) {
-	out, err := Kube("get", "nodes")
+	out, err := Kube("get", "nodes", "-o", "json")
 	if err != nil {
 		wapp.Error(w, r, err)
 	} else {

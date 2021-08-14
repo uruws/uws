@@ -55,7 +55,6 @@ func Kube(args ...string) ([]byte, error) {
 	}()
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Minute)
 	defer cancel()
-	args = append(args, "-o", "json")
 	cmd := exec.CommandContext(ctx, kubecmd, args...)
 	cmd.Stdout = outfh
 	cmd.Stderr = errfh
