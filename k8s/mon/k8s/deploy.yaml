@@ -48,9 +48,15 @@ spec:
           ports:
             - containerPort: 2800
               name: k8smon
+          env:
+            - name: USER
+              value: "uwsrun"
+            - name: HOME
+              value: "/home/uwsrun"
           envFrom:
             - configMapRef:
                 name: cluster-env
+          workingDir: /home/uwsrun
           volumeMounts:
             - name: tmpdir
               mountPath: "/tmp"
