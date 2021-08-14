@@ -28,6 +28,8 @@ RUN /root/bin/apt-install.sh python3-pymongo
 ADD ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
+RUN ln -vsf /root/bin/k8smon.sh /usr/local/bin/k8smon
+
 COPY --chown=uws:uws ./build/uwsbot-stats.bin /uws/bin/uwsbot-stats
 RUN chmod -v 0750 /uws/bin/uwsbot-stats
 
