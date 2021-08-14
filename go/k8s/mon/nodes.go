@@ -4,7 +4,10 @@
 package mon
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
+	"strings"
 
 	"uws/wapp"
 )
@@ -67,9 +70,16 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	out, err := Kube("get", "nodes", "-o", "json")
 	if err != nil {
 		wapp.Error(w, r, start, err)
-	} else {
-		wapp.Write(w, r, start, "%s", out)
+		return
 	}
+	nl := new(nodeList)
+	if err := json.Unmarshal(out, &nl); err != nil {
+		wapp.Error(w, r, start, err)
+		return
+	}
+	buf := new(strings.Builder)
+	buf.WriteString(fmt.Sprintf("%d\n", len(nl.Items)))
+	wapp.Write(w, r, start, "%s", buf.String())
 }
 
 func Nodes(w http.ResponseWriter, r *http.Request) {
