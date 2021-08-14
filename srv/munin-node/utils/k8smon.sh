@@ -7,4 +7,4 @@ if test 'Xconfig' = "X${1:-''}"; then
 	action='config'
 fi
 uri="${base_uri}/${action}/${plname}"
-exec wget -O - "${uri}"
+exec wget -q -O - "${uri}"
