@@ -10,7 +10,12 @@ import (
 )
 
 func NodesConfig(w http.ResponseWriter, r *http.Request) {
-	wapp.Write(w, r, "nodes config\n")
+	out, err := Kube("get", "nodes")
+	if err != nil {
+		wapp.Error(w, r, err)
+	} else {
+		wapp.Write(w, r, "%s", out)
+	}
 }
 
 func Nodes(w http.ResponseWriter, r *http.Request) {

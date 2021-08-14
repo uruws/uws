@@ -62,7 +62,9 @@ func Kube(args ...string) ([]byte, error) {
 			if blob, err := ioutil.ReadAll(errfh); err != nil {
 				log.Error("read error fh: %s", err)
 			} else {
-				log.Error("%s", blob)
+				if len(blob) > 0 {
+					log.Error("%s", blob)
+				}
 			}
 		}
 		return nil, log.DebugError(xerr)

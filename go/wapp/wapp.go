@@ -22,12 +22,12 @@ func ServeStatic(dir string) {
 
 func Error(w http.ResponseWriter, r *http.Request, err error) {
 	log.Error("%s", err)
-	http.Error(w, fmt.Sprintf("error: %s\n", err), http.StatusInternalServerError)
+	http.Error(w, fmt.Sprintf("error: %s", err), http.StatusInternalServerError)
 	logRequest(r, http.StatusInternalServerError, len("error: \n") + len(err.Error()))
 }
 
 func NotFound(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, fmt.Sprintf("not found: %s\n", r.URL.Path), http.StatusNotFound)
+	http.Error(w, fmt.Sprintf("not found: %s", r.URL.Path), http.StatusNotFound)
 	logRequest(r, http.StatusNotFound, len("not found: \n") + len(r.URL.Path))
 }
 
