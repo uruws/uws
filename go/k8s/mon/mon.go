@@ -25,7 +25,7 @@ func init() {
 	}
 }
 
-func Kube(args ...string) (*os.File, error) {
+func Kube(args ...string) ([]byte, error) {
 	var (
 		outfh *os.File
 		errfh *os.File
@@ -35,16 +35,18 @@ func Kube(args ...string) (*os.File, error) {
 	if err != nil {
 		return nil, log.DebugError(err)
 	}
-	defer func(fn string) {
-		os.Remove(fn)
-	}(outfh.Name())
+	defer func() {
+		os.Remove(outfh.Name())
+		outfh.Close()
+	}()
 	errfh, err = ioutil.TempFile("", "kube-err.*")
 	if err != nil {
 		return nil, log.DebugError(err)
 	}
-	defer func(fn string) {
-		os.Remove(fn)
-	}(errfh.Name())
+	defer func() {
+		os.Remove(errfh.Name())
+		errfh.Close()
+	}()
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Minute)
 	defer cancel()
 	args = append(args, "-o", "json")
@@ -68,5 +70,5 @@ func Kube(args ...string) (*os.File, error) {
 	if _, err := outfh.Seek(0, 0); err != nil {
 		return nil, log.DebugError(err)
 	}
-	return outfh, nil
+	return ioutil.ReadAll(outfh)
 }
