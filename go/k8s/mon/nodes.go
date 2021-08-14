@@ -5,10 +5,9 @@ package mon
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"strings"
 
+	"uws/log"
 	"uws/wapp"
 )
 
@@ -66,6 +65,16 @@ type nodeList struct {
 }
 
 func NodesConfig(w http.ResponseWriter, r *http.Request) {
+	log.Debug("nodes config")
+	start := wapp.Start()
+	cluster := CleanFN(Cluster())
+	buf := NewBuffer()
+	buf.Write("multigraph %s_nodes\n", cluster)
+	wapp.Write(w, r, start, "%s", buf.String())
+}
+
+func Nodes(w http.ResponseWriter, r *http.Request) {
+	log.Debug("nodes report")
 	start := wapp.Start()
 	out, err := Kube("get", "nodes", "-o", "json")
 	if err != nil {
@@ -77,12 +86,7 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 		wapp.Error(w, r, start, err)
 		return
 	}
-	buf := new(strings.Builder)
-	buf.WriteString(fmt.Sprintf("%d\n", len(nl.Items)))
+	buf := NewBuffer()
+	buf.Write("%d\n", len(nl.Items))
 	wapp.Write(w, r, start, "%s", buf.String())
-}
-
-func Nodes(w http.ResponseWriter, r *http.Request) {
-	start := wapp.Start()
-	wapp.Write(w, r, start, "nodes\n")
 }
