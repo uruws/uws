@@ -12,10 +12,12 @@ def main():
 	flags = ArgumentParser(description = 'get pod logs')
 	flags.add_argument('-n', '--namespace', metavar = 'ns', required = True,
 		help = 'pod namespace')
+	flags.add_argument('-T', '--no-timestamps', action = 'store_true',
+		default = False, help = 'do not show timestamps')
 	flags.add_argument('-l', '--label', metavar = 'filter', default = '',
 		help = 'filter label')
-	flags.add_argument('-f', '--follow', action = 'store_true', default = False,
-		help = 'follow messages')
+	flags.add_argument('-f', '--follow', action = 'store_true',
+		default = False, help = 'follow messages')
 	flags.add_argument('-t', '--tail', type = int, default = 10,
 		metavar = 'N', help = 'show last N messages (default 10)')
 	flags.add_argument('-m', '--max', type = int, default = 0,
@@ -25,9 +27,11 @@ def main():
 
 	args = flags.parse_args()
 
-	cmd = "uwskube logs --timestamps -n %s" % args.namespace
+	cmd = "uwskube logs"
+	if not args.no_timestamps:
+		cmd += " --timestamps"
+	cmd += " -n %s" % args.namespace
 	cmd += " --tail=%d" % args.tail
-
 	if args.follow:
 		cmd += ' -f'
 
