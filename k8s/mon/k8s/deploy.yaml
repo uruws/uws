@@ -62,6 +62,7 @@ spec:
               mountPath: "/tmp"
             - name: cluster-auth
               mountPath: "/home/uwsrun/.kube/eksctl/clusters"
+              readOnly: true
           #~ resources:
             #~ requests:
               #~ memory: 100Mi
