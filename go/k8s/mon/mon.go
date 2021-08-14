@@ -62,10 +62,10 @@ func Kube(args ...string) ([]byte, error) {
 	xerr := cmd.Run()
 	if xerr != nil {
 		if _, err := errfh.Seek(0, 0); err != nil {
-			log.Error("seek error fh: %s", err)
+			log.Error("errfh seek: %s", err)
 		} else {
 			if blob, err := ioutil.ReadAll(errfh); err != nil {
-				log.Error("read error fh: %s", err)
+				log.Error("errfh read: %s", err)
 			} else {
 				if len(blob) > 0 {
 					log.Error("%s", blob)
