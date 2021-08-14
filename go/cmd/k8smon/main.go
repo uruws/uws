@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 
+	"uws/k8s/mon"
 	"uws/log"
 	"uws/wapp"
 )
@@ -18,6 +19,9 @@ func main() {
 
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_/ping", pingHandler)
+
+	http.HandleFunc("/config/nodes", mon.NodesConfig)
+	http.HandleFunc("/report/nodes", mon.Nodes)
 
 	http.HandleFunc("/", mainHandler)
 
