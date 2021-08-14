@@ -48,10 +48,13 @@ spec:
           ports:
             - containerPort: 2800
               name: k8smon
+          envFrom:
+            - configMapRef:
+                name: cluster-env
           volumeMounts:
             - name: tmpdir
               mountPath: "/tmp"
-            - name: cluster-env
+            - name: cluster-auth
               mountPath: "/home/uwsrun/.kube/eksctl/clusters"
           #~ resources:
             #~ requests:
@@ -80,6 +83,6 @@ spec:
       volumes:
         - name: tmpdir
           emptyDir: {}
-        - name: cluster-env
+        - name: cluster-auth
           secret:
-            secretName: cluster-env
+            secretName: cluster-auth
