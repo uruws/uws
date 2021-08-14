@@ -32,6 +32,9 @@ spec:
               mountPath: "/tmp"
             - name: rundir
               mountPath: "/run"
+            - name: cluster-setup
+              mountPath: "/srv/etc/munin-node"
+              readOnly: true
           resources:
             requests:
               memory: 100Mi
@@ -52,3 +55,6 @@ spec:
           emptyDir: {}
         - name: rundir
           emptyDir: {}
+        - name: cluster-setup
+          configMap:
+            name: cluster-setup

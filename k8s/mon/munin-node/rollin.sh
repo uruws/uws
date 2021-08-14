@@ -1,4 +1,5 @@
 #!/bin/sh
-set -eu
+set -u
 uwskube delete deploy munin-node -n mon
-exit 0
+uwskube delete configmap cluster-setup -n mon
+exit $?
