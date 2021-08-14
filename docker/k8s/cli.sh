@@ -6,7 +6,7 @@ shift
 
 k8s=${PWD}/k8s
 pod=${PWD}/pod
-awsdir=${PWD}/secret/eks/aws/client
+awsdir=${PWD}/secret/eks/aws/client/${cluster}
 eksenv=${PWD}/eks/env/${cluster}.env
 
 . ${eksenv}
