@@ -17,6 +17,12 @@ func main() {
 	log.Init("k8smon")
 	log.Debug("main init")
 
+	if mon.Cluster() == "" {
+		log.Fatal("UWS_CLUSTER not set")
+	} else {
+		log.Debug("cluster %s", mon.Cluster())
+	}
+
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_/ping", pingHandler)
 

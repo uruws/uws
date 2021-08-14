@@ -16,13 +16,19 @@ import (
 
 var (
 	kubecmd string
+	cluster string
 )
 
 func init() {
+	cluster = os.Getenv("UWS_CLUSTER")
 	kubecmd = os.Getenv("UWSKUBE")
 	if kubecmd == "" {
 		kubecmd = "/usr/local/bin/uwskube"
 	}
+}
+
+func Cluster() string {
+	return cluster
 }
 
 func Kube(args ...string) ([]byte, error) {
