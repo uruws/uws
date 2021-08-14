@@ -16,6 +16,10 @@ elif test 'Xlocal' = "X${NAME}"; then
 	NAME=${2:?'plugin name?'}
 	DEST=${3:-"${NAME}"}
 	PLDIR=/usr/local/bin
+elif test 'Xuws' = "X${NAME}"; then
+	NAME=${2:?'plugin name?'}
+	DEST=${3:-"${NAME}"}
+	PLDIR=/uws/bin
 else
 	DEST=${2:-"${NAME}"}
 fi
