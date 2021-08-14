@@ -36,7 +36,6 @@ spec:
           name: munin
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
           volumeMounts:
             - name: db
               mountPath: "/var/lib/munin"
@@ -101,11 +100,14 @@ spec:
             failureThreshold: 1
       volumes:
         - name: tmpdir
-          emptyDir: {}
+          emptyDir:
+            sizeLimit: 3Gi
         - name: rundir
-          emptyDir: {}
+          emptyDir:
+            sizeLimit: 1Gi
         - name: cgi-tmp
-          emptyDir: {}
+          emptyDir:
+            sizeLimit: 1Gi
   volumeClaimTemplates:
     - metadata:
         name: db
