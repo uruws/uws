@@ -47,8 +47,9 @@ spec:
               mountPath: "/tmp"
             - name: rundir
               mountPath: "/run"
-            - name: cgi-tmp
-              mountPath: "/var/lib/munin/cgi-tmp"
+            - name: munin-confd
+              mountPath: "/srv/etc/munin/munin-conf.d"
+              readOnly: true
           resources:
             requests:
               cpu: 20m
@@ -80,8 +81,14 @@ spec:
             - name: cache
               mountPath: "/var/cache/munin/www"
               readOnly: true
+            - name: web-tmpdir
+              mountPath: "/tmp"
+            - name: web-rundir
+              mountPath: "/run"
             - name: cgi-tmp
               mountPath: "/var/lib/munin/cgi-tmp"
+            - name: web-lockdir
+              mountPath: "/var/lock"
           resources:
             requests:
               cpu: 20m
@@ -105,9 +112,21 @@ spec:
         - name: rundir
           emptyDir:
             sizeLimit: 1Gi
+        - name: web-tmpdir
+          emptyDir:
+            sizeLimit: 3Gi
+        - name: web-rundir
+          emptyDir:
+            sizeLimit: 1Gi
         - name: cgi-tmp
           emptyDir:
             sizeLimit: 1Gi
+        - name: web-lockdir
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: munin-confd
+          configMap:
+            name: munin-confd
   volumeClaimTemplates:
     - metadata:
         name: db
