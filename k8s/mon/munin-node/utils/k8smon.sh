@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 plname=$(basename "${0}" | tr -s '_' '/')
-base_uri="http://${K8S_SERVICE_HOST}:${K8S_SERVICE_PORT}/"
+base_uri='http://cluster.mon:2800'
 action='report'
 if test 'Xconfig' = "X${1:-''}"; then
 	action='config'
