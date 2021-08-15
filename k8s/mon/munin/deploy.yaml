@@ -61,8 +61,8 @@ spec:
               command:
                 - cat
                 - /etc/munin/munin.conf
-            initialDelaySeconds: 15
-            periodSeconds: 15
+            initialDelaySeconds: 5
+            periodSeconds: 60
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 1
@@ -100,8 +100,8 @@ spec:
               command:
                 - cat
                 - /etc/munin/apache24.conf
-            initialDelaySeconds: 15
-            periodSeconds: 15
+            initialDelaySeconds: 5
+            periodSeconds: 60
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 1
