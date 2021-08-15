@@ -96,15 +96,15 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	ncUnknown.Draw = "AREASTACK"
 	// memory pressure condition
 	ncMem := nc.AddField("f01_memory_pressure")
-	ncMem.Label = "memory_pressure"
+	ncMem.Label = "memory pressure"
 	ncMem.Draw = "AREASTACK"
 	// disk pressure condition
 	ncDisk := nc.AddField("f02_disk_pressure")
-	ncDisk.Label = "disk_pressure"
+	ncDisk.Label = "disk pressure"
 	ncDisk.Draw = "AREASTACK"
 	// pid pressure condition
 	ncPID := nc.AddField("f03_pid_pressure")
-	ncPID.Label = "pid_pressure"
+	ncPID.Label = "pid pressure"
 	ncPID.Draw = "AREASTACK"
 	// ready condition
 	ncReady := nc.AddField("f04_ready")
