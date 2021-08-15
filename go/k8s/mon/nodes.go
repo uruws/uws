@@ -67,15 +67,15 @@ type nodeList struct {
 func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	log.Debug("nodes config")
 	start := wapp.Start()
-	cluster := CleanFN(Cluster())
 	buf := NewBuffer()
 
 	// nodes number
-	buf.Write("multigraph %s_nodes\n", cluster)
+	buf.Write("multigraph nodes\n")
 	buf.Write("graph_title %s cluster nodes\n", Cluster())
 	buf.Write("graph_args --base 1000 -l 0\n")
 	buf.Write("graph_vlabel number\n")
 	buf.Write("graph_category node\n")
+	buf.Write("graph_printf %3.0lf\n")
 	buf.Write("graph_scale no\n")
 	buf.Write("f00_total.label nodes\n")
 	buf.Write("f00_total.colour COLOUR0\n")
@@ -98,11 +98,10 @@ func Nodes(w http.ResponseWriter, r *http.Request) {
 		wapp.Error(w, r, start, err)
 		return
 	}
-	cluster := CleanFN(Cluster())
 	buf := NewBuffer()
 
 	// nodes number
-	buf.Write("multigraph %s_nodes\n", cluster)
+	buf.Write("multigraph nodes\n")
 	buf.Write("f00_total.value %d\n", len(nl.Items))
 
 	wapp.Write(w, r, start, "%s", buf.String())
