@@ -6,7 +6,7 @@ uwskube delete configmap munin-confd -n mon || true
 uwskube create configmap munin-confd -n mon \
 	--from-file="${munin_confd}"
 
-export VERSION="$(cat ~/k8s/mon/VERSION)"
+export VERSION="$(cat ~/k8s/mon/munin/VERSION)"
 envsubst <~/k8s/mon/munin/deploy.yaml | uwskube apply -f -
 
 exit 0
