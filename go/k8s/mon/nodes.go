@@ -68,7 +68,9 @@ type nodeList struct {
 func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	log.Debug("nodes config")
 	start := wapp.Start()
+
 	buf := stats.NewBuffer()
+	defer buf.Reset()
 
 	// nodes number
 	nodes := stats.NewConfig("nodes")
@@ -113,6 +115,14 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	wapp.Write(w, r, start, "%s", buf)
 }
 
+type nodesReport struct {
+	UnknownCondition int64
+	MemoryPressure   int64
+	DiskPressure     int64
+	PIDPressure      int64
+	ReadyCondition   int64
+}
+
 func Nodes(w http.ResponseWriter, r *http.Request) {
 	log.Debug("nodes report")
 	start := wapp.Start()
@@ -132,14 +142,42 @@ func Nodes(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	buf := stats.NewBuffer()
+	defer buf.Reset()
+
 	// nodes number
 	nodes := stats.NewReport("nodes")
 	nodesTotal := nodes.AddField("f00_total")
 	if hasError {
 		nodesTotal.Unknown = true
-	} else {
-		nodesTotal.Value = int64(len(nl.Items))
+		wapp.Write(w, r, start, "%s", nodes)
+		return
 	}
+	nodesTotal.Value = int64(len(nl.Items))
+	buf.Write("%s", nodes)
 
-	wapp.Write(w, r, start, "%s", nodes)
+	// parse report
+	rpt := new(nodesReport)
+	//~ r.Parse(nl)
+
+	// nodes condition
+	nc := stats.NewReport("nodes_condition")
+	// unknown condition
+	ncUnknown := nc.AddField("f00_unknown")
+	ncUnknown.Value = rpt.UnknownCondition
+	// memory pressure condition
+	ncMem := nc.AddField("f01_memory_pressure")
+	ncMem.Value = rpt.MemoryPressure
+	// disk pressure condition
+	ncDisk := nc.AddField("f02_disk_pressure")
+	ncDisk.Value = rpt.DiskPressure
+	// pid pressure condition
+	ncPID := nc.AddField("f03_pid_pressure")
+	ncPID.Value = rpt.PIDPressure
+	// ready condition
+	ncReady := nc.AddField("f04_ready")
+	ncReady.Value = rpt.ReadyCondition
+	buf.Write("%s", nc)
+
+	wapp.Write(w, r, start, "%s", buf)
 }
