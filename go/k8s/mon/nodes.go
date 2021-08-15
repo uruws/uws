@@ -75,7 +75,7 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	buf.Write("graph_args --base 1000 -l 0\n")
 	buf.Write("graph_vlabel number\n")
 	buf.Write("graph_category node\n")
-	buf.Write("graph_printf %3.0lf\n")
+	buf.Write("graph_printf %%3.0lf\n")
 	buf.Write("graph_scale no\n")
 	buf.Write("f00_total.label nodes\n")
 	buf.Write("f00_total.colour COLOUR0\n")
