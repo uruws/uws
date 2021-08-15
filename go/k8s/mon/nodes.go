@@ -68,18 +68,49 @@ type nodeList struct {
 func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	log.Debug("nodes config")
 	start := wapp.Start()
+	buf := stats.NewBuffer()
 
 	// nodes number
 	nodes := stats.NewConfig("nodes")
-	nodes.Title = Cluster() + " cluster nodes"
+	nodes.Title = Cluster() + " nodes"
 	nodes.VLabel = "number"
 	nodes.Category = "node"
 	nodes.Printf = "%3.0lf"
-	nodesTotal := nodes.AddField("f00_total")
-	nodesTotal.Label = "nodes"
-	nodesTotal.Draw = "AREASTACK"
+	nTotal := nodes.AddField("f00_total")
+	nTotal.Label = "nodes"
+	nTotal.Draw = "AREASTACK"
+	buf.Write("%s", nodes)
 
-	wapp.Write(w, r, start, "%s", nodes)
+	// nodes conditions
+	nc := stats.NewConfig("nodes_condition")
+	nc.Title = Cluster() + " nodes condition"
+	nc.VLabel = "number"
+	nc.Total = "nodes total"
+	nc.Category = "node"
+	nc.Printf = "%3.0lf"
+	// unknown condition
+	ncUnknown := nc.AddField("f00_unknown")
+	ncUnknown.Label = "unknown"
+	ncUnknown.Draw = "AREASTACK"
+	// memory pressure condition
+	ncMem := nc.AddField("f01_memory_pressure")
+	ncMem.Label = "memory_pressure"
+	ncMem.Draw = "AREASTACK"
+	// disk pressure condition
+	ncDisk := nc.AddField("f02_disk_pressure")
+	ncDisk.Label = "disk_pressure"
+	ncDisk.Draw = "AREASTACK"
+	// pid pressure condition
+	ncPID := nc.AddField("f03_pid_pressure")
+	ncPID.Label = "pid_pressure"
+	ncPID.Draw = "AREASTACK"
+	// ready condition
+	ncReady := nc.AddField("f04_ready")
+	ncReady.Label = "ready"
+	ncReady.Draw = "AREASTACK"
+	buf.Write("%s", nc)
+
+	wapp.Write(w, r, start, "%s", buf)
 }
 
 func Nodes(w http.ResponseWriter, r *http.Request) {

@@ -44,14 +44,14 @@ func (b *Buffer) Write(format string, args ...interface{}) error {
 }
 
 type Field struct {
-	Name string
-	Label string
-	Color int
-	Draw string
-	Min int
-	Value int64
+	Name    string
+	Label   string
+	Color   int
+	Draw    string
+	Min     int
+	Value   int64
 	Unknown bool
-	kind string
+	kind    string
 }
 
 func (f *Field) String() string {
@@ -76,27 +76,28 @@ func (f *Field) String() string {
 }
 
 type Config struct {
-	Name string
-	Title string
-	Base int
-	Min int
-	Category string
-	VLabel string
-	Printf string
-	Scale bool
-	fields []*Field
+	Name       string
+	Title      string
+	Base       int
+	Min        int
+	Category   string
+	VLabel     string
+	Printf     string
+	Scale      bool
+	Total      string
+	fields     []*Field
 	fieldColor int
 }
 
 func NewConfig(name string) *Config {
 	return &Config{
-		Name: name,
-		Title: "NOTITLE",
-		Base: 1000,
-		Min: 0,
-		Category: "NOCATEGORY",
-		VLabel: "NOLABEL",
-		fields: make([]*Field, 0),
+		Name:       name,
+		Title:      "NOTITLE",
+		Base:       1000,
+		Min:        0,
+		Category:   "NOCATEGORY",
+		VLabel:     "NOLABEL",
+		fields:     make([]*Field, 0),
 		fieldColor: -1,
 	}
 }
@@ -107,7 +108,7 @@ func (c *Config) AddField(name string) *Field {
 		c.fieldColor = 0
 	}
 	f := &Field{
-		Name: name,
+		Name:  name,
 		Label: "NOLABEL",
 		Color: c.fieldColor,
 	}
@@ -131,6 +132,9 @@ func (c *Config) String() string {
 	} else {
 		buf.Write("graph_scale no\n")
 	}
+	if c.Total != "" {
+		buf.Write("graph_total %s\n", c.Total)
+	}
 	for _, f := range c.fields {
 		buf.Write("%s", f)
 	}
@@ -138,13 +142,13 @@ func (c *Config) String() string {
 }
 
 type Report struct {
-	Name string
+	Name   string
 	fields []*Field
 }
 
 func NewReport(name string) *Report {
 	return &Report{
-		Name: name,
+		Name:   name,
 		fields: make([]*Field, 0),
 	}
 }

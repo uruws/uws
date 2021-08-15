@@ -67,7 +67,7 @@ func Kube(args ...string) ([]byte, error) {
 
 type cacheEntry struct {
 	expire time.Time
-	data []byte
+	data   []byte
 }
 
 var cache map[string]*cacheEntry
