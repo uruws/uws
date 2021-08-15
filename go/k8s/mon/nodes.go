@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"uws/k8s/mon/stats"
 	"uws/log"
 	"uws/wapp"
 )
@@ -67,22 +68,18 @@ type nodeList struct {
 func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	log.Debug("nodes config")
 	start := wapp.Start()
-	buf := NewBuffer()
 
-	// nodes number
-	buf.Write("multigraph nodes\n")
-	buf.Write("graph_title %s cluster nodes\n", Cluster())
-	buf.Write("graph_args --base 1000 -l 0\n")
-	buf.Write("graph_vlabel number\n")
-	buf.Write("graph_category node\n")
-	buf.Write("graph_printf %%3.0lf\n")
-	buf.Write("graph_scale no\n")
-	buf.Write("f00_total.label nodes\n")
-	buf.Write("f00_total.colour COLOUR0\n")
-	buf.Write("f00_total.draw AREASTACK\n")
-	buf.Write("f00_total.min 0\n")
+	// nodes
+	nodes := stats.NewConfig("nodes")
+	nodes.Title = Cluster() + " cluster nodes"
+	nodes.VLabel = "number"
+	nodes.Category = "node"
+	nodes.Printf = "%3.0lf"
+	nodesTotal := nodes.AddField("f00_total")
+	nodesTotal.Label = "nodes"
+	nodesTotal.Draw = "AREASTACK"
 
-	wapp.Write(w, r, start, "%s", buf.String())
+	wapp.Write(w, r, start, "%s", nodes)
 }
 
 func Nodes(w http.ResponseWriter, r *http.Request) {
@@ -98,7 +95,7 @@ func Nodes(w http.ResponseWriter, r *http.Request) {
 		wapp.Error(w, r, start, err)
 		return
 	}
-	buf := NewBuffer()
+	buf := stats.NewBuffer()
 
 	// nodes number
 	buf.Write("multigraph nodes\n")

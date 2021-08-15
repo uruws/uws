@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"uws/k8s/mon/stats"
 	"uws/log"
 )
 
@@ -76,7 +77,7 @@ func init() {
 }
 
 func cacheKey(args ...string) string {
-	return CleanFN(strings.Join(args, "_"))
+	return stats.CleanFN(strings.Join(args, "_"))
 }
 
 func KubeCache(args ...string) ([]byte, error) {

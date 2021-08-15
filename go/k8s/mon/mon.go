@@ -5,12 +5,7 @@
 package mon
 
 import (
-	"fmt"
 	"os"
-	"regexp"
-	"strings"
-
-	"uws/log"
 )
 
 var (
@@ -28,31 +23,4 @@ func init() {
 
 func Cluster() string {
 	return cluster
-}
-
-var fnre = regexp.MustCompile(`\W`)
-
-func CleanFN(n string) string {
-	fn := strings.TrimSpace(n)
-	return fnre.ReplaceAllString(fn, "_")
-}
-
-type Buffer struct {
-	buf *strings.Builder
-}
-
-func NewBuffer() *Buffer {
-	return &Buffer{buf: new(strings.Builder)}
-}
-
-func (b *Buffer) String() string {
-	return b.buf.String()
-}
-
-func (b *Buffer) Write(format string, args ...interface{}) error {
-	_, err := b.buf.WriteString(fmt.Sprintf(format, args...))
-	if err != nil {
-		log.Error("%s", err)
-	}
-	return err
 }
