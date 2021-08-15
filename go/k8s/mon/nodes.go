@@ -87,7 +87,7 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	nc := stats.NewConfig("nodes_condition")
 	nc.Title = Cluster() + " nodes condition"
 	nc.VLabel = "number"
-	nc.Total = "nodes total"
+	nc.Total = "total"
 	nc.Category = "node"
 	nc.Printf = "%3.0lf"
 	// unknown condition
@@ -121,6 +121,34 @@ type nodesReport struct {
 	DiskPressure     int64
 	PIDPressure      int64
 	ReadyCondition   int64
+}
+
+func (r *nodesReport) Parse(nl *nodeList) {
+	for _, n := range nl.Items {
+		// conditions
+		condFound := false
+		for _, cond := range n.Status.Conditions {
+			if cond.Type == "MemoryPressure" && cond.Status == "True" {
+				r.MemoryPressure += 1
+				condFound = true
+			}
+			if cond.Type == "DiskPressure" && cond.Status == "True" {
+				r.DiskPressure += 1
+				condFound = true
+			}
+			if cond.Type == "PIDPressure" && cond.Status == "True" {
+				r.PIDPressure += 1
+				condFound = true
+			}
+			if cond.Type == "Ready" && cond.Status == "True" {
+				r.ReadyCondition += 1
+				condFound = true
+			}
+		}
+		if !condFound {
+			r.UnknownCondition += 1
+		}
+	}
 }
 
 func Nodes(w http.ResponseWriter, r *http.Request) {
@@ -158,7 +186,7 @@ func Nodes(w http.ResponseWriter, r *http.Request) {
 
 	// parse report
 	rpt := new(nodesReport)
-	//~ r.Parse(nl)
+	rpt.Parse(nl)
 
 	// nodes condition
 	nc := stats.NewReport("nodes_condition")
