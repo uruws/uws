@@ -180,13 +180,12 @@ MON_TAG != cat ./k8s/mon/VERSION
 
 .PHONY: mon-publish
 mon-publish: awscli munin munin-backend munin-node k8s
-	@./docker/ecr-login.sh us-east-1
+	@$(MAKE) k8smon-publish
 	@./cluster/ecr-push.sh us-east-1 uws/munin uws:munin-$(MON_TAG)
 	@./cluster/ecr-push.sh us-east-1 uws/munin-backend uws:munin-web-$(MON_TAG)
 	@./cluster/ecr-push.sh us-east-1 uws/munin-node uws:munin-node-$(MON_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/k8s uws:mon-k8s-$(MON_TAG)
 
-K8SMON_DEPS != find go/cmd/k8smon -type f -name '*.go'
+K8SMON_DEPS != find go/cmd/k8smon go/k8s/mon -type f -name '*.go'
 
 .PHONY: k8smon
 k8smon: docker/k8s/build/k8smon.bin
@@ -197,3 +196,8 @@ docker/k8s/build/k8smon.bin: docker/golang/build/k8smon.bin
 
 docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/k8smon.bin ./cmd/k8smon
+
+.PHONY: k8smon-publish
+k8smon-publish: k8s
+	@./docker/ecr-login.sh us-east-1
+	@./cluster/ecr-push.sh us-east-1 uws/k8s uws:mon-k8s-$(MON_TAG)
