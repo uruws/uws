@@ -57,7 +57,7 @@ func Kube(args ...string) ([]byte, error) {
 				}
 			}
 		}
-		return nil, log.DebugError(xerr)
+		return nil, xerr
 	}
 	if _, err := outfh.Seek(0, 0); err != nil {
 		return nil, log.DebugError(err)

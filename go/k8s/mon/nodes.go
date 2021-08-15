@@ -85,21 +85,30 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 func Nodes(w http.ResponseWriter, r *http.Request) {
 	log.Debug("nodes report")
 	start := wapp.Start()
+
+	var hasError bool
 	out, err := Kube("get", "nodes", "-o", "json")
 	if err != nil {
-		wapp.Error(w, r, start, err)
-		return
+		log.Error("get nodes: %s", err)
+		hasError = true
 	}
+
 	nl := new(nodeList)
-	if err := json.Unmarshal(out, &nl); err != nil {
-		wapp.Error(w, r, start, err)
-		return
+	if !hasError {
+		if err := json.Unmarshal(out, &nl); err != nil {
+			log.Error("read nodes: %s", err)
+			hasError = true
+		}
 	}
 
 	// nodes number
 	nodes := stats.NewReport("nodes")
 	nodesTotal := nodes.AddField("f00_total")
-	nodesTotal.Value = int64(len(nl.Items))
+	if hasError {
+		nodesTotal.Unknown = true
+	} else {
+		nodesTotal.Value = int64(len(nl.Items))
+	}
 
 	wapp.Write(w, r, start, "%s", nodes)
 }
