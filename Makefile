@@ -177,13 +177,14 @@ deploy:
 # k8smon
 
 MON_TAG != cat ./k8s/mon/VERSION
+MON_MUNIN_TAG != cat ./k8s/mon/munin/VERSION
 
 .PHONY: mon-publish
 mon-publish: awscli munin munin-backend munin-node k8s
 	@$(MAKE) k8smon-publish
-	@./cluster/ecr-push.sh us-east-1 uws/munin uws:munin-$(MON_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/munin-backend uws:munin-web-$(MON_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/munin-node uws:munin-node-$(MON_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin uws:munin-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-backend uws:munin-web-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-node uws:munin-node-$(MON_MUNIN_TAG)
 
 K8SMON_DEPS != find go/cmd/k8smon go/k8s/mon -type f -name '*.go'
 
