@@ -49,18 +49,29 @@ type Field struct {
 	Color int
 	Draw string
 	Min int
+	Value int64
+	Unknown bool
+	kind string
 }
 
 func (f *Field) String() string {
 	buf := NewBuffer()
 	defer buf.Reset()
 	fn := CleanFN(f.Name)
-	buf.Write("%s.label %s\n", fn, f.Label)
-	buf.Write("%s.colour COLOUR%d\n", fn, f.Color)
-	if f.Draw != "" {
-		buf.Write("%s.draw %s\n", fn, f.Draw)
+	if f.kind == "report" {
+		if f.Unknown {
+			buf.Write("%s.value U\n", fn)
+		} else {
+			buf.Write("%s.value %d\n", fn, f.Value)
+		}
+	} else {
+		buf.Write("%s.label %s\n", fn, f.Label)
+		buf.Write("%s.colour COLOUR%d\n", fn, f.Color)
+		if f.Draw != "" {
+			buf.Write("%s.draw %s\n", fn, f.Draw)
+		}
+		buf.Write("%s.min %d\n", fn, f.Min)
 	}
-	buf.Write("%s.min %d\n", fn, f.Min)
 	return buf.String()
 }
 
@@ -127,4 +138,29 @@ func (c *Config) String() string {
 }
 
 type Report struct {
+	Name string
+	fields []*Field
+}
+
+func NewReport(name string) *Report {
+	return &Report{
+		Name: name,
+		fields: make([]*Field, 0),
+	}
+}
+
+func (r *Report) AddField(name string) *Field {
+	f := &Field{Name: name, kind: "report"}
+	r.fields = append(r.fields, f)
+	return f
+}
+
+func (r *Report) String() string {
+	buf := NewBuffer()
+	defer buf.Reset()
+	buf.Write("multigraph %s\n", r.Name)
+	for _, f := range r.fields {
+		buf.Write("%s", f)
+	}
+	return buf.String()
 }

@@ -69,7 +69,7 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	log.Debug("nodes config")
 	start := wapp.Start()
 
-	// nodes
+	// nodes number
 	nodes := stats.NewConfig("nodes")
 	nodes.Title = Cluster() + " cluster nodes"
 	nodes.VLabel = "number"
@@ -95,11 +95,11 @@ func Nodes(w http.ResponseWriter, r *http.Request) {
 		wapp.Error(w, r, start, err)
 		return
 	}
-	buf := stats.NewBuffer()
 
 	// nodes number
-	buf.Write("multigraph nodes\n")
-	buf.Write("f00_total.value %d\n", len(nl.Items))
+	nodes := stats.NewReport("nodes")
+	nodesTotal := nodes.AddField("f00_total")
+	nodesTotal.Value = int64(len(nl.Items))
 
-	wapp.Write(w, r, start, "%s", buf.String())
+	wapp.Write(w, r, start, "%s", nodes)
 }
