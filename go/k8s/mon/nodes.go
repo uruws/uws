@@ -79,6 +79,7 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	buf.Write("graph_scale no\n")
 	buf.Write("f00_total.label nodes\n")
 	buf.Write("f00_total.colour COLOUR0\n")
+	buf.Write("f00_total.draw AREASTACK\n")
 	buf.Write("f00_total.min 0\n")
 
 	wapp.Write(w, r, start, "%s", buf.String())
