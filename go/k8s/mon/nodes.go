@@ -115,40 +115,40 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	wapp.Write(w, r, start, "%s", buf)
 }
 
-type nodesReport struct {
-	UnknownCondition int64
-	MemoryPressure   int64
-	DiskPressure     int64
-	PIDPressure      int64
-	ReadyCondition   int64
-}
-
-func (r *nodesReport) Parse(nl *nodeList) {
+func nodesReport(nl *nodeList) *stats.Parser {
+	p := stats.NewParser("nodes")
+	p.Set("nodes_total", int64(len(nl.Items)))
+	p.Set("memory_pressure", 0)
+	p.Set("disk_pressure", 0)
+	p.Set("pid_pressure", 0)
+	p.Set("ready_condition", 0)
+	p.Set("unknown_condition", 0)
 	for _, n := range nl.Items {
 		// conditions
 		condFound := false
 		for _, cond := range n.Status.Conditions {
 			if cond.Type == "MemoryPressure" && cond.Status == "True" {
-				r.MemoryPressure += 1
+				p.Inc("memory_pressure")
 				condFound = true
 			}
 			if cond.Type == "DiskPressure" && cond.Status == "True" {
-				r.DiskPressure += 1
+				p.Inc("disk_pressure")
 				condFound = true
 			}
 			if cond.Type == "PIDPressure" && cond.Status == "True" {
-				r.PIDPressure += 1
+				p.Inc("pid_pressure")
 				condFound = true
 			}
 			if cond.Type == "Ready" && cond.Status == "True" {
-				r.ReadyCondition += 1
+				p.Inc("ready_condition")
 				condFound = true
 			}
 		}
 		if !condFound {
-			r.UnknownCondition += 1
+			p.Inc("unknown_condition")
 		}
 	}
+	return p
 }
 
 func Nodes(w http.ResponseWriter, r *http.Request) {
@@ -173,38 +173,35 @@ func Nodes(w http.ResponseWriter, r *http.Request) {
 	buf := stats.NewBuffer()
 	defer buf.Reset()
 
+	// parse report
+	rpt := nodesReport(nl)
+	if hasError {
+		rpt.SetError()
+	}
+
 	// nodes number
 	nodes := stats.NewReport("nodes")
 	nodesTotal := nodes.AddField("f00_total")
-	if hasError {
-		nodesTotal.Unknown = true
-		wapp.Write(w, r, start, "%s", nodes)
-		return
-	}
-	nodesTotal.Value = int64(len(nl.Items))
+	nodesTotal.Value = rpt.Get("nodes_total")
 	buf.Write("%s", nodes)
-
-	// parse report
-	rpt := new(nodesReport)
-	rpt.Parse(nl)
 
 	// nodes condition
 	nc := stats.NewReport("nodes_condition")
 	// unknown condition
 	ncUnknown := nc.AddField("f00_unknown")
-	ncUnknown.Value = rpt.UnknownCondition
+	ncUnknown.Value = rpt.Get("unknown_condition")
 	// memory pressure condition
 	ncMem := nc.AddField("f01_memory_pressure")
-	ncMem.Value = rpt.MemoryPressure
+	ncMem.Value = rpt.Get("memory_pressure")
 	// disk pressure condition
 	ncDisk := nc.AddField("f02_disk_pressure")
-	ncDisk.Value = rpt.DiskPressure
+	ncDisk.Value = rpt.Get("disk_pressure")
 	// pid pressure condition
 	ncPID := nc.AddField("f03_pid_pressure")
-	ncPID.Value = rpt.PIDPressure
+	ncPID.Value = rpt.Get("pid_pressure")
 	// ready condition
 	ncReady := nc.AddField("f04_ready")
-	ncReady.Value = rpt.ReadyCondition
+	ncReady.Value = rpt.Get("ready_condition")
 	buf.Write("%s", nc)
 
 	wapp.Write(w, r, start, "%s", buf)

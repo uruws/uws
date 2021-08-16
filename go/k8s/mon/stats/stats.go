@@ -49,8 +49,7 @@ type Field struct {
 	Color   int
 	Draw    string
 	Min     int
-	Value   int64
-	Unknown bool
+	Value   string
 	kind    string
 }
 
@@ -59,10 +58,10 @@ func (f *Field) String() string {
 	defer buf.Reset()
 	fn := CleanFN(f.Name)
 	if f.kind == "report" {
-		if f.Unknown {
+		if f.Value == "" {
 			buf.Write("%s.value U\n", fn)
 		} else {
-			buf.Write("%s.value %d\n", fn, f.Value)
+			buf.Write("%s.value %s\n", fn, f.Value)
 		}
 	} else {
 		buf.Write("%s.label %s\n", fn, f.Label)
@@ -167,4 +166,44 @@ func (r *Report) String() string {
 		buf.Write("%s", f)
 	}
 	return buf.String()
+}
+
+type Parser struct {
+	name  string
+	err   bool
+	count map[string]int64
+}
+
+func NewParser(name string) *Parser {
+	return &Parser{name: name, count: make(map[string]int64)}
+}
+
+func (p *Parser) SetError() {
+	p.err = true
+}
+
+func (p *Parser) Set(k string, v int64) {
+	p.count[k] = v
+}
+
+func (p *Parser) Inc(k string) {
+	if _, ok := p.count[k]; !ok {
+		p.count[k] = 0
+	}
+	p.count[k] += 1
+}
+
+func (p *Parser) Dec(k string) {
+	if _, ok := p.count[k]; !ok {
+		p.count[k] = 0
+	}
+	p.count[k] -= 1
+}
+
+func (p *Parser) Get(k string) string {
+	x, found := p.count[k]
+	if !found || p.err {
+		return "U"
+	}
+	return fmt.Sprintf("%d", x)
 }
