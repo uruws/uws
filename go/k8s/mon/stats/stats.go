@@ -47,13 +47,13 @@ func (b *Buffer) Write(format string, args ...interface{}) error {
 }
 
 type Field struct {
-	Name    string
-	Label   string
-	Color   int
-	Draw    string
-	Min     int
-	Value   string
-	kind    string
+	Name  string
+	Label string
+	Color int
+	Draw  string
+	Min   int
+	Value string
+	kind  string
 }
 
 func (f *Field) String() string {
@@ -181,7 +181,7 @@ type Parser struct {
 
 func NewParser(name string) *Parser {
 	return &Parser{
-		name: name,
+		name:  name,
 		count: make(map[string]int64),
 		child: make(map[string]map[string]int64),
 	}
@@ -262,7 +262,7 @@ func (p *Parser) ChildList(n string) []string {
 	if !found || p.err {
 		return []string{}
 	}
-	l := make([]string, len(x))
+	l := make([]string, 0)
 	for k := range x {
 		l = append(l, k)
 	}
@@ -291,6 +291,7 @@ func newCache() *cman {
 }
 
 var cache *cman
+
 func init() {
 	cache = newCache()
 }
@@ -319,7 +320,7 @@ func CacheSet(p *Parser) {
 		log.Debug("cache delete: %s", p.name)
 		delete(cache.d, p.name)
 	}
-	p.expire = time.Now().Add(3*time.Minute)
+	p.expire = time.Now().Add(3 * time.Minute)
 	cache.d[p.name] = p
 	log.Debug("cache set: %s", p.name)
 }
