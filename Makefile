@@ -180,7 +180,7 @@ MON_TAG != cat ./k8s/mon/VERSION
 MON_MUNIN_TAG != cat ./k8s/mon/munin/VERSION
 
 .PHONY: mon-publish
-mon-publish: awscli munin munin-backend munin-node k8s
+mon-publish: awscli munin munin-backend munin-node
 	@$(MAKE) k8smon-publish
 	@./cluster/ecr-push.sh us-east-1 uws/munin uws:munin-$(MON_MUNIN_TAG)
 	@./cluster/ecr-push.sh us-east-1 uws/munin-backend uws:munin-web-$(MON_MUNIN_TAG)
