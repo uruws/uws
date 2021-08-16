@@ -27,8 +27,8 @@
 * web deploy autoscale setup on custom metrics
 
 * web /bandwidthCallbackSms requests
+    * published service on workers cluster - `DONE!`
     * add bot check/graph
-    * use a sep cluster for this service?
 
 * uwscli integration
     * app-build
