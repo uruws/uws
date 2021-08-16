@@ -230,6 +230,13 @@ func (p *Parser) Add(n string) {
 	p.child[n] = make(map[string]int64)
 }
 
+func (p *Parser) ChildSet(n, k string, v int64) {
+	if _, ok := p.child[n]; !ok {
+		p.Add(n)
+	}
+	p.child[n][k] = v
+}
+
 func (p *Parser) ChildInc(n, k string) {
 	if _, ok := p.child[n]; !ok {
 		p.Add(n)
