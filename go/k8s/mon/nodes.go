@@ -65,12 +65,63 @@ type nodeList struct {
 	Items      []node `json:"items"`
 }
 
+func nodesReport() *stats.Parser {
+	p := stats.NewParser("nodes")
+	out, err := Kube("get", "nodes", "-o", "json")
+	if err != nil {
+		log.Error("get nodes: %s", err)
+		p.SetError()
+		return p
+	}
+	nl := new(nodeList)
+	if err := json.Unmarshal(out, &nl); err != nil {
+		log.Error("read nodes: %s", err)
+		p.SetError()
+		return p
+	}
+	p.Set("nodes_total", int64(len(nl.Items)))
+	p.Set("memory_pressure", 0)
+	p.Set("disk_pressure", 0)
+	p.Set("pid_pressure", 0)
+	p.Set("ready_condition", 0)
+	p.Set("unknown_condition", 0)
+	for _, n := range nl.Items {
+		// conditions
+		condFound := false
+		for _, cond := range n.Status.Conditions {
+			if cond.Type == "MemoryPressure" && cond.Status == "True" {
+				p.Inc("memory_pressure")
+				condFound = true
+			}
+			if cond.Type == "DiskPressure" && cond.Status == "True" {
+				p.Inc("disk_pressure")
+				condFound = true
+			}
+			if cond.Type == "PIDPressure" && cond.Status == "True" {
+				p.Inc("pid_pressure")
+				condFound = true
+			}
+			if cond.Type == "Ready" && cond.Status == "True" {
+				p.Inc("ready_condition")
+				condFound = true
+			}
+		}
+		if !condFound {
+			p.Inc("unknown_condition")
+		}
+	}
+	return p
+}
+
 func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	log.Debug("nodes config")
 	start := wapp.Start()
 
 	buf := stats.NewBuffer()
 	defer buf.Reset()
+
+	// parse report
+	rpt := nodesReport()
 
 	// nodes number
 	nodes := stats.NewConfig("nodes")
@@ -112,71 +163,25 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	ncReady.Draw = "AREASTACK"
 	buf.Write("%s", nc)
 
-	wapp.Write(w, r, start, "%s", buf)
-}
-
-func nodesReport(nl *nodeList) *stats.Parser {
-	p := stats.NewParser("nodes")
-	p.Set("nodes_total", int64(len(nl.Items)))
-	p.Set("memory_pressure", 0)
-	p.Set("disk_pressure", 0)
-	p.Set("pid_pressure", 0)
-	p.Set("ready_condition", 0)
-	p.Set("unknown_condition", 0)
-	for _, n := range nl.Items {
-		// conditions
-		condFound := false
-		for _, cond := range n.Status.Conditions {
-			if cond.Type == "MemoryPressure" && cond.Status == "True" {
-				p.Inc("memory_pressure")
-				condFound = true
-			}
-			if cond.Type == "DiskPressure" && cond.Status == "True" {
-				p.Inc("disk_pressure")
-				condFound = true
-			}
-			if cond.Type == "PIDPressure" && cond.Status == "True" {
-				p.Inc("pid_pressure")
-				condFound = true
-			}
-			if cond.Type == "Ready" && cond.Status == "True" {
-				p.Inc("ready_condition")
-				condFound = true
-			}
-		}
-		if !condFound {
-			p.Inc("unknown_condition")
-		}
+	// cache report
+	if !rpt.HasError() {
+		stats.CacheSet(rpt)
 	}
-	return p
+
+	wapp.Write(w, r, start, "%s", buf)
 }
 
 func Nodes(w http.ResponseWriter, r *http.Request) {
 	log.Debug("nodes report")
 	start := wapp.Start()
 
-	var hasError bool
-	out, err := Kube("get", "nodes", "-o", "json")
-	if err != nil {
-		log.Error("get nodes: %s", err)
-		hasError = true
-	}
-
-	nl := new(nodeList)
-	if !hasError {
-		if err := json.Unmarshal(out, &nl); err != nil {
-			log.Error("read nodes: %s", err)
-			hasError = true
-		}
-	}
-
 	buf := stats.NewBuffer()
 	defer buf.Reset()
 
 	// parse report
-	rpt := nodesReport(nl)
-	if hasError {
-		rpt.SetError()
+	rpt := stats.CacheGet("nodes")
+	if rpt == nil {
+		rpt = nodesReport()
 	}
 
 	// nodes number

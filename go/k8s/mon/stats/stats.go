@@ -185,6 +185,10 @@ func (p *Parser) SetError() {
 	p.err = true
 }
 
+func (p *Parser) HasError() bool {
+	return p.err
+}
+
 func (p *Parser) Set(k string, v int64) {
 	p.count[k] = v
 }
@@ -217,7 +221,10 @@ type cman struct {
 }
 
 func newCache() *cman {
-	return &cman{x: new(sync.Mutex)}
+	return &cman{
+		x: new(sync.Mutex),
+		d: make(map[string]*Parser, 0),
+	}
 }
 
 var cache *cman
@@ -232,10 +239,13 @@ func CacheGet(k string) *Parser {
 	if ok {
 		if p.expire.Before(time.Now()) {
 			delete(cache.d, k)
+			log.Debug("cache expired: %s", k)
 			return nil
 		}
+		log.Debug("cache hit: %s", k)
 		return p
 	}
+	log.Debug("cache miss: %s", k)
 	return nil
 }
 
@@ -243,8 +253,10 @@ func CacheSet(p *Parser) {
 	cache.x.Lock()
 	defer cache.x.Unlock()
 	if _, ok := cache.d[p.name]; ok {
+		log.Debug("cache delete: %s", p.name)
 		delete(cache.d, p.name)
 	}
 	p.expire = time.Now().Add(3*time.Minute)
 	cache.d[p.name] = p
+	log.Debug("cache set: %s", p.name)
 }
