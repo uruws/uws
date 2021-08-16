@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"sync"
 
 	"uws/log"
 )
@@ -206,4 +207,35 @@ func (p *Parser) Get(k string) string {
 		return "U"
 	}
 	return fmt.Sprintf("%d", x)
+}
+
+type cman struct {
+	x *sync.Mutex
+	d map[string]*Parser
+}
+
+func newCache() *cman {
+	return &cman{x: new(sync.Mutex)}
+}
+
+var cache *cman
+func init() {
+	cache = newCache()
+}
+
+func CacheGet(k string) *Parser {
+	cache.x.Lock()
+	defer cache.x.Unlock()
+	p, ok := cache.d[k]
+	if ok {
+		return p
+	}
+	return nil
+}
+
+func CacheSet(p *Parser) {
+	cache.x.Lock()
+	defer cache.x.Unlock()
+	cache.d[p.name] = nil
+	cache.d[p.name] = p
 }
