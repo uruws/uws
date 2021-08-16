@@ -9,10 +9,8 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
-	"strings"
 	"time"
 
-	"uws/k8s/mon/stats"
 	"uws/log"
 )
 
@@ -63,39 +61,4 @@ func Kube(args ...string) ([]byte, error) {
 		return nil, log.DebugError(err)
 	}
 	return ioutil.ReadAll(outfh)
-}
-
-type cacheEntry struct {
-	expire time.Time
-	data   []byte
-}
-
-var cache map[string]*cacheEntry
-
-func init() {
-	cache = make(map[string]*cacheEntry)
-}
-
-func cacheKey(args ...string) string {
-	return stats.CleanFN(strings.Join(args, "_"))
-}
-
-func KubeCache(args ...string) ([]byte, error) {
-	now := time.Now()
-	k := cacheKey(args...)
-	e, ok := cache[k]
-	if ok {
-		if e.expire.Before(now) {
-			return e.data, nil
-		}
-	}
-	e = nil
-	var err error
-	delete(cache, k)
-	cache[k] = new(cacheEntry)
-	cache[k].data, err = Kube(args...)
-	if err != nil {
-		return nil, err
-	}
-	return cache[k].data, nil
 }
