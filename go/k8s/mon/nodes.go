@@ -149,7 +149,6 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	for _, t := range rpt.ChildList("nodes_type") {
 		f := nodes.AddField(stats.CleanFN(t))
 		f.Label = t
-		f.Draw = "AREASTACK"
 	}
 	buf.Write("%s", nodes)
 
