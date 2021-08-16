@@ -7,6 +7,7 @@ package stats
 import (
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 	"sync"
 	"time"
@@ -175,10 +176,15 @@ type Parser struct {
 	err    bool
 	count  map[string]int64
 	expire time.Time
+	child  map[string]map[string]int64
 }
 
 func NewParser(name string) *Parser {
-	return &Parser{name: name, count: make(map[string]int64)}
+	return &Parser{
+		name: name,
+		count: make(map[string]int64),
+		child: make(map[string]map[string]int64),
+	}
 }
 
 func (p *Parser) SetError() {
@@ -209,6 +215,56 @@ func (p *Parser) Dec(k string) {
 
 func (p *Parser) Get(k string) string {
 	x, found := p.count[k]
+	if !found || p.err {
+		return "U"
+	}
+	return fmt.Sprintf("%d", x)
+}
+
+func (p *Parser) Add(n string) {
+	if _, ok := p.child[n]; ok {
+		log.Debug("delete child: %s", n)
+		delete(p.child, n)
+	}
+	log.Debug("add child: %s", n)
+	p.child[n] = make(map[string]int64)
+}
+
+func (p *Parser) ChildInc(n, k string) {
+	if _, ok := p.child[n]; !ok {
+		p.Add(n)
+	}
+	if _, ok := p.child[n][k]; !ok {
+		p.child[n][k] = 0
+	}
+	p.child[n][k] += 1
+}
+
+func (p *Parser) ChildDec(n, k string) {
+	if _, ok := p.child[n]; !ok {
+		p.Add(n)
+	}
+	if _, ok := p.child[n][k]; !ok {
+		p.child[n][k] = 0
+	}
+	p.child[n][k] -= 1
+}
+
+func (p *Parser) ChildList(n string) []string {
+	x, found := p.child[n]
+	if !found || p.err {
+		return []string{}
+	}
+	l := make([]string, len(x))
+	for k := range x {
+		l = append(l, k)
+	}
+	sort.Strings(l)
+	return l
+}
+
+func (p *Parser) ChildGet(n, k string) string {
+	x, found := p.child[n][k]
 	if !found || p.err {
 		return "U"
 	}
