@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strings"
 	"sync"
+	"time"
 
 	"uws/log"
 )
@@ -170,9 +171,10 @@ func (r *Report) String() string {
 }
 
 type Parser struct {
-	name  string
-	err   bool
-	count map[string]int64
+	name   string
+	err    bool
+	count  map[string]int64
+	expire time.Time
 }
 
 func NewParser(name string) *Parser {
@@ -228,6 +230,10 @@ func CacheGet(k string) *Parser {
 	defer cache.x.Unlock()
 	p, ok := cache.d[k]
 	if ok {
+		if p.expire.Before(time.Now()) {
+			delete(cache.d, k)
+			return nil
+		}
 		return p
 	}
 	return nil
@@ -236,6 +242,9 @@ func CacheGet(k string) *Parser {
 func CacheSet(p *Parser) {
 	cache.x.Lock()
 	defer cache.x.Unlock()
-	cache.d[p.name] = nil
+	if _, ok := cache.d[p.name]; ok {
+		delete(cache.d, p.name)
+	}
+	p.expire = time.Now().Add(3*time.Minute)
 	cache.d[p.name] = p
 }
