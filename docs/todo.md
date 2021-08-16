@@ -10,6 +10,13 @@
         * 2 workers per node
         * 3 webs per node
 
+* cluster stats
+    * develop munin plugins to graph k8s info
+    * nginx stats
+
+* new Debian (11) stable release (bullseye)
+    * upgrade containers
+
 * graph app number of active users/sessions
     * set it up on prod
 
@@ -18,6 +25,10 @@
     * scale down hourly, if needed
 
 * web deploy autoscale setup on custom metrics
+
+* web /bandwidthCallbackSms requests
+    * add bot check/graph
+    * use a sep cluster for this service?
 
 * uwscli integration
     * app-build
@@ -34,13 +45,6 @@
 
 * cache web assets
     * setup nginx expire headers
-
-* cluster stats
-    * develop munin plugins to graph k8s info
-    * nginx stats
-
-* monitoring
-    * setup nagios and alerts
 
 * add munin checks/graphs for NLP
 
