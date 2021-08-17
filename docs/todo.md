@@ -1,15 +1,5 @@
 # TODO
 
-* upgrade cluster node groups to latest AMI version
-    * amy-east (web) - `DONE!`
-    * amy-west (web) - `DONE!`
-
-* web and workers tunning - `DONE!`
-    * set node v8 heap memory size
-    * set resources and limits so we run:
-        * 2 workers per node
-        * 3 webs per node
-
 * cluster stats
     * develop munin plugins to graph k8s info
     * nginx stats
@@ -27,7 +17,6 @@
 * web deploy autoscale setup on custom metrics
 
 * web /bandwidthCallbackSms requests
-    * published service on workers cluster - `DONE!`
     * add bot check/graph
 
 * uwscli integration
