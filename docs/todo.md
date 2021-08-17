@@ -1,5 +1,7 @@
 # TODO
 
+* fix aws lb and nginx x-forwarded-for headers
+
 * cluster stats
     * develop munin plugins to graph k8s info
     * nginx stats
@@ -20,9 +22,9 @@
     * add bot check/graph
 
 * uwscli integration
+    * docker images cleanup
     * app-build
         * github webhook integration
-        * cleanup helper
         * we should be able to properly stop/abort a building process
     * devel API for UI interaction
     * let Jira know about deployments status
