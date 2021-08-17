@@ -1,6 +1,10 @@
 # TODO
 
 * fix aws lb and nginx x-forwarded-for headers
+    * amybeta - `DONE!`
+
+* upgrade nginx proxy: 0.45.0 -> 0.48.1
+    * amybeta - `DONE!`
 
 * cluster stats
     * develop munin plugins to graph k8s info
