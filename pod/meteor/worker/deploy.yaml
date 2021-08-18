@@ -28,8 +28,8 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-worker
-  replicas: 50
-  revisionHistoryLimit: 3
+  replicas: 75
+  revisionHistoryLimit: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
