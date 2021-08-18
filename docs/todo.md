@@ -6,11 +6,12 @@
         * uwsdev - `DONE!`
         * panoramix - `DONE!`
         * amy-wrkr - `DONE!`
-            * remove old classic LB - `TODO`
         * amy-east - `DONE!`
-            * remove old classic LB - `TODO`
         * amy-west - `DONE!`
-            * remove old classic LB - `TODO`
+    * new version changed from using aws classic ELB to network ELB
+        * which is more distributed, realiable and maybe expensier too?
+            * works from different availability zones simultaneously
+            * so we have at least two IP addresses (entry points) per cluster/lb now.
 
 * update NLP certificates for workers connection - `DONE!`
 
