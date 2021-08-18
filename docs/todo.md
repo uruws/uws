@@ -1,10 +1,18 @@
 # TODO
 
-* fix aws lb and nginx x-forwarded-for headers
-    * amybeta - `DONE!`
-
 * upgrade nginx proxy: 0.45.0 -> 0.48.1
-    * amybeta - `DONE!`
+    * fix aws lb and nginx x-forwarded-for headers
+        * amybeta - `DONE!`
+        * uwsdev - `DONE!`
+        * panoramix - `DONE!`
+        * amy-wrkr - `DONE!`
+            * remove old classic LB - `TODO`
+        * amy-east - `DONE!`
+            * remove old classic LB - `TODO`
+        * amy-west - `DONE!`
+            * remove old classic LB - `TODO`
+
+* update NLP certificates for workers connection - `DONE!`
 
 * cluster stats
     * develop munin plugins to graph k8s info
