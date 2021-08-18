@@ -15,12 +15,14 @@
 
 * update NLP certificates for workers connection - `DONE!`
 
-* setup munin limit mail alerts
-    * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
+* internal CA - `WIP`
 
-* cluster stats
+* cluster stats - `WIP`
     * develop munin plugins to graph k8s info
     * nginx stats
+
+* setup munin limit mail alerts
+    * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
 
 * new Debian (11) stable release (bullseye)
     * upgrade containers
@@ -56,8 +58,6 @@
 * setup amy staging cluster
 
 * add munin checks/graphs for NLP
-
-* internal CA
 
 * SFTP server for data sharing with schools
     * web integration for user/pass management
