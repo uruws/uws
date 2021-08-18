@@ -43,17 +43,16 @@
     * let Jira know about deployments status
         * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
     * show events log or auto-refresh status info
-    * control deploy replicas?
-
-* setup amy staging cluster
+    * control deploy replicas
+    * show web proxy logs
+    * uwsq: clean failed jobs
 
 * cache web assets
     * setup nginx expire headers
 
-* add munin checks/graphs for NLP
+* setup amy staging cluster
 
-* uwscli
-    * uwsq: clean failed jobs
+* add munin checks/graphs for NLP
 
 * internal CA
 
