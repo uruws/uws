@@ -1,12 +1,12 @@
 #!/bin/sh
-CAHOST="$(hostname -s)"
+set -eu
+CANAME="${CANAME:-$(hostname -s)}"
+CAVERSION="${CAVERSION:-$(date '+%y%m%d')}"
 CAROOT="${CAROOT:-${HOME}/.uws/ca}"
-if test 'X' = "X${CAHOST}"; then
-	CAHOST='uwsca'
-else
-	CAHOST="${CAHOST}.uwsca"
+if test 'X' = "X${CANAME}"; then
+	CANAME='default'
 fi
 exec docker run --rm --network none --name uws-mkcert \
-	--hostname "${CAHOST}.talkingpts.org" \
+	--hostname "${CAVERSION}.${CANAME}.ca.uws.talkingpts.org" \
 	-v "${CAROOT}:/home/uws/ca" \
 	-u uws uws/mkcert "$@"

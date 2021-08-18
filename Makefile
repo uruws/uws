@@ -174,6 +174,10 @@ deploy:
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
 
+.PHONY: CA
+CA: mkcert
+	@./secret/ca/uws/gen.sh ops
+
 # k8smon
 
 MON_TAG != cat ./k8s/mon/VERSION
