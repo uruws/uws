@@ -15,6 +15,9 @@
 
 * update NLP certificates for workers connection - `DONE!`
 
+* setup munin limit mail alerts
+    * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
+
 * cluster stats
     * develop munin plugins to graph k8s info
     * nginx stats
