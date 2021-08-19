@@ -1,7 +1,7 @@
 FROM uws/base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="210818"
+LABEL version="210819"
 
 USER root:root
 WORKDIR /root
@@ -13,6 +13,8 @@ RUN (cd /usr/local/bin && \
 	wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64) \
 	&& chmod -v 0755 /usr/local/bin/mkcert-v1.4.3-linux-amd64 \
 	&& ln -vsf /usr/local/bin/mkcert-v1.4.3-linux-amd64 /usr/local/bin/mkcert
+
+RUN /root/bin/apt-install.sh uuid-runtime
 
 ADD ./utils /usr/local/bin
 RUN chmod -v 0755 /usr/local/bin/*.sh
