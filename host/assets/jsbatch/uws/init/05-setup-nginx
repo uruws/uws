@@ -23,12 +23,8 @@ if ! test -s ${dhparam}; then
 	openssl dhparam -out ${dhparam} 4096
 fi
 
-CAROOT='/srv/uws/deploy/secret/ca/uws/ops/210819'
-
-if test -s "${CAROOT}/rootCA.pem"; then
-	if test -s /srv/acme/cert/jsbatch.uws.talkingpts.org.crt; then
-		install -v /etc/nginx/sites-available/ssl-jsbatch /etc/nginx/sites-enabled
-	fi
+if test -s /srv/acme/cert/jsbatch.uws.talkingpts.org.crt; then
+	install -v /etc/nginx/sites-available/ssl-jsbatch /etc/nginx/sites-enabled
 fi
 
 exit 0
