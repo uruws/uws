@@ -16,8 +16,8 @@ RUN (cd /usr/local/bin && \
 
 RUN /root/bin/apt-install.sh uuid-runtime
 
-ADD ./utils /usr/local/bin
-RUN chmod -v 0755 /usr/local/bin/*.sh
+RUN chgrp -v uws /usr/local/bin \
+	&& chmod -v g+w /usr/local/bin
 
 VOLUME /home/uws/ca
 
@@ -28,5 +28,7 @@ ENV USER uws
 ENV HOME /home/uws
 ENV CAROOT /home/uws/ca
 ENV TRUST_STORES system
+
+COPY --chown=uws:uws ./utils /usr/local/bin
 
 CMD exec mkcert
