@@ -28,7 +28,9 @@ if ! test -s ${dhparam}; then
 	openssl dhparam -out ${dhparam} 4096
 fi
 
-if test -s /srv/etc/ssl/ca/last/rootCA.pem; then
+CAROOT='/srv/uws/deploy/secret/ca/uws/ops/210818'
+
+if test -s "${CAROOT}/rootCA.pem"; then
 	if test -s /srv/acme/cert/uws.talkingpts.org.crt; then
 		install -v /etc/nginx/sites-available/ssl-main /etc/nginx/sites-enabled
 	fi
