@@ -24,6 +24,9 @@ openssl pkcs12 -export \
 	-out ${OUTFN} -passout pass:${P12PW} \
 	-chain -CAfile ${CAFN} -no-CApath
 
+#~ export OPENSSL_CONF=/usr/local/etc/ssl/openssl.cnf
+#~ openssl verify -verbose -CAfile "${HOME}/ca/rootCA.pem" "${tmp_crt}"
+
 rm -f ${tmp_crt} ${tmp_key}
 echo "${OUTFN} created!"
 

@@ -6,11 +6,12 @@ CAROOT="${CAROOT:-${HOME}/.uws/ca}"
 if test 'X' = "X${CANAME}"; then
 	CANAME='default'
 fi
-mkdir -v -m 0700 ${CAROOT}/${CANAME}/${CAVERSION} \
-	${CAROOT}/${CANAME}/${CAVERSION}/cert \
-	${CAROOT}/${CANAME}/${CAVERSION}/client
+CADIR=${CAROOT}/${CANAME}/${CAVERSION}
+mkdir -vp -m 0700 ${CAROOT}/${CANAME}/etc \
+	${CADIR} ${CADIR}/cert ${CADIR}/client
 exec docker run --rm --network none --name uws-mkcert \
 	--hostname "${CAVERSION}.${CANAME}.ca.uws.talkingpts.org" \
 	-v "${PWD}/docker/mkcert/etc:/usr/local/etc/ssl:ro" \
-	-v "${CAROOT}/${CANAME}/${CAVERSION}:/home/uws/ca" \
+	-v "${CAROOT}/${CANAME}/etc:/usr/local/etc/ca:ro" \
+	-v "${CADIR}:/home/uws/ca" \
 	-u uws uws/mkcert "$@"
