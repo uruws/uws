@@ -18,10 +18,11 @@ openssl pkcs12 -in ${INFN} -passin pass:changeit -nocerts \
 openssl pkcs12 -in ${INFN} -passin pass:changeit -clcerts -nokeys \
 	-out ${tmp_crt}
 
-openssl pkcs12 -export -certfile ${CAFN} -out ${OUTFN} \
+openssl pkcs12 -export \
 	-in ${tmp_crt} -inkey ${tmp_key} \
 	-passin pass:changeit \
-	-passout pass:${P12PW}
+	-out ${OUTFN} -passout pass:${P12PW} \
+	-chain -CAfile ${CAFN} -no-CApath
 
 rm -f ${tmp_crt} ${tmp_key}
 echo "${OUTFN} created!"
