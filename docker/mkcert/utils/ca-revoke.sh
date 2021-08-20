@@ -1,7 +1,9 @@
 #!/bin/sh
 set -eu
-CRT=${1:?'cert(s)?'}
 umask 0027
 export OPENSSL_CONF=/usr/local/etc/ssl/openssl.cnf
-openssl ca -revoke "$@"
-exit 0
+for fn in $(ls "${HOME}/ca/revoke/*.pem"); do
+	echo "ca revoke: ${fn}"
+	openssl ca -revoke "${fn}"
+done
+exec ca-crl.sh

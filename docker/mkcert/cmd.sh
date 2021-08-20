@@ -8,7 +8,7 @@ if test 'X' = "X${CANAME}"; then
 fi
 CADIR=${CAROOT}/${CANAME}/${CAVERSION}
 mkdir -vp -m 0700 ${CAROOT}/${CANAME}/etc \
-	${CADIR} ${CADIR}/cert ${CADIR}/client
+	${CADIR} ${CADIR}/cert ${CADIR}/client ${CADIR}/revoke
 exec docker run --rm --network none --name uws-mkcert \
 	--hostname "${CAVERSION}.${CANAME}.ca.uws.talkingpts.org" \
 	-v "${PWD}/docker/mkcert/etc:/usr/local/etc/ssl:ro" \
