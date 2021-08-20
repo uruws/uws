@@ -16,4 +16,5 @@ cat "${HOME}/ca/cert/${fn}-key.pem" >${chain_file}
 cat "${HOME}/ca/cert/${fn}.pem" >>${chain_file}
 cat "${HOME}/ca/rootCA.pem" >>${chain_file}
 
-exit 0
+export OPENSSL_CONF=/usr/local/etc/ssl/openssl.cnf
+exec openssl ca -valid "${HOME}/ca/cert/${fn}.pem"

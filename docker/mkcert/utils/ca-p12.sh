@@ -41,8 +41,7 @@ openssl pkcs12 -export \
 	-out ${P12FN} -passout pass:${P12PW} \
 	-chain -CAfile ${CAFN} -no-CApath
 
-#~ export OPENSSL_CONF=/usr/local/etc/ssl/openssl.cnf
-#~ openssl verify -verbose -CAfile "${HOME}/ca/rootCA.pem" "${tmp_crt}"
-
 rm -f ${tmp_p12}
-exit 0
+
+export OPENSSL_CONF=/usr/local/etc/ssl/openssl.cnf
+exec openssl ca -valid "${CRTFN}"
