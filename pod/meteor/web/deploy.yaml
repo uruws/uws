@@ -28,7 +28,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor-web
-  replicas: 200
+  replicas: 100
   revisionHistoryLimit: 3
   strategy:
     type: RollingUpdate
@@ -67,14 +67,14 @@ spec:
             - name: DISABLE_JOBS
               value: "TRUE"
             - name: NODE_OPTIONS
-              value: "--max-old-space-size=1100"
+              value: "--max-old-space-size=1600"
           resources:
             requests:
-              cpu: 600m
-              memory: 1100Mi
+              cpu: 800m
+              memory: 1600Mi
             limits:
-              cpu: 600m
-              memory: 1100Mi
+              cpu: 800m
+              memory: 1600Mi
           readinessProbe:
             exec:
               command:
