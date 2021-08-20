@@ -13,7 +13,7 @@ getpw() {
 	echo "${pw}"
 }
 
-fn=$(uuidgen --sha1 --namespace '@dns' --name "${EMAIL}")
+fn=$(uuidgen.sh "${EMAIL}")
 p12fn="${HOME}/ca/client/${fn}.p12"
 
 mkcert -client -ecdsa -pkcs12 --p12-file "/tmp/${fn}.p12" "$@"
