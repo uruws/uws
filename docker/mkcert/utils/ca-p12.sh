@@ -21,7 +21,7 @@ getpw() {
 
 P12PW=$(getpw ${FN})
 if test 'X' = "X${P12PW}"; then
-	exit 1
+	P12PW="changeit"
 fi
 
 tmp_p12=$(mktemp -t p12.XXXXXXXX)
