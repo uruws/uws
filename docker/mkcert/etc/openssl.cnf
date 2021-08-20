@@ -18,4 +18,4 @@ default_crl_days = 90
 default_md       = default
 default_days     = 800
 default_crl_days = 500
-unique_subject   = no
+unique_subject   = yes
