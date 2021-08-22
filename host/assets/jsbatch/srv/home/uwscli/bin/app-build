@@ -11,8 +11,6 @@ import uwscli
 
 __doc__ = 'build app release'
 
-storage_min = 5000000
-
 def check_storage():
 	x = "df -kl %s" % uwscli.docker_storage
 	x += " | tail -n1 | awk '{ print $4 }'"
@@ -25,7 +23,7 @@ def check_storage():
 	except ValueError:
 		print('value error:', out, file = sys.stderr)
 		return 9
-	if s < storage_min:
+	if s < uwscli.docker_storage_min:
 		return 8
 	return 0
 

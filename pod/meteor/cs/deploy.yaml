@@ -8,7 +8,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: meteor-cs
+    name: meteor
   minReplicas: 10
   maxReplicas: 100
   metrics:
@@ -74,10 +74,10 @@ spec:
               value: "3000"
           resources:
             requests:
-              cpu: 25m
-              memory: 180Mi
+              cpu: 80m
+              memory: 300Mi
             limits:
-              memory: 500Mi
+              memory: 300Mi
           readinessProbe:
             exec:
               command:

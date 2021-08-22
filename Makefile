@@ -46,6 +46,8 @@ mkcert:
 golang:
 	@./docker/golang/build.sh
 
+# uwsbot
+
 UWS_BOT_DEPS != find go/bot go/cmd/uwsbot* go/env go/config go/log -type f -name '*.go'
 
 .PHONY: uwsbot
@@ -83,13 +85,14 @@ docker/uwsbot/build/uwsbot-devel.tgz: docker/uwsbot/build/uwsbot.bin docker/uwsb
 		&& cp -va uwsbot-stats.bin devel/uws/bin/uwsbot-stats \
 		&& tar -cvzf uwsbot-devel.tgz -C devel .)
 
-.PHONY: uwspkg
-uwspkg:
-	@./docker/uwspkg/build.sh
+# api-job-stats
 
-.PHONY: acme
-acme:
-	@./srv/acme/build.sh
+API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
+
+docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
+
+# munin
 
 .PHONY: munin
 munin:
@@ -100,8 +103,6 @@ munin-backend:
 	@./srv/munin-backend/build.sh
 
 MUNIN_NODE_DEPS := srv/munin-node/build/uwsbot-stats.bin
-MUNIN_NODE_DEPS += srv/munin-node/build/api-stats.bin
-MUNIN_NODE_DEPS += srv/munin-node/build/apivsbot.bin
 MUNIN_NODE_DEPS += srv/munin-node/build/api-job-stats.bin
 
 .PHONY: munin-node
@@ -112,48 +113,15 @@ srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/uwsbot-stats.bin ./srv/munin-node/build/uwsbot-stats.bin
 
-srv/munin-node/build/api-stats.bin: docker/golang/build/api-stats.bin
-	@mkdir -vp ./srv/munin-node/build
-	@install -v docker/golang/build/api-stats.bin ./srv/munin-node/build/api-stats.bin
-
-srv/munin-node/build/apivsbot.bin: docker/golang/build/apivsbot.bin
-	@mkdir -vp ./srv/munin-node/build
-	@install -v docker/golang/build/apivsbot.bin ./srv/munin-node/build/apivsbot.bin
-
 srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/api-job-stats.bin ./srv/munin-node/build/api-job-stats.bin
 
+# heroku
+
 .PHONY: heroku
 heroku:
 	@./docker/heroku/build.sh
-
-.PHONY: heroku-logger
-heroku-logger: docker/heroku/build/api-logs.bin docker/heroku/build/api-stats.bin
-	@./docker/heroku/build-logger.sh
-
-docker/heroku/build/api-logs.bin: docker/golang/build/api-logs.bin
-	@mkdir -vp ./docker/heroku/build
-	@install -v docker/golang/build/api-logs.bin docker/heroku/build/api-logs.bin
-
-docker/heroku/build/api-stats.bin: docker/golang/build/api-stats.bin
-	@mkdir -vp ./docker/heroku/build
-	@install -v docker/golang/build/api-stats.bin docker/heroku/build/api-stats.bin
-
-API_LOGS_DEPS != find go/api go/cmd/api* go/log go/fs -type f -name '*.go'
-API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
-
-docker/golang/build/api-logs.bin: $(API_LOGS_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/api-logs.bin ./cmd/api-logs
-
-docker/golang/build/api-stats.bin: $(API_LOGS_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/api-stats.bin ./cmd/api-stats
-
-docker/golang/build/apivsbot.bin: $(API_LOGS_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/apivsbot.bin ./cmd/apivsbot
-
-docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
 
 # app-stats
 
@@ -165,28 +133,34 @@ app-stats: docker/golang/build/app-stats.bin
 docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/app-stats.bin ./cmd/app-stats
 
+# utils
+
+.PHONY: uwspkg
+uwspkg:
+	@./docker/uwspkg/build.sh
+
+.PHONY: acme
+acme:
+	@./srv/acme/build.sh
+
 .PHONY: clamav
 clamav:
 	@./docker/clamav/build.sh
 
 .PHONY: k8s
-k8s:
+k8s: k8smon
 	@./docker/k8s/build.sh
 
 .PHONY: eks
-eks:
+eks: k8s
 	@./docker/eks/build.sh
-
-.PHONY: api
-api: docker/golang/build/api-logs.bin docker/golang/build/apivsbot.bin
-	@./srv/api/build.sh
 
 .PHONY: proftpd
 proftpd:
 	@./srv/proftpd/build.sh
 
 .PHONY: all
-all: bootstrap uwsbot munin munin-backend munin-node proftpd
+all: bootstrap k8s uwsbot munin munin-backend munin-node proftpd
 
 .PHONY: ecr-login
 ecr-login:
@@ -199,3 +173,36 @@ deploy:
 	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
+
+.PHONY: CA
+CA: mkcert
+	@./secret/ca/uws/gen.sh ops
+
+# k8smon
+
+MON_TAG != cat ./k8s/mon/VERSION
+MON_MUNIN_TAG != cat ./k8s/mon/munin/VERSION
+
+.PHONY: mon-publish
+mon-publish: awscli munin munin-backend munin-node
+	@$(MAKE) k8smon-publish
+	@./cluster/ecr-push.sh us-east-1 uws/munin uws:munin-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-backend uws:munin-web-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-node uws:munin-node-$(MON_MUNIN_TAG)
+
+K8SMON_DEPS != find go/cmd/k8smon go/k8s/mon -type f -name '*.go'
+
+.PHONY: k8smon
+k8smon: docker/k8s/build/k8smon.bin
+
+docker/k8s/build/k8smon.bin: docker/golang/build/k8smon.bin
+	@mkdir -vp ./docker/k8s/build
+	@install -v docker/golang/build/k8smon.bin ./docker/k8s/build/k8smon.bin
+
+docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/k8smon.bin ./cmd/k8smon
+
+.PHONY: k8smon-publish
+k8smon-publish: k8s
+	@./docker/ecr-login.sh us-east-1
+	@./cluster/ecr-push.sh us-east-1 uws/k8s uws:mon-k8s-$(MON_TAG)

@@ -10,20 +10,22 @@ if test 'X--client' = "X${1:-'NONE'}"; then
 	shift
 fi
 
-awsdir=${PWD}/secret/eks/aws
-kubedir=${PWD}/secret/eks/kube
+awsdir=${PWD}/secret/eks/aws/admin/${uws_cluster}
 secret=${PWD}/secret/eks/files
 cadir=${PWD}/secret/ca
-files=${PWD}/docker/eks/files
 utils=${PWD}/docker/eks/utils
 k8s=${PWD}/k8s
 pod=${PWD}/pod
-mon=${PWD}/mon
-cluster=${PWD}/cluster
 eksenv=${PWD}/eks/env/${uws_cluster}.env
 
 tmpdir=${PWD}/tmp
 mkdir -vp ${tmpdir}
+
+kubedir=${PWD}/secret/eks/kube/cluster/${uws_cluster}
+mkdir -vp ${kubedir}
+
+cluster=${PWD}/cluster/${uws_cluster}
+mkdir -vp ${cluster}
 
 . ${eksenv}
 
@@ -45,13 +47,11 @@ exec docker run -it --rm \
 	-v ${utils}:/home/uws/bin:ro \
 	-v ${k8s}:/home/uws/k8s:ro \
 	-v ${pod}:/home/uws/pod:ro \
-	-v ${mon}:/home/uws/mon:ro \
 	-v ${cluster}:/home/uws/cluster:ro \
-	-v ${files}:/home/uws/files:ro \
 	-v ${secret}:/home/uws/secret:ro \
 	-v ${cadir}:/home/uws/ca:ro \
 	-v ${awsdir}:/home/uws/.aws:ro \
-	-v ${kubedir}/clusters:/home/uws/.kube/eksctl/clusters:${cluster_perms} \
+	-v ${kubedir}:/home/uws/.kube/eksctl/clusters:${cluster_perms} \
 	-v ${tmpdir}:/home/uws/tmp \
 	--env-file ${eksenv} \
 	uws/eks $@

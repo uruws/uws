@@ -1,5 +1,32 @@
 # TODO
 
+* upgrade nginx proxy: 0.45.0 -> 0.48.1
+    * fix aws lb and nginx x-forwarded-for headers
+        * amybeta - `DONE!`
+        * uwsdev - `DONE!`
+        * panoramix - `DONE!`
+        * amy-wrkr - `DONE!`
+        * amy-east - `DONE!`
+        * amy-west - `DONE!`
+    * new version changed from using aws classic ELB to network ELB
+        * which is more distributed, realiable and maybe expensier too?
+            * works from different availability zones simultaneously
+            * so we have at least two IP addresses (entry points) per cluster/lb now.
+
+* update NLP certificates for workers connection - `DONE!`
+
+* internal CA - `WIP`
+
+* cluster stats - `WIP`
+    * develop munin plugins to graph k8s info
+    * nginx stats
+
+* setup munin limit mail alerts
+    * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
+
+* new Debian (11) stable release (bullseye)
+    * upgrade containers
+
 * graph app number of active users/sessions
     * set it up on prod
 
@@ -9,35 +36,28 @@
 
 * web deploy autoscale setup on custom metrics
 
+* web /bandwidthCallbackSms requests
+    * add bot check/graph
+
 * uwscli integration
+    * docker images cleanup
     * app-build
         * github webhook integration
-        * cleanup helper
         * we should be able to properly stop/abort a building process
     * devel API for UI interaction
     * let Jira know about deployments status
         * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
     * show events log or auto-refresh status info
-    * control deploy replicas?
-
-* setup amy staging cluster
+    * control deploy replicas
+    * show web proxy logs
+    * uwsq: clean failed jobs
 
 * cache web assets
     * setup nginx expire headers
 
-* cluster stats
-    * develop munin plugins to graph k8s info
-    * nginx stats
-
-* monitoring
-    * setup nagios and alerts
+* setup amy staging cluster
 
 * add munin checks/graphs for NLP
-
-* uwscli
-    * uwsq: clean failed jobs
-
-* internal CA
 
 * SFTP server for data sharing with schools
     * web integration for user/pass management

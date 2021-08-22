@@ -1,7 +1,7 @@
 FROM uws/base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.02.10"
+LABEL version="210819"
 
 USER root:root
 WORKDIR /root
@@ -14,8 +14,10 @@ RUN (cd /usr/local/bin && \
 	&& chmod -v 0755 /usr/local/bin/mkcert-v1.4.3-linux-amd64 \
 	&& ln -vsf /usr/local/bin/mkcert-v1.4.3-linux-amd64 /usr/local/bin/mkcert
 
-ADD ./utils /usr/local/bin
-RUN chmod -v 0755 /usr/local/bin/*.sh
+RUN /root/bin/apt-install.sh uuid-runtime
+
+RUN chgrp -v uws /usr/local/bin \
+	&& chmod -v g+w /usr/local/bin
 
 VOLUME /home/uws/ca
 
@@ -26,5 +28,7 @@ ENV USER uws
 ENV HOME /home/uws
 ENV CAROOT /home/uws/ca
 ENV TRUST_STORES system
+
+COPY --chown=uws:uws ./utils /usr/local/bin
 
 CMD exec mkcert

@@ -1,6 +1,5 @@
 #!/bin/sh
 set -eu
-~/k8s/dashboard/teardown.sh
 ~/k8s/metrics-server/teardown.sh
 ~/k8s/acme/teardown.sh
 ~/k8s/nginx-ingress/teardown.sh
