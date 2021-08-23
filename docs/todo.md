@@ -1,6 +1,6 @@
 # TODO
 
-* internal CA - `WIP`
+* internal CA - `DONE!`
 
 * meteor CDN
     * check old setup
