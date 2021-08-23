@@ -1,21 +1,14 @@
 # TODO
 
-* upgrade nginx proxy: 0.45.0 -> 0.48.1
-    * fix aws lb and nginx x-forwarded-for headers
-        * amybeta - `DONE!`
-        * uwsdev - `DONE!`
-        * panoramix - `DONE!`
-        * amy-wrkr - `DONE!`
-        * amy-east - `DONE!`
-        * amy-west - `DONE!`
-    * new version changed from using aws classic ELB to network ELB
-        * which is more distributed, realiable and maybe expensier too?
-            * works from different availability zones simultaneously
-            * so we have at least two IP addresses (entry points) per cluster/lb now.
-
-* update NLP certificates for workers connection - `DONE!`
-
 * internal CA - `WIP`
+
+* meteor CDN
+    * check old setup
+    * check web headers
+
+* cache web assets
+    * setup nginx expire headers
+    * use separate domain for static assets
 
 * cluster stats - `WIP`
     * develop munin plugins to graph k8s info
@@ -52,16 +45,9 @@
     * show web proxy logs
     * uwsq: clean failed jobs
 
-* cache web assets
-    * setup nginx expire headers
-
 * setup amy staging cluster
 
 * add munin checks/graphs for NLP
-
-* SFTP server for data sharing with schools
-    * web integration for user/pass management
-    * hook to check/validate uploaded files (try mod_exec)
 
 * improve web deploys
     * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.
@@ -75,3 +61,7 @@
 
 * re-design meteor app build to avoid including NLP certs inside container image
     * change buildpack repo app/certs/
+
+* SFTP server for data sharing with schools
+    * web integration for user/pass management
+    * hook to check/validate uploaded files (try mod_exec)
