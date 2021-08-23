@@ -1,7 +1,7 @@
-FROM uws/base
+FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="210819"
+LABEL version="210823"
 
 USER root:root
 WORKDIR /root
@@ -9,10 +9,13 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN (cd /usr/local/bin && \
-	wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64) \
-	&& chmod -v 0755 /usr/local/bin/mkcert-v1.4.3-linux-amd64 \
-	&& ln -vsf /usr/local/bin/mkcert-v1.4.3-linux-amd64 /usr/local/bin/mkcert
+ENV GOPATH /root/go
+
+RUN /root/bin/apt-install.sh golang git \
+	&& go get github.com/uruws/mkcert \
+	&& /root/bin/apt-autoremove.sh golang git \
+	&& install -v -m 0755 /root/go/bin/mkcert /usr/local/bin/mkcert \
+	&& rm -rf /root/go
 
 RUN /root/bin/apt-install.sh uuid-runtime
 
