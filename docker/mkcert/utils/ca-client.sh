@@ -8,4 +8,4 @@ p12fn="${HOME}/ca/client/${fn}.p12"
 
 mkcert -client -ecdsa -pkcs12 --p12-file "${p12fn}" "$@"
 
-exec ca-p12.sh "${fn}"
+exec ca-p12.sh "${fn}" "${EMAIL}"
