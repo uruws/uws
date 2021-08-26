@@ -22,6 +22,8 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
     nginx.ingress.kubernetes.io/session-cookie-max-age: "43200"
     nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      expires $expires_beta;
 spec:
   ingressClassName: nginx
   tls:
@@ -33,3 +35,14 @@ spec:
       name: meteor-beta
       port:
         number: 3000
+  rules:
+    - host: beta.talkingpts.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: /(.*)
+            backend:
+              service:
+                name: meteor-beta
+                port:
+                  number: 3000
