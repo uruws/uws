@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+data:
+  use-forwarded-headers: "true"
+  http-snippet: |
+    map $sent_http_content_type $expires {
+      default         off;
+      ~image/         1m;
+    }
+  server-snippet: |
+    expires $expires;
