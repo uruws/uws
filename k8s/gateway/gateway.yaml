@@ -26,6 +26,8 @@ metadata:
     nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
     nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "false"
+    #~ nginx.ingress.kubernetes.io/server-snippet: |
+      #~ expires $expires;
 spec:
   ingressClassName: nginx
   tls:

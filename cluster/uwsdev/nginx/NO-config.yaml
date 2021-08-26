@@ -14,5 +14,3 @@ data:
       default         off;
       ~image/         1m;
     }
-  server-snippet: |
-    expires $expires;
