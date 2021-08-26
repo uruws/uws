@@ -7,7 +7,7 @@
     * check web headers
 
 * cache web assets
-    * setup nginx expire headers
+    * setup nginx expire headers - `DONE!`
     * use separate domain for static assets
 
 * cluster stats - `WIP`
