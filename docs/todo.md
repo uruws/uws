@@ -2,7 +2,7 @@
 
 * internal CA - `DONE!`
 
-* meteor CDN
+* meteor CDN - `WIP`
     * check old setup
     * check web headers
 
@@ -13,6 +13,8 @@
 * cluster stats - `WIP`
     * develop munin plugins to graph k8s info
     * nginx stats
+
+* split nginx cluster proxy load over N instances instead of only 1
 
 * setup munin limit mail alerts
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
