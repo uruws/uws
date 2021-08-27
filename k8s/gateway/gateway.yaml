@@ -15,6 +15,33 @@ spec:
   type: ExternalName
   externalName: k8s.mon.svc.cluster.local
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metrics
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/component: controller
+spec:
+  type: ClusterIP
+  ports:
+    - name: nginx-metrics
+      port: 10254
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/component: controller
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-metrics
+spec:
+  type: ExternalName
+  externalName: metrics.ingress-nginx.svc.cluster.local
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -26,8 +53,6 @@ metadata:
     nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
     nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "false"
-    #~ nginx.ingress.kubernetes.io/server-snippet: |
-      #~ expires $expires;
 spec:
   ingressClassName: nginx
   tls:
@@ -59,3 +84,10 @@ spec:
                 name: k8smon
                 port:
                   number: 2800
+          - pathType: Prefix
+            path: /nginx/(.*)
+            backend:
+              service:
+                name: nginx-metrics
+                port:
+                  number: 10254
