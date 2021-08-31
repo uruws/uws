@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh rsyslog cron munin
+RUN /root/bin/apt-install.sh rsyslog cron logrotate munin
 
 ENV MN munin-contrib
 ENV MR uruws/${MN}
