@@ -1,20 +1,12 @@
 # TODO
 
-* internal CA - `DONE!`
-
-* meteor CDN - `WIP`
-    * check old setup
-    * check web headers
-
 * cache web assets
-    * setup nginx expire headers - `DONE!`
     * use separate domain for static assets
+    * test meteor appcache
 
 * cluster stats - `WIP`
     * develop munin plugins to graph k8s info
     * nginx stats
-
-* split nginx cluster proxy load over N instances instead of only 1
 
 * setup munin limit mail alerts
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
@@ -50,6 +42,8 @@
 * setup amy staging cluster
 
 * add munin checks/graphs for NLP
+
+* split nginx cluster proxy load over N instances instead of only 1
 
 * improve web deploys
     * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.
