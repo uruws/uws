@@ -52,6 +52,9 @@ spec:
             - name: node-setup
               mountPath: "/srv/etc/munin-node"
               readOnly: true
+            - name: munin-plugins
+              mountPath: "/srv/munin/plugins"
+              readOnly: true
           resources:
             requests:
               memory: 100Mi
@@ -75,3 +78,6 @@ spec:
         - name: node-setup
           configMap:
             name: node-setup
+        - name: munin-plugins
+          configMap:
+            name: munin-plugins
