@@ -28,8 +28,7 @@ def parse(resp):
 		try:
 			value = math.ceil(float(line.split()[-1]))
 		except ValueError as err:
-			mon.dbg(line)
-			mon.log('ERROR:', err)
+			mon.dbg('ERROR:', err)
 			continue
 		# connections
 		if line.startswith('nginx_ingress_controller_nginx_process_connections{'):
