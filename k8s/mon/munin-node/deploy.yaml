@@ -55,6 +55,8 @@ spec:
             - name: munin-plugins
               mountPath: "/srv/munin/plugins"
               readOnly: true
+            - name: munin-plugins-pycache
+              mountPath: "/srv/munin/plugins/__pycache__"
           resources:
             requests:
               memory: 100Mi
@@ -81,3 +83,5 @@ spec:
         - name: munin-plugins
           configMap:
             name: munin-plugins
+        - name: munin-plugins-pycache
+          emptyDir: {}
