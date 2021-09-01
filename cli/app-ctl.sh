@@ -7,6 +7,12 @@ action=${3:?'action?'}
 
 shift 3
 
+logs_dir=${HOME}/logs
+logf=${logs_dir}/app-ctl.log
+
+mkdir -vp "${logs_dir}"
+echo "$(date -R): ${cluster} ${kind} ${action}" >>"${logf}"
+
 cmd=./pod/${kind}/${action}.sh
 
 cd /srv/uws/deploy
