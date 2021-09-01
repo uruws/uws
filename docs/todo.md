@@ -8,6 +8,10 @@
     * develop munin plugins to graph k8s info
     * nginx stats
 
+* uwscli
+    * remove app-build --no-test - `DONE!`
+    * limit app-deploy usage asking for a password
+
 * setup munin limit mail alerts
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
 
