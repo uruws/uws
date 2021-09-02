@@ -14,7 +14,7 @@ __doc__ = 'deploy app build'
 def deploy(app, version):
 	args = "%s %s deploy %s" % (uwscli.app[app].cluster,
 		uwscli.app[app].pod, version)
-	return uwscli.nq('app-ctl.sh', args)
+	return uwscli.run('app-ctl.sh', args)
 
 def list_images(app):
 	cluster = uwscli.app[app].cluster
