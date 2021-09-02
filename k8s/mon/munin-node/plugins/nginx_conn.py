@@ -1,68 +1,34 @@
-#!/usr/bin/env python3
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
 
-import math
-import os
-import sys
-
-from urllib.request import urlopen
-
-MONLIB = os.getenv('MONLIB', '/srv/munin/plugins')
-sys.path.insert(0, MONLIB)
 import mon
 
-def parse(resp):
-	mon.dbg('parse')
-	sts = dict(
-		active = 'U',
-		reading = 'U',
-		waiting = 'U',
-		writing = 'U',
-		accepted = 'U',
-		handled = 'U',
-	)
-	for line in resp.read().decode().splitlines():
-		if line.startswith('#'):
-			continue
-		elif line == '':
-			continue
-		try:
-			value = math.ceil(float(line.split()[-1]))
-		except ValueError as err:
-			mon.dbg('ERROR:', err)
-			continue
-		# connections
-		if line.startswith('nginx_ingress_controller_nginx_process_connections{'):
-			if line.rfind('state="active"') > 0:
-				sts['active'] = value
-			elif line.rfind('state="reading"') > 0:
-				sts['reading'] = value
-			elif line.rfind('state="waiting"') > 0:
-				sts['waiting'] = value
-			elif line.rfind('state="writing"') > 0:
-				sts['writing'] = value
-		# connections total
-		elif line.startswith('nginx_ingress_controller_nginx_process_connections_total{'):
-			if line.rfind('state="accepted"') > 0:
-				sts['accepted'] = value
-			elif line.rfind('state="handled"') > 0:
-				sts['handled'] = value
-	return sts
+sts = dict(
+	active = 'U',
+	reading = 'U',
+	waiting = 'U',
+	writing = 'U',
+	accepted = 'U',
+	handled = 'U',
+)
 
-def metrics():
-	try:
-		resp = urlopen(mon.NGINX_METRICS_URL, None, 15)
-	except Exception as err:
-		mon.log('ERROR:', err)
-		sys.exit(9)
-	mon.dbg('resp status:', resp.status)
-	if resp.status != 200:
-		mon.log('ERROR: metrics response status', resp.status)
-		sys.exit(8)
-	return parse(resp)
+def parse(meta, value):
+	mon.dbg('parse nginx_conn')
+	if meta['state'] == 'active':
+		sts['active'] = value
+	elif meta['state'] == 'reading':
+		sts['reading'] = value
+	elif meta['state'] == 'waiting':
+		sts['waiting'] = value
+	elif meta['state'] == 'writing':
+		sts['writing'] = value
+	elif meta['state'] == 'accepted':
+		sts['accepted'] = value
+	elif meta['state'] == 'handled':
+		sts['handled'] = value
 
 def config():
-	mon.dbg('config')
-	sts = metrics()
+	mon.dbg('config nginx_conn')
 	# connections state
 	print('multigraph nginx_connections_state')
 	print('graph_title Connections state')
@@ -112,15 +78,9 @@ def config():
 	print('handled.colour COLOUR1')
 	print('handled.type COUNTER')
 	print('handled.min 0')
-	# cache
-	mon.cacheSet('nginx.connections', sts)
-	return 0
 
-def report():
-	mon.dbg('report')
-	sts = mon.cacheGet('nginx.connections')
-	if sts is None:
-		sts = metrics()
+def report(sts):
+	mon.dbg('report nginx_conn')
 	# connections
 	print('multigraph nginx_connections_state')
 	print('active.value', sts['active'])
@@ -135,15 +95,3 @@ def report():
 	print('multigraph nginx_connections_total_counter')
 	print('accepted.value', sts['accepted'])
 	print('handled.value', sts['handled'])
-	return 0
-
-def main():
-	try:
-		if sys.argv[1] == 'config':
-			return config()
-	except IndexError:
-		pass
-	return report()
-
-if __name__ == '__main__':
-	sys.exit(main())

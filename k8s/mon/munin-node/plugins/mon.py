@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
 
 import json
 import os
@@ -23,19 +24,21 @@ __field_re = re.compile('\W')
 def cleanfn(n):
 	return __field_re.sub('_', n)
 
-def cacheSet(fn, obj, ttl = 120):
+__cachefn = '/tmp/mon.cache.nginx.stats'
+
+def cacheSet(obj):
 	try:
-		obj['__cache_expire'] = time() + ttl
-		with open(f"/tmp/mon.cache.{fn}", 'w') as fh:
+		obj['__cache_expire'] = time() + 120
+		with open(__cachefn, 'w') as fh:
 			json.dump(obj, fh)
 			fh.close()
 	except Exception as err:
 		log('ERROR cacheSet:', err)
 
-def cacheGet(fn):
+def cacheGet():
 	obj = None
 	try:
-		with open(f"/tmp/mon.cache.{fn}", 'r') as fh:
+		with open(__cachefn, 'r') as fh:
 			obj = json.load(fh)
 			fh.close()
 	except Exception as err:
