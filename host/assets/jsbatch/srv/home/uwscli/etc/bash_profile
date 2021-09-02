@@ -1,0 +1,1 @@
+export PATH=/srv/home/uwscli/bin:${PATH}
