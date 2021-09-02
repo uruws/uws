@@ -10,8 +10,9 @@
 
 * uwscli
     * remove app-build --no-test - `DONE!`
-    * grant access for developers using personal users
-    * limit app-deploy and app-rollin usage for "admins" only
+    * grant access for developers using personal users - `DONE!`
+    * limit app-deploy and app-rollin usage for "admins" only - `DONE!`
+    * should we limit app-restart too?
 
 * setup munin limit mail alerts
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
