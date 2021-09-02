@@ -12,6 +12,8 @@
     * remove app-build --no-test - `DONE!`
     * grant access for developers using personal users - `DONE!`
     * limit app-deploy and app-rollin usage for "admins" only - `DONE!`
+    * app-ctl.sh log requested action - `DONE!`
+        * log the username that requested the action too
     * should we limit app-restart too?
 
 * setup munin limit mail alerts
