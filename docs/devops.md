@@ -6,7 +6,7 @@ Operations tasks using `uwscli` command line interface.
 
 You need to access to the operations server using SSH:
 
-    $ ssh -l uwscli ops.uws.talkingpts.org
+    $ ssh -l <your_username> ops.uws.talkingpts.org
 
 Your ssh credentials need to be authorized first so contact your sysadmin if
 that doesn't work for you.
@@ -42,6 +42,8 @@ Where *X.Y.Z* is a release tag in the App git repository.
 Check `uwshelp app-build` for more information.
 
 ## Deploy
+
+Deploy is only allowed for *admin* users.
 
 To check available releases for deploy run:
 
