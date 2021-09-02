@@ -22,4 +22,11 @@ chown -v root:uws ~uwscli/bin/app-rollin
 rm -vrf ~uwscli/bin/__pycache__
 python3 -m compileall ~uwscli/bin/uwscli.py
 
+chmod -v 0750 ~antonio
+chmod -v 0750 ~aram
+chmod -v 0750 ~gabriel
+chmod -v 0750 ~guillermo
+chmod -v 0750 ~jeremias
+chmod -v 0750 ~nelson
+
 exit 0
