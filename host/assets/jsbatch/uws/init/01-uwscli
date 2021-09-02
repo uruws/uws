@@ -10,6 +10,9 @@ fi
 chmod -v 0750 ~uwscli
 chown -v uwscli:uwscli ~uwscli
 
+chmod -v 0750 ~uwscli/etc
+chown -vR root:uwscli ~uwscli/etc
+
 chmod -v 0750 ~uwscli/bin
 chmod -v 0750 ~uwscli/bin/*
 chmod -v 0640 ~uwscli/bin/uwscli.py
