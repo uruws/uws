@@ -23,10 +23,21 @@ rm -vrf ~uwscli/bin/__pycache__
 python3 -m compileall ~uwscli/bin/uwscli.py
 
 chmod -v 0750 ~antonio
+install -v -m 0644 ~uwscli/etc/user.bash_profile ~antonio/.bash_profile
+
 chmod -v 0750 ~aram
+install -v -m 0644 ~uwscli/etc/user.bash_profile ~aram/.bash_profile
+
 chmod -v 0750 ~gabriel
+install -v -m 0644 ~uwscli/etc/user.bash_profile ~gabriel/.bash_profile
+
 chmod -v 0750 ~guillermo
+install -v -m 0644 ~uwscli/etc/user.bash_profile ~guillermo/.bash_profile
+
 chmod -v 0750 ~jeremias
+install -v -m 0644 ~uwscli/etc/user.bash_profile ~jeremias/.bash_profile
+
 chmod -v 0750 ~nelson
+install -v -m 0644 ~uwscli/etc/user.bash_profile ~nelson/.bash_profile
 
 exit 0
