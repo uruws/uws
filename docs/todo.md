@@ -10,7 +10,8 @@
 
 * uwscli
     * remove app-build --no-test - `DONE!`
-    * limit app-deploy usage asking for a password
+    * grant access for developers using personal users
+    * limit app-deploy and app-rollin usage for "admins" only
 
 * setup munin limit mail alerts
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
