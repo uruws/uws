@@ -88,7 +88,7 @@ def report():
 	if sts is None:
 		sts = metrics()
 	# connections
-	nginx_conn.report(sts)
+	nginx_conn.report(sts['nginx_conn'])
 	return 0
 
 def main():
