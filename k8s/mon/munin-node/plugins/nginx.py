@@ -18,6 +18,10 @@ import mon
 import nginx_conn
 
 parse_re = re.compile(r'^([^{]+)({[^}]+})\s(\S+)$')
+line1_re = re.compile(r'{(\w)')
+line2_re = re.compile(r',(\w)')
+line3_re = re.compile(r'(\w)=')
+line4_re = re.compile(r'"="')
 
 def parse(resp):
 	mon.dbg('parse')
@@ -29,15 +33,21 @@ def parse(resp):
 		m = parse_re.match(line)
 		if m:
 			name = m.group(1)
+			ml = m.group(2)
+			ml = line1_re.sub(r'{"\1', ml)
+			ml = line2_re.sub(r',"\1', ml)
+			ml = line3_re.sub(r'\1"=', ml)
+			ml = line4_re.sub(r'":"', ml)
 			try:
-				meta = json.loads(m.group(2))
+				meta = json.loads(ml)
 			except Exception as err:
-				mon.log(f"ERROR {name}:", err)
+				mon.log(f"ERROR json {name}:", err)
+				mon.dbg('LINE:', ml)
 				continue
 			try:
 				value = math.ceil(float(m.group(3)))
 			except ValueError as err:
-				mon.dbg(f"ERROR {name}:", err)
+				mon.dbg(f"ERROR math {name}:", err)
 				value = 'U'
 		else:
 			continue
