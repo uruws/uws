@@ -18,7 +18,7 @@ METRICS_URL = os.getenv('NGINX_METRICS_URL', __nginx_metrics)
 
 # load modules
 import nginx_conn
-# ~ import nginx_proc
+import nginx_proc
 
 # module parse
 
@@ -31,9 +31,36 @@ def metrics():
 		# connections total
 		elif name == 'nginx_ingress_controller_nginx_process_connections_total':
 			nginx_conn.parse(meta, value)
+		# proc cpu
+		elif name == 'nginx_ingress_controller_nginx_process_cpu_seconds_total':
+			nginx_proc.parse('cpu', 'controller', value)
+		elif name == 'process_cpu_seconds_total':
+			nginx_proc.parse('cpu', 'total', value)
+		# ~ # proc mem
+		# ~ elif name == 'nginx_ingress_controller_nginx_process_resident_memory_bytes':
+			# ~ nginx_proc.mem('controller', value)
+		# ~ elif name == 'process_resident_memory_bytes':
+			# ~ nginx_proc.mem('total', value)
+		# ~ elif name == 'nginx_ingress_controller_nginx_process_virtual_memory_bytes':
+			# ~ nginx_proc.mem('controller_virtual', value)
+		# ~ elif name == 'process_virtual_memory_bytes':
+			# ~ nginx_proc.mem('total_virtual', value)
+		# ~ # proc uptime
+		# ~ elif name == 'process_start_time_seconds':
+			# ~ nginx_proc.uptime(value)
+		# ~ # proc requests
+		# ~ elif name == 'nginx_ingress_controller_nginx_process_requests_total':
+			# ~ nginx_proc.requests(value)
+		# ~ # proc read
+		# ~ elif name == 'nginx_ingress_controller_nginx_process_read_bytes_total':
+			# ~ nginx_proc.bytes_read(value)
+		# ~ # proc write
+		# ~ elif name == 'nginx_ingress_controller_nginx_process_write_bytes_total':
+			# ~ nginx_proc.bytes_write(value)
 	# register stats
 	return dict(
 		nginx_conn = nginx_conn.sts,
+		nginx_proc = nginx_proc.sts,
 	)
 
 # module config
@@ -42,8 +69,8 @@ def config():
 	mon.dbg('config')
 	sts = metrics()
 
-	# connections
 	nginx_conn.config()
+	nginx_proc.config()
 
 	mon.cacheSet(sts)
 	return 0
@@ -56,8 +83,8 @@ def report():
 	if sts is None:
 		sts = metrics()
 
-	# connections
 	nginx_conn.report(sts['nginx_conn'])
+	nginx_proc.report(sts['nginx_proc'])
 
 	return 0
 
