@@ -38,13 +38,9 @@ def metrics():
 			nginx_proc.parse('cpu', 'total', value)
 		# proc mem
 		elif name == 'nginx_ingress_controller_nginx_process_resident_memory_bytes':
-			nginx_proc.parse('mem', 'controller', value)
-		elif name == 'process_resident_memory_bytes':
-			nginx_proc.parse('mem', 'total', value)
+			nginx_proc.parse('mem', 'resident', value)
 		elif name == 'nginx_ingress_controller_nginx_process_virtual_memory_bytes':
-			nginx_proc.parse('mem', 'controller_virtual', value)
-		elif name == 'process_virtual_memory_bytes':
-			nginx_proc.parse('mem', 'total_virtual', value)
+			nginx_proc.parse('mem', 'virtual', value)
 		# proc uptime
 		elif name == 'process_start_time_seconds':
 			nginx_proc.parse('uptime', 'since', value)

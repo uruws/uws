@@ -11,10 +11,8 @@ sts = dict(
 		total = 'U',
 	),
 	mem = dict(
-		controller = 'U',
-		total = 'U',
-		controller_virtual = 'U',
-		total_virtual = 'U',
+		resident = 'U',
+		virtual = 'U',
 	),
 	uptime = 'U',
 )
@@ -50,18 +48,12 @@ def config():
 	print('graph_category nginx')
 	print('graph_vlabel bytes')
 	print('graph_scale yes')
-	print('controller.label controller')
-	print('controller.colour COLOUR0')
-	print('controller.min 0')
-	print('total.label total')
-	print('total.colour COLOUR1')
-	print('total.min 0')
-	print('controller_virtual.label controller virtual')
-	print('controller_virtual.colour COLOUR2')
-	print('controller_virtual.min 0')
-	print('total_virtual.label total virtual')
-	print('total_virtual.colour COLOUR3')
-	print('total_virtual.min 0')
+	print('resident.label resident')
+	print('resident.colour COLOUR0')
+	print('resident.min 0')
+	print('virtual.label virtual')
+	print('virtual.colour COLOUR1')
+	print('virtual.min 0')
 	# uptime
 	print('multigraph nginx_proc_uptime')
 	print('graph_title Uptime')
@@ -82,10 +74,8 @@ def report(sts):
 	print('total.value', sts['cpu']['total'])
 	# mem
 	print('multigraph nginx_proc_mem')
-	print('controller.value', sts['mem']['controller'])
-	print('total.value', sts['mem']['total'])
-	print('controller_virtual.value', sts['mem']['controller_virtual'])
-	print('total_virtual.value', sts['mem']['total_virtual'])
+	print('resident.value', sts['mem']['resident'])
+	print('virtual.value', sts['mem']['virtual'])
 	# uptime
 	print('multigraph nginx_proc_uptime')
 	print('uptime.value', sts['uptime'])
