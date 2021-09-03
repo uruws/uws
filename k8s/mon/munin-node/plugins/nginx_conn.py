@@ -12,7 +12,7 @@ sts = dict(
 	handled = 'U',
 )
 
-def parse(meta, value):
+def __parse(meta, value):
 	mon.dbg('parse nginx_conn:', meta)
 	if meta['state'] == 'active':
 		sts['active'] = value
@@ -26,6 +26,14 @@ def parse(meta, value):
 		sts['accepted'] = value
 	elif meta['state'] == 'handled':
 		sts['handled'] = value
+	return True
+
+def parse(name, meta, value):
+	if name == 'nginx_ingress_controller_nginx_process_connections':
+		return __parse(meta, value)
+	elif name == 'nginx_ingress_controller_nginx_process_connections_total':
+		return __parse(meta, value)
+	return False
 
 def config():
 	mon.dbg('config nginx_conn')

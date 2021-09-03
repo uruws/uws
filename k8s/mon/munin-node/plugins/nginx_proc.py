@@ -22,7 +22,7 @@ sts = dict(
 	),
 )
 
-def parse(kind, key, value):
+def __parse(kind, key, value):
 	mon.dbg('parse nginx_proc:', kind, key)
 	if kind == 'uptime':
 		sts[kind] = time() - value
@@ -30,6 +30,31 @@ def parse(kind, key, value):
 		sts[kind] = value
 	else:
 		sts[kind][key] = value
+
+def parse(name, meta, value):
+	# cpu
+	if name == 'nginx_ingress_controller_nginx_process_cpu_seconds_total':
+		return __parse('cpu', 'controller', value)
+	elif name == 'process_cpu_seconds_total':
+		return __parse('cpu', 'total', value)
+	# mem
+	elif name == 'nginx_ingress_controller_nginx_process_resident_memory_bytes':
+		return __parse('mem', 'resident', value)
+	elif name == 'nginx_ingress_controller_nginx_process_virtual_memory_bytes':
+		return __parse('mem', 'virtual', value)
+	# uptime
+	elif name == 'process_start_time_seconds':
+		return __parse('uptime', 'since', value)
+	# requests
+	elif name == 'nginx_ingress_controller_nginx_process_requests_total':
+		return __parse('requests', 'total', value)
+	# read
+	elif name == 'nginx_ingress_controller_nginx_process_read_bytes_total':
+		return __parse('byte', 'read', value)
+	# write
+	elif name == 'nginx_ingress_controller_nginx_process_write_bytes_total':
+		return __parse('byte', 'write', value)
+	return False
 
 def config():
 	mon.dbg('config nginx_proc')

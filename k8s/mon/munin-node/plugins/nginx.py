@@ -25,34 +25,11 @@ import nginx_proc
 def metrics():
 	mon.dbg('parse')
 	for name, meta, value in mon.metrics(METRICS_URL):
-		# connections
-		if name == 'nginx_ingress_controller_nginx_process_connections':
-			nginx_conn.parse(meta, value)
-		# connections total
-		elif name == 'nginx_ingress_controller_nginx_process_connections_total':
-			nginx_conn.parse(meta, value)
-		# proc cpu
-		elif name == 'nginx_ingress_controller_nginx_process_cpu_seconds_total':
-			nginx_proc.parse('cpu', 'controller', value)
-		elif name == 'process_cpu_seconds_total':
-			nginx_proc.parse('cpu', 'total', value)
-		# proc mem
-		elif name == 'nginx_ingress_controller_nginx_process_resident_memory_bytes':
-			nginx_proc.parse('mem', 'resident', value)
-		elif name == 'nginx_ingress_controller_nginx_process_virtual_memory_bytes':
-			nginx_proc.parse('mem', 'virtual', value)
-		# proc uptime
-		elif name == 'process_start_time_seconds':
-			nginx_proc.parse('uptime', 'since', value)
-		# proc requests
-		elif name == 'nginx_ingress_controller_nginx_process_requests_total':
-			nginx_proc.parse('requests', 'total', value)
-		# proc read
-		elif name == 'nginx_ingress_controller_nginx_process_read_bytes_total':
-			nginx_proc.parse('byte', 'read', value)
-		# proc write
-		elif name == 'nginx_ingress_controller_nginx_process_write_bytes_total':
-			nginx_proc.parse('byte', 'write', value)
+		if nginx_conn.parse(name, meta, value):
+			continue
+		elif nginx_proc.parse(name, meta, value):
+			continue
+
 	# register stats
 	return dict(
 		nginx_conn = nginx_conn.sts,
