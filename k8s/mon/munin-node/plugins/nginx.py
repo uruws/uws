@@ -19,32 +19,36 @@ METRICS_URL = os.getenv('NGINX_METRICS_URL', __nginx_metrics)
 # load modules
 import nginx_conn
 import nginx_proc
+# ~ import nginx_cfg
+
+__mod = dict(
+	nginx_conn = nginx_conn,
+	nginx_proc = nginx_proc,
+)
 
 # module parse
 
 def metrics():
 	mon.dbg('parse')
+	sts = dict()
 	for name, meta, value in mon.metrics(METRICS_URL):
-		if nginx_conn.parse(name, meta, value):
-			continue
-		elif nginx_proc.parse(name, meta, value):
-			continue
-
-	# register stats
-	return dict(
-		nginx_conn = nginx_conn.sts,
-		nginx_proc = nginx_proc.sts,
-	)
+		for modname in __mod.keys():
+			mod = __mod.get(modname)
+			if mod.parse(name, meta, value):
+				mon.dbg('mod parse:', modname)
+				sts[modname] = mod.sts.copy()
+				continue
+	return sts
 
 # module config
 
 def config():
 	mon.dbg('config')
 	sts = metrics()
-
-	nginx_conn.config()
-	nginx_proc.config()
-
+	for modname in __mod.keys():
+		mod = __mod.get(modname)
+		mon.dbg('mod config:', modname)
+		mod.config(sts)
 	mon.cacheSet(sts)
 	return 0
 
@@ -55,10 +59,10 @@ def report():
 	sts = mon.cacheGet()
 	if sts is None:
 		sts = metrics()
-
-	nginx_conn.report(sts['nginx_conn'])
-	nginx_proc.report(sts['nginx_proc'])
-
+	for modname in __mod.keys():
+		mod = __mod.get(modname)
+		mon.dbg('mod report:', modname)
+		mod.report(sts[modname])
 	return 0
 
 # main

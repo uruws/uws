@@ -30,6 +30,7 @@ def __parse(kind, key, value):
 		sts[kind] = value
 	else:
 		sts[kind][key] = value
+	return True
 
 def parse(name, meta, value):
 	# cpu
@@ -56,7 +57,7 @@ def parse(name, meta, value):
 		return __parse('byte', 'write', value)
 	return False
 
-def config():
+def config(sts):
 	mon.dbg('config nginx_proc')
 	# cpu
 	print('multigraph nginx_proc_cpu')

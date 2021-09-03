@@ -35,7 +35,7 @@ def parse(name, meta, value):
 		return __parse(meta, value)
 	return False
 
-def config():
+def config(sts):
 	mon.dbg('config nginx_conn')
 	# connections state
 	print('multigraph nginx_connections_state')
