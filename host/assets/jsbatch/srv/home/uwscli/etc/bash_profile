@@ -1,3 +1,5 @@
 uwscli_bindir=$(ls -d ~uwscli/bin)
 export PATH=${uwscli_bindir}:${PATH}
 unset uwscli_bindir
+
+export TMOUT=3600
