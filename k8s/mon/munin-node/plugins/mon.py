@@ -10,6 +10,8 @@ import sys
 from time import time
 from urllib.request import urlopen
 
+# logger
+
 __debug = os.getenv('UWS_DEBUG', None)
 
 def log(*args):
@@ -20,6 +22,8 @@ def dbg(*args):
 		print('DEBUG: ', end = '', file = sys.stderr)
 		log(*args)
 
+# utils
+
 __field_re = re.compile('\W')
 
 def cleanfn(n):
@@ -27,7 +31,9 @@ def cleanfn(n):
 
 __cachefn = '/tmp/mon.cache.nginx.stats'
 
-def cacheSet(obj):
+# cache
+
+def __cacheSet(obj):
 	try:
 		obj['__cache_expire'] = time() + 120
 		with open(__cachefn, 'w') as fh:
@@ -36,7 +42,7 @@ def cacheSet(obj):
 	except Exception as err:
 		log('ERROR cacheSet:', err)
 
-def cacheGet():
+def __cacheGet():
 	obj = None
 	try:
 		with open(__cachefn, 'r') as fh:
@@ -94,8 +100,8 @@ def __metrics_parse(resp):
 			continue
 		yield (name, meta, value)
 
-def metrics(url):
-	dbg('metrics')
+def __metrics_get(url):
+	dbg('metrics get')
 	try:
 		resp = urlopen(url, None, 15)
 	except Exception as err:
@@ -106,3 +112,52 @@ def metrics(url):
 		log('ERROR: metrics response status', resp.status)
 		sys.exit(8)
 	return __metrics_parse(resp)
+
+# module parse
+
+def __metrics(url, mods):
+	dbg('metrics')
+	sts = dict()
+	for name, meta, value in __metrics_get(url):
+		for modname in mods.keys():
+			mod = mods.get(modname)
+			if mod.parse(name, meta, value):
+				dbg('mod parse:', modname)
+				sts[modname] = mod.sts.copy()
+				continue
+	return sts
+
+# module config
+
+def __config(url, mods):
+	dbg('config')
+	sts = __metrics(url, mods)
+	for modname in mods.keys():
+		mod = mods.get(modname)
+		dbg('mod config:', modname)
+		mod.config(sts)
+	__cacheSet(sts)
+	return 0
+
+# module report
+
+def __report(url, mods):
+	dbg('report')
+	sts = __cacheGet()
+	if sts is None:
+		sts = __metrics(url, mods)
+	for modname in mods.keys():
+		mod = mods.get(modname)
+		dbg('mod report:', modname)
+		mod.report(sts[modname])
+	return 0
+
+# main
+
+def main(url, mods):
+	try:
+		if sys.argv[1] == 'config':
+			return __config(url, mods)
+	except IndexError:
+		pass
+	return __report(url, mods)

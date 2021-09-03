@@ -21,59 +21,9 @@ import nginx_conn
 import nginx_proc
 # ~ import nginx_cfg
 
-__mod = dict(
-	nginx_conn = nginx_conn,
-	nginx_proc = nginx_proc,
-)
-
-# module parse
-
-def metrics():
-	mon.dbg('parse')
-	sts = dict()
-	for name, meta, value in mon.metrics(METRICS_URL):
-		for modname in __mod.keys():
-			mod = __mod.get(modname)
-			if mod.parse(name, meta, value):
-				mon.dbg('mod parse:', modname)
-				sts[modname] = mod.sts.copy()
-				continue
-	return sts
-
-# module config
-
-def config():
-	mon.dbg('config')
-	sts = metrics()
-	for modname in __mod.keys():
-		mod = __mod.get(modname)
-		mon.dbg('mod config:', modname)
-		mod.config(sts)
-	mon.cacheSet(sts)
-	return 0
-
-# module report
-
-def report():
-	mon.dbg('report')
-	sts = mon.cacheGet()
-	if sts is None:
-		sts = metrics()
-	for modname in __mod.keys():
-		mod = __mod.get(modname)
-		mon.dbg('mod report:', modname)
-		mod.report(sts[modname])
-	return 0
-
-# main
-
-def main():
-	try:
-		if sys.argv[1] == 'config':
-			return config()
-	except IndexError:
-		pass
-	return report()
-
 if __name__ == '__main__':
-	sys.exit(main())
+	__mod = dict(
+		nginx_conn = nginx_conn,
+		nginx_proc = nginx_proc,
+	)
+	sys.exit(mon.main(METRICS_URL, __mod))
