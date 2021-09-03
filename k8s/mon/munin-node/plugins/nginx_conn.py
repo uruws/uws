@@ -13,7 +13,7 @@ sts = dict(
 )
 
 def parse(meta, value):
-	mon.dbg('parse nginx_conn')
+	mon.dbg('parse nginx_conn:', meta)
 	if meta['state'] == 'active':
 		sts['active'] = value
 	elif meta['state'] == 'reading':

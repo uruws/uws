@@ -17,6 +17,7 @@ def log(*args):
 
 def dbg(*args):
 	if __debug:
+		print('DEBUG: ', end = '', file = sys.stderr)
 		log(*args)
 
 __field_re = re.compile('\W')
@@ -87,7 +88,7 @@ def __metrics_parse(resp):
 			try:
 				value = math.ceil(float(m.group(3)))
 			except ValueError as err:
-				dbg(f"ERROR: math {name}:", err)
+				dbg(f"math {name}:", err)
 		else:
 			dbg('metrics parse miss:', line)
 			continue
