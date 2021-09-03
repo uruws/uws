@@ -44,9 +44,9 @@ def metrics():
 		# proc uptime
 		elif name == 'process_start_time_seconds':
 			nginx_proc.parse('uptime', 'since', value)
-		# ~ # proc requests
-		# ~ elif name == 'nginx_ingress_controller_nginx_process_requests_total':
-			# ~ nginx_proc.requests(value)
+		# proc requests
+		elif name == 'nginx_ingress_controller_nginx_process_requests_total':
+			nginx_proc.parse('requests', 'total', value)
 		# ~ # proc read
 		# ~ elif name == 'nginx_ingress_controller_nginx_process_read_bytes_total':
 			# ~ nginx_proc.bytes_read(value)

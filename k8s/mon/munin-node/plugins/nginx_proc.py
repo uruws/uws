@@ -15,12 +15,15 @@ sts = dict(
 		virtual = 'U',
 	),
 	uptime = 'U',
+	requests = 'U',
 )
 
 def parse(kind, key, value):
 	mon.dbg('parse nginx_proc:', kind, key)
 	if kind == 'uptime':
 		sts[kind] = time() - value
+	elif kind == 'requests':
+		sts[kind] = value
 	else:
 		sts[kind][key] = value
 
@@ -50,9 +53,11 @@ def config():
 	print('graph_scale yes')
 	print('resident.label resident')
 	print('resident.colour COLOUR0')
+	print('resident.draw AREA')
 	print('resident.min 0')
 	print('virtual.label virtual')
 	print('virtual.colour COLOUR1')
+	print('virtual.draw AREA')
 	print('virtual.min 0')
 	# uptime
 	print('multigraph nginx_proc_uptime')
@@ -65,6 +70,27 @@ def config():
 	print('uptime.colour COLOUR0')
 	print('uptime.draw AREA')
 	print('uptime.min 0')
+	# requests
+	print('multigraph nginx_proc_requests')
+	print('graph_title Requests total')
+	print('graph_args --base 1000 -l 0')
+	print('graph_category nginx')
+	print('graph_vlabel number')
+	print('graph_scale yes')
+	print('requests.label requests')
+	print('requests.colour COLOUR0')
+	print('requests.min 0')
+	# requests counter
+	print('multigraph nginx_proc_requests_counter')
+	print('graph_title Requests counter')
+	print('graph_args --base 1000 -l 0')
+	print('graph_category nginx')
+	print('graph_vlabel number per second')
+	print('graph_scale yes')
+	print('requests.label requests')
+	print('requests.colour COLOUR0')
+	print('requests.type DERIVE')
+	print('requests.min 0')
 
 def report(sts):
 	mon.dbg('report nginx_proc')
@@ -79,3 +105,9 @@ def report(sts):
 	# uptime
 	print('multigraph nginx_proc_uptime')
 	print('uptime.value', sts['uptime'])
+	# requests
+	print('multigraph nginx_proc_requests')
+	print('requests.value', sts['requests'])
+	# requests counter
+	print('multigraph nginx_proc_requests_counter')
+	print('requests.value', sts['requests'])
