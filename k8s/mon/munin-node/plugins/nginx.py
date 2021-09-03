@@ -19,11 +19,12 @@ METRICS_URL = os.getenv('NGINX_METRICS_URL', __nginx_metrics)
 # load modules
 import nginx_conn
 import nginx_proc
-# ~ import nginx_cfg
+import nginx_cfg
 
 if __name__ == '__main__':
 	__mod = dict(
 		nginx_conn = nginx_conn,
 		nginx_proc = nginx_proc,
+		nginx_cfg = nginx_cfg,
 	)
 	sys.exit(mon.main(METRICS_URL, __mod))
