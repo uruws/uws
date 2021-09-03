@@ -2,15 +2,15 @@
 # See LICENSE file.
 
 import json
+import math
 import os
 import re
 import sys
 
 from time import time
+from urllib.request import urlopen
 
 __debug = os.getenv('UWS_DEBUG', None)
-__nginx_metrics = 'http://metrics.ingress-nginx.svc.cluster.local:10254/metrics'
-NGINX_METRICS_URL = os.getenv('NGINX_METRICS_URL', __nginx_metrics)
 
 def log(*args):
 	print(*args, file = sys.stderr)
@@ -50,3 +50,58 @@ def cacheGet():
 		return None
 	dbg('cache hit')
 	return obj
+
+# metrics parser
+
+parse_re = re.compile(r'^([^{]+)({[^}]+}\s|\s)(\S+)$')
+line1_re = re.compile(r'{(\w)')
+line2_re = re.compile(r',(\w)')
+line3_re = re.compile(r'(\w)=')
+line4_re = re.compile(r'"="')
+
+def __metrics_parse(resp):
+	dbg('metrics parse')
+	for line in resp.read().decode().splitlines():
+		if line.startswith('#'):
+			continue
+		elif line == '':
+			continue
+		name = None
+		meta = None
+		value = 'U'
+		m = parse_re.match(line)
+		if m:
+			name = m.group(1)
+			ml = m.group(2).strip()
+			if ml != '':
+				ml = line1_re.sub(r'{"\1', ml)
+				ml = line2_re.sub(r',"\1', ml)
+				ml = line3_re.sub(r'\1"=', ml)
+				ml = line4_re.sub(r'":"', ml)
+				try:
+					meta = json.loads(ml)
+				except Exception as err:
+					log(f"ERROR: json {name}:", err)
+					dbg('LINE:', ml)
+					continue
+			try:
+				value = math.ceil(float(m.group(3)))
+			except ValueError as err:
+				dbg(f"ERROR: math {name}:", err)
+		else:
+			dbg('metrics parse miss:', line)
+			continue
+		yield (name, meta, value)
+
+def metrics(url):
+	dbg('metrics')
+	try:
+		resp = urlopen(url, None, 15)
+	except Exception as err:
+		log('ERROR:', err)
+		sys.exit(9)
+	dbg('resp status:', resp.status)
+	if resp.status != 200:
+		log('ERROR: metrics response status', resp.status)
+		sys.exit(8)
+	return __metrics_parse(resp)
