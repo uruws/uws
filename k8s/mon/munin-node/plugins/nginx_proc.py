@@ -16,6 +16,10 @@ sts = dict(
 	),
 	uptime = 'U',
 	requests = 'U',
+	byte = dict(
+		read = 'U',
+		write = 'U',
+	),
 )
 
 def parse(kind, key, value):
@@ -91,6 +95,19 @@ def config():
 	print('requests.colour COLOUR0')
 	print('requests.type DERIVE')
 	print('requests.min 0')
+	# bytes read/write
+	print('multigraph nginx_proc_bytes')
+	print('graph_title Bytes read/write')
+	print('graph_args --base 1024 -l 0')
+	print('graph_category nginx')
+	print('graph_vlabel read(-)/write(+) per second')
+	print('graph_scale yes')
+	print('write.label bytes')
+	print('write.colour COLOUR0')
+	print('write.type DERIVE')
+	print('write.min 0')
+	print('read.graph no')
+	print('write.negative read')
 
 def report(sts):
 	mon.dbg('report nginx_proc')
@@ -111,3 +128,7 @@ def report(sts):
 	# requests counter
 	print('multigraph nginx_proc_requests_counter')
 	print('requests.value', sts['requests'])
+	# bytes read/write
+	print('multigraph nginx_proc_bytes')
+	print('write.value', sts['byte']['write'])
+	print('read.value', sts['byte']['read'])

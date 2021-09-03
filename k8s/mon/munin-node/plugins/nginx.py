@@ -47,12 +47,12 @@ def metrics():
 		# proc requests
 		elif name == 'nginx_ingress_controller_nginx_process_requests_total':
 			nginx_proc.parse('requests', 'total', value)
-		# ~ # proc read
-		# ~ elif name == 'nginx_ingress_controller_nginx_process_read_bytes_total':
-			# ~ nginx_proc.bytes_read(value)
-		# ~ # proc write
-		# ~ elif name == 'nginx_ingress_controller_nginx_process_write_bytes_total':
-			# ~ nginx_proc.bytes_write(value)
+		# proc read
+		elif name == 'nginx_ingress_controller_nginx_process_read_bytes_total':
+			nginx_proc.parse('byte', 'read', value)
+		# proc write
+		elif name == 'nginx_ingress_controller_nginx_process_write_bytes_total':
+			nginx_proc.parse('byte', 'write', value)
 	# register stats
 	return dict(
 		nginx_conn = nginx_conn.sts,
