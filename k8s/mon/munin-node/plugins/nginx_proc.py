@@ -106,6 +106,10 @@ def config():
 	print('write.colour COLOUR0')
 	print('write.type DERIVE')
 	print('write.min 0')
+	print('read.label bytes')
+	print('read.colour COLOUR0')
+	print('read.type DERIVE')
+	print('read.min 0')
 	print('read.graph no')
 	print('write.negative read')
 
@@ -122,11 +126,11 @@ def report(sts):
 	# uptime
 	print('multigraph nginx_proc_uptime')
 	print('uptime.value', sts['uptime'])
-	# requests
-	print('multigraph nginx_proc_requests')
-	print('requests.value', sts['requests'])
 	# requests counter
 	print('multigraph nginx_proc_requests_counter')
+	print('requests.value', sts['requests'])
+	# requests total
+	print('multigraph nginx_proc_requests_total')
 	print('requests.value', sts['requests'])
 	# bytes read/write
 	print('multigraph nginx_proc_bytes')
