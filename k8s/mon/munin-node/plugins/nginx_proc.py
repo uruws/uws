@@ -3,6 +3,8 @@
 
 import mon
 
+from time import time
+
 sts = dict(
 	cpu = dict(
 		controller = 'U',
@@ -14,11 +16,15 @@ sts = dict(
 		controller_virtual = 'U',
 		total_virtual = 'U',
 	),
+	uptime = 'U',
 )
 
 def parse(kind, key, value):
 	mon.dbg('parse nginx_proc:', kind, key)
-	sts[kind][key] = value
+	if kind == 'uptime':
+		sts[kind] = time() - value
+	else:
+		sts[kind][key] = value
 
 def config():
 	mon.dbg('config nginx_proc')
@@ -56,6 +62,17 @@ def config():
 	print('total_virtual.label total virtual')
 	print('total_virtual.colour COLOUR3')
 	print('total_virtual.min 0')
+	# uptime
+	print('multigraph nginx_proc_uptime')
+	print('graph_title Uptime')
+	print('graph_args --base 1000 -l 0')
+	print('graph_category nginx')
+	print('graph_vlabel seconds')
+	print('graph_scale no')
+	print('uptime.label uptime')
+	print('uptime.colour COLOUR0')
+	print('uptime.draw AREA')
+	print('uptime.min 0')
 
 def report(sts):
 	mon.dbg('report nginx_proc')
@@ -69,3 +86,6 @@ def report(sts):
 	print('total.value', sts['mem']['total'])
 	print('controller_virtual.value', sts['mem']['controller_virtual'])
 	print('total_virtual.value', sts['mem']['total_virtual'])
+	# uptime
+	print('multigraph nginx_proc_uptime')
+	print('uptime.value', sts['uptime'])

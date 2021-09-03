@@ -45,9 +45,9 @@ def metrics():
 			nginx_proc.parse('mem', 'controller_virtual', value)
 		elif name == 'process_virtual_memory_bytes':
 			nginx_proc.parse('mem', 'total_virtual', value)
-		# ~ # proc uptime
-		# ~ elif name == 'process_start_time_seconds':
-			# ~ nginx_proc.uptime(value)
+		# proc uptime
+		elif name == 'process_start_time_seconds':
+			nginx_proc.parse('uptime', 'since', value)
 		# ~ # proc requests
 		# ~ elif name == 'nginx_ingress_controller_nginx_process_requests_total':
 			# ~ nginx_proc.requests(value)
