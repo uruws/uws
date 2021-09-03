@@ -36,15 +36,15 @@ def metrics():
 			nginx_proc.parse('cpu', 'controller', value)
 		elif name == 'process_cpu_seconds_total':
 			nginx_proc.parse('cpu', 'total', value)
-		# ~ # proc mem
-		# ~ elif name == 'nginx_ingress_controller_nginx_process_resident_memory_bytes':
-			# ~ nginx_proc.mem('controller', value)
-		# ~ elif name == 'process_resident_memory_bytes':
-			# ~ nginx_proc.mem('total', value)
-		# ~ elif name == 'nginx_ingress_controller_nginx_process_virtual_memory_bytes':
-			# ~ nginx_proc.mem('controller_virtual', value)
-		# ~ elif name == 'process_virtual_memory_bytes':
-			# ~ nginx_proc.mem('total_virtual', value)
+		# proc mem
+		elif name == 'nginx_ingress_controller_nginx_process_resident_memory_bytes':
+			nginx_proc.parse('mem', 'controller', value)
+		elif name == 'process_resident_memory_bytes':
+			nginx_proc.parse('mem', 'total', value)
+		elif name == 'nginx_ingress_controller_nginx_process_virtual_memory_bytes':
+			nginx_proc.parse('mem', 'controller_virtual', value)
+		elif name == 'process_virtual_memory_bytes':
+			nginx_proc.parse('mem', 'total_virtual', value)
 		# ~ # proc uptime
 		# ~ elif name == 'process_start_time_seconds':
 			# ~ nginx_proc.uptime(value)
