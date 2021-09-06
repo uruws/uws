@@ -20,6 +20,7 @@
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
 
 * new Debian (11) stable release (bullseye)
+    * upgrade jsbatch server - `DONE!`
     * upgrade containers
 
 * graph app number of active users/sessions
