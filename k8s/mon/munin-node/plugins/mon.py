@@ -123,8 +123,10 @@ def __metrics(url, mods):
 			mod = mods.get(modname)
 			if mod.parse(name, meta, value):
 				dbg('mod parse:', modname)
-				sts[modname] = mod.sts.copy()
 				continue
+	for modname in mods.keys():
+		mod = mods.get(modname)
+		sts[modname] = mod.sts.copy()
 	return sts
 
 # module config
@@ -135,7 +137,7 @@ def __config(url, mods):
 	for modname in mods.keys():
 		mod = mods.get(modname)
 		dbg('mod config:', modname)
-		mod.config(sts)
+		mod.config(sts[modname])
 	__cacheSet(sts)
 	return 0
 
