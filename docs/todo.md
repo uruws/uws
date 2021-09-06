@@ -1,26 +1,24 @@
 # TODO
 
-* cache web assets
-    * use separate domain for static assets
-    * test meteor appcache
+* custom scale web and workers
+
+* github CI integration with app builds
 
 * cluster stats - `WIP`
     * develop munin plugins to graph k8s info
     * nginx stats
 
 * uwscli
-    * remove app-build --no-test - `DONE!`
-    * grant access for developers using personal users - `DONE!`
-    * limit app-deploy and app-rollin usage for "admins" only - `DONE!`
-    * app-ctl.sh log requested action - `DONE!`
-        * log the username that requested the action too
-    * should we limit app-restart too?
+    * app-ctl.sh log the username that requested the action too
 
 * setup munin limit mail alerts
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
 
+* cache web assets
+    * use separate domain for static assets
+    * test meteor appcache
+
 * new Debian (11) stable release (bullseye)
-    * upgrade jsbatch server - `DONE!`
     * upgrade containers
 
 * graph app number of active users/sessions
