@@ -70,10 +70,10 @@ def config(sts):
 		print('sent.min 0')
 		# sum derive
 		print(f"multigraph web_sent_{hostid}_bytes_count")
-		print(f"graph_title {host} bytes sent")
+		print(f"graph_title {host} bytes sent count")
 		print('graph_args --base 1024 -l 0')
 		print('graph_category web')
-		print('graph_vlabel bytes')
+		print('graph_vlabel bytes per second')
 		print('graph_scale yes')
 		print('sent.label sent')
 		print(f"sent.colour COLOUR{hn}")
