@@ -12,6 +12,8 @@ sts = dict(
 def __parse(name, meta, value):
 	global sts
 	host = meta['host']
+	if host == '_':
+		host = 'default'
 	mon.dbg('parse web_bytes_sent:', name, host)
 	if not sts['host'].get(host, None):
 		sts['host'][host] = dict(sum = 0, count = 0, meta = meta)
