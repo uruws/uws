@@ -38,8 +38,8 @@ def config(sts):
 		meta = sts['host'][host]['meta']
 		hostid = mon.cleanfn(host)
 		# count
-		print(f"multigraph web_bytes_sent_{hostid}_count")
-		print(f"graph_title {host} bytes sent count")
+		print(f"multigraph web_sent_{hostid}_total")
+		print(f"graph_title {host} sent")
 		print('graph_args --base 1000 -l 0')
 		print('graph_category web')
 		print('graph_vlabel number')
@@ -47,8 +47,19 @@ def config(sts):
 		print('sent.label count')
 		print(f"sent.colour COLOUR{hn}")
 		print('sent.min 0')
+		# count derive
+		print(f"multigraph web_sent_{hostid}_count")
+		print(f"graph_title {host} sent count")
+		print('graph_args --base 1000 -l 0')
+		print('graph_category web')
+		print('graph_vlabel number per second')
+		print('graph_scale yes')
+		print('sent.label count')
+		print(f"sent.colour COLOUR{hn}")
+		print('sent.type DERIVE')
+		print('sent.min 0')
 		# sum
-		print(f"multigraph web_bytes_sent_{hostid}_sum")
+		print(f"multigraph web_sent_{hostid}_bytes_total")
 		print(f"graph_title {host} bytes sent")
 		print('graph_args --base 1024 -l 0')
 		print('graph_category web')
@@ -56,6 +67,17 @@ def config(sts):
 		print('graph_scale yes')
 		print('sent.label sent')
 		print(f"sent.colour COLOUR{hn}")
+		print('sent.min 0')
+		# sum derive
+		print(f"multigraph web_sent_{hostid}_bytes_count")
+		print(f"graph_title {host} bytes sent")
+		print('graph_args --base 1024 -l 0')
+		print('graph_category web')
+		print('graph_vlabel bytes')
+		print('graph_scale yes')
+		print('sent.label sent')
+		print(f"sent.colour COLOUR{hn}")
+		print('sent.type DERIVE')
 		print('sent.min 0')
 		hn += 1
 
@@ -65,8 +87,12 @@ def report(sts):
 		meta = sts['host'][host]['meta']
 		hostid = mon.cleanfn(host)
 		# count
-		print(f"multigraph web_bytes_sent_{hostid}_count")
+		print(f"multigraph web_sent_{hostid}_total")
+		print('sent.value', sts['host'][host]['count'])
+		print(f"multigraph web_sent_{hostid}_count")
 		print('sent.value', sts['host'][host]['count'])
 		# sum
-		print(f"multigraph web_bytes_sent_{hostid}_sum")
+		print(f"multigraph web_sent_{hostid}_bytes_total")
+		print('sent.value', sts['host'][host]['sum'])
+		print(f"multigraph web_sent_{hostid}_bytes_count")
 		print('sent.value', sts['host'][host]['sum'])
