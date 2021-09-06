@@ -16,7 +16,10 @@ def __parse(name, meta, value):
 		host = 'default'
 	mon.dbg('parse web_bytes_sent:', name, host)
 	if not sts['host'].get(host, None):
-		sts['host'][host] = dict(sum = 0, count = 0, meta = meta)
+		m = dict(
+			host = host,
+		)
+		sts['host'][host] = dict(sum = 0, count = 0, meta = m)
 	sts['host'][host][name] += value
 	return True
 
@@ -34,22 +37,21 @@ def config(sts):
 	for host in sorted(sts['host'].keys()):
 		meta = sts['host'][host]['meta']
 		hostid = mon.cleanfn(host)
-		ingress = mon.cleanfn(meta['ingress'])
 		# count
 		print(f"multigraph web_bytes_sent_{hostid}_count")
 		print(f"graph_title {host} bytes sent count")
 		print('graph_args --base 1000 -l 0')
-		print(f"graph_category {ingress}")
+		print('graph_category web')
 		print('graph_vlabel number')
 		print('graph_scale yes')
-		print('sent.label sent')
+		print('sent.label count')
 		print(f"sent.colour COLOUR{hn}")
 		print('sent.min 0')
 		# sum
 		print(f"multigraph web_bytes_sent_{hostid}_sum")
 		print(f"graph_title {host} bytes sent")
 		print('graph_args --base 1024 -l 0')
-		print(f"graph_category {ingress}")
+		print('graph_category web')
 		print('graph_vlabel bytes')
 		print('graph_scale yes')
 		print('sent.label sent')
