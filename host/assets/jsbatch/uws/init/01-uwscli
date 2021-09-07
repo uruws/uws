@@ -19,11 +19,18 @@ chmod -v 0640 ~uwscli/bin/uwscli.py
 
 chown -vR root:uwscli ~uwscli/bin
 
+# admin utils
+
 chown -v root:uws ~uwscli/bin/app-deploy
 chown -v root:uws ~uwscli/bin/app-rollin
+chown -v root:uws ~uwscli/bin/app-scale
+
+# python compile
 
 rm -vrf ~uwscli/bin/__pycache__
 python3 -m compileall ~uwscli/bin/uwscli.py
+
+# users profile
 
 chmod -v 0750 ~antonio
 install -v -m 0644 ~uwscli/etc/user.bash_profile ~antonio/.bash_profile

@@ -8,18 +8,23 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
 
-__doc__ = 'restart app'
+__doc__ = 'scale app'
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.deploy_description())
 	flags.add_argument('app', metavar = 'app', default = 'app',
 		help = 'app name', choices = uwscli.deploy_list())
+	flags.add_argument('replicas', metavar = 'N', nargs = '?', type = int,
+		default = -1, help = 'number of replicas')
 
 	args = flags.parse_args()
 
-	cmd_args = "%s %s restart" % (uwscli.app[args.app].cluster,
+	cmd_args = "%s %s scale" % (uwscli.app[args.app].cluster,
 		uwscli.app[args.app].pod)
+
+	if args.replicas >= 0:
+		cmd_args = "%s %d" % (cmd_args, args.replicas)
 
 	return uwscli.run('app-ctl.sh', cmd_args)
 
