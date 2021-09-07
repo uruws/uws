@@ -12,7 +12,7 @@
     * develop munin plugins to graph k8s info
     * nginx stats
 
-* uwscli
+* uwscli - `DONE!`
     * app-ctl.sh log the username that requested the action too
 
 * setup munin limit mail alerts

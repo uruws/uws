@@ -27,7 +27,7 @@ def main():
 	cmd_args = "%s %s scale %d" % (uwscli.app[args.app].cluster,
 		uwscli.app[args.app].pod, args.replicas)
 
-	return uwscli.run('app-ctl.sh', cmd_args)
+	return uwscli.ctl(cmd_args)
 
 if __name__ == '__main__':
 	sys.stdout.reconfigure(line_buffering = False)

@@ -30,7 +30,7 @@ chown -v root:uws ~uwscli/bin/app-scale
 rm -vrf ~uwscli/bin/__pycache__
 python3 -m compileall ~uwscli/bin/uwscli.py
 
-# crontab
+# install crontab
 
 crontab -u uwscli ~uwscli/etc/crontab.in
 
