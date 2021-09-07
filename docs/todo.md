@@ -1,6 +1,10 @@
 # TODO
 
-* custom scale web and workers
+* custom scale web and workers - `DONE!`
+    * added uwscli app-scale util
+    * added crontab to scale up/down workers and web clusters
+        * scale based on usage info from amplitude analytics
+        * do not scale up over weekends
 
 * github CI integration with app builds
 
