@@ -2,4 +2,5 @@ postmaster:	root
 www-data:	root
 uws:		root
 uwsrun:		root
+uwscli:		root
 root:		jeremias@talkingpts.org
