@@ -15,16 +15,17 @@ def main():
 		description = __doc__, epilog = uwscli.deploy_description())
 	flags.add_argument('app', metavar = 'app', default = 'app',
 		help = 'app name', choices = uwscli.deploy_list())
-	flags.add_argument('replicas', metavar = 'N', nargs = '?', type = int,
-		default = -1, help = 'number of replicas')
+	flags.add_argument('replicas', metavar = 'N', type = int,
+		help = 'number of replicas')
 
 	args = flags.parse_args()
 
-	cmd_args = "%s %s scale" % (uwscli.app[args.app].cluster,
-		uwscli.app[args.app].pod)
+	if args.replicas <= 0:
+		print('invalid number of replicas:', args.replicas, file = sys.stderr)
+		return 9
 
-	if args.replicas >= 0:
-		cmd_args = "%s %d" % (cmd_args, args.replicas)
+	cmd_args = "%s %s scale %d" % (uwscli.app[args.app].cluster,
+		uwscli.app[args.app].pod, args.replicas)
 
 	return uwscli.run('app-ctl.sh', cmd_args)
 
