@@ -30,6 +30,10 @@ chown -v root:uws ~uwscli/bin/app-scale
 rm -vrf ~uwscli/bin/__pycache__
 python3 -m compileall ~uwscli/bin/uwscli.py
 
+# crontab
+
+crontab -u uwscli ~uwscli/etc/crontab.in
+
 # users profile
 
 chmod -v 0750 ~antonio

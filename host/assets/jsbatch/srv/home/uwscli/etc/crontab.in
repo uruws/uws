@@ -3,12 +3,12 @@ MAILTO=root
 
 # m h  dom mon dow   command
 
-# scale up
-3 11 * * * app-scale worker 75
-3 11 * * * app-scale app-east 100
-8 11 * * * app-scale app-west 100
-
 # scale down
 13 3 * * * app-scale worker 40
 23 3 * * * app-scale app-east 50
 33 3 * * * app-scale app-west 50
+
+# scale up
+3 10 * * * app-scale worker 75
+3 10 * * * app-scale app-east 100
+8 10 * * * app-scale app-west 100
