@@ -45,32 +45,36 @@ def config(sts):
 		for ingress in sorted(sts[ns].keys()):
 			ingid = mon.cleanfn(ingress)
 			# sum
-			print(f"multigraph {ns}_{ingid}_web_latency")
+			print(f"multigraph {nsid}_{ingid}_web_latency")
 			print(f"graph_title {ns}/{ingress} service latency total")
 			print('graph_args --base 1000 -l 0')
 			print('graph_category web')
 			print('graph_vlabel seconds')
 			print('graph_scale no')
+			print('graph_total total')
 			svcn = 0
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				print(f"{svcid}.label {svc}")
 				print(f"{svcid}.colour COLOUR{svcn}")
+				print(f"{svcid}.draw AREASTACK")
 				print(f"{svcid}.min 0")
 				svcn += 1
 			if mon.debug(): print()
 			# sum derive
-			print(f"multigraph {ns}_{ingid}_web_latency.count")
+			print(f"multigraph {nsid}_{ingid}_web_latency.count")
 			print(f"graph_title {ns}/{ingress} service latency")
 			print('graph_args --base 1000 -l 0')
 			print('graph_category web')
 			print('graph_vlabel latency per second')
 			print('graph_scale no')
+			print('graph_total total')
 			svcn = 0
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				print(f"{svcid}.label {svc} seconds")
 				print(f"{svcid}.colour COLOUR{svcn}")
+				print(f"{svcid}.draw AREASTACK")
 				print(f"{svcid}.type DERIVE")
 				print(f"{svcid}.min 0")
 				svcn += 1
@@ -85,14 +89,14 @@ def report(sts):
 		for ingress in sorted(sts[ns].keys()):
 			ingid = mon.cleanfn(ingress)
 			# sum
-			print(f"multigraph {ns}_{ingid}_web_latency")
+			print(f"multigraph {nsid}_{ingid}_web_latency")
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				value = sts[ns][ingress][svc]['sum']
 				print(f"{svcid}.value {value}")
 			if mon.debug(): print()
 			# sum derive
-			print(f"multigraph {ns}_{ingid}_web_latency.count")
+			print(f"multigraph {nsid}_{ingid}_web_latency.count")
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				value = sts[ns][ingress][svc]['sum']
