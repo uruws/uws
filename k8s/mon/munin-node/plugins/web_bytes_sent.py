@@ -38,7 +38,7 @@ def config(sts):
 		meta = sts['host'][host]['meta']
 		hostid = mon.cleanfn(host)
 		# count
-		print(f"multigraph web_sent_{hostid}_total")
+		print(f"multigraph web_sent_{hostid}")
 		print(f"graph_title {host} sent")
 		print('graph_args --base 1000 -l 0')
 		print('graph_category web')
@@ -48,7 +48,7 @@ def config(sts):
 		print(f"sent.colour COLOUR{hn}")
 		print('sent.min 0')
 		# count derive
-		print(f"multigraph web_sent_{hostid}_count")
+		print(f"multigraph web_sent_{hostid}.count")
 		print(f"graph_title {host} sent count")
 		print('graph_args --base 1000 -l 0')
 		print('graph_category web')
@@ -59,7 +59,7 @@ def config(sts):
 		print('sent.type DERIVE')
 		print('sent.min 0')
 		# sum
-		print(f"multigraph web_sent_{hostid}_bytes_total")
+		print(f"multigraph web_sent_{hostid}_bytes")
 		print(f"graph_title {host} bytes sent")
 		print('graph_args --base 1024 -l 0')
 		print('graph_category web')
@@ -69,7 +69,7 @@ def config(sts):
 		print(f"sent.colour COLOUR{hn}")
 		print('sent.min 0')
 		# sum derive
-		print(f"multigraph web_sent_{hostid}_bytes_count")
+		print(f"multigraph web_sent_{hostid}_bytes.count")
 		print(f"graph_title {host} bytes sent count")
 		print('graph_args --base 1024 -l 0')
 		print('graph_category web')
@@ -87,12 +87,12 @@ def report(sts):
 		meta = sts['host'][host]['meta']
 		hostid = mon.cleanfn(host)
 		# count
-		print(f"multigraph web_sent_{hostid}_total")
+		print(f"multigraph web_sent_{hostid}")
 		print('sent.value', sts['host'][host]['count'])
-		print(f"multigraph web_sent_{hostid}_count")
+		print(f"multigraph web_sent_{hostid}.count")
 		print('sent.value', sts['host'][host]['count'])
 		# sum
-		print(f"multigraph web_sent_{hostid}_bytes_total")
+		print(f"multigraph web_sent_{hostid}_bytes")
 		print('sent.value', sts['host'][host]['sum'])
-		print(f"multigraph web_sent_{hostid}_bytes_count")
+		print(f"multigraph web_sent_{hostid}_bytes.count")
 		print('sent.value', sts['host'][host]['sum'])
