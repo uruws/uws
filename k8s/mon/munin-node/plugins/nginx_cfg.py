@@ -51,7 +51,7 @@ def config(sts):
 	print('graph_title Config uptime since last reload')
 	print('graph_args --base 1000 -l 0')
 	print('graph_category nginx')
-	print('graph_vlabel seconds')
+	print('graph_vlabel hours')
 	print('graph_scale no')
 	print('uptime.label uptime')
 	print('uptime.colour COLOUR0')
@@ -69,4 +69,4 @@ def report(sts):
 	# reload uptime
 	print('multigraph nginx_cfg_uptime')
 	t = time() - sts['config_last_reload_successful_timestamp_seconds']
-	print('uptime.value', t)
+	print('uptime.value', t / 3600.0)

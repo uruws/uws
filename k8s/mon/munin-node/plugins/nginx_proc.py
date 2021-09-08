@@ -94,7 +94,7 @@ def config(sts):
 	print('graph_title Uptime')
 	print('graph_args --base 1000 -l 0')
 	print('graph_category nginx')
-	print('graph_vlabel seconds')
+	print('graph_vlabel hours')
 	print('graph_scale no')
 	print('uptime.label uptime')
 	print('uptime.colour COLOUR0')
@@ -162,7 +162,7 @@ def report(sts):
 	print('virtual.value', sts['mem']['virtual'])
 	# uptime
 	print('multigraph nginx_proc_uptime')
-	print('uptime.value', sts['uptime'])
+	print('uptime.value', sts['uptime'] / 3600.0)
 	# requests counter
 	print('multigraph nginx_proc_requests_counter')
 	print('requests.value', sts['requests'])
