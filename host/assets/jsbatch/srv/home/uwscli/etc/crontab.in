@@ -1,5 +1,6 @@
 PATH=/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin
 MAILTO=root
+USER=uwscli
 
 # m h  dom mon dow   command
 
