@@ -25,13 +25,15 @@ import nginx_proc
 import nginx_cfg
 import web_bytes_sent
 import web_latency
+import web_request
 
 if __name__ == '__main__':
-	__mod = dict(
+	mods = dict(
 		nginx_conn = nginx_conn,
 		nginx_proc = nginx_proc,
 		nginx_cfg = nginx_cfg,
 		web_bytes_sent = web_bytes_sent,
 		web_latency = web_latency,
+		web_request = web_request,
 	)
-	sys.exit(mon.main(METRICS_URL, __mod))
+	sys.exit(mon.main(METRICS_URL, mods))
