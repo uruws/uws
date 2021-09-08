@@ -17,7 +17,7 @@ def __parse(meta, value):
 		service = 'default'
 	status = meta['status']
 	if status == '':
-		status = '999'
+		status = 'unknown'
 	mon.dbg('parse web_request:', ingress, service, status)
 	if not sts.get(ingress, None):
 		sts[ingress] = dict()
@@ -42,7 +42,7 @@ def config(sts):
 		for svc in sorted(sts[ingress].keys()):
 			svcid = mon.cleanfn(svc)
 			# total
-			print(f"multigraph web_request_{ingid}_{svcid}")
+			print(f"multigraph {ingid}_{svcid}_web_request")
 			print(f"graph_title {ingress} {svcid} client requests")
 			print('graph_args --base 1000 -l 0')
 			print('graph_category web')
@@ -58,7 +58,7 @@ def config(sts):
 				print(f"status_{stid}.min 0")
 				stn += 1
 			# count
-			print(f"multigraph web_request_{ingid}_{svcid}.count")
+			print(f"multigraph {ingid}_{svcid}_web_request.count")
 			print(f"graph_title {ingress} {svcid} client requests count")
 			print('graph_args --base 1000 -l 0')
 			print('graph_category web')
@@ -84,13 +84,13 @@ def report(sts):
 		for svc in sorted(sts[ingress].keys()):
 			svcid = mon.cleanfn(svc)
 			# total
-			print(f"multigraph web_request_{ingid}_{svcid}")
+			print(f"multigraph {ingid}_{svcid}_web_request")
 			for st in sorted(sts[ingress][svc].keys()):
 				stid = mon.cleanfn(st)
 				value = sts[ingress][svc][st]
 				print(f"status_{stid}.value {value}")
 			# count
-			print(f"multigraph web_request_{ingid}_{svcid}.count")
+			print(f"multigraph {ingid}_{svcid}_web_request.count")
 			for st in sorted(sts[ingress][svc].keys()):
 				stid = mon.cleanfn(st)
 				value = sts[ingress][svc][st]

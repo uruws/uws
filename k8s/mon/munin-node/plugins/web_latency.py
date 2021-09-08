@@ -39,7 +39,7 @@ def config(sts):
 	for ingress in sorted(sts['ingress'].keys()):
 		ingid = mon.cleanfn(ingress)
 		# sum
-		print(f"multigraph web_latency_{ingid}")
+		print(f"multigraph {ingid}_web_latency")
 		print(f"graph_title {ingress} service latency")
 		print('graph_args --base 1000 -l 0')
 		print('graph_category web')
@@ -53,7 +53,7 @@ def config(sts):
 			print(f"{svcid}.min 0")
 			svcn += 1
 		# sum derive
-		print(f"multigraph web_latency_{ingid}.count")
+		print(f"multigraph {ingid}_web_latency.count")
 		print(f"graph_title {ingress} service latency count")
 		print('graph_args --base 1000 -l 0')
 		print('graph_category web')
@@ -74,13 +74,13 @@ def report(sts):
 	for ingress in sorted(sts['ingress'].keys()):
 		ingid = mon.cleanfn(ingress)
 		# sum
-		print(f"multigraph web_latency_{ingid}")
+		print(f"multigraph {ingid}_web_latency")
 		for svc in sorted(sts['ingress'][ingress].keys()):
 			svcid = mon.cleanfn(svc)
 			value = sts['ingress'][ingress][svc]['sum']
 			print(f"{svcid}.value {value}")
 		# sum derive
-		print(f"multigraph web_latency_{ingid}.count")
+		print(f"multigraph {ingid}_web_latency.count")
 		for svc in sorted(sts['ingress'][ingress].keys()):
 			svcid = mon.cleanfn(svc)
 			value = sts['ingress'][ingress][svc]['sum']
