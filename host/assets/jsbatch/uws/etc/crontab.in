@@ -1,0 +1,9 @@
+PATH=/usr/local/bin:/usr/bin:/bin
+MAILTO=root
+USER=uws
+HOME=/home/uws
+
+# m h  dom mon dow   command
+
+# uwscli logs
+11 6 * * * /uws/bin/uwscli-logs.sh

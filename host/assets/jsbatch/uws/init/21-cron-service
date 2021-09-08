@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
+crontab -u uws /uws/etc/crontab.in
 /uws/bin/service-restart.sh cron /etc/cron.d
 exit 0
