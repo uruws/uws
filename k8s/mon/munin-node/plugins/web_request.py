@@ -65,6 +65,7 @@ def config(sts):
 					print(f"status_{stid}.draw AREASTACK")
 					print(f"status_{stid}.min 0")
 					stn += 1
+				if mon.debug(): print()
 				# count
 				print(f"multigraph {ns}_{ingid}_{svcid}_web_request.count")
 				print(f"graph_title {ns}/{ingress} {svcid} client requests")
@@ -82,6 +83,7 @@ def config(sts):
 					print(f"status_{stid}.type DERIVE")
 					print(f"status_{stid}.min 0")
 					stn += 1
+				if mon.debug(): print()
 
 def report(sts):
 	mon.dbg('report web_request')
@@ -100,9 +102,11 @@ def report(sts):
 					stid = mon.cleanfn(st)
 					value = sts[ns][ingress][svc][st]
 					print(f"status_{stid}.value {value}")
+				if mon.debug(): print()
 				# count
 				print(f"multigraph {ns}_{ingid}_{svcid}_web_request.count")
 				for st in sorted(sts[ns][ingress][svc].keys()):
 					stid = mon.cleanfn(st)
 					value = sts[ns][ingress][svc][st]
 					print(f"status_{stid}.value {value}")
+				if mon.debug(): print()

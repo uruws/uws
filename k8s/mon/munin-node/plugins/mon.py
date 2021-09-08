@@ -14,6 +14,9 @@ from urllib.request import urlopen
 
 __debug = os.getenv('UWS_DEBUG', None)
 
+def debug():
+	return __debug
+
 def log(*args):
 	print(*args, file = sys.stderr)
 
