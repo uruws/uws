@@ -100,26 +100,26 @@ def config(sts):
 	print('uptime.colour COLOUR0')
 	print('uptime.draw AREA')
 	print('uptime.min 0')
-	# requests counter
-	print('multigraph nginx_proc_requests_counter')
-	print('graph_title Requests counter')
-	print('graph_args --base 1000 -l 0')
-	print('graph_category nginx')
-	print('graph_vlabel number per second')
-	print('graph_scale no')
-	print('requests.label requests')
-	print('requests.colour COLOUR0')
-	print('requests.type DERIVE')
-	print('requests.min 0')
 	# requests total
-	print('multigraph nginx_proc_requests_total')
+	print('multigraph nginx_proc_requests')
 	print('graph_title Requests total')
 	print('graph_args --base 1000 -l 0')
-	print('graph_category nginx')
+	print('graph_category nginx_req')
 	print('graph_vlabel number')
 	print('graph_scale yes')
 	print('requests.label requests')
 	print('requests.colour COLOUR0')
+	print('requests.min 0')
+	# requests counter
+	print('multigraph nginx_proc_requests.counter')
+	print('graph_title Requests')
+	print('graph_args --base 1000 -l 0')
+	print('graph_category nginx_req')
+	print('graph_vlabel number per second')
+	print('graph_scale yes')
+	print('requests.label requests')
+	print('requests.colour COLOUR0')
+	print('requests.type DERIVE')
 	print('requests.min 0')
 	# bytes counter
 	print('multigraph nginx_proc_bytes_counter')
@@ -163,11 +163,11 @@ def report(sts):
 	# uptime
 	print('multigraph nginx_proc_uptime')
 	print('uptime.value', sts['uptime'] / 3600.0)
-	# requests counter
-	print('multigraph nginx_proc_requests_counter')
-	print('requests.value', sts['requests'])
 	# requests total
-	print('multigraph nginx_proc_requests_total')
+	print('multigraph nginx_proc_requests')
+	print('requests.value', sts['requests'])
+	# requests counter
+	print('multigraph nginx_proc_requests.counter')
 	print('requests.value', sts['requests'])
 	# bytes counter
 	print('multigraph nginx_proc_bytes_counter')
