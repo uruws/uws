@@ -39,7 +39,7 @@ def config(sts):
 	mon.dbg('config nginx_conn')
 	# connections state
 	print('multigraph nginx_connections_state')
-	print('graph_title Connections state')
+	print('graph_title connections state')
 	print('graph_args --base 1000 -l 0')
 	print('graph_category nginx_conn')
 	print('graph_vlabel number')
@@ -58,8 +58,8 @@ def config(sts):
 	print('writing.colour COLOUR3')
 	print('writing.min 0')
 	# connections total
-	print('multigraph nginx_connections_total')
-	print('graph_title Connections total')
+	print('multigraph nginx_connections')
+	print('graph_title connections total')
 	print('graph_args --base 1000 -l 0')
 	print('graph_category nginx_conn')
 	print('graph_vlabel number')
@@ -71,9 +71,9 @@ def config(sts):
 	print('handled.label handled')
 	print('handled.colour COLOUR1')
 	print('handled.min 0')
-	# connections total counter
-	print('multigraph nginx_connections_total_counter')
-	print('graph_title Connections total counter')
+	# connections counter
+	print('multigraph nginx_connections.counter')
+	print('graph_title connections')
 	print('graph_args --base 1000 -l 0')
 	print('graph_category nginx_conn')
 	print('graph_vlabel number per second')
@@ -96,10 +96,10 @@ def report(sts):
 	print('waiting.value', sts['waiting'])
 	print('writing.value', sts['writing'])
 	# connections total
-	print('multigraph nginx_connections_total')
+	print('multigraph nginx_connections')
 	print('accepted.value', sts['accepted'])
 	print('handled.value', sts['handled'])
-	# connections total counter
-	print('multigraph nginx_connections_total_counter')
+	# connections counter
+	print('multigraph nginx_connections.counter')
 	print('accepted.value', sts['accepted'])
 	print('handled.value', sts['handled'])
