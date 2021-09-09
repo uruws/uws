@@ -358,7 +358,10 @@ def report(sts):
 					stid = mon.cleanfn(status)
 					t = sts[host][path][method][status]['time']
 					c = sts[host][path][method][status]['count']
-					value = t / c
+					if c > 0:
+						value = t / c
+					else:
+						value = t
 					print(f"resp_{pathid}_{methid}_{stid}.value {value}")
 		if mon.debug(): print()
 		# size index
@@ -404,6 +407,9 @@ def report(sts):
 					stid = mon.cleanfn(status)
 					s = sts[host][path][method][status]['size']
 					c = sts[host][path][method][status]['count']
-					value = s / c
+					if c > 0:
+						value = s / c
+					else:
+						value = s
 					print(f"resp_{pathid}_{methid}_{stid}.value {value}")
 		if mon.debug(): print()
