@@ -15,5 +15,5 @@ if ! test -x "${cmd}"; then
 	exit 1
 fi
 
-export DOCKER_ARGS='-i'
+export DOCKER_ARGS='-it'
 exec ./docker/k8s/cli.sh "${cluster}" "${cmd}" "$@"
