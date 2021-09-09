@@ -23,7 +23,6 @@ METRICS_URL = os.getenv('NGINX_METRICS_URL', __nginx_metrics)
 import nginx_conn
 import nginx_proc
 import nginx_cfg
-# ~ import web
 import web_response
 import web_bytes_sent
 import web_latency
@@ -34,7 +33,6 @@ if __name__ == '__main__':
 		nginx_conn = nginx_conn,
 		nginx_proc = nginx_proc,
 		nginx_cfg = nginx_cfg,
-		# ~ web = web,
 		web_response = web_response,
 		web_bytes_sent = web_bytes_sent,
 		web_latency = web_latency,

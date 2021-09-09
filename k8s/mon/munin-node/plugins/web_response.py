@@ -194,6 +194,89 @@ def config(sts):
 					print(f"resp_{pathid}_{methid}_{stid}.min 0")
 					fid += 1
 		if mon.debug(): print()
+		# size index
+		print(f"multigraph web_response_size_{hostid}")
+		print(f"graph_title {host} response size total")
+		print('graph_args --base 1000 -l 0')
+		print('graph_category web_resp')
+		print('graph_vlabel bytes')
+		print('graph_scale yes')
+		print('graph_total total')
+		fid = 0
+		for path in sorted(sts[host].keys()):
+			pathid = mon.cleanfn(path)
+			for method in sorted(sts[host][path].keys()):
+				methid = mon.cleanfn(method)
+				for status in sorted(sts[host][path][method].keys()):
+					stid = mon.cleanfn(status)
+					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
+					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
+					print(f"resp_{pathid}_{methid}_{stid}.min 0")
+					fid += 1
+		if mon.debug(): print()
+		# size total
+		print(f"multigraph web_response_size_{hostid}.total")
+		print(f"graph_title {host} response size total")
+		print('graph_args --base 1000 -l 0')
+		print('graph_category web_resp')
+		print('graph_vlabel bytes')
+		print('graph_scale yes')
+		print('graph_total total')
+		fid = 0
+		for path in sorted(sts[host].keys()):
+			pathid = mon.cleanfn(path)
+			for method in sorted(sts[host][path].keys()):
+				methid = mon.cleanfn(method)
+				for status in sorted(sts[host][path][method].keys()):
+					stid = mon.cleanfn(status)
+					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
+					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
+					print(f"resp_{pathid}_{methid}_{stid}.min 0")
+					fid += 1
+		if mon.debug(): print()
+		# size count
+		print(f"multigraph web_response_size_{hostid}.count")
+		print(f"graph_title {host} response size")
+		print('graph_args --base 1000 -l 0')
+		print('graph_category web_resp')
+		print('graph_vlabel bytes per second')
+		print('graph_scale no')
+		print('graph_total total')
+		fid = 0
+		for path in sorted(sts[host].keys()):
+			pathid = mon.cleanfn(path)
+			for method in sorted(sts[host][path].keys()):
+				methid = mon.cleanfn(method)
+				for status in sorted(sts[host][path][method].keys()):
+					stid = mon.cleanfn(status)
+					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
+					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
+					print(f"resp_{pathid}_{methid}_{stid}.type DERIVE")
+					print(f"resp_{pathid}_{methid}_{stid}.min 0")
+					fid += 1
+		if mon.debug(): print()
+		# size avg
+		print(f"multigraph web_response_size_{hostid}.avg")
+		print(f"graph_title {host} response size average")
+		print('graph_args --base 1000 -l 0')
+		print('graph_category web_resp')
+		print('graph_vlabel bytes per second')
+		print('graph_scale yes')
+		fid = 0
+		for path in sorted(sts[host].keys()):
+			pathid = mon.cleanfn(path)
+			for method in sorted(sts[host][path].keys()):
+				methid = mon.cleanfn(method)
+				for status in sorted(sts[host][path][method].keys()):
+					stid = mon.cleanfn(status)
+					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
+					print(f"resp_{pathid}_{methid}_{stid}.min 0")
+					fid += 1
+		if mon.debug(): print()
 
 def report(sts):
 	mon.dbg('report web_response')
@@ -276,5 +359,51 @@ def report(sts):
 					t = sts[host][path][method][status]['time']
 					c = sts[host][path][method][status]['count']
 					value = t / c
+					print(f"resp_{pathid}_{methid}_{stid}.value {value}")
+		if mon.debug(): print()
+		# size index
+		print(f"multigraph web_response_size_{hostid}")
+		for path in sorted(sts[host].keys()):
+			pathid = mon.cleanfn(path)
+			for method in sorted(sts[host][path].keys()):
+				methid = mon.cleanfn(method)
+				for status in sorted(sts[host][path][method].keys()):
+					stid = mon.cleanfn(status)
+					value = sts[host][path][method][status]['size']
+					print(f"resp_{pathid}_{methid}_{stid}.value {value}")
+		if mon.debug(): print()
+		# size total
+		print(f"multigraph web_response_size_{hostid}.total")
+		for path in sorted(sts[host].keys()):
+			pathid = mon.cleanfn(path)
+			for method in sorted(sts[host][path].keys()):
+				methid = mon.cleanfn(method)
+				for status in sorted(sts[host][path][method].keys()):
+					stid = mon.cleanfn(status)
+					value = sts[host][path][method][status]['size']
+					print(f"resp_{pathid}_{methid}_{stid}.value {value}")
+		if mon.debug(): print()
+		# size count
+		print(f"multigraph web_response_size_{hostid}.count")
+		for path in sorted(sts[host].keys()):
+			pathid = mon.cleanfn(path)
+			for method in sorted(sts[host][path].keys()):
+				methid = mon.cleanfn(method)
+				for status in sorted(sts[host][path][method].keys()):
+					stid = mon.cleanfn(status)
+					value = sts[host][path][method][status]['size']
+					print(f"resp_{pathid}_{methid}_{stid}.value {value}")
+		if mon.debug(): print()
+		# size avg
+		print(f"multigraph web_response_size_{hostid}.avg")
+		for path in sorted(sts[host].keys()):
+			pathid = mon.cleanfn(path)
+			for method in sorted(sts[host][path].keys()):
+				methid = mon.cleanfn(method)
+				for status in sorted(sts[host][path][method].keys()):
+					stid = mon.cleanfn(status)
+					s = sts[host][path][method][status]['size']
+					c = sts[host][path][method][status]['count']
+					value = s / c
 					print(f"resp_{pathid}_{methid}_{stid}.value {value}")
 		if mon.debug(): print()
