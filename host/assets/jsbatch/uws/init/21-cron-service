@@ -1,5 +1,9 @@
 #!/bin/sh
 set -eu
+
+chgrp -v uws /uws/bin/uwscli-logs.sh
+chmod -v 0750 /uws/bin/uwscli-logs.sh
 crontab -u uws /uws/etc/crontab.in
+
 /uws/bin/service-restart.sh cron /etc/cron.d
 exit 0
