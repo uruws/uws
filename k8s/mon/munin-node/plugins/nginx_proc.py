@@ -121,9 +121,22 @@ def config(sts):
 	print('requests.colour COLOUR0')
 	print('requests.type DERIVE')
 	print('requests.min 0')
+	# bytes total
+	print('multigraph nginx_proc_bytes')
+	print('graph_title Bytes read/write total')
+	print('graph_args --base 1024 -l 0')
+	print('graph_category nginx')
+	print('graph_vlabel read(-)/write(+) per second')
+	print('graph_scale yes')
+	print('read.label bytes')
+	print('read.graph no')
+	print('read.min 0')
+	print('write.label bytes')
+	print('write.negative read')
+	print('write.min 0')
 	# bytes counter
-	print('multigraph nginx_proc_bytes_counter')
-	print('graph_title Bytes read/write counter')
+	print('multigraph nginx_proc_bytes.counter')
+	print('graph_title Bytes read/write')
 	print('graph_args --base 1024 -l 0')
 	print('graph_category nginx')
 	print('graph_vlabel read(-)/write(+) per second')
@@ -134,19 +147,6 @@ def config(sts):
 	print('read.min 0')
 	print('write.label bytes')
 	print('write.type DERIVE')
-	print('write.negative read')
-	print('write.min 0')
-	# bytes total
-	print('multigraph nginx_proc_bytes_total')
-	print('graph_title Bytes read/write total')
-	print('graph_args --base 1024 -l 0')
-	print('graph_category nginx')
-	print('graph_vlabel read(-)/write(+) per second')
-	print('graph_scale yes')
-	print('read.label bytes')
-	print('read.graph no')
-	print('read.min 0')
-	print('write.label bytes')
 	print('write.negative read')
 	print('write.min 0')
 
@@ -169,11 +169,11 @@ def report(sts):
 	# requests counter
 	print('multigraph nginx_proc_requests.counter')
 	print('requests.value', sts['requests'])
-	# bytes counter
-	print('multigraph nginx_proc_bytes_counter')
+	# bytes total
+	print('multigraph nginx_proc_bytes')
 	print('write.value', sts['byte']['write'])
 	print('read.value', sts['byte']['read'])
-	# bytes total
-	print('multigraph nginx_proc_bytes_total')
+	# bytes counter
+	print('multigraph nginx_proc_bytes.counter')
 	print('write.value', sts['byte']['write'])
 	print('read.value', sts['byte']['read'])
