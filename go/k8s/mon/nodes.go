@@ -139,7 +139,7 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	nodes := stats.NewConfig("nodes")
 	nodes.Title = Cluster() + " nodes"
 	nodes.VLabel = "number"
-	nodes.Category = "node"
+	nodes.Category = "nodes"
 	nodes.Printf = "%3.0lf"
 	// number
 	nTotal := nodes.AddField("f00_total")
@@ -157,7 +157,7 @@ func NodesConfig(w http.ResponseWriter, r *http.Request) {
 	nc.Title = Cluster() + " nodes condition"
 	nc.VLabel = "number"
 	nc.Total = "total"
-	nc.Category = "node"
+	nc.Category = "nodes"
 	nc.Printf = "%3.0lf"
 	// unknown condition
 	ncUnknown := nc.AddField("f00_unknown")
