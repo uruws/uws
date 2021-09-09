@@ -62,7 +62,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"resp_{pathid}_{methid}_{stid}.min 0")
@@ -83,7 +83,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"resp_{pathid}_{methid}_{stid}.min 0")
@@ -104,7 +104,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"resp_{pathid}_{methid}_{stid}.type DERIVE")
@@ -126,7 +126,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"resp_{pathid}_{methid}_{stid}.min 0")
@@ -147,7 +147,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"resp_{pathid}_{methid}_{stid}.min 0")
@@ -168,7 +168,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"resp_{pathid}_{methid}_{stid}.type DERIVE")
@@ -189,7 +189,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.min 0")
 					fid += 1
@@ -209,7 +209,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"resp_{pathid}_{methid}_{stid}.min 0")
@@ -230,7 +230,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"resp_{pathid}_{methid}_{stid}.min 0")
@@ -251,7 +251,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"resp_{pathid}_{methid}_{stid}.type DERIVE")
@@ -272,7 +272,7 @@ def config(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					print(f"resp_{pathid}_{methid}_{stid}.label {method} {path} - {status}")
+					print(f"resp_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 					print(f"resp_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 					print(f"resp_{pathid}_{methid}_{stid}.min 0")
 					fid += 1
