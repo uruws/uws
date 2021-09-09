@@ -3,8 +3,6 @@
 
 import mon
 
-from time import time
-
 sts = dict()
 
 def __parse(meta, value):
