@@ -85,6 +85,7 @@ def config(sts):
 					print(f"{svcid}.draw AREASTACK")
 					print(f"{svcid}.type DERIVE")
 					print(f"{svcid}.min 0")
+					print(f"{svcid}.cdef {svcid},1000,/")
 					svcn += 1
 				if mon.debug(): print()
 				# sum total
@@ -120,6 +121,7 @@ def config(sts):
 					print(f"{svcid}.draw AREASTACK")
 					print(f"{svcid}.type DERIVE")
 					print(f"{svcid}.min 0")
+					print(f"{svcid}.cdef {svcid},1000,/")
 					svcn += 1
 				if mon.debug(): print()
 
@@ -145,7 +147,8 @@ def report(sts):
 				print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}.count")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					print(f"{svcid}.value", sts[ns][ingress][host][svc]['count'])
+					value = mon.derive(sts[ns][ingress][host][svc]['count'])
+					print(f"{svcid}.value", value)
 				if mon.debug(): print()
 				# sum
 				print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}")
@@ -156,5 +159,6 @@ def report(sts):
 				print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}.count")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					print(f"{svcid}.value", sts[ns][ingress][host][svc]['sum'])
+					value = mon.derive(sts[ns][ingress][host][svc]['sum'])
+					print(f"{svcid}.value", value)
 				if mon.debug(): print()

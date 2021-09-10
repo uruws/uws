@@ -80,12 +80,14 @@ def config(sts):
 	print('graph_scale no')
 	print('accepted.label accepted')
 	print('accepted.colour COLOUR0')
-	print('accepted.type COUNTER')
+	print('accepted.type DERIVE')
 	print('accepted.min 0')
+	print('accepted.cdef accepted,1000,/')
 	print('handled.label handled')
 	print('handled.colour COLOUR1')
-	print('handled.type COUNTER')
+	print('handled.type DERIVE')
 	print('handled.min 0')
+	print('handled.cdef handled,1000,/')
 
 def report(sts):
 	mon.dbg('report nginx_conn')
@@ -101,5 +103,5 @@ def report(sts):
 	print('handled.value', sts['handled'])
 	# connections counter
 	print('multigraph nginx_connections.counter')
-	print('accepted.value', sts['accepted'])
-	print('handled.value', sts['handled'])
+	print('accepted.value', mon.derive(sts['accepted']))
+	print('handled.value', mon.derive(sts['handled']))

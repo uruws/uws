@@ -109,6 +109,7 @@ def config(sts):
 					print(f"req_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"req_{pathid}_{methid}_{stid}.type DERIVE")
 					print(f"req_{pathid}_{methid}_{stid}.min 0")
+					print(f"req_{pathid}_{methid}_{stid}.cdef req_{pathid}_{methid}_{stid},1000,/")
 					fid += 1
 		if mon.debug(): print()
 		# time index
@@ -173,6 +174,7 @@ def config(sts):
 					print(f"req_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"req_{pathid}_{methid}_{stid}.type DERIVE")
 					print(f"req_{pathid}_{methid}_{stid}.min 0")
+					print(f"req_{pathid}_{methid}_{stid}.cdef req_{pathid}_{methid}_{stid},1000,/")
 					fid += 1
 		if mon.debug(): print()
 		# time avg
@@ -256,6 +258,7 @@ def config(sts):
 					print(f"req_{pathid}_{methid}_{stid}.draw AREASTACK")
 					print(f"req_{pathid}_{methid}_{stid}.type DERIVE")
 					print(f"req_{pathid}_{methid}_{stid}.min 0")
+					print(f"req_{pathid}_{methid}_{stid}.cdef req_{pathid}_{methid}_{stid},1000,/")
 					fid += 1
 		if mon.debug(): print()
 		# size avg
@@ -312,7 +315,7 @@ def report(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					value = sts[host][path][method][status]['count']
+					value = mon.derive(sts[host][path][method][status]['count'])
 					print(f"req_{pathid}_{methid}_{stid}.value {value}")
 		if mon.debug(): print()
 		# time index
@@ -345,7 +348,7 @@ def report(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					value = sts[host][path][method][status]['time']
+					value = mon.derive(sts[host][path][method][status]['time'])
 					print(f"req_{pathid}_{methid}_{stid}.value {value}")
 		if mon.debug(): print()
 		# time avg
@@ -394,7 +397,7 @@ def report(sts):
 				methid = mon.cleanfn(method)
 				for status in sorted(sts[host][path][method].keys()):
 					stid = mon.cleanfn(status)
-					value = sts[host][path][method][status]['size']
+					value = mon.derive(sts[host][path][method][status]['size'])
 					print(f"req_{pathid}_{methid}_{stid}.value {value}")
 		if mon.debug(): print()
 		# size avg

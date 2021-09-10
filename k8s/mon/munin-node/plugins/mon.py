@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 import json
+import math
 import os
 import re
 import sys
@@ -32,6 +33,9 @@ def cleanfn(n):
 	return __field_re.sub('_', n)
 
 __cachefn = '/tmp/mon.cache.nginx.stats'
+
+def derive(f):
+	return math.ceil(f*1000)
 
 # cache
 

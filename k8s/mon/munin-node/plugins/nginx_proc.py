@@ -70,10 +70,12 @@ def config(sts):
 	print('controller.colour COLOUR0')
 	print('controller.type DERIVE')
 	print('controller.min 0')
+	print('controller.cdef controller,1000,/')
 	print('total.label total')
 	print('total.colour COLOUR1')
 	print('total.type DERIVE')
 	print('total.min 0')
+	print('total.cdef total,1000,/')
 	# mem
 	print('multigraph nginx_proc_mem')
 	print('graph_title Memory usage')
@@ -121,6 +123,7 @@ def config(sts):
 	print('requests.colour COLOUR0')
 	print('requests.type DERIVE')
 	print('requests.min 0')
+	print('requests.cdef requests,1000,/')
 	# bytes total
 	print('multigraph nginx_proc_bytes')
 	print('graph_title Bytes read/write total')
@@ -145,17 +148,19 @@ def config(sts):
 	print('read.type DERIVE')
 	print('read.graph no')
 	print('read.min 0')
+	print('read.cdef read,1000,/')
 	print('write.label bytes')
 	print('write.type DERIVE')
 	print('write.negative read')
 	print('write.min 0')
+	print('write.cdef write,1000,/')
 
 def report(sts):
 	mon.dbg('report nginx_proc')
 	# cpu
 	print('multigraph nginx_proc_cpu')
-	print('controller.value', sts['cpu']['controller'])
-	print('total.value', sts['cpu']['total'])
+	print('controller.value', mon.derive(sts['cpu']['controller']))
+	print('total.value', mon.derive(sts['cpu']['total']))
 	# mem
 	print('multigraph nginx_proc_mem')
 	print('resident.value', sts['mem']['resident'])
@@ -168,12 +173,12 @@ def report(sts):
 	print('requests.value', sts['requests'])
 	# requests counter
 	print('multigraph nginx_proc_requests.counter')
-	print('requests.value', sts['requests'])
+	print('requests.value', mon.derive(sts['requests']))
 	# bytes total
 	print('multigraph nginx_proc_bytes')
 	print('write.value', sts['byte']['write'])
 	print('read.value', sts['byte']['read'])
 	# bytes counter
 	print('multigraph nginx_proc_bytes.counter')
-	print('write.value', sts['byte']['write'])
-	print('read.value', sts['byte']['read'])
+	print('write.value', mon.derive(sts['byte']['write']))
+	print('read.value', mon.derive(sts['byte']['read']))

@@ -80,6 +80,7 @@ def config(sts):
 					print(f"status_{stid}.draw AREASTACK")
 					print(f"status_{stid}.type DERIVE")
 					print(f"status_{stid}.min 0")
+					print(f"status_{stid}.cdef status_{stid},1000,/")
 					stn += 1
 				if mon.debug(): print()
 
@@ -105,6 +106,6 @@ def report(sts):
 				print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}.count")
 				for st in sorted(sts[ns][ingress][svc].keys()):
 					stid = mon.cleanfn(st)
-					value = sts[ns][ingress][svc][st]
+					value = mon.derive(sts[ns][ingress][svc][st])
 					print(f"status_{stid}.value {value}")
 				if mon.debug(): print()

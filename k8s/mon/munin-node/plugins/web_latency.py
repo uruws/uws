@@ -75,6 +75,7 @@ def config(sts):
 				print(f"{svcid}.draw AREASTACK")
 				print(f"{svcid}.type DERIVE")
 				print(f"{svcid}.min 0")
+				print(f"{svcid}.cdef {svcid},1000,/")
 				svcn += 1
 			if mon.debug(): print()
 
@@ -97,6 +98,6 @@ def report(sts):
 			print(f"multigraph web_latency_{nsid}_{ingid}.count")
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
-				value = sts[ns][ingress][svc]['sum']
+				value = mon.derive(sts[ns][ingress][svc]['sum'])
 				print(f"{svcid}.value {value}")
 			if mon.debug(): print()
