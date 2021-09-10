@@ -27,7 +27,7 @@ def __parse(meta, value):
 		status = 'unknown'
 	if not sts[ns][ingress][service].get(status, None):
 		sts[ns][ingress][service][status] = 0
-	mon.dbg('parse web_request:', ns, ingress, service, status)
+	mon.dbg('parse web_ingress:', ns, ingress, service, status)
 	sts[ns][ingress][service][status] += value
 	return True
 
@@ -37,7 +37,7 @@ def parse(name, meta, value):
 	return False
 
 def config(sts):
-	mon.dbg('config web_request')
+	mon.dbg('config web_ingress')
 	# ns
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
@@ -48,10 +48,10 @@ def config(sts):
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				# total
-				print(f"multigraph web_request_{nsid}_{ingid}_{svcid}")
+				print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}")
 				print(f"graph_title {ns}/{ingress} {svc} client requests total")
 				print('graph_args --base 1000 -l 0')
-				print('graph_category web_req')
+				print('graph_category web_ingress')
 				print('graph_vlabel number')
 				print('graph_scale yes')
 				print('graph_total total')
@@ -65,10 +65,10 @@ def config(sts):
 					stn += 1
 				if mon.debug(): print()
 				# count
-				print(f"multigraph web_request_{nsid}_{ingid}_{svcid}.count")
+				print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}.count")
 				print(f"graph_title {ns}/{ingress} {svcid} client requests")
 				print('graph_args --base 1000 -l 0')
-				print('graph_category web_req')
+				print('graph_category web_ingress')
 				print('graph_vlabel number per second')
 				print('graph_scale yes')
 				print('graph_total total')
@@ -84,7 +84,7 @@ def config(sts):
 				if mon.debug(): print()
 
 def report(sts):
-	mon.dbg('report web_request')
+	mon.dbg('report web_ingress')
 	# ns
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
@@ -95,14 +95,14 @@ def report(sts):
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				# total
-				print(f"multigraph web_request_{nsid}_{ingid}_{svcid}")
+				print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}")
 				for st in sorted(sts[ns][ingress][svc].keys()):
 					stid = mon.cleanfn(st)
 					value = sts[ns][ingress][svc][st]
 					print(f"status_{stid}.value {value}")
 				if mon.debug(): print()
 				# count
-				print(f"multigraph web_request_{nsid}_{ingid}_{svcid}.count")
+				print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}.count")
 				for st in sorted(sts[ns][ingress][svc].keys()):
 					stid = mon.cleanfn(st)
 					value = sts[ns][ingress][svc][st]

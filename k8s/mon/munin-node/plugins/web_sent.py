@@ -27,7 +27,7 @@ def __parse(name, meta, value):
 		service = 'default'
 	if not sts[ns][ingress][host].get(service, None):
 		sts[ns][ingress][host][service] = dict(sum = 'U', count = 'U')
-	mon.dbg('parse web_bytes_sent:', name, ns, ingress, host, service)
+	mon.dbg('parse web_sent:', name, ns, ingress, host, service)
 	if sts[ns][ingress][host][service][name] == 'U':
 		sts[ns][ingress][host][service][name] = 0
 	sts[ns][ingress][host][service][name] += value
@@ -41,7 +41,7 @@ def parse(name, meta, value):
 	return False
 
 def config(sts):
-	mon.dbg('config web_bytes_sent')
+	mon.dbg('config web_sent')
 	# ns
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
@@ -124,7 +124,7 @@ def config(sts):
 				if mon.debug(): print()
 
 def report(sts):
-	mon.dbg('report web_bytes_sent')
+	mon.dbg('report web_sent')
 	# ns
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)

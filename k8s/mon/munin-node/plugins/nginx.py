@@ -23,19 +23,21 @@ METRICS_URL = os.getenv('NGINX_METRICS_URL', __nginx_metrics)
 import nginx_conn
 import nginx_proc
 import nginx_cfg
+# ~ import web_request
 import web_response
-import web_bytes_sent
+import web_ingress
+import web_sent
 import web_latency
-import web_request
 
 if __name__ == '__main__':
 	mods = dict(
 		nginx_conn = nginx_conn,
 		nginx_proc = nginx_proc,
 		nginx_cfg = nginx_cfg,
-		web_response = web_response,
-		web_bytes_sent = web_bytes_sent,
-		web_latency = web_latency,
 		web_request = web_request,
+		web_response = web_response,
+		web_ingress = web_ingress,
+		web_sent = web_sent,
+		web_latency = web_latency,
 	)
 	sys.exit(mon.main(METRICS_URL, mods))
