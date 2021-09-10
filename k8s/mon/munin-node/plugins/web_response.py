@@ -49,10 +49,10 @@ def config(sts):
 		hostid = mon.cleanfn(host)
 		# total index
 		print(f"multigraph web_response_{hostid}")
-		print(f"graph_title {host} response total")
+		print(f"graph_title {host} response")
 		print('graph_args --base 1000 -l 0')
 		print('graph_category web_resp')
-		print('graph_vlabel number')
+		print('graph_vlabel total number')
 		print('graph_scale yes')
 		print('graph_total total')
 		fid = 0
@@ -70,10 +70,10 @@ def config(sts):
 		if mon.debug(): print()
 		# total
 		print(f"multigraph web_response_{hostid}.total")
-		print(f"graph_title {host} response total")
+		print(f"graph_title {host} response")
 		print('graph_args --base 1000 -l 0')
 		print('graph_category web_resp')
-		print('graph_vlabel number')
+		print('graph_vlabel total number')
 		print('graph_scale yes')
 		print('graph_total total')
 		fid = 0
@@ -91,7 +91,7 @@ def config(sts):
 		if mon.debug(): print()
 		# total count
 		print(f"multigraph web_response_{hostid}.count")
-		print(f"graph_title {host} response")
+		print(f"graph_title {host} response count")
 		print('graph_args --base 1000 -l 0')
 		print('graph_category web_resp')
 		print('graph_vlabel number per second')
@@ -113,10 +113,10 @@ def config(sts):
 		if mon.debug(): print()
 		# time index
 		print(f"multigraph web_response_time_{hostid}")
-		print(f"graph_title {host} response time total")
+		print(f"graph_title {host} response time")
 		print('graph_args --base 1000 -l 0')
-		print('graph_category web_resp')
-		print('graph_vlabel seconds')
+		print('graph_category web_time')
+		print('graph_vlabel total seconds')
 		print('graph_scale yes')
 		print('graph_total total')
 		fid = 0
@@ -134,10 +134,10 @@ def config(sts):
 		if mon.debug(): print()
 		# time total
 		print(f"multigraph web_response_time_{hostid}.total")
-		print(f"graph_title {host} response time total")
+		print(f"graph_title {host} response time")
 		print('graph_args --base 1000 -l 0')
-		print('graph_category web_resp')
-		print('graph_vlabel seconds')
+		print('graph_category web_time')
+		print('graph_vlabel total seconds')
 		print('graph_scale yes')
 		print('graph_total total')
 		fid = 0
@@ -155,9 +155,9 @@ def config(sts):
 		if mon.debug(): print()
 		# time count
 		print(f"multigraph web_response_time_{hostid}.count")
-		print(f"graph_title {host} response time")
+		print(f"graph_title {host} response time count")
 		print('graph_args --base 1000 -l 0')
-		print('graph_category web_resp')
+		print('graph_category web_time')
 		print('graph_vlabel time per second')
 		print('graph_scale no')
 		print('graph_total total')
@@ -179,9 +179,9 @@ def config(sts):
 		print(f"multigraph web_response_time_{hostid}.avg")
 		print(f"graph_title {host} response time average")
 		print('graph_args --base 1000 -l 0')
-		print('graph_category web_resp')
+		print('graph_category web_time')
 		print('graph_vlabel seconds')
-		print('graph_scale yes')
+		print('graph_scale no')
 		fid = 0
 		for path in sorted(sts[host].keys()):
 			pathid = mon.cleanfn(path)
@@ -196,10 +196,10 @@ def config(sts):
 		if mon.debug(): print()
 		# size index
 		print(f"multigraph web_response_size_{hostid}")
-		print(f"graph_title {host} response size total")
-		print('graph_args --base 1000 -l 0')
-		print('graph_category web_resp')
-		print('graph_vlabel bytes')
+		print(f"graph_title {host} response size")
+		print('graph_args --base 1024 -l 0')
+		print('graph_category web_size')
+		print('graph_vlabel total bytes')
 		print('graph_scale yes')
 		print('graph_total total')
 		fid = 0
@@ -217,10 +217,10 @@ def config(sts):
 		if mon.debug(): print()
 		# size total
 		print(f"multigraph web_response_size_{hostid}.total")
-		print(f"graph_title {host} response size total")
-		print('graph_args --base 1000 -l 0')
-		print('graph_category web_resp')
-		print('graph_vlabel bytes')
+		print(f"graph_title {host} response size")
+		print('graph_args --base 1024 -l 0')
+		print('graph_category web_size')
+		print('graph_vlabel total bytes')
 		print('graph_scale yes')
 		print('graph_total total')
 		fid = 0
@@ -238,9 +238,9 @@ def config(sts):
 		if mon.debug(): print()
 		# size count
 		print(f"multigraph web_response_size_{hostid}.count")
-		print(f"graph_title {host} response size")
-		print('graph_args --base 1000 -l 0')
-		print('graph_category web_resp')
+		print(f"graph_title {host} response size count")
+		print('graph_args --base 1024 -l 0')
+		print('graph_category web_size')
 		print('graph_vlabel bytes per second')
 		print('graph_scale no')
 		print('graph_total total')
@@ -261,10 +261,10 @@ def config(sts):
 		# size avg
 		print(f"multigraph web_response_size_{hostid}.avg")
 		print(f"graph_title {host} response size average")
-		print('graph_args --base 1000 -l 0')
-		print('graph_category web_resp')
+		print('graph_args --base 1024 -l 0')
+		print('graph_category web_size')
 		print('graph_vlabel bytes per second')
-		print('graph_scale yes')
+		print('graph_scale no')
 		fid = 0
 		for path in sorted(sts[host].keys()):
 			pathid = mon.cleanfn(path)
