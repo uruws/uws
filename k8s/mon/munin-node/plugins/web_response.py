@@ -180,7 +180,7 @@ def config(sts):
 		print(f"graph_title {host} response time average")
 		print('graph_args --base 1000 -l 0')
 		print('graph_category web_time')
-		print('graph_vlabel seconds')
+		print('graph_vlabel seconds per response')
 		print('graph_scale no')
 		fid = 0
 		for path in sorted(sts[host].keys()):
@@ -242,7 +242,7 @@ def config(sts):
 		print('graph_args --base 1024 -l 0')
 		print('graph_category web_size')
 		print('graph_vlabel bytes per second')
-		print('graph_scale no')
+		print('graph_scale yes')
 		print('graph_total total')
 		fid = 0
 		for path in sorted(sts[host].keys()):
@@ -263,8 +263,8 @@ def config(sts):
 		print(f"graph_title {host} response size average")
 		print('graph_args --base 1024 -l 0')
 		print('graph_category web_size')
-		print('graph_vlabel bytes per second')
-		print('graph_scale no')
+		print('graph_vlabel bytes per response')
+		print('graph_scale yes')
 		fid = 0
 		for path in sorted(sts[host].keys()):
 			pathid = mon.cleanfn(path)
