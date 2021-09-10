@@ -2,7 +2,6 @@
 # See LICENSE file.
 
 import json
-import math
 import os
 import re
 import sys
@@ -95,9 +94,9 @@ def __metrics_parse(resp):
 					dbg('LINE:', ml)
 					continue
 			try:
-				value = math.ceil(float(m.group(3)))
+				value = float(m.group(3))
 			except ValueError as err:
-				dbg(f"math {name}:", err)
+				dbg(f"float {name}:", err)
 		else:
 			dbg('metrics parse miss:', line)
 			continue
