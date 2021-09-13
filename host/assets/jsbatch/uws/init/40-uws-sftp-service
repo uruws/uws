@@ -1,6 +1,15 @@
 #!/bin/sh
 set -eu
 
+# 210823 disabled by jrms
+if systemctl is-enabled uws-sftp.service; then
+	systemctl stop uws-sftp
+	systemctl disable uws-sftp.service
+fi
+exit 0
+
+
+
 mkdir -vp /srv/sftp/home
 chown -v uwsrun:nogroup /srv/sftp
 chmod -v 750 /srv/sftp/home

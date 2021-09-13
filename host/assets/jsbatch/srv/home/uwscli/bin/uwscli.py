@@ -150,8 +150,13 @@ def deploy_list():
 def deploy_description():
 	return __desc(deploy_list())
 
+__user = getenv('USER', 'unknown')
+
+def ctl(args):
+	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, __user, args))
+
 def nq(cmd, args, cmddir = cmddir):
 	return system("%s/uwsnq %s/%s %s" % (bindir, cmddir, cmd, args))
 
 def run(cmd, args):
-	return system("%s/%s %s" % (cmddir, cmd, args))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args))

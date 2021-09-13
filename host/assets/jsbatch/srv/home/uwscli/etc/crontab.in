@@ -1,0 +1,15 @@
+PATH=/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin
+MAILTO=root
+USER=uwscli
+
+# m h  dom mon dow   command
+
+# scale down
+13 3 * * 2-6 app-scale worker 40
+23 3 * * 2-6 app-scale app-east 50
+33 3 * * 2-6 app-scale app-west 50
+
+# scale up
+3 10 * * 1-5 app-scale worker 75
+3 10 * * 1-5 app-scale app-east 100
+8 10 * * 1-5 app-scale app-west 100

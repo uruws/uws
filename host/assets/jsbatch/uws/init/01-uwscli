@@ -1,17 +1,57 @@
 #!/bin/sh
 set -eu
 
-chmod -v 0750 ~uwscli
-chmod -v 0755 ~uwscli/bin
-chmod -v 0755 ~uwscli/bin/*
-chmod -v 0644 ~uwscli/bin/uwscli.py
-
 sudoers=/etc/sudoers.d/99-uwscli
 if test -s ${sudoers}; then
 	chmod -v 0640 ${sudoers}
 	chown -v root:root ${sudoers}
 fi
 
-python3 -m compileall ~uwscli/bin
+chmod -v 0750 ~uwscli
+chown -v uwscli:uwscli ~uwscli
+
+chmod -v 0750 ~uwscli/etc
+chown -vR root:uwscli ~uwscli/etc
+
+chmod -v 0750 ~uwscli/bin
+chmod -v 0750 ~uwscli/bin/*
+chmod -v 0640 ~uwscli/bin/uwscli.py
+
+chown -vR root:uwscli ~uwscli/bin
+
+# admin utils
+
+chown -v root:uws ~uwscli/bin/app-deploy
+chown -v root:uws ~uwscli/bin/app-rollin
+chown -v root:uws ~uwscli/bin/app-scale
+
+# python compile
+
+rm -vrf ~uwscli/bin/__pycache__
+python3 -m compileall ~uwscli/bin/uwscli.py
+
+# users profile
+
+chmod -v 0750 ~antonio
+install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~antonio/.bash_profile
+
+chmod -v 0750 ~aram
+install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~aram/.bash_profile
+
+chmod -v 0750 ~gabriel
+install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~gabriel/.bash_profile
+
+chmod -v 0750 ~guillermo
+install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~guillermo/.bash_profile
+
+chmod -v 0750 ~jeremias
+install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~jeremias/.bash_profile
+
+chmod -v 0750 ~nelson
+install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~nelson/.bash_profile
+
+# install crontab
+
+crontab -u uwscli ~uwscli/etc/crontab.in
 
 exit 0

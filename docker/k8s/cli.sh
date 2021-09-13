@@ -4,6 +4,8 @@ set -eu
 cluster=${1:?'cluster env?'}
 shift
 
+docker_args=${DOCKER_ARGS:-''}
+
 k8s=${PWD}/k8s
 pod=${PWD}/pod
 awsdir=${PWD}/secret/eks/aws/client/${cluster}
@@ -19,7 +21,7 @@ kube_cache=${HOME}/.uwscli/kube/cache/${cluster}
 mkdir -p ${kube_cache}
 chmod 1777 ${kube_cache}
 
-exec docker run --rm \
+exec docker run --rm ${docker_args} \
 	--hostname ${hostname} -u uws \
 	-v ${k8s}:/home/uws/k8s:ro \
 	-v ${pod}:/home/uws/pod:ro \

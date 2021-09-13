@@ -1,11 +1,18 @@
 #!/bin/sh
 set -eu
 
-cluster=${1:?'cluster?'}
-kind=${2:?'kind?'}
-action=${3:?'action?'}
+user=${1:?'user?'}
+cluster=${2:?'cluster?'}
+kind=${3:?'kind?'}
+action=${4:?'action?'}
 
-shift 3
+shift 4
+
+logs_dir=${HOME}/logs
+logf=${logs_dir}/app-ctl.log
+
+mkdir -vp "${logs_dir}"
+echo "$(date -R) [${user}] ${cluster} ${kind} ${action} ${*}" >>"${logf}"
 
 cmd=./pod/${kind}/${action}.sh
 
@@ -15,4 +22,5 @@ if ! test -x "${cmd}"; then
 	exit 1
 fi
 
+export DOCKER_ARGS=''
 exec ./docker/k8s/cli.sh "${cluster}" "${cmd}" "$@"

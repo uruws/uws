@@ -1,28 +1,34 @@
 # TODO
 
-* upgrade nginx proxy: 0.45.0 -> 0.48.1
-    * fix aws lb and nginx x-forwarded-for headers
-        * amybeta - `DONE!`
-        * uwsdev - `DONE!`
-        * panoramix - `DONE!`
-        * amy-wrkr - `DONE!`
-        * amy-east - `DONE!`
-        * amy-west - `DONE!`
-    * new version changed from using aws classic ELB to network ELB
-        * which is more distributed, realiable and maybe expensier too?
-            * works from different availability zones simultaneously
-            * so we have at least two IP addresses (entry points) per cluster/lb now.
+* custom scale web and workers - `DONE!`
+    * added uwscli app-scale util
+    * added crontab to scale up/down workers and web clusters
+        * scale based on usage info from amplitude analytics
+        * do not scale up over weekends
 
-* update NLP certificates for workers connection - `DONE!`
-
-* internal CA - `WIP`
+* github CI integration with app builds
 
 * cluster stats - `WIP`
-    * develop munin plugins to graph k8s info
-    * nginx stats
+    * develop munin plugins to graph k8s info - `DONE!`
+    * nginx stats - `DONE!`
+    * graph deployments info
+    * deploy on prod clusters
+
+* uwscli - `DONE!`
+    * app-ctl.sh log the username that requested the action too
 
 * setup munin limit mail alerts
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
+
+* WAF setup
+    * implement fail2ban for kubernets/aws?
+    * nginx modsecurity
+        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
+        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
+
+* cache web assets
+    * use separate domain for static assets
+    * test meteor appcache
 
 * new Debian (11) stable release (bullseye)
     * upgrade containers
@@ -38,6 +44,7 @@
 
 * web /bandwidthCallbackSms requests
     * add bot check/graph
+    * remove setup from workers cluster?
 
 * uwscli integration
     * docker images cleanup
@@ -52,16 +59,11 @@
     * show web proxy logs
     * uwsq: clean failed jobs
 
-* cache web assets
-    * setup nginx expire headers
-
 * setup amy staging cluster
 
 * add munin checks/graphs for NLP
 
-* SFTP server for data sharing with schools
-    * web integration for user/pass management
-    * hook to check/validate uploaded files (try mod_exec)
+* split nginx cluster proxy load over N instances instead of only 1
 
 * improve web deploys
     * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.
@@ -75,3 +77,7 @@
 
 * re-design meteor app build to avoid including NLP certs inside container image
     * change buildpack repo app/certs/
+
+* SFTP server for data sharing with schools
+    * web integration for user/pass management
+    * hook to check/validate uploaded files (try mod_exec)

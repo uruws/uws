@@ -30,7 +30,7 @@ def main():
 	if args.tail != 10:
 		logs_args += " --tail=%d" % args.tail
 
-	return uwscli.run('app-ctl.sh', logs_args)
+	return uwscli.run('app-cli.sh', logs_args)
 
 if __name__ == '__main__':
 	sys.stdout.reconfigure(line_buffering = False)

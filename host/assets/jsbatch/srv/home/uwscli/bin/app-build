@@ -27,14 +27,12 @@ def check_storage():
 		return 8
 	return 0
 
-def nq(app, version, tflags):
+def nq(app, version):
 	builder = uwscli.app[app].build.type
 	build_dir = uwscli.app[app].build.dir
 	build_script = uwscli.app[app].build.script
 	if builder == 'pack':
 		args = "--target %s --version %s" % (app, version)
-		if tflags != '':
-			args += " -- %s" % tflags
 		return uwscli.nq(build_script, args, build_dir)
 	else:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
@@ -43,24 +41,17 @@ def nq(app, version, tflags):
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.build_description())
-	flags.add_argument('--no-test', action = 'store_true', default = False,
-		help = 'do not run app tests')
 	flags.add_argument('app', metavar = 'app', choices = uwscli.build_list(),
 		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
-
 	args = flags.parse_args()
-
-	tflags = ''
-	if args.no_test:
-		tflags = '--no-test'
 
 	rc = check_storage()
 	if rc != 0:
 		print('ERROR: not enough disk space!', file = sys.stderr)
 		return rc
 
-	rc = nq(args.app, args.version, tflags)
+	rc = nq(args.app, args.version)
 	if rc != 0:
 		print("enqueue of %s build job failed!" % args.app, file = sys.stderr)
 		return rc

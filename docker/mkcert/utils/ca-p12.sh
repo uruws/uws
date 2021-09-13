@@ -2,6 +2,8 @@
 set -eu
 
 FN=${1:?'cert file name?'}
+NAME=${2:?'cert friendly name?'}
+
 CAFN="${HOME}/ca/rootCA.pem"
 P12FN="${HOME}/ca/client/${FN}.p12"
 CRTFN="${HOME}/ca/client/${FN}.pem"
@@ -35,11 +37,12 @@ openssl pkcs12 -in ${tmp_p12} -passin pass:changeit -nocerts \
 openssl pkcs12 -in ${tmp_p12} -passin pass:changeit -clcerts -nokeys \
 	-out ${CRTFN}
 
-openssl pkcs12 -export \
+openssl pkcs12 -export -name "${NAME}" \
 	-in ${CRTFN} -inkey ${KEYFN} \
 	-passin pass:${P12PW} \
 	-out ${P12FN} -passout pass:${P12PW} \
-	-chain -CAfile ${CAFN} -no-CApath
+	-no-CAfile -no-CApath \
+	-certfile ${CAFN}
 
 rm -f ${tmp_p12}
 

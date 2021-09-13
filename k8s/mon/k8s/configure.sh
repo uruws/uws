@@ -13,7 +13,7 @@ uwskube create secret generic aws-auth -n mon \
 
 # cluster auth
 
-cluster_auth=${HOME}/.kube/eksctl/clusters/uwsdev
+cluster_auth=${HOME}/.kube/eksctl/clusters/${UWS_CLUSTER}
 
 uwskube delete secret cluster-auth -n mon || true
 uwskube create secret generic cluster-auth -n mon \
@@ -21,7 +21,7 @@ uwskube create secret generic cluster-auth -n mon \
 
 # cluster env
 
-cluster_env=$(mktemp uwsdev-env.XXXXXXXX)
+cluster_env=$(mktemp k8smon-cluster-env.XXXXXXXX)
 
 echo "UWS_CLUSTER=${UWS_CLUSTER}" >${cluster_env}
 
