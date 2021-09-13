@@ -12,8 +12,8 @@ fi
 # queue run dir
 
 mkdir -vp /run/uwscli/nq
-install -v -d -u uws -g uwscli -m 0750 /run/uwscli
-install -v -d -u uws -g uwscli -m 0770 /run/uwscli/nq
+install -v -d -o uws -g uwscli -m 0750 /run/uwscli
+install -v -d -o uws -g uwscli -m 0770 /run/uwscli/nq
 
 # utils access
 
