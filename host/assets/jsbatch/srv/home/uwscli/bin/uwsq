@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-export NQDIR=${HOME}/.uwscli/nq
+export NQDIR=/run/uwscli/nq
 exec fq $@
 
 #uwscli:uwsq				- show information about uws jobs queue

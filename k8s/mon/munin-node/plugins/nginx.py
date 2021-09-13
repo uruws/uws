@@ -11,7 +11,7 @@ import sys
 MONLIB = os.getenv('MONLIB', '/srv/munin/plugins')
 sys.path.insert(0, MONLIB)
 
-import mon
+import mon_metrics as metrics
 
 # load env
 
@@ -40,4 +40,4 @@ if __name__ == '__main__':
 		web_sent = web_sent,
 		web_latency = web_latency,
 	)
-	sys.exit(mon.main(METRICS_URL, mods))
+	sys.exit(metrics.main(METRICS_URL, mods))

@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
-export NQDIR=${HOME}/.uwscli/nq
+export NQDIR=/run/uwscli/nq
 mkdir -p ${NQDIR}
 exec nq -c -- sudo -H -n -u uws -- $@

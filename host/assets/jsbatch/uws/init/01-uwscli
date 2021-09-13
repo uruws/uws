@@ -1,11 +1,21 @@
 #!/bin/sh
 set -eu
 
+# sudoers
+
 sudoers=/etc/sudoers.d/99-uwscli
 if test -s ${sudoers}; then
 	chmod -v 0640 ${sudoers}
 	chown -v root:root ${sudoers}
 fi
+
+# queue run dir
+
+mkdir -vp /run/uwscli/nq
+install -v -d -o uws -g uwscli -m 0750 /run/uwscli
+install -v -d -o uws -g uwscli -m 0770 /run/uwscli/nq
+
+# utils access
 
 chmod -v 0750 ~uwscli
 chown -v uwscli:uwscli ~uwscli
