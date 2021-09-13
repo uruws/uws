@@ -9,14 +9,22 @@
 * github CI integration with app builds
 
 * cluster stats - `WIP`
-    * develop munin plugins to graph k8s info
-    * nginx stats
+    * develop munin plugins to graph k8s info - `DONE!`
+    * nginx stats - `DONE!`
+    * graph deployments info
+    * deploy on prod clusters
 
 * uwscli - `DONE!`
     * app-ctl.sh log the username that requested the action too
 
 * setup munin limit mail alerts
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
+
+* WAF setup
+    * implement fail2ban for kubernets/aws?
+    * nginx modsecurity
+        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
+        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
 
 * cache web assets
     * use separate domain for static assets
@@ -36,6 +44,7 @@
 
 * web /bandwidthCallbackSms requests
     * add bot check/graph
+    * remove setup from workers cluster?
 
 * uwscli integration
     * docker images cleanup
