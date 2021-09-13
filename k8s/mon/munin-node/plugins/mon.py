@@ -36,12 +36,9 @@ def derive(f):
 
 # cache
 
-def __cachefn(fn):
-	fn = cleanfn(fn)
-	return f"/tmp/mon.{fn}.cache"
+__cachefn = '/tmp/mon.cache.nginx.stats'
 
-def cacheSet(obj, fn):
-	fn = __cachefn(fn)
+def cacheSet(obj, fn = __cachefn):
 	try:
 		obj['__cache_expire'] = time() + 120
 		with open(fn, 'w') as fh:
@@ -50,8 +47,7 @@ def cacheSet(obj, fn):
 	except Exception as err:
 		log(f"ERROR cacheSet{fn}:", err)
 
-def cacheGet(fn):
-	fn = __cachefn(fn)
+def cacheGet(fn = __cachefn):
 	obj = None
 	try:
 		with open(fn, 'r') as fh:

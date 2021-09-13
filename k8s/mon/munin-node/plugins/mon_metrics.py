@@ -89,14 +89,14 @@ def __config(url, mods):
 		mod = mods.get(modname)
 		mon.dbg('mod config:', modname)
 		mod.config(sts[modname])
-	mon.cacheSet(sts, url)
+	mon.cacheSet(sts)
 	return 0
 
 # module report
 
 def __report(url, mods):
 	mon.dbg('report')
-	sts = mon.cacheGet(url)
+	sts = mon.cacheGet()
 	if sts is None:
 		sts = __metrics(url, mods)
 	for modname in mods.keys():
