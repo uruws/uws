@@ -34,6 +34,11 @@ def cleanfn(n):
 def derive(f):
 	return math.ceil(f*1000)
 
+__cluster = os.getenv('UWS_CLUSTER', None)
+
+def cluster():
+	return __cluster
+
 # cache
 
 def __cachefn(fn):
