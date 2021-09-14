@@ -5,6 +5,7 @@
 package wapp
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -42,6 +43,26 @@ func Write(
 	args ...interface{},
 ) {
 	n, err := fmt.Fprintf(w, message, args...)
+	if err != nil {
+		log.Error("%s %s: %s", r.Method, r.URL, err)
+	} else {
+		logRequest(r, http.StatusOK, n, start)
+	}
+}
+
+func WriteJSON(
+	w http.ResponseWriter,
+	r *http.Request,
+	start time.Time,
+	obj interface{},
+) {
+	blob, err := json.MarshalIndent(obj, "", "  ")
+	if err != nil {
+		Error(w, r, start, err)
+		return
+	}
+	var n int
+	n, err = fmt.Fprintf(w, "%s", blob)
 	if err != nil {
 		log.Error("%s %s: %s", r.Method, r.URL, err)
 	} else {

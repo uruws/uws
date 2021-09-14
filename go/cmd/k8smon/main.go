@@ -26,8 +26,7 @@ func main() {
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_/ping", pingHandler)
 
-	http.HandleFunc("/config/nodes", mon.NodesConfig)
-	http.HandleFunc("/report/nodes", mon.Nodes)
+	http.HandleFunc("/kube/nodes", mon.Nodes)
 
 	http.HandleFunc("/", mainHandler)
 
