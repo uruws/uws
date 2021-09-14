@@ -28,6 +28,7 @@ import web_response
 import web_ingress
 import web_sent
 import web_latency
+import web_ssl
 
 if __name__ == '__main__':
 	mods = dict(
@@ -39,5 +40,6 @@ if __name__ == '__main__':
 		web_ingress = web_ingress,
 		web_sent = web_sent,
 		web_latency = web_latency,
+		web_ssl = web_ssl,
 	)
 	sys.exit(metrics.main(METRICS_URL, mods))
