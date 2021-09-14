@@ -1,21 +1,17 @@
 # TODO
 
-* custom scale web and workers - `DONE!`
-    * added uwscli app-scale util
-    * added crontab to scale up/down workers and web clusters
-        * scale based on usage info from amplitude analytics
-        * do not scale up over weekends
-
 * github CI integration with app builds
 
 * cluster stats - `WIP`
-    * develop munin plugins to graph k8s info - `DONE!`
-    * nginx stats - `DONE!`
     * graph deployments info
     * deploy on prod clusters
 
-* uwscli - `DONE!`
-    * app-ctl.sh log the username that requested the action too
+* new Debian (11) stable release (bullseye)
+    * upgrade containers
+
+* cache web assets
+    * use separate domain for static assets
+    * test meteor appcache
 
 * setup munin limit mail alerts
     * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
@@ -25,13 +21,6 @@
     * nginx modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
-
-* cache web assets
-    * use separate domain for static assets
-    * test meteor appcache
-
-* new Debian (11) stable release (bullseye)
-    * upgrade containers
 
 * graph app number of active users/sessions
     * set it up on prod
