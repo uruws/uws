@@ -45,6 +45,8 @@ def config(sts):
 			print('ssl.draw AREA')
 			value = sts[ns][host]
 			print('ssl.info', strftime('%c %z', gmtime(value)))
+			print('ssl.warning 30:')
+			print('ssl.critical 10:')
 			if mon.debug(): print()
 
 def report(sts):
