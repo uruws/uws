@@ -44,6 +44,9 @@ spec:
           ports:
             - containerPort: 4949
               name: node
+          env:
+            - name: UWS_CLUSTER
+              value: "${UWS_CLUSTER}"
           volumeMounts:
             - name: tmpdir
               mountPath: "/tmp"
