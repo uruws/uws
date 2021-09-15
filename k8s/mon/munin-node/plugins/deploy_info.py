@@ -35,8 +35,20 @@ def parse(deploy):
 def config(sts):
 	mon.dbg('deploy_info config')
 	cluster = mon.cluster()
-	# total
+	# total index
 	print('multigraph deploy')
+	print(f"graph_title {cluster} deployments")
+	print('graph_args --base 1000 -l 0')
+	print('graph_category deploy')
+	print('graph_vlabel number')
+	print('graph_printf %3.0lf')
+	print('graph_scale yes')
+	print('a_total.label total')
+	print('a_total.colour COLOUR0')
+	print('a_total.draw AREA')
+	print('a_total.min 0')
+	# total
+	print('multigraph deploy.total')
 	print(f"graph_title {cluster} deployments")
 	print('graph_args --base 1000 -l 0')
 	print('graph_category deploy')
@@ -50,6 +62,9 @@ def config(sts):
 
 def report(sts):
 	mon.dbg('deploy_info report')
-	# total
+	# total index
 	print('multigraph deploy')
+	print('a_total.value', sts['total'])
+	# total
+	print('multigraph deploy.total')
 	print('a_total.value', sts['total'])
