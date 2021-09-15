@@ -87,12 +87,12 @@ def config(sts):
 		cc += 1
 		if cc > 28:
 			cc = 0
-	# status index
-	print('multigraph deploy_status')
-	print(f"graph_title {cluster} deployments status")
+	# replicas
+	print('multigraph deploy_replicas')
+	print(f"graph_title {cluster} deployments replicas")
 	print('graph_args --base 1000 -l 0')
 	print('graph_category deploy')
-	print('graph_vlabel number of replicas')
+	print('graph_vlabel number')
 	print('graph_printf %3.0lf')
 	print('graph_scale yes')
 	for ns in sorted(sts['deploy'].keys()):
@@ -119,8 +119,8 @@ def report(sts):
 	for c in sorted(sts['condition'].keys()):
 		cid = mon.cleanfn(c)
 		print(f"c_{cid}.value", sts['condition'][c])
-	# status index
-	print('multigraph deploy_status')
+	# replicas
+	print('multigraph deploy_replicas')
 	for ns in sorted(sts['deploy'].keys()):
 		for name in sorted(sts['deploy'][ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
