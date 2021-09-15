@@ -142,7 +142,7 @@ def config(sts):
 			if mon.debug(): print()
 			sid = mon.cleanfn(ns+"_"+name)
 			print(f"multigraph deploy_status.{sid}")
-			print(f"graph_title {cluster} deployment {ns}/{name}")
+			print(f"graph_title {cluster} {ns}/{name}")
 			print('graph_args --base 1000 -l 0')
 			print('graph_category deploy')
 			print('graph_vlabel number of replicas')
