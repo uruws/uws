@@ -16,7 +16,7 @@ type deploy struct {
 	Meta struct {
 		Name            string `json:"name"`
 		Namespace       string `json:"namespace"`
-		Generation      int64  `json:"generation"`
+		Generation      int64  `json:"generation,omitempty"`
 		ResourceVersion string `json:"resourceVersion"`
 		UID             string `json:"uid"`
 	} `json:"metadata"`

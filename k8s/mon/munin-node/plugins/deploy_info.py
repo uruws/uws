@@ -14,7 +14,10 @@ def parse(deploy):
 	# total
 	sts['total'] = len(deploy['items'])
 	for i in deploy['items']:
-		if i['kind'] != 'Deployment' and i['kind'] != 'StatefulSet':
+		kind = i['kind']
+		if kind != 'Deployment'\
+			and kind != 'StatefulSet'\
+			and kind != 'DaemonSet':
 			continue
 		# condition
 		for c in i['status'].get('conditions', {}):
@@ -25,30 +28,38 @@ def parse(deploy):
 			if st == 'True':
 				sts['condition'][typ] += 1
 		# status
-		ns = i['metadata']['namespace']
-		name = i['metadata']['name']
-		if not sts['deploy'].get(ns, None):
-			sts['deploy'][ns] = dict()
 		m = i['metadata']
+		ns = m.get('namespace', None)
+		name = m.get('name', None)
 		s = i['spec']
 		st = i['status']
-		d = dict(
-			generation = m.get('generation', 'U'),
-			observed_generation = st.get('observedGeneration', 'U'),
-		)
-		sts['deploy'][ns][name] = d
+		if not sts['deploy'].get(ns, None):
+			sts['deploy'][ns] = dict()
+		sts['deploy'][ns][name] = _generation(m, st)
 		if not sts['status'].get(ns, None):
 			sts['status'][ns] = dict()
-		ds = dict(
-			spec_replicas = s.get('replicas', 'U'),
-			available_replicas = st.get('availableReplicas',
-				st.get('currentReplicas', 'U')),
-			ready_replicas = st.get('readyReplicas', 'U'),
-			replicas = st.get('replicas', 'U'),
-			updated_replicas = st.get('updatedReplicas', 'U'),
-		)
-		sts['status'][ns][name] = ds
+		if kind == 'DaemonSet':
+			dst = _dsStatus(i)
+		else:
+			dst = _status(s, st)
+		sts['status'][ns][name] = dst
 	return sts
+
+def _generation(m, st):
+	return dict(
+		generation = m.get('generation', 'U'),
+		observed_generation = st.get('observedGeneration', 'U'),
+	)
+
+def _status(s, st):
+	return dict(
+		spec_replicas = s.get('replicas', 'U'),
+		available_replicas = st.get('availableReplicas',
+			st.get('currentReplicas', 'U')),
+		ready_replicas = st.get('readyReplicas', 'U'),
+		replicas = st.get('replicas', 'U'),
+		updated_replicas = st.get('updatedReplicas', 'U'),
+	)
 
 def config(sts):
 	mon.dbg('deploy_info config')
