@@ -127,10 +127,10 @@ def config(sts):
 	for ns in sorted(sts['deploy'].keys()):
 		for name in sorted(sts['deploy'][ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
-			print(f"f_{fid}_cur.label {ns}/{name} current")
+			print(f"f_{fid}_cur.label {ns}/{name} cur")
 			print(f"f_{fid}_cur.colour COLOUR{fc}")
 			print(f"f_{fid}_cur.min 0")
-			print(f"f_{fid}_obs.label {ns}/{name} observed")
+			print(f"f_{fid}_obs.label {ns}/{name} obs")
 			print(f"f_{fid}_obs.colour COLOUR{fc}")
 			print(f"f_{fid}_obs.min 0")
 			fc += 1
