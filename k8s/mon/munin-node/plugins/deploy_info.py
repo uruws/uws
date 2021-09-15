@@ -16,21 +16,21 @@ def parse(deploy):
 	# total
 	sts['total'] = len(deploy['items'])
 	for i in deploy['items']:
-		# condition
-		cond = deploy_condition.parse(i)
-		sts['condition'] = cond['condition']
-		sts['condition_index'] = cond['condition_index']
-		# status
-		m = i['metadata']
-		ns = m.get('namespace', None)
-		name = m.get('name', None)
-		s = i['spec']
-		st = i['status']
 		kind = i['kind']
 		if kind != 'Deployment'\
 			and kind != 'StatefulSet'\
 			and kind != 'DaemonSet':
 			continue
+		m = i['metadata']
+		ns = m.get('namespace', None)
+		name = m.get('name', None)
+		s = i['spec']
+		st = i['status']
+		# condition
+		cond = deploy_condition.parse(ns, name, i)
+		sts['condition'] = cond['condition']
+		sts['condition_index'] = cond['condition_index']
+		# status
 		if not sts['deploy'].get(ns, None):
 			sts['deploy'][ns] = dict()
 		sts['deploy'][ns][name] = _generation(m, st)

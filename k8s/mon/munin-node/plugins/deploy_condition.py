@@ -3,8 +3,7 @@
 
 import mon
 
-def parse(deploy):
-	mon.dbg('deploy_condition parse')
+def parse(ns, name, i):
 	sts = dict(
 		condition = dict(),
 		condition_index = dict(),
@@ -70,7 +69,7 @@ def config(sts):
 	if mon.debug(): print()
 
 def report(sts):
-	mon.dbg('deploy_info report')
+	mon.dbg('deploy_condition report')
 	# condition index
 	print('multigraph deploy_condition')
 	for c in sorted(sts['condition_index'].keys()):
