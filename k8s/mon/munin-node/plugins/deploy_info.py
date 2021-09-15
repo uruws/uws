@@ -14,7 +14,7 @@ def parse(deploy):
 	# total
 	sts['total'] = len(deploy['items'])
 	for i in deploy['items']:
-		if i['kind'] != 'Deployment':
+		if i['kind'] != 'Deployment' and i['kind'] != 'StatefulSet':
 			continue
 		# condition
 		for c in i['status'].get('conditions', {}):
@@ -41,7 +41,8 @@ def parse(deploy):
 			sts['status'][ns] = dict()
 		ds = dict(
 			spec_replicas = s.get('replicas', 'U'),
-			available_replicas = st.get('availableReplicas', 'U'),
+			available_replicas = st.get('availableReplicas',
+				st.get('currentReplicas', 'U')),
 			ready_replicas = st.get('readyReplicas', 'U'),
 			replicas = st.get('replicas', 'U'),
 			updated_replicas = st.get('updatedReplicas', 'U'),

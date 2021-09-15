@@ -24,8 +24,9 @@ type deploy struct {
 		Replicas int64 `json:"replicas"`
 	} `json:"spec"`
 	Status struct {
-		AvailableReplicas  int64             `json:"availableReplicas"`
-		Conditions         []statusCondition `json:"conditions"`
+		AvailableReplicas  int64             `json:"availableReplicas,omitempty"`
+		CurrentReplicas    int64             `json:"currentReplicas,omitempty"`
+		Conditions         []statusCondition `json:"conditions,omitempty"`
 		ObservedGeneration int64             `json:"observedGeneration"`
 		ReadyReplicas      int64             `json:"readyReplicas"`
 		Replicas           int64             `json:"replicas"`
@@ -41,7 +42,7 @@ type deployList struct {
 
 func Deployments(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	out, err := Kube("get", "deployments", "-A", "-o", "json")
+	out, err := Kube("get", "deployments,statefulset", "-A", "-o", "json")
 	if err != nil {
 		log.DebugError(err)
 		wapp.Error(w, r, start, err)
