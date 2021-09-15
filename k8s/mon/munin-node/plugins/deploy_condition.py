@@ -3,11 +3,7 @@
 
 import mon
 
-def parse(ns, name, i):
-	sts = dict(
-		condition = dict(),
-		condition_index = dict(),
-	)
+def parse(sts, ns, name, i):
 	for c in i['status'].get('conditions', {}):
 		c_typ = c['type']
 		c_st = c['status']
@@ -22,7 +18,6 @@ def parse(ns, name, i):
 		if c_st == 'True':
 			sts['condition_index'][c_typ] += 1
 			sts['condition'][ns][name][c_typ] += 1
-	return sts
 
 def config(sts):
 	mon.dbg('deploy_condition config')
@@ -48,7 +43,6 @@ def config(sts):
 	# condition
 	for ns in sorted(sts['condition'].keys()):
 		for name in sorted(sts['condition'][ns].keys()):
-			if mon.debug(): print()
 			sid = mon.cleanfn(ns+"_"+name)
 			print(f"multigraph deploy_condition.{sid}")
 			print(f"graph_title {cluster} {ns}/{name} condition")
@@ -66,7 +60,7 @@ def config(sts):
 				cc += 1
 				if cc > 28:
 					cc = 0
-	if mon.debug(): print()
+			if mon.debug(): print()
 
 def report(sts):
 	mon.dbg('deploy_condition report')
@@ -79,11 +73,10 @@ def report(sts):
 	# condition
 	for ns in sorted(sts['condition'].keys()):
 		for name in sorted(sts['condition'][ns].keys()):
-			if mon.debug(): print()
 			sid = mon.cleanfn(ns+"_"+name)
 			print(f"multigraph deploy_condition.{sid}")
 			for c in sorted(sts['condition'][ns][name].keys()):
 				cid = mon.cleanfn(c)
 				val = sts['condition'][ns][name][c]
 				print(f"c_{cid}.value", val)
-	if mon.debug(): print()
+			if mon.debug(): print()
