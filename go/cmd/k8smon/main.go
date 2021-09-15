@@ -27,6 +27,7 @@ func main() {
 	http.HandleFunc("/_/ping", pingHandler)
 
 	http.HandleFunc("/kube/nodes", mon.Nodes)
+	http.HandleFunc("/kube/deployments", mon.Deployments)
 
 	http.HandleFunc("/", mainHandler)
 

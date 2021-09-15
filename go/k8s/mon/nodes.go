@@ -21,11 +21,6 @@ type nodeInfo struct {
 	Pods        string `json:"pods"`
 }
 
-type nodeCondition struct {
-	Status string `json:"status"`
-	Type   string `json:"type"`
-}
-
 type nodeImages struct {
 	Names     []string `json:"names"`
 	SizeBytes int      `json:"sizeBytes"`
@@ -40,10 +35,10 @@ type node struct {
 		UID             string            `json:"uid"`
 	} `json:"metadata"`
 	Status struct {
-		Allocatable nodeInfo        `json:"allocatable"`
-		Capacity    nodeInfo        `json:"capacity"`
-		Conditions  []nodeCondition `json:"conditions"`
-		Images      []nodeImages    `json:"images"`
+		Allocatable nodeInfo          `json:"allocatable"`
+		Capacity    nodeInfo          `json:"capacity"`
+		Conditions  []statusCondition `json:"conditions"`
+		Images      []nodeImages      `json:"images"`
 		NodeInfo    struct {
 			Arch             string `json:"architecture"`
 			ContainerRuntime string `json:"containerRuntimeVersion"`

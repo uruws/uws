@@ -24,3 +24,8 @@ func init() {
 func Cluster() string {
 	return cluster
 }
+
+type statusCondition struct {
+	Status string `json:"status"`
+	Type   string `json:"type"`
+}
