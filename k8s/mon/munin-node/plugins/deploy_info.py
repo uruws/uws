@@ -23,7 +23,7 @@ def parse(deploy):
 				sts['condition'][typ] = 0
 			if st == 'True':
 				sts['condition'][typ] += 1
-		# info
+		# status
 		ns = i['metadata']['namespace']
 		name = i['metadata']['name']
 		if not sts['deploy'].get(ns, None):
