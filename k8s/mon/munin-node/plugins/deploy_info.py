@@ -151,6 +151,8 @@ def config(sts):
 			fc = 0
 			for fn in sorted(sts['status'][ns][name].keys()):
 				n = fn.replace('_replicas', '', 1)
+				if n == 'replicas':
+					n = 'running'
 				print(f"{fn}.label", n)
 				print(f"{fn}.colour COLOUR{fc}")
 				print(f"{fn}.min 0")
