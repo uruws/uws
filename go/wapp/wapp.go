@@ -61,6 +61,7 @@ func WriteJSON(
 		Error(w, r, start, err)
 		return
 	}
+	w.Header().Set("content-type", "application/json")
 	var n int
 	n, err = fmt.Fprintf(w, "%s", blob)
 	if err != nil {
