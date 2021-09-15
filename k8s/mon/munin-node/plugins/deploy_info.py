@@ -58,6 +58,7 @@ def config(sts):
 	print('a_total.colour COLOUR0')
 	print('a_total.draw AREA')
 	print('a_total.min 0')
+	if mon.debug(): print()
 	# total
 	print('multigraph deploy.total')
 	print(f"graph_title {cluster} deployments")
@@ -70,6 +71,7 @@ def config(sts):
 	print('a_total.colour COLOUR0')
 	print('a_total.draw AREA')
 	print('a_total.min 0')
+	if mon.debug(): print()
 	# condition
 	print('multigraph deploy.condition')
 	print(f"graph_title {cluster} deployments condition")
@@ -87,6 +89,7 @@ def config(sts):
 		cc += 1
 		if cc > 28:
 			cc = 0
+	if mon.debug(): print()
 	# replicas
 	print('multigraph deploy_replicas')
 	print(f"graph_title {cluster} deployments replicas")
@@ -95,13 +98,35 @@ def config(sts):
 	print('graph_vlabel number')
 	print('graph_printf %3.0lf')
 	print('graph_scale yes')
+	fc = 0
 	for ns in sorted(sts['deploy'].keys()):
-		fc = 0
 		for name in sorted(sts['deploy'][ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
 			print(f"f_{fid}.label {ns}/{name}")
 			print(f"f_{fid}.colour COLOUR{fc}")
 			print(f"f_{fid}.min 0")
+			fc += 1
+			if fc > 28:
+				fc = 0
+	if mon.debug(): print()
+	# status index
+	print('multigraph deploy_status')
+	print(f"graph_title {cluster} deployments status")
+	print('graph_args --base 1000 -l 0')
+	print('graph_category deploy')
+	print('graph_vlabel generation number')
+	print('graph_printf %3.0lf')
+	print('graph_scale yes')
+	fc = 0
+	for ns in sorted(sts['deploy'].keys()):
+		for name in sorted(sts['deploy'][ns].keys()):
+			fid = mon.cleanfn(ns+"_"+name)
+			print(f"f_{fid}_cur.label {ns}/{name} current")
+			print(f"f_{fid}_cur.colour COLOUR{fc}")
+			print(f"f_{fid}_cur.min 0")
+			print(f"f_{fid}_obs.label {ns}/{name} observed")
+			print(f"f_{fid}_obs.colour COLOUR{fc}")
+			print(f"f_{fid}_obs.min 0")
 			fc += 1
 			if fc > 28:
 				fc = 0
@@ -111,14 +136,17 @@ def report(sts):
 	# total index
 	print('multigraph deploy')
 	print('a_total.value', sts['total'])
+	if mon.debug(): print()
 	# total
 	print('multigraph deploy.total')
 	print('a_total.value', sts['total'])
+	if mon.debug(): print()
 	# condition
 	print('multigraph deploy.condition')
 	for c in sorted(sts['condition'].keys()):
 		cid = mon.cleanfn(c)
 		print(f"c_{cid}.value", sts['condition'][c])
+	if mon.debug(): print()
 	# replicas
 	print('multigraph deploy_replicas')
 	for ns in sorted(sts['deploy'].keys()):
@@ -126,3 +154,13 @@ def report(sts):
 			fid = mon.cleanfn(ns+"_"+name)
 			val = sts['deploy'][ns][name]['replicas']
 			print(f"f_{fid}.value", val)
+	if mon.debug(): print()
+	# status index
+	print('multigraph deploy_status')
+	for ns in sorted(sts['deploy'].keys()):
+		for name in sorted(sts['deploy'][ns].keys()):
+			fid = mon.cleanfn(ns+"_"+name)
+			cur = sts['deploy'][ns][name]['generation']
+			obs = sts['deploy'][ns][name]['observed_generation']
+			print(f"f_{fid}_cur.value", cur)
+			print(f"f_{fid}_obs.value", obs)
