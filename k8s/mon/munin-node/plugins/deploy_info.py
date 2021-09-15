@@ -39,9 +39,9 @@ def parse(deploy):
 		if not sts['status'].get(ns, None):
 			sts['status'][ns] = dict()
 		if kind == 'DaemonSet':
-			dst = _dsStatus(i)
+			dst = _dsStatus(kind, i)
 		else:
-			dst = _status(s, st)
+			dst = _status(kind, s, st)
 		sts['status'][ns][name] = dst
 	return sts
 
@@ -51,14 +51,24 @@ def _generation(m, st):
 		observed_generation = st.get('observedGeneration', 'U'),
 	)
 
-def _status(s, st):
+def _status(kind, s, st):
 	return dict(
-		spec_replicas = s.get('replicas', 'U'),
-		available_replicas = st.get('availableReplicas',
-			st.get('currentReplicas', 'U')),
-		ready_replicas = st.get('readyReplicas', 'U'),
-		replicas = st.get('replicas', 'U'),
-		updated_replicas = st.get('updatedReplicas', 'U'),
+		kind = kind,
+		d = dict(
+			spec_replicas = s.get('replicas', 'U'),
+			available_replicas = st.get('availableReplicas',
+				st.get('currentReplicas', 'U')),
+			ready_replicas = st.get('readyReplicas', 'U'),
+			replicas = st.get('replicas', 'U'),
+			updated_replicas = st.get('updatedReplicas', 'U'),
+		),
+	)
+
+def _dsStatus(kind, i):
+	mon.dbg('daemonset status')
+	return dict(
+		kind = kind,
+		d = dict(),
 	)
 
 def config(sts):
@@ -148,7 +158,7 @@ def config(sts):
 			print('graph_printf %3.0lf')
 			print('graph_scale yes')
 			fc = 0
-			for fn in sorted(sts['status'][ns][name].keys()):
+			for fn in sorted(sts['status'][ns][name]['d'].keys()):
 				n = fn.replace('_replicas', '', 1)
 				if n == 'replicas':
 					n = 'running'
@@ -176,7 +186,7 @@ def report(sts):
 	for ns in sorted(sts['status'].keys()):
 		for name in sorted(sts['status'][ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
-			val = sts['status'][ns][name]['replicas']
+			val = sts['status'][ns][name]['d']['replicas']
 			print(f"f_{fid}.value", val)
 	if mon.debug(): print()
 	# status index
@@ -194,6 +204,6 @@ def report(sts):
 			if mon.debug(): print()
 			sid = mon.cleanfn(ns+"_"+name)
 			print(f"multigraph deploy_status.{sid}")
-			for fn in sorted(sts['status'][ns][name].keys()):
-				val = sts['status'][ns][name][fn]
+			for fn in sorted(sts['status'][ns][name]['d'].keys()):
+				val = sts['status'][ns][name]['d'][fn]
 				print(f"{fn}.value", val)
