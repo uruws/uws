@@ -8,11 +8,22 @@ def parse(deploy):
 	sts = dict(
 		total = 0,
 		deploy = dict(),
+		condition = dict(),
 	)
+	# total
 	sts['total'] = len(deploy['items'])
 	for i in deploy['items']:
 		if i['kind'] != 'Deployment':
 			continue
+		# condition
+		for c in i['status'].get('conditions', {}):
+			typ = c['type']
+			st = c['status']
+			if not sts['condition'].get(typ, None):
+				sts['condition'][typ] = 0
+			if st == 'True':
+				sts['condition'][typ] += 1
+		# info
 		ns = i['metadata']['namespace']
 		name = i['metadata']['name']
 		if not sts['deploy'].get(ns, None):
@@ -59,6 +70,23 @@ def config(sts):
 	print('a_total.colour COLOUR0')
 	print('a_total.draw AREA')
 	print('a_total.min 0')
+	# condition
+	print('multigraph deploy.condition')
+	print(f"graph_title {cluster} deployments condition")
+	print('graph_args --base 1000 -l 0')
+	print('graph_category deploy')
+	print('graph_vlabel number')
+	print('graph_printf %3.0lf')
+	print('graph_scale yes')
+	cc = 0
+	for c in sorted(sts['condition'].keys()):
+		cid = mon.cleanfn(c)
+		print(f"c_{cid}.label", c)
+		print(f"c_{cid}.colour COLOUR{cc}")
+		print(f"c_{cid}.min 0")
+		cc += 1
+		if cc > 28:
+			cc = 0
 
 def report(sts):
 	mon.dbg('deploy_info report')
@@ -68,3 +96,8 @@ def report(sts):
 	# total
 	print('multigraph deploy.total')
 	print('a_total.value', sts['total'])
+	# condition
+	print('multigraph deploy.condition')
+	for c in sorted(sts['condition'].keys()):
+		cid = mon.cleanfn(c)
+		print(f"c_{cid}.value", sts['condition'][c])
