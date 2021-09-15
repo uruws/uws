@@ -8,6 +8,7 @@ def parse(deploy):
 	sts = dict(
 		total = 0,
 		deploy = dict(),
+		status = dict(),
 		condition = dict(),
 	)
 	# total
@@ -33,14 +34,19 @@ def parse(deploy):
 		st = i['status']
 		d = dict(
 			generation = m.get('generation', 'U'),
-			spec_replicas = s.get('replicas', 'U'),
 			observed_generation = st.get('observedGeneration', 'U'),
+		)
+		sts['deploy'][ns][name] = d
+		if not sts['status'].get(ns, None):
+			sts['status'][ns] = dict()
+		ds = dict(
+			spec_replicas = s.get('replicas', 'U'),
 			available_replicas = st.get('availableReplicas', 'U'),
 			ready_replicas = st.get('readyReplicas', 'U'),
 			replicas = st.get('replicas', 'U'),
 			updated_replicas = st.get('updatedReplicas', 'U'),
 		)
-		sts['deploy'][ns][name] = d
+		sts['status'][ns][name] = ds
 	return sts
 
 def config(sts):
@@ -99,8 +105,8 @@ def config(sts):
 	print('graph_printf %3.0lf')
 	print('graph_scale yes')
 	fc = 0
-	for ns in sorted(sts['deploy'].keys()):
-		for name in sorted(sts['deploy'][ns].keys()):
+	for ns in sorted(sts['status'].keys()):
+		for name in sorted(sts['status'][ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
 			print(f"f_{fid}.label {ns}/{name}")
 			print(f"f_{fid}.colour COLOUR{fc}")
@@ -130,6 +136,27 @@ def config(sts):
 			fc += 1
 			if fc > 28:
 				fc = 0
+	# status
+	for ns in sorted(sts['status'].keys()):
+		for name in sorted(sts['status'][ns].keys()):
+			if mon.debug(): print()
+			sid = mon.cleanfn(ns+"_"+name)
+			print(f"multigraph deploy_status.{sid}")
+			print(f"graph_title {cluster} deployment {ns}/{name}")
+			print('graph_args --base 1000 -l 0')
+			print('graph_category deploy')
+			print('graph_vlabel number of replicas')
+			print('graph_printf %3.0lf')
+			print('graph_scale yes')
+			fc = 0
+			for fn in sorted(sts['status'][ns][name].keys()):
+				n = fn.replace('_replicas', '', 1)
+				print(f"{fn}.label", n)
+				print(f"{fn}.colour COLOUR{fc}")
+				print(f"{fn}.min 0")
+				fc += 1
+				if fc > 28:
+					fc = 0
 
 def report(sts):
 	mon.dbg('deploy_info report')
@@ -149,10 +176,10 @@ def report(sts):
 	if mon.debug(): print()
 	# replicas
 	print('multigraph deploy_replicas')
-	for ns in sorted(sts['deploy'].keys()):
-		for name in sorted(sts['deploy'][ns].keys()):
+	for ns in sorted(sts['status'].keys()):
+		for name in sorted(sts['status'][ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
-			val = sts['deploy'][ns][name]['replicas']
+			val = sts['status'][ns][name]['replicas']
 			print(f"f_{fid}.value", val)
 	if mon.debug(): print()
 	# status index
@@ -164,3 +191,12 @@ def report(sts):
 			obs = sts['deploy'][ns][name]['observed_generation']
 			print(f"f_{fid}_cur.value", cur)
 			print(f"f_{fid}_obs.value", obs)
+	# status
+	for ns in sorted(sts['status'].keys()):
+		for name in sorted(sts['status'][ns].keys()):
+			if mon.debug(): print()
+			sid = mon.cleanfn(ns+"_"+name)
+			print(f"multigraph deploy_status.{sid}")
+			for fn in sorted(sts['status'][ns][name].keys()):
+				val = sts['status'][ns][name][fn]
+				print(f"{fn}.value", val)
