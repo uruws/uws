@@ -31,9 +31,12 @@ type pod struct {
 			PodTplHash string `json:"pod-template-hash"`
 		} `json:"labels"`
 	} `json:"metadata"`
+	Spec struct {
+		Containers  []containerStatus `json:"containers"`
+	} `json:"spec"`
 	Status struct {
 		Conditions []statusCondition `json:"conditions"`
-		Container  []containerStatus `json:"containerStatuses"`
+		Containers []containerStatus `json:"containerStatuses"`
 		Phase      string            `json:"phase"`
 	} `json:"status"`
 }
