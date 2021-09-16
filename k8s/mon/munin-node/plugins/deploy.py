@@ -72,11 +72,11 @@ def config(sts):
 	print('a_total.min 0')
 	if mon.debug(): print()
 	# generation
-	print('multigraph deploy_status')
-	print(f"graph_title {cluster} deployments status")
+	print('multigraph deploy_generation')
+	print(f"graph_title {cluster} deployments generation")
 	print('graph_args --base 1000 -l 0')
 	print('graph_category deploy')
-	print('graph_vlabel generation number')
+	print('graph_vlabel number')
 	print('graph_printf %3.0lf')
 	print('graph_scale yes')
 	fc = 0
@@ -105,7 +105,7 @@ def report(sts):
 	print('a_total.value', sts['total'])
 	if mon.debug(): print()
 	# generation
-	print('multigraph deploy_status')
+	print('multigraph deploy_generation')
 	for ns in sorted(sts['deploy'].keys()):
 		for name in sorted(sts['deploy'][ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
