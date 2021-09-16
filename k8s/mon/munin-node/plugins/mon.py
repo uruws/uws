@@ -53,9 +53,11 @@ def generateName(pod):
 	if gn:
 		ph = l.get('pod-template-hash', None)
 		if ph:
-			return gn.replace(f"-{ph}-", "", 1)
+			n = gn.replace(f"-{ph}-", "", 1)
 		else:
-			return gn
+			n = gn
+	if n.endswith('-'):
+		n = n[:-1]
 	return n
 
 # cache
