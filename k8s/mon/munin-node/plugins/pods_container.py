@@ -7,13 +7,7 @@ def parse(pods):
 	mon.dbg('pods_container parse')
 	sts = dict(
 		status = dict(),
-		index = dict(
-			spec = 0,
-			running = 0,
-			restart = 0,
-			ready = 0,
-			started = 0,
-		),
+		index = dict(),
 	)
 	for i in pods['items']:
 		kind = i['kind']
@@ -21,20 +15,23 @@ def parse(pods):
 			continue
 		spec = i['spec'].get('containers', [])
 		status = i['status'].get('containerStatuses', [])
+		phase = i['status'].get('phase', None)
 		m = i['metadata']
 		ns = m.get('namespace', None)
 		name = m.get('name', None)
 		if not sts['status'].get(ns, None):
 			sts['status'][ns] = dict()
 		gname = mon.generateName(i)
-		sts['status'][ns][name] = __cinfo(gname, spec, status)
+		sts['status'][ns][name] = __cinfo(gname, spec, status, phase)
 		for fn in sts['status'][ns][name].keys():
 			if fn == 'gname':
 				continue
+			if not sts['index'].get(fn, None):
+				sts['index'][fn] = 0
 			sts['index'][fn] += sts['status'][ns][name][fn]
 	return sts
 
-def __cinfo(gname, spec, status):
+def __cinfo(gname, spec, status, phase):
 	sts = dict(
 		gname = gname,
 		spec = 0,
@@ -44,7 +41,7 @@ def __cinfo(gname, spec, status):
 		started = 0,
 	)
 	sts['spec'] = len(spec)
-	sts['running'] = len(status)
+	sts[phase.lower()] = len(status)
 	for c in status:
 		sts['restart'] += c['restartCount']
 		if c['ready']:
