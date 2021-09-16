@@ -10,11 +10,8 @@ MONLIB = os.getenv('MONLIB', '/srv/munin/plugins')
 sys.path.insert(0, MONLIB)
 
 import mon_kube as kube
-
-import deploy_info
+import deploy
 
 if __name__ == '__main__':
-	mods = dict(
-		deploy_info = deploy_info,
-	)
+	mods = dict(deploy = deploy)
 	sys.exit(kube.main("deployments", mods))
