@@ -58,7 +58,7 @@ def config(sts):
 	cluster = mon.cluster()
 	# index
 	print('multigraph pod_container')
-	print(f"graph_title {cluster} pod containers")
+	print(f"graph_title {cluster} pods containers")
 	print('graph_args --base 1000 -l 0')
 	print('graph_category pod')
 	print('graph_vlabel number')
@@ -77,10 +77,10 @@ def config(sts):
 			gname = sts['status'][ns][name]['gname']
 			cid = mon.cleanfn(f"{ns}_{gname}")
 			print(f"multigraph pod_container.{cid}")
-			print(f"graph_title {cluster} {ns}/{name} containers")
+			print(f"graph_title {cluster} {ns}/{name}")
 			print('graph_args --base 1000 -l 0')
 			print('graph_category pod')
-			print('graph_vlabel number')
+			print('graph_vlabel containers number')
 			print('graph_printf %3.0lf')
 			print('graph_scale yes')
 			fc = 0
@@ -88,7 +88,7 @@ def config(sts):
 				if fid == 'gname':
 					continue
 				print(f"{fid}.label", fid)
-				print(f"{fid}.colour COLOUR{cc}")
+				print(f"{fid}.colour COLOUR{fc}")
 				print(f"{fid}.min 0")
 				fc = mon.color(fc)
 			if mon.debug(): print()
