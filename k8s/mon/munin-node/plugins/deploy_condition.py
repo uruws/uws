@@ -48,7 +48,7 @@ def config(sts):
 			print(f"graph_title {cluster} {ns}/{name} condition")
 			print('graph_args --base 1000 -l 0')
 			print('graph_category deploy')
-			print('graph_vlabel number')
+			print('graph_vlabel number of deployments')
 			print('graph_printf %3.0lf')
 			print('graph_scale yes')
 			cc = 0

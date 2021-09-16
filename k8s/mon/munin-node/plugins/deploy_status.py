@@ -45,7 +45,7 @@ def config(sts):
 	if mon.debug(): print()
 	# replicas all
 	print('multigraph deploy_replicas.all')
-	print(f"graph_title {cluster} all")
+	print(f"graph_title {cluster} all deployments")
 	print('graph_args --base 1000 -l 0')
 	print('graph_category deploy')
 	print('graph_vlabel number of replicas')
@@ -67,7 +67,7 @@ def config(sts):
 		for name in sorted(sts[ns].keys()):
 			sid = mon.cleanfn(ns+"_"+name)
 			print(f"multigraph deploy_replicas.{sid}")
-			print(f"graph_title {cluster} {ns}/{name}")
+			print(f"graph_title {cluster} {ns}/{name} deployment")
 			print('graph_args --base 1000 -l 0')
 			print('graph_category deploy')
 			print('graph_vlabel number of replicas')

@@ -45,6 +45,19 @@ def color(n):
 		c = 0
 	return c
 
+def generateName(pod):
+	n = None
+	m = pod['metadata']
+	l = m.get('labels', {})
+	gn = m.get('generateName', None)
+	if gn:
+		ph = l.get('pod-template-hash', None)
+		if ph:
+			return gn.replace(f"-{ph}-", "", 1)
+		else:
+			return gn
+	return n
+
 # cache
 
 def __cachefn(fn):
