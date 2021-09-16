@@ -40,12 +40,6 @@ def parse(deploy):
 		sts['status'][ns][name] = deploy_status.parse(i)
 	return sts
 
-def _dsStatus(kind, i):
-	return dict(
-		kind = kind,
-		d = dict(),
-	)
-
 def config(sts):
 	mon.dbg('deploy_info config')
 	cluster = mon.cluster()
