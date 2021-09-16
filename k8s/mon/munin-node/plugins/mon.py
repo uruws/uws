@@ -39,6 +39,12 @@ __cluster = os.getenv('UWS_CLUSTER', None)
 def cluster():
 	return __cluster
 
+def color(n):
+	c = n + 1
+	if c > 28:
+		c = 0
+	return c
+
 # cache
 
 def __cachefn(fn):

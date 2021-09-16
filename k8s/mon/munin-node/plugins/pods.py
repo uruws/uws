@@ -11,9 +11,11 @@ sys.path.insert(0, MONLIB)
 
 import mon_kube as kube
 import pods_info
+import pods_condition
 
 if __name__ == '__main__':
 	mods = dict(
 		pods_info = pods_info,
+		pods_condition = pods_condition,
 	)
 	sys.exit(kube.main("pods", mods))
