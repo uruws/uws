@@ -16,21 +16,27 @@ type deploy struct {
 	Meta struct {
 		Name            string `json:"name"`
 		Namespace       string `json:"namespace"`
-		Generation      int64  `json:"generation,omitempty"`
+		Generation      int64  `json:"generation"`
 		ResourceVersion string `json:"resourceVersion"`
 		UID             string `json:"uid"`
 	} `json:"metadata"`
 	Spec struct {
-		Replicas int64 `json:"replicas"`
+		Replicas int64 `json:"replicas,omitempty"`
 	} `json:"spec"`
 	Status struct {
 		AvailableReplicas  int64             `json:"availableReplicas,omitempty"`
 		CurrentReplicas    int64             `json:"currentReplicas,omitempty"`
 		Conditions         []statusCondition `json:"conditions,omitempty"`
 		ObservedGeneration int64             `json:"observedGeneration"`
-		ReadyReplicas      int64             `json:"readyReplicas"`
-		Replicas           int64             `json:"replicas"`
-		UpdatedReplicas    int64             `json:"updatedReplicas"`
+		ReadyReplicas      int64             `json:"readyReplicas,omitempty"`
+		Replicas           int64             `json:"replicas,omitempty"`
+		UpdatedReplicas    int64             `json:"updatedReplicas,omitempty"`
+		CurrentNumber      int64             `json:"currentNumberScheduled,omitempty"`
+		DesiredNumber      int64             `json:"desiredNumberScheduled,omitempty"`
+		NumberAvailable    int64             `json:"numberAvailable,omitempty"`
+		NumberMisscheduled int64             `json:"numberMisscheduled,omitempty"`
+		NumberReady        int64             `json:"numberReady,omitempty"`
+		UpdatedNumber      int64             `json:"updatedNumberScheduled,omitempty"`
 	} `json:"status"`
 }
 
@@ -42,7 +48,7 @@ type deployList struct {
 
 func Deployments(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	out, err := Kube("get", "deployments,statefulset", "-A", "-o", "json")
+	out, err := Kube("get", "deployments,statefulset,daemonset", "-A", "-o", "json")
 	if err != nil {
 		log.DebugError(err)
 		wapp.Error(w, r, start, err)
