@@ -79,6 +79,7 @@ def config(sts):
 
 def report(sts):
 	mon.dbg('pods_condition report')
+	# index
 	print('multigraph pod_condition')
 	for ctype in sorted(sts['index'].keys()):
 		cid = mon.cleanfn(ctype.lower())
