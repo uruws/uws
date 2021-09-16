@@ -12,11 +12,11 @@ import (
 )
 
 type containerStatus struct {
-	Name string `json:"name"`
-	Image string `json:"image"`
-	Ready bool `json:"ready"`
-	RestartCount int64 `json:"restartCount"`
-	Started bool `json:"started"`
+	Name         string `json:"name"`
+	Image        string `json:"image"`
+	Ready        bool   `json:"ready"`
+	RestartCount int64  `json:"restartCount"`
+	Started      bool   `json:"started"`
 }
 
 type pod struct {
@@ -26,18 +26,22 @@ type pod struct {
 		Namespace       string `json:"namespace"`
 		ResourceVersion string `json:"resourceVersion"`
 		UID             string `json:"uid"`
+		GenerateName    string `json:"generateName"`
+		Labels          struct {
+			PodTplHash string `json:"pod-template-hash"`
+		} `json:"labels"`
 	} `json:"metadata"`
 	Status struct {
-		Conditions         []statusCondition `json:"conditions"`
-		Container         []containerStatus `json:"containerStatuses"`
-		Phase string `json:"phase"`
+		Conditions []statusCondition `json:"conditions"`
+		Container  []containerStatus `json:"containerStatuses"`
+		Phase      string            `json:"phase"`
 	} `json:"status"`
 }
 
 type podList struct {
-	ApiVersion string   `json:"apiVersion"`
-	Kind       string   `json:"kind"`
-	Items      []pod `json:"items"`
+	ApiVersion string `json:"apiVersion"`
+	Kind       string `json:"kind"`
+	Items      []pod  `json:"items"`
 }
 
 func Pods(w http.ResponseWriter, r *http.Request) {
