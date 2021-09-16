@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 import mon
+import deploy_generation
 import deploy_condition
 import deploy_status
 
@@ -28,7 +29,7 @@ def parse(deploy):
 		# generation
 		if not sts['deploy'].get(ns, None):
 			sts['deploy'][ns] = dict()
-		sts['deploy'][ns][name] = _generation(m, i['status'])
+		sts['deploy'][ns][name] = deploy_generation.parse(m, i['status'])
 		# condition
 		if not sts['condition'].get(ns, None):
 			sts['condition'][ns] = dict()
@@ -42,12 +43,6 @@ def parse(deploy):
 			dst = deploy_status.parse(i)
 		sts['status'][ns][name] = dst
 	return sts
-
-def _generation(m, st):
-	return dict(
-		generation = m.get('generation', 'U'),
-		observed_generation = st.get('observedGeneration', 'U'),
-	)
 
 def _dsStatus(kind, i):
 	return dict(
@@ -72,27 +67,7 @@ def config(sts):
 	print('a_total.min 0')
 	if mon.debug(): print()
 	# generation
-	print('multigraph deploy_generation')
-	print(f"graph_title {cluster} deployments generation")
-	print('graph_args --base 1000 -l 0')
-	print('graph_category deploy')
-	print('graph_vlabel number')
-	print('graph_printf %3.0lf')
-	print('graph_scale yes')
-	fc = 0
-	for ns in sorted(sts['deploy'].keys()):
-		for name in sorted(sts['deploy'][ns].keys()):
-			fid = mon.cleanfn(ns+"_"+name)
-			print(f"f_{fid}_cur.label {ns}/{name} cur")
-			print(f"f_{fid}_cur.colour COLOUR{fc}")
-			print(f"f_{fid}_cur.min 0")
-			print(f"f_{fid}_obs.label {ns}/{name} obs")
-			print(f"f_{fid}_obs.colour COLOUR{fc}")
-			print(f"f_{fid}_obs.min 0")
-			fc += 1
-			if fc > 28:
-				fc = 0
-	if mon.debug(): print()
+	deploy_generation.config(sts['deploy'])
 	# condition
 	deploy_condition.config(sts)
 	# status
@@ -105,15 +80,7 @@ def report(sts):
 	print('a_total.value', sts['total'])
 	if mon.debug(): print()
 	# generation
-	print('multigraph deploy_generation')
-	for ns in sorted(sts['deploy'].keys()):
-		for name in sorted(sts['deploy'][ns].keys()):
-			fid = mon.cleanfn(ns+"_"+name)
-			cur = sts['deploy'][ns][name]['generation']
-			obs = sts['deploy'][ns][name]['observed_generation']
-			print(f"f_{fid}_cur.value", cur)
-			print(f"f_{fid}_obs.value", obs)
-	if mon.debug(): print()
+	deploy_generation.report(sts['deploy'])
 	# condition
 	deploy_condition.report(sts)
 	# status
