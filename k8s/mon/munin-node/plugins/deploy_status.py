@@ -8,12 +8,17 @@ def parse(i):
 	s = i['spec']
 	st = i['status']
 	return dict(
-		spec_replicas = s.get('replicas', 'U'),
+		spec_replicas = s.get('replicas',
+			st.get('desiredNumberScheduled', 'U')),
 		available_replicas = st.get('availableReplicas',
-			st.get('currentReplicas', 'U')),
-		ready_replicas = st.get('readyReplicas', 'U'),
-		replicas = st.get('replicas', 'U'),
-		updated_replicas = st.get('updatedReplicas', 'U'),
+			st.get('currentReplicas',
+				st.get('numberAvailable', 'U'))),
+		ready_replicas = st.get('readyReplicas',
+			st.get('numberReady', 'U')),
+		replicas = st.get('replicas',
+			st.get('currentNumberScheduled', 'U')),
+		updated_replicas = st.get('updatedReplicas',
+			st.get('updatedNumberScheduled', 'U')),
 	)
 
 def config(sts):
@@ -102,10 +107,9 @@ def report(sts):
 	# replicas status
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
-			if mon.debug(): print()
 			sid = mon.cleanfn(ns+"_"+name)
 			print(f"multigraph deploy_replicas.{sid}")
 			for fn in sorted(sts[ns][name].keys()):
 				val = sts[ns][name][fn]
 				print(f"{fn}.value", val)
-	if mon.debug(): print()
+			if mon.debug(): print()

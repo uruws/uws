@@ -37,11 +37,7 @@ def parse(deploy):
 		# status
 		if not sts['status'].get(ns, None):
 			sts['status'][ns] = dict()
-		if kind == 'DaemonSet':
-			dst = _dsStatus(kind, i)
-		else:
-			dst = deploy_status.parse(i)
-		sts['status'][ns][name] = dst
+		sts['status'][ns][name] = deploy_status.parse(i)
 	return sts
 
 def _dsStatus(kind, i):
