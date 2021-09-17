@@ -5,6 +5,13 @@
 * cluster stats - `WIP`
     * graph deployments info - `DONE!`
     * deploy on prod clusters - `DONE!`
+    * pod_container
+        * restarted containers count
+        * restart ratio
+    * web_request.count
+        * graph_args printf 3.3?
+        * count_by_path
+        * count_errors
 
 * new Debian (11) stable release (bullseye)
     * upgrade containers
