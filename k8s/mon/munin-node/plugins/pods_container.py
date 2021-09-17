@@ -40,7 +40,10 @@ def parse(pods):
 
 def __cinfo(sts, spec, status, phase):
 	sts['spec'] = len(spec)
-	sts[phase.lower()] += len(status)
+	p = phase.lower()
+	if not sts.get(p, None):
+		sts[p] = 0
+	sts[p] += len(status)
 	for c in status:
 		sts['restart'] += c['restartCount']
 		if c['ready']:
