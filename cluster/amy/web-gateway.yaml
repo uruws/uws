@@ -35,3 +35,14 @@ spec:
       name: meteor-web
       port:
         number: 3000
+  rules:
+    - host: app.talkingpts.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: /(.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
