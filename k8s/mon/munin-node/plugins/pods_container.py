@@ -52,14 +52,14 @@ def parse(pods):
 
 def __cinfo(sts, spec, status, phase):
 	for c in spec:
-		i = mon.containerImage(c['image'])
+		i = c['image']
 		if sts['spec'].get(i, None) is None:
 			sts['spec'][i] = True
 	p = phase.lower()
 	if not sts.get(p, None):
 		sts[p] = dict()
 	for c in status:
-		i = mon.containerImage(c['image'])
+		i = c['image']
 		if sts[p].get(i, None) is None:
 			sts[p][i] = 0
 		sts[p][i] += 1
