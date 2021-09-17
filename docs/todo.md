@@ -3,8 +3,8 @@
 * github CI integration with app builds
 
 * cluster stats - `WIP`
-    * graph deployments info
-    * deploy on prod clusters
+    * graph deployments info - `DONE!`
+    * deploy on prod clusters - `DONE!`
 
 * new Debian (11) stable release (bullseye)
     * upgrade containers
