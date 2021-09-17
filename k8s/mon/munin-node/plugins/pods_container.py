@@ -18,37 +18,35 @@ def parse(pods):
 		phase = i['status'].get('phase', None)
 		m = i['metadata']
 		ns = m.get('namespace', None)
-		name = m.get('name', None)
 		if not sts['status'].get(ns, None):
 			sts['status'][ns] = dict()
 		gname = mon.generateName(i)
-		sts['status'][ns][name] = __cinfo(gname, spec, status, phase)
-		for fn in sts['status'][ns][name].keys():
-			if fn == 'gname':
-				continue
-			if not sts['index'].get(fn, None):
-				sts['index'][fn] = 0
-			sts['index'][fn] += sts['status'][ns][name][fn]
+		if not sts['status'][ns].get(gname, None):
+			sts['status'][ns][gname] = dict(
+				spec = 0,
+				running = 0,
+				restart = 0,
+				ready = 0,
+				started = 0,
+			)
+		__cinfo(sts['status'][ns][gname], spec, status, phase)
+	for ns in sts['status'].keys():
+		for gname in sts['status'][ns].keys():
+			for fn in sts['status'][ns][gname].keys():
+				if not sts['index'].get(fn, None):
+					sts['index'][fn] = 0
+				sts['index'][fn] += sts['status'][ns][gname][fn]
 	return sts
 
-def __cinfo(gname, spec, status, phase):
-	sts = dict(
-		gname = gname,
-		spec = 0,
-		running = 0,
-		restart = 0,
-		ready = 0,
-		started = 0,
-	)
+def __cinfo(sts, spec, status, phase):
 	sts['spec'] = len(spec)
-	sts[phase.lower()] = len(status)
+	sts[phase.lower()] += len(status)
 	for c in status:
 		sts['restart'] += c['restartCount']
 		if c['ready']:
 			sts['ready'] += 1
 		if c['started']:
 			sts['started'] += 1
-	return sts
 
 def config(sts):
 	mon.dbg('pods_container config')
@@ -70,20 +68,17 @@ def config(sts):
 	if mon.debug(): print()
 	# status
 	for ns in sorted(sts['status'].keys()):
-		for name in sorted(sts['status'][ns].keys()):
-			gname = sts['status'][ns][name]['gname']
+		for gname in sorted(sts['status'][ns].keys()):
 			cid = mon.cleanfn(f"{ns}_{gname}")
 			print(f"multigraph pod_container.{cid}")
-			print(f"graph_title {cluster} {ns}/{name}")
+			print(f"graph_title {cluster} {ns}/{gname}")
 			print('graph_args --base 1000 -l 0')
 			print('graph_category pod')
 			print('graph_vlabel containers number')
 			print('graph_printf %3.0lf')
 			print('graph_scale yes')
 			fc = 0
-			for fid in sorted(sts['status'][ns][name].keys()):
-				if fid == 'gname':
-					continue
+			for fid in sorted(sts['status'][ns][gname].keys()):
 				print(f"{fid}.label", fid)
 				print(f"{fid}.colour COLOUR{fc}")
 				print(f"{fid}.min 0")
@@ -99,13 +94,10 @@ def report(sts):
 	if mon.debug(): print()
 	# status
 	for ns in sorted(sts['status'].keys()):
-		for name in sorted(sts['status'][ns].keys()):
-			gname = sts['status'][ns][name]['gname']
+		for gname in sorted(sts['status'][ns].keys()):
 			cid = mon.cleanfn(f"{ns}_{gname}")
 			print(f"multigraph pod_container.{cid}")
-			for fid in sorted(sts['status'][ns][name].keys()):
-				if fid == 'gname':
-					continue
-				val = sts['status'][ns][name][fid]
+			for fid in sorted(sts['status'][ns][gname].keys()):
+				val = sts['status'][ns][gname][fid]
 				print(f"{fid}.value", val)
 			if mon.debug(): print()
