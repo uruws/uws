@@ -112,6 +112,7 @@ def config(sts):
 				print(f"{fid}.label", fn)
 				print(f"{fid}.colour COLOUR{fc}")
 				print(f"{fid}.min 0")
+				# info
 				inf = sts['info'][ns][gname].get(fn, None)
 				if inf is not None:
 					msg = list()
@@ -119,8 +120,8 @@ def config(sts):
 						if fn == 'spec':
 							msg.append(i)
 						else:
-							msg.append(f"{i}: {inf[i]}")
-					print(f"{fid}.info", ','.join(msg))
+							msg.append(f"{i}={inf[i]}")
+					print(f"{fid}.info", ', '.join(msg))
 				fc = mon.color(fc)
 			if mon.debug(): print()
 
