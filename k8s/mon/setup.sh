@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 uwskube create namespace mon
-exit 0
+exec ~/k8s/mon/deploy.sh
