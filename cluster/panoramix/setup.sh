@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube apply -f ~/cluster/gateway.yaml
+~/k8s/gateway/setup.sh
+~/k8s/mon/setup.sh
 exit 0
