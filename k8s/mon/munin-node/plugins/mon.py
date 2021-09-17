@@ -60,6 +60,9 @@ def generateName(pod):
 		n = n[:-1]
 	return n
 
+def containerImage(n):
+	return '/'.join(n.split('/')[1:])
+
 # cache
 
 def __cachefn(fn):
