@@ -70,7 +70,7 @@ def __cstatus(sts, spec, status, phase):
 	if not sts.get(p, None):
 		sts[p] = 0
 	sts[p] += len(status)
-	if not sts.get('restarted', None):
+	if sts.get('restarted', None) is not None:
 		sts['restarted'] = 0
 	for c in status:
 		sts['restart'] += c['restartCount']
