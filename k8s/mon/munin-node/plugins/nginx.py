@@ -32,14 +32,14 @@ import web_ssl
 
 if __name__ == '__main__':
 	mods = dict(
-		# ~ nginx_conn = nginx_conn,
-		# ~ nginx_proc = nginx_proc,
-		# ~ nginx_cfg = nginx_cfg,
+		nginx_conn = nginx_conn,
+		nginx_proc = nginx_proc,
+		nginx_cfg = nginx_cfg,
 		web_request = web_request,
-		# ~ web_response = web_response,
-		# ~ web_ingress = web_ingress,
-		# ~ web_sent = web_sent,
-		# ~ web_latency = web_latency,
-		# ~ web_ssl = web_ssl,
+		web_response = web_response,
+		web_ingress = web_ingress,
+		web_sent = web_sent,
+		web_latency = web_latency,
+		web_ssl = web_ssl,
 	)
 	sys.exit(metrics.main(METRICS_URL, mods))
