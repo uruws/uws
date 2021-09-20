@@ -4,17 +4,21 @@
     * clean jsbatch docker
     * cleanup old images in ECR
 
+* develope uwscli webapp
+    * users auth/cert manager
+    * github webhook
+    * jira webhook
+    * munin dashboard
+    * events history (builds, restarts, deploys, etc...)
+
 * github CI integration with app builds
 
 * cluster stats - `WIP`
-    * graph deployments info - `DONE!`
-    * deploy on prod clusters - `DONE!`
     * pod_container
         * restarted containers count
         * restart ratio
     * web_request.count
-        * graph_args printf 3.3?
-        * count_by_path
+        * count_by_path - `DONE!`
         * count_errors
 
 * new Debian (11) stable release (bullseye)
