@@ -16,25 +16,27 @@ def __parse(name, meta, value):
 	if host == '_':
 		host = 'default'
 	if not sts.get(host, None):
-		sts[host] = dict()
+		sts[host] = dict(
+			all = dict(),
+		)
 	path = meta.get('path', '')
 	if path == '':
 		path = 'default'
-	if not sts[host].get(path, None):
-		sts[host][path] = dict()
+	if not sts[host]['all'].get(path, None):
+		sts[host]['all'][path] = dict()
 	method = meta.get('method', '')
 	if method == '':
 		method = 'default'
-	if not sts[host][path].get(method, None):
-		sts[host][path][method] = dict()
+	if not sts[host]['all'][path].get(method, None):
+		sts[host]['all'][path][method] = dict()
 	status = meta.get('status', '')
 	if status == '':
 		status = 'unknown'
-	if not sts[host][path][method].get(status, None):
-		sts[host][path][method][status] = dict(
+	if not sts[host]['all'][path][method].get(status, None):
+		sts[host]['all'][path][method][status] = dict(
 			count = 0, size = 0, time = 0)
 	mon.dbg('parse web_request:', name, host, path, method, status)
-	sts[host][path][method][status][name] += value
+	sts[host]['all'][path][method][status][name] += value
 	return True
 
 def parse(name, meta, value):
@@ -51,19 +53,19 @@ def config(sts):
 	for host in sorted(sts.keys()):
 		hostid = mon.cleanfn(host)
 		# total
-		req_total.config(host, hostid, sts[host])
+		req_total.config(host, hostid, sts[host]['all'])
 		# time
-		req_time.config(host, hostid, sts[host])
+		req_time.config(host, hostid, sts[host]['all'])
 		# size
-		req_size.config(host, hostid, sts[host])
+		req_size.config(host, hostid, sts[host]['all'])
 
 def report(sts):
 	mon.dbg('report web_request')
 	for host in sorted(sts.keys()):
 		hostid = mon.cleanfn(host)
 		# total
-		req_total.report(hostid, sts[host])
+		req_total.report(hostid, sts[host]['all'])
 		# time
-		req_time.report(hostid, sts[host])
+		req_time.report(hostid, sts[host]['all'])
 		# size
-		req_size.report(hostid, sts[host])
+		req_size.report(hostid, sts[host]['all'])
