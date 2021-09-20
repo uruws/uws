@@ -5,6 +5,7 @@ from time import time
 
 import mon
 import req_total
+import req_by_path
 import req_time
 import req_size
 
@@ -18,7 +19,9 @@ def __parse(name, meta, value):
 	if not sts.get(host, None):
 		sts[host] = dict(
 			all = dict(),
+			by_path = dict(),
 		)
+	# all
 	path = meta.get('path', '')
 	if path == '':
 		path = 'default'
@@ -37,6 +40,12 @@ def __parse(name, meta, value):
 			count = 0, size = 0, time = 0)
 	mon.dbg('parse web_request:', name, host, path, method, status)
 	sts[host]['all'][path][method][status][name] += value
+	# count
+	if name == 'count':
+		# by_path
+		if not sts[host]['by_path'].get(path, None):
+			sts[host]['by_path'][path] = 0
+		sts[host]['by_path'][path] += value
 	return True
 
 def parse(name, meta, value):
@@ -54,6 +63,8 @@ def config(sts):
 		hostid = mon.cleanfn(host)
 		# total
 		req_total.config(host, hostid, sts[host]['all'])
+		# by_path
+		req_by_path.config(host, hostid, sts[host]['by_path'])
 		# time
 		req_time.config(host, hostid, sts[host]['all'])
 		# size
@@ -65,6 +76,8 @@ def report(sts):
 		hostid = mon.cleanfn(host)
 		# total
 		req_total.report(hostid, sts[host]['all'])
+		# by_path
+		req_by_path.report(hostid, sts[host]['by_path'])
 		# time
 		req_time.report(hostid, sts[host]['all'])
 		# size
