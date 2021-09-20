@@ -6,6 +6,7 @@ from time import time
 import mon
 import req_total
 import req_by_path
+import req_errors
 import req_time
 import req_size
 
@@ -20,6 +21,7 @@ def __parse(name, meta, value):
 		sts[host] = dict(
 			all = dict(),
 			by_path = dict(),
+			errors = dict(),
 		)
 	# all
 	path = meta.get('path', '')
@@ -46,6 +48,18 @@ def __parse(name, meta, value):
 		if not sts[host]['by_path'].get(path, None):
 			sts[host]['by_path'][path] = 0
 		sts[host]['by_path'][path] += value
+		# errors
+		try:
+			st = int(status)
+		except ValueError as err:
+			mon.log('ERROR:', err)
+			return False
+		if st >= 400 or st < 100:
+			if not sts[host]['errors'].get(path, None):
+				sts[host]['errors'][path] = dict()
+			if not sts[host]['errors'][path].get(status, None):
+				sts[host]['errors'][path][status] = 0
+			sts[host]['errors'][path][status] += value
 	return True
 
 def parse(name, meta, value):
@@ -65,6 +79,8 @@ def config(sts):
 		req_total.config(host, hostid, sts[host]['all'])
 		# by_path
 		req_by_path.config(host, hostid, sts[host]['by_path'])
+		# errors
+		req_errors.config(host, hostid, sts[host]['errors'])
 		# time
 		req_time.config(host, hostid, sts[host]['all'])
 		# size
@@ -78,6 +94,8 @@ def report(sts):
 		req_total.report(hostid, sts[host]['all'])
 		# by_path
 		req_by_path.report(hostid, sts[host]['by_path'])
+		# errors
+		req_errors.report(hostid, sts[host]['errors'])
 		# time
 		req_time.report(hostid, sts[host]['all'])
 		# size
