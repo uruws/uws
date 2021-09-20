@@ -1,5 +1,9 @@
 # TODO
 
+* uwscli builds cleanup
+    * clean jsbatch docker
+    * cleanup old images in ECR
+
 * github CI integration with app builds
 
 * cluster stats - `WIP`
