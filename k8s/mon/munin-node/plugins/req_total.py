@@ -23,7 +23,7 @@ def config(host, hostid, sts):
 				print(f"req_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 				print(f"req_{pathid}_{methid}_{stid}.draw AREASTACK")
 				print(f"req_{pathid}_{methid}_{stid}.min 0")
-				fid += 1
+				fid = mon.color(fid)
 	if mon.debug(): print()
 	# total
 	print(f"multigraph web_request_{hostid}.total")
@@ -44,7 +44,7 @@ def config(host, hostid, sts):
 				print(f"req_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 				print(f"req_{pathid}_{methid}_{stid}.draw AREASTACK")
 				print(f"req_{pathid}_{methid}_{stid}.min 0")
-				fid += 1
+				fid = mon.color(fid)
 	if mon.debug(): print()
 	# total count
 	print(f"multigraph web_request_{hostid}.count")
@@ -67,7 +67,7 @@ def config(host, hostid, sts):
 				print(f"req_{pathid}_{methid}_{stid}.type DERIVE")
 				print(f"req_{pathid}_{methid}_{stid}.min 0")
 				print(f"req_{pathid}_{methid}_{stid}.cdef req_{pathid}_{methid}_{stid},1000,/")
-				fid += 1
+				fid = mon.color(fid)
 	if mon.debug(): print()
 
 def report(hostid, sts):
