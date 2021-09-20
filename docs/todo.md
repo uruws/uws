@@ -15,11 +15,11 @@
 
 * cluster stats - `WIP`
     * pod_container
-        * restarted containers count
+        * restarted containers count - `DONE!`
         * restart ratio
     * web_request.count
         * count_by_path - `DONE!`
-        * count_errors
+        * count_errors - `DONE!`
 
 * new Debian (11) stable release (bullseye)
     * upgrade containers
