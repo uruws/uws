@@ -13,13 +13,16 @@
 
 * github CI integration with app builds
 
-* cluster stats - `WIP`
+* cluster stats
     * pod_container
         * restarted containers count - `DONE!`
-        * restart ratio
+        * restart ratio - `DONE!`
     * web_request.count
         * count_by_path - `DONE!`
         * count_errors - `DONE!`
+    * resources usage (mem, cpu)
+        * nodes
+        * pods
 
 * new Debian (11) stable release (bullseye)
     * upgrade containers
