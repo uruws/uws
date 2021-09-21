@@ -20,6 +20,7 @@
     * web_request.count
         * count_by_path - `DONE!`
         * count_errors - `DONE!`
+        * count_errors_avg: errors average
     * resources usage (mem, cpu)
         * nodes
         * pods
