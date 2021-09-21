@@ -79,6 +79,10 @@ def __cstatus(sts, spec, status, phase):
 			sts['ready'] += 1
 		if c['started']:
 			sts['started'] += 1
+	sts['restart_ratio'] = 0
+	running = sts.get('running', 0)
+	if running > 0:
+		sts['restart_ratio'] = sts['restarted'] / running
 
 def config(sts):
 	mon.dbg('pods_container config')
@@ -93,7 +97,7 @@ def config(sts):
 	print('graph_scale yes')
 	cc = 0
 	for cid in sorted(sts['index'].keys()):
-		print(f"{cid}.label", cid)
+		print(f"{cid}.label", cid.replace('_', ' '))
 		print(f"{cid}.colour COLOUR{cc}")
 		print(f"{cid}.min 0")
 		cc = mon.color(cc)
@@ -112,7 +116,7 @@ def config(sts):
 			fc = 0
 			for fn in sorted(sts['status'][ns][gname].keys()):
 				fid = mon.cleanfn(fn)
-				print(f"{fid}.label", fn)
+				print(f"{fid}.label", fn.replace('_', ' '))
 				print(f"{fid}.colour COLOUR{fc}")
 				print(f"{fid}.min 0")
 				# info
