@@ -160,3 +160,6 @@ def nq(cmd, args, build_dir):
 
 def run(cmd, args):
 	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args))
+
+def clean_build(app, version):
+	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s/app-clean-build.sh %s %s" % (cmddir, cmddir, app, version))

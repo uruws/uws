@@ -38,6 +38,11 @@ def nq(app, version):
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.nq('app-build.sh', args)
 
+def cleanBuild(app, version):
+	rc = uwscli.clean_build(app, version)
+	if rc != 0:
+		print('ERROR: app clean:', app, version, 'failed!', file = sys.stderr)
+
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.build_description())
@@ -52,6 +57,7 @@ def main():
 		return rc
 
 	rc = nq(args.app, args.version)
+	cleanBuild(args.app, args.version)
 	if rc != 0:
 		print("enqueue of %s build job failed!" % args.app, file = sys.stderr)
 		return rc
