@@ -1,9 +1,6 @@
 #!/bin/sh
 set -eu
-export NQDIR=/run/uwscli/nq
-mkdir -p -m 0750 ${NQDIR}
-cd ${NQDIR}
-exec sudo -H -n -u uws -- fq "$@"
+exec sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsq.sh "$@"
 
 #uwscli:uwsq				- show information about uws jobs queue
 

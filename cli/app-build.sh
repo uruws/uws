@@ -14,13 +14,19 @@ logf=${logs_dir}/${app}-build-${version_tag}.log
 mkdir -vp "${logs_dir}"
 date -R >"${logf}"
 
+build_cmd=${build_dir}/${build_script}
+if test "X${build_cmd}" != 'X/srv/deploy/NLP/build.sh'; then
+	echo "ERROR: invalid cmd ${build_cmd}" | tee -a "${logf}"
+	exit 9
+fi
+
 cd "${build_dir}"
 git fetch --tags --prune --prune-tags | tee -a "${logf}"
 git checkout "${version}" | tee -a "${logf}"
 
 if ! test -x "./${build_script}"; then
 	echo "[ERROR] build script not found: ./${build_script} (build dir: ${build_dir})" | tee -a "${logf}" >&2
-	exit 9
+	exit 8
 fi
 
 exec ./"${build_script}" | tee -a "${logf}"
