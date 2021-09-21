@@ -55,7 +55,7 @@ def report(hostid, sts):
 		pathid = mon.cleanfn(path)
 		for status in sorted(sts[path].keys()):
 			stid = mon.cleanfn(status)
-			value = sts[path][status]
+			value = mon.derive(sts[path][status])
 			print(f"req_{pathid}_{stid}.value", value)
 	# per minute
 	print(f"multigraph web_request_{hostid}.errors_per_minute")
@@ -63,5 +63,5 @@ def report(hostid, sts):
 		pathid = mon.cleanfn(path)
 		for status in sorted(sts[path].keys()):
 			stid = mon.cleanfn(status)
-			value = sts[path][status]
+			value = mon.derive(sts[path][status])
 			print(f"req_{pathid}_{stid}.value", value)
