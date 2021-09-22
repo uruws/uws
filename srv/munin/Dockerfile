@@ -1,7 +1,7 @@
 FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210715"
+LABEL version="210922"
 
 USER root:root
 WORKDIR /root
@@ -13,7 +13,7 @@ RUN /root/bin/apt-install.sh rsyslog cron logrotate munin
 
 ENV MN munin-contrib
 ENV MR uruws/${MN}
-ENV MV 52861dd158e7a9b77b46dd718fae4ddea9cd0790
+ENV MV 22ba05175f518b67525883bd1864c90a68eb2e1e
 ENV MT munstrap
 RUN wget -O munin-contrib.tgz \
 	https://github.com/${MR}/archive/${MV}.tar.gz \
