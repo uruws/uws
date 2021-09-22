@@ -5,15 +5,12 @@ DIST=${1:?'dist name?'}
 SECT=${2:-'main contrib non-free'}
 
 DEBURI='http://deb.debian.org/debian/'
-SECURI='http://security.debian.org/debian-security'
+SECURI='http://deb.debian.org/debian-security'
 SLF="/etc/apt/sources.list.d/${DIST}.list"
 
 echo "deb ${DEBURI} ${DIST} ${SECT}" >${SLF}
 echo "deb ${DEBURI} ${DIST}-updates ${SECT}" >>${SLF}
-
-if test "${DIST}" = 'stable'; then
-	echo "deb ${SECURI} ${DIST}/updates ${SECT}" >>${SLF}
-fi
+echo "deb ${SECURI} ${DIST}-security ${SECT}" >>${SLF}
 
 export DEBIAN_FRONTEND=noninteractive
 
