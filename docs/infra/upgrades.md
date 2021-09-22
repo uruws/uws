@@ -5,7 +5,7 @@
 * jsbatch
     * `2109`: 10 (buster) -> 11 (bullseye)
 
-## Containers
+## Container
 
 * docker/base
     * `2109`: Debian 10 (buster) -> 11 (bullseye)
@@ -36,7 +36,7 @@
 * srv/munin-node
     * `2109`: base-testing, munin-contrib 22ba051
 
-## cluster
+## Cluster
 
 * aws AMI
     * `2108`
