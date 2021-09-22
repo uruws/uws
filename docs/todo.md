@@ -25,8 +25,9 @@
         * nodes
         * pods
 
-* new Debian (11) stable release (bullseye)
+* new Debian (11) stable release (bullseye) - `WIP`
     * upgrade containers
+        * [2109](./infra/upgrades.md)
 
 * cache web assets
     * use separate domain for static assets
