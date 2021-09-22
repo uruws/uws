@@ -19,6 +19,7 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
+# https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
 ENV KUBE_VERSION 1.19.6/2021-01-05
 ENV KUBE_URL https://amazon-eks.s3.us-west-2.amazonaws.com/${KUBE_VERSION}
 
