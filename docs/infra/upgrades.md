@@ -25,6 +25,8 @@
         * `2109`: eksctl 0.67.0, helm 3.7.0
     * docker/uwsbot
         * `2109`: base-2109
+    * srv/proftpd
+        * `2109`: base-2109
 
 * cluster
     * aws AMI
