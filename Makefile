@@ -24,7 +24,10 @@ upgrade:
 	@./docker/awscli/build.sh --pull
 
 .PHONY: bootstrap
-bootstrap: base base-testing golang acme mkcert awscli
+bootstrap: awscli base base-testing golang mkcert
+
+.PHONY: all
+all: bootstrap acme clamav eks k8s uwsbot munin munin-backend munin-node proftpd
 
 .PHONY: base
 base:
@@ -158,9 +161,6 @@ eks: k8s
 .PHONY: proftpd
 proftpd:
 	@./srv/proftpd/build.sh
-
-.PHONY: all
-all: bootstrap k8s uwsbot munin munin-backend munin-node proftpd
 
 .PHONY: ecr-login
 ecr-login:
