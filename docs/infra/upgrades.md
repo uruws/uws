@@ -1,8 +1,12 @@
 # Upgrades schedule
 
-* 2109
-    * jsbatch Debian upgrade 10 (buster) -> 11 (bullseye)
+* Debian OS
+    * jsbatch
+        * `2109`: 10 (buster) -> 11 (bullseye)
+    * containers
 
-* 2108
-    * aws k8s AMI
-    * nginx k8s ingresss 0.45.0 -> 0.48.1
+* cluster
+    * aws AMI
+        * `2108`
+    * nginx ingress
+        * `2108`: 0.45.0 -> 0.48.1
