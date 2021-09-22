@@ -24,6 +24,8 @@
     * resources usage (mem, cpu)
         * nodes
         * pods
+    * k8s apiserver metrics
+        * uwskube get --raw /metrics
 
 * new Debian (11) stable release (bullseye) - `WIP`
     * upgrade containers
