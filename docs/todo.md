@@ -55,7 +55,6 @@
     * remove setup from workers cluster?
 
 * uwscli integration
-    * docker images cleanup
     * app-build
         * github webhook integration
         * we should be able to properly stop/abort a building process

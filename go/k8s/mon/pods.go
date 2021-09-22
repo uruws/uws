@@ -35,8 +35,8 @@ type pod struct {
 		Containers  []containerStatus `json:"containers"`
 	} `json:"spec"`
 	Status struct {
-		Conditions []statusCondition `json:"conditions"`
-		Containers []containerStatus `json:"containerStatuses"`
+		Conditions []statusCondition `json:"conditions,omitempty"`
+		Containers []containerStatus `json:"containerStatuses,omitempty"`
 		Phase      string            `json:"phase"`
 	} `json:"status"`
 }

@@ -40,6 +40,7 @@ def parse(pods):
 				restarted = 0,
 				ready = 0,
 				started = 0,
+				failed = 0,
 			)
 		__cstatus(sts['status'][ns][gname], spec, status, phase)
 	# index
@@ -70,7 +71,11 @@ def __cstatus(sts, spec, status, phase):
 	p = phase.lower()
 	if not sts.get(p, None):
 		sts[p] = 0
-	sts[p] += len(status)
+	st = len(status)
+	if st == 0:
+		sts[p] += len(spec)
+	else:
+		sts[p] += st
 	for c in status:
 		sts['restart'] += c['restartCount']
 		if c['restartCount'] > 0:

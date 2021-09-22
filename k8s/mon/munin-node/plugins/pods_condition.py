@@ -6,7 +6,12 @@ import mon
 def parse(pods):
 	mon.dbg('pods_condition parse')
 	sts = dict(
-		index = dict(),
+		index = dict(
+			ContainersReady = 0,
+			Initialized = 0,
+			PodScheduled = 0,
+			Ready = 0,
+		),
 		cond = dict(),
 	)
 	for i in pods['items']:
@@ -20,14 +25,19 @@ def parse(pods):
 		if not sts['cond'].get(ns, None):
 			sts['cond'][ns] = dict()
 		if not sts['cond'][ns].get(gname, None):
-			sts['cond'][ns][gname] = dict()
+			sts['cond'][ns][gname] = dict(
+				ContainersReady = 0,
+				Initialized = 0,
+				PodScheduled = 0,
+				Ready = 0,
+			)
 		# index
 		for cond in i['status'].get('conditions', {}):
 			st = cond['status']
 			typ = cond['type']
-			if not sts['index'].get(typ, None):
+			if sts['index'].get(typ, None) is None:
 				sts['index'][typ] = 0
-			if not sts['cond'][ns][gname].get(typ, None):
+			if sts['cond'][ns][gname].get(typ, None) is None:
 				sts['cond'][ns][gname][typ] = 0
 			if st == 'True':
 				sts['index'][typ] += 1
