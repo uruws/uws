@@ -9,6 +9,7 @@
         * docker/base-testing
             * `2109`: bullseye -> bookworm
         * docker/golang
+            * `2109`: base-testing
         * docker/mkcert
 
 * cluster
