@@ -1,7 +1,7 @@
 FROM amazon/aws-cli
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.02.02"
+LABEL version="210922"
 
 ARG UWS_UID=1000
 ARG UWS_GID=1000
