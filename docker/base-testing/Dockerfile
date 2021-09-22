@@ -1,4 +1,4 @@
-FROM uws/base
+FROM uws/base-2109
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="210922"
