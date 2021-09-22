@@ -1,41 +1,66 @@
 # TODO
 
-* uwscli builds cleanup
+## Maint
+
+* new Debian (11) stable release (bullseye) - `WIP`
+    * upgrade containers: [2109](./infra/upgrades.md)
+
+* productions services
+    * upgrades schedule: nginx, autoscaler and such...
+    * k8s 1.20 already available (we run 1.19)
+
+## uwscli
+
+* builds cleanup
     * clean jsbatch docker - `DONE!`
     * cleanup old images in ECR
 
-* develope uwscli webapp
+* develope webapp
     * users auth/cert manager
     * github webhook
     * jira webhook
     * munin dashboard
     * events history (builds, restarts, deploys, etc...)
+    * API for UI interaction
+
+* uwscli integration
+    * app-build
+        * github webhook integration
+        * we should be able to properly stop/abort a building process
+    * let Jira know about deployments status
+        * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
+
+* wish list
+    * show events log or auto-refresh status info
+    * control deploy replicas
+    * show web proxy logs
+    * uwsq: clean failed jobs
 
 * github CI integration with app builds
 
-* cluster stats
-    * pod_container
-        * restarted containers count - `DONE!`
-        * restart ratio - `DONE!`
-    * web_request.count
-        * count_by_path - `DONE!`
-        * count_errors - `DONE!`
-        * count_errors_avg: errors average
-    * resources usage (mem, cpu)
-        * nodes
-        * pods
-    * k8s apiserver metrics
-        * uwskube get --raw /metrics
+## Cluster stats
 
-* new Debian (11) stable release (bullseye) - `WIP`
-    * upgrade containers: [2109](./infra/upgrades.md)
+* pod_container
+    * restarted containers count - `DONE!`
+    * restart ratio - `DONE!`
+
+* web_request.count
+    * count_by_path - `DONE!`
+    * count_errors - `DONE!`
+    * count_errors_avg: errors average
+
+* resources usage (mem, cpu)
+    * nodes
+    * pods
+
+* k8s apiserver metrics
+    * uwskube get --raw /metrics
+
+## Web
 
 * cache web assets
     * use separate domain for static assets
     * test meteor appcache
-
-* setup munin limit mail alerts
-    * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
 
 * WAF setup
     * implement fail2ban for kubernets/aws?
@@ -43,8 +68,17 @@
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
 
+## Monitoring
+
+* setup munin limit mail alerts
+    * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
+
 * graph app number of active users/sessions
     * set it up on prod
+
+* add munin checks/graphs for NLP
+
+## Cluster
 
 * custom workers autoscaler
     * scale up every 5 min or so
@@ -56,21 +90,7 @@
     * add bot check/graph
     * remove setup from workers cluster?
 
-* uwscli integration
-    * app-build
-        * github webhook integration
-        * we should be able to properly stop/abort a building process
-    * devel API for UI interaction
-    * let Jira know about deployments status
-        * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
-    * show events log or auto-refresh status info
-    * control deploy replicas
-    * show web proxy logs
-    * uwsq: clean failed jobs
-
 * setup amy staging cluster
-
-* add munin checks/graphs for NLP
 
 * split nginx cluster proxy load over N instances instead of only 1
 
@@ -80,9 +100,7 @@
         * use more than one ingress (maybe in sep namespaces)
         * use different nodegroups for "core" services like nginx and the "main" nodegroup to run our services (web, workers, etc...), using node affinity annotations.
 
-* productions services maintenance
-    * upgrades schedule: nginx, autoscaler and such...
-    * k8s 1.20 already available (we run 1.19)
+## Other
 
 * re-design meteor app build to avoid including NLP certs inside container image
     * change buildpack repo app/certs/
