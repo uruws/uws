@@ -35,6 +35,10 @@
     * `2109`: munin
 * srv/munin-node
     * `2109`: base-testing, munin-contrib 22ba051
+* k8s/mon/munin
+    * `2109`: munin, munin-backend
+* k8s/mon/munin-node
+    * `2109`: munin-node
 
 ## Cluster
 
