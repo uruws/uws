@@ -11,14 +11,18 @@
         * `2109`: Debian bullseye -> bookworm
     * docker/golang
         * `2109`: base-testing
-    * docker/mkcert
-        * `2109`: base-2109
 
 * external utils
     * docker/awscli
         * `2109`
     * docker/clamav
         * `2109`: base-testing
+    * docker/mkcert
+        * `2109`: base-2109
+    * docker/k8s
+        * `2109`: base-2109
+    * docker/eks
+        * `2109`: eksctl 0.67.0, helm 3.7.0
     * srv/acme
         * `2109`: base-2109
 

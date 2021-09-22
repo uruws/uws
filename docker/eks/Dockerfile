@@ -1,7 +1,7 @@
 FROM uws/k8s
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210607"
+LABEL version="210922"
 
 USER root:root
 WORKDIR /root
@@ -17,8 +17,8 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-ENV EKS_VERSION 0.52.0
-ENV EKS_URL https://github.com/weaveworks/eksctl/releases/download/${EKS_VERSION}
+ENV EKS_VERSION 0.67.0
+ENV EKS_URL https://github.com/weaveworks/eksctl/releases/download/v${EKS_VERSION}
 
 RUN wget ${EKS_URL}/eksctl_Linux_amd64.tar.gz \
 	&& wget ${EKS_URL}/eksctl_checksums.txt \
@@ -28,7 +28,8 @@ RUN wget ${EKS_URL}/eksctl_Linux_amd64.tar.gz \
 	&& rm -vf eksctl_*.* /tmp/eksctl
 
 # https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-RUN wget -O helm.tgz https://get.helm.sh/helm-v3.5.4-linux-amd64.tar.gz \
+ENV HELM_VERSION 3.7.0
+RUN wget -O helm.tgz https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
 	&& tar -vxzf helm.tgz \
 	&& install -v -m 0755 linux-amd64/helm /usr/local/bin/helm.real \
 	&& rm -rvf helm.tgz linux-amd64 \

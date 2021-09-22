@@ -1,7 +1,7 @@
-FROM uws/base-testing
+FROM uws/base-2109
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210624"
+LABEL version="210922"
 
 USER root:root
 WORKDIR /root
