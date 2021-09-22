@@ -8,6 +8,8 @@
             * `2109`: 10 (buster) -> 11 (bullseye)
         * docker/base-testing
             * `2109`: bullseye -> bookworm
+        * docker/golang
+        * docker/mkcert
 
 * cluster
     * aws AMI
@@ -17,4 +19,6 @@
 
 * external utils
     * docker/awscli
+        * `2109`
+    * docker/clamav
         * `2109`
