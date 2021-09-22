@@ -1,7 +1,7 @@
 # TODO
 
 * uwscli builds cleanup
-    * clean jsbatch docker
+    * clean jsbatch docker - `DONE!`
     * cleanup old images in ECR
 
 * develope uwscli webapp
