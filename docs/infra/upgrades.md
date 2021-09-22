@@ -11,6 +11,7 @@
         * docker/golang
             * `2109`: base-testing
         * docker/mkcert
+            * `2109`: base-2109
 
 * cluster
     * aws AMI
@@ -22,4 +23,5 @@
     * docker/awscli
         * `2109`
     * docker/clamav
-        * `2109`
+        * `2109`: base-testing
+    * srv/acme
