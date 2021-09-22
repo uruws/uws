@@ -28,8 +28,7 @@
         * uwskube get --raw /metrics
 
 * new Debian (11) stable release (bullseye) - `WIP`
-    * upgrade containers
-        * [2109](./infra/upgrades.md)
+    * upgrade containers: [2109](./infra/upgrades.md)
 
 * cache web assets
     * use separate domain for static assets
