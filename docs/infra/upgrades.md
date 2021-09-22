@@ -14,7 +14,7 @@
 * docker/golang
     * `2109`: base-testing
 * docker/awscli
-    * `2109`
+    * `2109`: amazon/aws-cli
 * docker/clamav
     * `2109`: base-testing
 * srv/acme
@@ -24,7 +24,7 @@
 * docker/k8s
     * `2109`: base-2109
 * docker/eks
-    * `2109`: eksctl 0.67.0, helm 3.7.0
+    * `2109`: k8s, eksctl 0.67.0, helm 3.7.0
 * docker/uwsbot
     * `2109`: base-2109
 * srv/proftpd
@@ -35,6 +35,8 @@
     * `2109`: munin
 * srv/munin-node
     * `2109`: base-testing, munin-contrib 22ba051
+* k8s/mon/k8s
+    * `2109`: k8s
 * k8s/mon/munin
     * `2109`: munin, munin-backend
 * k8s/mon/munin-node
