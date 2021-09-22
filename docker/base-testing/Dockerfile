@@ -1,7 +1,7 @@
 FROM uws/base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="210818"
+LABEL version="210922"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-distsetup.sh bullseye main
+RUN /root/bin/apt-distsetup.sh bookworm main
 
 USER uws:uws
 WORKDIR /home/uws
