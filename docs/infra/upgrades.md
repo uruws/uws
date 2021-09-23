@@ -48,3 +48,10 @@
     * `2109`: munin, munin-backend
 * k8s/mon/munin-node
     * `2109`: munin-node
+
+# App
+
+## NLP
+
+* docker/base
+    * `2109`: Debian 10 (buster) -> 11 (bullseye)
