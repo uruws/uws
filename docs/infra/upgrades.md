@@ -51,6 +51,15 @@
 
 # App
 
+## Buildpack
+
+* docker/base
+    * `2109`: Debian 10 (buster) -> 11 (bullseye)
+* docker/meteor-2.2
+    * `2109`: base-2109
+* cs
+    * `2109`: meteor-2.2
+
 ## NLP
 
 * docker/base
