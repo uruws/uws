@@ -3,7 +3,7 @@
 
 import mon
 
-def config(host, hostid, sts):
+def config(cluster, host, hostid, sts):
 	# total index
 	print(f"multigraph web_response_{hostid}")
 	print(f"graph_title {host} response")
@@ -11,7 +11,7 @@ def config(host, hostid, sts):
 	print('graph_category web_resp')
 	print('graph_vlabel total number')
 	print('graph_scale yes')
-	print('graph_total total')
+	print('graph_total', cluster, 'total')
 	fid = 0
 	for path in sorted(sts.keys()):
 		pathid = mon.cleanfn(path)
@@ -32,7 +32,7 @@ def config(host, hostid, sts):
 	print('graph_category web_resp')
 	print('graph_vlabel total number')
 	print('graph_scale yes')
-	print('graph_total total')
+	print('graph_total', cluster, 'total')
 	fid = 0
 	for path in sorted(sts.keys()):
 		pathid = mon.cleanfn(path)
@@ -53,7 +53,7 @@ def config(host, hostid, sts):
 	print('graph_category web_resp')
 	print('graph_vlabel number per second')
 	print('graph_scale no')
-	print('graph_total total')
+	print('graph_total', cluster, 'total')
 	fid = 0
 	for path in sorted(sts.keys()):
 		pathid = mon.cleanfn(path)

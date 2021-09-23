@@ -46,14 +46,15 @@ def parse(name, meta, value):
 
 def config(sts):
 	mon.dbg('config web_response')
+	cluster = mon.cluster()
 	for host in sorted(sts.keys()):
 		hostid = mon.cleanfn(host)
 		# total
-		resp_total.config(host, hostid, sts[host])
+		resp_total.config(cluster, host, hostid, sts[host])
 		# time
-		resp_time.config(host, hostid, sts[host])
+		resp_time.config(cluster, host, hostid, sts[host])
 		# size
-		resp_size.config(host, hostid, sts[host])
+		resp_size.config(cluster, host, hostid, sts[host])
 
 def report(sts):
 	mon.dbg('report web_response')
