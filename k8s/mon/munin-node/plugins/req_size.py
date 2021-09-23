@@ -3,7 +3,7 @@
 
 import mon
 
-def config(host, hostid, sts):
+def config(cluster, host, hostid, sts):
 	# size index
 	print(f"multigraph web_request_size_{hostid}")
 	print(f"graph_title {host} request size")
@@ -11,7 +11,7 @@ def config(host, hostid, sts):
 	print('graph_category web_size')
 	print('graph_vlabel total bytes')
 	print('graph_scale yes')
-	print('graph_total total')
+	print('graph_total', cluster, 'total')
 	fid = 0
 	for path in sorted(sts.keys()):
 		pathid = mon.cleanfn(path)
@@ -32,7 +32,7 @@ def config(host, hostid, sts):
 	print('graph_category web_size')
 	print('graph_vlabel total bytes')
 	print('graph_scale yes')
-	print('graph_total total')
+	print('graph_total', cluster, 'total')
 	fid = 0
 	for path in sorted(sts.keys()):
 		pathid = mon.cleanfn(path)
@@ -53,7 +53,7 @@ def config(host, hostid, sts):
 	print('graph_category web_size')
 	print('graph_vlabel bytes per second')
 	print('graph_scale yes')
-	print('graph_total total')
+	print('graph_total', cluster, 'total')
 	fid = 0
 	for path in sorted(sts.keys()):
 		pathid = mon.cleanfn(path)

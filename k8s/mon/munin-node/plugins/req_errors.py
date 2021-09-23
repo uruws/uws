@@ -3,7 +3,7 @@
 
 import mon
 
-def config(host, hostid, sts):
+def config(cluster, host, hostid, sts):
 	# per second
 	print(f"multigraph web_request_{hostid}.errors")
 	print(f"graph_title {host} request errors")
@@ -11,7 +11,7 @@ def config(host, hostid, sts):
 	print('graph_category web')
 	print('graph_vlabel number per second')
 	print('graph_scale no')
-	print('graph_total total')
+	print('graph_total', cluster, 'total')
 	for path in sorted(sts.keys()):
 		pathid = mon.cleanfn(path)
 		fc = 0
@@ -32,7 +32,7 @@ def config(host, hostid, sts):
 	print('graph_category web')
 	print('graph_vlabel number per minute')
 	print('graph_scale no')
-	print('graph_total total')
+	print('graph_total', cluster, 'total')
 	print('graph_period minute')
 	for path in sorted(sts.keys()):
 		pathid = mon.cleanfn(path)

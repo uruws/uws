@@ -73,18 +73,19 @@ def parse(name, meta, value):
 
 def config(sts):
 	mon.dbg('config web_request')
+	cluster = mon.cluster()
 	for host in sorted(sts.keys()):
 		hostid = mon.cleanfn(host)
 		# total
-		req_total.config(host, hostid, sts[host]['all'])
+		req_total.config(cluster, host, hostid, sts[host]['all'])
 		# by_path
-		req_by_path.config(host, hostid, sts[host]['by_path'])
+		req_by_path.config(cluster, host, hostid, sts[host]['by_path'])
 		# errors
-		req_errors.config(host, hostid, sts[host]['errors'])
+		req_errors.config(cluster, host, hostid, sts[host]['errors'])
 		# time
-		req_time.config(host, hostid, sts[host]['all'])
+		req_time.config(cluster, host, hostid, sts[host]['all'])
 		# size
-		req_size.config(host, hostid, sts[host]['all'])
+		req_size.config(cluster, host, hostid, sts[host]['all'])
 
 def report(sts):
 	mon.dbg('report web_request')
