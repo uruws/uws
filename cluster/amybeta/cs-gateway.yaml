@@ -32,6 +32,71 @@ spec:
     - host: crowdsourcing.talkingpts.org
       http:
         paths:
+          # /images/
+          - pathType: Prefix
+            path: /(images/.*)
+            backend:
+              service:
+                name: meteor-cs
+                port:
+                  number: 3000
+          # /api/
+          - pathType: Prefix
+            path: /(api/.*)
+            backend:
+              service:
+                name: meteor-cs
+                port:
+                  number: 3000
+          # /translate/
+          - pathType: Prefix
+            path: /(translate/.*)
+            backend:
+              service:
+                name: meteor-cs
+                port:
+                  number: 3000
+          # /sockjs/
+          - pathType: Prefix
+            path: /(sockjs/.*)
+            backend:
+              service:
+                name: meteor-cs
+                port:
+                  number: 3000
+          # /socket.io/
+          - pathType: Prefix
+            path: /(socket\.io/.*)
+            backend:
+              service:
+                name: meteor-cs
+                port:
+                  number: 3000
+          # /admin/
+          - pathType: Prefix
+            path: /(admin/.*)
+            backend:
+              service:
+                name: meteor-cs
+                port:
+                  number: 3000
+          # /websocket
+          - pathType: Prefix
+            path: /(websocket)$
+            backend:
+              service:
+                name: meteor-cs
+                port:
+                  number: 3000
+          # /login
+          - pathType: Prefix
+            path: /(login)$
+            backend:
+              service:
+                name: meteor-cs
+                port:
+                  number: 3000
+          # /
           - pathType: Prefix
             path: /(.*)
             backend:
