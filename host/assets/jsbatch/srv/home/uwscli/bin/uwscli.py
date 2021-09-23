@@ -155,7 +155,7 @@ __user = getenv('USER', 'unknown')
 def ctl(args):
 	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, __user, args))
 
-def nq(cmd, args, build_dir):
+def nq(cmd, args, build_dir = cmddir):
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s/%s %s" % (cmddir, build_dir, cmd, args))
 
 def run(cmd, args):
