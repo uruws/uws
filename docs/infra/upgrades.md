@@ -1,5 +1,12 @@
 # Upgrades schedule
 
+## Cluster
+
+* aws AMI
+    * `2108`: 5.4.129-63.229.amzn2.x86_64
+* nginx ingress
+    * `2108`: 0.45.0 -> 0.48.1
+
 ## Debian OS
 
 * jsbatch
@@ -41,10 +48,3 @@
     * `2109`: munin, munin-backend
 * k8s/mon/munin-node
     * `2109`: munin-node
-
-## Cluster
-
-* aws AMI
-    * `2108`
-* nginx ingress
-    * `2108`: 0.45.0 -> 0.48.1
