@@ -98,8 +98,7 @@ def config(sts):
 	print('graph_args --base 1000 -l 0')
 	print('graph_category pod')
 	print('graph_vlabel number')
-	print('graph_printf %3.0lf')
-	print('graph_scale yes')
+	print('graph_scale no')
 	cc = 0
 	for cid in sorted(sts['index'].keys()):
 		print(f"{cid}.label", cid.replace('_', ' '))
@@ -116,8 +115,7 @@ def config(sts):
 			print('graph_args --base 1000 -l 0')
 			print('graph_category pod')
 			print('graph_vlabel containers number')
-			print('graph_printf %3.0lf')
-			print('graph_scale yes')
+			print('graph_scale no')
 			fc = 0
 			for fn in sorted(sts['status'][ns][gname].keys()):
 				fid = mon.cleanfn(fn)
