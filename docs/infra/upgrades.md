@@ -59,6 +59,10 @@
     * `2109`: base-2109
 * cs
     * `2109`: meteor-2.2
+* docker/meteor-1.10.2
+    * `2109`: base-2109
+* beta
+    * `2109`: meteor-1.10.2-2109
 
 ## NLP
 
