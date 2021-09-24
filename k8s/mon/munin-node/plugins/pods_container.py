@@ -125,12 +125,21 @@ def config(sts):
 				fc = mon.color(fc)
 			# info
 			inf = sts['info'][ns].get(gname, {})
+			# spec
+			idx = 0
+			for i in sorted(inf.get('spec', {}).keys()):
+				fid = mon.cleanfn(f"zza_spec_{idx:0>4}")
+				print(f"{fid}.label spec", i)
+				print(f"{fid}.colour COLOUR{fc}")
+				print(f"{fid}.min 0")
+				fc = mon.color(fc)
+				idx += 1
 			# status
-			for s in sorted(inf['status'].keys()):
+			for s in sorted(inf.get('status', {}).keys()):
 				idx = 0
 				for i in sorted(inf['status'][s].keys()):
 					fid = mon.cleanfn(f"zzz_{s}_{idx:0>4}")
-					print(f"{fid}.label", i)
+					print(f"{fid}.label", s[0:3], i)
 					print(f"{fid}.colour COLOUR{fc}")
 					print(f"{fid}.min 0")
 					fc = mon.color(fc)
@@ -155,6 +164,12 @@ def report(sts):
 				print(f"{fid}.value", val)
 			# info
 			inf = sts['info'][ns].get(gname, {})
+			# spec
+			idx = 0
+			for i in sorted(inf.get('spec', {}).keys()):
+				fid = mon.cleanfn(f"zza_spec_{idx:0>4}")
+				print(f"{fid}.value 1")
+				idx += 1
 			# status
 			for s in sorted(inf['status'].keys()):
 				idx = 0
