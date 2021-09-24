@@ -62,8 +62,13 @@
     * use separate domain for static assets
     * test meteor appcache
 
+### Security
+
+* block access by geoip?
+
 * WAF setup
     * implement fail2ban for kubernets/aws?
+        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#use-geoip
     * nginx modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
