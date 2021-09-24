@@ -26,7 +26,7 @@ def parse(pods):
 		if not sts['info'][ns].get(gname, None):
 			sts['info'][ns][gname] = dict(
 				spec = dict(),
-				running = dict(),
+				status = dict(),
 			)
 		__cinfo(sts['info'][ns][gname], spec, status, phase)
 		# status
@@ -54,17 +54,17 @@ def parse(pods):
 
 def __cinfo(sts, spec, status, phase):
 	for c in spec:
-		i = c['image']
+		i = mon.containerImage(c['image'])
 		if sts['spec'].get(i, None) is None:
 			sts['spec'][i] = True
 	p = phase.lower()
-	if not sts.get(p, None):
-		sts[p] = dict()
+	if not sts['status'].get(p, None):
+		sts['status'][p] = dict()
 	for c in status:
-		i = c['image']
-		if sts[p].get(i, None) is None:
-			sts[p][i] = 0
-		sts[p][i] += 1
+		i = mon.containerImage(c['image'])
+		if sts['status'][p].get(i, None) is None:
+			sts['status'][p][i] = 0
+		sts['status'][p][i] += 1
 
 def __cstatus(sts, spec, status, phase):
 	sts['spec'] = len(spec)
@@ -122,17 +122,19 @@ def config(sts):
 				print(f"{fid}.label", fn.replace('_', ' '))
 				print(f"{fid}.colour COLOUR{fc}")
 				print(f"{fid}.min 0")
-				# info
-				inf = sts['info'][ns][gname].get(fn, None)
-				if inf is not None:
-					msg = list()
-					for i in sorted(inf.keys()):
-						if fn == 'spec':
-							msg.append(i)
-						else:
-							msg.append(f"{i}={inf[i]}")
-					print(f"{fid}.info", ', '.join(msg))
 				fc = mon.color(fc)
+			# info
+			inf = sts['info'][ns].get(gname, {})
+			# status
+			for s in sorted(inf['status'].keys()):
+				idx = 0
+				for i in sorted(inf['status'][s].keys()):
+					fid = mon.cleanfn(f"zzz_{s}_{idx:0>4}")
+					print(f"{fid}.label", i)
+					print(f"{fid}.colour COLOUR{fc}")
+					print(f"{fid}.min 0")
+					fc = mon.color(fc)
+					idx += 1
 			if mon.debug(): print()
 
 def report(sts):
@@ -151,4 +153,14 @@ def report(sts):
 				fid = mon.cleanfn(fn)
 				val = sts['status'][ns][gname][fn]
 				print(f"{fid}.value", val)
+			# info
+			inf = sts['info'][ns].get(gname, {})
+			# status
+			for s in sorted(inf['status'].keys()):
+				idx = 0
+				for i in sorted(inf['status'][s].keys()):
+					fid = mon.cleanfn(f"zzz_{s}_{idx:0>4}")
+					val = inf['status'][s][i]
+					print(f"{fid}.value", val)
+					idx += 1
 			if mon.debug(): print()
