@@ -70,3 +70,8 @@
     * `2109`: meteor-1.10.2-2109
 * app
     * `2109`: meteor-1.10.2-2109
+
+### uwsbot
+
+* MonitoringBots/docker
+    * `TODO`: Debian 10 (buster) -> 11 (bullseye)
