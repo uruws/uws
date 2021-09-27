@@ -51,6 +51,11 @@
 
 ## App
 
+### NLP
+
+* docker/base
+    * `2109`: Debian 10 (buster) -> 11 (bullseye)
+
 ### Buildpack
 
 * docker/base
@@ -64,9 +69,4 @@
 * beta
     * `2109`: meteor-1.10.2-2109
 * app
-    * `TODO` 2109: meteor-1.10.2-2109
-
-### NLP
-
-* docker/base
-    * `2109`: Debian 10 (buster) -> 11 (bullseye)
+    * `2109`: meteor-1.10.2-2109
