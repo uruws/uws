@@ -34,13 +34,14 @@ def parse(pods):
 			sts['status'][ns] = dict()
 		if not sts['status'][ns].get(gname, None):
 			sts['status'][ns][gname] = dict(
-				spec = 0,
-				running = 0,
+				failed = 0,
+				pending = 0,
+				ready = 0,
 				restart = 0,
 				restarted = 0,
-				ready = 0,
+				running = 0,
+				spec = 0,
 				started = 0,
-				failed = 0,
 			)
 		__cstatus(sts['status'][ns][gname], spec, status, phase)
 	# index
