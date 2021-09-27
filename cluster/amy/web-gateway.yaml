@@ -39,6 +39,127 @@ spec:
     - host: app.talkingpts.org
       http:
         paths:
+          # /register
+          - pathType: Prefix
+            path: /(register)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /_oauth/google
+          - pathType: Prefix
+            path: /(_oauth/google)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /_oauth/clever
+          - pathType: Prefix
+            path: /(_oauth/clever)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /_oauth/
+          - pathType: Prefix
+            path: /(_oauth/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /login
+          - pathType: Prefix
+            path: /(login)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /img/
+          - pathType: Prefix
+            path: /(img/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /webfonts/
+          - pathType: Prefix
+            path: /(webfonts/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /sockjs/
+          - pathType: Prefix
+            path: /(sockjs/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /socket.io/
+          - pathType: Prefix
+            path: /(socket\.io/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /teachers/
+          - pathType: Prefix
+            path: /(teachers/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /teachers
+          - pathType: Prefix
+            path: /(teachers)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /api/parents/
+          - pathType: Prefix
+            path: /(api/parents/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /api/teachers/
+          - pathType: Prefix
+            path: /(api/teachers/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /api/
+          - pathType: Prefix
+            path: /(api/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /bandwidthCallbackSMS
+          - pathType: Prefix
+            path: /(bandwidthCallbackSMS)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /
           - pathType: Prefix
             path: /(.*)
             backend:
