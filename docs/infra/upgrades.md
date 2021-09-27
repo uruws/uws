@@ -62,7 +62,7 @@
 * docker/meteor-1.10.2
     * `2109`: base-2109
 * beta
-    * `TODO` 2109: meteor-1.10.2-2109
+    * `2109`: meteor-1.10.2-2109
 * app
     * `TODO` 2109: meteor-1.10.2-2109
 
