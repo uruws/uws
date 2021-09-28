@@ -51,8 +51,8 @@
     * `2109`: base-2109
 * docker/mkcert
     * `2109`: base-2109
-* docker/k8s
-    * `2109`: base-2109
+* [docker/k8s][kubectl]
+    * `2109`: base-2109, kubectl 1.19.6/2021-01-05
 * docker/eks
     * `2109`: k8s, eksctl 0.67.0, helm 3.7.0
 * docker/uwsbot
@@ -69,6 +69,7 @@
     * `2109`: k8s, munin, munin-backend, munin-node
 
 [debian-container]: https://hub.docker.com/_/debian
+[kubectl]: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
 
 ## App
 
