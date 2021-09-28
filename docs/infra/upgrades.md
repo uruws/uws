@@ -10,14 +10,15 @@
     * 2108: 0.45.0 -> 0.48.1
 * [k8s/autoscaler][k8s-autoscaler]
     * 1.19.1
-* k8s/cert-manager
-    * `TODO`
+* [k8s/cert-manager][cert-manager]
+    * `TODO`: 1.3.0 -> 1.5.3
 * k8s/metrics-server
     * `TODO`
 
 [aws-ami]: https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html
 [nginx-ingress]: https://github.com/kubernetes/ingress-nginx/releases
 [k8s-autoscaler]: https://github.com/kubernetes/autoscaler/releases
+[cert-manager]: https://github.com/jetstack/cert-manager/releases
 
 ## Debian OS
 
