@@ -130,7 +130,7 @@ def config(sts):
 			idx = 0
 			for i in sorted(inf.get('spec', {}).keys()):
 				fid = mon.cleanfn(f"zza_spec_{idx:0>4}")
-				print(f"{fid}.label spec", i)
+				print(f"{fid}.label S", i)
 				print(f"{fid}.colour COLOUR{fc}")
 				print(f"{fid}.min 0")
 				fc = mon.color(fc)
@@ -140,7 +140,7 @@ def config(sts):
 				idx = 0
 				for i in sorted(inf['status'][s].keys()):
 					fid = mon.cleanfn(f"zzz_{s}_{idx:0>4}")
-					print(f"{fid}.label", s[0:3], i)
+					print(f"{fid}.label", s[1].upper(), i)
 					print(f"{fid}.colour COLOUR{fc}")
 					print(f"{fid}.min 0")
 					fc = mon.color(fc)
