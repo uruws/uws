@@ -5,11 +5,11 @@ USER=uwscli
 # m h  dom mon dow   command
 
 # scale down
-13 3 * * 2-6 app-scale worker 40
-23 3 * * 2-6 app-scale app-east 50
-33 3 * * 2-6 app-scale app-west 50
+13 3 * * 2-6 app-scale worker 40 >/dev/null
+23 3 * * 2-6 app-scale app-east 50 >/dev/null
+33 3 * * 2-6 app-scale app-west 50 >/dev/null
 
 # scale up
-3 10 * * 1-5 app-scale worker 75
-3 10 * * 1-5 app-scale app-east 100
-8 10 * * 1-5 app-scale app-west 100
+3 10 * * 1-5 app-scale worker 75 >/dev/null
+3 10 * * 1-5 app-scale app-east 100 >/dev/null
+8 10 * * 1-5 app-scale app-west 100 >/dev/null
