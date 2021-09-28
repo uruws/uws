@@ -30,12 +30,14 @@
 
 ## Debian OS
 
-* jsbatch
+* [jsbatch][debian-os]
     * `2109`: 10 (buster) -> 11 (bullseye)
+
+[debian-os]: https://www.debian.org/releases/
 
 ## Container
 
-* docker/base
+* [docker/base][debian-container]
     * `2109`: Debian 10 (buster) -> 11 (bullseye)
 * docker/base-testing
     * `2109`: Debian bullseye -> bookworm
@@ -65,6 +67,8 @@
     * `2109`: base-testing, munin-contrib 22ba051
 * k8s/mon
     * `2109`: k8s, munin, munin-backend, munin-node
+
+[debian-container]: https://hub.docker.com/_/debian
 
 ## App
 
