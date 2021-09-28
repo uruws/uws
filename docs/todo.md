@@ -85,6 +85,9 @@
 
 ## Cluster
 
+* aws AMI auto-upgrade
+    * setup a cronjob or similar (per cluster) to auto-upgrade AMIs when a new release is available
+
 * custom workers autoscaler
     * scale up every 5 min or so
     * scale down hourly, if needed
