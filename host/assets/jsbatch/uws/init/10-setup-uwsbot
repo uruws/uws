@@ -10,6 +10,7 @@ chown -v uws:www-data ${WWW_DIRS}
 chmod -v 0750 ${DIRS} ${WWW_DIRS}
 chown -v root:uws ${SECDIRS}
 chmod -v 0750 ${SECDIRS}
+chmod -v 0751 /srv/uwsbot
 
 find "${SECDIRS}" -type f -exec chown -v root:uws {} \;
 find "${SECDIRS}" -type f -exec chmod -v 0640 {} \;

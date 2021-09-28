@@ -74,4 +74,4 @@
 ### uwsbot
 
 * MonitoringBots/docker
-    * `TODO`: Debian 10 (buster) -> 11 (bullseye)
+    * `2109`: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
