@@ -12,6 +12,11 @@
         * uwsdev
         * panoramix
     * 2108: 1.19.6-20210722, 5.4.129
+* [docker/k8s][kubectl]
+    * [1.19][kubectl-119]
+        * `TODO`: 1.19.13/2021-09-02
+* [docker/eks][eksctl], [helm][helm]
+    * `2109`: eksctl 0.67.0, helm 3.7.0
 * [k8s/nginx-ingress][nginx-ingress]
     * `TODO`: 0.49.2
     * 2108: 0.45.0 -> 0.48.1
@@ -23,6 +28,10 @@
     * `TODO`: 0.5.0 -> 0.5.1
 
 [aws-ami]: https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html
+[kubectl]: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
+[kubectl-119]: https://amazon-eks.s3.us-west-2.amazonaws.com/?versions&prefix=1.19
+[eksctl]: https://github.com/weaveworks/eksctl/tags
+[helm]: https://github.com/helm/helm/tags
 [nginx-ingress]: https://github.com/kubernetes/ingress-nginx/releases
 [k8s-autoscaler]: https://github.com/kubernetes/autoscaler/releases
 [cert-manager]: https://github.com/jetstack/cert-manager/releases
@@ -51,10 +60,10 @@
     * `2109`: base-2109
 * docker/mkcert
     * `2109`: base-2109
-* [docker/k8s][kubectl]
-    * `2109`: base-2109, kubectl 1.19.6/2021-01-05
+* docker/k8s
+    * `2109`: base-2109
 * docker/eks
-    * `2109`: k8s, eksctl 0.67.0, helm 3.7.0
+    * `2109`: k8s
 * docker/uwsbot
     * `2109`: base-2109
 * srv/proftpd
@@ -69,7 +78,6 @@
     * `2109`: k8s, munin, munin-backend, munin-node
 
 [debian-container]: https://hub.docker.com/_/debian
-[kubectl]: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
 
 ## App
 
