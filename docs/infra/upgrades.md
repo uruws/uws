@@ -4,8 +4,14 @@
 
 * aws AMI
     * `2108`: 5.4.129-63.229.amzn2.x86_64
-* nginx ingress
+* k8s/nginx-ingress
     * `2108`: 0.45.0 -> 0.48.1
+* k8s/autoscaler
+    * `TODO`
+* k8s/cert-manager
+    * `TODO`
+* k8s/metrics-server
+    * `TODO`
 
 ## Debian OS
 
@@ -42,12 +48,8 @@
     * `2109`: munin
 * srv/munin-node
     * `2109`: base-testing, munin-contrib 22ba051
-* k8s/mon/k8s
-    * `2109`: k8s
-* k8s/mon/munin
-    * `2109`: munin, munin-backend
-* k8s/mon/munin-node
-    * `2109`: munin-node
+* k8s/mon
+    * `2109`: k8s, munin, munin-backend, munin-node
 
 ## App
 
