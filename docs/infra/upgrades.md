@@ -73,7 +73,7 @@
 * app
     * `2109`: meteor-1.10.2-2109
 
-### uwsbot
+### MonitoringBots
 
-* MonitoringBots/docker
+* docker
     * `2109`: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
