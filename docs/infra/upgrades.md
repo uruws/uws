@@ -4,6 +4,7 @@
 
 * [aws AMI][aws-ami]
     * `TODO`: 1.19.13-20210914
+        * panoramix `DONE!`
     * 2108: 1.19.6-20210722, 5.4.129-63.229.amzn2.x86_64
 * [k8s/nginx-ingress][nginx-ingress]
     * `TODO`: 0.49.2
