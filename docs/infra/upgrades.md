@@ -5,17 +5,19 @@
 * [aws AMI][aws-ami]
     * `TODO`: 1.19.13-20210914
     * 2108: 1.19.6-20210722, 5.4.129-63.229.amzn2.x86_64
-* k8s/nginx-ingress
+* [k8s/nginx-ingress][nginx-ingress]
     * `TODO`: 0.49.2
     * 2108: 0.45.0 -> 0.48.1
-* k8s/autoscaler
-    * `TODO`
+* [k8s/autoscaler][k8s-autoscaler]
+    * 1.19.1
 * k8s/cert-manager
     * `TODO`
 * k8s/metrics-server
     * `TODO`
 
 [aws-ami]: https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html
+[nginx-ingress]: https://github.com/kubernetes/ingress-nginx/releases
+[k8s-autoscaler]: https://github.com/kubernetes/autoscaler/releases
 
 ## Debian OS
 
