@@ -12,13 +12,14 @@
     * 1.19.1
 * [k8s/cert-manager][cert-manager]
     * `TODO`: 1.3.0 -> 1.5.3
-* k8s/metrics-server
-    * `TODO`
+* [k8s/metrics-server][metrics-server]
+    * `TODO`: 0.5.0 -> 0.5.1
 
 [aws-ami]: https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html
 [nginx-ingress]: https://github.com/kubernetes/ingress-nginx/releases
 [k8s-autoscaler]: https://github.com/kubernetes/autoscaler/releases
 [cert-manager]: https://github.com/jetstack/cert-manager/releases
+[metrics-server]: https://github.com/kubernetes-sigs/metrics-server/releases
 
 ## Debian OS
 
