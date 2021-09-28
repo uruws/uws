@@ -2,7 +2,7 @@
 
 ## Cluster
 
-* aws AMI
+* [aws AMI][aws-ami]
     * `TODO`: 1.19.13-20210914
     * 2108: 1.19.6-20210722, 5.4.129-63.229.amzn2.x86_64
 * k8s/nginx-ingress
@@ -13,6 +13,8 @@
     * `TODO`
 * k8s/metrics-server
     * `TODO`
+
+[aws-ami]: https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html
 
 ## Debian OS
 
