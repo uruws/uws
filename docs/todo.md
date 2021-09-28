@@ -5,14 +5,14 @@
 * new Debian (11) stable release (bullseye) - `WIP`
     * upgrade containers: [2109](./infra/upgrades.md)
 
-* productions services
-    * upgrades schedule: nginx, autoscaler and such...
-    * k8s 1.20 already available (we run 1.19)
+* productions services - `WIP`
+    * [2109](./infra/upgrades.md)
+        * upgrades schedule: nginx, autoscaler and such...
+        * k8s 1.20 already available (we run 1.19)
 
 ## uwscli
 
 * builds cleanup
-    * clean jsbatch docker - `DONE!`
     * cleanup old images in ECR
 
 * develope webapp
@@ -40,13 +40,7 @@
 
 ## Cluster stats
 
-* pod_container
-    * restarted containers count - `DONE!`
-    * restart ratio - `DONE!`
-
 * web_request.count
-    * count_by_path - `DONE!`
-    * count_errors - `DONE!`
     * count_errors_avg: errors average
 
 * resources usage (mem, cpu)
