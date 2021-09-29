@@ -206,3 +206,15 @@ docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
 k8smon-publish: k8s
 	@./docker/ecr-login.sh us-east-1
 	@./cluster/ecr-push.sh us-east-1 uws/k8s uws:mon-k8s-$(MON_TAG)
+
+# k8sctl
+
+CTL_TAG != cat ./k8s/ctl/VERSION
+
+.PHONY: k8sctl
+k8sctl: eks
+
+.PHONY: k8sctl-publish
+k8sctl-publish: k8sctl
+	@./docker/ecr-login.sh us-east-1
+	@./cluster/ecr-push.sh us-east-1 uws/eks uws:ctl-eks-$(CTL_TAG)
