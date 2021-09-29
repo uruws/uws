@@ -4,13 +4,13 @@
 
 * [aws AMI][aws-ami]
     * `TODO`: 1.19.13-20210914
-        * amybeta
         * amy-east
         * amy-west
         * amy-wrkr
     * `2109`: 1.19.13-20210914, 5.4.141
         * uwsdev
         * panoramix
+        * amybeta
     * 2108: 1.19.6-20210722, 5.4.129
 * [docker/k8s][kubectl]
     * [1.19][kubectl-119]
