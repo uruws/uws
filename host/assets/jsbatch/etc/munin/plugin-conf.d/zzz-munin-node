@@ -1,9 +1,9 @@
 [munin_stats]
 user uwsrun
-group uws
+group adm
 env.logdir /srv/munin/var/log
 
 [munin_update]
 user uwsrun
-group uws
+group adm
 env.UPDATE_STATSFILE /srv/munin/var/lib/munin-update.stats
