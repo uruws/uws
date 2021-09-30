@@ -3,6 +3,16 @@ set -eu
 
 action=${1:?'action?'}
 
+setup() {
+	local cluster="${1}"
+	./eks/cmd.sh "${cluster}" ./k8s/ctl/setup.sh
+}
+
+teardown() {
+	local cluster="${1}"
+	./eks/cmd.sh "${cluster}" ./k8s/ctl/teardown.sh || true
+}
+
 deploy() {
 	local cluster="${1}"
 	./eks/cmd.sh "${cluster}" ./k8s/ctl/deploy.sh
@@ -16,7 +26,11 @@ status() {
 for ef in $(ls ./eks/env/*.env); do
 	cluster=$(basename ${ef} .env)
 	echo "*** ${cluster}"
-	if test "X${action}" = 'Xdeploy'; then
+	if test "X${action}" = 'Xsetup'; then
+		setup ${cluster}
+	elif test "X${action}" = 'Xteardown'; then
+		teardown ${cluster}
+	elif test "X${action}" = 'Xdeploy'; then
 		deploy ${cluster}
 	elif test "X${action}" = 'Xstatus'; then
 		status ${cluster}
