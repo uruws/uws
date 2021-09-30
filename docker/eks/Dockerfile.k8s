@@ -13,3 +13,9 @@ COPY ./utils /home/uwsrun/bin
 RUN install -v -m 0755 /home/uwsrun/bin/uwseks* /usr/local/bin/ \
 	&& rm -vf /usr/local/bin/uwseks-cluster* \
 	&& rm -rf /home/uwsrun/bin
+
+USER uwsrun:uwsrun
+WORKDIR /home/uwsrun
+
+ENV USER uwsrun
+ENV HOME /home/uwsrun

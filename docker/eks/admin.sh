@@ -33,7 +33,7 @@ cluster_perms='rw'
 hostname="${UWS_CLUSTER}.${AWS_REGION}.eks"
 if test 'Xtrue' = "X${client_mode}"; then
 	cluster_perms='ro'
-	awsdir=${awsdir}/client
+	awsdir=${PWD}/secret/eks/aws/client/${uws_cluster}
 	hostname="${hostname}cli"
 fi
 
