@@ -79,7 +79,7 @@
 
 ## Cluster
 
-* aws AMI auto-upgrade
+* aws AMI auto-upgrade - `DONE!`
     * setup a cronjob or similar (per cluster) to auto-upgrade AMIs when a new release is available
 
 * custom workers autoscaler
