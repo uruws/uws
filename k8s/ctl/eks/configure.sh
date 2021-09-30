@@ -21,7 +21,7 @@ uwskube create secret generic cluster-auth -n ctl \
 
 # cluster env
 
-cluster_env=$(mktemp k8smon-cluster-env.XXXXXXXX)
+cluster_env=$(mktemp eksctl-cluster-env.XXXXXXXX)
 
 echo "UWS_CLUSTER=${UWS_CLUSTER}" >${cluster_env}
 echo "AWS_PROFILE=${AWS_PROFILE}" >>${cluster_env}

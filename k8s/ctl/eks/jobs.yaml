@@ -34,8 +34,8 @@ spec:
                   mountPath: "/tmp"
                 - name: kube-cache
                   mountPath: "/home/uwsrun/.kube/cache"
-                - name: aws-auth
-                  mountPath: "/home/uwsrun/.aws"
+                - name: cluster-auth
+                  mountPath: "/home/uwsrun/.kube/eksctl/clusters"
                   readOnly: true
           volumes:
             - name: tmpdir
@@ -44,6 +44,6 @@ spec:
             - name: kube-cache
               emptyDir:
                 sizeLimit: 3Gi
-            - name: aws-auth
+            - name: cluster-auth
               secret:
-                secretName: aws-auth
+                secretName: cluster-auth
