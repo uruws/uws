@@ -22,7 +22,7 @@ exec docker run -it --rm --read-only \
 	-e USER=uws \
 	-e UWS_CLUSTER=${UWS_CLUSTER} \
 	-e AWS_PROFILE=${AWS_PROFILE} \
+	-e AWS_REGION=${AWS_REGION} \
 	-e K8S_VERSION=${K8S_VERSION} \
 	-v ${awsdir}:/home/uws/.aws:ro \
-	-v ${kubedir}:/home/uws/.kube/eksctl/clusters:ro \
 	uws/eks-k8s /bin/bash -il
