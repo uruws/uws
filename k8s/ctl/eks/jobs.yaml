@@ -18,7 +18,7 @@ spec:
               image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:ctl-eks-${CTL_VERSION}
               imagePullPolicy: IfNotPresent
               command:
-                - uwseks-nodegruop-upgrade
+                - uwseks-nodegroup-upgrade
               securityContext:
                 allowPrivilegeEscalation: false
                 readOnlyRootFilesystem: true

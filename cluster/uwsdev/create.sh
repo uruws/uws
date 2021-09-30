@@ -1,6 +1,5 @@
 #!/bin/sh
 set -eu
-. ~/bin/env.export
 
 nodes=2
 nodes_min=2

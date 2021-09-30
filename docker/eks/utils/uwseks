@@ -1,4 +1,3 @@
 #!/bin/sh
 set -eu
-. ~/bin/env.export
 exec eksctl $@ --cluster=${UWS_CLUSTER} --profile=${AWS_PROFILE}

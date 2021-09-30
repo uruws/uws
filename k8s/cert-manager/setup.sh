@@ -1,8 +1,6 @@
 #!/bin/sh
 set -eu
 
-. ~/bin/env.export
-
 helm="helm --kubeconfig ${HOME}/.kube/eksctl/clusters/${UWS_CLUSTER}"
 
 ${helm} repo add jetstack https://charts.jetstack.io
