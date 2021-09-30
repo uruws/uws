@@ -217,4 +217,4 @@ k8sctl: eks
 .PHONY: k8sctl-publish
 k8sctl-publish: k8sctl
 	@./docker/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/eks uws:ctl-eks-$(CTL_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/eks-k8s uws:ctl-eks-$(CTL_TAG)

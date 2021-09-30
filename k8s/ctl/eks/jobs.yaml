@@ -5,7 +5,7 @@ metadata:
   name: eks-nodegroup-upgrade
   namespace: ctl
 spec:
-  #          m h dom mon dow
+  # m h dom mon dow
   schedule: "9 5 * * 1-4"
   jobTemplate:
     spec:
