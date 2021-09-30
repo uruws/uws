@@ -25,6 +25,11 @@ spec:
                 runAsNonRoot: true
                 runAsUser: 3000
                 runAsGroup: 3000
+              env:
+                - name: USER
+                  value: "uwsrun"
+                - name: HOME
+                  value: "/home/uwsrun"
               envFrom:
                 - configMapRef:
                     name: cluster-env
