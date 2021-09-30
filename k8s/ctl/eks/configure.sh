@@ -1,15 +1,15 @@
 #!/bin/sh
 set -eu
 
-#~ # aws auth
+# aws auth
 
-#~ aws_conf=${HOME}/.aws/config
-#~ aws_auth=${HOME}/.aws/credentials
+aws_conf=${HOME}/.aws/config
+aws_auth=${HOME}/.aws/credentials
 
-#~ uwskube delete secret aws-auth -n ctl || true
-#~ uwskube create secret generic aws-auth -n ctl \
-	#~ --from-file="config=${aws_conf}" \
-	#~ --from-file="credentials=${aws_auth}"
+uwskube delete secret aws-auth -n ctl || true
+uwskube create secret generic aws-auth -n ctl \
+	--from-file="config=${aws_conf}" \
+	--from-file="credentials=${aws_auth}"
 
 # cluster auth
 
