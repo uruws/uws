@@ -1,0 +1,49 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: eks-nodegroup-upgrade
+  namespace: ctl
+spec:
+  #          m h dom mon dow
+  schedule: "9 5 * * 1-4"
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: eksctl-nodegroup-upgrade
+              image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:ctl-eks-${CTL_VERSION}
+              imagePullPolicy: IfNotPresent
+              command:
+                - uwseks-nodegruop-upgrade
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 3000
+                runAsGroup: 3000
+              envFrom:
+                - configMapRef:
+                    name: cluster-env
+              workingDir: /home/uwsrun
+              volumeMounts:
+                - name: tmpdir
+                  mountPath: "/tmp"
+                - name: kube-cache
+                  mountPath: "/home/uwsrun/.kube/cache"
+                - name: aws-auth
+                  mountPath: "/home/uwsrun/.aws"
+                  readOnly: true
+          volumes:
+            - name: tmpdir
+              emptyDir:
+                sizeLimit: 3Gi
+            - name: kube-cache
+              emptyDir:
+                sizeLimit: 3Gi
+            - name: aws-auth
+              secret:
+                secretName: aws-auth
