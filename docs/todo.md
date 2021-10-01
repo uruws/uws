@@ -72,6 +72,9 @@
 
 * web deploy autoscale setup on custom metrics
 
+* web and workers scheduled (uwscli crontab) scale up/down
+    * restart services before (1h) scale up
+
 * web /bandwidthCallbackSms requests
     * add bot check/graph
     * remove setup from workers cluster?
