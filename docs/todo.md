@@ -1,5 +1,7 @@
 # TODO
 
+* setup Rina OUSD VM
+
 * new Debian (11) stable release (bullseye) - `DONE!`
     * upgrade containers: [2109](./infra/upgrades.md)
 
