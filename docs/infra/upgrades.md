@@ -7,7 +7,7 @@
     * 2108: 1.19.6-20210722, 5.4.129
 * [docker/k8s][kubectl]
     * [1.19][kubectl-119]
-        * `TODO`: 1.19.13/2021-09-02
+        * `2109`: 1.19.13/2021-09-02
 * [docker/eks][eksctl], [helm][helm]
     * `2109`: eksctl 0.67.0, helm 3.7.0
 * [k8s/nginx-ingress][nginx-ingress]

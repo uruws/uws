@@ -1,7 +1,7 @@
 FROM uws/base-2109
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="210922"
+LABEL version="211001"
 
 USER root:root
 WORKDIR /root
@@ -20,7 +20,9 @@ ENV USER uws
 ENV HOME /home/uws
 
 # https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
-ENV KUBE_VERSION 1.19.6/2021-01-05
+# https://amazon-eks.s3.us-west-2.amazonaws.com/?versions&prefix=1.19
+
+ENV KUBE_VERSION 1.19.13/2021-09-02
 ENV KUBE_URL https://amazon-eks.s3.us-west-2.amazonaws.com/${KUBE_VERSION}
 
 RUN wget ${KUBE_URL}/bin/linux/amd64/kubectl \

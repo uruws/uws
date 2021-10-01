@@ -27,7 +27,7 @@ upgrade:
 bootstrap: awscli base base-testing golang mkcert
 
 .PHONY: all
-all: bootstrap acme clamav eks k8s uwsbot munin munin-backend munin-node proftpd
+all: bootstrap acme clamav k8s k8sctl eks uwsbot munin munin-backend munin-node proftpd
 
 .PHONY: base
 base:
