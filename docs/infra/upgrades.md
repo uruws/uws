@@ -12,11 +12,15 @@
     * `2109`: eksctl 0.67.0, helm 3.7.0
 * [k8s/nginx-ingress][nginx-ingress]
     * `TODO`: 0.49.2
+    * `2109`: 0.49.2
+        * uwsdev
     * 2108: 0.45.0 -> 0.48.1
 * [k8s/autoscaler][k8s-autoscaler]
     * 1.19.1
 * [k8s/cert-manager][cert-manager]
     * `TODO`: 1.3.0 -> 1.5.3
+    * `2109`: 1.3.0 -> 1.5.3
+        * uwsdev
 * [k8s/metrics-server][metrics-server]
     * `TODO`: 0.5.0 -> 0.5.1
 
