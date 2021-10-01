@@ -23,6 +23,8 @@
         * uwsdev
 * [k8s/metrics-server][metrics-server]
     * `TODO`: 0.5.0 -> 0.5.1
+    * `2109`: 0.5.0 -> 0.5.1
+        * uwsdev
 
 [aws-ami]: https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html
 [kubectl]: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
