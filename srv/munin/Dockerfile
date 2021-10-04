@@ -44,6 +44,6 @@ VOLUME /var/cache/munin/www
 VOLUME /var/log/munin
 
 COPY ./utils /usr/local/bin
-RUN chmod -v 0755 /usr/local/bin/*.sh
+RUN chmod -v 0755 /usr/local/bin/munin-*.*
 
 ENTRYPOINT exec /usr/local/bin/munin-start.sh
