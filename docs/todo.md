@@ -1,6 +1,19 @@
 # TODO
 
 * setup Rina OUSD VM
+    * AWS Workspaces
+        * https://sa-east-1.console.aws.amazon.com/workspaces/home
+    * Setup RStudio server
+        * https://www.rstudio.com/products/rstudio/#rstudio-server
+        https://www.r-project.org/
+        * server access.
+            * HTTPS only?
+            * VNC or RDP desktop otherwise
+    * N. California location
+    * Data storage
+        * LVM encrypted volumes?
+        * with backups (snapshots?)
+        * group based storage dirs access
 
 * new Debian (11) stable release (bullseye) - `DONE!`
     * upgrade containers: [2109](./infra/upgrades.md)
