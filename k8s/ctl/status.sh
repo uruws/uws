@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec uwskube get all -n ctl
+exec uwskube get all,cm,secret -n ctl
