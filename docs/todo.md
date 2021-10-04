@@ -1,5 +1,8 @@
 # TODO
 
+* setup munin limit mail alerts - `WIP`
+    * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
+
 * setup Rina OUSD VM
     * AWS Workspaces
         * https://sa-east-1.console.aws.amazon.com/workspaces/home
@@ -70,9 +73,6 @@
     * nginx modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
-
-* setup munin limit mail alerts
-    * uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
 
 * munin
     * graph app number of active users/sessions

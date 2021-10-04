@@ -1,7 +1,7 @@
 FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="210922"
+LABEL version="211004"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh rsyslog cron logrotate munin
+RUN /root/bin/apt-install.sh rsyslog cron logrotate munin python3-minimal
 
 ENV MN munin-contrib
 ENV MR uruws/${MN}
@@ -25,9 +25,6 @@ RUN wget -O munin-contrib.tgz \
 	&& cp -vr /uws/munin/contrib/templates/${MT}/templates /etc/munin \
 	&& cp -vr /uws/munin/contrib/templates/${MT}/static /etc/munin \
 	&& rm -rf /uws/munin/contrib
-
-ADD ./utils /root/bin
-RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
 COPY ./files/etc/rsyslog.conf /etc/
 COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
@@ -46,5 +43,7 @@ VOLUME /var/lib/munin
 VOLUME /var/cache/munin/www
 VOLUME /var/log/munin
 
-#~ CMD exec /bin/bash -l
-ENTRYPOINT exec /root/bin/munin-start.sh
+COPY ./utils /usr/local/bin
+RUN chmod -v 0755 /usr/local/bin/*.sh
+
+ENTRYPOINT exec /usr/local/bin/munin-start.sh
