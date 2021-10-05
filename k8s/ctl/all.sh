@@ -11,7 +11,7 @@ fi
 for ef in $(ls ./eks/env/*.env); do
 	cluster=$(basename ${ef} .env)
 	echo "*** ${cluster}"
-	./docker/k8s/cli.sh ${cluster} ${action}
+	./docker/eks/admin.sh ${cluster} ${action}
 done
 
 exit 0
