@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eu
 
-export VERSION=1.19.2
+export VERSION="${K8S_AUTOSCALER:-1.19.1}"
+echo "VERSION=${VERSION}"
 
 envsubst <~/k8s/autoscaler/deploy.yaml | uwskube apply -f -
 

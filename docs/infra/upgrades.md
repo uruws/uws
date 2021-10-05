@@ -15,7 +15,15 @@
     * 2108: 0.45.0 -> 0.48.1
 * [k8s/autoscaler][k8s-autoscaler]
     * 1.19
+        * `TODO`: 1.19.1 -> 1.19.2
+            * amybeta
+            * amy-wrkr
+            * amy-east
+            * amy-west
+            * panoramix
+                * 1.19.2 fails
         * `2109`: 1.19.1 -> 1.19.2
+            * uwsdev
 * [k8s/cert-manager][cert-manager]
     * `2109`: 1.3.0 -> 1.5.3
 * [k8s/metrics-server][metrics-server]
