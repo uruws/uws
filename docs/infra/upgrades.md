@@ -11,14 +11,7 @@
 * [docker/eks][eksctl], [helm][helm]
     * `2109`: eksctl 0.67.0, helm 3.7.0
 * [k8s/nginx-ingress][nginx-ingress]
-    * `TODO`: 0.49.2
-        * amy-wrkr
-        * amy-east
-        * amy-west
     * `2109`: 0.49.2
-        * uwsdev
-        * panoramix
-        * amybeta
     * 2108: 0.45.0 -> 0.48.1
 * [k8s/autoscaler][k8s-autoscaler]
     * 1.19.1
