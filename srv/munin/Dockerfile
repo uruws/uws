@@ -1,7 +1,7 @@
 FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="211004"
+LABEL version="211005"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh rsyslog cron logrotate munin python3-minimal
+RUN /root/bin/apt-install.sh rsyslog cron logrotate munin python3
 
 ENV MN munin-contrib
 ENV MR uruws/${MN}
@@ -26,9 +26,8 @@ RUN wget -O munin-contrib.tgz \
 	&& cp -vr /uws/munin/contrib/templates/${MT}/static /etc/munin \
 	&& rm -rf /uws/munin/contrib
 
-COPY ./files/etc/rsyslog.conf /etc/
-COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
-COPY --chown=root:munin ./files/etc/munin/ /etc/munin/
+COPY --chown=root:munin ./files/etc/munin/templates.patch /etc/munin/
+COPY --chown=root:munin ./files/etc/munin/static/ /etc/munin/static/
 
 RUN /root/bin/apt-install.sh patch \
 	&& cd /etc/munin \
@@ -42,6 +41,10 @@ RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 VOLUME /var/lib/munin
 VOLUME /var/cache/munin/www
 VOLUME /var/log/munin
+
+COPY ./files/etc/rsyslog.conf /etc/
+COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
+COPY --chown=root:munin ./files/etc/munin/munin.conf /etc/munin/
 
 COPY ./utils /usr/local/bin
 RUN chmod -v 0755 /usr/local/bin/munin-*.*
