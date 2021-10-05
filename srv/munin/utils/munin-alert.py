@@ -4,8 +4,11 @@ import fileinput
 import sys
 
 def main(args):
-	for line in fileinput.input('-'):
-		print(line)
+	try:
+		for line in fileinput.input('-'):
+			print(line)
+	except KeyboardInterrupt:
+		return 1
 	return 128
 
 if __name__ == '__main__':
