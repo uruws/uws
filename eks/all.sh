@@ -10,7 +10,9 @@ fi
 
 for ef in $(ls ./eks/env/*.env); do
 	cluster=$(basename ${ef} .env)
+	echo '***'
 	echo "*** ${cluster}"
+	echo '***'
 	./eks/cmd.sh ${cluster} ${action}
 done
 
