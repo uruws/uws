@@ -1,0 +1,2 @@
+MAILTO=root
+*/5 * * * *	munin /usr/local/bin/munin-limits.sh
