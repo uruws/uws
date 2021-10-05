@@ -42,8 +42,13 @@ VOLUME /var/lib/munin
 VOLUME /var/cache/munin/www
 VOLUME /var/log/munin
 
+RUN adduser uws munin
+
+COPY ./files/etc/cron.d/uws /etc/cron.d/uws
+
 COPY ./files/etc/rsyslog.conf /etc/
 COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
+
 COPY --chown=root:munin ./files/etc/munin/munin.conf /etc/munin/
 
 COPY ./utils /usr/local/bin
