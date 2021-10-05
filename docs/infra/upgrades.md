@@ -16,9 +16,7 @@
 * [k8s/autoscaler][k8s-autoscaler]
     * 1.19.1
 * [k8s/cert-manager][cert-manager]
-    * `TODO`: 1.3.0 -> 1.5.3
     * `2109`: 1.3.0 -> 1.5.3
-        * uwsdev
 * [k8s/metrics-server][metrics-server]
     * `TODO`: 0.5.0 -> 0.5.1
     * `2109`: 0.5.0 -> 0.5.1
