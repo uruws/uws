@@ -5,22 +5,32 @@
 
 import fileinput
 import json
+import os
 import sys
 
-from email.message import EmailMessage
 from email.headerregistry import Address
+from email.message import EmailMessage
+from email.policy import SMTP
+
 from io import StringIO
+from time import time_ns
+
+QDIR = os.getenv('ALERTS_QDIR', '/var/local/munin-alert')
 
 def parse(stats):
-	msg = EmailMessage()
+	msg = _msgNew()
 	msg['From'] = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
 	msg['To'] = Address('jrms', 'jeremias', 'talkingpts.org')
 	msg['Subject'] = _msgSubject(stats)
 	with StringIO() as c:
 		_msgContent(c, stats)
 		msg.set_content(c.getvalue())
-		c.close()
 	return msg
+
+def _msgNew():
+	m = EmailMessage(policy = SMTP)
+	m.set_charset('utf-8')
+	return m
 
 def _getTitle(s):
 	t = s.get('title', 'NO_TITLE').split('::')
@@ -76,10 +86,20 @@ def _msgContent(c, s):
 			for f in unk:
 				c.write(f"  {f['label']}\n")
 
-def send(m):
-	print('MSG:', m)
+def nq(m):
+	fn = f"{QDIR}/{time_ns()}.eml"
+	try:
+		with open(fn, 'wb') as fh:
+			fh.write(m.as_bytes())
+	except Exception as err:
+		print('ERROR:', err, file = sys.stderr)
+		return 9
+	else:
+		print(fn)
+	return 0
 
 def main():
+	rc = 0
 	# ~ fh = open('/home/uws/tmp/munin-run/alerts.out', 'w')
 	try:
 		for line in fileinput.input('-'):
@@ -92,13 +112,14 @@ def main():
 				# TODO: send [ERROR] by email
 				print('ERROR:', err, file = sys.stderr)
 				continue
-			msg = parse(stats)
-			send(msg)
+			st = nq(parse(stats))
+			if st != 0:
+				rc = st
 	except KeyboardInterrupt:
 		# ~ fh.close()
 		return 1
 	# ~ fh.close()
-	return 128
+	return rc
 
 if __name__ == '__main__':
 	sys.exit(main())
