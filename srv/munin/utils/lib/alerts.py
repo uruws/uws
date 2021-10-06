@@ -115,7 +115,7 @@ def main():
 			if stats.get('state_changed', '') != '1':
 				continue
 			st = nq(parse(stats))
-			if st != 0:
+			if st > rc:
 				rc = st
 	except KeyboardInterrupt:
 		# ~ fh.close()
