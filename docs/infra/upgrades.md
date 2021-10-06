@@ -73,11 +73,11 @@
 * srv/proftpd
     * `2109`: base-2109
 * srv/munin
-    * `2109`: base-testing, munin-contrib 22ba051
+    * `2109`: base-2109, munin-contrib 22ba051
 * srv/munin-backend
     * `2109`: munin
 * srv/munin-node
-    * `2109`: base-testing, munin-contrib 22ba051
+    * `2109`: base-2109, munin-contrib 22ba051
 * k8s/mon
     * `2109`: k8s, munin, munin-backend, munin-node
 

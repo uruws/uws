@@ -107,7 +107,12 @@ API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
 docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
 
+#
 # munin
+#
+
+.PHONY: munin-all
+munin-all: munin munin-backend munin-node
 
 .PHONY: munin
 munin:
