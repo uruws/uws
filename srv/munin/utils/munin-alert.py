@@ -17,16 +17,6 @@ from time import time_ns
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/local/munin-alert')
 
-def parse(stats):
-	msg = _msgNew()
-	msg['From'] = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
-	msg['To'] = Address('jrms', 'jeremias', 'talkingpts.org')
-	msg['Subject'] = _msgSubject(stats)
-	with StringIO() as c:
-		_msgContent(c, stats)
-		msg.set_content(c.getvalue())
-	return msg
-
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
 	m.set_charset('utf-8')
@@ -86,6 +76,16 @@ def _msgContent(c, s):
 			for f in unk:
 				c.write(f"  {f['label']}\n")
 
+def parse(stats):
+	msg = _msgNew()
+	msg['From'] = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
+	msg['To'] = Address('jrms', 'jeremias', 'talkingpts.org')
+	msg['Subject'] = _msgSubject(stats)
+	with StringIO() as c:
+		_msgContent(c, stats)
+		msg.set_content(c.getvalue())
+	return msg
+
 def nq(m):
 	fn = f"{QDIR}/{time_ns()}.eml"
 	try:
@@ -106,11 +106,12 @@ def main():
 			line = line.strip()
 			# ~ print(line, file = fh)
 			try:
-				# ~ print('LINE:', line)
 				stats = json.loads(line)
 			except Exception as err:
-				# TODO: send [ERROR] by email
+				# TODO: nq [ERROR] message
 				print('ERROR:', err, file = sys.stderr)
+				continue
+			if stats.get('state_changed', '') != '1':
 				continue
 			st = nq(parse(stats))
 			if st != 0:
