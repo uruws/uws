@@ -9,4 +9,5 @@ exec docker run -it --rm --name uws-munin-devel \
 	-u uws --entrypoint /usr/local/bin/uws-login.sh \
 	-e USER=uws -e HOME=/home/uws \
 	--workdir /home/uws \
+	--tmpfs /var/local/munin-alert \
 	$@ uws/munin
