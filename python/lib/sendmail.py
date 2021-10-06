@@ -10,10 +10,13 @@ from email.parser import BytesParser
 _eml = BytesParser(policy = policy.default)
 
 def message(m):
+	"""send an email message"""
 	print('MSG:', m)
 	return 128
 
 def messageFile(fn):
+	"""parse email message from file and try to send it, remove the file if
+	properly sent"""
 	print(fn)
 	with open(fn, 'rb') as fh:
 		try:
@@ -31,6 +34,7 @@ def messageFile(fn):
 	return rc
 
 def qdir(d):
+	"""search dir for .eml files and pass them to messageFile"""
 	rc = 0
 	for n in os.listdir(d):
 		if n.endswith('.eml'):
