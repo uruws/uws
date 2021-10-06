@@ -2,10 +2,26 @@
 # See LICENSE file.
 
 import os
+import sys
+
+from email import policy
+from email.parser import BytesParser
+
+_eml = BytesParser(policy = policy.default)
+
+def message(m):
+	print('MSG:', m)
+	return 128
 
 def messageFile(fn):
 	print(fn)
-	return 0
+	with open(fn, 'rb') as fh:
+		try:
+			msg = _eml.parse(fh)
+		except Exception as err:
+			print('ERROR:', err, file = sys.stderr)
+			return 1
+	return message(msg)
 
 def qdir(d):
 	rc = 0
