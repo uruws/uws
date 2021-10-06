@@ -45,31 +45,36 @@ def _msgContent(c, s):
 	c.write('\n')
 	c.write(f"{category} :: {title} :: {worst}\n")
 	c.write('\n')
-	ok = s.get('ok', [])
-	if len(ok) > 0:
-		c.write('OK\n')
-		for f in ok:
-			c.write(f"  {f['label']}: {f['value']}\n")
-	foks = s.get('foks', [])
-	if len(foks) > 0:
-		c.write('RECOVER\n')
-		for f in foks:
-			c.write(f"  {f['label']}: {f['value']}\n")
-	warn = s.get('warning', [])
-	if len(warn) > 0:
-		c.write('WARNING\n')
-		for f in warn:
-			c.write(f"  {f['label']}: {f['value']}\n")
-	crit = s.get('critical', [])
-	if len(crit) > 0:
-		c.write('CRITICAL\n')
-		for f in crit:
-			c.write(f"  {f['label']}: {f['value']}\n")
-	unk = s.get('unknown', [])
-	if len(unk) > 0:
-		c.write('UNKNOWN\n')
-		for f in unk:
-			c.write(f"  {f['label']}\n")
+	kind = worst.lower()
+	if kind == 'ok' or kind == 'error':
+		ok = s.get('ok', [])
+		if len(ok) > 0:
+			c.write('OK\n')
+			for f in ok:
+				c.write(f"  {f['label']}: {f['value']}\n")
+		foks = s.get('foks', [])
+		if len(foks) > 0:
+			c.write('RECOVER\n')
+			for f in foks:
+				c.write(f"  {f['label']}: {f['value']}\n")
+	if kind == 'warning' or kind == 'error':
+		warn = s.get('warning', [])
+		if len(warn) > 0:
+			c.write('WARNING\n')
+			for f in warn:
+				c.write(f"  {f['label']}: {f['value']}\n")
+	if kind == 'critical' or kind == 'error':
+		crit = s.get('critical', [])
+		if len(crit) > 0:
+			c.write('CRITICAL\n')
+			for f in crit:
+				c.write(f"  {f['label']}: {f['value']}\n")
+	if kind == 'unknown' or kind == 'error':
+		unk = s.get('unknown', [])
+		if len(unk) > 0:
+			c.write('UNKNOWN\n')
+			for f in unk:
+				c.write(f"  {f['label']}\n")
 
 def send(m):
 	print('MSG:', m)
