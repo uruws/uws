@@ -1,7 +1,7 @@
-FROM uws/base-testing
+FROM uws/base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="211006"
+LABEL version="211006-1"
 
 USER root:root
 WORKDIR /root
@@ -16,6 +16,8 @@ WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /uws
+
+RUN python3 --version
 
 WORKDIR /opt/uws
 ENTRYPOINT /usr/local/bin/uws-login.sh
