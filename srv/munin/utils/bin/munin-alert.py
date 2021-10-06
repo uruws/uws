@@ -4,8 +4,8 @@
 # See LICENSE file.
 
 import sys
-sys.path.insert(0, '/opt/munin/lib')
 
+sys.path.insert(0, '/opt/munin/lib')
 import alerts
 
 if __name__ == '__main__':
