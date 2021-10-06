@@ -14,6 +14,7 @@ from email.utils import formatdate, make_msgid
 from io import StringIO
 from time import time_ns
 
+sys.path.insert(0, '/opt/uws/lib')
 import sendmail
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/local/munin-alert')

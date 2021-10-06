@@ -4,7 +4,6 @@
 # See LICENSE file.
 
 import sys
-sys.path.insert(0, '/opt/uws/lib')
 sys.path.insert(0, '/opt/munin/lib')
 
 import alerts
