@@ -23,8 +23,16 @@ upgrade:
 	@./docker/base-testing/build.sh
 	@./docker/awscli/build.sh --pull
 
+#
+# bootstrap
+#
+
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert
+bootstrap: awscli base base-testing golang mkcert python
+
+#
+# all
+#
 
 .PHONY: all
 all: bootstrap acme clamav k8s k8sctl eks uwsbot munin munin-backend munin-node proftpd
@@ -48,6 +56,10 @@ mkcert:
 .PHONY: golang
 golang:
 	@./docker/golang/build.sh
+
+.PHONY: python
+python:
+	@./docker/python/build.sh
 
 # uwsbot
 
