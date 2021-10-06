@@ -21,7 +21,14 @@ def messageFile(fn):
 		except Exception as err:
 			print('ERROR:', err, file = sys.stderr)
 			return 1
-	return message(msg)
+	rc = message(msg)
+	if rc == 0:
+		try:
+			os.unlink(fn)
+		except Exception as err:
+			print('ERROR:', err, file = sys.stderr)
+			return 2
+	return rc
 
 def qdir(d):
 	rc = 0
