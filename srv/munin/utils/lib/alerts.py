@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
@@ -121,6 +119,3 @@ def main():
 		return 1
 	# ~ fh.close()
 	return rc
-
-if __name__ == '__main__':
-	sys.exit(main())
