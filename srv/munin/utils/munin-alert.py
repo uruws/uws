@@ -12,7 +12,6 @@ from email.headerregistry import Address
 from io import StringIO
 
 def parse(stats):
-	print('STATS:', stats)
 	msg = EmailMessage()
 	msg['From'] = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
 	msg['To'] = Address('jrms', 'jeremias', 'talkingpts.org')
@@ -23,11 +22,17 @@ def parse(stats):
 		c.close()
 	return msg
 
+def _getTitle(s):
+	t = s.get('title', 'NO_TITLE').split('::')
+	if len(t) == 1:
+		return t[0].strip()
+	return t[-1].strip()
+
 def _msgSubject(s):
 	worst = s.get('worst', 'ERROR')
 	host = s.get('host', 'NO_HOST')
-	plugin = s.get('plugin', 'NO_PLUGIN')
-	return f"[{worst}] {host} {plugin}"
+	title = _getTitle(s)
+	return f"[{worst}] {host} {title}"
 
 def _msgContent(c, s):
 	worst = s.get('worst', 'ERROR')
@@ -35,7 +40,7 @@ def _msgContent(c, s):
 	host = s.get('host', 'NO_HOST')
 	plugin = s.get('plugin', 'NO_PLUGIN')
 	category = s.get('category', 'NO_CATEGORY')
-	title = s.get('title', 'NO_TITLE')
+	title = _getTitle(s)
 	c.write(f"{group} :: {host} :: {plugin}\n")
 	c.write('\n')
 	c.write(f"{category} :: {title} :: {worst}\n")
@@ -66,6 +71,9 @@ def _msgContent(c, s):
 		for f in unk:
 			c.write(f"  {f['label']}\n")
 
+def send(m):
+	print('MSG:', m)
+
 def main():
 	# ~ fh = open('/home/uws/tmp/munin-run/alerts.out', 'w')
 	try:
@@ -80,8 +88,7 @@ def main():
 				print('ERROR:', err, file = sys.stderr)
 				continue
 			msg = parse(stats)
-			print('MSG:', msg)
-			#send(msg)
+			send(msg)
 	except KeyboardInterrupt:
 		# ~ fh.close()
 		return 1
