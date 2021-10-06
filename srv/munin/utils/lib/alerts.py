@@ -9,6 +9,7 @@ import sys
 from email.headerregistry import Address
 from email.message import EmailMessage
 from email.policy import SMTP
+from email.utils import formatdate, make_msgid
 
 from io import StringIO
 from time import time_ns
@@ -18,6 +19,8 @@ QDIR = os.getenv('ALERTS_QDIR', '/var/local/munin-alert')
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
 	m.set_charset('utf-8')
+	m['Date'] = formatdate()
+	m['Message-ID'] = make_msgid()
 	return m
 
 def _getTitle(s):
