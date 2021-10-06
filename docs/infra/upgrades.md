@@ -54,6 +54,8 @@
     * `2109`: Debian bullseye -> bookworm
 * docker/golang
     * `2109`: base-testing
+* docker/python
+    * `2109`: base-2109
 * docker/awscli
     * `2109`: amazon/aws-cli
 * docker/clamav
