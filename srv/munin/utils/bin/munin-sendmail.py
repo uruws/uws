@@ -4,9 +4,10 @@
 # See LICENSE file.
 
 import sys
+sys.path.insert(0, '/opt/uws/lib')
 sys.path.insert(0, '/opt/munin/lib')
 
-import sendmail
+import alerts
 
 if __name__ == '__main__':
-	sys.exit(sendmail.main())
+	sys.exit(alerts.message())

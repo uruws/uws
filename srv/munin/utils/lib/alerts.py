@@ -14,6 +14,8 @@ from email.utils import formatdate, make_msgid
 from io import StringIO
 from time import time_ns
 
+import sendmail
+
 QDIR = os.getenv('ALERTS_QDIR', '/var/local/munin-alert')
 
 def _msgNew():
@@ -122,3 +124,6 @@ def main():
 		return 1
 	# ~ fh.close()
 	return rc
+
+def message():
+	return sendmail.qdir(QDIR)
