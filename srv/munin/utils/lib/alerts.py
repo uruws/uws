@@ -43,7 +43,6 @@ def _msgContent(c, s):
 	category = s.get('category', 'NO_CATEGORY')
 	title = _getTitle(s)
 	c.write(f"{group} :: {host} :: {plugin}\n")
-	c.write('\n')
 	c.write(f"{category} :: {title} :: {worst}\n")
 	c.write('\n')
 	kind = worst.lower()
