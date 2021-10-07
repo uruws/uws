@@ -1,1 +1,1 @@
-*/1 * * * *	munin /usr/local/bin/munin-sendmail.py
+*/1 * * * *	munin /opt/munin/bin/munin-sendmail.py
