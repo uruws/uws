@@ -14,7 +14,7 @@ from email.utils import formatdate, make_msgid
 from io import StringIO
 from time import time_ns
 
-QDIR = os.getenv('ALERTS_QDIR', '/var/local/munin-alert')
+QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
 
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
