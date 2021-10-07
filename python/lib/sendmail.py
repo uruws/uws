@@ -11,8 +11,8 @@ from smtplib import SMTP_SSL
 
 _eml = BytesParser(policy = policy.default)
 
-SMTPS_SERVER = os.getenv('UWS_SMTPS', 'ops.uws.talkingpts.org')
-SMTPS_PORT = os.getenv('UWS_SMTPS_PORT', 0)
+SMTPS_SERVER = os.getenv('UWS_SMTPS', '127.0.0.1')
+SMTPS_PORT = os.getenv('UWS_SMTPS_PORT', 465)
 SMTPS_TIMEOUT = os.getenv('UWS_SMTPS_TIMEOUT', 7)
 
 def _smtpServer():
