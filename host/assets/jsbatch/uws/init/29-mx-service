@@ -10,20 +10,23 @@ chmod -v 0644 /etc/postfix/main.cf /etc/mailname /etc/aliases
 newaliases
 
 # amazon ses auth
-install -v -o root -g root -m 0640 /srv/uws/deploy/secret/postfix/ses_auth /etc/postfix/ses_auth
+install -v -C -o root -g root -m 0640 \
+	/srv/uws/deploy/secret/postfix/ses_auth /etc/postfix/ses_auth
 postmap /etc/postfix/ses_auth
 
 # smtps tls auth
-install -v -o root -g root -m 0640 /srv/uws/deploy/secret/postfix/tls_auth /etc/postfix/tls_auth
+install -v -C -o root -g root -m 0640 \
+	/srv/uws/deploy/secret/postfix/tls_auth /etc/postfix/tls_auth
 postmap /etc/postfix/tls_auth
 
 # postfix tls files
 CA=/srv/uws/deploy/secret/ca/uws/smtps/211006
-install -v -o root -g root -m 0644 ${CA}/rootCA.pem /etc/ssl/certs/uws-smtps-CA.pem
-install -v -o root -g root -m 0644 ${CA}/cert/408e825a-5745-5fc7-9e18-e6fd7f337edf.pem \
-	/etc/ssl/certs/uws-smtps.pem
-install -v -o root -g ssl-cert -m 0640 ${CA}/cert/408e825a-5745-5fc7-9e18-e6fd7f337edf-key.pem \
-	/etc/ssl/private/uws-smtps.key
+install -v -C -o root -g root -m 0644 \
+	${CA}/rootCA.pem /etc/ssl/certs/uws-smtps-CA.pem
+install -v -C -o root -g root -m 0644 \
+	${CA}/cert/408e825a-5745-5fc7-9e18-e6fd7f337edf.pem /etc/ssl/certs/uws-smtps.pem
+install -v -C -o root -g ssl-cert -m 0640 \
+	${CA}/cert/408e825a-5745-5fc7-9e18-e6fd7f337edf-key.pem /etc/ssl/private/uws-smtps.key
 
 /uws/bin/service-restart.sh postfix /etc/postfix /etc/mailname /etc/aliases
 
