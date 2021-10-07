@@ -26,7 +26,6 @@ def _smtpServer():
 
 def message(m):
 	"""send an email message"""
-	print('MSG:', m)
 	try:
 		with _smtpServer() as s:
 			s.send_message(m)
@@ -40,7 +39,6 @@ _eml = BytesParser(policy = policy.default)
 def messageFile(fn):
 	"""parse email message from file and try to send it, remove the file if
 	properly sent"""
-	print(fn)
 	with open(fn, 'rb') as fh:
 		try:
 			msg = _eml.parse(fh)
