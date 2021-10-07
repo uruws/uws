@@ -7,11 +7,26 @@ import sys
 from email import policy
 from email.parser import BytesParser
 
+from smtplib import SMTP_SSL
+
 _eml = BytesParser(policy = policy.default)
+
+SMTPS_SERVER = os.getenv('UWS_SMTPS', 'ops.uws.talkingpts.org')
+SMTPS_PORT = os.getenv('UWS_SMTPS_PORT', 0)
+SMTPS_TIMEOUT = os.getenv('UWS_SMTPS_TIMEOUT', 7)
+
+def _smtpServer():
+	return SMTP_SSL(host = SMTPS_SERVER, port = SMTPS_PORT, timeout = SMTPS_TIMEOUT)
 
 def message(m):
 	"""send an email message"""
 	print('MSG:', m)
+	try:
+		with _smtpServer() as s:
+			s.send_message(m)
+	except Exception as err:
+		print('ERROR: smtps', SMTPS_SERVER, err, file = sys.stderr)
+		return 9
 	return 128
 
 def messageFile(fn):
