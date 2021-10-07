@@ -153,7 +153,9 @@ app-stats: docker/golang/build/app-stats.bin
 docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/app-stats.bin ./cmd/app-stats
 
+#
 # utils
+#
 
 .PHONY: uwspkg
 uwspkg:
@@ -191,11 +193,18 @@ deploy:
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
 
+#
+# uws CA
+#
+
 .PHONY: CA
 CA: mkcert
 	@./secret/ca/uws/gen.sh ops
+	@./secret/ca/uws/gen.sh smtps
 
+#
 # k8smon
+#
 
 MON_TAG != cat ./k8s/mon/VERSION
 MON_MUNIN_TAG != cat ./k8s/mon/munin/VERSION
@@ -224,7 +233,9 @@ k8smon-publish: k8s
 	@./docker/ecr-login.sh us-east-1
 	@./cluster/ecr-push.sh us-east-1 uws/k8s uws:mon-k8s-$(MON_TAG)
 
+#
 # k8sctl
+#
 
 CTL_TAG != cat ./k8s/ctl/VERSION
 
