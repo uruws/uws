@@ -3,6 +3,7 @@
 * setup munin limit mail alerts - `WIP`
     * jsbatch smtps with tls auth relay service - `DONE!`
     * sendmail.py lib to send emails via smtps relay - `DONE!`
+    * clusters smtps setup - `DONE!`
     * remove uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
     * create new "alerts" account
         * create forward rules to slack and others
