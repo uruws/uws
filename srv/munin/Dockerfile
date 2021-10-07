@@ -54,13 +54,14 @@ COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
 
 COPY --chown=root:munin ./files/etc/munin/munin.conf /etc/munin/
 
-RUN install -v -d -m 0755 /opt/munin/lib
+RUN install -v -d -m 0755 /opt/munin/bin \
+	&& install -v -d -m 0755 /opt/munin/lib
 
-COPY ./utils/bin /usr/local/bin
-RUN chmod -v 0755 /usr/local/bin/munin-*.*
+COPY ./utils/bin /opt/munin/bin
+RUN chmod -v 0755 /opt/munin/bin/munin-*.*
 
 COPY ./utils/lib /opt/munin/lib
 RUN chmod -v 0644 /opt/munin/lib/*.*
 RUN python3 -m compileall /opt/munin/lib
 
-ENTRYPOINT exec /usr/local/bin/munin-start.sh
+ENTRYPOINT exec /opt/munin/bin/munin-start.sh
