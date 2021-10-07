@@ -38,6 +38,9 @@
     * k8s apiserver metrics
         * uwskube get --raw /metrics
 
+* k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
+    * aws AMI nodegroup auto upgrade (should be a daily check)
+
 * develope infra webapp
     * users auth/cert manager
     * github webhook
