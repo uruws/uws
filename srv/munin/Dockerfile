@@ -70,4 +70,7 @@ COPY ./utils/lib /opt/munin/lib
 RUN chmod -v 0644 /opt/munin/lib/*.*
 RUN python3 -m compileall /opt/munin/lib
 
+RUN install -v -d -o root -g root -m 0750 /srv/etc \
+	&& install -v -d -o root -g root -m 0750 /srv/etc/ca
+
 ENTRYPOINT exec /opt/munin/bin/munin-start.sh
