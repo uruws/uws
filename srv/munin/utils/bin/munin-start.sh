@@ -12,7 +12,7 @@ chmod -v 0775 /var/lib/munin/cgi-tmp
 chown -v munin:adm /var/log/munin
 chmod -v 0755 /var/log/munin
 
-mkvir -vp /var/opt/munin-alert
+mkdir -vp /var/opt/munin-alert
 chmod -v 1777 /var/opt/munin-alert
 
 if test -d /srv/etc/munin; then
