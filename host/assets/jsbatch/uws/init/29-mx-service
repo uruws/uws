@@ -1,11 +1,22 @@
 #!/bin/sh
 set -eu
 
+# dkim
 chmod -v 0644 /etc/opendkim.conf /etc/default/opendkim
 /uws/bin/service-restart.sh opendkim /etc/opendkim.conf /etc/default/opendkim /etc/dkimkeys
 
+# aliases
 chmod -v 0644 /etc/postfix/main.cf /etc/mailname /etc/aliases
 newaliases
-/uws/bin/service-restart.sh postfix /etc/postfix /etc/mailname /etc/aliases /etc/aliases.db
+
+# amazon ses auth
+install -v -o root -g root -m 0640 /srv/uws/deploy/secret/postfix/ses_auth /etc/postfix/ses_auth
+postmap /etc/postfix/ses_auth
+
+# smtps tls auth
+install -v -o root -g root -m 0640 /srv/uws/deploy/secret/postfix/tls_auth /etc/postfix/tls_auth
+postmap /etc/postfix/tls_auth
+
+/uws/bin/service-restart.sh postfix /etc/postfix /etc/mailname /etc/aliases
 
 exit 0
