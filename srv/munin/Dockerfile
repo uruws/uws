@@ -42,7 +42,10 @@ VOLUME /var/lib/munin
 VOLUME /var/cache/munin/www
 VOLUME /var/log/munin
 
-RUN adduser uws munin
+RUN /root/bin/apt-install.sh ssl-cert
+
+RUN adduser uws munin \
+	&& adduser uws ssl-cert
 
 COPY ./files/etc/cron.d/uws /etc/cron.d/uws
 

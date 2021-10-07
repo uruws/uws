@@ -9,14 +9,20 @@ from email.parser import BytesParser
 
 from smtplib import SMTP_SSL
 
-_eml = BytesParser(policy = policy.default)
-
 SMTPS_SERVER = os.getenv('UWS_SMTPS', '127.0.0.1')
 SMTPS_PORT = os.getenv('UWS_SMTPS_PORT', 465)
 SMTPS_TIMEOUT = os.getenv('UWS_SMTPS_TIMEOUT', 7)
+SMTPS_CERT = os.getenv('UWS_SMTPS_CERT', '/etc/ssl/certs/ssl-cert-snakeoil.pem')
+SMTPS_KEY = os.getenv('UWS_SMTPS_KEY', '/etc/ssl/private/ssl-cert-snakeoil.key')
 
 def _smtpServer():
-	return SMTP_SSL(host = SMTPS_SERVER, port = SMTPS_PORT, timeout = SMTPS_TIMEOUT)
+	return SMTP_SSL(
+		host = SMTPS_SERVER,
+		port = SMTPS_PORT,
+		timeout = SMTPS_TIMEOUT,
+		certfile = SMTPS_CERT,
+		keyfile = SMTPS_KEY,
+	)
 
 def message(m):
 	"""send an email message"""
@@ -28,6 +34,8 @@ def message(m):
 		print('ERROR: smtps', SMTPS_SERVER, err, file = sys.stderr)
 		return 9
 	return 128
+
+_eml = BytesParser(policy = policy.default)
 
 def messageFile(fn):
 	"""parse email message from file and try to send it, remove the file if
