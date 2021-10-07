@@ -28,6 +28,8 @@ install -v -C -o root -g root -m 0644 \
 install -v -C -o root -g ssl-cert -m 0640 \
 	${CA}/cert/408e825a-5745-5fc7-9e18-e6fd7f337edf-key.pem /etc/ssl/private/uws-smtps.key
 
-/uws/bin/service-restart.sh postfix /etc/postfix /etc/mailname /etc/aliases
+/uws/bin/service-restart.sh postfix /etc/mailname /etc/aliases \
+	/etc/postfix/main.cf /etc/postfix/master.cf /etc/postfix/tls_auth \
+	/etc/postfix/ses_auth
 
 exit 0
