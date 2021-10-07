@@ -11,14 +11,6 @@
 # allow ntp/chrony
 -A INPUT -p udp -m udp --dport 123 -j ACCEPT
 -A INPUT -p udp -m udp --sport 123 -j ACCEPT
-# allow ssh
--A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
-# allow ssh
--A INPUT -p tcp -m tcp --dport 25 -j ACCEPT
-# allow http
--A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
-# allow https
--A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 # allow established connections
 -A INPUT -p tcp -m state --state RELATED,ESTABLISHED -j ACCEPT
 # drop anything else
