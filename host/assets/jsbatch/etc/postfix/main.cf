@@ -75,3 +75,9 @@ smtp_sasl_password_maps = hash:/etc/postfix/ses_auth
 smtp_use_tls = yes
 smtp_tls_security_level = encrypt
 smtp_tls_note_starttls_offer = yes
+
+# smtps
+
+mua_client_restrictions =
+  check_ccert_access hash:/etc/postfix/tls_auth,
+  reject
