@@ -54,6 +54,12 @@ COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
 
 COPY --chown=root:munin ./files/etc/munin/munin.conf /etc/munin/
 
+RUN install -v -d -m 0755 /opt/uws/lib
+
+COPY ./build/sendmail.py /opt/uws/lib/sendmail.py
+RUN chmod -v 0644 /opt/uws/lib/sendmail.py
+RUN python3 -m compileall /opt/uws/lib/sendmail.py
+
 RUN install -v -d -m 0755 /opt/munin/bin \
 	&& install -v -d -m 0755 /opt/munin/lib
 
