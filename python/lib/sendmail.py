@@ -33,7 +33,7 @@ def message(m):
 	except Exception as err:
 		print('ERROR: smtps', SMTPS_SERVER, err, file = sys.stderr)
 		return 9
-	return 128
+	return 0
 
 _eml = BytesParser(policy = policy.default)
 
