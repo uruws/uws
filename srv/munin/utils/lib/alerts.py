@@ -50,12 +50,12 @@ def _msgContent(c, s, m):
 	plugin = s.get('plugin', 'NO_PLUGIN')
 	category = s.get('category', 'NO_CATEGORY')
 	title = _getTitle(s)
+	stch = _stateChanged(s)
+	c.write(f"{group} :: {plugin} :: {category}\n")
+	c.write(f"{host} :: {title} :: {worst}\n")
+	c.write('\n')
 	c.write(f"{m['Date']}\n")
-	c.write('\n')
-	c.write(f"{group} :: {host} :: {plugin}\n")
-	c.write(f"{category} :: {title} :: {worst}\n")
-	c.write('\n')
-	c.write(f"state changed: {_stateChanged(s)}\n")
+	c.write(f"state changed: {stch}\n")
 	c.write('\n')
 	kind = worst.lower()
 	if kind == 'ok' or kind == 'error':
@@ -123,6 +123,10 @@ def main():
 				# TODO: nq [ERROR] message
 				#       or log via syslog?
 				print('ERROR:', err, file = sys.stderr)
+				continue
+			worst = stats.get('worst', 'ERROR')
+			if not _stateChanged(stats) and worst == 'OK':
+				# do not send OK messages if no state changed
 				continue
 			st = nq(parse(stats))
 			if st > rc:
