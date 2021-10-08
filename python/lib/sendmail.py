@@ -37,30 +37,29 @@ def message(m):
 _eml = BytesParser(policy = policy.default)
 
 def messageFile(fn):
-	"""parse email message from file and try to send it, remove the file if
-	properly sent"""
+	"""parse email message from file and try to send it"""
 	with open(fn, 'rb') as fh:
 		try:
 			msg = _eml.parse(fh)
 		except Exception as err:
 			print('ERROR:', err, file = sys.stderr)
-			return 1
-	rc = message(msg)
-	if rc == 0:
-		try:
-			os.unlink(fn)
-		except Exception as err:
-			print('ERROR:', err, file = sys.stderr)
-			return 2
-	return rc
+			return 8
+	return message(msg)
 
 def qdir(d):
-	"""search dir for .eml files and pass them to messageFile"""
+	"""search dir for .eml files and pass them to messageFile, remove the file
+	if properly sent"""
 	rc = 0
 	for n in os.listdir(d):
 		if n.endswith('.eml'):
 			fn = os.path.join(d, n)
 			st = messageFile(fn)
-			if st > rc:
+			if st == 0:
+				try:
+					os.unlink(fn)
+				except Exception as err:
+					print('ERROR:', err, file = sys.stderr)
+					rc = 7
+			elif st > rc:
 				rc = st
 	return rc
