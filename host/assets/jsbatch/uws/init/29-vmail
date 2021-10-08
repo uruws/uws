@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+mkdir -vp /srv/vmail
+chmod -v 0750 /srv/vmail
+chown -v mail:mail /srv/vmail
+
+/uws/bin/service-restart.sh dovecot /etc/dovecot/local.conf /etc/dovecot/users
+
+exit 0
