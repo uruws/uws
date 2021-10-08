@@ -50,19 +50,7 @@ mydestination = uws.talkingpts.org, $myhostname, localhost,
 inet_interfaces = all
 inet_protocols = all
 
-# spf / dkim
-# https://www.linode.com/docs/email/postfix/configure-spf-and-dkim-in-postfix-on-debian-9/
-# check mailto: check-auth@verifier.port25.com
-
-policyd-spf_time_limit = 900
-smtpd_recipient_restrictions =
-  reject_unauth_destination,
-  check_policy_service unix:private/policyd-spf
-
-milter_default_action = accept
-milter_protocol = 6
-smtpd_milters = local:opendkim/opendkim.sock
-non_smtpd_milters = local:opendkim/opendkim.sock
+smtpd_recipient_restrictions = reject_unauth_destination
 
 # https://docs.aws.amazon.com/ses/latest/DeveloperGuide/postfix.html
 # Amazon SES
