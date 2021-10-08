@@ -31,6 +31,7 @@ smtp      inet  n       -       y       -       -       smtpd
   -o syslog_name=postfix/smtps
   -o smtpd_tls_wrappermode=yes
   -o smtpd_tls_req_ccert=yes
+  -o smtpd_tls_security_level=encrypt
   -o smtpd_reject_unlisted_recipient=no
   -o smtpd_tls_fingerprint_digest=sha1
   -o smtpd_client_restrictions=$mua_client_restrictions
