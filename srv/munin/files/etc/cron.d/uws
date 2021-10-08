@@ -1,1 +1,5 @@
+UWS_SMTPS=ops.uws.talkingpts.org
+UWS_SMTPS_CERT=/etc/opt/uws/ca/smtps.pem
+UWS_SMTPS_KEY=/etc/opt/uws/ca/smtps.key
+
 */1 * * * *	munin /opt/munin/bin/munin-sendmail.py

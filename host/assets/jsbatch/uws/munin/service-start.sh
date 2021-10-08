@@ -12,7 +12,4 @@ exec /usr/bin/docker run --rm -u root \
 	-v /srv/munin/cache/www:/var/cache/munin/www \
 	-v /srv/etc/munin:/srv/etc/munin \
 	-v ${CA}/client:/srv/etc/ca:ro \
-	-e UWS_SMTPS='ops.uws.talkingpts.org' \
-	-e UWS_SMTPS_CERT='/etc/opt/uws/ca/smtps.pem' \
-	-e UWS_SMTPS_KEY='/etc/opt/uws/ca/smtps.key' \
 	uws/munin
