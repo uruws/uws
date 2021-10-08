@@ -55,7 +55,7 @@ def _msgContent(c, s, m):
 	c.write(f"{group} :: {host} :: {plugin}\n")
 	c.write(f"{category} :: {title} :: {worst}\n")
 	c.write('\n')
-	c.write(f"state changed: {_stateChanged()}\n")
+	c.write(f"state changed: {_stateChanged(s)}\n")
 	c.write('\n')
 	kind = worst.lower()
 	if kind == 'ok' or kind == 'error':
