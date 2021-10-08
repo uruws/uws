@@ -29,11 +29,17 @@ def _getTitle(s):
 		return t[0].strip()
 	return t[-1].strip()
 
+def _stateChanged(s):
+	return s.get('state_changed', '') == '1'
+
 def _msgSubject(s):
 	worst = s.get('worst', 'ERROR')
 	host = s.get('host', 'NO_HOST')
 	title = _getTitle(s)
-	return f"[{worst}] {host} {title}"
+	if _stateChanged(s):
+		return f"[{worst}] {host} {title}"
+	else:
+		return f"{worst}: {host} {title}"
 
 def _msgContent(c, s):
 	worst = s.get('worst', 'ERROR')
@@ -109,9 +115,8 @@ def main():
 				stats = json.loads(line)
 			except Exception as err:
 				# TODO: nq [ERROR] message
+				#       or log via syslog?
 				print('ERROR:', err, file = sys.stderr)
-				continue
-			if stats.get('state_changed', '') != '1':
 				continue
 			st = nq(parse(stats))
 			if st > rc:
