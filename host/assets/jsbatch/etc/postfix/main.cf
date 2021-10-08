@@ -52,17 +52,6 @@ inet_protocols = all
 
 smtpd_recipient_restrictions = reject_unauth_destination
 
-# https://docs.aws.amazon.com/ses/latest/DeveloperGuide/postfix.html
-# Amazon SES
-
-relayhost = [email-smtp.us-west-1.amazonaws.com]:587
-smtp_sasl_auth_enable = yes
-smtp_sasl_security_options = noanonymous
-smtp_sasl_password_maps = hash:/etc/postfix/ses_auth
-smtp_use_tls = yes
-smtp_tls_security_level = encrypt
-smtp_tls_note_starttls_offer = yes
-
 # smtps
 
 mua_client_restrictions =
