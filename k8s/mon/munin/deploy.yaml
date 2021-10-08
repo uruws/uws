@@ -54,15 +54,8 @@ spec:
             - name: smtps-ca
               mountPath: "/srv/etc/ca"
               readOnly: true
-            - name: munin-alert
+            - name: alerts
               mountPath: "/var/opt/munin-alert"
-          env:
-            - name: UWS_SMTPS
-              value: "ops.uws.talkingpts.org"
-            - name: UWS_SMTPS_CERT
-              value: "/etc/opt/uws/ca/smtps.pem"
-            - name: UWS_SMTPS_KEY
-              value: "/etc/opt/uws/ca/smtps.key"
           resources:
             requests:
               cpu: 20m
@@ -143,9 +136,6 @@ spec:
         - name: smtps-ca
           secret:
             secretName: smtps-ca
-        - name: munin-alert
-          emptyDir:
-            sizeLimit: 3Gi
   volumeClaimTemplates:
     - metadata:
         name: db
@@ -163,6 +153,13 @@ spec:
             storage: 1Gi
     - metadata:
         name: log
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: alerts
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
