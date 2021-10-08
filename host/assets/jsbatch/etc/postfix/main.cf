@@ -44,9 +44,7 @@ smtpd_relay_restrictions =
   permit_mynetworks,
   reject_unauth_destination
 
-mydestination = uws.talkingpts.org, $myhostname,
-  ip-172-31-52-39.ec2.internal,
-  localhost.ec2.internal, localhost,
+mydestination = uws.talkingpts.org, $myhostname, localhost,
   jsbatch, jsbatch.uws.talkingpts.org
 
 inet_interfaces = all
