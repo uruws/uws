@@ -15,6 +15,8 @@ from io import StringIO
 from time import time_ns
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
+MAIL_FROM = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
+MAIL_TO = Address('jrms', 'jeremias', 'talkingpts.org')
 
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
@@ -41,15 +43,19 @@ def _msgSubject(s):
 	else:
 		return f"{worst}: {host} {title}"
 
-def _msgContent(c, s):
+def _msgContent(c, s, m):
 	worst = s.get('worst', 'ERROR')
 	group = s.get('group', 'NO_GROUP')
 	host = s.get('host', 'NO_HOST')
 	plugin = s.get('plugin', 'NO_PLUGIN')
 	category = s.get('category', 'NO_CATEGORY')
 	title = _getTitle(s)
+	c.write(f"{m['Date']}\n")
+	c.write('\n')
 	c.write(f"{group} :: {host} :: {plugin}\n")
 	c.write(f"{category} :: {title} :: {worst}\n")
+	c.write('\n')
+	c.write(f"state changed: {_stateChanged()}\n")
 	c.write('\n')
 	kind = worst.lower()
 	if kind == 'ok' or kind == 'error':
@@ -84,11 +90,11 @@ def _msgContent(c, s):
 
 def parse(stats):
 	msg = _msgNew()
-	msg['From'] = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
-	msg['To'] = Address('jrms', 'jeremias', 'talkingpts.org')
+	msg['From'] = MAIL_FROM
+	msg['To'] = MAIL_TO
 	msg['Subject'] = _msgSubject(stats)
 	with StringIO() as c:
-		_msgContent(c, stats)
+		_msgContent(c, stats, msg)
 		msg.set_content(c.getvalue())
 	return msg
 
