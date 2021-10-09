@@ -1,9 +1,11 @@
 #!/bin/sh
 set -eu
 
+adduser dovecot mail
+
 mkdir -vp /srv/vmail
-chmod -v 0750 /srv/vmail
-chown -v mail:mail /srv/vmail
+chmod -v 0770 /srv/vmail
+chown -v root:mail /srv/vmail
 
 if test -s /srv/uws/deploy/secret/vmail/users; then
 	install -v -C -o root -g dovecot -m 0640 /srv/uws/deploy/secret/vmail/users \
