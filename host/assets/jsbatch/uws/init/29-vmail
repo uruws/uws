@@ -6,7 +6,7 @@ chmod -v 0750 /srv/vmail
 chown -v mail:mail /srv/vmail
 
 if test -s /srv/uws/deploy/secret/vmail/users; then
-	install -v -C -o root -g mail -m 0640 /srv/uws/deploy/secret/vmail/users \
+	install -v -C -o root -g dovecot -m 0640 /srv/uws/deploy/secret/vmail/users \
 		/etc/dovecot/users
 fi
 
