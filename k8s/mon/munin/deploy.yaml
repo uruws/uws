@@ -54,7 +54,7 @@ spec:
             - name: smtps-ca
               mountPath: "/srv/etc/ca"
               readOnly: true
-            - name: alerts
+            - name: munin-alert
               mountPath: "/var/opt/munin-alert"
           resources:
             requests:
@@ -130,6 +130,9 @@ spec:
         - name: web-lockdir
           emptyDir:
             sizeLimit: 1Gi
+        - name: munin-alert
+          emptyDir:
+            sizeLimit: 1Gi
         - name: munin-confd
           configMap:
             name: munin-confd
@@ -153,13 +156,6 @@ spec:
             storage: 1Gi
     - metadata:
         name: log
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
-    - metadata:
-        name: alerts
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
