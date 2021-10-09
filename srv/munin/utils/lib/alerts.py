@@ -15,8 +15,7 @@ from io import StringIO
 from time import time_ns
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
-MAIL_FROM = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
-MAIL_TO = Address('jrms', 'jeremias', 'talkingpts.org')
+MAIL_ADDR = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
 
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
@@ -90,8 +89,8 @@ def _msgContent(c, s, m):
 
 def parse(stats):
 	msg = _msgNew()
-	msg['From'] = MAIL_FROM
-	msg['To'] = MAIL_TO
+	msg['From'] = MAIL_ADDR
+	msg['To'] = MAIL_ADDR
 	msg['Subject'] = _msgSubject(stats)
 	with StringIO() as c:
 		_msgContent(c, stats, msg)
