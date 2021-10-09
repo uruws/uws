@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec uwskube get all -n mon
+exec uwskube get all,pvc -n mon
