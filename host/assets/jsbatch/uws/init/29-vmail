@@ -12,7 +12,6 @@ if test -s /srv/uws/deploy/secret/vmail/users; then
 		/etc/dovecot/users
 fi
 
-postmap /etc/postfix/vmail_box
 postmap /etc/postfix/vmail_alias
 
 /uws/bin/service-restart.sh dovecot /etc/dovecot/local.conf /etc/dovecot/users \
