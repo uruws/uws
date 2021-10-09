@@ -17,6 +17,11 @@ server {
 		try_files $uri =404;
 	}
 
+	location /uwsbot/ {
+		alias /srv/uwsbot/release/;
+		try_files $uri =404;
+	}
+
 	location / {
 		return 301 https://ops.uws.talkingpts.org$request_uri;
 	}

@@ -23,6 +23,6 @@ server {
 	}
 
 	location / {
-		return 301 https://jsbatch.uws.talkingpts.org$request_uri;
+		return 301 https://ops.uws.talkingpts.org$request_uri;
 	}
 }
