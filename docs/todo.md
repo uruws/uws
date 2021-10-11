@@ -29,12 +29,15 @@
 * aws AMI auto-upgrade - `DONE!`
     * setup a cronjob or similar (per cluster) to auto-upgrade AMIs when a new release is available
 
-* cluster services - `WIP`
+* cluster services - `DONE!`
     * [2109](./infra/upgrades.md)
         * upgrades schedule: nginx, autoscaler and such...
-        * k8s 1.20 already available (we run 1.19)
+        * `FAIL`: cluster autoscaler failed to upgrade on all clusters but uwsdev
 
-* cluster stats - `WIP`
+* cluster stack
+    * k8s 1.20 (and 1.21) already available (we run 1.19)
+
+* cluster stats
     * web_request.count
         * count_errors_avg: errors average
     * resources usage (mem, cpu)
@@ -42,6 +45,9 @@
         * pods
     * k8s apiserver metrics
         * uwskube get --raw /metrics
+
+* cluster alerts
+    * tune/add munin limits
 
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
