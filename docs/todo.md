@@ -48,7 +48,31 @@
 
 * munin alerts: tune/add graph limits
     * all cluster checks
-    * uwsbots limits
+        * nodes_condition
+            * Disk, Mem and PID Pressure
+        * pod_container (all? | per pod)
+            * failed (ratio?)
+            * restart ratio
+        * web_request (response?)
+            * errors_ratio (once created)
+        * web_latency?
+        * web_ssl
+            * cert expire
+        * web_time
+            * response (request?) avg
+    * jsbatch
+        * load avg
+        * uptime?
+    * app.t.o
+        * apijob
+            * make failed jobs a DERIVE graph and set limits there
+            * elapsed_time?
+        * mongo lag?
+        * http_loadtime - `DONE!`
+            * warning 3s, critical 7s
+        * uwsbot
+            * set limits per/from scripts
+            * set alerts on index graph
 
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
