@@ -1,8 +1,11 @@
 # TODO
 
 * setup munin limit mail alerts - `WIP`
-    * remove uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
-    * create new "alerts" account
+    * remove uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu - `DONE!`
+    * create new "alerts" account - `DONE!`
+    * setup dev_ops_vo548nvb
+        * munin-alerts TO
+        * gmail fetch
         * create forward rules to slack and others
 
 * setup Rina OUSD VM
