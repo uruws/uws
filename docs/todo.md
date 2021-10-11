@@ -1,9 +1,6 @@
 # TODO
 
 * setup munin limit mail alerts - `WIP`
-    * jsbatch smtps with tls auth relay service - `DONE!`
-    * sendmail.py lib to send emails via smtps relay - `DONE!`
-    * clusters smtps setup - `DONE!`
     * remove uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu
     * create new "alerts" account
         * create forward rules to slack and others
@@ -22,17 +19,6 @@
         * LVM encrypted volumes?
         * with backups (snapshots?)
         * group based storage dirs access
-
-* new Debian (11) stable release (bullseye) - `DONE!`
-    * upgrade containers: [2109](./infra/upgrades.md)
-
-* aws AMI auto-upgrade - `DONE!`
-    * setup a cronjob or similar (per cluster) to auto-upgrade AMIs when a new release is available
-
-* cluster services - `DONE!`
-    * [2109](./infra/upgrades.md)
-        * upgrades schedule: nginx, autoscaler and such...
-        * `FAIL`: cluster autoscaler failed to upgrade on all clusters but uwsdev
 
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
@@ -68,8 +54,6 @@
             * make failed jobs a DERIVE graph and set limits there
             * elapsed_time?
         * mongo lag?
-        * http_loadtime - `DONE!`
-            * warning 3s, critical 7s
         * uwsbot
             * set limits per/from scripts
             * set alerts on index graph
