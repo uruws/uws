@@ -1,3 +1,7 @@
 #!/bin/sh
 set -eu
-exec docker build $@ --rm -t uws/python ./docker/python
+# python-2109
+docker build $@ --rm -t uws/python-2109 \
+	-f docker/python/Dockerfile.2109 \
+	./docker/python
+exit 0
