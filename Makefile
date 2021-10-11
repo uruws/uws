@@ -35,7 +35,7 @@ all: bootstrap acme clamav k8s k8sctl eks uwsbot munin munin-backend munin-node 
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert python
+bootstrap: awscli base base-testing golang mkcert python ansible
 
 #
 # base
@@ -88,6 +88,10 @@ proftpd:
 .PHONY: ecr-login
 ecr-login:
 	@./docker/ecr-login.sh
+
+.PHONY: ansible
+ansible:
+	@./docker/asb/build.sh
 
 #
 # uwsbot
