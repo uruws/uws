@@ -4,6 +4,7 @@
 import os
 import sys
 
+from contextlib import contextmanager
 from email import policy
 from email.parser import BytesParser
 
@@ -49,17 +50,29 @@ def messageFile(fn):
 def qdir(d):
 	"""search dir for .eml files and pass them to messageFile, remove the file
 	if properly sent"""
-	rc = 0
-	for n in os.listdir(d):
-		if n.endswith('.eml'):
-			fn = os.path.join(d, n)
-			st = messageFile(fn)
-			if st == 0:
-				try:
-					os.unlink(fn)
-				except Exception as err:
-					print('ERROR:', err, file = sys.stderr)
-					rc = 7
-			elif st > rc:
-				rc = st
+	rc = 128
+	with _lockd(d):
+		rc = 0
+		for n in os.listdir(d):
+			if n.endswith('.eml'):
+				fn = os.path.join(d, n)
+				st = messageFile(fn)
+				if st == 0:
+					try:
+						os.unlink(fn)
+					except Exception as err:
+						print('ERROR:', err, file = sys.stderr)
+						rc = 7
+				elif st > rc:
+					rc = st
 	return rc
+
+@contextmanager
+def _lockd(d):
+	fn = os.path.join(d, '.lock')
+	with open(fn, 'x') as fh:
+		fh.close()
+	try:
+		yield
+	finally:
+		os.remove(fn)
