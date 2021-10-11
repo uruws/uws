@@ -46,8 +46,9 @@
     * k8s apiserver metrics
         * uwskube get --raw /metrics
 
-* cluster alerts
-    * tune/add munin limits
+* munin alerts: tune/add graph limits
+    * all cluster checks
+    * uwsbots limits
 
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
