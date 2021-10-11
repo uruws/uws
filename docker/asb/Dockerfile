@@ -15,7 +15,7 @@ USER uws:uws
 WORKDIR /home/uws
 
 ENV USER uws
-ENV HOME /uws
+ENV HOME /home/uws
 
 RUN python3 --version \
 	&& ansible --version
