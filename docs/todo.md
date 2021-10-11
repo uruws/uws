@@ -21,6 +21,10 @@
         * with backups (snapshots?)
         * group based storage dirs access
 
+* k8s/ctl
+    * `FIX` munin-alerts volume setup
+        * until we can fix the volumes claim config, we can one of the already existent ones and set ALERTS_QDIR
+
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
 
