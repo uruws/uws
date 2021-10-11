@@ -9,11 +9,9 @@
         * create forward rules to slack and others
 
 * setup Rina OUSD VM
-    * AWS Workspaces
-        * https://sa-east-1.console.aws.amazon.com/workspaces/home
     * Setup RStudio server
         * https://www.rstudio.com/products/rstudio/#rstudio-server
-        https://www.r-project.org/
+        * https://www.r-project.org/
         * server access.
             * HTTPS only?
             * VNC or RDP desktop otherwise
