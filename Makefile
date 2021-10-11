@@ -24,6 +24,13 @@ upgrade:
 	@./docker/awscli/build.sh --pull
 
 #
+# all
+#
+
+.PHONY: all
+all: bootstrap acme clamav k8s k8sctl eks uwsbot munin munin-backend munin-node proftpd
+
+#
 # bootstrap
 #
 
@@ -31,11 +38,8 @@ upgrade:
 bootstrap: awscli base base-testing golang mkcert python
 
 #
-# all
+# base
 #
-
-.PHONY: all
-all: bootstrap acme clamav k8s k8sctl eks uwsbot munin munin-backend munin-node proftpd
 
 .PHONY: base
 base:
@@ -44,6 +48,10 @@ base:
 .PHONY: base-testing
 base-testing:
 	@./docker/base-testing/build.sh
+
+#
+# utils
+#
 
 .PHONY: awscli
 awscli:
@@ -61,7 +69,29 @@ golang:
 python:
 	@./docker/python/build.sh
 
+.PHONY: uwspkg
+uwspkg:
+	@./docker/uwspkg/build.sh
+
+.PHONY: acme
+acme:
+	@./srv/acme/build.sh
+
+.PHONY: clamav
+clamav:
+	@./docker/clamav/build.sh
+
+.PHONY: proftpd
+proftpd:
+	@./srv/proftpd/build.sh
+
+.PHONY: ecr-login
+ecr-login:
+	@./docker/ecr-login.sh
+
+#
 # uwsbot
+#
 
 UWS_BOT_DEPS != find go/bot go/cmd/uwsbot* go/env go/config go/log -type f -name '*.go'
 
@@ -100,7 +130,9 @@ docker/uwsbot/build/uwsbot-devel.tgz: docker/uwsbot/build/uwsbot.bin docker/uwsb
 		&& cp -va uwsbot-stats.bin devel/uws/bin/uwsbot-stats \
 		&& tar -cvzf uwsbot-devel.tgz -C devel .)
 
+#
 # api-job-stats
+#
 
 API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
 
@@ -137,13 +169,17 @@ srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/api-job-stats.bin ./srv/munin-node/build/api-job-stats.bin
 
+#
 # heroku
+#
 
 .PHONY: heroku
 heroku:
 	@./docker/heroku/build.sh
 
+#
 # app-stats
+#
 
 APP_STATS_DEPS := go/cmd/app-stats/main.go go/app/stats/*.go
 
@@ -154,36 +190,8 @@ docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/app-stats.bin ./cmd/app-stats
 
 #
-# utils
+# deploy
 #
-
-.PHONY: uwspkg
-uwspkg:
-	@./docker/uwspkg/build.sh
-
-.PHONY: acme
-acme:
-	@./srv/acme/build.sh
-
-.PHONY: clamav
-clamav:
-	@./docker/clamav/build.sh
-
-.PHONY: k8s
-k8s: k8smon
-	@./docker/k8s/build.sh
-
-.PHONY: eks
-eks: k8s
-	@./docker/eks/build.sh
-
-.PHONY: proftpd
-proftpd:
-	@./srv/proftpd/build.sh
-
-.PHONY: ecr-login
-ecr-login:
-	@./docker/ecr-login.sh
 
 .PHONY: deploy
 deploy:
@@ -201,6 +209,22 @@ deploy:
 CA: mkcert
 	@./secret/ca/uws/gen.sh ops
 	@./secret/ca/uws/gen.sh smtps
+
+#
+# eks
+#
+
+.PHONY: eks
+eks: k8s
+	@./docker/eks/build.sh
+
+#
+# k8s
+#
+
+.PHONY: k8s
+k8s: k8smon
+	@./docker/k8s/build.sh
 
 #
 # k8smon
