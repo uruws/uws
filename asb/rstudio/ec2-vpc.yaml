@@ -1,0 +1,11 @@
+---
+- name: rstudio ec2 vpc
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - ec2_vpc_net:
+        name: rstudio-vpc
+        state: present
+        tags:
+          Name: rstudio-vpc
+        cidr_block: 172.27.0.0/16
