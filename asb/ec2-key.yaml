@@ -1,0 +1,9 @@
+---
+- name: rstudio ec2 vm
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: ec2 keypair
+      ec2_key:
+        name: asbhost
+        key_material: "{{ lookup('file', '/home/uws/secret/ssh/host.pub') }}"
