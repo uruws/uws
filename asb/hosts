@@ -1,1 +1,4 @@
 # asb hosts
+
+[rstudio]
+rstudio-ousd vm_type=t3a.small

@@ -1,0 +1,25 @@
+---
+- name: rstudio ec2 vm
+  hosts: rstudio
+  gather_facts: false
+  tasks:
+    - name: ec2 vm
+      delegate_to: localhost
+      ec2:
+        wait: true
+        wait_timeout: 600
+        monitoring: false
+        key_name: asbhost
+        group: rstudio-sg
+        volumes:
+          - device_name: /dev/xvda
+            volume_type: gp2
+            volume_size: 10
+        # debian-11-amd64-20211011-792
+        image: ami-0a04b49ce7d910659
+        instance_type: "{{ vm_type }}"
+        instance_tags:
+          Name: "{{ inventory_hostname }}"
+        exact_count: 1
+        count_tag:
+          Name: "{{ inventory_hostname }}"
