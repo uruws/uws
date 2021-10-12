@@ -9,7 +9,8 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh python3 ansible python3-libcloud ansible-lint
+RUN /root/bin/apt-install.sh python3 ansible python3-libcloud ansible-lint \
+	python3-boto3
 
 USER uws:uws
 WORKDIR /home/uws
