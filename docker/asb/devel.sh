@@ -11,4 +11,5 @@ exec docker run -it --rm --name uws-ansible-devel \
 	-v ${PWD}/asb:/home/uws/asb:ro \
 	--tmpfs /tmp:rw,mode=1777 \
 	--tmpfs /home/uws/.ansible/tmp:rw,mode=1777 \
+	--tmpfs /home/uws/.ansible/cp:rw,mode=1777 \
 	uws/ansible
