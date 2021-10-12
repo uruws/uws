@@ -7,6 +7,7 @@ exec docker run -it --rm --name uws-ansible-devel \
 	--read-only \
 	-e AWS_PROFILE=default \
 	-e AWS_REGION=sa-east-1 \
+	-e ANSIBLE_CONFIG=/home/uws/asb/ansible.cfg \
 	-v ${TMPDIR}:/home/uws/tmp \
 	-v ${PWD}/asb:/home/uws/asb:ro \
 	--tmpfs /tmp:rw,mode=1777 \
