@@ -1,0 +1,20 @@
+---
+- name: rstudio ec2 security group
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - ec2_group:
+        name: rstudio-sg
+        description: rstudio security group
+        state: present
+        tags:
+          Name: rstudio-sg
+        rules:
+          - proto: tcp
+            ports:
+              - 22
+              - 443
+            cidr_ip: 0.0.0.0/0
+        rules_egress:
+          - proto: all
+            cidr_ip: 0.0.0.0/0
