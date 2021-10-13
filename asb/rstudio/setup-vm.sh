@@ -1,3 +1,4 @@
 #!/bin/sh
 set -eu
-exec ansible-playbook $@ ./rstudio/ec2-vm.yaml
+ansible-playbook $@ ./rstudio/ec2-vm.yaml
+exec ./rstudio/ec2-vm-check.sh

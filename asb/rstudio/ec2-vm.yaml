@@ -38,26 +38,3 @@
         tags:
           Name: "{{ inventory_hostname }}-rootfs"
       loop: "{{ rstudio_vm.tagged_instances }}"
-
-    - name: rstudio vm running
-      delegate_to: localhost
-      ec2:
-        state: running
-        wait: true
-        wait_timeout: 600
-        instance_ids: "{{ item.id }}"
-      loop: "{{ rstudio_vm.tagged_instances }}"
-      register: rstudio_vm
-
-    - name: rstudio vm dns record
-      delegate_to: localhost
-      #~ debug:
-        #~ msg: "{{ item.item.dns_name }}"
-      route53:
-        state: present
-        zone: uws.talkingpts.org
-        record: "{{ ansible_host }}"
-        ttl: 1800
-        type: CNAME
-        value: "{{ item.item.dns_name }}"
-      loop: "{{ rstudio_vm.results }}"

@@ -1,0 +1,29 @@
+---
+- name: rstudio ec2 vm check
+  hosts: rstudio
+  gather_facts: false
+  tasks:
+
+    - name: rstudio vm running
+      delegate_to: localhost
+      ec2:
+        state: running
+        wait: true
+        wait_timeout: 600
+        instance_tags:
+          Name: "{{ inventory_hostname }}"
+      register: rstudio_vm
+
+    - name: rstudio vm dns record
+      delegate_to: localhost
+      #~ debug:
+        #~ msg: "{{ item.item.dns_name }}"
+      route53:
+        state: present
+        overwrite: true
+        zone: uws.talkingpts.org
+        record: "{{ ansible_host }}"
+        ttl: 600
+        type: CNAME
+        value: "{{ item.dns_name }}."
+      loop: "{{ rstudio_vm.instances }}"
