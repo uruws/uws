@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ansible-playbook $@ ./rstudio/ec2-vm.yaml
+exec ansible-playbook $@ ./rstudio/deploy.yaml
