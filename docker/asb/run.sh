@@ -7,10 +7,12 @@ envfn=${PWD}/asb/env/${asbenv}.env
 TMPDIR=${PWD}/tmp
 mkdir -vp ${TMPDIR}
 
-exec docker run -it --rm --name uws-ansible-devel \
-	--hostname ansible-devel.uws.local -u uws \
+exec docker run -it --rm --name uws-ansible-${asbenv} \
+	--hostname ${asbenv}.ansible.uws.local -u uws \
 	--read-only \
 	--env-file ${envfn} \
+	-e ASBENV=${asbenv} \
+	-e ASBENV_FILENAME=/home/uws/asb/env/${asbenv}.env \
 	-v ${TMPDIR}:/home/uws/tmp \
 	-v ${PWD}/asb:/home/uws/asb:ro \
 	-v ${PWD}/secret/asb:/home/uws/secret:ro \
