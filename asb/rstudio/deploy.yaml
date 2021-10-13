@@ -2,6 +2,5 @@
 - name: rstudio deploy
   hosts: rstudio
   gather_facts: true
-  tasks:
-    - debug:
-        msg: "{{ inventory_hostname }}"
+  roles:
+    - debian

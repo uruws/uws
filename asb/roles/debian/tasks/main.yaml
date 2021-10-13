@@ -1,0 +1,13 @@
+---
+- name: apt install
+  become: yes
+  apt:
+    update_cache: yes
+    pkg:
+      - bash
+      - awscli
+      - rsync
+      - psmisc
+      - procps
+      - fail2ban
+      - postfix
