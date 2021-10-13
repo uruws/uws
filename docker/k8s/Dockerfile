@@ -22,7 +22,7 @@ ENV HOME /home/uws
 # https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
 # https://amazon-eks.s3.us-west-2.amazonaws.com/?versions&prefix=1.19
 
-ENV KUBE_VERSION 1.19.13/2021-09-02
+ENV KUBE_VERSION 1.19.14/2021-10-12
 ENV KUBE_URL https://amazon-eks.s3.us-west-2.amazonaws.com/${KUBE_VERSION}
 
 RUN wget ${KUBE_URL}/bin/linux/amd64/kubectl \
