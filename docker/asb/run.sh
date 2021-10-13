@@ -1,14 +1,16 @@
 #!/bin/sh
 set -eu
+
+asbenv=${1:?'ansible env?'}
+envfn=${PWD}/asb/env/${asbenv}.env
+
 TMPDIR=${PWD}/tmp
 mkdir -vp ${TMPDIR}
+
 exec docker run -it --rm --name uws-ansible-devel \
 	--hostname ansible-devel.uws.local -u uws \
 	--read-only \
-	-e AWS_PROFILE=uwsasb \
-	-e AWS_REGION=sa-east-1 \
-	-e ANSIBLE_CONFIG=/home/uws/asb/ansible.cfg \
-	-e ANSIBLE_INVENTORY=/home/uws/asb/hosts.devel \
+	--env-file ${envfn} \
 	-v ${TMPDIR}:/home/uws/tmp \
 	-v ${PWD}/asb:/home/uws/asb:ro \
 	-v ${PWD}/secret/asb:/home/uws/secret:ro \

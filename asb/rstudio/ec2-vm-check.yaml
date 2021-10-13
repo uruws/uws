@@ -16,8 +16,6 @@
 
     - name: rstudio vm dns record
       delegate_to: localhost
-      #~ debug:
-        #~ msg: "{{ item.item.dns_name }}"
       route53:
         state: present
         overwrite: true
