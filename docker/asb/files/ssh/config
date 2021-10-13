@@ -1,2 +1,4 @@
 UserKnownHostsFile /dev/null
 StrictHostKeyChecking off
+
+IdentityFile ~/secret/ssh/${SSH_KEYNAME}
