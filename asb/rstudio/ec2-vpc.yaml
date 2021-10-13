@@ -5,7 +5,6 @@
   tasks:
 
     - name: rstudio net
-      delegate_to: localhost
       ec2_vpc_net:
         name: rstudio-vpc
         state: present
@@ -14,8 +13,15 @@
         cidr_block: 172.27.0.0/16
       register: rstudio_net
 
+    - name: rstudio internet gateway
+      ec2_vpc_igw:
+        state: present
+        vpc_id: "{{ rstudio_net.vpc.id }}"
+        tags:
+          Name: rstudio-igw
+      register: rstudio_igw
+
     - name: rstudio subnet
-      delegate_to: localhost
       ec2_vpc_subnet:
         state: present
         assign_instances_ipv6: false
@@ -24,9 +30,21 @@
         vpc_id: "{{ rstudio_net.vpc.id }}"
         tags:
           Name: rstudio-subnet
+      register: rstudio_subnet
+
+    - name: rstudio subnet route table
+      ec2_vpc_route_table:
+        state: present
+        vpc_id: "{{ rstudio_net.vpc.id }}"
+        tags:
+          Name: rstudio-subnet
+        subnets:
+          - "{{ rstudio_subnet.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ rstudio_igw.gateway_id }}"
 
     - name: rstudio security group
-      delegate_to: localhost
       ec2_group:
         name: rstudio-sg
         description: rstudio security group
