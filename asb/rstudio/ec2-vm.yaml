@@ -33,7 +33,7 @@
       ec2_vol:
         state: present
         id: "{{ item['block_device_mapping'][item.root_device_name]['volume_id'] }}"
-        zone: "{{ item['placement'] }}"
+        zone: "{{ item.placement }}"
         name: "{{ inventory_hostname }}-rootfs"
         tags:
           Name: "{{ inventory_hostname }}-rootfs"
@@ -47,3 +47,17 @@
         wait_timeout: 600
         instance_ids: "{{ item.id }}"
       loop: "{{ rstudio_vm.tagged_instances }}"
+      register: rstudio_vm
+
+    - name: rstudio vm dns record
+      delegate_to: localhost
+      #~ debug:
+        #~ msg: "{{ item.item.dns_name }}"
+      route53:
+        state: present
+        zone: uws.talkingpts.org
+        record: "{{ ansible_host }}"
+        ttl: 1800
+        type: CNAME
+        value: "{{ item.item.dns_name }}"
+      loop: "{{ rstudio_vm.results }}"
