@@ -1,5 +1,8 @@
 # asb hosts.devel
 
+[all:vars]
+ansible_host="{{ inventory_hostname }}-devel.{{ uws_domain }}"
+
 [rstudio]
 rstudio-vm0 vm_type=t3a.small
 
