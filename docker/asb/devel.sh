@@ -8,6 +8,7 @@ exec docker run -it --rm --name uws-ansible-devel \
 	-e AWS_PROFILE=uwsasb \
 	-e AWS_REGION=sa-east-1 \
 	-e ANSIBLE_CONFIG=/home/uws/asb/ansible.cfg \
+	-e ANSIBLE_INVENTORY=/home/uws/asb/hosts.devel \
 	-v ${TMPDIR}:/home/uws/tmp \
 	-v ${PWD}/asb:/home/uws/asb:ro \
 	-v ${PWD}/secret/asb:/home/uws/secret:ro \

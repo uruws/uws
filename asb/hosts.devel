@@ -1,0 +1,7 @@
+# asb hosts.devel
+
+[rstudio]
+rstudio-vm0 vm_type=t3a.small
+
+[rstudio:vars]
+vm_subnet=subnet-0ec5bd47ecc8eb6a9
