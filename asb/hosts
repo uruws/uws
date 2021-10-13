@@ -6,3 +6,5 @@ rstudio-vm0 vm_type=t3a.small
 [rstudio:vars]
 # debian-11-amd64-20211011-792
 debian_ami = ami-0a04b49ce7d910659
+vm_type = t3a.small
+vm_subnet = subnet-0ec5bd47ecc8eb6a9
