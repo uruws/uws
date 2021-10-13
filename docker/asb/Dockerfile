@@ -23,7 +23,7 @@ RUN mkdir -vp -m 0750 /home/uws/.ansible
 RUN ansible --version \
 	&& rm -rf /home/uws/.ansible/tmp
 
-RUN mkdir -vp -m 0750 /home/uws/asb
+RUN mkdir -vp -m 0750 /home/uws/.ssh /home/uws/asb
 
 WORKDIR /home/uws/asb
 ENTRYPOINT /bin/bash -l
