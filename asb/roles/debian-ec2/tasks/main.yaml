@@ -5,3 +5,12 @@
     pkg:
       - awscli
       - cloud-init
+
+- name: cloud-init setup
+  become: yes
+  template:
+    src: cloud-init/00_setup.cfg
+    dest: /etc/cloud/cloud.cfg.d/99zzzuws_00_setup.cfg
+    owner: root
+    group: root
+    mode: '0640'
