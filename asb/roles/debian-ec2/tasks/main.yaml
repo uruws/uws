@@ -14,3 +14,12 @@
     owner: root
     group: root
     mode: '0640'
+
+- name: admin home dir
+  become: yes
+  file:
+    state: directory
+    path: /home/admin
+    owner: admin
+    group: admin
+    mode: '0750'

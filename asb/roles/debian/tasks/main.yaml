@@ -35,3 +35,12 @@
   become: yes
   hostname:
     name: "{{ ansible_host }}"
+
+- name: root home dir
+  become: yes
+  file:
+    state: directory
+    path: /root
+    owner: root
+    group: root
+    mode: '0750'
