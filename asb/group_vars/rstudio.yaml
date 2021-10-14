@@ -1,5 +1,4 @@
 ---
-debian_distro: bullseye
 vm_type: t3a.small
 uws_authorized_key:
   - jrmsgit

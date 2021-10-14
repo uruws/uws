@@ -2,6 +2,17 @@
 #
 # apt
 #
+- name: apt sources
+  become: yes
+  template:
+    src: apt/sources.list
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - apt
+
 - name: apt clean
   become: yes
   apt:
