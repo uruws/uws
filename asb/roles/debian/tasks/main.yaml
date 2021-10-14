@@ -16,6 +16,7 @@
       - unattended-upgrades
       - fail2ban
       - postfix
+      - sudo
       - less
       - vim
 
@@ -43,4 +44,34 @@
     path: /root
     owner: root
     group: root
+    mode: '0750'
+
+- name: uws group
+  become: yes
+  group:
+    state: present
+    name: uws
+    gid: 1500
+
+- name: uws user
+  become: yes
+  user:
+    state: present
+    name: uws
+    uid: 1500
+    append: no
+    comment: uws
+    create_home: yes
+    group: uws
+    groups: sudo
+    home: /home/uws
+    shell: /bin/bash
+
+- name: uws home dir
+  become: yes
+  file:
+    state: directory
+    path: /home/uws
+    owner: uws
+    group: uws
     mode: '0750'
