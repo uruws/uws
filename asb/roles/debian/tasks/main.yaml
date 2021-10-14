@@ -1,4 +1,7 @@
 ---
+#
+# apt
+#
 - name: apt clean
   become: yes
   apt:
@@ -31,12 +34,16 @@
   become: yes
   apt:
     autoremove: yes
-
+#
+# host
+#
 - name: set hostname
   become: yes
   hostname:
     name: "{{ ansible_host }}"
-
+#
+# root
+#
 - name: root home dir
   become: yes
   file:
@@ -45,7 +52,9 @@
     owner: root
     group: root
     mode: '0750'
-
+#
+# uws
+#
 - name: uws group
   become: yes
   group:
@@ -75,3 +84,16 @@
     owner: uws
     group: uws
     mode: '0750'
+
+- name: uws ssh authorized keys
+  become: yes
+  authorized_key:
+    state: present
+    user: uws
+    comment: "{{ item }}@github.com"
+    key: https://github.com/{{ item }}.keys
+    manage_dir: yes
+    exclusive: yes
+  loop: "{{ uws_authorized_key }}"
+  tags:
+    - ssh
