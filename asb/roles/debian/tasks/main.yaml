@@ -1,4 +1,9 @@
 ---
+- name: apt clean
+  become: yes
+  apt:
+    autoclean: yes
+
 - name: apt install
   become: yes
   apt:
@@ -11,3 +16,17 @@
       - unattended-upgrades
       - fail2ban
       - postfix
+      - less
+      - vim
+
+- name: apt remove
+  become: yes
+  apt:
+    state: absent
+    pkg:
+      - nano
+
+- name: apt purge
+  become: yes
+  apt:
+    autoremove: yes
