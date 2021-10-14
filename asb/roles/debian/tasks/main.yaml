@@ -61,6 +61,8 @@
     state: present
     name: uws
     gid: 1500
+  tags:
+    - uws
 
 - name: uws user
   become: yes
@@ -72,9 +74,10 @@
     comment: uws
     create_home: yes
     group: uws
-    groups: sudo
     home: /home/uws
     shell: /bin/bash
+  tags:
+    - uws
 
 - name: uws home dir
   become: yes
@@ -84,6 +87,21 @@
     owner: uws
     group: uws
     mode: '0750'
+  tags:
+    - uws
+
+- name: uws sudoers
+  become: yes
+  copy:
+    force: yes
+    owner: root
+    group: root
+    mode: '0440'
+    dest: /etc/sudoers.d/99zzz-uws
+    content: "uws ALL = (ALL) NOPASSWD:ALL\n"
+  tags:
+    - uws
+    - sudo
 
 - name: uws ssh authorized keys
   become: yes
@@ -96,4 +114,5 @@
     exclusive: yes
   loop: "{{ uws_authorized_key }}"
   tags:
+    - uws
     - ssh
