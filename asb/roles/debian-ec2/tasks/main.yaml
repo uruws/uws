@@ -5,6 +5,8 @@
     pkg:
       - awscli
       - cloud-init
+  tags:
+    - apt
 
 - name: cloud-init setup
   become: yes

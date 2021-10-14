@@ -22,6 +22,8 @@
       - fail2ban
       - postfix
       - sudo
+      - netfilter-persistent
+      - iptables-persistent
       - bsd-mailx
       - less
       - vim
@@ -129,3 +131,6 @@
   tags:
     - uws
     - ssh
+#
+# iptables
+#
