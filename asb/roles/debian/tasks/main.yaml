@@ -6,6 +6,8 @@
   become: yes
   apt:
     autoclean: yes
+  tags:
+    - apt
 
 - name: apt install
   become: yes
@@ -20,8 +22,11 @@
       - fail2ban
       - postfix
       - sudo
+      - bsd-mailx
       - less
       - vim
+  tags:
+    - apt
 
 - name: apt remove
   become: yes
@@ -29,11 +34,15 @@
     state: absent
     pkg:
       - nano
+  tags:
+    - apt
 
 - name: apt purge
   become: yes
   apt:
     autoremove: yes
+  tags:
+    - apt
 #
 # host
 #
@@ -89,7 +98,9 @@
     mode: '0750'
   tags:
     - uws
-
+#
+# sudo
+#
 - name: uws sudoers
   become: yes
   copy:
@@ -102,7 +113,9 @@
   tags:
     - uws
     - sudo
-
+#
+# ssh
+#
 - name: uws ssh authorized keys
   become: yes
   authorized_key:
