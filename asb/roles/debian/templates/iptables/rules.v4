@@ -1,0 +1,32 @@
+{{ ansible_managed | comment }}
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+# allow loopback
+-A INPUT -i lo -j ACCEPT
+#### allow icmp
+###-A INPUT -p icmp -j ACCEPT
+# allow dns
+-A INPUT -p tcp -m tcp --dport 53 -j ACCEPT
+-A INPUT -p udp -m udp --dport 53 -j ACCEPT
+-A INPUT -p udp -m udp --sport 53 -j ACCEPT
+# allow dhclient
+-A INPUT -p udp -m udp --dport 68 -j ACCEPT
+-A INPUT -p udp -m udp --sport 68 -j ACCEPT
+# allow ntp/chrony
+-A INPUT -p udp -m udp --dport 123 -j ACCEPT
+-A INPUT -p udp -m udp --sport 123 -j ACCEPT
+####
+#### allow docker container connections
+#### allow munin-node
+###-A INPUT -i docker0 -p tcp -m tcp --dport 4949:4969 -j ACCEPT
+####
+# allow ssh
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+# allow established connections
+-A INPUT -p tcp -m state --state RELATED,ESTABLISHED -j ACCEPT
+# drop anything else
+-A INPUT -m state --state INVALID,NEW -j DROP
+-A INPUT -j DROP
+COMMIT

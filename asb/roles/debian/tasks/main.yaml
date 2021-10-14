@@ -134,3 +134,16 @@
 #
 # iptables
 #
+- name: iptables rules
+  become: yes
+  template:
+    src: iptables/{{ item }}
+    dest: /etc/iptables/{{ item }}
+    owner: root
+    group: root
+    mode: '0640'
+  loop:
+    - rules.v4
+    - rules.v6
+  tags:
+    - iptables
