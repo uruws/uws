@@ -30,3 +30,8 @@
   become: yes
   apt:
     autoremove: yes
+
+- name: set hostname
+  become: yes
+  hostname:
+    name: "{{ inventory_hostname }}"
