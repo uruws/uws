@@ -4,3 +4,4 @@
   gather_facts: true
   roles:
     - debian
+    - debian-ec2

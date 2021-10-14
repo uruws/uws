@@ -1,0 +1,7 @@
+---
+- name: apt install
+  become: yes
+  apt:
+    pkg:
+      - awscli
+      - cloud-init

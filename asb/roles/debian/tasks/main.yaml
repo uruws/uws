@@ -5,7 +5,6 @@
     update_cache: yes
     pkg:
       - bash
-      - awscli
       - rsync
       - psmisc
       - procps
