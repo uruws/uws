@@ -34,4 +34,4 @@
 - name: set hostname
   become: yes
   hostname:
-    name: "{{ inventory_hostname }}"
+    name: "{{ ansible_host }}"
