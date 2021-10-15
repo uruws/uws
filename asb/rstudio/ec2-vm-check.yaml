@@ -22,3 +22,4 @@
         type: CNAME
         record: "{{ ansible_host }}"
         value: "{{ rstudio_vm.instances.0.public_dns_name }}."
+      when: rstudio_vm.instances
