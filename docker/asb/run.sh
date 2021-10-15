@@ -17,6 +17,7 @@ exec docker run -it --rm --name uws-ansible-${asbenv} \
 	-v ${PWD}/asb:/home/uws/asb:ro \
 	-v ${PWD}/secret/asb:/home/uws/secret:ro \
 	-v ${PWD}/secret/asb/aws:/home/uws/.aws:ro \
+	-v ${PWD}/secret/ca/uws:/home/uws/ca:ro \
 	-v ${PWD}/docker/asb/files/ssh:/home/uws/.ssh:ro \
 	--tmpfs /tmp:rw,mode=1777 \
 	--tmpfs /home/uws/.ansible/tmp:rw,mode=1777 \

@@ -21,6 +21,7 @@
                 * sudoers
             * root setup - `DONE!`
             * firewall - `DONE!`
+            * internal CA
             * postfix
                 * uws smtps client
             * fail2ban
