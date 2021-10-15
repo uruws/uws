@@ -181,3 +181,27 @@
   when: iptables_rules.changed
   tags:
     - iptables
+#
+# sshd
+#
+- name: sshd config
+  become: yes
+  template:
+    src: ssh/sshd_config
+    dest: /etc/ssh/sshd_config.d/uws.conf
+    owner: root
+    group: root
+    mode: '0640'
+    validate: sshd -t -f %s
+  register: sshd_config
+  tags:
+    - sshd
+
+- name: sshd restart
+  become: yes
+  service:
+    state: restarted
+    name: ssh
+  when: sshd_config.changed
+  tags:
+    - sshd
