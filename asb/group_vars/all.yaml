@@ -1,10 +1,15 @@
 ---
-ansible_user: admin
 uws_domain: uws.talkingpts.org
+
+ansible_user: admin
+ansible_host: "{{ inventory_hostname }}-devel.{{ uws_domain }}"
 
 # debian-11-amd64-20211011-792
 debian_ami: ami-0a04b49ce7d910659
 
+vm_type: t3a.small
+
 debian_release: bullseye
 
-vm_type: t3a.small
+uws_authorized_key:
+  - jrmsgit

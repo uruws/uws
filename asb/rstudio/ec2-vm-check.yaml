@@ -18,10 +18,7 @@
         state: present
         overwrite: true
         zone: uws.talkingpts.org
-        record: "{{ ansible_host }}"
         ttl: 600
         type: CNAME
-        value: "{{ item.public_dns_name }}."
-      loop: "{{ rstudio_vm.instances }}"
-      loop_control:
-        label: "{{ item.public_dns_name }}"
+        record: "{{ ansible_host }}"
+        value: "{{ rstudio_vm.instances.0.public_dns_name }}."
