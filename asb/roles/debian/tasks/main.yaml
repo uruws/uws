@@ -35,6 +35,8 @@
       - sudo
       - netfilter-persistent
       - iptables-persistent
+      - ca-certificates
+      - ssl-cert
       - bsd-mailx
       - less
       - vim
