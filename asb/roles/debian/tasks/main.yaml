@@ -1,5 +1,21 @@
 ---
 #
+# host
+#
+- name: hostname
+  become: yes
+  hostname:
+    name: "{{ ansible_host }}"
+  tags:
+    - host
+
+- name: timezone
+  become: yes
+  timezone:
+    name: UTC
+  tags:
+    - host
+#
 # apt
 #
 - name: apt sources
@@ -58,15 +74,6 @@
     autoremove: yes
   tags:
     - apt
-#
-# host
-#
-- name: hostname
-  become: yes
-  hostname:
-    name: "{{ ansible_host }}"
-  tags:
-    - host
 #
 # root
 #
