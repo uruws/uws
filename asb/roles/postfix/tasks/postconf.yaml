@@ -10,3 +10,30 @@
     content: "{{ postconf_mailname or ansible_host }}\n"
   tags:
     - postconf
+
+- name: root aliases
+  become: yes
+  lineinfile:
+    state: present
+    owner: root
+    group: root
+    mode: '0644'
+    path: /etc/aliases
+    regexp: "^{{ item }}:"
+    line: "{{ item }}: root"
+  loop:
+    - postmaster
+    - admin
+    - uws
+    - www-data
+    - munin
+  register: postconf_aliases
+  tags:
+    - postconf
+
+- name: newaliases
+  become: yes
+  command: newaliases
+  when: postconf_aliases.changed
+  tags:
+    - postconf
