@@ -37,3 +37,12 @@
   when: postconf_aliases.changed
   tags:
     - postconf
+
+- name: service reload
+  become: yes
+  service:
+    state: reloaded
+    name: postfix
+  when: postconf_aliases.changed
+  tags:
+    - postconf
