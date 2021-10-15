@@ -38,11 +38,24 @@
   tags:
     - postconf
 
-- name: service reload
+- name: main.cf
+  become: yes
+  template:
+    src: postfix/main.cf
+    dest: /etc/postfix/main.cf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  register: postconf_main
+  tags:
+    - postconf
+
+- name: service restart
   become: yes
   service:
-    state: reloaded
+    state: restarted
     name: postfix
-  when: postconf_aliases.changed
+  when: postconf_aliases.changed or postconf_main.changed
   tags:
     - postconf
