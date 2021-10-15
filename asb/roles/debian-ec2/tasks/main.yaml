@@ -16,6 +16,9 @@
     owner: root
     group: root
     mode: '0640'
+  tags:
+    - host
+    - cloud
 
 - name: admin home dir
   become: yes
@@ -25,3 +28,5 @@
     owner: admin
     group: admin
     mode: '0750'
+  tags:
+    - admin
