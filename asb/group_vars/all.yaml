@@ -2,7 +2,7 @@
 uws_domain: uws.talkingpts.org
 
 ansible_user: admin
-ansible_host: "{{ inventory_hostname }}-devel.{{ uws_domain }}"
+ansible_host: "{{ inventory_hostname }}.{{ uws_domain }}"
 
 # debian-11-amd64-20211011-792
 debian_ami: ami-0a04b49ce7d910659
