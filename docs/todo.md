@@ -9,6 +9,9 @@
         * create forward rules to slack and others
 
 * setup Rina OUSD VM - `WIP`
+    * Ansible setup - `DONE!`
+        * aws ec2 vpc
+        * aws ec2 vm
     * Ansible roles
         * debian
             * packages - `DONE!`
@@ -22,6 +25,7 @@
                 * uws smtps client
             * fail2ban
         * debian-ec2
+            * awscli - `DONE!`
             * admin user - `DONE!`
     * Setup RStudio server
         * https://www.rstudio.com/products/rstudio/#rstudio-server
