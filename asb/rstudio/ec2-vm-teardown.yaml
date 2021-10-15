@@ -1,7 +1,7 @@
 ---
 - name: rstudio ec2 vm teardown
   hosts: rstudio_teardown
-  gather_facts: true
+  gather_facts: false
   tasks:
 
     - name: teardown rstudio vm
@@ -10,6 +10,8 @@
         filters:
           "tag:Name": "{{ inventory_hostname }}"
       register: teardown_vm
+      tags:
+        - dns
 
     - name: teardown rstudio vm dns record
       delegate_to: localhost
@@ -17,8 +19,11 @@
         state: absent
         zone: uws.talkingpts.org
         record: "{{ ansible_host }}"
-        value: "{{ teardown_vm.instances.0.public_dns_name }}."
+        value: "{{ teardown_vm.instances.0.public_dns_name or vm_public_dns_name }}"
+        ttl: 600
         type: CNAME
+      tags:
+        - dns
 
     - name: teardown rstudio vm stop
       delegate_to: localhost
