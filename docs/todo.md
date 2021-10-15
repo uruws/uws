@@ -8,7 +8,21 @@
         * gmail fetch
         * create forward rules to slack and others
 
-* setup Rina OUSD VM
+* setup Rina OUSD VM - `WIP`
+    * Ansible roles
+        * debian
+            * packages - `DONE!`
+            * hostname - `DONE!`
+            * uws user - `DONE!`
+                * ssh auth keys
+                * sudoers
+            * root setup - `DONE!`
+            * firewall - `DONE!`
+            * postfix
+                * uws smtps client
+            * fail2ban
+        * debian-ec2
+            * admin user - `DONE!`
     * Setup RStudio server
         * https://www.rstudio.com/products/rstudio/#rstudio-server
         * https://www.r-project.org/
