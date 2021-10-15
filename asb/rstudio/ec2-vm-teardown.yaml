@@ -8,7 +8,7 @@
       delegate_to: localhost
       ec2_instance_info:
         filters:
-          "tag:Name": "{{ inventory_hostname }}"
+          "tag:Name": "{{ vm_tag_name or inventory_hostname }}"
       register: teardown_vm
       tags:
         - dns
@@ -22,6 +22,7 @@
         value: "{{ teardown_vm.instances.0.public_dns_name or vm_public_dns_name }}"
         ttl: 600
         type: CNAME
+      when: teardown_vm.instances
       tags:
         - dns
 
@@ -33,3 +34,4 @@
         wait_timeout: 600
         instance_id: "{{ teardown_vm.instances.0.instance_id }}"
         termination_protection: false
+      when: teardown_vm.instances

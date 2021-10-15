@@ -7,5 +7,5 @@ rstudio-vm2-devel vm_type=t3a.small
 vm_subnet=subnet-0ec5bd47ecc8eb6a9
 
 [rstudio_teardown]
-rstudio-vm0-devel vm_public_dns_name=ec2-18-231-177-225.sa-east-1.compute.amazonaws.com
-rstudio-vm1-devel
+rstudio-vm0-devel vm_tag_name=rstudio-vm0 vm_public_dns_name=ec2-18-231-177-225.sa-east-1.compute.amazonaws.com
+rstudio-vm1-devel vm_tag_name=rstudio-vm1 vm_public_dns_name=
