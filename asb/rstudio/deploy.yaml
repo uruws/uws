@@ -5,3 +5,4 @@
   roles:
     - debian
     - debian-ec2
+    - postfix

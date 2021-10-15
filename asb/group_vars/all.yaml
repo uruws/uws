@@ -13,3 +13,7 @@ debian_release: bullseye
 
 uws_authorized_key:
   - jrmsgit
+
+uwsca_smtps: smtps/211006
+
+postconf_mailname: ""

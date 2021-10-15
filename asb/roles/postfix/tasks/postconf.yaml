@@ -1,0 +1,12 @@
+---
+- name: mailname
+  become: yes
+  copy:
+    force: yes
+    owner: root
+    group: root
+    mode: '0644'
+    dest: /etc/mailname
+    content: "{{ postconf_mailname or ansible_host }}\n"
+  tags:
+    - postconf
