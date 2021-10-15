@@ -14,6 +14,9 @@ debian_release: bullseye
 uws_authorized_key:
   - jrmsgit
 
-uwsca_smtps: smtps/211006
-
 postconf_mailname: ""
+postconf_smtps: no
+
+uwsca_smtps: smtps/211006
+uws_smtps: "ops.{{ uws_domain }}"
+uws_smtps_port: 465

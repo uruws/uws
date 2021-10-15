@@ -49,4 +49,10 @@ recipient_delimiter = +
 inet_interfaces = loopback-only
 inet_protocols = all
 
+{% if postconf_smtps %}
+# smtps server
 relayhost =
+{% else %}
+# smtps client
+relayhost = [{{ uws_smtps }}]:{{ uws_smtps_port }}
+{% endif %}
