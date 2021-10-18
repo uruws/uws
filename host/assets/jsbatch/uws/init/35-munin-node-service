@@ -43,6 +43,8 @@ ${pl_ena} contrib mongodb/mongo_lag mongo_lag
 ${pl_ena} contrib mongodb/mongo_mem mongo_mem
 ${pl_ena} contrib mongodb/mongo_ops mongo_ops
 
+${pl_ena} contrib dovecot/dovecot dovecot
+
 rm -vf /etc/munin/plugins/api*
 rm -vf /etc/munin/plugins/app*
 rm -vf /etc/munin/plugins/uwsbot_stats
