@@ -22,7 +22,7 @@
             * root setup - `DONE!`
             * firewall - `DONE!`
             * sshd - `DONE!`
-            * postfix
+            * postfix - `DONE!`
                 * uws smtps client
             * fail2ban
         * debian-ec2
