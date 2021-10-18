@@ -19,4 +19,4 @@ postconf_smtps: no
 
 uwsca_smtps: smtps/211006
 uws_smtps: "ops.{{ uws_domain }}"
-uws_smtps_port: 465
+uws_smtps_port: 328
