@@ -7,3 +7,6 @@ env.logdir /srv/munin/var/log
 user uwsrun
 group adm
 env.UPDATE_STATSFILE /srv/munin/var/lib/munin-update.stats
+
+[dovecot]
+group uws
