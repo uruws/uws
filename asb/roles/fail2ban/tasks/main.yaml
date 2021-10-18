@@ -1,0 +1,2 @@
+---
+- import_tasks: fail2ban.yaml

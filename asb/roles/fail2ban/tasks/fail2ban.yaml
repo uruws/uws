@@ -1,0 +1,11 @@
+---
+- name: config
+  become: yes
+  template:
+    src: fail2ban.conf
+    dest: /etc/fail2ban/jail.d/zzzuws.conf
+    owner: root
+    group: uws
+    mode: '0640'
+  tags:
+    - fail2ban
