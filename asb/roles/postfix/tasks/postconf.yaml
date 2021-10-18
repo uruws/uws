@@ -11,7 +11,7 @@
   tags:
     - postconf
 
-- name: root aliases
+- name: aliases
   become: yes
   lineinfile:
     state: present
@@ -31,10 +31,21 @@
   tags:
     - postconf
 
+- name: root alias
+  become: yes
+  lineinfile:
+    state: present
+    path: /etc/aliases
+    regexp: "^root:"
+    line: "root: root@{{ uws_domain }}"
+  register: postconf_root_alias
+  tags:
+    - postconf
+
 - name: newaliases
   become: yes
   command: newaliases
-  when: postconf_aliases.changed
+  when: postconf_aliases.changed or postconf_root_alias.changed
   tags:
     - postconf
 
@@ -56,6 +67,6 @@
   service:
     state: restarted
     name: postfix
-  when: postconf_aliases.changed or postconf_main.changed
+  when: postconf_main.changed
   tags:
     - postconf

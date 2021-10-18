@@ -1,8 +1,5 @@
 ---
 - import_tasks: postconf.yaml
 
-- import_tasks: smtps_client.yaml
-  when: not postconf_smtps
-
 #~ - import_tasks: smtps_server.yaml
   #~ when: postconf_smtps
