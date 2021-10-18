@@ -15,8 +15,10 @@ uws_authorized_key:
   - jrmsgit
 
 postconf_mailname: ""
-postconf_smtps: no
+postconf_smtps_server: no
 
 uwsca_smtps: smtps/211006
+uwsca_smtps_client: 08082dca-8d77-5c81-9a44-94642089b3b1
+
 uws_smtps: "ops.{{ uws_domain }}"
 uws_smtps_port: 328

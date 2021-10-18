@@ -49,6 +49,34 @@
   tags:
     - postconf
 
+- name: smtps CA files
+  become: yes
+  block:
+    - name: smtps CA
+      copy:
+        src: ~/ca/{{ uwsca_smtps }}/rootCA.pem
+        dest: /etc/ssl/certs/uws-smtps-CA.pem
+        owner: root
+        group: root
+        mode: '0644'
+    - name: smtps client cert
+      copy:
+        src: ~/ca/{{ uwsca_smtps }}/client/{{ uwsca_smtps_client }}.pem
+        dest: /etc/ssl/certs/uws-smtps.pem
+        owner: root
+        group: root
+        mode: '0644'
+    - name: smtps client key
+      copy:
+        src: ~/ca/{{ uwsca_smtps }}/client/{{ uwsca_smtps_client }}.key
+        dest: /etc/ssl/private/uws-smtps.key
+        owner: root
+        group: ssl-cert
+        mode: '0640'
+  when: not postconf_smtps_server
+  tags:
+    - postconf
+
 - name: main.cf
   become: yes
   template:
@@ -56,8 +84,7 @@
     dest: /etc/postfix/main.cf
     owner: root
     group: root
-    mode: 0644
-    backup: yes
+    mode: '0644'
   register: postconf_main
   tags:
     - postconf

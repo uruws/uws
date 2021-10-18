@@ -49,7 +49,7 @@ recipient_delimiter = +
 inet_interfaces = loopback-only
 inet_protocols = all
 
-{% if postconf_smtps %}
+{% if postconf_smtps_server %}
 # smtps server
 relayhost =
 {% else %}
@@ -57,4 +57,7 @@ relayhost =
 relayhost = [{{ uws_smtps }}]:{{ uws_smtps_port }}
 smtp_tls_wrappermode = yes
 smtp_tls_security_level = encrypt
+smtp_tls_CAfile = /etc/ssl/certs/uws-smtps-CA.pem
+smtp_tls_cert_file = /etc/ssl/certs/uws-smtps.pem
+smtp_tls_key_file = /etc/ssl/private/uws-smtps.key
 {% endif %}
