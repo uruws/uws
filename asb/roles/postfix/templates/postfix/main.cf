@@ -55,4 +55,6 @@ relayhost =
 {% else %}
 # smtps client
 relayhost = [{{ uws_smtps }}]:{{ uws_smtps_port }}
+smtp_tls_wrappermode = yes
+smtp_tls_security_level = encrypt
 {% endif %}
