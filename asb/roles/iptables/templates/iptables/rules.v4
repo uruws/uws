@@ -22,6 +22,10 @@
 #### allow munin-node
 ###-A INPUT -i docker0 -p tcp -m tcp --dport 4949:4969 -j ACCEPT
 ####
+{% if rstudio_server_port > 0 %}
+# allow rstudio server
+-A INPUT -p tcp -m tcp --dport {{ rstudio_server_port }} -j ACCEPT
+{% endif %}
 # allow ssh
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 # allow established connections
