@@ -9,3 +9,4 @@
     - postfix
     - fail2ban
     - rstudio
+    - nginx

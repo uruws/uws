@@ -1,0 +1,9 @@
+---
+- name: apt install
+  become: yes
+  apt:
+    pkg:
+      - nginx
+  tags:
+    - apt
+    - nginx
