@@ -1,0 +1,34 @@
+---
+- name: apt install
+  become: yes
+  apt:
+    pkg:
+      - iptables
+      - iptables-persistent
+      - netfilter-persistent
+  tags:
+    - apt
+
+- name: rules
+  become: yes
+  template:
+    src: iptables/{{ item }}
+    dest: /etc/iptables/{{ item }}
+    owner: root
+    group: root
+    mode: '0640'
+  loop:
+    - rules.v4
+    - rules.v6
+  register: iptables_rules
+  tags:
+    - iptables
+
+- name: reload
+  become: yes
+  command:
+    cmd: service netfilter-persistent reload
+    warn: no
+  when: iptables_rules.changed
+  tags:
+    - iptables

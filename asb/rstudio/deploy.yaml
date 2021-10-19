@@ -4,6 +4,7 @@
   gather_facts: true
   roles:
     - debian
+    - iptables
     - debian-ec2
     - postfix
     - fail2ban
