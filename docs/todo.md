@@ -1,35 +1,14 @@
 # TODO
 
 * setup munin limit mail alerts - `WIP`
-    * remove uws-bBpwoJrla8TSoefWq8tTPWUJ2VihKADu - `DONE!`
-    * create new "alerts" account - `DONE!`
     * setup dev_ops_vo548nvb
         * munin-alerts TO
         * gmail fetch
         * create forward rules to slack and others
 
 * setup Rina OUSD VM - `WIP`
-    * Ansible setup - `DONE!`
-        * aws ec2 vpc
-        * aws ec2 vm
     * Ansible roles
-        * debian
-            * packages - `DONE!`
-            * hostname - `DONE!`
-            * uws user - `DONE!`
-                * ssh auth keys
-                * sudoers
-            * root setup - `DONE!`
-            * firewall - `DONE!`
-            * sshd - `DONE!`
-        * debian-ec2
-            * awscli - `DONE!`
-            * admin user - `DONE!`
-        * postfix - `DONE!`
-            * uws smtps client
-        * fail2ban - `DONE!`
-        * iptables - `DONE!`
-        * rstudio - `DONE!`
+        * nginx
     * Setup RStudio server
         * https://www.rstudio.com/products/rstudio/#rstudio-server
         * https://www.r-project.org/
@@ -41,6 +20,14 @@
         * LVM encrypted volumes?
         * with backups (snapshots?)
         * group based storage dirs access
+
+* kali setup
+
+* WAF setup
+    * implement fail2ban for kubernets/aws?
+    * nginx modsecurity
+        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
+        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
 
 * k8s/ctl - `FIX`: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
@@ -119,12 +106,6 @@
 
 * block web access by geoip?
     * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#use-geoip
-
-* WAF setup
-    * implement fail2ban for kubernets/aws?
-    * nginx modsecurity
-        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
-        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
 
 * munin
     * graph app number of active users/sessions
