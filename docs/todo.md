@@ -24,7 +24,7 @@
             * sshd - `DONE!`
             * postfix - `DONE!`
                 * uws smtps client
-            * fail2ban
+            * fail2ban - `DONE!`
         * debian-ec2
             * awscli - `DONE!`
             * admin user - `DONE!`

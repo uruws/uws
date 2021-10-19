@@ -46,7 +46,6 @@
       - psmisc
       - procps
       - unattended-upgrades
-      - fail2ban
       - postfix
       - sudo
       - netfilter-persistent

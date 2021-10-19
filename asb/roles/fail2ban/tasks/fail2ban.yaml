@@ -1,4 +1,12 @@
 ---
+- name: install
+  become: yes
+  apt:
+    pkg:
+      - fail2ban
+  tags:
+    - apt
+
 - name: config
   become: yes
   template:
@@ -7,5 +15,15 @@
     owner: root
     group: uws
     mode: '0640'
+  register: fail2ban_config
+  tags:
+    - fail2ban
+
+- name: restart
+  become: yes
+  service:
+    name: fail2ban
+    state: restarted
+  when: fail2ban_config.changed
   tags:
     - fail2ban
