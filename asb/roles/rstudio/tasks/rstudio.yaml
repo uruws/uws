@@ -1,0 +1,17 @@
+---
+- name: install deps
+  become: yes
+  apt:
+    pkg:
+      - gnupg
+  tags:
+    - rstudio
+
+# https://cran.rstudio.com/bin/linux/debian/
+- name: apt key
+  become: yes
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: E19F5F87128899B192B1A2C2AD5F960A256A04AF
+  tags:
+    - rstudio

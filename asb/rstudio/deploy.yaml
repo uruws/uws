@@ -7,3 +7,4 @@
     - debian-ec2
     - postfix
     - fail2ban
+    - rstudio
