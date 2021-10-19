@@ -22,12 +22,14 @@
             * root setup - `DONE!`
             * firewall - `DONE!`
             * sshd - `DONE!`
-            * postfix - `DONE!`
-                * uws smtps client
-            * fail2ban - `DONE!`
         * debian-ec2
             * awscli - `DONE!`
             * admin user - `DONE!`
+        * postfix - `DONE!`
+            * uws smtps client
+        * fail2ban - `DONE!`
+        * iptables - `DONE!`
+        * rstudio - `DONE!`
     * Setup RStudio server
         * https://www.rstudio.com/products/rstudio/#rstudio-server
         * https://www.r-project.org/
