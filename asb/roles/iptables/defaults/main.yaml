@@ -1,2 +1,4 @@
 ---
-rstudio_server_port: 0
+iptables_nginx_enable: no
+nginx_http_port: 80
+nginx_https_port: 443
