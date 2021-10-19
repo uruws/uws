@@ -47,6 +47,7 @@
   apt:
     pkg:
       - bash
+      - python3
       - rsync
       - psmisc
       - procps
