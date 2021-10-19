@@ -36,10 +36,15 @@
   tags:
     - apt
 
-- name: apt install
+- name: apt update
   become: yes
   apt:
     update_cache: yes
+    cache_valid_time: 3600
+
+- name: apt install
+  become: yes
+  apt:
     pkg:
       - bash
       - rsync
@@ -71,6 +76,7 @@
   become: yes
   apt:
     autoremove: yes
+    purge: yes
   tags:
     - apt
 #
