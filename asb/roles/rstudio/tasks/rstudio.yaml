@@ -1,11 +1,12 @@
 ---
-- name: install deps
+- name: apt install deps
   become: yes
   apt:
     pkg:
       - gnupg
   tags:
-    - rstudio
+    - apt
+    - rstudio-apt
 
 # https://cran.rstudio.com/bin/linux/debian/
 - name: apt key
@@ -14,4 +15,54 @@
     keyserver: keyserver.ubuntu.com
     id: E19F5F87128899B192B1A2C2AD5F960A256A04AF
   tags:
-    - rstudio
+    - apt
+    - rstudio-apt
+
+- name: apt repo
+  become: yes
+  apt_repository:
+    repo: deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/
+    state: present
+    filename: rstudio
+  tags:
+    - apt
+    - rstudio-apt
+
+- name: apt update
+  become: yes
+  apt:
+    update_cache: yes
+  tags:
+    - apt
+    - rstudio-apt
+
+- name: apt remove
+  become: yes
+  apt:
+    state: absent
+    autoremove: yes
+    purge: yes
+    pkg:
+      - gdebi-core
+      - dpkg-sig
+  tags:
+    - apt
+    - rstudio-apt
+
+- name: apt install
+  become: yes
+  apt:
+    pkg:
+      - r-base
+      - xz-utils
+  tags:
+    - apt
+    - rstudio-apt
+
+- name: server install
+  become: yes
+  apt:
+    deb: "{{ rstudio_repo }}/{{ rstudio_server_version }}"
+  tags:
+    - apt
+    - rstudio-apt
