@@ -3,8 +3,10 @@ set -eu
 
 DIRS='/uws/munin /srv/munin /srv/etc/munin'
 chown -v root:uws ${DIRS}
-chmod -v 0750 ${DIRS}
+
+chmod -v 0750 /srv/etc/munin
 chmod -v 0751 /srv/munin
+chmod -v 0751 /uws/munin
 
 chown -v root:uws /uws/munin/*.sh
 chmod -v 0750 /uws/munin/*.sh

@@ -9,4 +9,4 @@ group adm
 env.UPDATE_STATSFILE /srv/munin/var/lib/munin-update.stats
 
 [dovecot]
-group uws
+group adm
