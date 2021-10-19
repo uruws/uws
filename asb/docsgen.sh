@@ -17,6 +17,7 @@ done
 for fn in $(ls *.txt); do
 	asbdoc=$(basename ${fn} .txt)
 	echo "*** ${asbdoc}"
+	ansible-doc ${asbdoc} >${fn}
 done
 
 exit 0
