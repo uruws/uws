@@ -44,6 +44,7 @@
 
 * cluster stats
     * web_request.count
+        * count_per_minute
         * count_errors_avg: errors average
     * resources usage (mem, cpu)
         * nodes
