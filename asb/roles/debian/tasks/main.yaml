@@ -52,6 +52,7 @@
       - psmisc
       - procps
       - unattended-upgrades
+      - needrestart
       - postfix
       - sudo
       - ca-certificates
@@ -59,6 +60,7 @@
       - bsd-mailx
       - less
       - vim
+      - xz-utils
   tags:
     - apt
 
