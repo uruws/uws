@@ -54,6 +54,7 @@
       - unattended-upgrades
       - needrestart
       - postfix
+      - cron
       - sudo
       - ca-certificates
       - ssl-cert
