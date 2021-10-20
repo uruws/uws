@@ -9,6 +9,8 @@
     group: root
   loop:
     - /srv/acme
+    - /srv/acme/bin
+    - /srv/acme/etc
     - /srv/run/acme
   tags:
     - acme
@@ -35,5 +37,19 @@
     mode: '0750'
     owner: uws
     group: www-data
+  tags:
+    - acme
+
+- name: scripts
+  become: yes
+  copy:
+    src: ~/srv/acme/bin/{{ item }}
+    dest: /srv/acme/bin/{{ item }}
+    mode: '0550'
+    owner: root
+    group: uws
+  loop:
+    - acme-certs.sh
+    - acme-cmd.sh
   tags:
     - acme
