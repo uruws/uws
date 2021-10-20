@@ -53,3 +53,16 @@
     - acme-cmd.sh
   tags:
     - acme
+
+- name: cron job
+  become: yes
+  cron:
+    cron_file: uws-acme
+    name: acme-certs
+    user: uws
+    job: /srv/acme/bin/acme-certs.sh
+    minute: "17"
+    hour: "3"
+    day: "3,18"
+  tags:
+    - acme
