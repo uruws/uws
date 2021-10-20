@@ -13,6 +13,20 @@
   tags:
     - acme
 
+- name: cert dirs
+  become: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+    mode: '0770'
+    owner: root
+    group: uws
+  loop:
+    - /srv/acme/key
+    - /srv/acme/req
+  tags:
+    - acme
+
 - name: challenges dir
   become: yes
   file:
