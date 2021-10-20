@@ -9,3 +9,22 @@
   tags:
     - apt
     - docker-apt
+
+- name: user group
+  become: yes
+  group:
+    state: present
+    name: docker
+    system: yes
+  tags:
+    - docker
+
+- name: group auth
+  become: yes
+  user:
+    name: "{{ item }}"
+    append: yes
+    groups: docker
+  loop: "{{ docker_users }}"
+  tags:
+    - docker

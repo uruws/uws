@@ -9,6 +9,7 @@
 * setup Rina OUSD VM - `WIP`
     * Ansible roles
         * nginx - `DONE!`
+        * docker
         * acme
         * nginx tls
     * Setup RStudio server
