@@ -1,0 +1,11 @@
+---
+- name: install
+  become: yes
+  apt:
+    install_recommends: no
+    pkg:
+      - docker.io
+      - docker-compose
+  tags:
+    - apt
+    - docker-apt
