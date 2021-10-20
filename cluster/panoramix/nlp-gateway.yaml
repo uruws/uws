@@ -31,6 +31,20 @@ spec:
       http:
         paths:
           - pathType: Prefix
+            path: /(ner/.*)
+            backend:
+              service:
+                name: nlp-api
+                port:
+                  number: 5000
+          - pathType: Prefix
+            path: /(sentiment_analysis/.*)
+            backend:
+              service:
+                name: nlp-api
+                port:
+                  number: 5000
+          - pathType: Prefix
             path: /(.*)
             backend:
               service:

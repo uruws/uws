@@ -28,11 +28,11 @@ spec:
             runAsGroup: 1001
           resources:
             requests:
-              cpu: 1m
+              cpu: 100m
               memory: 1000Mi
-            #~ limits:
-              #~ cpu: 100m
-              #~ memory: 2000Mi
+            limits:
+              cpu: 100m
+              memory: 1000Mi
 ---
 apiVersion: v1
 kind: Service
