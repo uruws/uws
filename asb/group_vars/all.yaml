@@ -22,3 +22,5 @@ uwsca_smtps_client: 08082dca-8d77-5c81-9a44-94642089b3b1
 
 uws_smtps: "ops.{{ uws_domain }}"
 uws_smtps_port: 328
+
+uwsops_ecr: 789470191893.dkr.ecr.sa-east-1.amazonaws.com/uwsops

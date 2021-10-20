@@ -40,6 +40,15 @@
   tags:
     - acme
 
+- name: docker image
+  docker_image:
+    repository: uwsops/acme
+    name: "{{ uwsops_ecr }}:acme"
+    source: pull
+    force_source: yes
+  tags:
+    - acme
+
 - name: scripts
   become: yes
   copy:
