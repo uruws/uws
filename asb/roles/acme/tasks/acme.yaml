@@ -1,0 +1,22 @@
+---
+- name: dir setup
+  become: yes
+  file:
+    state: directory
+    path: /srv/acme
+    mode: '0751'
+    owner: root
+    group: root
+  tags:
+    - acme
+
+- name: challenges dir
+  become: yes
+  file:
+    state: directory
+    path: /srv/acme/challenge
+    mode: '0750'
+    owner: uws
+    group: www-data
+  tags:
+    - acme
