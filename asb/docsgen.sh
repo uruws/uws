@@ -10,6 +10,10 @@ for m in $(grep -vE '^\w+\.' asbdoc.l | cut -d ' ' -f 1); do
 	touch ${m}.txt
 done
 
+for m in $(grep -E '^ansible\.posix\.' asbdoc.l | cut -d ' ' -f 1 | cut -d '.' -f 3); do
+	touch ${m}.txt
+done
+
 for m in $(grep -E '^community\.general\.docker\.' asbdoc.l | cut -d ' ' -f 1); do
 	touch ${m}.txt
 done
