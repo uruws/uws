@@ -9,7 +9,7 @@
       ec2:
         key_name: asbhost-rstudio
         group: rstudio-sg
-        #~ instance_profile_name: EC2InstanceRole
+        instance_profile_name: EC2InstanceRole
         monitoring: false
         termination_protection: true
         instance_initiated_shutdown_behavior: stop

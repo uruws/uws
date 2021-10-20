@@ -22,7 +22,7 @@
         value: "{{ teardown_vm.instances.0.public_dns_name or vm_public_dns_name }}"
         ttl: 600
         type: CNAME
-      when: teardown_vm.instances and vm_public_dns_name
+      when: teardown_vm.instances
       tags:
         - dns
 
