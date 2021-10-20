@@ -3,10 +3,13 @@
   become: yes
   file:
     state: directory
-    path: /srv/acme
+    path: "{{ item }}"
     mode: '0751'
     owner: root
     group: root
+  loop:
+    - /srv/acme
+    - /srv/run/acme
   tags:
     - acme
 
@@ -14,7 +17,7 @@
   become: yes
   file:
     state: directory
-    path: /srv/acme/challenge
+    path: /srv/run/acme/challenge
     mode: '0750'
     owner: uws
     group: www-data
