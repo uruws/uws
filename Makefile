@@ -53,6 +53,14 @@ base-testing:
 # utils
 #
 
+.PHONY: utils
+utils: acme
+
+.PHONY: utils-publish
+utils-publish: utils
+	@./docker/ecr-login.sh sa-east-1
+	@./cluster/ecr-push.sh sa-east-1 uws/acme uwsops:acme
+
 .PHONY: awscli
 awscli:
 	@./docker/awscli/build.sh
