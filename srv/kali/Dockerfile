@@ -36,18 +36,4 @@ RUN rm -vf /root/.bashrc \
 ADD ./utils/kali-*.sh /usr/local/bin
 RUN chmod -v 0755 /usr/local/bin/kali-*.sh
 
-#RUN rm -vf /home/uws/.bashrc \
-#	&& mv -v /home/uws/.bashrc.original /home/uws/.bashrc
-
-#USER uws:uws
-#WORKDIR /home/uws
-
-#ENV USER uws
-#ENV HOME /home/uws
-
-#ARG UWS_UMASK=0027
-
-#RUN printf 'umask %s\n' ${UWS_UMASK} >>/home/uws/.profile
-#RUN printf "export PS1='%s '\n" '\u@\h:\W\$' >>/home/uws/.profile
-
 CMD exec /bin/bash -l
