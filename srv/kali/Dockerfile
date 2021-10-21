@@ -13,7 +13,7 @@ ADD ./utils/apt-*.sh /root/bin/
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
 RUN /root/bin/apt-distupgrade.sh
-RUN /root/bin/apt-install.sh bash ca-certificates wget locales
+RUN /root/bin/apt-install.sh bash ca-certificates wget locales less vim
 
 RUN echo 'en_US.UTF-8 UTF-8' >/etc/locale.gen \
 	&& locale-gen \
@@ -25,6 +25,8 @@ ARG UWS_GID=1000
 RUN groupadd -o -g ${UWS_GID} uws \
 	&& useradd -o -d /home/uws -m -c 'uws' -g ${UWS_GID} -u ${UWS_UID} uws \
 	&& chmod -v 0750 /home/uws
+
+RUN /root/bin/apt-install.sh kali-desktop-e17
 
 USER uws:uws
 WORKDIR /home/uws
