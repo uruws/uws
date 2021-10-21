@@ -15,3 +15,24 @@
   tags:
     - apt
     - kali-apt
+
+- name: xrdp service
+  become: yes
+  service:
+    name: xrdp
+    enabled: yes
+  notify:
+    - restart xrdp
+  tags:
+    - kali
+
+- name: xrdp options
+  become: yes
+  lineinfile:
+    path: /etc/default/xrdp
+    regexp: '^XRDP_OPTIONS='
+    line: "XRDP_OPTIONS='-p tcp://:3327'"
+  notify:
+    - restart xrdp
+  tags:
+    - kali

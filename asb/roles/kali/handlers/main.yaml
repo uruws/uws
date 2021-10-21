@@ -1,0 +1,8 @@
+---
+- name: restart xrdp
+  become: yes
+  service:
+    name: xrdp
+    state: restarted
+  tags:
+    - kali
