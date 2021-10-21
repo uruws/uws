@@ -18,6 +18,10 @@ for m in $(grep -E '^amazon\.aws\.ec2' asbdoc.l | cut -d ' ' -f 1 | cut -d '.' -
 	touch ${m}.txt
 done
 
+for m in $(grep -E '^community\.general\.' asbdoc.l | cut -d ' ' -f 1 | cut -d '.' -f 3); do
+	touch ${m}.txt
+done
+
 for m in $(grep -E '^community\.aws\.ec2' asbdoc.l | cut -d ' ' -f 1 | cut -d '.' -f 3); do
 	touch ${m}.txt
 done
