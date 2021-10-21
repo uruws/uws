@@ -36,3 +36,15 @@
     - restart xrdp
   tags:
     - kali
+
+- name: xrdp users
+  become: yes
+  user:
+    name: "{{ item }}"
+    shell: /bin/bash
+    groups: kali-trusted
+    expires: 1666321200
+  loop: "{{ kali_xrdp_users }}"
+  tags:
+    - kali
+    - kali-users
