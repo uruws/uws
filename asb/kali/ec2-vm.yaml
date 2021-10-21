@@ -3,7 +3,6 @@
   hosts: ec2vm
   gather_facts: false
   tasks:
-
     - name: kali vm create
       delegate_to: localhost
       ec2:
@@ -22,7 +21,6 @@
           Name: "{{ inventory_hostname }}"
         vpc_subnet_id: "{{ vm_subnet }}"
       register: kali_vm
-
     - name: kali vm rootfs tag
       delegate_to: localhost
       ec2_vol:

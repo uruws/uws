@@ -20,3 +20,6 @@ vm_subnet=subnet-0310671d4a67a6ce9
 [ec2vm_teardown]
 kali
 kaliyuga
+
+[kalisrv]
+kali0

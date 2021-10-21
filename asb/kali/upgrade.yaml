@@ -1,0 +1,42 @@
+---
+- name: kali repo
+  hosts: kalisrv
+  gather_facts: true
+  become: yes
+  tasks:
+    - copy:
+        content: deb http://http.kali.org/kali kali-rolling main contrib non-free
+        dest: /etc/apt/sources.list.d/kali-rolling.list
+
+- name: kali dist-upgrade script
+  hosts: kalisrv
+  gather_facts: true
+  become: yes
+  tasks:
+    - copy:
+        src: ~/asb/roles/debian/files/apt-distupgrade.sh
+        dest: /root/apt-distupgrade.sh
+        owner: root
+        group: root
+        mode: '0755'
+
+- name: kali repo update
+  hosts: kalisrv
+  gather_facts: true
+  become: yes
+  tasks:
+    - command: apt-get update
+
+- name: kali repo dist-upgrade
+  hosts: kalisrv
+  gather_facts: true
+  become: yes
+  tasks:
+    - command: /root/apt-distupgrade.sh
+
+- name: kali deps
+  hosts: kalisrv
+  gather_facts: true
+  become: yes
+  tasks:
+    - command: apt-get install --no-install-recommends -y -q python3 python3-apt

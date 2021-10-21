@@ -1,0 +1,3 @@
+---
+ansible_user: kali
+python_interpreter: /usr/bin/python3
