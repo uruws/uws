@@ -21,4 +21,4 @@ vm_subnet=subnet-0310671d4a67a6ce9
 kali0
 
 [kalisrv]
-kali1
+kali1 vm_public_name=kando

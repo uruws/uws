@@ -7,6 +7,7 @@ ansible_host: "{{ inventory_hostname }}.{{ uws_domain }}"
 vm_type: t3a.small
 vm_tag_name: ""
 vm_public_dns_name: ""
+vm_public_name: ""
 
 debian_release: bullseye
 
