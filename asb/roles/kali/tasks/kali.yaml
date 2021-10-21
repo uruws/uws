@@ -66,7 +66,7 @@
   tags:
     - kali-vm
 
-- name: kali datafs vol
+- name: datafs vol
   delegate_to: localhost
   ec2_vol:
     name: kali-datafs
@@ -76,6 +76,39 @@
     volume_type: gp2
     device_name: /dev/sdf
     delete_on_termination: no
+  tags:
+    - kali
+    - kali-vm
+
+- name: make datafs
+  become: yes
+  filesystem:
+    dev: /dev/nvme1n1
+    fstype: ext4
+    opts: -L kali-datafs
+  tags:
+    - kali
+    - kali-vm
+
+- name: mount datafs
+  become: yes
+  mount:
+    path: /data
+    src: LABEL=kali-datafs
+    fstype: ext4
+    state: mounted
+  tags:
+    - kali
+    - kali-vm
+
+- name: datafs perms
+  become: yes
+  file:
+    path: /data
+    state: directory
+    owner: root
+    group: kali-trusted
+    mode: '0770'
   tags:
     - kali
     - kali-vm
