@@ -31,6 +31,7 @@
 # allow ssh
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 {% for port in iptables_tcp_enable %}
+# allow tcp port {{ port}
 -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
 {% endfor %}
 # allow established connections
