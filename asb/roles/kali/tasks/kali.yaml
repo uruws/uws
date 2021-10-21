@@ -108,7 +108,7 @@
     state: directory
     owner: uws
     group: kali-trusted
-    mode: '0770'
+    mode: '0771'
   tags:
     - kali
     - kali-vm
