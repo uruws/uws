@@ -27,7 +27,8 @@
     - uws
     - www-data
     - munin
-  register: postconf_aliases
+  notify:
+    - newaliases
   tags:
     - postconf
 
@@ -38,14 +39,8 @@
     path: /etc/aliases
     regexp: "^root:"
     line: "root: root@{{ uws_domain }}"
-  register: postconf_root_alias
-  tags:
-    - postconf
-
-- name: newaliases
-  become: yes
-  command: newaliases
-  when: postconf_aliases.changed or postconf_root_alias.changed
+  notify:
+    - newaliases
   tags:
     - postconf
 
@@ -85,15 +80,7 @@
     owner: root
     group: root
     mode: '0644'
-  register: postconf_main
-  tags:
-    - postconf
-
-- name: service restart
-  become: yes
-  service:
-    state: restarted
-    name: postfix
-  when: postconf_main.changed
+  notify:
+    - restart postfix
   tags:
     - postconf

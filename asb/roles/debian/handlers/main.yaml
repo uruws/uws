@@ -1,0 +1,8 @@
+---
+- name: restart sshd
+  become: yes
+  service:
+    state: restarted
+    name: ssh
+  tags:
+    - sshd

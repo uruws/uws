@@ -15,15 +15,7 @@
     owner: root
     group: uws
     mode: '0640'
-  register: fail2ban_config
-  tags:
-    - fail2ban
-
-- name: restart
-  become: yes
-  service:
-    name: fail2ban
-    state: restarted
-  when: fail2ban_config.changed
+  notify:
+    - restart fail2ban
   tags:
     - fail2ban

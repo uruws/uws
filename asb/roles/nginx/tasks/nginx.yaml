@@ -27,7 +27,8 @@
     mode: '0644'
     owner: root
     group: root
-  register: nginx_config
+  notify:
+    - reload nginx
   tags:
     - nginx
 
@@ -39,15 +40,7 @@
     mode: '0644'
     owner: root
     group: root
-  register: nginx_default_server
-  tags:
-    - nginx
-
-- name: service reload
-  become: yes
-  service:
-    name: nginx
-    state: reloaded
-  when: nginx_config.changed or nginx_default_server.changed
+  notify:
+    - reload nginx
   tags:
     - nginx

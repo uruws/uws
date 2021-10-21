@@ -177,14 +177,7 @@
     mode: '0640'
     validate: sshd -t -f %s
   register: sshd_config
-  tags:
-    - sshd
-
-- name: sshd restart
-  become: yes
-  service:
-    state: restarted
-    name: ssh
-  when: sshd_config.changed
+  notify:
+    - restart sshd
   tags:
     - sshd
