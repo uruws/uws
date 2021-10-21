@@ -20,13 +20,13 @@
     - host
     - cloud
 
-- name: admin home dir
+- name: "{{ ansible_user }} home dir"
   become: yes
   file:
     state: directory
-    path: /home/admin
-    owner: admin
-    group: admin
+    path: "~{{ ansible_user }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode: '0750'
   tags:
     - admin
