@@ -1,0 +1,4 @@
+---
+ec2vpc_block: 172.27.0.0/16
+ec2vpc_rstudio: 172.27.1.0/24
+ec2vpc_kali: 172.27.2.0/24

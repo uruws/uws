@@ -1,0 +1,70 @@
+---
+- name: kali ec2 vpc
+  hosts: ec2vpc
+  gather_facts: false
+  tasks:
+
+    - name: kali net
+      delegate_to: localhost
+      ec2_vpc_net:
+        name: kali-vpc
+        state: present
+        tags:
+          Name: kali-vpc
+        cidr_block: "{{ ec2vpc_block }}"
+      register: kali_net
+      tags:
+        - ec2vpc
+
+    - name: kali internet gateway
+      delegate_to: localhost
+      ec2_vpc_igw:
+        state: present
+        vpc_id: "{{ kali_net.vpc.id }}"
+        tags:
+          Name: kali-igw
+      register: kali_igw
+
+    - name: kali subnet
+      delegate_to: localhost
+      ec2_vpc_subnet:
+        state: present
+        assign_instances_ipv6: false
+        map_public: true
+        cidr: "{{ ec2vpc_kali }}"
+        vpc_id: "{{ kali_net.vpc.id }}"
+        tags:
+          Name: kali-subnet
+      register: kali_subnet
+
+    - name: kali subnet route table
+      delegate_to: localhost
+      ec2_vpc_route_table:
+        state: present
+        vpc_id: "{{ kali_net.vpc.id }}"
+        tags:
+          Name: kali-subnet
+        subnets:
+          - "{{ kali_subnet.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ kali_igw.gateway_id }}"
+
+    - name: kali security group
+      delegate_to: localhost
+      ec2_group:
+        name: kali-sg
+        description: kali security group
+        state: present
+        tags:
+          Name: kali-sg
+        vpc_id: "{{ kali_net.vpc.id }}"
+        rules:
+          - proto: tcp
+            ports:
+              - 22
+              - 3327
+            cidr_ip: 0.0.0.0/0
+        rules_egress:
+          - proto: all
+            cidr_ip: 0.0.0.0/0

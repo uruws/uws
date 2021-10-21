@@ -1,0 +1,7 @@
+# asb kali.hosts
+
+[ec2vpc]
+kali
+
+[kalisrv]
+kali
