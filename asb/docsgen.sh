@@ -14,6 +14,14 @@ for m in $(grep -E '^ansible\.posix\.' asbdoc.l | cut -d ' ' -f 1 | cut -d '.' -
 	touch ${m}.txt
 done
 
+for m in $(grep -E '^amazon\.aws\.ec2' asbdoc.l | cut -d ' ' -f 1 | cut -d '.' -f 3); do
+	touch ${m}.txt
+done
+
+for m in $(grep -E '^community\.aws\.ec2' asbdoc.l | cut -d ' ' -f 1 | cut -d '.' -f 3); do
+	touch ${m}.txt
+done
+
 for m in $(grep -E '^community\.general\.docker\.' asbdoc.l | cut -d ' ' -f 1); do
 	touch ${m}.txt
 done
@@ -25,6 +33,8 @@ done
 for m in $(grep -E '^community\.kubernetes\.' asbdoc.l | cut -d ' ' -f 1); do
 	touch ${m}.txt
 done
+
+rm -vf ec2*_facts*.txt
 
 for fn in $(ls *.txt); do
 	asbdoc=$(basename ${fn} .txt)
