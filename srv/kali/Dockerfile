@@ -28,7 +28,10 @@ RUN groupadd -o -g ${UWS_GID} uws \
 
 RUN /root/bin/apt-install.sh kali-desktop-e17
 
-RUN /root/bin/apt-install.sh bzip2 xz-utils novnc x11vnc
+RUN /root/bin/apt-install.sh bzip2 xz-utils net-tools xvfb xauth novnc x11vnc
+
+ADD ./utils/kali-*.sh /usr/local/bin
+RUN chmod -v 0755 /usr/local/bin/kali-*.sh
 
 USER uws:uws
 WORKDIR /home/uws
