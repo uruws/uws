@@ -1,0 +1,42 @@
+---
+- name: kali ec2 vm
+  hosts: ec2vm
+  gather_facts: false
+  tasks:
+
+    - name: kali vm create
+      delegate_to: localhost
+      ec2:
+        key_name: asbhost-kali
+        group: kali-sg
+        instance_profile_name: EC2InstanceRole
+        monitoring: false
+        termination_protection: true
+        instance_initiated_shutdown_behavior: stop
+        ebs_optimized: false
+        volumes:
+          - device_name: /dev/xvda
+            volume_type: gp3
+            volume_size: 10
+            delete_on_termination: true
+            encrypted: true
+        image: "{{ vm_ami }}"
+        instance_type: "{{ vm_type }}"
+        instance_tags:
+          Name: "{{ inventory_hostname }}"
+        exact_count: 1
+        count_tag:
+          Name: "{{ inventory_hostname }}"
+        vpc_subnet_id: "{{ vm_subnet }}"
+      register: kali_vm
+
+    - name: kali vm rootfs tag
+      delegate_to: localhost
+      ec2_vol:
+        state: present
+        id: "{{ item['block_device_mapping'][item.root_device_name]['volume_id'] }}"
+        zone: "{{ item.placement }}"
+        name: "{{ inventory_hostname }}-rootfs"
+        tags:
+          Name: "{{ inventory_hostname }}-rootfs"
+      loop: "{{ kali_vm.tagged_instances }}"

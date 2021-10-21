@@ -3,5 +3,16 @@
 [ec2vpc]
 kali
 
-[kalisrv]
+[ec2vm]
 kali
+
+# ami-09b578f3c69ce7f69: kali Linux 2021.3 (sa-east-1)
+# ami-0212d39aa1d70f26b:                   (us-east-1)
+# ami-047927faeae678a12:                   (us-east-2)
+# ami-07524d94c714478c2:                   (us-west-1)
+# ami-05dc7051a2b982b6a:                   (us-west-2)
+
+[ec2vm:vars]
+vm_ami=ami-09b578f3c69ce7f69
+vm_type=c5a.xlarge
+vm_subnet=subnet-0310671d4a67a6ce9

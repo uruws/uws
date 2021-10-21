@@ -14,7 +14,7 @@
         cidr_block: "{{ ec2vpc_block }}"
       register: kali_net
       tags:
-        - ec2vpc
+        - info
 
     - name: kali internet gateway
       delegate_to: localhost
@@ -36,6 +36,15 @@
         tags:
           Name: kali-subnet
       register: kali_subnet
+      tags:
+        - info
+
+    - name: kali subnet info
+      delegate_to: localhost
+      debug:
+        msg: "{{ kali_subnet.subnet.id }}"
+      tags:
+        - info
 
     - name: kali subnet route table
       delegate_to: localhost
