@@ -1,0 +1,14 @@
+---
+- name: kali deploy
+  hosts: kalisrv
+  gather_facts: true
+  roles:
+    - debian
+    - iptables
+    - debian_ec2
+    - postfix
+    - fail2ban
+    #~ - docker
+    #~ - acme
+    #~ - nginx
+    #~ - kali
