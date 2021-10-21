@@ -4,7 +4,7 @@
 kali
 
 [ec2vm]
-kali
+kali0
 
 # ami-09b578f3c69ce7f69: kali Linux 2021.3 (sa-east-1)
 # ami-0212d39aa1d70f26b:                   (us-east-1)
@@ -16,3 +16,7 @@ kali
 vm_ami=ami-09b578f3c69ce7f69
 vm_type=c5a.xlarge
 vm_subnet=subnet-0310671d4a67a6ce9
+
+[ec2vm_teardown]
+kali
+kaliyuga

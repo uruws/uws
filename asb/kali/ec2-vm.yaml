@@ -13,13 +13,6 @@
         monitoring: false
         termination_protection: true
         instance_initiated_shutdown_behavior: stop
-        ebs_optimized: false
-        volumes:
-          - device_name: /dev/xvda
-            volume_type: gp3
-            volume_size: 10
-            delete_on_termination: true
-            encrypted: true
         image: "{{ vm_ami }}"
         instance_type: "{{ vm_type }}"
         instance_tags:
