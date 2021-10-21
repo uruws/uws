@@ -101,6 +101,10 @@ ecr-login:
 ansible:
 	@./docker/asb/build.sh
 
+.PHONY: kali
+kali:
+	@./srv/kali/build.sh
+
 #
 # uwsbot
 #
