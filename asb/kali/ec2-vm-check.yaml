@@ -1,0 +1,25 @@
+---
+- name: kali ec2 vm check
+  hosts: ec2vm
+  gather_facts: false
+  tasks:
+
+    - name: kali vm running
+      delegate_to: localhost
+      ec2_instance_info:
+        filters:
+          "tag:Name": "{{ inventory_hostname }}"
+          instance-state-name: running
+      register: kali_vm
+
+    - name: kali vm dns record
+      delegate_to: localhost
+      route53:
+        state: present
+        overwrite: true
+        zone: uws.talkingpts.org
+        ttl: 600
+        type: CNAME
+        record: "{{ ansible_host }}"
+        value: "{{ kali_vm.instances.0.public_dns_name }}."
+      when: kali_vm.instances
