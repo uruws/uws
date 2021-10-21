@@ -1,0 +1,17 @@
+---
+- name: apt install
+  become: yes
+  apt:
+    pkg:
+      - kali-desktop-xfce
+      - bzip2
+      - xz-utils
+      - net-tools
+      - xrdp
+      - xorgxrdp
+      - xorg
+      - xbitmaps
+      - dbus-x11
+  tags:
+    - apt
+    - kali-apt
