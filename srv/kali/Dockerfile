@@ -26,22 +26,28 @@ RUN groupadd -o -g ${UWS_GID} uws \
 	&& useradd -o -d /home/uws -m -c 'uws' -g ${UWS_GID} -u ${UWS_UID} uws \
 	&& chmod -v 0750 /home/uws
 
-RUN /root/bin/apt-install.sh kali-desktop-e17
+RUN /root/bin/apt-install.sh kali-desktop-xfce
 
-RUN /root/bin/apt-install.sh bzip2 xz-utils net-tools xvfb xauth novnc x11vnc
+RUN /root/bin/apt-install.sh bzip2 xz-utils net-tools xrdp xorgxrdp xorg xbitmaps dbus-x11
+
+RUN rm -vf /root/.bashrc \
+	&& mv -v /root/.bashrc.original /root/.bashrc
 
 ADD ./utils/kali-*.sh /usr/local/bin
 RUN chmod -v 0755 /usr/local/bin/kali-*.sh
 
-USER uws:uws
-WORKDIR /home/uws
+#RUN rm -vf /home/uws/.bashrc \
+#	&& mv -v /home/uws/.bashrc.original /home/uws/.bashrc
 
-ENV USER uws
-ENV HOME /home/uws
+#USER uws:uws
+#WORKDIR /home/uws
 
-ARG UWS_UMASK=0027
+#ENV USER uws
+#ENV HOME /home/uws
 
-RUN printf 'umask %s\n' ${UWS_UMASK} >>/home/uws/.profile
-RUN printf "export PS1='%s '\n" '\u@\h:\W\$' >>/home/uws/.profile
+#ARG UWS_UMASK=0027
+
+#RUN printf 'umask %s\n' ${UWS_UMASK} >>/home/uws/.profile
+#RUN printf "export PS1='%s '\n" '\u@\h:\W\$' >>/home/uws/.profile
 
 CMD exec /bin/bash -l
