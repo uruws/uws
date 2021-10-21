@@ -48,3 +48,34 @@
   tags:
     - kali
     - kali-users
+
+- name: vm info
+  delegate_to: localhost
+  ec2_instance_info:
+    filters:
+      "tag:Name": "{{ inventory_hostname }}"
+  register: kali_vm
+  tags:
+    - kali
+    - kali-vm
+
+- name: debug
+  delegate_to: localhost
+  debug:
+    var: kali_vm.instances.0.instance_id
+  tags:
+    - kali-vm
+
+- name: kali datafs vol
+  delegate_to: localhost
+  ec2_vol:
+    name: kali-datafs
+    instance: "{{ kali_vm.instances.0.instance_id }}"
+    encrypted: yes
+    volume_size: 100
+    volume_type: gp2
+    device_name: /dev/sdf
+    delete_on_termination: no
+  tags:
+    - kali
+    - kali-vm
