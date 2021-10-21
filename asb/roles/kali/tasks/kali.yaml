@@ -106,7 +106,7 @@
   file:
     path: /data
     state: directory
-    owner: root
+    owner: uws
     group: kali-trusted
     mode: '0770'
   tags:
