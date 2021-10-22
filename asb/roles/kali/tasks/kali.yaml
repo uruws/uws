@@ -66,49 +66,56 @@
   tags:
     - kali-vm
 
-- name: datafs vol
-  delegate_to: localhost
-  ec2_vol:
-    name: kali-datafs
-    instance: "{{ kali_vm.instances.0.instance_id }}"
-    encrypted: yes
-    volume_size: 100
-    volume_type: gp2
-    device_name: /dev/sdf
-    delete_on_termination: no
+- block:
+    - name: datafs vol
+      delegate_to: localhost
+      ec2_vol:
+        name: kali-datafs
+        instance: "{{ kali_vm.instances.0.instance_id }}"
+        encrypted: yes
+        volume_size: 100
+        volume_type: gp2
+        device_name: /dev/sdf
+        delete_on_termination: no
+    - name: make datafs
+      become: yes
+      filesystem:
+        dev: /dev/nvme1n1
+        fstype: ext4
+        opts: -L kali-datafs
+    - name: mount datafs
+      become: yes
+      mount:
+        path: /data
+        src: LABEL=kali-datafs
+        fstype: ext4
+        state: mounted
+    - name: datafs perms
+      become: yes
+      file:
+        path: /data
+        state: directory
+        owner: uws
+        group: kali-trusted
+        mode: '0771'
+  when: vm_public_name == "kando"
   tags:
     - kali
     - kali-vm
 
-- name: make datafs
-  become: yes
-  filesystem:
-    dev: /dev/nvme1n1
-    fstype: ext4
-    opts: -L kali-datafs
-  tags:
-    - kali
-    - kali-vm
-
-- name: mount datafs
-  become: yes
-  mount:
-    path: /data
-    src: LABEL=kali-datafs
-    fstype: ext4
-    state: mounted
-  tags:
-    - kali
-    - kali-vm
-
-- name: datafs perms
-  become: yes
-  file:
-    path: /data
-    state: directory
-    owner: uws
-    group: kali-trusted
-    mode: '0771'
-  tags:
-    - kali
-    - kali-vm
+#~ - name: tools install
+  #~ become: yes
+  #~ apt:
+    #~ pkg:
+      #~ - kali-tools-crypto-stego
+      #~ - kali-tools-database
+      #~ - kali-tools-exploitation
+      #~ - kali-tools-passwords
+      #~ - kali-tools-reporting
+      #~ - kali-tools-top10
+      #~ - kali-tools-vulnerability
+      #~ - kali-tools-web
+  #~ tags:
+    #~ - apt
+    #~ - kali-apt
+    #~ - kali-tools
