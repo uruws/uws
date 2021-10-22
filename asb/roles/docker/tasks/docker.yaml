@@ -32,9 +32,12 @@
 - name: ecr docker login script
   copy:
     src: ecr-login.sh
-    dest: "~{{ ansible_user }}/bin/ecr-login.sh"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    dest: "~/bin/ecr-login.sh"
     mode: '0750'
+  tags:
+    - docker
+
+- name: ecr docker login
+  command: "~/bin/ecr-login.sh {{ aws_region }}"
   tags:
     - docker
