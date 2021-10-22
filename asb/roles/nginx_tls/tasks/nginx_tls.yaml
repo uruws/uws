@@ -1,4 +1,19 @@
 ---
+- name: cache setup
+  become: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: root
+    group: "{{ nginx_group }}"
+    mode: '0770'
+  loop:
+    - "{{ nginx_cache_dir }}"
+    - "{{ nginx_cache_dir }}/uws"
+  tags:
+    - nginx
+    - nginx_tls
+
 - name: config
   become: yes
   template:
@@ -22,6 +37,8 @@
     owner: root
     group: root
   loop:
+    - cache
+    - cache-setup
     - ssl
     - ssl-verify-client
   notify:

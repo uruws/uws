@@ -1,4 +1,7 @@
 ---
+nginx_cache_dir: /var/cache/nginx
+nginx_group: www-data
+
 nginx_default_tls_verify_client: yes
 nginx_default_tls_snippets: []
 
