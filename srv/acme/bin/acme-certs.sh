@@ -21,7 +21,13 @@ if test -s ${flag}; then
 	echo "i - ${flag} found, not running again."
 	exit 0
 fi
-rm -vf ${TMPDIR}/done.*
+rm -vf ${TMPDIR}/done-*.*
+
+acctfn=${ACME_HOME}/key/account.key
+if ! test -s ${acctfn}; then
+	echo "i - keygen ${acctfn}"
+	${acme} keygen.sh account
+fi
 
 for cn in $(cat ${list} | cut -d ' ' -f 1); do
 	keyfn=${ACME_HOME}/key/${cn}.key
