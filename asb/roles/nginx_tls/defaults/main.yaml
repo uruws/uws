@@ -1,0 +1,3 @@
+---
+nginx_default_tls_verify_client: yes
+nginx_default_tls_snippet: []
