@@ -77,7 +77,21 @@
   tags:
     - acme
 
+- name: certs.list
+  become: yes
+  template:
+    src: acme/certs.list
+    dest: /srv/acme/etc/certs.list
+    owner: root
+    group: "{{ ansible_user }}"
+    mode: '0440'
+  when: uws_acme_certs
+  tags:
+    - acme
+    - acme-certs
+
 - name: get certs
   command: /srv/acme/bin/acme-certs.sh
   tags:
     - acme
+    - acme-certs

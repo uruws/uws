@@ -1,0 +1,3 @@
+{% for cn in uws_acme_certs %}
+{{ cn }}
+{% endfor %}
