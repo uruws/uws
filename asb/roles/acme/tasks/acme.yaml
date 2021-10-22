@@ -42,7 +42,7 @@
 
 - name: docker image
   docker_image:
-    repository: uwsops/acme
+    repository: uwsops/acme:latest
     name: "{{ uwsops_ecr }}:acme"
     source: pull
     force_source: yes
