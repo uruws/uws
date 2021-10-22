@@ -9,6 +9,7 @@
     - postfix
     - fail2ban
     - docker
-    - acme
     - nginx
+    - acme
+    - nginx_tls
     - rstudio
