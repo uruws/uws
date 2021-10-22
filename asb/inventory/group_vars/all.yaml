@@ -1,6 +1,9 @@
 ---
 uws_domain: uws.talkingpts.org
 
+asbenv: "{{ lookup('env', 'ASBENV') }}"
+uws_acme_account: "{{ asbenv }}.key"
+
 aws_region: "{{ lookup('env', 'AWS_REGION') }}"
 
 ansible_user: admin

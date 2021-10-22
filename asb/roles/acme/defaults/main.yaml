@@ -1,3 +1,4 @@
 ---
+uws_acme_account: account.key
 uws_acme_certs:
   - "{{ ansible_host }}"

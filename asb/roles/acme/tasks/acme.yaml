@@ -30,6 +30,17 @@
   tags:
     - acme
 
+- name: account.key
+  become: yes
+  copy:
+    src: ~/secret/acme/{{ uws_acme_account}}
+    dest: /srv/acme/key/account.key
+    owner: uws
+    group: uws
+    mode: '0400'
+  tags:
+    - acme
+
 - name: run dirs
   become: yes
   file:

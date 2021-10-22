@@ -8,3 +8,5 @@ rstudio_repo: https://download2.rstudio.org/server/bionic/amd64
 rstudio_server_version: rstudio-server-2021.09.0-351-amd64.deb
 
 iptables_nginx_enable: yes
+
+uws_acme_account: rstudio.key
