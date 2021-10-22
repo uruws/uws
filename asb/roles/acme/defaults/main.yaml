@@ -1,2 +1,3 @@
 ---
-uws_acme_certs: []
+uws_acme_certs:
+  - "{{ ansible_host }}"
