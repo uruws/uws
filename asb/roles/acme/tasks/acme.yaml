@@ -76,3 +76,10 @@
     day: "3,18"
   tags:
     - acme
+
+- name: get certs
+  become: yes
+  become_user: uws
+  command: /srv/acme/bin/acme-certs.sh
+  tags:
+    - acme
