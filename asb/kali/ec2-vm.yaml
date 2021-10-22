@@ -12,6 +12,12 @@
         monitoring: false
         termination_protection: true
         instance_initiated_shutdown_behavior: stop
+        volumes:
+          - device_name: /dev/sda1
+            volume_type: gp2
+            volume_size: 30
+            delete_on_termination: true
+            encrypted: true
         image: "{{ vm_ami }}"
         instance_type: "{{ vm_type }}"
         instance_tags:
@@ -21,6 +27,7 @@
           Name: "{{ inventory_hostname }}"
         vpc_subnet_id: "{{ vm_subnet }}"
       register: kali_vm
+
     - name: kali vm rootfs tag
       delegate_to: localhost
       ec2_vol:
