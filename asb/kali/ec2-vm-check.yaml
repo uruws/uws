@@ -32,6 +32,6 @@
         zone: "{{ uws_domain }}"
         ttl: 600
         type: CNAME
-        record: "{{ vm_public_name }}.{{ uws_domain }}"
+        record: "{{ kali_public_vm }}.{{ uws_domain }}"
         value: "{{ ansible_host }}."
-      when: kali_vm.instances and vm_public_name
+      when: kali_public_vm

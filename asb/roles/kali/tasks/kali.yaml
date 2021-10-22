@@ -98,7 +98,7 @@
         owner: uws
         group: kali-trusted
         mode: '0771'
-  when: vm_public_name == "kando"
+  when: kali_public_vm
   tags:
     - kali
     - kali-vm

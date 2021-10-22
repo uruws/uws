@@ -13,6 +13,19 @@
       tags:
         - dns
 
+    - name: teardown kali public vm dns record
+      delegate_to: localhost
+      route53:
+        state: absent
+        zone: uws.talkingpts.org
+        record: "{{ kali_public_vm }}.{{ uws_domain }}"
+        value: "{{ ansible_host }}"
+        ttl: 600
+        type: CNAME
+      when: kali_public_vm
+      tags:
+        - dns
+
     - name: teardown kali vm dns record
       delegate_to: localhost
       route53:
@@ -35,6 +48,15 @@
         instance_id: "{{ teardown_vm.instances.0.instance_id }}"
         termination_protection: false
       when: teardown_vm.instances
+
+    - block:
+        - name: datafs vol
+          delegate_to: localhost
+          ec2_vol:
+            name: kali-datafs
+            instance: "{{ kali_vm.instances.0.instance_id }}"
+            state: absent
+      when: kali_public_vm
 
     - name: teardown kali vm terminate
       delegate_to: localhost
