@@ -30,6 +30,21 @@
     - nginx
     - nginx_tls
 
+- name: site snippets
+  become: yes
+  template:
+    src: ~/asb/{{ asbenv }}/nginx/{{ item }}.conf
+    dest: /etc/nginx/snippets/uws_{{ item }}.conf
+    mode: '0644'
+    owner: root
+    group: root
+  loop: "{{ [nginx_default_tls_snippets, nginx_tls_site_snippets] | flatten }}"
+  notify:
+    - reload nginx
+  tags:
+    - nginx
+    - nginx_tls
+
 - name: default server
   become: yes
   template:
