@@ -1,6 +1,8 @@
 ---
 uws_domain: uws.talkingpts.org
 
+aws_region: "{{ lookup('env', 'AWS_REGION') }}"
+
 ansible_user: admin
 ansible_host: "{{ inventory_hostname }}.{{ uws_domain }}"
 

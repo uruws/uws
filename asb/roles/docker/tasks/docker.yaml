@@ -28,3 +28,13 @@
   loop: "{{ docker_users }}"
   tags:
     - docker
+
+- name: ecr docker login script
+  copy:
+    src: ecr-login.sh
+    dest: "~{{ ansible_user }}/bin/ecr-login.sh"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0750'
+  tags:
+    - docker

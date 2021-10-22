@@ -98,6 +98,30 @@
   tags:
     - root
 #
+# admin user
+#
+- name: "{{ ansible_user }} home dir"
+  become: yes
+  file:
+    state: directory
+    path: "~{{ ansible_user }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0750'
+  tags:
+    - admin
+
+- name: "{{ ansible_user }} bin dir"
+  become: yes
+  file:
+    state: directory
+    path: "~{{ ansible_user }}/bin"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0750'
+  tags:
+    - admin
+#
 # uws
 #
 - name: uws group

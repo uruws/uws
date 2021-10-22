@@ -48,6 +48,7 @@
     force_source: yes
   tags:
     - acme
+    - docker
 
 - name: scripts
   become: yes

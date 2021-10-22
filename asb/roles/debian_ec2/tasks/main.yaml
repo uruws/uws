@@ -19,14 +19,3 @@
   tags:
     - host
     - cloud
-
-- name: "{{ ansible_user }} home dir"
-  become: yes
-  file:
-    state: directory
-    path: "~{{ ansible_user }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: '0750'
-  tags:
-    - admin
