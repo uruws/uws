@@ -98,7 +98,7 @@
   tags:
     - root
 #
-# admin user
+# admin
 #
 - name: "{{ ansible_user }} home dir"
   become: yes
@@ -145,6 +145,15 @@
     group: uws
     home: /home/uws
     shell: /bin/bash
+  tags:
+    - uws
+
+- name: uws user groups
+  become: yes
+  user:
+    name: uws
+    append: yes
+    groups: "{{ ansible_user }}"
   tags:
     - uws
 
