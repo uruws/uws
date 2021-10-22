@@ -18,11 +18,9 @@ vm_type=c5a.xlarge
 vm_subnet=subnet-0310671d4a67a6ce9
 
 [ec2vm_teardown]
-kali1 kali_public_vm=kando
 
 [ec2vm_teardown:vars]
 kali_public_vm=
 
 [kalisrv]
-#kali3 kali_public_vm=kando
 kali3 kali_public_vm=kando
