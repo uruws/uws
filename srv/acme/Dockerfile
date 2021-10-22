@@ -1,7 +1,7 @@
 FROM uws/base-2109
 
 LABEL maintainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="210922"
+LABEL version="211021"
 
 USER root:root
 WORKDIR /root
@@ -14,9 +14,8 @@ RUN /root/bin/apt-install.sh python3 git python3-pip python3-setuptools python3-
 	&& rm -vrf /root/.cache \
 	&& /root/bin/apt-autoremove.sh git python3-pip python3-setuptools python3-wheel
 
-RUN mkdir -vp -m 0755 /home/uws/bin
-ADD --chown=root:root ./utils /home/uws/bin
-RUN chmod -v 0755 /home/uws/bin/*.sh
+ADD --chown=root:root ./utils/*.sh /usr/local/bin/
+RUN chmod -v 0755 /usr/local/bin/*.sh
 
 VOLUME /srv/acme
 ENV ACME_HOME /srv/acme
@@ -28,6 +27,5 @@ WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
-ENV PATH /home/uws/bin:${PATH}
 
 CMD exec /bin/bash -l
