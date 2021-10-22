@@ -2,8 +2,15 @@
 <html>
 	<head>
 		<title>{{ ansible_host }}</title>
+		<style>
+			html {
+				background: #555555;
+				font-family: monospace;
+				font-size: 18px;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>{{ inventory_hostname }}</h1>
+		<center><h1>{{ inventory_hostname }}</h1></center>
 	</body>
 </html>
