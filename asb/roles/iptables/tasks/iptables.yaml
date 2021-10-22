@@ -20,7 +20,17 @@
   loop:
     - rules.v4
     - rules.v6
+  register: iptables_rules
   notify:
     - reload iptables
+  tags:
+    - iptables
+
+- name: reload iptables
+  become: yes
+  command:
+    cmd: service netfilter-persistent reload
+    warn: no
+  when: iptables_rules is changed
   tags:
     - iptables

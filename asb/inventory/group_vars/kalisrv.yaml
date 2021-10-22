@@ -4,6 +4,9 @@ ansible_python_interpreter: /usr/bin/python3
 
 apt_sources_update: no
 
+uws_acme_account: kali.key
+
+iptables_nginx_enable: yes
 iptables_tcp_enable:
   - 3327
 
