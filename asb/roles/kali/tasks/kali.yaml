@@ -16,7 +16,7 @@
     - apt
     - kali-apt
 
-- name: xrdp service
+- name: xrdp service enable
   become: yes
   service:
     name: xrdp
@@ -119,3 +119,11 @@
     #~ - apt
     #~ - kali-apt
     #~ - kali-tools
+
+- name: xrdp service
+  become: yes
+  service:
+    name: xrdp
+    state: started
+  tags:
+    - kali
