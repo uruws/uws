@@ -24,6 +24,7 @@
     owner: root
     group: uws
   loop:
+    - /srv/acme/cert
     - /srv/acme/key
     - /srv/acme/req
   tags:
