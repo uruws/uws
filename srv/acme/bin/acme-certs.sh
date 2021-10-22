@@ -12,7 +12,7 @@ fi
 
 mkdir -vp ${ACME_HOME}/key ${ACME_HOME}/req
 
-TMPDIR=/srv/run/acme/tmp
+TMPDIR=/srv/acme/run/tmp
 mkdir -vp ${TMPDIR}
 
 cksum=$(md5sum ${list} | cut -d ' ' -f 1)
