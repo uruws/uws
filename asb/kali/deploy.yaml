@@ -3,6 +3,4 @@
   hosts: kalisrv
   gather_facts: true
   roles:
-    - debian_common
-    - debian_ec2
     - kali
