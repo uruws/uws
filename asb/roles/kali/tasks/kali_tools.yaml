@@ -1,0 +1,19 @@
+---
+- name: tools install
+  become: yes
+  apt:
+    pkg:
+      - kali-tools-crypto-stego
+      - kali-tools-information-gathering
+      - kali-tools-vulnerability
+      - kali-tools-web
+      - kali-tools-database
+      - kali-tools-passwords
+      - kali-tools-exploitation
+      - kali-tools-reporting
+      - kali-tools-top10
+  tags:
+    - apt
+    - kali-apt
+    - kali
+    - kali-tools

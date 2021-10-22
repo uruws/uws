@@ -1,2 +1,4 @@
 ---
 - import_tasks: kali.yaml
+- import_tasks: kali_tools.yaml
+- import_tasks: kali_faraday.yaml

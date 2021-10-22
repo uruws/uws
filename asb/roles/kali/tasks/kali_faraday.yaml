@@ -1,0 +1,9 @@
+---
+- name: tools install
+  become: yes
+  apt:
+    pkg:
+      - faraday
+  tags:
+    - kali
+    - faraday
