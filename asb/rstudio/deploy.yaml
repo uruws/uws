@@ -3,14 +3,6 @@
   hosts: rstudio
   gather_facts: true
   roles:
-    - debian
-    - iptables
+    - debian_common
     - debian_ec2
-    - postfix
-    - fail2ban
-    - docker
-    - uwsca
-    - nginx
-    - acme
-    - nginx_tls
     - rstudio

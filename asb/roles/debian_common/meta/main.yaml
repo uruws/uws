@@ -1,0 +1,11 @@
+---
+dependencies:
+  - role: debian
+  - role: iptables
+  - role: postfix
+  - role: fail2ban
+  - role: docker
+  - role: uwsca
+  - role: nginx
+  - role: acme
+  - role: nginx_tls
