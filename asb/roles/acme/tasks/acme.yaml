@@ -33,7 +33,7 @@
 - name: account.key
   become: yes
   copy:
-    src: ~/secret/acme/{{ uws_acme_account}}
+    src: ~/secret/acme/{{ uws_acme_account }}
     dest: /srv/acme/key/account.key
     owner: uws
     group: uws
