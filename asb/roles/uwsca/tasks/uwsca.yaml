@@ -1,0 +1,29 @@
+---
+- name: dirs
+  become: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: root
+    group: uws
+    mode: '0750'
+  loop:
+    - /srv/uws
+    - /srv/uws/ca
+    - /srv/uws/ca/ops
+  tags:
+    - uwsca
+
+- name: ops rootCA
+  become: yes
+  copy:
+    src: ~/ca/{{ uwsca_ops }}/{{ item }}
+    dest: /srv/uws/ca/ops/{{ item }}
+    owner: root
+    group: uws
+    mode: '0440'
+  loop:
+    - rootCA.pem
+    - rootCA-crl.pem
+  tags:
+    - uwsca
