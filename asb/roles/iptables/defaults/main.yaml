@@ -1,4 +1,6 @@
 ---
+iptables_icmp_enable: no
+
 iptables_nginx_enable: no
 nginx_http_port: 80
 nginx_https_port: 443
