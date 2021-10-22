@@ -54,6 +54,8 @@
         owner: root
         group: root
         mode: '0644'
+      notify:
+        - restart postfix
     - name: smtps client cert
       copy:
         src: ~/ca/{{ uwsca_smtps }}/client/{{ uwsca_smtps_client }}.pem
@@ -61,6 +63,8 @@
         owner: root
         group: root
         mode: '0644'
+      notify:
+        - restart postfix
     - name: smtps client key
       copy:
         src: ~/ca/{{ uwsca_smtps }}/client/{{ uwsca_smtps_client }}.key
@@ -68,6 +72,8 @@
         owner: root
         group: ssl-cert
         mode: '0640'
+      notify:
+        - restart postfix
   when: not postconf_smtps_server
   tags:
     - postconf
