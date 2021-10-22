@@ -1,30 +1,36 @@
 # TODO
 
-* setup munin limit mail alerts - `WIP`
+* setup munin limit mail alerts
     * setup dev_ops_vo548nvb
         * munin-alerts TO
         * gmail fetch
         * create forward rules to slack and others
 
+* ansible roles - `WIP`
+    * nginx - `DONE!`
+    * docker - `DONE!`
+    * acme - `DONE!`
+    * nginx tls - `DONE!`
+    * fail2ban
+    * munin
+
 * setup Rina OUSD VM - `WIP`
-    * Ansible roles
-        * nginx - `DONE!`
-        * docker - `DONE!`
-        * acme - `DONE!`
-        * nginx tls - `DONE!`
-    * Setup RStudio server - `DONE!`
+    * ec2 vm - `DONE!`
+    * setup RStudio server - `DONE!`
         * https://www.rstudio.com/products/rstudio/#rstudio-server
         * https://www.r-project.org/
-        * server access.
-            * HTTPS only?
-            * VNC or RDP desktop otherwise
     * N. California location
-    * Data storage
+    * data storage
         * LVM encrypted volumes?
         * with backups (snapshots?)
         * group based storage dirs access
+    * server access.
+        * HTTPS only?
+        * VNC or RDP desktop otherwise
 
-* kali setup - `DONE!`
+* kali setup - `WIP`
+    * ec2 vm - `DONE!`
+    * faraday
 
 * WAF setup
     * implement fail2ban for kubernets/aws?
