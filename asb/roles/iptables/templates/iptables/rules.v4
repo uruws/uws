@@ -1,12 +1,17 @@
 {{ ansible_managed | comment }}
+#
+# filter
+#
 *filter
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 # allow loopback
 -A INPUT -i lo -j ACCEPT
-#### allow icmp
-###-A INPUT -p icmp -j ACCEPT
+{% if iptables_icmp_enable %}
+# allow icmp
+-A INPUT -p icmp -j ACCEPT
+{% endif %}
 # allow dns
 -A INPUT -p tcp -m tcp --dport 53 -j ACCEPT
 -A INPUT -p udp -m udp --dport 53 -j ACCEPT
@@ -39,4 +44,13 @@
 # drop anything else
 -A INPUT -m state --state INVALID,NEW -j DROP
 -A INPUT -j DROP
+COMMIT
+#
+# nat
+#
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
 COMMIT
