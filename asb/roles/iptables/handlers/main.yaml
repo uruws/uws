@@ -1,8 +1,0 @@
----
-- name: reload iptables
-  become: yes
-  command:
-    cmd: service netfilter-persistent reload
-    warn: no
-  tags:
-    - iptables

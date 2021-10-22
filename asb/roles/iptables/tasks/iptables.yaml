@@ -22,7 +22,7 @@
     - rules.v6
   register: iptables_rules
   notify:
-    - reload iptables
+    - "firewall changed"
   tags:
     - iptables
 
