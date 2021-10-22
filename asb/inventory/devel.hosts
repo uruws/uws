@@ -3,7 +3,7 @@
 [rstudio_teardown]
 
 [rstudio]
-rstudio-vm3-devel vm_type=t3a.small nginx_default_tls_verify_client=False
+rstudio-vm3-devel vm_type=t3a.small
 
 [rstudio:vars]
 vm_subnet=subnet-0ec5bd47ecc8eb6a9
