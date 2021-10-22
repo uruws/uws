@@ -1,10 +1,9 @@
 # asb hosts.devel
 
 [rstudio_teardown]
-#~ rstudio-vm2-devel vm_public_dns_name=ec2-15-228-52-155.sa-east-1.compute.amazonaws.com.
 
 [rstudio]
-rstudio-vm3-devel vm_type=t3a.small
+rstudio-vm3-devel vm_type=t3a.small nginx_default_tls_verify_client=False
 
 [rstudio:vars]
 vm_subnet=subnet-0ec5bd47ecc8eb6a9
