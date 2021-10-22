@@ -12,4 +12,5 @@ iptables_nginx_enable: yes
 uws_acme_account: rstudio.key
 
 nginx_default_tls_verify_client: no
-nginx_default_tls_snippets: rstudio
+nginx_default_tls_snippets:
+  - ~/asb/rstudio/nginx/rstudio.conf
