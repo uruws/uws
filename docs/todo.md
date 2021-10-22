@@ -9,10 +9,10 @@
 * setup Rina OUSD VM - `WIP`
     * Ansible roles
         * nginx - `DONE!`
-        * docker
-        * acme
-        * nginx tls
-    * Setup RStudio server
+        * docker - `DONE!`
+        * acme - `DONE!`
+        * nginx tls - `DONE!`
+    * Setup RStudio server - `DONE!`
         * https://www.rstudio.com/products/rstudio/#rstudio-server
         * https://www.r-project.org/
         * server access.
@@ -24,7 +24,7 @@
         * with backups (snapshots?)
         * group based storage dirs access
 
-* kali setup
+* kali setup - `DONE!`
 
 * WAF setup
     * implement fail2ban for kubernets/aws?
