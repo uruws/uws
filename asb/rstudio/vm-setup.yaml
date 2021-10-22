@@ -1,0 +1,7 @@
+---
+- name: rstudio vm setup
+  hosts: rstudio
+  gather_facts: true
+  roles:
+    - debian_common
+    - debian_ec2
