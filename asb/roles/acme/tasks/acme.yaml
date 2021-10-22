@@ -56,10 +56,11 @@
 
 - name: docker image
   docker_image:
-    repository: uwsops/acme:latest
+    repository: uwsops
     name: "{{ uwsops_ecr }}:acme"
     source: pull
     force_source: yes
+    force_tag: yes
   tags:
     - acme
     - docker

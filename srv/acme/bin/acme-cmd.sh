@@ -10,4 +10,4 @@ exec docker run --rm --name uws-acme-cmd \
 	--workdir /home/uwsops \
 	-e USER=uwsops \
 	-e HOME=/home/uwsops \
-	-u uwsops uwsops/acme $@
+	-u uwsops uwsops:acme $@
