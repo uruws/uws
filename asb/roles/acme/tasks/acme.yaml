@@ -6,12 +6,12 @@
     path: "{{ item }}"
     mode: '0751'
     owner: root
-    group: root
+    group: "{{ ansible_user }}"
   loop:
     - /srv/acme
     - /srv/acme/bin
     - /srv/acme/etc
-    - /srv/run/acme
+    - /srv/acme/run
   tags:
     - acme
 
@@ -29,11 +29,24 @@
   tags:
     - acme
 
+- name: run dirs
+  become: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+    mode: '0770'
+    owner: uws
+    group: "{{ ansible_user }}"
+  loop:
+    - /srv/acme/run/tmp
+  tags:
+    - acme
+
 - name: challenges dir
   become: yes
   file:
     state: directory
-    path: /srv/run/acme/challenge
+    path: /srv/acme/run/challenge
     mode: '0750'
     owner: uws
     group: www-data

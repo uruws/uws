@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 ACME_HOME=/srv/acme
-ACME_RUN=/srv/run/acme
+ACME_RUN=/srv/acme/run
 mkdir -vp ${ACME_HOME} ${ACME_RUN}
 exec docker run --rm --name uws-acme-cmd \
 	--hostname acme-cmd.uws.local \
