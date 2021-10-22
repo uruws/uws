@@ -1,0 +1,23 @@
+---
+- name: kali ec2 vm stop
+  hosts: ec2vm
+  gather_facts: false
+  tasks:
+
+    - name: kali vm running
+      delegate_to: localhost
+      ec2_instance_info:
+        filters:
+          "tag:Name": "{{ inventory_hostname }}"
+          instance-state-name: running
+      register: kali_vm
+
+    - name: kali vm stop
+      delegate_to: localhost
+      ec2:
+        state: stopped
+        wait: yes
+        wait_timeout: 600
+        instance_id: "{{ item.instance_id }}"
+      loop: "{{ kali_vm.instances }}"
+      when: kali_vm.instances
