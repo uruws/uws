@@ -12,3 +12,6 @@ iptables_tcp_enable:
 
 kali_xrdp_users:
   - jrms
+
+nginx_default_tls_snippets:
+  - ~/asb/kali/nginx/kali.conf
