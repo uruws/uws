@@ -12,6 +12,7 @@
       - xorg
       - xbitmaps
       - dbus-x11
+      - bash-completion
   tags:
     - apt
     - kali-apt
