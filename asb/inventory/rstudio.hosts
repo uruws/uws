@@ -7,7 +7,7 @@ rstudio-net
 rstudio_vpc=vpc-070f16b7fffc058fd
 
 [rstudio]
-rstudio-ousd
+rstudio-ousd vm_public_ip_address=13.57.101.222
 
 [rstudio:vars]
 vm_type=c5a.xlarge

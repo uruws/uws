@@ -23,4 +23,5 @@ exec docker run -it --rm --name uws-ansible-${asbenv} \
 	--tmpfs /tmp:rw,mode=1777 \
 	--tmpfs /home/uws/.ansible/tmp:rw,mode=1777 \
 	--tmpfs /home/uws/.ansible/cp:rw,mode=1777 \
+	--add-host rstudio-ousd.uws.talkingpts.org:13.57.101.222 \
 	uws/ansible
