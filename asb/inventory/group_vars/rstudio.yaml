@@ -1,6 +1,7 @@
 ---
-# debian-11-amd64-20211011-792
-debian_ami: ami-0a04b49ce7d910659
+# debian-11-amd64-20211011-792: ami-0a04b49ce7d910659 (sa-east-1)
+# debian-11-amd64-20211011-792: ami-09b4378b1d3387f81 (us-west-1)
+debian_ami: ami-09b4378b1d3387f81
 
 rstudio_repo: https://download2.rstudio.org/server/bionic/amd64
 rstudio_server_version: rstudio-server-2021.09.0-351-amd64.deb
