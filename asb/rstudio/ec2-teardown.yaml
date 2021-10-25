@@ -1,0 +1,27 @@
+---
+- name: teardown rstudio ec2
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: rstudio net info
+      ec2_vpc_net_info:
+        filters:
+          "tag:Name": rstudio-vpc
+      register: rstudio_net
+    - name: rstudio subnet info
+      ec2_vpc_subnet_info:
+        filters:
+          "tag:Name": rstudio-subnet
+      register: rstudio_subnet
+    - name: rstudio group info
+      ec2_group_info:
+        filters:
+          group-name:
+            - rstudio-sg
+      register: rstudio_sg
+    - name: teardown ec2 group
+      ec2_group:
+        state: absent
+        group_id: "{{ item.group_id }}"
+      loop: "{{ rstudio_sg.security_groups }}"
+      when: rstudio_sg.security_groups
