@@ -8,6 +8,7 @@
       delegate_to: localhost
       ec2_instance_info:
         filters:
+          availability-zone: "{{ aws_zone }}"
           "tag:Name": "{{ inventory_hostname }}"
           instance-state-name: running
       register: rstudio_vm

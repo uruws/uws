@@ -7,6 +7,7 @@
     - name: rstudio vm create
       delegate_to: localhost
       ec2:
+        zone: "{{ aws_zone }}"
         key_name: asbhost-rstudio
         group: rstudio-sg
         instance_profile_name: EC2InstanceRole
