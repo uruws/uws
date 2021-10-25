@@ -8,5 +8,5 @@ rstudio-ousd
 
 [rstudio:vars]
 vm_type=c5a.xlarge
-vm_subnet=
+vm_subnet=subnet-017839f4c404402c0
 uws_acme_account=rstudio.key
