@@ -16,7 +16,7 @@
         instance_initiated_shutdown_behavior: stop
         ebs_optimized: false
         volumes:
-          - device_name: /dev/sda1
+          - device_name: /dev/xvda
             volume_type: gp2
             volume_size: 20
             delete_on_termination: true
