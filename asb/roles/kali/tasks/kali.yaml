@@ -98,7 +98,15 @@
         state: directory
         owner: uws
         group: kali-trusted
-        mode: '0771'
+        mode: '0770'
+    - name: datafs acl
+      become: yes
+      acl:
+        path: /data
+        entity: www-data
+        etype: group
+        permissions: r-x
+        state: present
   when: kali_public_vm
   tags:
     - kali
