@@ -1,5 +1,8 @@
 # asb devel.hosts
 
+[ec2vpc]
+rstudionet
+
 [rstudio_teardown]
 
 [rstudio]
