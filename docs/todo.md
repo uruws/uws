@@ -16,10 +16,10 @@
 
 * setup Rina OUSD VM - `WIP`
     * ec2 vm - `DONE!`
+        * N. California location
     * setup RStudio server - `DONE!`
         * https://www.rstudio.com/products/rstudio/#rstudio-server
         * https://www.r-project.org/
-    * N. California location
     * data storage
         * LVM encrypted volumes?
         * with backups (snapshots?)

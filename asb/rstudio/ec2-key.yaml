@@ -6,4 +6,4 @@
     - name: ec2 keypair
       ec2_key:
         name: asbhost-rstudio
-        key_material: "{{ lookup('file', '/home/uws/secret/ssh/rstudio.pub') }}"
+        key_material: "{{ lookup('file', '~/secret/ssh/rstudio.pub') }}"

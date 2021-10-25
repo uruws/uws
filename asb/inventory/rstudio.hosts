@@ -1,0 +1,12 @@
+# asb rstudio hosts
+
+[ec2vpc]
+rstudio-net
+
+[rstudio]
+rstudio-ousd
+
+[rstudio:vars]
+vm_type=c5a.xlarge
+vm_subnet=
+uws_acme_account=rstudio.key
