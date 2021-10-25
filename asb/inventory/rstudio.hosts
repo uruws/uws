@@ -3,6 +3,9 @@
 [ec2vpc]
 rstudio-net
 
+[ec2vpc:vars]
+rstudio_vpc=vpc-070f16b7fffc058fd
+
 [rstudio]
 rstudio-ousd
 
