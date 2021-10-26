@@ -58,7 +58,9 @@
   tags:
     - apt
     - rstudio-apt
-
+#
+# rstudio server
+#
 - name: server install
   become: yes
   apt:
@@ -77,7 +79,9 @@
   register: rstudio_vm
   tags:
     - homefs
-
+#
+# homefs
+#
 - name: homefs vol
   delegate_to: localhost
   ec2_vol:
@@ -110,3 +114,49 @@
     state: mounted
   tags:
     - homefs
+#
+# rstudio users/groups
+#
+- name: user's group
+  become: yes
+  group:
+    name: rstudio
+    state: present
+    gid: 3000
+  tags:
+    - users
+
+#~ - name: uws user
+  #~ become: yes
+  #~ user:
+    #~ state: present
+    #~ name: uws
+    #~ uid: 1500
+    #~ append: no
+    #~ comment: uws
+    #~ create_home: yes
+    #~ group: uws
+    #~ home: /home/uws
+    #~ shell: /bin/bash
+  #~ tags:
+    #~ - uws
+
+#~ - name: uws user groups
+  #~ become: yes
+  #~ user:
+    #~ name: uws
+    #~ append: yes
+    #~ groups: "{{ ansible_user }}"
+  #~ tags:
+    #~ - uws
+
+#~ - name: uws home dir
+  #~ become: yes
+  #~ file:
+    #~ state: directory
+    #~ path: /home/uws
+    #~ owner: uws
+    #~ group: uws
+    #~ mode: '0750'
+  #~ tags:
+    #~ - uws
