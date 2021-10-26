@@ -1,6 +1,6 @@
 # TODO
 
-* setup munin limit mail alerts
+* setup munin limit mail alerts - `WIP`
     * setup dev_ops_vo548nvb
         * munin-alerts TO
         * gmail fetch
