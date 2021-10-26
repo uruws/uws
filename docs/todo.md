@@ -7,35 +7,17 @@
         * create forward rules to slack and others
 
 * ansible roles - `WIP`
-    * nginx - `DONE!`
-    * docker - `DONE!`
-    * acme - `DONE!`
-    * nginx tls - `DONE!`
     * fail2ban
     * munin
-
-* setup Rina OUSD VM - `WIP`
-    * ec2 vm - `DONE!`
-        * N. California location
-    * setup RStudio server - `DONE!`
-        * https://www.rstudio.com/products/rstudio/#rstudio-server
-        * https://www.r-project.org/
-    * data storage
-        * group based storage dirs access - `DONE!`
-        * with backups (snapshots?)
-    * server access.
-        * HTTPS - `DONE!`
-        * VNC or RDP desktop otherwise
-
-* kali setup - `WIP`
-    * ec2 vm - `DONE!`
-    * faraday
 
 * WAF setup
     * implement fail2ban for kubernets/aws?
     * nginx modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
+
+* infra app
+    * auth service
 
 * k8s/ctl - `FIX`: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
