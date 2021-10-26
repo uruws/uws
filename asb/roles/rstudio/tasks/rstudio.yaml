@@ -66,3 +66,39 @@
   tags:
     - apt
     - rstudio-apt
+
+- name: vm info
+  delegate_to: localhost
+  ec2_instance_info:
+    filters:
+      "tag:Name": "{{ inventory_hostname }}"
+      availability-zone: "{{ aws_zone }}"
+      instance-state-name: running
+  register: rstudio_vm
+
+- name: homefs vol
+  delegate_to: localhost
+  ec2_vol:
+    - name: "{{ inventory_hostname }}-homefs"
+      zone: "{{ aws_zone }}"
+      instance: "{{ rstudio_vm.instances.0.instance_id }}"
+      encrypted: yes
+      volume_size: 100
+      volume_type: gp2
+      device_name: /dev/sdf
+      delete_on_termination: no
+
+- name: make homefs
+  become: yes
+  filesystem:
+    dev: /dev/sdf
+    fstype: ext4
+    opts: -L rstudio-homefs
+
+- name: mount homefs
+  become: yes
+  mount:
+    path: /srv/home
+    src: LABEL=rstudio-homefs
+    fstype: ext4
+    state: mounted
