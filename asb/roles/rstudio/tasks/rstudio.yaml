@@ -126,20 +126,21 @@
   tags:
     - users
 
-#~ - name: uws user
-  #~ become: yes
-  #~ user:
-    #~ state: present
-    #~ name: uws
-    #~ uid: 1500
-    #~ append: no
-    #~ comment: uws
-    #~ create_home: yes
-    #~ group: uws
-    #~ home: /home/uws
-    #~ shell: /bin/bash
-  #~ tags:
-    #~ - uws
+- name: user
+  become: yes
+  user:
+    state: present
+    name: "{{ item }}"
+    uid: "{{ rstudio_user[item].uid }}"
+    append: no
+    comment: "{{ item }}"
+    create_home: yes
+    group: rstudio
+    home: "/srv/home/{{ item }}"
+    shell: /bin/bash
+  loop: "{{ rstudio_user }}"
+  tags:
+    - users
 
 #~ - name: uws user groups
   #~ become: yes
