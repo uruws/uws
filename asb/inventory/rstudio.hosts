@@ -3,14 +3,10 @@
 [ec2vpc]
 rstudio-net
 
-[ec2vpc:vars]
-rstudio_vpc=vpc-070f16b7fffc058fd
-
 [rstudio]
-rstudio-ousd vm_public_ip_address=13.57.101.222
+rstudio-ousd
 
 [rstudio:vars]
+vm_subnet=subnet-040590d3b33e2e649
 vm_type=c5a.xlarge
-vm_subnet=subnet-017839f4c404402c0
-vm_public_ip_address=""
 uws_acme_account=rstudio.key

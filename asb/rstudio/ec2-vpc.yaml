@@ -4,45 +4,49 @@
   gather_facts: false
   tasks:
 
-    #~ - name: rstudio net
-      #~ ec2_vpc_net:
-        #~ name: rstudio-vpc
-        #~ state: present
-        #~ tags:
-          #~ Name: rstudio-vpc
-        #~ cidr_block: "{{ ec2vpc_block }}"
-      #~ register: rstudio_net
+    - name: rstudio net
+      delegate_to: localhost
+      ec2_vpc_net:
+        name: rstudio-vpc
+        state: present
+        tags:
+          Name: rstudio-vpc
+        cidr_block: "{{ ec2vpc_block }}"
+      register: rstudio_net
 
-    #~ - name: rstudio internet gateway
-      #~ ec2_vpc_igw:
-        #~ state: present
-        #~ vpc_id: "{{ rstudio_net.vpc.id }}"
-        #~ tags:
-          #~ Name: rstudio-igw
-      #~ register: rstudio_igw
+    - name: rstudio internet gateway
+      delegate_to: localhost
+      ec2_vpc_igw:
+        state: present
+        vpc_id: "{{ rstudio_net.vpc.id }}"
+        tags:
+          Name: rstudio-igw
+      register: rstudio_igw
 
-    #~ - name: rstudio subnet
-      #~ ec2_vpc_subnet:
-        #~ state: present
-        #~ assign_instances_ipv6: false
-        #~ map_public: true
-        #~ cidr: "{{ ec2vpc_rstudio }}"
-        #~ vpc_id: "{{ rstudio_net.vpc.id }}"
-        #~ tags:
-          #~ Name: rstudio-subnet
-      #~ register: rstudio_subnet
+    - name: rstudio subnet
+      delegate_to: localhost
+      ec2_vpc_subnet:
+        state: present
+        assign_instances_ipv6: false
+        map_public: true
+        cidr: "{{ ec2vpc_rstudio }}"
+        vpc_id: "{{ rstudio_net.vpc.id }}"
+        tags:
+          Name: rstudio-subnet
+      register: rstudio_subnet
 
-    #~ - name: rstudio subnet route table
-      #~ ec2_vpc_route_table:
-        #~ state: present
-        #~ vpc_id: "{{ rstudio_net.vpc.id }}"
-        #~ tags:
-          #~ Name: rstudio-subnet
-        #~ subnets:
-          #~ - "{{ rstudio_subnet.subnet.id }}"
-        #~ routes:
-          #~ - dest: 0.0.0.0/0
-            #~ gateway_id: "{{ rstudio_igw.gateway_id }}"
+    - name: rstudio subnet route table
+      delegate_to: localhost
+      ec2_vpc_route_table:
+        state: present
+        vpc_id: "{{ rstudio_net.vpc.id }}"
+        tags:
+          Name: rstudio-subnet
+        subnets:
+          - "{{ rstudio_subnet.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ rstudio_igw.gateway_id }}"
 
     - name: rstudio security group
       delegate_to: localhost
@@ -52,8 +56,7 @@
         state: present
         tags:
           Name: rstudio-sg
-        #~ vpc_id: "{{ rstudio_net.vpc.id }}"
-        vpc_id: "{{ rstudio_vpc }}"
+        vpc_id: "{{ rstudio_net.vpc.id }}"
         rules:
           - proto: tcp
             ports:

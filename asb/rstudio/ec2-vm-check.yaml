@@ -3,6 +3,16 @@
   hosts: rstudio
   gather_facts: false
   tasks:
+
+    - name: rstudio vm running
+      delegate_to: localhost
+      ec2_instance_info:
+        filters:
+          availability-zone: "{{ aws_zone }}"
+          "tag:Name": "{{ inventory_hostname }}"
+          instance-state-name: running
+      register: rstudio_vm
+
     - name: rstudio vm dns record
       delegate_to: localhost
       route53:
@@ -10,7 +20,7 @@
         overwrite: true
         zone: uws.talkingpts.org
         ttl: 600
-        type: A
+        type: CNAME
         record: "{{ ansible_host }}"
-        value: "{{ vm_public_ip_address}}"
-      when: vm_public_ip_address
+        value: "{{ rstudio_vm.instances.0.public_dns_name }}."
+      when: rstudio_vm.instances
