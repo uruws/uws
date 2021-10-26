@@ -75,18 +75,22 @@
       availability-zone: "{{ aws_zone }}"
       instance-state-name: running
   register: rstudio_vm
+  tags:
+    - homefs
 
 - name: homefs vol
   delegate_to: localhost
   ec2_vol:
-    - name: "{{ inventory_hostname }}-homefs"
-      zone: "{{ aws_zone }}"
-      instance: "{{ rstudio_vm.instances.0.instance_id }}"
-      encrypted: yes
-      volume_size: 100
-      volume_type: gp2
-      device_name: /dev/sdf
-      delete_on_termination: no
+    name: "{{ inventory_hostname }}-homefs"
+    zone: "{{ aws_zone }}"
+    instance: "{{ rstudio_vm.instances.0.instance_id }}"
+    encrypted: yes
+    volume_size: 100
+    volume_type: gp2
+    device_name: /dev/sdf
+    delete_on_termination: no
+  tags:
+    - homefs
 
 - name: make homefs
   become: yes
@@ -94,6 +98,8 @@
     dev: /dev/sdf
     fstype: ext4
     opts: -L rstudio-homefs
+  tags:
+    - homefs
 
 - name: mount homefs
   become: yes
@@ -102,3 +108,5 @@
     src: LABEL=rstudio-homefs
     fstype: ext4
     state: mounted
+  tags:
+    - homefs
