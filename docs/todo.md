@@ -21,11 +21,10 @@
         * https://www.rstudio.com/products/rstudio/#rstudio-server
         * https://www.r-project.org/
     * data storage
-        * LVM encrypted volumes?
+        * group based storage dirs access - `DONE!`
         * with backups (snapshots?)
-        * group based storage dirs access
     * server access.
-        * HTTPS only?
+        * HTTPS - `DONE!`
         * VNC or RDP desktop otherwise
 
 * kali setup - `WIP`
