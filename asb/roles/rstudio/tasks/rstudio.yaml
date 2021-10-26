@@ -142,22 +142,14 @@
   tags:
     - users
 
-#~ - name: uws user groups
-  #~ become: yes
-  #~ user:
-    #~ name: uws
-    #~ append: yes
-    #~ groups: "{{ ansible_user }}"
-  #~ tags:
-    #~ - uws
-
-#~ - name: uws home dir
-  #~ become: yes
-  #~ file:
-    #~ state: directory
-    #~ path: /home/uws
-    #~ owner: uws
-    #~ group: uws
-    #~ mode: '0750'
-  #~ tags:
-    #~ - uws
+- name: user home dir
+  become: yes
+  file:
+    state: directory
+    path: "/srv/home/{{ item }}"
+    owner: "{{ item }}"
+    group: rstudio
+    mode: '0750'
+  loop: "{{ rstudio_user }}"
+  tags:
+    - users
