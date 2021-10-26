@@ -1,2 +1,3 @@
 ---
-rstudio_user: []
+rstudio_user: {}
+rstudio_user_expire: 1

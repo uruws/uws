@@ -130,15 +130,16 @@
   become: yes
   user:
     state: present
-    name: "{{ item }}"
-    uid: "{{ rstudio_user[item].uid }}"
+    name: "{{ item.name }}"
+    uid: "{{ item.uid }}"
     append: no
-    comment: "{{ item }}"
+    comment: "{{ item.name }}"
     create_home: yes
     group: rstudio
-    home: "/srv/home/{{ item }}"
+    home: "/srv/home/{{ item.name }}"
     shell: /bin/bash
-  loop: "{{ rstudio_user }}"
+    expires: "{{ rstudio_user_expire }}"
+  loop: "{{ rstudio_user | dict2items(key_name='name', value_name='uid') }}"
   tags:
     - users
 
@@ -146,10 +147,10 @@
   become: yes
   file:
     state: directory
-    path: "/srv/home/{{ item }}"
-    owner: "{{ item }}"
+    path: "/srv/home/{{ item.name }}"
+    owner: "{{ item.name }}"
     group: rstudio
     mode: '0750'
-  loop: "{{ rstudio_user }}"
+  loop: "{{ rstudio_user | dict2items(key_name='name', value_name='uid') }}"
   tags:
     - users
