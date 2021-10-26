@@ -1,0 +1,24 @@
+---
+- name: rstudio upgrade
+  hosts: rstudio
+  gather_facts: true
+  tasks:
+    - name: apt update
+      become: yes
+      apt:
+        update_cache: yes
+
+    - name: apt upgrade
+      become: yes
+      apt:
+        name: "*"
+        state: latest
+        autoclean: yes
+        autoremove: yes
+
+    - name: apt dist-upgrade
+      become: yes
+      apt:
+        upgrade: dist
+        autoclean: yes
+        autoremove: yes
