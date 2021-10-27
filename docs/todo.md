@@ -4,6 +4,32 @@
     * setup jupyter (notebook and lab)
         * https://jupyter.org/
 
+* munin alerts: tune/add graph limits
+    * all cluster checks
+        * nodes_condition
+            * Disk, Mem and PID Pressure
+        * pod_container (all? | per pod)
+            * failed (ratio?)
+            * restart ratio
+        * web_request (response?)
+            * errors_ratio (once created)
+        * web_latency?
+        * web_ssl
+            * cert expire
+        * web_time
+            * response (request?) avg
+    * jsbatch
+        * load avg
+        * uptime?
+    * app.t.o
+        * apijob
+            * make failed jobs a DERIVE graph and set limits there
+            * elapsed_time?
+        * mongo lag?
+        * uwsbot
+            * set limits per/from scripts
+            * set alerts on index graph
+
 * setup munin limit mail alerts - `DONE!`
     * setup dev_ops_vo548nvb
         * munin-alerts TO
@@ -42,32 +68,6 @@
         * pods
     * k8s apiserver metrics
         * uwskube get --raw /metrics
-
-* munin alerts: tune/add graph limits
-    * all cluster checks
-        * nodes_condition
-            * Disk, Mem and PID Pressure
-        * pod_container (all? | per pod)
-            * failed (ratio?)
-            * restart ratio
-        * web_request (response?)
-            * errors_ratio (once created)
-        * web_latency?
-        * web_ssl
-            * cert expire
-        * web_time
-            * response (request?) avg
-    * jsbatch
-        * load avg
-        * uptime?
-    * app.t.o
-        * apijob
-            * make failed jobs a DERIVE graph and set limits there
-            * elapsed_time?
-        * mongo lag?
-        * uwsbot
-            * set limits per/from scripts
-            * set alerts on index graph
 
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
