@@ -18,9 +18,9 @@
             * cert expire
         * web_time
             * response (request?) avg
-    * jsbatch
+    * jsbatch - `DONE!`
         * load avg
-        * uptime?
+        * uptime
     * app.t.o
         * apijob
             * make failed jobs a DERIVE graph and set limits there

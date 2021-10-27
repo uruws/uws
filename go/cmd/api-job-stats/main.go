@@ -113,6 +113,7 @@ func Config(st *stats.Stats, env string) error {
 		col, coln = getColour(col)
 		fmt.Printf("%s.colour %s\n", job.ID, coln)
 		fmt.Printf("%s.min 0\n", job.ID)
+		fmt.Printf("%s.type DERIVE\n", job.ID)
 	}
 
 	for _, job := range st.List() {
