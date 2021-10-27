@@ -22,9 +22,9 @@
         * load avg
         * uptime
     * app.t.o
-        * apijob
+        * apijob - `DONE!`
             * make failed jobs a DERIVE graph and set limits there
-            * elapsed_time?
+            * elapsed_time
         * mongo lag?
         * uwsbot
             * set limits per/from scripts

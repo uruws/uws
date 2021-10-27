@@ -98,6 +98,8 @@ func Config(st *stats.Stats, env string) error {
 		fmt.Printf("%s.colour %s\n", job.ID, coln)
 		fmt.Printf("%s.min 0\n", job.ID)
 		fmt.Printf("%s.cdef %s,1000,/\n", job.ID, job.ID)
+		fmt.Printf("%s.warning 3\n", job.ID)
+		fmt.Printf("%s.critical 7\n", job.ID)
 	}
 
 	fmt.Printf("multigraph apijob_%s_failed\n", env)
