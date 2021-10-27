@@ -25,6 +25,10 @@
         * apijob - `DONE!`
             * make failed jobs a DERIVE graph and set limits there
             * elapsed_time
+            * queue limits
+                * cleverSynch
+                * firebase
+                * messages
         * mongo lag - `DONE!`
         * uwsbot
             * set limits per/from scripts
