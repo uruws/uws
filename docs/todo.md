@@ -4,7 +4,7 @@
     * setup jupyter (notebook and lab)
         * https://jupyter.org/
 
-* setup munin limit mail alerts - `WIP`
+* setup munin limit mail alerts - `DONE!`
     * setup dev_ops_vo548nvb
         * munin-alerts TO
         * gmail fetch
