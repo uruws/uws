@@ -25,7 +25,7 @@
         * apijob - `DONE!`
             * make failed jobs a DERIVE graph and set limits there
             * elapsed_time
-        * mongo lag?
+        * mongo lag - `DONE!`
         * uwsbot
             * set limits per/from scripts
             * set alerts on index graph
