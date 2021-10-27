@@ -7,6 +7,7 @@ package stats
 import (
 	"context"
 	"regexp"
+	"sort"
 	"strings"
 	"time"
 
@@ -174,6 +175,7 @@ func (m *mdb) Collections() ([]string, error) {
 			l = append(l, cn)
 		}
 	}
+	sort.Strings(l)
 	return l, nil
 }
 
