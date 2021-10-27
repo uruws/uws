@@ -1,5 +1,9 @@
 # TODO
 
+* rstudio (Rina)
+    * setup jupyter (notebook and lab)
+        * https://jupyter.org/
+
 * setup munin limit mail alerts - `WIP`
     * setup dev_ops_vo548nvb
         * munin-alerts TO
