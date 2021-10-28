@@ -6,7 +6,7 @@
 
 * munin alerts: tune/add graph limits
     * all cluster checks
-        * nodes_condition
+        * nodes_condition - `DONE!`
             * Disk, Mem and PID Pressure
         * pod_container (all? | per pod)
             * failed (ratio?)
@@ -14,7 +14,7 @@
         * web_request (response?)
             * errors_ratio (once created)
         * web_latency?
-        * web_ssl
+        * web_ssl - `DONE!`
             * cert expire
         * web_time
             * response (request?) avg
