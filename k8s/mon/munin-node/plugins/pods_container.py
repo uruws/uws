@@ -3,6 +3,13 @@
 
 import mon
 
+limits = {
+	'restart_ratio': {
+		'warning': 1,
+		'critical': 2,
+	},
+}
+
 def parse(pods):
 	mon.dbg('pods_container parse')
 	sts = dict(
@@ -124,6 +131,11 @@ def config(sts):
 				print(f"{fid}.colour COLOUR{fc}")
 				print(f"{fid}.min 0")
 				fc = mon.color(fc)
+				# limits
+				lim = limits.get(fid, None)
+				if lim is not None:
+					for n in lim.keys():
+						print(f"{fid}.{n}", lim[dif][n])
 			# info
 			inf = sts['info'][ns].get(gname, {})
 			# spec
