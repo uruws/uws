@@ -30,8 +30,7 @@
                 * firebase
                 * messages
         * mongo lag - `DONE!`
-        * uwsbot
-            * set limits per/from scripts
+        * uwsbot - `DONE!`
             * set alerts on index graph
 
 * setup munin limit mail alerts - `DONE!`
