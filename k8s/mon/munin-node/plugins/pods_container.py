@@ -135,7 +135,7 @@ def config(sts):
 				lim = limits.get(fid, None)
 				if lim is not None:
 					for n in lim.keys():
-						print(f"{fid}.{n}", lim[fid][n])
+						print(f"{fid}.{n}", limits[fid][n])
 			# info
 			inf = sts['info'][ns].get(gname, {})
 			# spec
