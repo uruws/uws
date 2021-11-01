@@ -13,5 +13,6 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 data:
+  add-headers: "ingress-nginx/custom-headers"
   allow-snippet-annotations: "true"
   use-forwarded-headers: "true"

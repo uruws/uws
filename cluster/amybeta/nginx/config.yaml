@@ -8,6 +8,7 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 data:
+  add-headers: "ingress-nginx/custom-headers"
   use-forwarded-headers: "true"
   http-snippet: |
     map $sent_http_content_type $expires_beta {
