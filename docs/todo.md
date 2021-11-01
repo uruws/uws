@@ -10,7 +10,7 @@
             * Disk, Mem and PID Pressure
         * pod_container (all? | per pod)
             * failed (ratio?)
-            * restart ratio
+            * restart ratio - `DONE!`
         * web_request (response?)
             * errors_ratio (once created)
         * web_latency?
