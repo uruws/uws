@@ -1,5 +1,11 @@
 # TODO
 
+* nginx secure headers
+    * XSS Portection
+        * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
+    * CSP
+        * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+
 * setup NLPService
     * docker files for dev and prod envs
     * cluster setup
