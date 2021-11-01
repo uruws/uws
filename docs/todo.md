@@ -1,5 +1,10 @@
 # TODO
 
+* setup NLPService
+    * docker files for dev and prod envs
+    * cluster setup
+    * Ramiro access to uwscli
+
 * rstudio (Rina)
     * setup jupyter (notebook and lab)
         * https://jupyter.org/
