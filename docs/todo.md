@@ -1,7 +1,7 @@
 # TODO
 
 * nginx secure headers
-    * XSS Portection
+    * XSS Portection - `DONE!`
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
