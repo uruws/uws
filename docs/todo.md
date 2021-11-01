@@ -8,8 +8,8 @@
     * all cluster checks
         * nodes_condition - `DONE!`
             * Disk, Mem and PID Pressure
-        * pod_container (all? | per pod)
-            * failed (ratio?)
+        * pod_container (per pod)
+            * failed ratio - `DONE!`
             * restart ratio - `DONE!`
         * web_request (response?)
             * errors_ratio (once created)

@@ -4,6 +4,10 @@
 import mon
 
 limits = {
+	'failed_ratio': {
+		'warning': 1,
+		'critical': 2,
+	},
 	'restart_ratio': {
 		'warning': 1,
 		'critical': 2,
@@ -92,9 +96,11 @@ def __cstatus(sts, spec, status, phase):
 			sts['ready'] += 1
 		if c['started']:
 			sts['started'] += 1
+	sts['failed_ratio'] = 0
 	sts['restart_ratio'] = 0
 	running = sts.get('running', 0)
 	if running > 0:
+		sts['failed_ratio'] = sts['failed'] / running
 		sts['restart_ratio'] = sts['restarted'] / running
 
 def config(sts):
