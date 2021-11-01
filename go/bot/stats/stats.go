@@ -21,11 +21,11 @@ import (
 	"uws/log"
 )
 
-const (
-	// limits in milliseconds
-	scriptWarning  uint = 60000
-	scriptCritical uint = 90000
-)
+//~ const (
+	//~ // limits in milliseconds
+	//~ scriptWarning  uint = 60000
+	//~ scriptCritical uint = 90000
+//~ )
 
 var (
 	fieldRe *regexp.Regexp
@@ -467,9 +467,9 @@ func (r *Report) Config() {
 		colour, colourName = getColour(colour)
 		fmt.Printf("%s.colour %s\n", id, colourName)
 		fmt.Printf("%s.min 0\n", id)
-		fmt.Printf("%s.warning %d\n", id, scriptWarning)
-		fmt.Printf("%s.critical %d\n", id, scriptCritical)
 		fmt.Printf("%s.cdef %s,1000,/\n", id, id)
+		//~ fmt.Printf("%s.warning %d\n", id, scriptWarning)
+		//~ fmt.Printf("%s.critical %d\n", id, scriptCritical)
 	}
 	// scripts info
 	for e := r.scripts.Front(); e != nil; e = e.Next() {
@@ -499,9 +499,9 @@ func (r *Report) Config() {
 			fmt.Printf("f%d_%s.colour %s\n", idx, ci.Id, ccolName)
 			fmt.Printf("f%d_%s.draw AREASTACK\n", idx, ci.Id)
 			fmt.Printf("f%d_%s.min 0\n", idx, ci.Id)
-			fmt.Printf("f%d_%s.warning %d\n", idx, ci.Id, scriptWarning)
-			fmt.Printf("f%d_%s.critical %d\n", idx, ci.Id, scriptCritical)
 			fmt.Printf("f%d_%s.cdef f%d_%s,1000,/\n", idx, ci.Id, idx, ci.Id)
+			//~ fmt.Printf("f%d_%s.warning %d\n", idx, ci.Id, scriptWarning)
+			//~ fmt.Printf("f%d_%s.critical %d\n", idx, ci.Id, scriptCritical)
 			idx += 1
 		}
 	}
