@@ -108,7 +108,7 @@
 - name: mount homefs
   become: yes
   mount:
-    path: /srv/home
+    path: "{{ uws_users_homedir }}"
     src: LABEL=rstudio-homefs
     fstype: ext4
     state: mounted
@@ -136,7 +136,7 @@
     comment: "{{ item.name }}"
     create_home: yes
     group: rstudio
-    home: "/srv/home/{{ item.name }}"
+    home: "{{ uws_users_homedir }}/{{ item.name }}"
     shell: /bin/bash
     expires: "{{ rstudio_user_expire }}"
   loop: "{{ rstudio_user | dict2items(key_name='name', value_name='uid') }}"
@@ -147,7 +147,7 @@
   become: yes
   file:
     state: directory
-    path: "/srv/home/{{ item.name }}"
+    path: "{{ uws_users_homedir }}/{{ item.name }}"
     owner: "{{ item.name }}"
     group: rstudio
     mode: '0750'

@@ -7,3 +7,28 @@
   tags:
     - apt
     - jupyter-notebook
+
+- name: user
+  become: yes
+  user:
+    state: present
+    name: "{{ jupyter_notebook_user.name }}"
+    uid: "{{ jupyter_notebook_user.uid }}"
+    append: no
+    comment: "{{ jupyter_notebook_user.name }}"
+    create_home: yes
+    home: "{{ uws_users_homedir }}/{{ jupyter_notebook_user.name }}"
+    shell: /usr/sbin/nologin
+  tags:
+    - jupyter-notebook
+
+- name: user home dir
+  become: yes
+  file:
+    state: directory
+    path: "{{ uws_users_homedir }}/{{ jupyter_notebook_user.name }}"
+    owner: "{{ jupyter_notebook_user.name }}"
+    group: "{{ jupyter_notebook_user.name }}"
+    mode: '0750'
+  tags:
+    - jupyter-notebook
