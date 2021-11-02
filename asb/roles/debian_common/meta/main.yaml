@@ -2,6 +2,7 @@
 dependencies:
   - role: debian
   - role: iptables
+  - role: monit
   - role: postfix
   - role: fail2ban
   - role: docker
@@ -9,4 +10,3 @@ dependencies:
   - role: nginx
   - role: acme
   - role: nginx_tls
-  - role: monit

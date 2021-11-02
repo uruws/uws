@@ -1,0 +1,12 @@
+# alerts
+set mailserver localhost
+
+set alert monit@localhost
+
+# enable http dashboard
+set httpd port 2812 and
+	use address localhost
+	allow localhost
+	allow admin:monit
+
+{{ ansible_managed | comment }}

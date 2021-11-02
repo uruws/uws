@@ -22,3 +22,16 @@
     state: started
   tags:
     - monit
+
+- name: monitrc
+  become: yes
+  template:
+    src: monitrc
+    dest: /etc/monit/conf.d/monitrc
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart monit
+  tags:
+    - monit
