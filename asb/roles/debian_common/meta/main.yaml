@@ -9,3 +9,4 @@ dependencies:
   - role: nginx
   - role: acme
   - role: nginx_tls
+  - role: monit

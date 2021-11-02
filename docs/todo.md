@@ -11,7 +11,7 @@
     * cluster setup
     * Ramiro access to uwscli
 
-* rstudio (Rina)
+* rstudio (Rina) - `WIP`
     * setup jupyter (notebook and lab)
         * https://jupyter.org/
 
@@ -51,6 +51,7 @@
         * create forward rules to slack and others
 
 * ansible roles - `WIP`
+    * monit
     * fail2ban
     * munin
 
