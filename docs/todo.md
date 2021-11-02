@@ -1,13 +1,14 @@
 # TODO
 
+* check ev15min new tags on App repo
+    * build and deploy to aws.testing
+
 * nginx secure headers
-    * XSS Protection - `DONE!`
-        * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+        * once aws.testing is done try/deploy there
 
 * setup NLPService
-    * docker files for dev and prod envs - `DONE!`
     * cluster setup
     * Ramiro access to uwscli
 
@@ -15,36 +16,18 @@
     * setup jupyter (notebook and lab)
         * https://jupyter.org/
 
+* munin alerts to slack
+    * setup/devel bot
+
 * munin alerts: tune/add graph limits
     * all cluster checks
-        * nodes_condition - `DONE!`
-            * Disk, Mem and PID Pressure
-        * pod_container (per pod)
-            * failed ratio - `DONE!`
-            * restart ratio - `DONE!`
         * web_request (response?)
             * errors_ratio (once created)
         * web_latency?
-        * web_ssl - `DONE!`
-            * cert expire
         * web_time
             * response (request?) avg
-    * jsbatch - `DONE!`
-        * load avg
-        * uptime
-    * app.t.o
-        * apijob - `DONE!`
-            * make failed jobs a DERIVE graph and set limits there
-            * elapsed_time
-            * queue limits
-                * cleverSynch
-                * firebase
-                * messages
-        * mongo lag - `DONE!`
-        * uwsbot - `DONE!`
-            * set alerts on index graph
 
-* setup munin limit mail alerts - `DONE!`
+* remove setup munin limit mail alerts
     * setup dev_ops_vo548nvb
         * munin-alerts TO
         * gmail fetch
