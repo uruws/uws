@@ -6,4 +6,19 @@
       - monit
   tags:
     - apt
+
+- name: service enable
+  become: yes
+  service:
+    name: monit
+    enabled: yes
+  tags:
+    - monit
+
+- name: service
+  become: yes
+  service:
+    name: monit
+    state: started
+  tags:
     - monit

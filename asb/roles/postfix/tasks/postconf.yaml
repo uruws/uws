@@ -27,6 +27,7 @@
     - uws
     - www-data
     - munin
+    - monit
   notify:
     - newaliases
   tags:
