@@ -1,0 +1,9 @@
+---
+- name: apt install
+  become: yes
+  apt:
+    pkg:
+      - jupyter-notebook
+  tags:
+    - apt
+    - jupyter-notebook
