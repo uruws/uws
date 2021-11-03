@@ -41,6 +41,7 @@
     - cache-setup
     - ssl
     - ssl-verify-client
+    - monit
   notify:
     - reload nginx
   tags:
