@@ -8,11 +8,11 @@
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
         * once aws.testing is done try/deploy there
 
-* setup NLPService
+* setup NLPService - `DONE!`
     * cluster setup
     * Ramiro access to uwscli
 
-* NLP decommission
+* NLP decommission - `DONE!`
     * remove TLS certs from build pack process
     * remove from panoramix cluster
     * remove DNS record

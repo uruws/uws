@@ -18,5 +18,5 @@ Uruworks sysadmin tools for Talking Points infrastructure.
 	* `./eks/admin.sh amy-wrkr`
 * [amybeta](./cluster/amybeta/README.md): App beta and Crowdsourcing web services.
 	* `./eks/admin.sh amybeta`
-* [panoramix](./cluster/panoramix/README.md): NLP service.
+* [panoramix](./cluster/panoramix/README.md): NLPService.
 	* `./eks/admin.sh panoramix`
