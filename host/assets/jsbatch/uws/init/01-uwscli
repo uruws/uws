@@ -60,6 +60,9 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~jeremias/.bash_profile
 chmod -v 0750 ~nelson
 install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~nelson/.bash_profile
 
+chmod -v 0750 ~ramiro
+install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
+
 # install crontab
 
 crontab -u uwscli ~uwscli/etc/crontab.in
