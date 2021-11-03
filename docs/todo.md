@@ -12,6 +12,10 @@
     * cluster setup
     * Ramiro access to uwscli
 
+* NLP decommission
+    * remove TLS certs from build pack process
+    * remove from panoramix cluster
+
 * rstudio (Rina) - `WIP`
     * setup jupyter (notebook and lab)
         * https://jupyter.org/
