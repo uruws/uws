@@ -24,6 +24,8 @@ spec:
             runAsNonRoot: true
             runAsUser: 1500
             runAsGroup: 1500
+          command:
+            - /usr/local/bin/entrypoint.sh
           envFrom:
             - secretRef:
                 name: nlpsvc-env
