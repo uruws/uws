@@ -8,3 +8,5 @@ nginx_default_tls_verify_client: yes
 nginx_default_tls_snippets: []
 
 nginx_tls_site_snippets: []
+
+monit_dashboard_enable: yes
