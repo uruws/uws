@@ -1,6 +1,8 @@
 ---
-nginx_cache_dir: /var/cache/nginx
+nginx_user: www-data
 nginx_group: www-data
+
+nginx_cache_dir: /var/cache/nginx
 
 nginx_default_tls_verify_client: yes
 nginx_default_tls_snippets: []
