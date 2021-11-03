@@ -45,6 +45,8 @@
 
 * [jsbatch][debian-os]
     * `2109`: 10 (buster) -> 11 (bullseye)
+* asb/rstudio
+    * `2109`: Debian 11 (bullseye)
 
 [debian-os]: https://www.debian.org/releases/
 
@@ -70,6 +72,8 @@
     * `2109`: base-2109
 * docker/eks
     * `2109`: k8s
+* docker/asb
+    * `2109`: base-2109
 * docker/uwsbot
     * `2109`: base-2109
 * srv/proftpd
@@ -82,15 +86,17 @@
     * `2109`: base-2109, munin-contrib 22ba051
 * k8s/mon
     * `2109`: k8s, munin, munin-backend, munin-node
+* k8s/ctl
+    * `2109`: eks
 
 [debian-container]: https://hub.docker.com/_/debian
 
 ## App
 
-### NLP
+### NLPService
 
 * docker/base
-    * `2109`: Debian 10 (buster) -> 11 (bullseye)
+    * `2109`: Debian 11 (bullseye)
 
 ### Buildpack
 
