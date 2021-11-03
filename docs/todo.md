@@ -41,6 +41,8 @@
 
 * ansible roles - `WIP`
     * monit
+        * setup monit to check fail2ban keeps running
+        * and others...
     * fail2ban
     * munin
 
@@ -55,10 +57,6 @@
 
 * k8s/ctl - `FIX`: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
-
-* monit
-    * setup monit to check fail2ban keeps running
-    * and others...
 
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
@@ -109,11 +107,6 @@
 * munin
     * graph app number of active users/sessions
         * set it up on prod
-    * add checks/graphs for NLP
-
-* custom workers autoscaler
-    * scale up every 5 min or so
-    * scale down hourly, if needed
 
 * web deploy autoscale setup on custom metrics
 
@@ -123,8 +116,6 @@
 * web /bandwidthCallbackSms requests
     * add bot check/graph
     * remove setup from workers cluster?
-
-* setup amy staging cluster
 
 * split nginx cluster proxy load over N instances instead of only 1
 
