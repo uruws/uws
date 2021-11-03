@@ -15,6 +15,8 @@
 * NLP decommission
     * remove TLS certs from build pack process
     * remove from panoramix cluster
+    * remove DNS record
+    * remove from uwscli
 
 * rstudio (Rina) - `WIP`
     * setup jupyter (notebook and lab)
