@@ -15,7 +15,7 @@ mkdir -vp "${logs_dir}"
 date -R >"${logf}"
 
 build_cmd=${build_dir}/${build_script}
-if test "X${build_cmd}" != 'X/srv/deploy/NLP/build.sh'; then
+if test "$(dirname ${build_cmd})" != '/srv/deploy'; then
 	echo "ERROR: invalid cmd ${build_cmd}" | tee -a "${logf}"
 	exit 9
 fi
