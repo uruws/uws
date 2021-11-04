@@ -32,6 +32,8 @@ spec:
           volumeMounts:
             - name: tmpdir
               mountPath: "/tmp"
+            - name: cachedir
+              mountPath: "/home/uws/.cache"
           #~ resources:
             #~ requests:
               #~ cpu: 10m
@@ -41,4 +43,6 @@ spec:
               #~ memory: 100Mi
       volumes:
         - name: tmpdir
+          emptyDir: {}
+        - name: cachedir
           emptyDir: {}
