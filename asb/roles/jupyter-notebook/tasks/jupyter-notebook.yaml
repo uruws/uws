@@ -32,3 +32,16 @@
     mode: '0750'
   tags:
     - jupyter-notebook
+
+- name: scripts
+  become: yes
+  copy:
+    src: "{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    owner: root
+    group: "{{ jupyter_notebook_user.name }}"
+    mode: '0750'
+  loop:
+    - jnb-start.sh
+  tags:
+    - jupyter-notebook
