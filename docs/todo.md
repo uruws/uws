@@ -24,6 +24,11 @@
 
 * munin alerts to slack
     * setup/devel bot
+    * remove setup munin limit mail alerts
+        * dev_ops_vo548nvb
+            * munin-alerts TO
+            * gmail fetch
+            * create forward rules to slack and others
 
 * munin alerts: tune/add graph limits
     * all cluster checks
@@ -32,12 +37,6 @@
         * web_latency?
         * web_time
             * response (request?) avg
-
-* remove setup munin limit mail alerts
-    * setup dev_ops_vo548nvb
-        * munin-alerts TO
-        * gmail fetch
-        * create forward rules to slack and others
 
 * ansible roles - `WIP`
     * monit
