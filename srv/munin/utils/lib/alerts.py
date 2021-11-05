@@ -12,7 +12,7 @@ from email.policy import SMTP
 from email.utils import formatdate, make_msgid
 
 from io import StringIO
-from time import time_ns
+from time import time_ns, gmtime
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
 MAIL_ADDR = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
@@ -87,6 +87,14 @@ def _msgContent(c, s, m):
 			for f in unk:
 				c.write(f"  {f['label']}\n")
 
+_sleepTimeOffset = -3
+
+def _sleepingHours():
+	h = int(gmtime().tm_hour - _sleepTimeOffset)
+	if h >= 22 and h <= 8:
+		return True
+	return False
+
 def parse(stats):
 	msg = _msgNew()
 	msg['From'] = MAIL_ADDR
@@ -126,6 +134,9 @@ def main():
 			worst = stats.get('worst', 'ERROR')
 			if not _stateChanged(stats) and worst == 'OK':
 				# do not send OK messages if no state changed
+				continue
+			elif _sleepingHours() and worst != 'CRITICAL':
+				# only CRITICAL messages during sysadmin sleeping hours
 				continue
 			st = nq(parse(stats))
 			if st > rc:
