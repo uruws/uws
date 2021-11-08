@@ -11,4 +11,3 @@ iptables_nginx_enable: yes
 nginx_default_tls_verify_client: no
 nginx_default_tls_snippets:
   - ~/asb/rstudio/nginx/rstudio.conf
-  - ~/asb/rstudio/nginx/jupyter.conf
