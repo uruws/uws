@@ -45,3 +45,32 @@
     - jnb-start.sh
   tags:
     - jupyter-notebook
+
+- name: systemd config
+  become: yes
+  copy:
+    src: "systemd/{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - jupyter-notebook.service
+  tags:
+    - jupyter-notebook
+
+- name: service enable
+  become: yes
+  service:
+    name: jupyter-notebook
+    enabled: yes
+  tags:
+    - jupyter-notebook
+
+- name: service started
+  become: yes
+  service:
+    name: jupyter-notebook
+    state: started
+  tags:
+    - jupyter-notebook
