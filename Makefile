@@ -213,7 +213,8 @@ docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 deploy:
 	@echo "i - START deploy `date -R` as ${USER}"
 	@$(MAKE) bootstrap k8s
-	@./host/deploy.sh local $(DEPLOY_SERVER)
+	@./host/deploy.sh local $(DEPLOY_SERVER) || \
+		(echo '$(DEPLOY_SERVER) deploy failed' | mailx -s '[FAIL] $(DEPLOY_SERVER) deploy' root)
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
 
