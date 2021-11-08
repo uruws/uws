@@ -154,16 +154,3 @@
   loop: "{{ rstudio_user | dict2items(key_name='name', value_name='uid') }}"
   tags:
     - users
-#
-# site.html
-#
-- name: site.html
-  become: yes
-  template:
-    src: rstudio/site.html
-    dest: /var/www/html/site.html
-    mode: '0644'
-    owner: root
-    group: root
-  tags:
-    - nginx
