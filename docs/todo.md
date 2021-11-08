@@ -1,5 +1,7 @@
 # TODO
 
+* uwscli app-events - `DONE!`
+
 * check ev15min new tags on App repo
     * build and deploy to aws.testing
 

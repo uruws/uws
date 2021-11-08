@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
+
+import sys
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
+
+import uwscli
+
+__doc__ = 'show app cluster events'
+
+def main():
+	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
+		description = __doc__, epilog = uwscli.app_description())
+	flags.add_argument('-w', '--watch', action = 'store_true', default = False,
+		help = 'watch for new messages')
+	flags.add_argument('app', metavar = 'app', choices = uwscli.app_list(),
+		default = 'app', help = 'app name')
+
+	args = flags.parse_args()
+
+	cmd_args = "%s %s events" % (uwscli.app[args.app].cluster,
+		uwscli.app[args.app].pod)
+
+	if args.watch:
+		cmd_args += ' -w'
+
+	return uwscli.run('app-cli.sh', cmd_args)
+
+if __name__ == '__main__':
+	sys.stdout.reconfigure(line_buffering = False)
+	sys.stderr.reconfigure(line_buffering = False)
+	sys.exit(main())
