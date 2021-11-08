@@ -18,10 +18,22 @@
       route53:
         state: present
         overwrite: true
-        zone: uws.talkingpts.org
+        zone: "{{ uws_domain }}"
         ttl: 600
         type: CNAME
         record: "{{ ansible_host }}"
+        value: "{{ rstudio_vm.instances.0.public_dns_name }}."
+      when: rstudio_vm.instances
+
+    - name: rstudio ide dns record
+      delegate_to: localhost
+      route53:
+        state: present
+        overwrite: true
+        zone: "{{ uws_domain }}"
+        ttl: 600
+        type: CNAME
+        record: "{{ inventory_hostname }}-ide.{{ uws_domain }}"
         value: "{{ rstudio_vm.instances.0.public_dns_name }}."
       when: rstudio_vm.instances
 
