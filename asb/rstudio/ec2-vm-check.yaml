@@ -33,7 +33,7 @@
         zone: "{{ uws_domain }}"
         ttl: 600
         type: CNAME
-        record: "{{ inventory_hostname }}-ide.{{ uws_domain }}"
+        record: "{{ rstudio_server_name }}"
         value: "{{ rstudio_vm.instances.0.public_dns_name }}."
       when: rstudio_vm.instances
 
@@ -45,6 +45,6 @@
         zone: "{{ uws_domain }}"
         ttl: 600
         type: CNAME
-        record: "{{ inventory_hostname }}-jnb.{{ uws_domain }}"
+        record: "{{ rstudio_jnb_server_name }}"
         value: "{{ rstudio_vm.instances.0.public_dns_name }}."
       when: rstudio_vm.instances
