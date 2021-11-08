@@ -12,6 +12,8 @@
     * cluster setup
     * Ramiro access to uwscli
 
+* NLPService support - `WIP`
+
 * NLP decommission - `DONE!`
     * remove TLS certs from build pack process
     * remove from panoramix cluster
