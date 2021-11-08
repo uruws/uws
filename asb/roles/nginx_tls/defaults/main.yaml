@@ -3,3 +3,5 @@ nginx_user: www-data
 nginx_group: www-data
 
 nginx_cache_dir: /var/cache/nginx
+
+nginx_tls_site: []

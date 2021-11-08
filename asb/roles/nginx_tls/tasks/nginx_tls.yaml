@@ -76,3 +76,18 @@
   tags:
     - nginx
     - nginx_tls
+
+- name: sites enable
+  become: yes
+  template:
+    src: {{ item }}
+    dest: /etc/nginx/sites-enabled/{{ item | basename }}
+    mode: '0644'
+    owner: root
+    group: root
+  loop: "{{ nginx_tls_site }}"
+  notify:
+    - reload nginx
+  tags:
+    - nginx
+    - nginx_tls

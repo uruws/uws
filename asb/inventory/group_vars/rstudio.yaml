@@ -14,3 +14,7 @@ rstudio_jnb_server_name: "{{ inventory_hostname }}-jnb.{{ uws_domain }}"
 uws_acme_certs:
   - "{{ rstudio_server_name }}"
   - "{{ rstudio_jnb_server_name }}"
+
+nginx_tls_site:
+  - ~/asb/rstudio/nginx/rstudio.conf
+  - ~/asb/rstudio/nginx/jupyter.conf
