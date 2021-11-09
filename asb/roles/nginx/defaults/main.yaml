@@ -1,4 +1,3 @@
 ---
 nginx_server_tokens: 'off'
 nginx_acme_enable: yes
-nginx_default_redirect: "{{ ansible_host }}"
