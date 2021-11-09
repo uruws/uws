@@ -22,7 +22,7 @@
     * remove DNS record
     * remove from uwscli
 
-* rstudio (Rina) - `WIP`
+* rstudio (Rina) - `DONE!`
     * setup jupyter (notebook and lab)
         * https://jupyter.org/
 
@@ -55,8 +55,13 @@
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
 
-* infra app
-    * auth service
+* develope infra webapp
+    * users auth/cert manager
+    * github webhook
+    * jira webhook
+    * munin dashboard
+    * events history (builds, restarts, deploys, etc...)
+    * API for UI interaction
 
 * k8s/ctl - `FIX`: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
@@ -76,14 +81,6 @@
 
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
-
-* develope infra webapp
-    * users auth/cert manager
-    * github webhook
-    * jira webhook
-    * munin dashboard
-    * events history (builds, restarts, deploys, etc...)
-    * API for UI interaction
 
 * uwscli integration
     * cleanup old images in ECR
@@ -127,9 +124,6 @@
     * some ideas:
         * use more than one ingress (maybe in sep namespaces)
         * use different nodegroups for "core" services like nginx and the "main" nodegroup to run our services (web, workers, etc...), using node affinity annotations.
-
-* re-design meteor app build to avoid including NLP certs inside container image
-    * change buildpack repo app/certs/
 
 * SFTP server for data sharing with schools
     * web integration for user/pass management
