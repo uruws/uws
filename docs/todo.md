@@ -1,7 +1,5 @@
 # TODO
 
-* uwscli app-events - `DONE!`
-
 * check ev15min new tags on App repo
     * build and deploy to aws.testing
 
@@ -9,22 +7,6 @@
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
         * once aws.testing is done try/deploy there
-
-* setup NLPService - `DONE!`
-    * cluster setup
-    * Ramiro access to uwscli
-
-* NLPService support - `WIP`
-
-* NLP decommission - `DONE!`
-    * remove TLS certs from build pack process
-    * remove from panoramix cluster
-    * remove DNS record
-    * remove from uwscli
-
-* rstudio (Rina) - `DONE!`
-    * setup jupyter (notebook and lab)
-        * https://jupyter.org/
 
 * munin alerts to slack
     * setup/devel bot
