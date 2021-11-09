@@ -24,6 +24,10 @@
         * web_time
             * response (request?) avg
 
+* rstudio checks
+    * http_loadtime IDE and Jupyter Notebook from jsbatch
+    * vm local munin setup (ansible role)
+
 * ansible roles - `WIP`
     * monit
         * setup monit to check fail2ban keeps running
