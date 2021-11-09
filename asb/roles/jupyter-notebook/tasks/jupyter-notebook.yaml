@@ -43,6 +43,7 @@
     mode: '0750'
   loop:
     - jnb-start.sh
+    - jnb-stop.sh
   tags:
     - jupyter-notebook
 
