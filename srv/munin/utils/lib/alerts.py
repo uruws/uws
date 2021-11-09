@@ -13,9 +13,10 @@ from email.utils import formatdate, make_msgid
 
 from io import StringIO
 from time import time_ns, gmtime
+from socket import gethostname
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
-MAIL_ADDR = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
+MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
 
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
@@ -32,6 +33,13 @@ def _getTitle(s):
 
 def _stateChanged(s):
 	return s.get('state_changed', '') == '1'
+
+def _msgFrom(s):
+	h = s.get('host', gethostname())
+	h = h.strip()
+	if not h:
+		h = 'NO_HOST'
+	return Address(h, 'munin-alert', h)
 
 def _msgSubject(s):
 	worst = s.get('worst', 'ERROR')
@@ -97,8 +105,8 @@ def _sleepingHours():
 
 def parse(stats):
 	msg = _msgNew()
-	msg['From'] = MAIL_ADDR
-	msg['To'] = MAIL_ADDR
+	msg['From'] = _msgFrom(stats)
+	msg['To'] = MAILTO
 	msg['Subject'] = _msgSubject(stats)
 	with StringIO() as c:
 		_msgContent(c, stats, msg)
