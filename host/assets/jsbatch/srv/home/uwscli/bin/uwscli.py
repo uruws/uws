@@ -18,10 +18,12 @@ class App(object):
 		self.deploy = deploy
 
 class AppBuild(object):
-	def __init__(self, dir, script, type = 'cli'):
+	def __init__(self, dir, script, type = 'cli', src = None, target = None):
 		self.dir = dir
 		self.script = script
 		self.type = type
+		self.src = src
+		self.target = target
 
 class AppDeploy(object):
 	def __init__(self, image, filter = None):
@@ -30,12 +32,19 @@ class AppDeploy(object):
 		if self.filter is None:
 			self.filter = "%s-" % image
 
-buildpack = AppBuild('/srv/deploy/Buildpack', 'build.py', type = 'pack')
+def _buildpack(src, target):
+	return AppBuild(
+		'/srv/deploy/Buildpack',
+		'build.py',
+		type = 'pack',
+		src = src,
+		target = target,
+	)
 
 app = {
 	'app': App(False,
 		desc = 'App web and workers',
-		build = buildpack,
+		build = _buildpack('app/src', 'app'),
 	),
 	'app-east': App(True,
 		cluster = 'amy-east',
@@ -59,14 +68,14 @@ app = {
 		cluster = 'amybeta',
 		desc = 'App beta',
 		pod = 'meteor/beta',
-		build = buildpack,
+		build = _buildpack('beta/src', 'beta'),
 		deploy = AppDeploy('meteor-beta'),
 	),
 	'cs': App(True,
 		cluster = 'amybeta',
 		desc = 'Crowdsourcing',
 		pod = 'meteor/cs',
-		build = buildpack,
+		build = _buildpack('cs/src', 'crowdsourcing'),
 		deploy = AppDeploy('meteor-crowdsourcing'),
 	),
 	'nlpsvc': App(True,

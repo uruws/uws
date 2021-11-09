@@ -32,7 +32,9 @@ def nq(app, version):
 	build_dir = uwscli.app[app].build.dir
 	build_script = uwscli.app[app].build.script
 	if builder == 'pack':
-		args = "--target %s --version %s" % (app, version)
+		src = uwscli.app[app].build.src
+		target = uwscli.app[app].build.target
+		args = "--src %s --target %s --version %s" % (src, target, version)
 		return uwscli.nq(build_script, args, build_dir)
 	else:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
