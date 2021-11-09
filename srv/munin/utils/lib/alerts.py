@@ -91,7 +91,7 @@ _sleepTimeOffset = -3
 
 def _sleepingHours():
 	h = int(gmtime().tm_hour - _sleepTimeOffset)
-	if h >= 22 or h <= 8:
+	if h >= 22 or h < 8:
 		return True
 	return False
 
