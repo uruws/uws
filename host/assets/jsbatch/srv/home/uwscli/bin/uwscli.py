@@ -141,10 +141,10 @@ def ctl(args):
 	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, __user, args))
 
 def nq(cmd, args, build_dir = cmddir):
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s/%s %s" % (cmddir, build_dir, cmd, args))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, __user, build_dir, cmd, args))
 
 def run(cmd, args):
 	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args))
 
 def clean_build(app, version):
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s/app-clean-build.sh %s %s" % (cmddir, cmddir, app, version))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s %s" % (cmddir, __user, cmddir, app, version))
