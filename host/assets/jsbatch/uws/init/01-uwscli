@@ -11,7 +11,6 @@ fi
 
 # queue run dir
 
-mkdir -vp /run/uwscli/nq
 install -v -d -o uws -g uwscli -m 0750 /run/uwscli
 install -v -d -o uws -g uwscli -m 0770 /run/uwscli/nq
 
@@ -23,10 +22,10 @@ chown -v uwscli:uwscli ~uwscli
 chmod -v 0750 ~uwscli/etc
 chown -vR root:uwscli ~uwscli/etc
 
-chmod -v 0750 ~uwscli/bin
-chmod -v 0750 ~uwscli/bin/*
-chmod -v 0640 ~uwscli/bin/uwscli.py
+chmod -v 0550 ~uwscli/bin/*
+chmod -v 0440 ~uwscli/bin/uwscli.py
 
+chmod -v 0750 ~uwscli/bin
 chown -vR root:uwscli ~uwscli/bin
 
 # admin utils
@@ -34,6 +33,10 @@ chown -vR root:uwscli ~uwscli/bin
 chown -v root:uws ~uwscli/bin/app-deploy
 chown -v root:uws ~uwscli/bin/app-rollin
 chown -v root:uws ~uwscli/bin/app-scale
+
+# internal utils
+
+chown -v uwscli:root ~uwscli/bin/app-autobuild
 
 # python compile
 

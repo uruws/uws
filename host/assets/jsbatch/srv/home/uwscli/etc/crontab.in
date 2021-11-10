@@ -4,6 +4,9 @@ USER=uwscli
 
 # m h  dom mon dow   command
 
+# autobuild
+###*/15 * * * * app-autobuild app
+
 # scale down
 13 3 * * 2-6 app-scale worker 40
 23 3 * * 2-6 app-scale app-east 50
