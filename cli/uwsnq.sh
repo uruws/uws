@@ -16,5 +16,5 @@ fi
 logd=${HOME}/logs
 logf=${logd}/uwsq.log
 mkdir -p -m 0750 "${logd}"
-echo "$(date -R): ${user} - ${CMD} ${*}" >>"${logf}"
+echo "$(date -R) [${user}] ${CMD} ${*}" >>"${logf}"
 exec nq -c -- "${CMD}" "$@"
