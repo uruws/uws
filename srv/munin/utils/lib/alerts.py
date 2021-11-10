@@ -95,11 +95,9 @@ def _msgContent(c, s, m):
 			for f in unk:
 				c.write(f"  {f['label']}\n")
 
-_sleepTimeOffset = -3
-
 def _sleepingHours():
-	h = int(gmtime().tm_hour - _sleepTimeOffset)
-	if h >= 22 or h < 8:
+	h = int(gmtime().tm_hour)
+	if h >= 1 or h < 11:
 		return True
 	return False
 
