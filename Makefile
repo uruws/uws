@@ -35,7 +35,7 @@ all: bootstrap acme clamav k8s k8sctl eks uwsbot munin munin-backend munin-node 
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert python ansible
+bootstrap: awscli base base-testing golang mkcert python ansible uwscli
 
 #
 # base
@@ -80,6 +80,10 @@ python:
 .PHONY: uwspkg
 uwspkg:
 	@./docker/uwspkg/build.sh
+
+.PHONY: uwscli
+uwscli:
+	@./docker/uwscli/build.sh
 
 .PHONY: acme
 acme:

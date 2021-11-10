@@ -76,6 +76,8 @@
     * `2109`: base-2109
 * docker/uwsbot
     * `2109`: base-2109
+* docker/uwscli
+    * `2109`: base-2109
 * srv/proftpd
     * `2109`: base-2109
 * srv/munin
