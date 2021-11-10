@@ -3,6 +3,9 @@
 * check ev15min new tags on App repo
     * build and deploy to aws.testing
 
+* Buildpack unittest - `DONE!`
+    * [Buildpack/build_test.py](https://github.com/TalkingPts/Buildpack/blob/master/build_test.py)
+
 * nginx secure headers
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
