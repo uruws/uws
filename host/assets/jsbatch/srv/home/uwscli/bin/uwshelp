@@ -48,7 +48,7 @@ def main():
 	if args.cmd == '':
 		return all_help()
 
-	return system("%s/%s --help" % (uwscli.bindir, args.cmd))
+	return system("%s/%s --help" % (uwscli.bindir, args.cmd)) >> 8
 
 if __name__ == '__main__':
 	sys.stdout.reconfigure(line_buffering = False)

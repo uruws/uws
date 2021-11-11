@@ -38,7 +38,7 @@ def main():
 	# pod logs
 	if args.pod != '':
 		cmd += " %s" % args.pod
-		return system(cmd)
+		return system(cmd) >> 8
 
 	# all logs
 	cmd += ' --prefix=true --ignore-errors'
@@ -48,7 +48,7 @@ def main():
 		cmd += " -l '*'"
 	else:
 		cmd += " -l %s" % args.label
-	return system(cmd)
+	return system(cmd) >> 8
 
 if __name__ == '__main__':
 	sys.stdout.reconfigure(line_buffering = False)

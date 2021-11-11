@@ -1,13 +1,17 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from os import path, getenv, system
+from os import path, getenv
+from os import system as os_system
 from subprocess import check_output, CalledProcessError
 
 bindir = path.abspath(path.dirname(__file__))
 _user = getenv('USER', 'unknown')
 
 from uwscli_conf import app, cluster, cmddir, docker_storage, docker_storage_min
+
+def system(cmd):
+	return os_system(cmd) >> 8
 
 def __descmax(k):
 	m = 0
