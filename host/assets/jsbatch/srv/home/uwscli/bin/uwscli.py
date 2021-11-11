@@ -145,16 +145,16 @@ def deploy_list():
 def deploy_description():
 	return __desc(deploy_list())
 
-__user = getenv('USER', 'unknown')
+_user = getenv('USER', 'unknown')
 
 def ctl(args):
-	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, __user, args))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args))
 
 def nq(cmd, args, build_dir = cmddir):
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, __user, build_dir, cmd, args))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, build_dir, cmd, args))
 
 def run(cmd, args):
 	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args))
 
 def clean_build(app, version):
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s %s" % (cmddir, __user, cmddir, app, version))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s %s" % (cmddir, _user, cmddir, app, version))

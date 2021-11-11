@@ -10,4 +10,5 @@ exec docker run -it --rm --name uwscli-devel \
 	-v ${CLI_HOME}/etc:/srv/home/uwscli/etc:ro \
 	-v ${SRC_DIR}:/srv/deploy:ro \
 	-v ${PWD}:/srv/uws/deploy:ro \
+	-v ${PWD}/cli:/srv/home/uwscli/cli:ro \
 	-u uwscli uws/cli
