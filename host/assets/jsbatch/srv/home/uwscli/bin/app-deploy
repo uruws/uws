@@ -5,7 +5,6 @@
 
 import sys
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
-from subprocess import check_output, CalledProcessError
 
 import uwscli
 
@@ -15,17 +14,6 @@ def deploy(app, version):
 	args = "%s %s deploy %s" % (uwscli.app[app].cluster,
 		uwscli.app[app].pod, version)
 	return uwscli.ctl(args)
-
-def list_images(app):
-	cluster = uwscli.app[app].cluster
-	cmd = "aws ecr list-images --output text --repository-name uws"
-	cmd += " --region %s" % uwscli.cluster[cluster]['region']
-	cmd += " | grep -F '%s'" % uwscli.app[app].deploy.image
-	cmd += " | awk '{ print $3 }'"
-	cmd += " | sed 's/^%s//'" % uwscli.app[app].deploy.filter
-	cmd += " | sort -n"
-	out = check_output(cmd, shell = True).decode()
-	return out.splitlines()
 
 def main():
 	epilog = uwscli.deploy_description()
@@ -41,7 +29,7 @@ def main():
 	args = flags.parse_args()
 
 	if args.version != '':
-		if not args.version in list_images(args.app):
+		if not args.version in uwscli.list_images(args.app):
 			print("invalid %s build: %s" % (args.app, args.version),
 				file = sys.stderr)
 			return 1
@@ -51,15 +39,13 @@ def main():
 				file = sys.stderr)
 			return rc
 	else:
-		try:
-			images = list_images(args.app)
-		except CalledProcessError as err:
-			print("get %s build images error: %s" % (args.app, err.output),
-				file = sys.stderr)
-			return err.returncode
-		print('available', args.app, 'builds:')
-		for n in images:
-			print(' ', n)
+		images = uwscli.list_images(args.app)
+		if len(images) > 0:
+			print('available', args.app, 'builds:')
+			for n in images:
+				print(' ', n)
+		else:
+			print('no available builds for', args.app)
 
 	return 0
 

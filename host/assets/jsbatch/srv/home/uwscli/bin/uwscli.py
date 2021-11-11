@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 from os import path, getenv, system
+from subprocess import check_output, CalledProcessError
 
 bindir = path.abspath(path.dirname(__file__))
 _user = getenv('USER', 'unknown')
@@ -58,3 +59,20 @@ def run(cmd, args):
 
 def clean_build(app, version):
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s %s" % (cmddir, _user, cmddir, app, version))
+
+def list_images(appname, region = None):
+	kn = app[appname].cluster
+	if region is None:
+		region = cluster[kn]['region']
+	cmd = "aws ecr list-images --output text --repository-name uws"
+	cmd += " --region %s" % region
+	cmd += " | grep -F '%s'" % app[appname].deploy.image
+	cmd += " | awk '{ print $3 }'"
+	cmd += " | sed 's/^%s//'" % app[appname].deploy.filter
+	cmd += " | sort -n"
+	try:
+		out = check_output(cmd, shell = True).decode()
+		return out.splitlines()
+	except CalledProcessError as err:
+		print(f"[ERROR] {appname} list images: {err.output}", file = sys.stderr)
+	return []
