@@ -12,6 +12,8 @@ def main(argv = []):
 		help = 'follow messages')
 	flags.add_argument('-t', '--tail', type = int, default = 10,
 		metavar = 'N', help = 'show last N messages (default 10)')
+	flags.add_argument('-m', '--max', type = int, default = 0,
+		metavar = 'N', help = 'max containers to get logs from')
 	flags.add_argument('app', metavar = 'app', choices = uwscli.app_list(),
 		default = 'app', help = 'app name')
 
@@ -24,5 +26,7 @@ def main(argv = []):
 		logs_args += ' -f'
 	if args.tail != 10:
 		logs_args += " --tail=%d" % args.tail
+	if args.max > 0:
+		logs_args += " --max=%d" % args.max
 
 	return uwscli.run('app-cli.sh', logs_args)
