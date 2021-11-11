@@ -10,6 +10,9 @@ import uwscli
 
 class Test(unittest.TestCase):
 
+	def setUp(t):
+		uwscli_t.mock()
+
 	def test_globals(t):
 		t.assertEqual(uwscli.bindir, '/srv/home/uwscli/bin')
 		t.assertEqual(uwscli.cmddir, '/srv/uws/deploy/cli')

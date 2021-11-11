@@ -10,6 +10,9 @@ import app_events
 
 class Test(unittest.TestCase):
 
+	def setUp(t):
+		uwscli_t.mock()
+
 	def test_main_no_args(t):
 		with t.assertRaises(SystemExit) as e:
 			app_events.main()

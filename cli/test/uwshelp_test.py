@@ -10,6 +10,9 @@ import uwshelp
 
 class Test(unittest.TestCase):
 
+	def setUp(t):
+		uwscli_t.mock()
+
 	def test_main_no_args(t):
 		t.assertEqual(uwshelp.main(), 0)
 

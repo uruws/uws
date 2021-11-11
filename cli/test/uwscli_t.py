@@ -1,6 +1,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from io import StringIO
+
 import uwscli
 import uwscli_conf
 
@@ -15,3 +17,9 @@ uwscli.app['testing'] = uwscli_conf.App(True,
 uwscli.cluster['ktest'] = {
 	'region': 'testing-1',
 }
+
+def mock():
+	uwscli._outfh = None
+	uwscli._outfh = StringIO()
+	uwscli._errfh = None
+	uwscli._errfh = StringIO()
