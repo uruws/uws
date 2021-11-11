@@ -1,8 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import sys
-
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
@@ -27,21 +25,19 @@ def main(argv = []):
 
 	if args.version != '':
 		if not args.version in uwscli.list_images(args.app):
-			print("invalid %s build: %s" % (args.app, args.version),
-				file = sys.stderr)
+			uwscli.error("invalid %s build: %s" % (args.app, args.version))
 			return 1
 		rc = deploy(args.app, args.version)
 		if rc != 0:
-			print("enqueue of %s deploy job failed!" % args.app,
-				file = sys.stderr)
+			uwscli.error("enqueue of %s deploy job failed!" % args.app)
 			return rc
 	else:
 		images = uwscli.list_images(args.app)
 		if len(images) > 0:
-			print('available', args.app, 'builds:')
+			uwscli.log('available', args.app, 'builds:')
 			for n in images:
-				print(' ', n)
+				uwscli.log(' ', n)
 		else:
-			print('no available builds for', args.app)
+			uwscli.log('no available builds for', args.app)
 
 	return 0

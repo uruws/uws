@@ -1,8 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import sys
-
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from subprocess import getstatusoutput
 
@@ -13,12 +11,12 @@ def check_storage():
 	x += " | tail -n1 | awk '{ print $4 }'"
 	rc, out = getstatusoutput(x)
 	if rc != 0:
-		print(out, file = sys.stderr)
+		uwscli.error(out)
 		return rc
 	try:
 		s = int(out)
 	except ValueError:
-		print('value error:', out, file = sys.stderr)
+		uwscli.error('value error:', out)
 		return 9
 	if s < uwscli.docker_storage_min:
 		return 8
@@ -40,7 +38,7 @@ def nq(app, version):
 def cleanBuild(app, version):
 	rc = uwscli.clean_build(app, version)
 	if rc != 0:
-		print('ERROR: app clean:', app, version, 'failed!', file = sys.stderr)
+		uwscli.error('ERROR: app clean:', app, version, 'failed!')
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
@@ -53,32 +51,32 @@ def main(argv = []):
 
 	rc = check_storage()
 	if rc != 0:
-		print('ERROR: not enough disk space!', file = sys.stderr)
+		uwscli.error('ERROR: not enough disk space!')
 		return rc
 
 	rc = nq(args.app, args.version)
 	if rc != 0:
-		print("enqueue of %s build job failed!" % args.app, file = sys.stderr)
+		uwscli.error("enqueue of %s build job failed!" % args.app)
 		return rc
 
 	cleanBuild(args.app, args.version)
 
-	print('')
-	print('Check build job with:')
-	print('  uwsq')
-	print('')
-	print('Deploy and check status with:')
+	uwscli.log('')
+	uwscli.log('Check build job with:')
+	uwscli.log('  uwsq')
+	uwscli.log('')
+	uwscli.log('Deploy and check status with:')
 	if args.app == 'app':
-		print('')
-		print("  Workers: app-deploy worker %s" % args.version)
-		print('           app-status worker')
-		print('')
-		print("  Web: app-deploy app-(east|west) %s" % args.version)
-		print('       app-status app-(east|west)')
+		uwscli.log('')
+		uwscli.log("  Workers: app-deploy worker %s" % args.version)
+		uwscli.log('           app-status worker')
+		uwscli.log('')
+		uwscli.log("  Web: app-deploy app-(east|west) %s" % args.version)
+		uwscli.log('       app-status app-(east|west)')
 	else:
-		print('  app-deploy', args.app, args.version)
-		print('  app-status', args.app)
-	print('')
-	print('Run uwshelp for more information.')
+		uwscli.log('  app-deploy', args.app, args.version)
+		uwscli.log('  app-status', args.app)
+	uwscli.log('')
+	uwscli.log('Run uwshelp for more information.')
 
 	return 0

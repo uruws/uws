@@ -1,6 +1,11 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import sys
+
+_outfh = sys.stdout
+_errfh = sys.stderr
+
 from os import getenv
 from os import system as os_system
 from subprocess import check_output, CalledProcessError
@@ -11,6 +16,12 @@ from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_sto
 
 def system(cmd):
 	return os_system(cmd) >> 8
+
+def log(*args, sep = ' '):
+	print(*args, sep = sep, file = _outfh)
+
+def error(*args):
+	print(*args, file = _errfh)
 
 def __descmax(k):
 	m = 0
@@ -77,5 +88,5 @@ def list_images(appname, region = None):
 		out = check_output(cmd, shell = True).decode()
 		return out.splitlines()
 	except CalledProcessError as err:
-		print(f"[ERROR] {appname} list images: {err.output}", file = sys.stderr)
+		error(f"[ERROR] {appname} list images: {err.output}")
 	return []

@@ -24,14 +24,14 @@ def all_help():
 	cmd += '##" | sed "s/__doc__ = //"'
 	out = check_output(cmd, shell = True, text = True)
 	lmax, lines = __out_split(out)
-	print('uws command line interface')
-	print('')
-	print('available commands:')
-	print('')
+	uwscli.log('uws command line interface')
+	uwscli.log('')
+	uwscli.log('available commands:')
+	uwscli.log('')
 	for c in lines.keys():
-		print('  ', c, ' '*(lmax - len(c)), ' - ', lines[c], sep = '')
-	print('')
-	print('run `uwshelp cmd` to get more information about cmd usage')
+		uwscli.log('  ', c, ' '*(lmax - len(c)), ' - ', lines[c], sep = '')
+	uwscli.log('')
+	uwscli.log('run `uwshelp cmd` to get more information about cmd usage')
 	return 0
 
 def main(argv = []):

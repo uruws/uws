@@ -1,7 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import sys
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
@@ -17,7 +16,7 @@ def main(argv = []):
 	args = flags.parse_args(argv)
 
 	if args.replicas <= 0:
-		print('invalid number of replicas:', args.replicas, file = sys.stderr)
+		uwscli.error('invalid number of replicas:', args.replicas)
 		return 9
 
 	cmd_args = "%s %s scale %d" % (uwscli.app[args.app].cluster,

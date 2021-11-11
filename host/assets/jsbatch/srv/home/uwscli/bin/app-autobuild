@@ -30,9 +30,9 @@ def main():
 
 	rc, tag = lastTag(args.app)
 	if rc != 0:
-		print(tag, file = sys.stderr)
+		uwscli.error(tag)
 		return rc
-	print('Build tag:', tag)
+	uwscli.log('Build tag:', tag)
 
 	return 0
 
