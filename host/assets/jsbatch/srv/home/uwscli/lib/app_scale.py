@@ -1,0 +1,26 @@
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
+
+import sys
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
+
+import uwscli
+
+def main(argv = []):
+	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
+		description = __doc__, epilog = uwscli.deploy_description())
+	flags.add_argument('app', metavar = 'app', default = 'app',
+		help = 'app name', choices = uwscli.deploy_list())
+	flags.add_argument('replicas', metavar = 'N', type = int,
+		help = 'number of replicas')
+
+	args = flags.parse_args(argv)
+
+	if args.replicas <= 0:
+		print('invalid number of replicas:', args.replicas, file = sys.stderr)
+		return 9
+
+	cmd_args = "%s %s scale %d" % (uwscli.app[args.app].cluster,
+		uwscli.app[args.app].pod, args.replicas)
+
+	return uwscli.ctl(cmd_args)
