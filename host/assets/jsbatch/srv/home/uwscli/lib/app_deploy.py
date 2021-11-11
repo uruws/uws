@@ -1,6 +1,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import sys
+
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli

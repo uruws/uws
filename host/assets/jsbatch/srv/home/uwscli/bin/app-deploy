@@ -4,9 +4,8 @@
 # See LICENSE file.
 
 import sys
-from argparse import ArgumentParser, RawDescriptionHelpFormatter
-
 sys.path.insert(0, '/srv/home/uwscli/lib')
+
 import app_deploy
 
 __doc__ = 'deploy app build'
