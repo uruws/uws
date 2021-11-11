@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh less python3
+RUN /root/bin/apt-install.sh less python3 git
 
 RUN groupadd -o -g 1700 uwscli \
 	&& useradd -o -d /srv/home/uwscli -m -c 'uwscli' -g 1700 -u 1700 uwscli \

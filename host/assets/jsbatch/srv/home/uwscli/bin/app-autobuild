@@ -4,11 +4,19 @@
 # See LICENSE file.
 
 import sys
+
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from os import chdir, system
+from subprocess import getstatusoutput
 
 import uwscli
 
 __doc__ = 'auto build app latest release'
+
+def lastTag(app):
+	src = uwscli.app[app].build.src
+	ref = uwscli.app[app].build.ref
+	return getstatusoutput(f"git -C {src} describe --abbrev=0 --tags {ref}")
 
 def main():
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
@@ -16,6 +24,16 @@ def main():
 	flags.add_argument('app', metavar = 'app', choices = uwscli.build_list(),
 		default = 'app', help = 'app name')
 	args = flags.parse_args()
+
+	bdir = uwscli.app[args.app].build.dir
+	chdir(bdir)
+
+	rc, tag = lastTag(args.app)
+	if rc != 0:
+		print(tag, file = sys.stderr)
+		return rc
+	print('Build tag:', tag)
+
 	return 0
 
 if __name__ == '__main__':
