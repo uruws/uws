@@ -4,26 +4,13 @@
 # See LICENSE file.
 
 import sys
-from argparse import ArgumentParser, RawDescriptionHelpFormatter
+sys.path.insert(0, '/srv/home/uwscli/lib')
 
-import uwscli
+import app_status
 
 __doc__ = 'show app deploy status'
-
-def main():
-	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
-		description = __doc__, epilog = uwscli.deploy_description())
-	flags.add_argument('app', metavar = 'app', default = 'app',
-		help = 'app name', choices = uwscli.deploy_list())
-
-	args = flags.parse_args()
-
-	cmd_args = "%s %s status" % (uwscli.app[args.app].cluster,
-		uwscli.app[args.app].pod)
-
-	return uwscli.run('app-cmd.sh', cmd_args)
 
 if __name__ == '__main__':
 	sys.stdout.reconfigure(line_buffering = False)
 	sys.stderr.reconfigure(line_buffering = False)
-	sys.exit(main())
+	sys.exit(app_status.main(sys.argv[1:]))
