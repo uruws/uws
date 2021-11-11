@@ -9,12 +9,15 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh less python3 python3-coverage
+RUN /root/bin/apt-install.sh less python3
 
 RUN groupadd -o -g 1700 uwscli \
 	&& useradd -o -d /srv/home/uwscli -m -c 'uwscli' -g 1700 -u 1700 uwscli \
 	&& chmod -v 0750 /srv/home/uwscli \
 	&& adduser uwscli uws
+
+RUN /root/bin/apt-install.sh python3-coverage libjs-jquery libjs-jquery-throttle-debounce \
+	libjs-jquery-tablesorter libjs-jquery-isonscreen
 
 USER uwscli:uwscli
 WORKDIR /srv/home/uwscli
