@@ -27,15 +27,6 @@ class Test(unittest.TestCase):
 	def setUp(t):
 		uwscli_t.mock()
 
-	def test_main_no_args(t):
-		with t.assertRaises(SystemExit) as e:
-			app_build.main()
-		err = e.exception
-		t.assertEqual(err.args[0], 2)
-
-	def test_main(t):
-		t.assertEqual(app_build.main(['testing', '0.999']), 9)
-
 	def test_check_storage(t):
 		with uwscli_t.mock_gso(output = '100'):
 			t.assertEqual(app_build.check_storage(), 0)
@@ -74,6 +65,20 @@ class Test(unittest.TestCase):
 			app_build.cleanBuild('testing', '0.999')
 		t.assertEqual(uwscli_t.err().strip(), 'ERROR: app clean: testing 0.999 failed!')
 
+	def test_main_no_args(t):
+		with t.assertRaises(SystemExit) as e:
+			app_build.main()
+		err = e.exception
+		t.assertEqual(err.args[0], 2)
+
+	def test_main_errors(t):
+		t.assertEqual(app_build.main(['testing', '0.999']), 9)
+		with mock_check_storage(status = 99):
+			t.assertEqual(app_build.main(['testing', '0.999']), 99)
+		with mock_check_storage():
+			with uwscli_t.mock_system(status = 99):
+				t.assertEqual(app_build.main(['testing', '0.999']), 99)
+
 	def test_main(t):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 0.999'),
@@ -96,13 +101,6 @@ class Test(unittest.TestCase):
 					t.assertEqual(app_build.main(['app', '0.999']), 0)
 				finally:
 					del uwscli.app['app']
-
-	def test_main_errors(t):
-		with mock_check_storage(status = 99):
-			t.assertEqual(app_build.main(['testing', '0.999']), 99)
-		with mock_check_storage():
-			with uwscli_t.mock_system(status = 99):
-				t.assertEqual(app_build.main(['testing', '0.999']), 99)
 
 if __name__ == '__main__':
 	unittest.main()
