@@ -11,6 +11,7 @@ from os import system as os_system
 from subprocess import check_output, CalledProcessError
 
 _user = getenv('USER', 'unknown')
+_log = getenv('UWSCLI_LOG', 'on') == 'on'
 
 from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
 
@@ -18,7 +19,8 @@ def system(cmd):
 	return os_system(cmd) >> 8
 
 def log(*args, sep = ' '):
-	print(*args, sep = sep, file = _outfh)
+	if _log:
+		print(*args, sep = sep, file = _outfh)
 
 def error(*args):
 	print(*args, file = _errfh)
