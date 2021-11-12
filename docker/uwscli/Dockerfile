@@ -1,30 +1,12 @@
-FROM uws/base-2109
+FROM uws/python-2109
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="211110"
+LABEL version="211111"
 
-USER root:root
-WORKDIR /root
+USER uws:uws
+WORKDIR /home/uws
 
-ENV USER root
-ENV HOME /root
-
-RUN /root/bin/apt-install.sh less python3
-
-RUN groupadd -o -g 1700 uwscli \
-	&& useradd -o -d /srv/home/uwscli -m -c 'uwscli' -g 1700 -u 1700 uwscli \
-	&& chmod -v 0750 /srv/home/uwscli \
-	&& adduser uwscli uws
-
-RUN /root/bin/apt-install.sh python3-coverage libjs-jquery libjs-jquery-throttle-debounce \
-	libjs-jquery-tablesorter libjs-jquery-isonscreen
-
-USER uwscli:uwscli
-WORKDIR /srv/home/uwscli
-
-ENV USER uwscli
-ENV HOME /srv/home/uwscli
+ENV USER uws
+ENV HOME /home/uws
 
 RUN mkdir -vp -m 0750 ~/bin ~/etc
-
-CMD exec /bin/bash -il
