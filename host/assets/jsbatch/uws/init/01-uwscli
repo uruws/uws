@@ -72,4 +72,10 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
 
 crontab -u uwscli ~uwscli/etc/crontab.in
 
+# devel htmlcov
+
+mkdir -vp -m 0750 /srv/www/ssl/uwscli
+chown -v uwscli:www-data /srv/www/ssl/uwscli
+chmod -v g+s /srv/www/ssl/uwscli
+
 exit 0

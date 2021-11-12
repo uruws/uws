@@ -13,4 +13,4 @@ exec docker run -it --rm --name uwscli-devel \
 	-v ${CLI_HOME}/lib:/srv/home/uwscli/lib:ro \
 	-v ${PWD}/cli/test:/srv/home/uwscli/test:ro \
 	-v ${PWD}/tmp/uwscli:/srv/home/uwscli/tmp:rw \
-	-u uwscli uws/cli
+	-u uwscli uws/cli $@
