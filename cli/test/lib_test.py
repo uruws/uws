@@ -68,5 +68,11 @@ class Test(unittest.TestCase):
 	def test_build_desc(t):
 		t.assertEqual(uwscli.build_description(), 'available apps:\n  testing - Testing\n')
 
+	def test_deploy_list(t):
+		t.assertEqual(uwscli.deploy_list(), ['testing'])
+
+	def test_deploy_desc(t):
+		t.assertEqual(uwscli.deploy_description(), 'available apps:\n  testing - Testing\n')
+
 if __name__ == '__main__':
 	unittest.main()
