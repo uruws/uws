@@ -2,15 +2,13 @@
 # See LICENSE file.
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
-from os import chdir, system
-from subprocess import getstatusoutput
 
 import uwscli
 
 def lastTag(app):
 	src = uwscli.app[app].build.src
 	ref = uwscli.app[app].build.ref
-	return getstatusoutput(f"git -C {src} describe --abbrev=0 --tags {ref}")
+	return uwscli.gso(f"git -C {src} describe --abbrev=0 --tags {ref}")
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
@@ -22,7 +20,7 @@ def main(argv = []):
 
 	bdir = uwscli.app[args.app].build.dir
 	try:
-		chdir(bdir)
+		uwscli.chdir(bdir)
 	except FileNotFoundError:
 		uwscli.error('[ERROR] app build dir not found:', bdir)
 		return 9

@@ -59,6 +59,15 @@ def log_disable():
 		uwscli._log = True
 
 @contextmanager
+def mock_chdir():
+	chdir_bup = uwscli.chdir
+	try:
+		uwscli.chdir = MagicMock()
+		yield
+	finally:
+		uwscli.chdir = chdir_bup
+
+@contextmanager
 def mock_system(status = 0):
 	system_bup = uwscli.system
 	try:
