@@ -43,6 +43,7 @@ chown -v uwscli:root ~uwscli/bin/app-autobuild
 
 rm -vrf ~uwscli/lib/__pycache__
 python3 -m compileall ~uwscli/lib
+chown -vR root:uwscli ~uwscli/lib/__pycache__
 
 # users profile
 
