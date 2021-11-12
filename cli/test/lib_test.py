@@ -7,6 +7,7 @@ import unittest
 
 import uwscli_t
 import uwscli
+import uwscli_conf
 
 class Test(unittest.TestCase):
 
@@ -46,10 +47,26 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli_t.err().strip(), 'testing2')
 
 	def test_app_list(t):
-		t.assertEqual(uwscli.app_list(), ['testing', 'testing1'])
+		t.assertEqual(uwscli.app_list(), ['testing'])
 
 	def test_app_desc(t):
-		t.assertEqual(uwscli.app_description(), 'available apps:\n  testing  - Testing\n  testing1 - Testing1\n')
+		try:
+			uwscli.app['testing1'] = uwscli_conf.App(True,
+				cluster = 'ktest1',
+				desc = 'Testing1',
+				pod = 'test1',
+				build = uwscli_conf.AppBuild('/srv/deploy/Testing1', 'build.sh'),
+				deploy = uwscli_conf.AppDeploy('test1'),
+			)
+			t.assertEqual(uwscli.app_description(), 'available apps:\n  testing  - Testing\n  testing1 - Testing1\n')
+		finally:
+			del uwscli.app['testing1']
+
+	def test_build_list(t):
+		t.assertEqual(uwscli.build_list(), ['testing'])
+
+	def test_build_desc(t):
+		t.assertEqual(uwscli.build_description(), 'available apps:\n  testing - Testing\n')
 
 if __name__ == '__main__':
 	unittest.main()

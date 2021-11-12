@@ -15,21 +15,11 @@ uwscli.app = {
 		build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh'),
 		deploy = uwscli_conf.AppDeploy('test'),
 	),
-	'testing1': uwscli_conf.App(True,
-		cluster = 'ktest1',
-		desc = 'Testing1',
-		pod = 'test1',
-		build = uwscli_conf.AppBuild('/srv/deploy/Testing1', 'build.sh'),
-		deploy = uwscli_conf.AppDeploy('test1'),
-	),
 }
 
 uwscli.cluster = {
 	'ktest': {
 		'region': 'testing-1',
-	},
-	'ktest1': {
-		'region': 'testing-2',
 	},
 }
 
