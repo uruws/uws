@@ -95,5 +95,15 @@ class Test(unittest.TestCase):
 			t.assertEqual(uwscli.clean_build('testing', '0.999'), 0)
 			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing 0.999')
 
+	def test_list_images(t):
+		with uwscli_t.mock_check_output():
+			t.assertEqual(uwscli.list_images('testing', region = 't-1'), ['mock_output'])
+			uwscli.check_output.assert_called_once_with("aws ecr list-images --output text --repository-name uws --region t-1 | grep -F 'test' | awk '{ print $3 }' | sed 's/^test-//' | sort -n", shell = True)
+
+	def test_list_images_error(t):
+		with uwscli_t.mock_check_output(fail = True):
+			t.assertEqual(uwscli.list_images('testing'), [])
+		t.assertEqual(uwscli_t.err().strip(), '[ERROR] testing list images: mock_output')
+
 if __name__ == '__main__':
 	unittest.main()

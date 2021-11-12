@@ -5,6 +5,7 @@ from unittest.mock import MagicMock
 
 from contextlib import contextmanager
 from io import StringIO
+from subprocess import check_output, CalledProcessError
 
 import uwscli
 import uwscli_conf
@@ -62,3 +63,16 @@ def mock_system(status = 0):
 		yield
 	finally:
 		uwscli.system = system_bup
+
+@contextmanager
+def mock_check_output(fail = False):
+	def __co(*args, **kwargs):
+		if fail:
+			raise CalledProcessError(99, 'mock_cmd', output = 'mock_output')
+		return b'mock_output'
+	co_bup = uwscli.check_output
+	try:
+		uwscli.check_output = MagicMock(side_effect = __co)
+		yield
+	finally:
+		uwscli.check_output = co_bup
