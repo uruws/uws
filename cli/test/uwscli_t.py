@@ -1,6 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from contextlib import contextmanager
 from io import StringIO
 
 import uwscli
@@ -23,3 +24,26 @@ def mock():
 	uwscli._outfh = StringIO()
 	uwscli._errfh = None
 	uwscli._errfh = StringIO()
+
+def out():
+	uwscli._outfh.seek(0, 0)
+	s = uwscli._outfh.read()
+	uwscli._outfh.seek(0, 0)
+	uwscli._outfh.truncate()
+	return s
+
+def err():
+	uwscli._errfh.seek(0, 0)
+	s = uwscli._errfh.read()
+	uwscli._errfh.seek(0, 0)
+	uwscli._errfh.truncate()
+	return s
+
+
+@contextmanager
+def log_disable():
+	try:
+		uwscli._log = False
+		yield
+	finally:
+		uwscli._log = True

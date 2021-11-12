@@ -5,7 +5,7 @@ export PYTHONPATH=/srv/home/uwscli/lib:${HOME}/test
 
 cd ${HOME}
 
-rm -vf .coverage
+rm -f .coverage
 
 testfn=${1:-''}
 if test "X${testfn}" != 'X'; then
