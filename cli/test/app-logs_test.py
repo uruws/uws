@@ -6,6 +6,7 @@
 import unittest
 import uwscli_t
 
+import uwscli
 import app_logs
 
 class Test(unittest.TestCase):
@@ -19,8 +20,19 @@ class Test(unittest.TestCase):
 		err = e.exception
 		t.assertEqual(err.args[0], 2)
 
+	def test_main_errors(t):
+		with uwscli_t.mock_system(99):
+			t.assertEqual(app_logs.main(['testing']), 99)
+
 	def test_main(t):
-		t.assertEqual(app_logs.main(['testing']), 127)
+		with uwscli_t.mock_system():
+			t.assertEqual(app_logs.main(['testing']), 0)
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-cli.sh ktest test logs')
+
+	def test_main_flags(t):
+		with uwscli_t.mock_system():
+			t.assertEqual(app_logs.main(['testing', '-f', '-t', '1', '-m', '1']), 0)
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-cli.sh ktest test logs -f --tail=1 --max=1')
 
 if __name__ == '__main__':
 	unittest.main()
