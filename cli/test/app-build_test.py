@@ -38,5 +38,18 @@ class Test(unittest.TestCase):
 			t.assertEqual(app_build.check_storage(), 2)
 		t.assertEqual(uwscli_t.err().strip(), 'mock_error')
 
+	def test_nq(t):
+		with uwscli_t.mock_system():
+			t.assertEqual(app_build.nq('testing', '0.999'), 0)
+			t.assertEqual(uwscli.app['testing'].build.type, 'cli')
+			try:
+				uwscli.app['testing'].build.type = 'pack'
+				t.assertEqual(app_build.nq('testing', '0.999'), 0)
+			finally:
+				uwscli.app['testing'].build.type = 'cli'
+
+	def test_nq_errors(t):
+		t.assertEqual(app_build.nq('testing', '0.999'), 127)
+
 if __name__ == '__main__':
 	unittest.main()
