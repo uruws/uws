@@ -6,7 +6,7 @@ mkdir -vp ${CACHE_DIRS}
 chown -v www-data:www-data /srv/cache/nginx ${CACHE_DIRS}
 chmod -v 0750 /srv/cache/nginx ${CACHE_DIRS}
 
-WWW_DIRS='/srv/www/public /srv/www/ssl /srv/www/testssl'
+WWW_DIRS='/srv/www/public /srv/www/ssl /srv/www/ssl/buildpack /srv/www/testssl'
 mkdir -vp ${WWW_DIRS}
 chown -v uws:www-data /srv/www ${WWW_DIRS}
 chmod -v 0750 /srv/www ${WWW_DIRS}
