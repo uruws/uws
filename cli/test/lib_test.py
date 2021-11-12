@@ -17,8 +17,8 @@ class Test(unittest.TestCase):
 	def test_globals(t):
 		t.assertEqual(uwscli.bindir, '/srv/home/uwscli/bin')
 		t.assertEqual(uwscli.cmddir, '/srv/uws/deploy/cli')
-		t.assertEqual(uwscli.docker_storage, '/srv/docker/lib')
-		t.assertEqual(uwscli.docker_storage_min, 10*1024*1024)
+		t.assertEqual(uwscli.docker_storage, '/srv/docker')
+		t.assertEqual(uwscli.docker_storage_min, 10)
 		t.assertIsInstance(uwscli.app, dict)
 		t.assertIsInstance(uwscli.cluster, dict)
 		t.assertEqual(uwscli._user, 'uws')
