@@ -28,14 +28,14 @@ upgrade:
 #
 
 .PHONY: all
-all: bootstrap acme clamav k8s k8sctl eks uwsbot munin munin-backend munin-node proftpd
+all: bootstrap acme clamav k8sctl eks uwsbot munin munin-backend munin-node proftpd uwscli
 
 #
 # bootstrap
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert python ansible uwscli
+bootstrap: awscli base base-testing golang mkcert k8s python ansible
 
 #
 # base
@@ -216,7 +216,7 @@ docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 .PHONY: deploy
 deploy:
 	@echo "i - START deploy `date -R` as ${USER}"
-	@$(MAKE) bootstrap k8s
+	@$(MAKE) bootstrap
 	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
