@@ -8,6 +8,19 @@ import uwscli_t
 
 import app_build
 import uwscli
+import uwscli_conf
+
+from contextlib import contextmanager
+from unittest.mock import MagicMock, call
+
+@contextmanager
+def mock_check_storage(status = 0):
+	cs_bup = app_build.check_storage
+	try:
+		app_build.check_storage = MagicMock(return_value = status)
+		yield
+	finally:
+		app_build.check_storage = cs_bup
 
 class Test(unittest.TestCase):
 
@@ -60,6 +73,36 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_system(status = 99):
 			app_build.cleanBuild('testing', '0.999')
 		t.assertEqual(uwscli_t.err().strip(), 'ERROR: app clean: testing 0.999 failed!')
+
+	def test_main(t):
+		calls = [
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 0.999'),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing 0.999'),
+		]
+		with mock_check_storage():
+			with uwscli_t.mock_system():
+				t.assertEqual(app_build.main(['testing', '0.999']), 0)
+				uwscli.system.assert_has_calls(calls)
+		with mock_check_storage():
+			with uwscli_t.mock_system():
+				try:
+					uwscli.app['app'] = uwscli_conf.App(True,
+						cluster = 'ktest',
+						desc = 'App',
+						pod = 'app',
+						build = uwscli_conf.AppBuild('/srv/deploy/App', 'build.sh'),
+						deploy = uwscli_conf.AppDeploy('app'),
+					)
+					t.assertEqual(app_build.main(['app', '0.999']), 0)
+				finally:
+					del uwscli.app['app']
+
+	def test_main_errors(t):
+		with mock_check_storage(status = 99):
+			t.assertEqual(app_build.main(['testing', '0.999']), 99)
+		with mock_check_storage():
+			with uwscli_t.mock_system(status = 99):
+				t.assertEqual(app_build.main(['testing', '0.999']), 99)
 
 if __name__ == '__main__':
 	unittest.main()
