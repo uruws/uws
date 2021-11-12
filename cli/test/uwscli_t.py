@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 from contextlib import contextmanager
 from io import StringIO
-from subprocess import check_output, CalledProcessError
+from subprocess import getstatusoutput, check_output, CalledProcessError
 
 import uwscli
 import uwscli_conf
@@ -25,6 +25,9 @@ uwscli.cluster = {
 		'region': 'testing-1',
 	},
 }
+
+uwscli.docker_storage = '/srv/docker'
+uwscli.docker_storage_min = 10
 
 def mock():
 	uwscli._outfh = None
@@ -76,3 +79,12 @@ def mock_check_output(fail = False):
 		yield
 	finally:
 		uwscli.check_output = co_bup
+
+@contextmanager
+def mock_gso(status = 0, output = 'mock_output'):
+	gso_bup = uwscli.gso
+	try:
+		uwscli.gso = MagicMock(return_value = (status, output))
+		yield
+	finally:
+		uwscli.gso = gso_bup

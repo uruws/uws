@@ -2,14 +2,13 @@
 # See LICENSE file.
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
-from subprocess import getstatusoutput
 
 import uwscli
 
 def check_storage():
 	x = "df -kl %s" % uwscli.docker_storage
 	x += " | tail -n1 | awk '{ print $4 }'"
-	rc, out = getstatusoutput(x)
+	rc, out = uwscli.gso(x)
 	if rc != 0:
 		uwscli.error(out)
 		return rc

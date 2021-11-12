@@ -8,7 +8,7 @@ _errfh = sys.stderr
 
 from os import getenv
 from os import system as os_system
-from subprocess import check_output, CalledProcessError
+from subprocess import getstatusoutput, check_output, CalledProcessError
 
 _user = getenv('USER', 'unknown')
 _log = getenv('UWSCLI_LOG', 'on') == 'on'
@@ -17,6 +17,9 @@ from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_sto
 
 def system(cmd):
 	return os_system(cmd) >> 8
+
+def gso(cmd):
+	return getstatusoutput(cmd)
 
 def log(*args, sep = ' '):
 	if _log:

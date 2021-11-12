@@ -7,6 +7,7 @@ import unittest
 import uwscli_t
 
 import app_build
+import uwscli
 
 class Test(unittest.TestCase):
 
@@ -21,6 +22,11 @@ class Test(unittest.TestCase):
 
 	def test_main(t):
 		t.assertEqual(app_build.main(['testing', '0.999']), 9)
+
+	def test_check_storage(t):
+		with uwscli_t.mock_gso(output = '100'):
+			t.assertEqual(app_build.check_storage(), 0)
+			uwscli.gso.assert_called_once_with("df -kl /srv/docker | tail -n1 | awk '{ print $4 }'")
 
 if __name__ == '__main__':
 	unittest.main()
