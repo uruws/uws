@@ -51,5 +51,15 @@ class Test(unittest.TestCase):
 	def test_nq_errors(t):
 		t.assertEqual(app_build.nq('testing', '0.999'), 127)
 
+	def test_clean_build(t):
+		with uwscli_t.mock_system():
+			app_build.cleanBuild('testing', '0.999')
+		t.assertEqual(uwscli_t.err().strip(), '')
+
+	def test_clean_build_errors(t):
+		with uwscli_t.mock_system(status = 99):
+			app_build.cleanBuild('testing', '0.999')
+		t.assertEqual(uwscli_t.err().strip(), 'ERROR: app clean: testing 0.999 failed!')
+
 if __name__ == '__main__':
 	unittest.main()
