@@ -6,6 +6,9 @@
 * Buildpack unittest - `DONE!`
     * [Buildpack/build_test.py](https://github.com/TalkingPts/Buildpack/blob/master/build_test.py)
 
+* uwscli unittest - `WIP`
+    * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/uwscli/htmlcov/)
+
 * nginx secure headers
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
