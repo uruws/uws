@@ -88,3 +88,12 @@ def mock_gso(status = 0, output = 'mock_output'):
 		yield
 	finally:
 		uwscli.gso = gso_bup
+
+@contextmanager
+def mock_list_images(return_value = []):
+	li_bup = uwscli.list_images
+	try:
+		uwscli.list_images = MagicMock(return_value = return_value)
+		yield
+	finally:
+		uwscli.list_images = li_bup
