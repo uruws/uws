@@ -6,6 +6,7 @@
 import unittest
 import uwscli_t
 
+import uwscli
 import app_deploy
 
 class Test(unittest.TestCase):
@@ -34,6 +35,10 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_list_images(['img-1']):
 			t.assertEqual(app_deploy.main(['testing']), 0)
 			t.assertEqual(uwscli_t.out().strip(), 'available testing builds:\n  img-1')
+		with uwscli_t.mock_list_images(['0.999']):
+			with uwscli_t.mock_system():
+				t.assertEqual(app_deploy.main(['testing', '0.999']), 0)
+				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999')
 
 if __name__ == '__main__':
 	unittest.main()
