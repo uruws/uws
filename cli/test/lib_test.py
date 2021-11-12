@@ -22,6 +22,7 @@ class Test(unittest.TestCase):
 		t.assertIsInstance(uwscli.app, dict)
 		t.assertIsInstance(uwscli.cluster, dict)
 		t.assertEqual(uwscli._user, 'uws')
+		t.assertTrue(uwscli._log)
 
 	def test_system(t):
 		t.assertEqual(uwscli.system('exit 0'), 0)
