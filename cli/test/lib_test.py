@@ -20,7 +20,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli.docker_storage_min, 10*1024*1024)
 		t.assertIsInstance(uwscli.app, dict)
 		t.assertIsInstance(uwscli.cluster, dict)
-		t.assertEqual(uwscli._user, 'uwscli')
+		t.assertEqual(uwscli._user, 'uws')
 
 if __name__ == '__main__':
 	unittest.main()
