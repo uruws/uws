@@ -45,5 +45,11 @@ class Test(unittest.TestCase):
 			uwscli.error('testing2')
 		t.assertEqual(uwscli_t.err().strip(), 'testing2')
 
+	def test_app_list(t):
+		t.assertEqual(uwscli.app_list(), ['testing', 'testing1'])
+
+	def test_app_desc(t):
+		t.assertEqual(uwscli.app_description(), 'available apps:\n  testing  - Testing\n  testing1 - Testing1\n')
+
 if __name__ == '__main__':
 	unittest.main()

@@ -7,16 +7,30 @@ from io import StringIO
 import uwscli
 import uwscli_conf
 
-uwscli.app['testing'] = uwscli_conf.App(True,
-	cluster = 'ktest',
-	desc = 'Testing',
-	pod = 'test',
-	build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh'),
-	deploy = uwscli_conf.AppDeploy('test'),
-)
+uwscli.app = {
+	'testing': uwscli_conf.App(True,
+		cluster = 'ktest',
+		desc = 'Testing',
+		pod = 'test',
+		build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh'),
+		deploy = uwscli_conf.AppDeploy('test'),
+	),
+	'testing1': uwscli_conf.App(True,
+		cluster = 'ktest1',
+		desc = 'Testing1',
+		pod = 'test1',
+		build = uwscli_conf.AppBuild('/srv/deploy/Testing1', 'build.sh'),
+		deploy = uwscli_conf.AppDeploy('test1'),
+	),
+}
 
-uwscli.cluster['ktest'] = {
-	'region': 'testing-1',
+uwscli.cluster = {
+	'ktest': {
+		'region': 'testing-1',
+	},
+	'ktest1': {
+		'region': 'testing-2',
+	},
 }
 
 def mock():
