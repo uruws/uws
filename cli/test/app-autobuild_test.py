@@ -19,9 +19,10 @@ class Test(unittest.TestCase):
 		err = e.exception
 		t.assertEqual(err.args[0], 2)
 
-	def test_main(t):
-		with t.assertRaises(FileNotFoundError):
-			app_autobuild.main(['testing'])
+	def test_main_errors(t):
+		t.assertEqual(app_autobuild.main(['testing']), 9)
+		t.assertEqual(uwscli_t.err().strip(),
+			'[ERROR] app build dir not found: /srv/deploy/Testing')
 
 if __name__ == '__main__':
 	unittest.main()
