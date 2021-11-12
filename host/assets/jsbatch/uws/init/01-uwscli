@@ -80,7 +80,7 @@ chown -v root:www-data /srv/www/ssl/uwscli
 uws='sudo -n -u uws -D /srv/uws/deploy'
 
 ${uws} make uwscli
-${uws} ./docker/uwscli/devel.sh ./test/coverage.sh
+${uws} ./docker/uwscli/cmd.sh ./test/coverage.sh
 
 rm -rf /srv/www/ssl/uwscli/htmlcov
 cp -r /srv/uws/deploy/tmp/uwscli/htmlcov /srv/www/ssl/uwscli/htmlcov
