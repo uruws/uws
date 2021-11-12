@@ -1,6 +1,6 @@
 # TODO
 
-* check ev15min new tags on App repo
+* check ev15min new tags on App repo - `WIP`
     * build and deploy to aws.testing
 
 * Buildpack unittest
