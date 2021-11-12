@@ -77,13 +77,10 @@ crontab -u uwscli ~uwscli/etc/crontab.in
 mkdir -vp -m 0750 /srv/www/ssl/uwscli
 chown -v root:www-data /srv/www/ssl/uwscli
 
-uws='sudo -n -u uws -D /srv/uws/deploy'
-
-${uws} make uwscli
-${uws} ./docker/uwscli/cmd.sh ./test/coverage.sh
-
 rm -rf /srv/www/ssl/uwscli/htmlcov
-cp -r /srv/uws/deploy/tmp/uwscli/htmlcov /srv/www/ssl/uwscli/htmlcov
-chown -vR root:www-data /srv/www/ssl/uwscli/htmlcov
+if test -d /srv/uws/deploy/tmp/uwscli/htmlcov; then
+	cp -r /srv/uws/deploy/tmp/uwscli/htmlcov /srv/www/ssl/uwscli/htmlcov
+	chown -vR root:www-data /srv/www/ssl/uwscli/htmlcov
+fi
 
 exit 0

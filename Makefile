@@ -28,14 +28,14 @@ upgrade:
 #
 
 .PHONY: all
-all: bootstrap acme clamav k8sctl eks uwsbot munin munin-backend munin-node proftpd uwscli
+all: bootstrap acme clamav k8sctl eks uwsbot munin munin-backend munin-node proftpd
 
 #
 # bootstrap
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert k8s python ansible
+bootstrap: awscli base base-testing golang mkcert k8s python ansible uwscli
 
 #
 # base
@@ -216,10 +216,21 @@ docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 .PHONY: deploy
 deploy:
 	@echo "i - START deploy `date -R` as ${USER}"
-	@$(MAKE) bootstrap
+	@$(MAKE) bootstrap check
 	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
+
+#
+# check
+#
+
+.PHONY: check
+check: check-cli
+
+.PHONY: check-cli
+check-cli:
+	@./docker/uwscli/cmd.sh ./test/coverage.sh
 
 #
 # uws CA
