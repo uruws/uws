@@ -13,6 +13,15 @@ class Test(unittest.TestCase):
 	def setUp(t):
 		uwscli_t.mock()
 
+	def test_deploy_error(t):
+		t.assertEqual(app_deploy.deploy('testing', '0.999'), 127)
+		with uwscli_t.mock_system(status = 99):
+			t.assertEqual(app_deploy.deploy('testing', '0.999'), 99)
+
+	def test_deploy(t):
+		with uwscli_t.mock_system():
+			t.assertEqual(app_deploy.deploy('testing', '0.999'), 0)
+
 	def test_main_no_args(t):
 		with t.assertRaises(SystemExit) as e:
 			app_deploy.main()
