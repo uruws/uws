@@ -1,6 +1,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from unittest.mock import MagicMock
+
 from contextlib import contextmanager
 from io import StringIO
 
@@ -51,3 +53,12 @@ def log_disable():
 		yield
 	finally:
 		uwscli._log = True
+
+@contextmanager
+def mock_system(status = 0):
+	system_bup = uwscli.system
+	try:
+		uwscli.system = MagicMock(return_value = status)
+		yield
+	finally:
+		uwscli.system = system_bup

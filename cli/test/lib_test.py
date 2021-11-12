@@ -75,5 +75,25 @@ class Test(unittest.TestCase):
 	def test_deploy_desc(t):
 		t.assertEqual(uwscli.deploy_description(), 'available apps:\n  testing - Testing\n')
 
+	def test_ctl(t):
+		with uwscli_t.mock_system():
+			t.assertEqual(uwscli.ctl('testing'), 0)
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws testing')
+
+	def test_nq(t):
+		with uwscli_t.mock_system():
+			t.assertEqual(uwscli.nq('testing', 'args_t'), 0)
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/testing args_t')
+
+	def test_run(t):
+		with uwscli_t.mock_system():
+			t.assertEqual(uwscli.run('testing', 'args_t'), 0)
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/testing args_t')
+
+	def test_clean_build(t):
+		with uwscli_t.mock_system():
+			t.assertEqual(uwscli.clean_build('testing', '0.999'), 0)
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing 0.999')
+
 if __name__ == '__main__':
 	unittest.main()
