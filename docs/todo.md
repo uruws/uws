@@ -3,8 +3,9 @@
 * check ev15min new tags on App repo
     * build and deploy to aws.testing
 
-* Buildpack unittest - `DONE!`
-    * [Buildpack/build_test.py](https://github.com/TalkingPts/Buildpack/blob/master/build_test.py)
+* Buildpack unittest
+    * [Buildpack/build_test.py](https://github.com/TalkingPts/Buildpack/blob/master/build_test.py) - `DONE!`
+    * run test during deploy and publish coverate [report](https://ops.uws.talkingpts.org/buildpack/htmlcov/)
 
 * uwscli unittest - `WIP`
     * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/uwscli/htmlcov/)
