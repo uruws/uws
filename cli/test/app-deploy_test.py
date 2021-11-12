@@ -15,7 +15,6 @@ class Test(unittest.TestCase):
 		uwscli_t.mock()
 
 	def test_deploy_error(t):
-		t.assertEqual(app_deploy.deploy('testing', '0.999'), 127)
 		with uwscli_t.mock_system(status = 99):
 			t.assertEqual(app_deploy.deploy('testing', '0.999'), 99)
 
@@ -30,8 +29,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(err.args[0], 2)
 
 	def test_main(t):
-		t.assertEqual(app_deploy.main(['testing']), 0)
-		t.assertEqual(uwscli_t.out().strip(), 'no available builds for testing')
+		with uwscli_t.mock_list_images():
+			t.assertEqual(app_deploy.main(['testing']), 0)
+			t.assertEqual(uwscli_t.out().strip(), 'no available builds for testing')
 		with uwscli_t.mock_list_images(['img-1']):
 			t.assertEqual(app_deploy.main(['testing']), 0)
 			t.assertEqual(uwscli_t.out().strip(), 'available testing builds:\n  img-1')
@@ -41,9 +41,11 @@ class Test(unittest.TestCase):
 				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999')
 
 	def test_main_errors(t):
+		with uwscli_t.mock_system(99):
+			t.assertEqual(app_deploy.deploy('testing', '0.999'), 99)
 		with uwscli_t.mock_list_images():
 			t.assertEqual(app_deploy.main(['testing', '0.999']), 1)
-		with uwscli_t.mock_list_images('0.999'):
+		with uwscli_t.mock_list_images(['0.999']):
 			with uwscli_t.mock_system(99):
 				t.assertEqual(app_deploy.main(['testing', '0.999']), 99)
 

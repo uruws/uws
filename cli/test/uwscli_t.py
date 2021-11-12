@@ -77,11 +77,11 @@ def mock_system(status = 0):
 		uwscli.system = system_bup
 
 @contextmanager
-def mock_check_output(fail = False):
+def mock_check_output(fail = False, output = 'mock_output'):
 	def __co(*args, **kwargs):
 		if fail:
-			raise CalledProcessError(99, 'mock_cmd', output = 'mock_output')
-		return b'mock_output'
+			raise CalledProcessError(99, 'mock_cmd', output = output)
+		return output
 	co_bup = uwscli.check_output
 	try:
 		uwscli.check_output = MagicMock(side_effect = __co)

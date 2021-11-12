@@ -9,7 +9,8 @@ _errfh = sys.stderr
 from os import getenv
 from os import chdir as os_chdir
 from os import system as os_system
-from subprocess import getstatusoutput, check_output, CalledProcessError
+from subprocess import getstatusoutput, CalledProcessError
+from subprocess import check_output as proc_check_output
 
 _user = getenv('USER', 'unknown')
 _log = getenv('UWSCLI_LOG', 'on') == 'on'
@@ -24,6 +25,9 @@ def system(cmd):
 
 def gso(cmd):
 	return getstatusoutput(cmd)
+
+def check_output(cmd, shell = True):
+	return proc_check_output(cmd, shell = shell).decode('utf-8')
 
 def log(*args, sep = ' '):
 	if _log:
@@ -94,7 +98,7 @@ def list_images(appname, region = None):
 	cmd += " | sed 's/^%s//'" % app[appname].deploy.filter
 	cmd += " | sort -n"
 	try:
-		out = check_output(cmd, shell = True).decode()
+		out = check_output(cmd)
 		return out.splitlines()
 	except CalledProcessError as err:
 		error(f"[ERROR] {appname} list images: {err.output}")
