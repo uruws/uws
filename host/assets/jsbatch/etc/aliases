@@ -3,4 +3,5 @@ www-data:	root
 uws:		root
 uwsrun:		root
 uwscli:		root
+munin-alert:	munin-alert@uws.talkingpts.org
 root:		root@uws.talkingpts.org

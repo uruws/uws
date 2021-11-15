@@ -33,6 +33,18 @@
   tags:
     - postconf
 
+- name: munin-alert alias
+  become: yes
+  lineinfile:
+    state: present
+    path: /etc/aliases
+    regexp: "^munin-alert:"
+    line: "munin-alert: munin-alert@{{ uws_domain }}"
+  notify:
+    - newaliases
+  tags:
+    - postconf
+
 - name: root alias
   become: yes
   lineinfile:
