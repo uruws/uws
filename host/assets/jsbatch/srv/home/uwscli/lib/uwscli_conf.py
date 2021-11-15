@@ -5,6 +5,8 @@ from os import path, getenv
 
 bindir = getenv('UWSCLI_BINDIR', '/srv/home/uwscli/bin')
 cmddir = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
+deploy_testdir = getenv('UWSCLI_DEPLOY_TESTDIR', '/srv/test')
+
 docker_storage = '/srv/docker/lib'
 docker_storage_min = 10*1024*1024 # 10G
 
