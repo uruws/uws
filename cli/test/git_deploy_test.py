@@ -25,5 +25,8 @@ class Test(unittest.TestCase):
 		with t.assertRaises(SystemExit):
 			git_deploy.main(['-t', 'testing'])
 
+	def test_main(t):
+		t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']), 0)
+
 if __name__ == '__main__':
 	unittest.main()
