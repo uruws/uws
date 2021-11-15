@@ -37,9 +37,13 @@ class Test(unittest.TestCase):
 	def test_main_errors(t):
 		t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'invalid']), 1)
 		t.assertEqual(git_deploy.main(['-r', 'invalid', '-t', 'refs/tags/0.999']), 2)
+		with uwscli_t.mock_chdir(faildir = '/srv/test'):
+			t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']), 3)
 
 	def test_main(t):
-		t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']), 0)
+		with uwscli_t.mock_chdir():
+			with uwscli_t.mock_system():
+				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']), 0)
 
 if __name__ == '__main__':
 	unittest.main()

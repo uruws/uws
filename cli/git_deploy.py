@@ -6,6 +6,7 @@
 import sys
 
 from argparse import ArgumentParser
+from os import path
 
 sys.path.insert(0, '/srv/home/uwscli/lib')
 import uwscli
@@ -42,6 +43,15 @@ def main(argv = []):
 	tag = _getTag(args.tagref)
 	rname = _getRepo(args.repo)
 	rtest = _getTestDir(rname)
+
+	if not path.exists(rtest):
+		if not uwscli.chdir(uwscli_conf.deploy_testdir):
+			return 3
+		if uwscli.git_clone(args.repo) != 0:
+			return 4
+
+	if not uwscli.chdir(rtest):
+		return 5
 
 	return 0
 

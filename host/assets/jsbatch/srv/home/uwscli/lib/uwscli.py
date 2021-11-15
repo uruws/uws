@@ -109,5 +109,8 @@ def list_images(appname, region = None):
 		error(f"[ERROR] {appname} list images: {err.output}")
 	return []
 
+def git_clone(rpath):
+	return system(f"git clone {rpath}")
+
 def git_fetch():
 	return system("git fetch --prune --prune-tags --tags")
