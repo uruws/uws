@@ -7,7 +7,7 @@
     * [Buildpack/build_test.py](https://github.com/TalkingPts/Buildpack/blob/master/build_test.py) - `DONE!`
     * run test during deploy and publish coverate [report](https://ops.uws.talkingpts.org/buildpack/htmlcov/)
 
-* uwscli unittest - `WIP`
+* uwscli unittest - `DONE!`
     * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/uwscli/htmlcov/)
 
 * nginx secure headers
@@ -35,7 +35,7 @@
     * http_loadtime IDE and Jupyter Notebook from jsbatch
     * vm local munin setup (ansible role)
 
-* ansible roles - `WIP`
+* ansible roles
     * monit
         * setup monit to check fail2ban keeps running
         * and others...
