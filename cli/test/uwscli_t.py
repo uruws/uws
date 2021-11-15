@@ -60,12 +60,16 @@ def log_disable():
 
 @contextmanager
 def mock_chdir(fail = False, faildir = ''):
-	def __chdir(d):
-		if fail is True:
-			return False
-		if d == faildir:
-			return False
-		return True
+	@contextmanager
+	def __chdir(d, error_status = 2):
+		try:
+			if fail is True:
+				raise SystemExit(error_status)
+			if d == faildir:
+				raise SystemExit(error_status)
+			yield
+		finally:
+			pass
 	chdir_bup = uwscli.chdir
 	try:
 		uwscli.chdir = MagicMock(side_effect = __chdir)

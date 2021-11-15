@@ -6,7 +6,8 @@ import sys
 _outfh = sys.stdout
 _errfh = sys.stderr
 
-from os import getenv
+from contextlib import contextmanager
+from os import getenv, getcwd
 from os import chdir as os_chdir
 from os import system as os_system
 from subprocess import getstatusoutput, CalledProcessError
@@ -24,13 +25,18 @@ def log(*args, sep = ' '):
 def error(*args):
 	print(*args, file = _errfh)
 
-def chdir(d):
+@contextmanager
+def chdir(d, error_status = 2):
+	prevd = getcwd()
 	try:
-		os_chdir(d)
-	except FileNotFoundError:
-		error('[ERROR] chdir not found:', d)
-		return False
-	return True
+		try:
+			os_chdir(d)
+		except FileNotFoundError:
+			error('[ERROR] chdir not found:', d)
+			sys.exit(error_status)
+		yield
+	finally:
+		os_chdir(prevd)
 
 def system(cmd):
 	return os_system(cmd) >> 8

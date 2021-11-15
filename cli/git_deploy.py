@@ -45,13 +45,12 @@ def main(argv = []):
 	rtest = _getTestDir(rname)
 
 	if not path.exists(rtest):
-		if not uwscli.chdir(uwscli_conf.deploy_testdir):
-			return 3
-		if uwscli.git_clone(args.repo) != 0:
-			return 4
+		with uwscli.chdir(uwscli_conf.deploy_testdir, error_status = 3):
+			if uwscli.git_clone(args.repo) != 0:
+				return 4
 
-	if not uwscli.chdir(rtest):
-		return 5
+	with uwscli.chdir(rtest, error_status = 5):
+		pass
 
 	return 0
 

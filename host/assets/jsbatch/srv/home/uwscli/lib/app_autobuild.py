@@ -19,13 +19,11 @@ def main(argv = []):
 	args = flags.parse_args(argv)
 
 	bdir = uwscli.app[args.app].build.dir
-	if not uwscli.chdir(bdir):
-		return 9
-
-	rc, tag = lastTag(args.app)
-	if rc != 0:
-		uwscli.error(tag)
-		return rc
-	uwscli.log('Build tag:', tag)
+	with uwscli.chdir(bdir):
+		rc, tag = lastTag(args.app)
+		if rc != 0:
+			uwscli.error(tag)
+			return rc
+		uwscli.log('Build tag:', tag)
 
 	return 0

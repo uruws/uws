@@ -28,7 +28,10 @@ class Test(unittest.TestCase):
 		t.assertEqual(err.args[0], 2)
 
 	def test_main_errors(t):
-		t.assertEqual(app_autobuild.main(['testing']), 9)
+		with t.assertRaises(SystemExit) as e:
+			app_autobuild.main(['testing'])
+		err = e.exception
+		t.assertEqual(err.args[0], 2)
 		t.assertEqual(uwscli_t.err().strip(),
 			'[ERROR] chdir not found: /srv/deploy/Testing')
 
