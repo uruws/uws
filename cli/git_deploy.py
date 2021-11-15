@@ -15,6 +15,9 @@ __doc__ = 'uws git deploy'
 def _getTag(tagref):
 	return '/'.join(tagref.split('/')[2:])
 
+def _getRepo(rpath):
+	return rpath.split('/')[-1].replace('.git', '')
+
 def main(argv = []):
 	flags = ArgumentParser(description = __doc__)
 	flags.add_argument('-r', '--repo', metavar = 'PATH', required = True,
@@ -33,7 +36,7 @@ def main(argv = []):
 		return 2
 
 	tag = _getTag(args.tagref)
-	# ~ rname = _getRepo(args.repo)
+	rname = _getRepo(args.repo)
 
 	return 0
 
