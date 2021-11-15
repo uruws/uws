@@ -12,6 +12,9 @@ import uwscli
 
 __doc__ = 'uws git deploy'
 
+def _getTag(tagref):
+	return '/'.join(tagref.split('/')[2:])
+
 def main(argv = []):
 	flags = ArgumentParser(description = __doc__)
 	flags.add_argument('-r', '--repo', metavar = 'PATH', required = True,
@@ -24,6 +27,8 @@ def main(argv = []):
 	if not args.tagref.startswith('refs/tags/'):
 		uwscli.error('[ERROR] not a tag reference:', args.tagref)
 		return 1
+
+	tag = _getTag(args.tagref)
 
 	return 0
 
