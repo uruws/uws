@@ -17,8 +17,20 @@ _log = getenv('UWSCLI_LOG', 'on') == 'on'
 
 from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
 
+def log(*args, sep = ' '):
+	if _log:
+		print(*args, sep = sep, file = _outfh)
+
+def error(*args):
+	print(*args, file = _errfh)
+
 def chdir(d):
-	os_chdir(d)
+	try:
+		os_chdir(d)
+	except FileNotFoundError:
+		error('[ERROR] chdir not found:', d)
+		return False
+	return True
 
 def system(cmd):
 	return os_system(cmd) >> 8
@@ -28,13 +40,6 @@ def gso(cmd):
 
 def check_output(cmd, shell = True):
 	return proc_check_output(cmd, shell = shell).decode('utf-8')
-
-def log(*args, sep = ' '):
-	if _log:
-		print(*args, sep = sep, file = _outfh)
-
-def error(*args):
-	print(*args, file = _errfh)
 
 def __descmax(k):
 	m = 0

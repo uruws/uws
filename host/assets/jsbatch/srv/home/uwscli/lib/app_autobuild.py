@@ -19,10 +19,7 @@ def main(argv = []):
 	args = flags.parse_args(argv)
 
 	bdir = uwscli.app[args.app].build.dir
-	try:
-		uwscli.chdir(bdir)
-	except FileNotFoundError:
-		uwscli.error('[ERROR] app build dir not found:', bdir)
+	if not uwscli.chdir(bdir):
 		return 9
 
 	rc, tag = lastTag(args.app)

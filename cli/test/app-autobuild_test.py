@@ -30,7 +30,7 @@ class Test(unittest.TestCase):
 	def test_main_errors(t):
 		t.assertEqual(app_autobuild.main(['testing']), 9)
 		t.assertEqual(uwscli_t.err().strip(),
-			'[ERROR] app build dir not found: /srv/deploy/Testing')
+			'[ERROR] chdir not found: /srv/deploy/Testing')
 
 if __name__ == '__main__':
 	unittest.main()
