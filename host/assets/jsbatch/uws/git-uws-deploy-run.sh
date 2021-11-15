@@ -12,7 +12,7 @@ logf=/var/tmp/uws-deploy.log
 exit_status=$?
 
 if test "X${exit_status}" != 'X0'; then
-	mailx -s '[FAIL] uws deploy' root <${logf}
+	mailx -s '[FAIL] uws deploy' munin-alert <${logf}
 fi
 
 exit ${exit_status}
