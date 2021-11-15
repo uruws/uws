@@ -5,16 +5,23 @@
 
 import sys
 
+from argparse import ArgumentParser
+
+sys.path.insert(0, '/srv/home/uwscli/lib')
+import uwscli
+
 __doc__ = 'uws git deploy'
 
 def main(argv = []):
-	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
-		description = __doc__)
+	flags = ArgumentParser(description = __doc__)
+	flags.add_argument('-r', '--repo', metavar = 'PATH', required = True,
+		help = 'origin repo path')
+	flags.add_argument('-t', '--tagref', metavar = 'git/tag/ref', required = True,
+		help = 'pushed tag refname')
 
 	args = flags.parse_args(argv)
 
 	return 0
-
 
 if __name__ == '__main__':
 	sys.stdout.reconfigure(line_buffering = False)
