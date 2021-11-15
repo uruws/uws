@@ -21,6 +21,10 @@ def main(argv = []):
 
 	args = flags.parse_args(argv)
 
+	if not args.tagref.startswith('refs/tags/'):
+		uwscli.error('[ERROR] not a tag reference:', args.tagref)
+		return 1
+
 	return 0
 
 if __name__ == '__main__': # pragma: no coverage
