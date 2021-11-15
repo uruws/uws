@@ -30,6 +30,7 @@ class Test(unittest.TestCase):
 
 	def test_main_errors(t):
 		t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'invalid']), 1)
+		t.assertEqual(git_deploy.main(['-r', 'invalid', '-t', 'refs/tags/0.999']), 2)
 
 	def test_main(t):
 		t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']), 0)

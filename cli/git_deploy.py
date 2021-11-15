@@ -28,7 +28,12 @@ def main(argv = []):
 		uwscli.error('[ERROR] not a tag reference:', args.tagref)
 		return 1
 
+	if not args.repo.endswith('.git'):
+		uwscli.error('[ERROR] invalid repo path:', args.repo)
+		return 2
+
 	tag = _getTag(args.tagref)
+	# ~ rname = _getRepo(args.repo)
 
 	return 0
 
