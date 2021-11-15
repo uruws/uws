@@ -42,6 +42,9 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_system(99):
 				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']), 4)
+		with uwscli_t.mock_chdir(faildir = '/srv/test/repo'):
+			with uwscli_t.mock_system():
+				t.assertEqual(git_deploy.main(['-r', 'repo.git', '-t', 'refs/tags/0.999']), 5)
 
 	def test_main(t):
 		with uwscli_t.mock_chdir():
