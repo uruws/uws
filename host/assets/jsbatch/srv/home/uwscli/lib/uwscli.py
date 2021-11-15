@@ -103,3 +103,6 @@ def list_images(appname, region = None):
 	except CalledProcessError as err:
 		error(f"[ERROR] {appname} list images: {err.output}")
 	return []
+
+def git_fetch():
+	return system("git fetch --prune --prune-tags --tags")
