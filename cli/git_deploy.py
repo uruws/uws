@@ -23,7 +23,7 @@ def main(argv = []):
 
 	return 0
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no coverage
 	sys.stdout.reconfigure(line_buffering = False)
 	sys.stderr.reconfigure(line_buffering = False)
 	sys.exit(main(sys.argv[1:]))
