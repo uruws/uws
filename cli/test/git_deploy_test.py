@@ -31,6 +31,9 @@ class Test(unittest.TestCase):
 	def test_getRepo(t):
 		t.assertEqual(git_deploy._getRepo('/testing/path/repo.git'), 'repo')
 
+	def test_getTestDir(t):
+		t.assertEqual(git_deploy._getTestDir('repo'), '/srv/test/repo')
+
 	def test_main_errors(t):
 		t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'invalid']), 1)
 		t.assertEqual(git_deploy.main(['-r', 'invalid', '-t', 'refs/tags/0.999']), 2)

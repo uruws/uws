@@ -9,6 +9,7 @@ from argparse import ArgumentParser
 
 sys.path.insert(0, '/srv/home/uwscli/lib')
 import uwscli
+import uwscli_conf
 
 __doc__ = 'uws git deploy'
 
@@ -17,6 +18,9 @@ def _getTag(tagref):
 
 def _getRepo(rpath):
 	return rpath.split('/')[-1].replace('.git', '')
+
+def _getTestDir(rname):
+	return '/'.join([uwscli_conf.deploy_testdir, rname])
 
 def main(argv = []):
 	flags = ArgumentParser(description = __doc__)
@@ -37,6 +41,7 @@ def main(argv = []):
 
 	tag = _getTag(args.tagref)
 	rname = _getRepo(args.repo)
+	rtest = _getTestDir(rname)
 
 	return 0
 
