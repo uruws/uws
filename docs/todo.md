@@ -5,10 +5,10 @@
 
 * Buildpack unittest
     * [Buildpack/build_test.py](https://github.com/TalkingPts/Buildpack/blob/master/build_test.py) - `DONE!`
-    * run test during deploy and publish coverate [report](https://ops.uws.talkingpts.org/buildpack/htmlcov/)
+    * run test during deploy and publish coverate [report](https://ops.uws.talkingpts.org/htmlcov/buildpack/)
 
 * uwscli unittest - `DONE!`
-    * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/uwscli/htmlcov/)
+    * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/uwscli/)
 
 * nginx secure headers
     * CSP
