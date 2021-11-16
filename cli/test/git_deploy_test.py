@@ -51,7 +51,8 @@ class Test(unittest.TestCase):
 					git_deploy.main(['-r', 'repo.git', '-t', 'refs/tags/0.999'])
 				err = e.exception
 				t.assertEqual(err.args[0], 5)
-			# ~ with uwscli_t.mock_system():
+			with uwscli_t.mock_system(fail_cmd = 'git fetch'):
+				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']), 6)
 
 	def test_main(t):
 		with uwscli_t.mock_chdir():

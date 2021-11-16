@@ -50,7 +50,8 @@ def main(argv = []):
 				return 4
 
 	with uwscli.chdir(rtest, error_status = 5):
-		pass
+		if uwscli.git_fetch() != 0:
+			return 6
 
 	return 0
 
