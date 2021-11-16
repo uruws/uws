@@ -41,12 +41,12 @@ class Test(unittest.TestCase):
 				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999')
 
 	def test_main_errors(t):
-		with uwscli_t.mock_system(99):
+		with uwscli_t.mock_system(status = 99):
 			t.assertEqual(app_deploy.deploy('testing', '0.999'), 99)
 		with uwscli_t.mock_list_images():
 			t.assertEqual(app_deploy.main(['testing', '0.999']), 1)
 		with uwscli_t.mock_list_images(['0.999']):
-			with uwscli_t.mock_system(99):
+			with uwscli_t.mock_system(status = 99):
 				t.assertEqual(app_deploy.main(['testing', '0.999']), 99)
 
 if __name__ == '__main__':

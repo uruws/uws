@@ -53,7 +53,7 @@ class Test(unittest.TestCase):
 				uwscli.app['testing'].build.type = 'cli'
 
 	def test_nq_errors(t):
-		with uwscli_t.mock_system(99):
+		with uwscli_t.mock_system(status = 99):
 			t.assertEqual(app_build.nq('testing', '0.999'), 99)
 
 	def test_clean_build(t):

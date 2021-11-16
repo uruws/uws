@@ -78,10 +78,14 @@ def mock_chdir(fail = False, faildir = ''):
 		uwscli.chdir = chdir_bup
 
 @contextmanager
-def mock_system(status = 0):
+def mock_system(status = 0, fail_cmd = '', fail_status = 99):
+	def __system(cmd):
+		if cmd == fail_cmd:
+			return fail_status
+		return status
 	system_bup = uwscli.system
 	try:
-		uwscli.system = MagicMock(return_value = status)
+		uwscli.system = MagicMock(side_effect = __system)
 		yield
 	finally:
 		uwscli.system = system_bup

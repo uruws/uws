@@ -18,7 +18,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwshelp.main(), 0)
 
 	def test_main_errors(t):
-		with uwscli_t.mock_system(99):
+		with uwscli_t.mock_system(status = 99):
 			t.assertEqual(uwshelp.main(['testing']), 99)
 
 	def test_main(t):
