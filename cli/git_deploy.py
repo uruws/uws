@@ -52,6 +52,8 @@ def main(argv = []):
 	with uwscli.chdir(rtest, error_status = 5):
 		if uwscli.git_fetch() != 0:
 			return 6
+		if uwscli.git_checkout(tag) != 0:
+			return 7
 
 	return 0
 

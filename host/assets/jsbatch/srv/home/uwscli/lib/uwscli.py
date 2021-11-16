@@ -120,3 +120,6 @@ def git_clone(rpath):
 
 def git_fetch():
 	return system("git fetch --prune --prune-tags --tags")
+
+def git_checkout(tag):
+	return system(f"git checkout {tag}")
