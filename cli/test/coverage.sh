@@ -21,6 +21,7 @@ fi
 covd=${HOME}/tmp/htmlcov
 rm -rf ${covd}
 
+python3-coverage report
 python3-coverage html -d ${covd}
 
 exit 0
