@@ -37,6 +37,14 @@ class Test(unittest.TestCase):
 		t.assertEqual(alerts._msgFrom({'host': 'testing'}),
 			Address('testing', 'munin-alert', 'testing'))
 
+	def test_msgSubject(t):
+		t.assertEqual(alerts._msgSubject({}), '[ERROR] NO_TITLE')
+		t.assertEqual(alerts._msgSubject(
+			{'worst': 'TEST', 'title': 'test', 'state_changed': '1'}),
+			'[TEST] test')
+		t.assertEqual(alerts._msgSubject({'worst': 'TEST', 'title': 'test'}),
+			'TEST: test')
+
 	def test_sleepingHours(t):
 		alerts._sleepingHours()
 		check = dict()

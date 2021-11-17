@@ -41,9 +41,8 @@ def _msgFrom(s):
 
 def _msgSubject(s):
 	worst = s.get('worst', 'ERROR')
-	host = s.get('host', 'NO_HOST')
 	title = _getTitle(s)
-	if _stateChanged(s):
+	if _stateChanged(s) or worst == 'ERROR':
 		return f"[{worst}] {title}"
 	else:
 		return f"{worst}: {title}"
