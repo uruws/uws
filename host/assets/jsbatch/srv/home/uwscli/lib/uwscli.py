@@ -7,7 +7,7 @@ _outfh = sys.stdout
 _errfh = sys.stderr
 
 from contextlib import contextmanager
-from os import getenv, getcwd
+from os import environ, getenv, getcwd
 from os import chdir as os_chdir
 from os import system as os_system
 from subprocess import getstatusoutput, CalledProcessError
@@ -15,6 +15,11 @@ from subprocess import check_output as proc_check_output
 
 _user = getenv('USER', 'unknown')
 _log = getenv('UWSCLI_LOG', 'on') == 'on'
+
+_env = {
+	'PATH': '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin',
+}
+environ.update(_env)
 
 from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
 

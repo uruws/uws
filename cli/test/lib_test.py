@@ -5,6 +5,8 @@
 
 import unittest
 
+from os import environ
+
 import uwscli_t
 import uwscli
 import uwscli_conf
@@ -23,6 +25,12 @@ class Test(unittest.TestCase):
 		t.assertIsInstance(uwscli.cluster, dict)
 		t.assertEqual(uwscli._user, 'uws')
 		t.assertTrue(uwscli._log)
+		t.assertDictEqual(uwscli._env,
+			{'PATH': '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'})
+
+	def test_environ(t):
+		for k, v in uwscli._env.items():
+			t.assertEqual(environ[k], v, msg = f"environ['{k}']")
 
 	def test_system(t):
 		t.assertEqual(uwscli.system('exit 0'), 0)
