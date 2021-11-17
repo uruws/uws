@@ -16,6 +16,12 @@ class Test(unittest.TestCase):
 		t.assertEqual(alerts.MAILTO,
 			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
 
+	def test_msgNew(t):
+		m = alerts._msgNew()
+		t.assertEqual(m.get_charset(), 'utf-8')
+		t.assertTrue(m.get('Date', '') != '')
+		t.assertTrue(m.get('Message-ID', '') != '')
+
 	def test_sleepingHours(t):
 		alerts._sleepingHours()
 		check = dict()
