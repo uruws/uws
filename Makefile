@@ -226,11 +226,15 @@ deploy:
 #
 
 .PHONY: check
-check: check-cli
+check: check-cli check-munin
 
 .PHONY: check-cli
 check-cli:
 	@./docker/uwscli/cmd.sh ./test/coverage.sh
+
+.PHONY: check-munin
+check-munin:
+	@./srv/munin/check.sh
 
 #
 # uws CA
