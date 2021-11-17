@@ -1,7 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 
 from contextlib import contextmanager
 from io import StringIO

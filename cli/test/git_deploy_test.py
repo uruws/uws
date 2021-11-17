@@ -63,6 +63,13 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_system():
 				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']), 0)
+				calls = [
+					uwscli_t.call('git clone testing.git'),
+					uwscli_t.call('git fetch --prune --prune-tags --tags'),
+					uwscli_t.call('git checkout 0.999'),
+				]
+				uwscli.system.assert_has_calls(calls)
+				t.assertEqual(uwscli.system.call_count, len(calls))
 		t.assertEqual(environ.get('GIT_DIR', 'NONE'), '.')
 
 if __name__ == '__main__':
