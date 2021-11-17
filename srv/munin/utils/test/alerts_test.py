@@ -28,6 +28,11 @@ class Test(unittest.TestCase):
 		t.assertEqual(alerts._getTitle({'title': 'testing :: item1 :: item2'}),
 			'item2')
 
+	def test_stateChanged(t):
+		t.assertFalse(alerts._stateChanged({}))
+		t.assertFalse(alerts._stateChanged({'state_changed': '0'}))
+		t.assertTrue(alerts._stateChanged({'state_changed': '1'}))
+
 	def test_sleepingHours(t):
 		alerts._sleepingHours()
 		check = dict()
