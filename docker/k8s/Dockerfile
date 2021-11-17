@@ -11,7 +11,7 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh gettext-base awscli python3
 
-RUN chgrp ${UWS_GID} /usr/local/bin && chmod g+w /usr/local/bin
+RUN chgrp uws /usr/local/bin && chmod g+w /usr/local/bin
 
 USER uws:uws
 WORKDIR /home/uws
