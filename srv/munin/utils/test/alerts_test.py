@@ -22,6 +22,12 @@ class Test(unittest.TestCase):
 		t.assertTrue(m.get('Date', '') != '')
 		t.assertTrue(m.get('Message-ID', '') != '')
 
+	def test_getTitle(t):
+		t.assertEqual(alerts._getTitle({}), 'NO_TITLE')
+		t.assertEqual(alerts._getTitle({'title': 'testing'}), 'testing')
+		t.assertEqual(alerts._getTitle({'title': 'testing :: item1 :: item2'}),
+			'item2')
+
 	def test_sleepingHours(t):
 		alerts._sleepingHours()
 		check = dict()
