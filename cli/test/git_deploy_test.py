@@ -70,6 +70,11 @@ class Test(unittest.TestCase):
 				]
 				uwscli.system.assert_has_calls(calls)
 				t.assertEqual(uwscli.system.call_count, len(calls))
+			calls = [
+				uwscli_t.call('/srv/test', error_status=3),
+				uwscli_t.call('/srv/test/testing', error_status=5),
+			]
+			uwscli.chdir.assert_has_calls(calls)
 		t.assertEqual(environ.get('GIT_DIR', 'NONE'), '.')
 
 if __name__ == '__main__':
