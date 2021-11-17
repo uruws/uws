@@ -1,10 +1,12 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from os import path, getenv
+from os import getenv
 
 bindir = getenv('UWSCLI_BINDIR', '/srv/home/uwscli/bin')
 cmddir = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
+
+deploy_basedir = getenv('UWSCLI_DEPLOY_BASEDIR', '/srv/deploy')
 deploy_testdir = getenv('UWSCLI_DEPLOY_TESTDIR', '/srv/test')
 
 docker_storage = '/srv/docker/lib'

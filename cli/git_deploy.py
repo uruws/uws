@@ -14,6 +14,16 @@ import uwscli_conf
 
 __doc__ = 'uws git deploy'
 
+ETAGREF = 1
+ERPATH = 2
+ETESTDIR = 3
+ETESTCLONE = 4
+EBASEDIR = 5
+ECLONE = 6
+ERTEST_DIR = 7
+ERTEST_FETCH = 8
+ERTEST_CHECKOUT = 9
+
 def _getTag(tagref):
 	return '/'.join(tagref.split('/')[2:])
 
@@ -22,6 +32,9 @@ def _getRepo(rpath):
 
 def _getTestDir(rname):
 	return '/'.join([uwscli_conf.deploy_testdir, rname])
+
+def _getDeployDir(rname):
+	return '/'.join([uwscli_conf.deploy_basedir, rname])
 
 def main(argv = []):
 	flags = ArgumentParser(description = __doc__)
@@ -34,28 +47,34 @@ def main(argv = []):
 
 	if not args.tagref.startswith('refs/tags/'):
 		uwscli.error('[ERROR] not a tag reference:', args.tagref)
-		return 1
+		return ETAGREF
 
 	if not args.repo.endswith('.git'):
 		uwscli.error('[ERROR] invalid repo path:', args.repo)
-		return 2
+		return ERPATH
 
 	tag = _getTag(args.tagref)
 	rname = _getRepo(args.repo)
 	rtest = _getTestDir(rname)
+	rdeploy = _getDeployDir(rname)
 
 	environ['GIT_DIR'] = '.'
 
 	if not path.exists(rtest):
-		with uwscli.chdir(uwscli_conf.deploy_testdir, error_status = 3):
+		with uwscli.chdir(uwscli_conf.deploy_testdir, error_status = ETESTDIR):
 			if uwscli.git_clone(args.repo) != 0:
-				return 4
+				return ETESTCLONE
 
-	with uwscli.chdir(rtest, error_status = 5):
+	if not path.exists(rdeploy):
+		with uwscli.chdir(uwscli_conf.deploy_basedir, error_status = EBASEDIR):
+			if uwscli.git_clone(args.repo) != 0:
+				return ECLONE
+
+	with uwscli.chdir(rtest, error_status = ERTEST_DIR):
 		if uwscli.git_fetch() != 0:
-			return 6
+			return ERTEST_FETCH
 		if uwscli.git_checkout(tag) != 0:
-			return 7
+			return ERTEST_CHECKOUT
 
 	return 0
 
