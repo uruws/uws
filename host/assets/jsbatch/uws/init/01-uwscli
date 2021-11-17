@@ -72,14 +72,4 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
 
 crontab -u uwscli ~uwscli/etc/crontab.in
 
-# devel htmlcov
-
-install -v -d -m 0750 -o uws -g www-data /srv/www/ssl/htmlcov
-
-rm -rf /srv/www/ssl/htmlcov/uwscli
-if test -d /srv/uws/deploy/tmp/uwscli/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/uwscli/htmlcov /srv/www/ssl/htmlcov/uwscli
-	chown -vR root:www-data /srv/www/ssl/htmlcov/uwscli
-fi
-
 exit 0

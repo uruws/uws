@@ -10,6 +10,8 @@
 * uwscli unittest - `DONE!`
     * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/uwscli/)
 
+* munin alerts unittest and CI - `DONE!`
+
 * nginx secure headers
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy

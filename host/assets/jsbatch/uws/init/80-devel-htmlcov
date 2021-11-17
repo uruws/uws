@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+# uwscli
+
+rm -rf /srv/www/ssl/htmlcov/uwscli
+if test -d /srv/uws/deploy/tmp/uwscli/htmlcov; then
+	cp -r /srv/uws/deploy/tmp/uwscli/htmlcov /srv/www/ssl/htmlcov/uwscli
+	chown -vR root:www-data /srv/www/ssl/htmlcov/uwscli
+fi
+
+# munin
+
+rm -rf /srv/www/ssl/htmlcov/munin
+if test -d /srv/uws/deploy/tmp/munin/htmlcov; then
+	cp -r /srv/uws/deploy/tmp/munin/htmlcov /srv/www/ssl/htmlcov/munin
+	chown -vR root:www-data /srv/www/ssl/htmlcov/munin
+fi
+
+exit 0
