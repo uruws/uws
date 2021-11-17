@@ -11,6 +11,7 @@
     * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/uwscli/)
 
 * munin alerts unittest and CI - `DONE!`
+    * [report](https://ops.uws.talkingpts.org/htmlcov/munin/)
 
 * nginx secure headers
     * CSP
