@@ -33,6 +33,10 @@ class Test(unittest.TestCase):
 		t.assertFalse(alerts._stateChanged({'state_changed': '0'}))
 		t.assertTrue(alerts._stateChanged({'state_changed': '1'}))
 
+	def test_msgFrom(t):
+		t.assertEqual(alerts._msgFrom({'host': 'testing'}),
+			Address('testing', 'munin-alert', 'testing'))
+
 	def test_sleepingHours(t):
 		alerts._sleepingHours()
 		check = dict()

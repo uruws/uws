@@ -37,8 +37,6 @@ def _stateChanged(s):
 def _msgFrom(s):
 	h = s.get('host', gethostname())
 	h = h.strip()
-	if not h:
-		h = 'NO_HOST'
 	return Address(h, 'munin-alert', h)
 
 def _msgSubject(s):
