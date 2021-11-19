@@ -23,9 +23,6 @@ ERTEST_FETCH    = 6
 ERTEST_CHECKOUT = 7
 EDEPLOY         = 8
 
-# ~ EBASEDIR = 5
-# ~ ECLONE = 6
-
 def _getTag(tagref):
 	return '/'.join(tagref.split('/')[2:])
 
@@ -34,9 +31,6 @@ def _getRepo(rpath):
 
 def _getTestDir(rname):
 	return '/'.join([uwscli_conf.deploy_testdir, rname])
-
-# ~ def _getDeployDir(rname):
-	# ~ return '/'.join([uwscli_conf.deploy_basedir, rname])
 
 def main(argv = []):
 	flags = ArgumentParser(description = __doc__)
@@ -73,12 +67,6 @@ def main(argv = []):
 			return ERTEST_CHECKOUT
 		if uwscli.git_deploy(rname, tag) != 0:
 			return EDEPLOY
-
-	# ~ rdeploy = _getDeployDir(rname)
-	# ~ if not path.exists(rdeploy):
-		# ~ with uwscli.chdir(uwscli_conf.deploy_basedir, error_status = EBASEDIR):
-			# ~ if uwscli.git_clone(args.repo) != 0:
-				# ~ return ECLONE
 
 	return 0
 

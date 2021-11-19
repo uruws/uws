@@ -53,12 +53,6 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_system(status = 99):
 				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']),
 					git_deploy.ETESTCLONE)
-		# ~ with uwscli_t.mock_system():
-			# ~ with uwscli_t.mock_chdir(faildir = '/srv/deploy'):
-				# ~ with t.assertRaises(SystemExit) as e:
-					# ~ git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999'])
-				# ~ err = e.exception
-				# ~ t.assertEqual(err.args[0], git_deploy.EBASEDIR)
 		with uwscli_t.mock_chdir(faildir = '/srv/test/repo'):
 			with uwscli_t.mock_system():
 				with t.assertRaises(SystemExit) as e:
@@ -93,7 +87,6 @@ class Test(unittest.TestCase):
 				t.assertEqual(uwscli.system.call_count, len(calls))
 			calls = [
 				uwscli_t.call('/srv/test', error_status = git_deploy.ETESTDIR),
-				# ~ uwscli_t.call('/srv/deploy', error_status = git_deploy.EBASEDIR),
 				uwscli_t.call('/srv/test/testing', error_status = git_deploy.ERTEST_DIR),
 			]
 			uwscli.chdir.assert_has_calls(calls)
