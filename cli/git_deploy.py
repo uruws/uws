@@ -14,15 +14,16 @@ import uwscli_conf
 
 __doc__ = 'uws git deploy'
 
-ETAGREF = 1
-ERPATH = 2
-ETESTDIR = 3
-ETESTCLONE = 4
-EBASEDIR = 5
-ECLONE = 6
-ERTEST_DIR = 7
-ERTEST_FETCH = 8
-ERTEST_CHECKOUT = 9
+ETAGREF         = 1
+ERPATH          = 2
+ETESTDIR        = 3
+ETESTCLONE      = 4
+ERTEST_DIR      = 5
+ERTEST_FETCH    = 6
+ERTEST_CHECKOUT = 7
+
+# ~ EBASEDIR = 5
+# ~ ECLONE = 6
 
 def _getTag(tagref):
 	return '/'.join(tagref.split('/')[2:])
@@ -56,7 +57,6 @@ def main(argv = []):
 	tag = _getTag(args.tagref)
 	rname = _getRepo(args.repo)
 	rtest = _getTestDir(rname)
-	rdeploy = _getDeployDir(rname)
 
 	environ['GIT_DIR'] = '.'
 
@@ -65,16 +65,17 @@ def main(argv = []):
 			if uwscli.git_clone(args.repo) != 0:
 				return ETESTCLONE
 
-	if not path.exists(rdeploy):
-		with uwscli.chdir(uwscli_conf.deploy_basedir, error_status = EBASEDIR):
-			if uwscli.git_clone(args.repo) != 0:
-				return ECLONE
-
 	with uwscli.chdir(rtest, error_status = ERTEST_DIR):
 		if uwscli.git_fetch() != 0:
 			return ERTEST_FETCH
 		if uwscli.git_checkout(tag) != 0:
 			return ERTEST_CHECKOUT
+
+	# ~ rdeploy = _getDeployDir(rname)
+	# ~ if not path.exists(rdeploy):
+		# ~ with uwscli.chdir(uwscli_conf.deploy_basedir, error_status = EBASEDIR):
+			# ~ if uwscli.git_clone(args.repo) != 0:
+				# ~ return ECLONE
 
 	return 0
 
