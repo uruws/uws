@@ -36,9 +36,6 @@ class Test(unittest.TestCase):
 	def test_getTestDir(t):
 		t.assertEqual(git_deploy._getTestDir('repo'), '/srv/test/repo')
 
-	# ~ def test_getDeployDir(t):
-		# ~ t.assertEqual(git_deploy._getDeployDir('repo'), '/srv/deploy/repo')
-
 	def test_main_errors(t):
 		t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'invalid']),
 			git_deploy.ETAGREF)
