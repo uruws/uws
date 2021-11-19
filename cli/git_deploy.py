@@ -34,8 +34,8 @@ def _getRepo(rpath):
 def _getTestDir(rname):
 	return '/'.join([uwscli_conf.deploy_testdir, rname])
 
-def _getDeployDir(rname):
-	return '/'.join([uwscli_conf.deploy_basedir, rname])
+# ~ def _getDeployDir(rname):
+	# ~ return '/'.join([uwscli_conf.deploy_basedir, rname])
 
 def main(argv = []):
 	flags = ArgumentParser(description = __doc__)
