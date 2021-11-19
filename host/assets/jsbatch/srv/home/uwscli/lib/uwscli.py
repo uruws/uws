@@ -23,6 +23,8 @@ environ.update(_env)
 
 from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
 
+import uwscli_deploy
+
 def log(*args, sep = ' '):
 	if _log:
 		print(*args, sep = sep, file = _outfh)
@@ -128,3 +130,6 @@ def git_fetch():
 
 def git_checkout(tag):
 	return system(f"git checkout {tag}")
+
+def git_deploy(rname, tag):
+	return uwscli_deploy.run(rname, tag)

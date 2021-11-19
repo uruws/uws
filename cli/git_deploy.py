@@ -21,6 +21,7 @@ ETESTCLONE      = 4
 ERTEST_DIR      = 5
 ERTEST_FETCH    = 6
 ERTEST_CHECKOUT = 7
+EDEPLOY         = 8
 
 # ~ EBASEDIR = 5
 # ~ ECLONE = 6
@@ -70,6 +71,8 @@ def main(argv = []):
 			return ERTEST_FETCH
 		if uwscli.git_checkout(tag) != 0:
 			return ERTEST_CHECKOUT
+		if uwscli.git_deploy(rname, tag) != 0:
+			return EDEPLOY
 
 	# ~ rdeploy = _getDeployDir(rname)
 	# ~ if not path.exists(rdeploy):
