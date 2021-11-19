@@ -120,3 +120,12 @@ def mock_list_images(return_value = []):
 		yield
 	finally:
 		uwscli.list_images = li_bup
+
+@contextmanager
+def mock_git_deploy(status = 0):
+	gd_bup = uwscli.git_deploy
+	try:
+		uwscli.git_deploy = MagicMock(return_value = status)
+		yield
+	finally:
+		uwscli.git_deploy = gd_bup

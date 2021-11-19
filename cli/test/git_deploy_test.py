@@ -71,6 +71,13 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_system(fail_cmd = 'git checkout'):
 				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']),
 					git_deploy.ERTEST_CHECKOUT)
+		with uwscli_t.mock_chdir():
+			with uwscli_t.mock_system():
+				with uwscli_t.mock_git_deploy(status = 99):
+					t.assertEqual(
+						git_deploy.main(['-r', 'testing.git', '-t' , 'refs/tags/0.999']),
+						git_deploy.EDEPLOY,
+					)
 
 	def test_main(t):
 		t.assertEqual(environ.get('GIT_DIR', 'NONE'), 'NONE')
