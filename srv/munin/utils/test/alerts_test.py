@@ -12,13 +12,18 @@ from email.headerregistry import Address
 import alerts
 
 @contextmanager
-def mock(fileinput = []):
+def mock(fileinput = [], ctrl_c = False):
+	def __ctrl_c(*args):
+		raise KeyboardInterrupt
 	fi_bup = alerts.fileinput
 	sys_bup = alerts.sys
 	try:
 		# fileinput
 		alerts.fileinput = MagicMock()
-		alerts.fileinput.input = MagicMock(return_value = fileinput)
+		if ctrl_c:
+			alerts.fileinput.input = MagicMock(side_effect = __ctrl_c)
+		else:
+			alerts.fileinput.input = MagicMock(return_value = fileinput)
 		# sys
 		alerts.sys = MagicMock()
 		alerts.sys.stderr = MagicMock()
@@ -100,6 +105,8 @@ class Test(unittest.TestCase):
 		with mock(fileinput = ['invalid']):
 			t.assertEqual(alerts.main(), 0)
 			alerts.sys.stderr.write.assert_has_calls([call('ERROR:')])
+		with mock(ctrl_c = True):
+			t.assertEqual(alerts.main(), 1)
 
 	def test_main(t):
 		with mock():
