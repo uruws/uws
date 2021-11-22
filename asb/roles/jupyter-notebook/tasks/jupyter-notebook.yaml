@@ -25,6 +25,16 @@
   tags:
     - jupyter-notebook
 
+- name: user groups
+  become: yes
+  user:
+    state: present
+    name: "{{ jupyter_notebook_user.name }}"
+    append: yes
+    groups: rstudio
+  tags:
+    - jupyter-notebook
+
 - name: user home dir
   become: yes
   file:
