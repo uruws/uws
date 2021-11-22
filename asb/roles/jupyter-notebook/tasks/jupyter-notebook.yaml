@@ -3,7 +3,10 @@
   become: yes
   apt:
     pkg:
+      - jupyter
       - jupyter-notebook
+      - ipython3
+      - python3-ipykernel
   tags:
     - apt
     - jupyter-notebook
