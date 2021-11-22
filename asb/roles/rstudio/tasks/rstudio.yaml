@@ -13,7 +13,7 @@
   become: yes
   apt_key:
     keyserver: keyserver.ubuntu.com
-    id: E19F5F87128899B192B1A2C2AD5F960A256A04AF
+    id: "0x95c0faf38db3ccad0c080a7bdc78b2ddeabc47b7"
   tags:
     - apt
     - rstudio-apt
