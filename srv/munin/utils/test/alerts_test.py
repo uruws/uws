@@ -32,6 +32,24 @@ def mock(fileinput = [], ctrl_c = False):
 		alerts.fileinput = fi_bup
 		alerts.sys = sys_bup
 
+@contextmanager
+def mock_nq(status = 0):
+	nq_bup = alerts.nq
+	try:
+		alerts.nq = MagicMock(return_value = status)
+		yield
+	finally:
+		alerts.nq = nq_bup
+
+@contextmanager
+def mock_sleepingHours(state = True):
+	sh_bup = alerts._sleepingHours
+	try:
+		alerts._sleepingHours = MagicMock(return_value = state)
+		yield
+	finally:
+		alerts._sleepingHours = sh_bup
+
 class Test(unittest.TestCase):
 
 	def test_globals(t):
@@ -112,6 +130,15 @@ class Test(unittest.TestCase):
 		with mock():
 			t.assertEqual(alerts.main(), 0)
 			alerts.fileinput.input.assert_called_once_with('-')
+
+	def test_no_state_changed(t):
+		with mock(fileinput = ['{"state_changed": "0", "worst": "OK"}']):
+			t.assertEqual(alerts.main(), 0)
+
+	def test_sleepingHours(t):
+		with mock(fileinput = ['{"state_changed": "1", "worst": "OK"}']):
+			with mock_sleepingHours():
+				t.assertEqual(alerts.main(), 0)
 
 if __name__ == '__main__':
 	unittest.main()
