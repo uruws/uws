@@ -4,7 +4,7 @@
 # See LICENSE file.
 
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 
 from contextlib import contextmanager
 from email.headerregistry import Address
@@ -12,13 +12,20 @@ from email.headerregistry import Address
 import alerts
 
 @contextmanager
-def mock_fileinput(out = []):
+def mock(fileinput = []):
 	fi_bup = alerts.fileinput
+	sys_bup = alerts.sys
 	try:
-		alerts.fileinput = MagicMock(return_value = out)
+		# fileinput
+		alerts.fileinput = MagicMock()
+		alerts.fileinput.input = MagicMock(return_value = fileinput)
+		# sys
+		alerts.sys = MagicMock()
+		alerts.sys.stderr = MagicMock()
 		yield
 	finally:
 		alerts.fileinput = fi_bup
+		alerts.sys = sys_bup
 
 class Test(unittest.TestCase):
 
@@ -89,9 +96,14 @@ class Test(unittest.TestCase):
 			24: False,
 		})
 
+	def test_main_errors(t):
+		with mock(fileinput = ['invalid']):
+			t.assertEqual(alerts.main(), 0)
+			alerts.sys.stderr.write.assert_has_calls([call('ERROR:')])
+
 	def test_main(t):
-		with mock_fileinput():
-			alerts.main()
+		with mock():
+			t.assertEqual(alerts.main(), 0)
 			alerts.fileinput.input.assert_called_once_with('-')
 
 if __name__ == '__main__':
