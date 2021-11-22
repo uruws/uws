@@ -4,10 +4,21 @@
 # See LICENSE file.
 
 import unittest
+from unittest.mock import MagicMock
 
+from contextlib import contextmanager
 from email.headerregistry import Address
 
 import alerts
+
+@contextmanager
+def mock_fileinput(out = []):
+	fi_bup = alerts.fileinput
+	try:
+		alerts.fileinput = MagicMock(return_value = out)
+		yield
+	finally:
+		alerts.fileinput = fi_bup
 
 class Test(unittest.TestCase):
 
@@ -77,6 +88,11 @@ class Test(unittest.TestCase):
 			23: False,
 			24: False,
 		})
+
+	def test_main(t):
+		with mock_fileinput():
+			alerts.main()
+			alerts.fileinput.input.assert_called_once_with('-')
 
 if __name__ == '__main__':
 	unittest.main()
