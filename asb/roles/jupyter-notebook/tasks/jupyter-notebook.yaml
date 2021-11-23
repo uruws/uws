@@ -3,12 +3,14 @@
   become: yes
   apt:
     pkg:
+      - python3-pip
       - jupyter
       - jupyter-notebook
       - jupyter-server
       - ipython3
       - python3-ipykernel
       - python3-metakernel
+      - python3-jupyterlab-server
   tags:
     - apt
     - jupyter-notebook
