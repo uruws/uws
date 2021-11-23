@@ -5,8 +5,10 @@
     pkg:
       - jupyter
       - jupyter-notebook
+      - jupyter-server
       - ipython3
       - python3-ipykernel
+      - python3-metakernel
   tags:
     - apt
     - jupyter-notebook
