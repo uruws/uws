@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: nlpsvc
-  replicas: 95
+  replicas: 1
   template:
     metadata:
       labels:
@@ -24,8 +24,10 @@ spec:
             runAsNonRoot: true
             runAsUser: 1500
             runAsGroup: 1500
+          workingDir: /opt/app
           command:
-            - /usr/local/bin/entrypoint.sh
+            - /usr/bin/python3
+            - /opt/app/sentimentService.py
           envFrom:
             - secretRef:
                 name: nlpsvc-env
