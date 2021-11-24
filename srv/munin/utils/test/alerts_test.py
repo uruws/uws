@@ -50,6 +50,15 @@ def mock_sleepingHours(state = True):
 	finally:
 		alerts._sleepingHours = sh_bup
 
+@contextmanager
+def mock_parse():
+	p_bup = alerts.parse
+	try:
+		alerts.parse = MagicMock(return_value = 'mock_parse')
+		yield
+	finally:
+		alerts.parse = p_bup
+
 class Test(unittest.TestCase):
 
 	def test_globals(t):
@@ -139,6 +148,21 @@ class Test(unittest.TestCase):
 		with mock(fileinput = ['{"state_changed": "1", "worst": "OK"}']):
 			with mock_sleepingHours():
 				t.assertEqual(alerts.main(), 0)
+
+	def test_main_nq(t):
+		with mock(fileinput = ['{"state_changed": "1", "worst": "CRITICAL"}']):
+			with mock_sleepingHours(False):
+				with mock_nq():
+					with mock_parse():
+						t.assertEqual(alerts.main(), 0)
+						alerts.nq.assert_called_once_with('mock_parse')
+
+	def test_main_nq_error(t):
+		with mock(fileinput = ['{"state_changed": "1", "worst": "CRITICAL"}']):
+			with mock_sleepingHours(False):
+				with mock_nq(status = 99):
+					with mock_parse():
+						t.assertEqual(alerts.main(), 99)
 
 if __name__ == '__main__':
 	unittest.main()
