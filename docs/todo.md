@@ -4,14 +4,7 @@
     * build and deploy to aws.testing
 
 * Buildpack unittest
-    * [Buildpack/build_test.py](https://github.com/TalkingPts/Buildpack/blob/master/build_test.py) - `DONE!`
     * run test during deploy and publish coverate [report](https://ops.uws.talkingpts.org/htmlcov/buildpack/)
-
-* uwscli unittest - `DONE!`
-    * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/uwscli/)
-
-* munin alerts unittest and CI - `DONE!`
-    * [report](https://ops.uws.talkingpts.org/htmlcov/munin/)
 
 * nginx secure headers
     * CSP
@@ -58,6 +51,8 @@
     * munin dashboard
     * events history (builds, restarts, deploys, etc...)
     * API for UI interaction
+
+* infra docs for internal presentation
 
 * k8s/ctl - `FIX`: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
