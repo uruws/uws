@@ -12,9 +12,9 @@ import uwscli_t
 import uwscli_deploy
 
 @contextmanager
-def mock():
+def mock(config = 'uwsci.conf'):
 	try:
-		uwscli_deploy._cfgfn = 'testdata/uwsci.conf'
+		uwscli_deploy._cfgfn = f"testdata/{config}"
 		yield
 	finally:
 		uwscli_deploy._cfgfn = '.uwsci.conf'
@@ -37,7 +37,7 @@ class Test(unittest.TestCase):
 		t.assertIsNone(c.get('testing'))
 		t.assertEqual(c.get('testing', 'test'), 'test')
 		t.assertEqual(c.get('version', 'UNSET'), '0')
-		t.assertEqual(c['ci_dir'], '.ci')
+		t.assertEqual(c['ci_dir'], '/home/uws/.ci')
 
 	def test_cfgFiles(t):
 		try:
@@ -48,6 +48,14 @@ class Test(unittest.TestCase):
 		finally:
 			uwscli_deploy._cfgfn = '.uwsci.conf'
 			uwscli_deploy._cfgFiles = []
+
+	def test_read_config_error(t):
+		with mock(config = 'uwsci_error.conf'):
+			with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
+				uwscli_deploy.run('testing', '0.999')
+		with mock(config = 'uwsci_relpath_error.conf'):
+			with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
+				uwscli_deploy.run('testing', '0.999')
 
 	def test_run(t):
 		with mock():

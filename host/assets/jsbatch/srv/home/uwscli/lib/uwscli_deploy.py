@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 from configparser import ConfigParser
+from pathlib import Path
 
 import uwscli
 
@@ -18,7 +19,12 @@ def _newConfig():
 		'ci_dir': '.ci',
 	}
 	_cfgFiles = c.read(_cfgfn)
-	return c['deploy']
+	cfg = c['deploy']
+	ci_dir = Path(cfg['ci_dir']).resolve()
+	assert ci_dir.is_absolute(), f"invalid ci_dir: {ci_dir}"
+	assert ci_dir.is_relative_to(Path('./').resolve()), f"invalid ci_dir: {ci_dir}"
+	cfg['ci_dir'] = ci_dir.as_posix()
+	return cfg
 
 def run(repo, tag):
 	uwscli.log('git deploy:', repo, tag)
