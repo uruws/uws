@@ -5,13 +5,18 @@ from configparser import ConfigParser
 
 import uwscli
 
+_cfgfn = '.uwsci.conf'
+_cfgFiles = []
+
 def _newConfig():
-	cfg = ConfigParser()
-	cfg['DEFAULT'] = {
+	global _cfgFiles
+	c = ConfigParser()
+	c['DEFAULT'] = {
 		'version': 0,
 	}
-	cfg['deploy'] = {}
-	return cfg['deploy']
+	c['deploy'] = {}
+	_cfgFiles = c.read(_cfgfn)
+	return c['deploy']
 
 def run(repo, tag):
 	uwscli.log('git deploy:', repo, tag)
