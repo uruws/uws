@@ -7,8 +7,11 @@ import uwscli
 
 def _newConfig():
 	cfg = ConfigParser()
-	cfg['DEFAULT'] = {}
-	return cfg
+	cfg['DEFAULT'] = {
+		'version': 0,
+	}
+	cfg['deploy'] = {}
+	return cfg['deploy']
 
 def run(repo, tag):
 	uwscli.log('git deploy:', repo, tag)
