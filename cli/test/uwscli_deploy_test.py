@@ -37,6 +37,7 @@ class Test(unittest.TestCase):
 		t.assertIsNone(c.get('testing'))
 		t.assertEqual(c.get('testing', 'test'), 'test')
 		t.assertEqual(c.get('version', 'UNSET'), '0')
+		t.assertEqual(c['ci_dir'], '.ci')
 
 	def test_cfgFiles(t):
 		try:

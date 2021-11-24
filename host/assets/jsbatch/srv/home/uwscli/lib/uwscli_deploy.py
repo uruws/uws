@@ -14,7 +14,9 @@ def _newConfig():
 	c['DEFAULT'] = {
 		'version': 0,
 	}
-	c['deploy'] = {}
+	c['deploy'] = {
+		'ci_dir': '.ci',
+	}
 	_cfgFiles = c.read(_cfgfn)
 	return c['deploy']
 
