@@ -31,8 +31,9 @@ class Test(unittest.TestCase):
 	def test_cfgFiles(t):
 		try:
 			uwscli_deploy._cfgfn = 'testdata/uwsci.conf'
-			uwscli_deploy._newConfig()
+			c = uwscli_deploy._newConfig()
 			t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
+			t.assertTrue(c.get('testing'))
 		finally:
 			uwscli_deploy._cfgfn = '.uwsci.conf'
 			uwscli_deploy._cfgFiles = []
