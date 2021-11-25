@@ -6,7 +6,7 @@
 import sys
 
 from argparse import ArgumentParser
-from os import environ, path
+from os import path
 
 sys.path.insert(0, '/srv/home/uwscli/lib')
 import uwscli
@@ -50,8 +50,6 @@ def main(argv = []):
 	tag = _getTag(args.tagref)
 	rname = _getRepo(args.repo)
 	rdir = _getDeployDir(rname)
-
-	environ['GIT_DIR'] = '.'
 
 	if not path.exists(rdir):
 		with uwscli.chdir(uwscli_conf.deploy_basedir, error_status = EDIR):

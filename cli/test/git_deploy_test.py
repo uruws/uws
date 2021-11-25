@@ -12,8 +12,6 @@ import uwscli
 sys.path.insert(0, '/srv/uws/deploy/cli')
 import git_deploy
 
-from os import environ
-
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -65,7 +63,6 @@ class Test(unittest.TestCase):
 					)
 
 	def test_main(t):
-		t.assertEqual(environ.get('GIT_DIR', 'NONE'), 'NONE')
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_check_output():
@@ -82,7 +79,6 @@ class Test(unittest.TestCase):
 				uwscli_t.call('/srv/deploy/testing', error_status = git_deploy.EREPO_DIR),
 			]
 			uwscli.chdir.assert_has_calls(calls)
-		t.assertEqual(environ.get('GIT_DIR', 'NONE'), '.')
 
 if __name__ == '__main__':
 	unittest.main()
