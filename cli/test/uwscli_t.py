@@ -129,3 +129,13 @@ def mock_git_deploy(status = 0):
 		yield
 	finally:
 		uwscli.git_deploy = gd_bup
+
+@contextmanager
+def mock_uwscli_deploy(status = 0):
+	_bup = uwscli.uwscli_deploy
+	try:
+		uwscli.uwscli_deploy = MagicMock()
+		uwscli.uwscli_deploy.run = MagicMock(return_value = status)
+		yield
+	finally:
+		uwscli.uwscli_deploy = _bup

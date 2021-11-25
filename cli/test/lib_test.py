@@ -168,7 +168,9 @@ class Test(unittest.TestCase):
 			uwscli.system.assert_called_once_with('git checkout 0.999')
 
 	def test_git_deploy(t):
-		pass
+		with uwscli_t.mock_uwscli_deploy():
+			t.assertEqual(uwscli.git_deploy('testing.git', '0.999'), 0)
+			uwscli.uwscli_deploy.run.assert_called_once_with('testing.git', '0.999')
 
 if __name__ == '__main__':
 	unittest.main()
