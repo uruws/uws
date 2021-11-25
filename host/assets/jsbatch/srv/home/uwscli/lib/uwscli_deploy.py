@@ -36,7 +36,7 @@ def _newConfig():
 def _run(repo, tag, script):
 	uwscli.log('run:', repo, tag, script.as_posix())
 	if script.exists() and script.is_file() and not script.is_symlink():
-		pass
+		return uwscli.system(script.as_posix())
 	return 0
 
 def run(repo, tag):
