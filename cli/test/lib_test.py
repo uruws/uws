@@ -82,6 +82,9 @@ class Test(unittest.TestCase):
 		rc, out = uwscli.gso('echo "${PATH}"')
 		t.assertEqual(rc, 0)
 		t.assertEqual(out, _PATH)
+		rc, out = uwscli.gso('test -n "${TESTING}"')
+		t.assertEqual(rc, 1)
+		t.assertEqual(out, '')
 
 	def test_check_output(t):
 		pass
