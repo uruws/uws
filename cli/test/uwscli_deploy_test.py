@@ -96,6 +96,11 @@ class Test(unittest.TestCase):
 				with uwscli_t.mock_check_output():
 					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'),99)
 
+	def test__rollback(t):
+		with uwscli_t.mock_system():
+			uwscli_deploy._rollback('t.git', '0.999', '.ci')
+			uwscli.system.assert_called_once_with('git checkout 0.999')
+
 	def test_run(t):
 		with uwscli_t.mock_check_output():
 			with mock():
