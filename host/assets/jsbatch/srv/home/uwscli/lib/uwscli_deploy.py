@@ -3,6 +3,7 @@
 
 from configparser import ConfigParser
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import uwscli
 
@@ -36,7 +37,13 @@ def _newConfig():
 def _run(repo, tag, script):
 	uwscli.log('run:', repo, tag, script.as_posix())
 	if script.exists() and script.is_file() and not script.is_symlink():
-		return uwscli.system(script.as_posix())
+		__, __, repo_name, __, __ = urlsplit(repo)
+		env = {
+			'UWSCLI_REPO': repo,
+			'UWSCLI_REPO_NAME': repo_name,
+			'UWSCLI_REPO_TAG': tag,
+		}
+		return uwscli.system(script.as_posix(), env = env)
 	return 0
 
 def run(repo, tag):

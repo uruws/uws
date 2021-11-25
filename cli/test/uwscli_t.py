@@ -79,7 +79,7 @@ def mock_chdir(fail = False, faildir = ''):
 
 @contextmanager
 def mock_system(status = 0, fail_cmd = '', fail_status = 99):
-	def __system(cmd):
+	def __system(cmd, env = None, timeout = 180):
 		if fail_cmd and cmd.startswith(fail_cmd):
 			return fail_status
 		return status

@@ -84,7 +84,12 @@ class Test(unittest.TestCase):
 				t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
 				t.assertListEqual(uwscli_deploy._cfgFiles,
 					['testdata/uwsci_scripts.conf'])
-				uwscli.system.assert_called_once_with('/home/uws/testdata/ci/deploy.sh')
+				uwscli.system.assert_called_once_with('/home/uws/testdata/ci/deploy.sh',
+					env = {
+						'UWSCLI_REPO': 'testing.git',
+						'UWSCLI_REPO_NAME': 'testing.git',
+						'UWSCLI_REPO_TAG': '0.999',
+					})
 
 	def test_run(t):
 		_run_calls = []
