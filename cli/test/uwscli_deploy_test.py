@@ -70,11 +70,14 @@ class Test(unittest.TestCase):
 			4: 'clean.sh',
 		})
 
+	def test__run(t):
+		t.assertEqual(uwscli_deploy._run('testing.git', '0.999', 'test.sh'), 0)
+
 	def test_run(t):
 		_run_calls = []
 		for i in sorted(uwscli_deploy._ciScripts.keys()):
 			script = uwscli_deploy._ciScripts[i]
-			_run_calls.append(call('testing.git', '0.999', script))
+			_run_calls.append(call('testing.git', '0.999', f"/home/uws/.ci/{script}"))
 		with mock():
 			t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
 			t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])

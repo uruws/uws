@@ -41,8 +41,8 @@ def run(repo, tag):
 	uwscli.log('git deploy:', repo, tag)
 	cfg = _newConfig()
 	for idx in sorted(_ciScripts.keys()):
-		s = _ciScripts[idx]
-		rc = _run(repo, tag, s)
+		s = Path(cfg['ci_dir'], _ciScripts[idx])
+		rc = _run(repo, tag, s.as_posix())
 		if rc != 0:
 			return rc
 	return 0
