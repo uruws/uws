@@ -74,7 +74,8 @@ class Test(unittest.TestCase):
 		t.assertEqual(env.get('TESTING'), 'test')
 
 	def test_system(t):
-		pass
+		t.assertEqual(uwscli.system('exit 0'), 0)
+		t.assertEqual(uwscli.system('exit 3'), 3)
 
 	def test_gso(t):
 		pass
