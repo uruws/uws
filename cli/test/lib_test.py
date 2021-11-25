@@ -153,7 +153,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli_t.err().strip(), '[ERROR] testing list images: mock_output')
 
 	def test_git_clone(t):
-		pass
+		with uwscli_t.mock_system():
+			t.assertEqual(uwscli.git_clone('testing.git'), 0)
+			uwscli.system.assert_called_once_with('git clone testing.git')
 
 	def test_git_fetch(t):
 		pass
