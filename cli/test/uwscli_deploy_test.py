@@ -13,17 +13,22 @@ from unittest.mock import MagicMock, call
 import uwscli_t
 import uwscli_deploy
 
+import uwscli
+
 @contextmanager
-def mock(config = 'uwsci.conf', _run_status = 0):
-	_run_bup = uwscli_deploy._run
+def mock(config = 'uwsci.conf', _run = True, _run_status = 0):
+	if _run:
+		_run_bup = uwscli_deploy._run
 	try:
 		uwscli_deploy._cfgfn = f"testdata/{config}"
-		uwscli_deploy._run = MagicMock(return_value = _run_status)
+		if _run:
+			uwscli_deploy._run = MagicMock(return_value = _run_status)
 		yield
 	finally:
 		uwscli_deploy._cfgfn = '.uwsci.conf'
 		uwscli_deploy._cfgFiles = []
-		uwscli_deploy._run = _run_bup
+		if _run:
+			uwscli_deploy._run = _run_bup
 
 class Test(unittest.TestCase):
 
@@ -74,6 +79,12 @@ class Test(unittest.TestCase):
 	def test__run(t):
 		t.assertEqual(uwscli_deploy._run('testing.git', '0.999',
 			Path('test.sh')), 0)
+		with mock(config = 'uwsci_scripts.conf', _run = False):
+			with uwscli_t.mock_system():
+				t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
+				t.assertListEqual(uwscli_deploy._cfgFiles,
+					['testdata/uwsci_scripts.conf'])
+				uwscli.system.assert_called_once_with('/home/uws/testdata/ci/deploy.sh')
 
 	def test_run(t):
 		_run_calls = []
@@ -89,6 +100,9 @@ class Test(unittest.TestCase):
 	def test_run_errors(t):
 		with mock(_run_status = 99):
 			t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
+		with mock(config = 'uwsci_scripts.conf', _run = False):
+			with uwscli_t.mock_system(status = 99):
+				t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
 
 if __name__ == '__main__':
 	unittest.main()
