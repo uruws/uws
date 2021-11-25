@@ -33,35 +33,35 @@ class Test(unittest.TestCase):
 	def test_getRepo(t):
 		t.assertEqual(git_deploy._getRepo('/testing/path/repo.git'), 'repo')
 
-	def test_getTestDir(t):
-		t.assertEqual(git_deploy._getTestDir('repo'), '/srv/test/repo')
+	def test_getDeployDir(t):
+		t.assertEqual(git_deploy._getDeployDir('repo'), '/srv/deploy/repo')
 
 	def test_main_errors(t):
 		t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'invalid']),
 			git_deploy.ETAGREF)
 		t.assertEqual(git_deploy.main(['-r', 'invalid', '-t', 'refs/tags/0.999']),
-			git_deploy.ERPATH)
-		with uwscli_t.mock_chdir(faildir = '/srv/test'):
+			git_deploy.EREPO)
+		with uwscli_t.mock_chdir(faildir = '/srv/deploy'):
 			with t.assertRaises(SystemExit) as e:
 				git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999'])
 			err = e.exception
-			t.assertEqual(err.args[0], git_deploy.ETESTDIR)
+			t.assertEqual(err.args[0], git_deploy.EDIR)
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_system(status = 99):
 				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']),
-					git_deploy.ETESTCLONE)
-		with uwscli_t.mock_chdir(faildir = '/srv/test/repo'):
+					git_deploy.ECLONE)
+		with uwscli_t.mock_chdir(faildir = '/srv/deploy/repo'):
 			with uwscli_t.mock_system():
 				with t.assertRaises(SystemExit) as e:
 					git_deploy.main(['-r', 'repo.git', '-t', 'refs/tags/0.999'])
 				err = e.exception
-				t.assertEqual(err.args[0], git_deploy.ERTEST_DIR)
+				t.assertEqual(err.args[0], git_deploy.EREPO_DIR)
 			with uwscli_t.mock_system(fail_cmd = 'git fetch'):
 				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']),
-					git_deploy.ERTEST_FETCH)
+					git_deploy.EREPO_FETCH)
 			with uwscli_t.mock_system(fail_cmd = 'git checkout'):
 				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']),
-					git_deploy.ERTEST_CHECKOUT)
+					git_deploy.EREPO_CHECKOUT)
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_git_deploy(status = 99):
@@ -83,8 +83,8 @@ class Test(unittest.TestCase):
 				uwscli.system.assert_has_calls(calls)
 				t.assertEqual(uwscli.system.call_count, len(calls))
 			calls = [
-				uwscli_t.call('/srv/test', error_status = git_deploy.ETESTDIR),
-				uwscli_t.call('/srv/test/testing', error_status = git_deploy.ERTEST_DIR),
+				uwscli_t.call('/srv/deploy', error_status = git_deploy.EDIR),
+				uwscli_t.call('/srv/deploy/testing', error_status = git_deploy.EREPO_DIR),
 			]
 			uwscli.chdir.assert_has_calls(calls)
 		t.assertEqual(environ.get('GIT_DIR', 'NONE'), '.')
