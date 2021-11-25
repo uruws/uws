@@ -147,4 +147,4 @@ def git_deploy(rname, tag):
 	return uwscli_deploy.run(rname, tag)
 
 def git_describe():
-	return system('git describe --always')
+	return check_output('git describe --always')

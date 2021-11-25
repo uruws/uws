@@ -173,9 +173,9 @@ class Test(unittest.TestCase):
 			uwscli.uwscli_deploy.run.assert_called_once_with('testing.git', '0.999')
 
 	def test_git_describe(t):
-		with uwscli_t.mock_system():
-			t.assertEqual(uwscli.git_describe(), 0)
-			uwscli.system.assert_called_once_with('git describe --always')
+		with uwscli_t.mock_check_output():
+			t.assertEqual(uwscli.git_describe(), 'mock_output')
+			uwscli.check_output.assert_called_once_with('git describe --always')
 
 if __name__ == '__main__':
 	unittest.main()
