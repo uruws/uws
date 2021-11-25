@@ -47,21 +47,24 @@ def chdir(d, error_status = 2):
 
 _cmdTtl = 180
 
-def system(cmd, env = None, timeout = _cmdTtl):
+def _setenv(env):
 	e = {}
 	for k, v in environ.items():
 		e[k] = v
 	if env is not None:
 		e.update(env)
+	return e
+
+def system(cmd, env = None, timeout = _cmdTtl):
 	p = proc_run(cmd, shell = True, capture_output = True,
-		timeout = timeout, env = e)
+		timeout = timeout, env = _setenv(env))
 	return p.returncode
 
 def gso(cmd):
 	return getstatusoutput(cmd)
 
-def check_output(cmd, shell = True):
-	return proc_check_output(cmd, shell = shell).decode('utf-8')
+def check_output(cmd, env = None):
+	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
 def __descmax(k):
 	m = 0
