@@ -70,7 +70,8 @@ class Test(unittest.TestCase):
 				pass
 
 	def test__setenv(t):
-		pass
+		env = uwscli._setenv({'TESTING': 'test'})
+		t.assertEqual(env.get('TESTING'), 'test')
 
 	def test_system(t):
 		pass
