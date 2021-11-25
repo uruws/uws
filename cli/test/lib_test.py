@@ -6,6 +6,7 @@
 import unittest
 
 from os import environ, getcwd
+from subprocess import CalledProcessError
 
 import uwscli_t
 import uwscli
@@ -75,8 +76,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(env.get('TESTING'), 'test')
 
 	def test_system(t):
+		e = {'TESTING': '3'}
 		t.assertEqual(uwscli.system('exit 0'), 0)
-		t.assertEqual(uwscli.system('exit 3'), 3)
+		t.assertEqual(uwscli.system('exit "${TESTING}"', env = e), 3)
 
 	def test_gso(t):
 		rc, out = uwscli.gso('echo "${PATH}"')
@@ -87,7 +89,10 @@ class Test(unittest.TestCase):
 		t.assertEqual(out, '')
 
 	def test_check_output(t):
-		pass
+		e = {'TESTING': 'test'}
+		t.assertEqual(uwscli.check_output('echo "${TESTING}"', env = e).strip(), 'test')
+		with t.assertRaises(CalledProcessError):
+			uwscli.check_output('exit 128')
 
 	def test_app_list(t):
 		t.assertEqual(uwscli.app_list(), ['testing'])
