@@ -34,7 +34,9 @@ def _newConfig():
 	return cfg
 
 def _run(repo, tag, script):
-	uwscli.log('run:', repo, tag, script)
+	uwscli.log('run:', repo, tag, script.as_posix())
+	if script.exists() and script.is_file() and not script.is_symlink():
+		pass
 	return 0
 
 def run(repo, tag):
@@ -42,7 +44,7 @@ def run(repo, tag):
 	cfg = _newConfig()
 	for idx in sorted(_ciScripts.keys()):
 		s = Path(cfg['ci_dir'], _ciScripts[idx])
-		rc = _run(repo, tag, s.as_posix())
+		rc = _run(repo, tag, s)
 		if rc != 0:
 			return rc
 	return 0

@@ -5,6 +5,7 @@
 
 from contextlib import contextmanager
 from configparser import SectionProxy
+from pathlib import Path
 
 import unittest
 from unittest.mock import MagicMock, call
@@ -71,13 +72,15 @@ class Test(unittest.TestCase):
 		})
 
 	def test__run(t):
-		t.assertEqual(uwscli_deploy._run('testing.git', '0.999', 'test.sh'), 0)
+		t.assertEqual(uwscli_deploy._run('testing.git', '0.999',
+			Path('test.sh')), 0)
 
 	def test_run(t):
 		_run_calls = []
 		for i in sorted(uwscli_deploy._ciScripts.keys()):
 			script = uwscli_deploy._ciScripts[i]
-			_run_calls.append(call('testing.git', '0.999', f"/home/uws/.ci/{script}"))
+			_run_calls.append(call('testing.git', '0.999',
+				Path(f"/home/uws/.ci/{script}")))
 		with mock():
 			t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
 			t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
