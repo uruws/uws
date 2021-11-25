@@ -57,6 +57,15 @@ class Test(unittest.TestCase):
 			with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
 				uwscli_deploy.run('testing', '0.999')
 
+	def test_ciScripts(t):
+		t.assertDictEqual(uwscli_deploy._ciScripts, {
+			0: 'build.sh',
+			1: 'check.sh',
+			2: 'install.sh',
+			3: 'deploy.sh',
+			4: 'clean.sh',
+		})
+
 	def test_run(t):
 		with mock():
 			t.assertEqual(uwscli_deploy.run('testing', '0.999'), 0)

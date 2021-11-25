@@ -8,6 +8,13 @@ import uwscli
 
 _cfgfn = '.uwsci.conf'
 _cfgFiles = []
+_ciScripts = {
+	0: 'build.sh',
+	1: 'check.sh',
+	2: 'install.sh',
+	3: 'deploy.sh',
+	4: 'clean.sh',
+}
 
 def _newConfig():
 	global _cfgFiles
