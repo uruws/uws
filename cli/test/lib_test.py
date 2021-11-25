@@ -163,7 +163,9 @@ class Test(unittest.TestCase):
 			uwscli.system.assert_called_once_with('git fetch --prune --prune-tags --tags')
 
 	def test_git_checkout(t):
-		pass
+		with uwscli_t.mock_system():
+			t.assertEqual(uwscli.git_checkout('0.999'), 0)
+			uwscli.system.assert_called_once_with('git checkout 0.999')
 
 	def test_git_deploy(t):
 		pass
