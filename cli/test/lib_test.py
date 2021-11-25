@@ -27,6 +27,7 @@ class Test(unittest.TestCase):
 		t.assertTrue(uwscli._log)
 		t.assertDictEqual(uwscli._env,
 			{'PATH': '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'})
+		t.assertEqual(uwscli._cmdTtl, 180)
 
 	def test_environ(t):
 		for k, v in uwscli._env.items():
@@ -35,6 +36,8 @@ class Test(unittest.TestCase):
 	def test_system(t):
 		t.assertEqual(uwscli.system('exit 0'), 0)
 		t.assertEqual(uwscli.system('exit 2'), 2)
+		t.assertEqual(uwscli.system('test -n "${TESTING}"',
+			env = {'TESTING': 'test'}), 0)
 
 	def test_log(t):
 		uwscli.log('test', 'ing', sep = '')

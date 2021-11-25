@@ -9,9 +9,9 @@ _errfh = sys.stderr
 from contextlib import contextmanager
 from os import environ, getenv, getcwd
 from os import chdir as os_chdir
-from os import system as os_system
 from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
+from subprocess import run as proc_run
 
 _user = getenv('USER', 'unknown')
 _log = getenv('UWSCLI_LOG', 'on') == 'on'
@@ -45,8 +45,17 @@ def chdir(d, error_status = 2):
 	finally:
 		os_chdir(prevd)
 
-def system(cmd):
-	return os_system(cmd) >> 8
+_cmdTtl = 180
+
+def system(cmd, env = None, timeout = _cmdTtl):
+	e = {}
+	for k, v in environ.items():
+		e[k] = v
+	if env is not None:
+		e.update(env)
+	p = proc_run(cmd, shell = True, capture_output = True,
+		timeout = timeout, env = e)
+	return p.returncode
 
 def gso(cmd):
 	return getstatusoutput(cmd)
