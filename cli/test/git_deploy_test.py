@@ -56,12 +56,6 @@ class Test(unittest.TestCase):
 					git_deploy.main(['-r', 'repo.git', '-t', 'refs/tags/0.999'])
 				err = e.exception
 				t.assertEqual(err.args[0], git_deploy.EREPO_DIR)
-			with uwscli_t.mock_system(fail_cmd = 'git fetch'):
-				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']),
-					git_deploy.EREPO_FETCH)
-			with uwscli_t.mock_system(fail_cmd = 'git checkout'):
-				t.assertEqual(git_deploy.main(['-r', 'testing.git', '-t', 'refs/tags/0.999']),
-					git_deploy.EREPO_CHECKOUT)
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_git_deploy(status = 99):

@@ -60,13 +60,14 @@ class Test(unittest.TestCase):
 			uwscli_deploy._cfgFiles = []
 
 	def test_read_config_error(t):
-		with uwscli_t.mock_check_output():
-			with mock(config = 'uwsci_error.conf'):
-				with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
-					uwscli_deploy.run('testing', '0.999')
-			with mock(config = 'uwsci_relpath_error.conf'):
-				with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
-					uwscli_deploy.run('testing', '0.999')
+		with uwscli_t.mock_system():
+			with uwscli_t.mock_check_output():
+				with mock(config = 'uwsci_error.conf'):
+					with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
+						uwscli_deploy.run('testing', '0.999')
+				with mock(config = 'uwsci_relpath_error.conf'):
+					with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
+						uwscli_deploy.run('testing', '0.999')
 
 	def test_ciScripts(t):
 		t.assertDictEqual(uwscli_deploy._ciScripts, {
@@ -91,10 +92,10 @@ class Test(unittest.TestCase):
 					})
 
 	def test__deploy_error(t):
-		with mock(config = 'uwsci_scripts.conf', _deploy = False):
-			with uwscli_t.mock_system(status = 99):
+		with uwscli_t.mock_system(fail_cmd = 'testdata/ci/deploy.sh'):
 				with uwscli_t.mock_check_output():
-					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'),99)
+					t.assertEqual(uwscli_deploy._deploy('testing.git', '0.999',
+						'testdata/ci'),99)
 
 	def test__rollback(t):
 		with uwscli_t.mock_system():
@@ -102,19 +103,23 @@ class Test(unittest.TestCase):
 			uwscli.system.assert_called_once_with('git checkout 0.999')
 
 	def test_run(t):
-		with uwscli_t.mock_check_output():
-			with mock():
-				t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
-				t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
-				uwscli_deploy._deploy.assert_called_once_with('testing.git', '0.999', '/home/uws/.ci')
+		with uwscli_t.mock_system():
+			with uwscli_t.mock_check_output():
+				with mock():
+					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
+					t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
+					uwscli_deploy._deploy.assert_called_once_with('testing.git', '0.999', '/home/uws/.ci')
 
 	def test_run_errors(t):
 		with mock(_deploy_status = 99):
-			with uwscli_t.mock_check_output():
-				t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
+			with uwscli_t.mock_system():
+				with uwscli_t.mock_check_output():
+					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
 		with uwscli_t.mock_check_output():
 			with mock(config = 'uwsci_scripts.conf', _deploy = False):
 				with uwscli_t.mock_system(status = 99):
+					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
+				with uwscli_t.mock_system(fail_cmd = 'git checkout'):
 					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
 
 if __name__ == '__main__':

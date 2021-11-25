@@ -19,9 +19,7 @@ EREPO          = 2
 EDIR           = 3
 ECLONE         = 4
 EREPO_DIR      = 5
-EREPO_FETCH    = 6
-EREPO_CHECKOUT = 7
-EDEPLOY        = 8
+EDEPLOY        = 6
 
 def _getTag(tagref):
 	return '/'.join(tagref.split('/')[2:])
@@ -61,10 +59,6 @@ def main(argv = []):
 				return ECLONE
 
 	with uwscli.chdir(rdir, error_status = EREPO_DIR):
-		if uwscli.git_fetch() != 0:
-			return EREPO_FETCH
-		if uwscli.git_checkout(tag) != 0:
-			return EREPO_CHECKOUT
 		if uwscli.git_deploy(rname, tag) != 0:
 			return EDEPLOY
 
