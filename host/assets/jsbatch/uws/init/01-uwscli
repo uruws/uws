@@ -31,6 +31,8 @@ chown -vR root:uwscli ~uwscli/lib
 
 # admin utils
 
+adduser uws uwscli
+
 chown -v root:uws ~uwscli/bin/app-deploy
 chown -v root:uws ~uwscli/bin/app-rollin
 chown -v root:uws ~uwscli/bin/app-scale
