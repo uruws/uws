@@ -11,6 +11,8 @@ import uwscli_t
 import uwscli
 import uwscli_conf
 
+_PATH = '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -25,8 +27,7 @@ class Test(unittest.TestCase):
 		t.assertIsInstance(uwscli.cluster, dict)
 		t.assertEqual(uwscli._user, 'uws')
 		t.assertTrue(uwscli._log)
-		t.assertDictEqual(uwscli._env,
-			{'PATH': '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'})
+		t.assertDictEqual(uwscli._env, {'PATH': _PATH})
 		t.assertEqual(uwscli._cmdTtl, 180)
 
 	def test_environ(t):
@@ -78,7 +79,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli.system('exit 3'), 3)
 
 	def test_gso(t):
-		pass
+		rc, out = uwscli.gso('echo "${PATH}"')
+		t.assertEqual(rc, 0)
+		t.assertEqual(out, _PATH)
 
 	def test_check_output(t):
 		pass
