@@ -33,7 +33,16 @@ def _newConfig():
 	cfg['ci_dir'] = ci_dir.as_posix()
 	return cfg
 
+def _run(repo, tag, script):
+	uwscli.log('run:', repo, tag, script)
+	return 0
+
 def run(repo, tag):
 	uwscli.log('git deploy:', repo, tag)
 	cfg = _newConfig()
+	for idx in sorted(_ciScripts.keys()):
+		s = _ciScripts[idx]
+		rc = _run(repo, tag, s)
+		if rc != 0:
+			return rc
 	return 0

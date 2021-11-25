@@ -7,18 +7,22 @@ from contextlib import contextmanager
 from configparser import SectionProxy
 
 import unittest
+from unittest.mock import MagicMock, call
 
 import uwscli_t
 import uwscli_deploy
 
 @contextmanager
-def mock(config = 'uwsci.conf'):
+def mock(config = 'uwsci.conf', _run_status = 0):
+	_run_bup = uwscli_deploy._run
 	try:
 		uwscli_deploy._cfgfn = f"testdata/{config}"
+		uwscli_deploy._run = MagicMock(return_value = _run_status)
 		yield
 	finally:
 		uwscli_deploy._cfgfn = '.uwsci.conf'
 		uwscli_deploy._cfgFiles = []
+		uwscli_deploy._run = _run_bup
 
 class Test(unittest.TestCase):
 
@@ -67,11 +71,14 @@ class Test(unittest.TestCase):
 		})
 
 	def test_run(t):
+		_run_calls = []
+		for i in sorted(uwscli_deploy._ciScripts.keys()):
+			script = uwscli_deploy._ciScripts[i]
+			_run_calls.append(call('testing.git', '0.999', script))
 		with mock():
-			t.assertEqual(uwscli_deploy.run('testing', '0.999'), 0)
+			t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
 			t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
-		t.assertEqual(uwscli_deploy._cfgfn, '.uwsci.conf')
-		t.assertListEqual(uwscli_deploy._cfgFiles, [])
+			uwscli_deploy._run.assert_has_calls(_run_calls)
 
 if __name__ == '__main__':
 	unittest.main()
