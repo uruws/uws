@@ -35,7 +35,6 @@ def _newConfig():
 	return cfg
 
 def _run(repo, tag, script):
-	uwscli.log('run:', repo, tag, script.as_posix())
 	if script.exists() and script.is_file() and not script.is_symlink():
 		__, __, repo_name, __, __ = urlsplit(repo)
 		env = {
@@ -43,7 +42,9 @@ def _run(repo, tag, script):
 			'UWSCLI_REPO_NAME': repo_name,
 			'UWSCLI_REPO_TAG': tag,
 		}
-		return uwscli.system(script.as_posix(), env = env)
+		cmd = script.as_posix()
+		uwscli.log('run:', repo, tag, cmd)
+		return uwscli.system(cmd, env = env)
 	return 0
 
 def run(repo, tag):
