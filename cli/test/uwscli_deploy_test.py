@@ -16,19 +16,19 @@ import uwscli_deploy
 import uwscli
 
 @contextmanager
-def mock(config = 'uwsci.conf', _run = True, _run_status = 0):
-	if _run:
-		_run_bup = uwscli_deploy._run
+def mock(config = 'uwsci.conf', _deploy = True, _deploy_status = 0):
+	if _deploy:
+		_deploy_bup = uwscli_deploy._deploy
 	try:
 		uwscli_deploy._cfgfn = f"testdata/{config}"
-		if _run:
-			uwscli_deploy._run = MagicMock(return_value = _run_status)
+		if _deploy:
+			uwscli_deploy._deploy = MagicMock(return_value = _deploy_status)
 		yield
 	finally:
 		uwscli_deploy._cfgfn = '.uwsci.conf'
 		uwscli_deploy._cfgFiles = []
-		if _run:
-			uwscli_deploy._run = _run_bup
+		if _deploy:
+			uwscli_deploy._deploy = _deploy_bup
 
 class Test(unittest.TestCase):
 
@@ -60,12 +60,13 @@ class Test(unittest.TestCase):
 			uwscli_deploy._cfgFiles = []
 
 	def test_read_config_error(t):
-		with mock(config = 'uwsci_error.conf'):
-			with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
-				uwscli_deploy.run('testing', '0.999')
-		with mock(config = 'uwsci_relpath_error.conf'):
-			with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
-				uwscli_deploy.run('testing', '0.999')
+		with uwscli_t.mock_check_output():
+			with mock(config = 'uwsci_error.conf'):
+				with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
+					uwscli_deploy.run('testing', '0.999')
+			with mock(config = 'uwsci_relpath_error.conf'):
+				with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
+					uwscli_deploy.run('testing', '0.999')
 
 	def test_ciScripts(t):
 		t.assertDictEqual(uwscli_deploy._ciScripts, {
@@ -76,38 +77,40 @@ class Test(unittest.TestCase):
 			4: 'clean.sh',
 		})
 
-	def test__run(t):
-		t.assertEqual(uwscli_deploy._run('testing.git', '0.999',
-			Path('test.sh')), 0)
-		with mock(config = 'uwsci_scripts.conf', _run = False):
-			with uwscli_t.mock_system():
-				t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
-				t.assertListEqual(uwscli_deploy._cfgFiles,
-					['testdata/uwsci_scripts.conf'])
-				uwscli.system.assert_called_once_with('/home/uws/testdata/ci/deploy.sh',
+
+	def test__deploy(t):
+		t.assertEqual(uwscli_deploy._deploy('testing.git', '0.999', '.ci'), 0)
+		with uwscli_t.mock_system():
+			with uwscli_t.mock_check_output():
+				t.assertEqual(uwscli_deploy._deploy('testing.git', '0.999', 'testdata/ci'), 0)
+				uwscli.system.assert_called_once_with('testdata/ci/deploy.sh',
 					env = {
 						'UWSCLI_REPO': 'testing.git',
 						'UWSCLI_REPO_NAME': 'testing.git',
 						'UWSCLI_REPO_TAG': '0.999',
 					})
 
+	def test__deploy_error(t):
+		with mock(config = 'uwsci_scripts.conf', _deploy = False):
+			with uwscli_t.mock_system(status = 99):
+				with uwscli_t.mock_check_output():
+					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'),99)
+
 	def test_run(t):
-		_run_calls = []
-		for i in sorted(uwscli_deploy._ciScripts.keys()):
-			script = uwscli_deploy._ciScripts[i]
-			_run_calls.append(call('testing.git', '0.999',
-				Path(f"/home/uws/.ci/{script}")))
-		with mock():
-			t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
-			t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
-			uwscli_deploy._run.assert_has_calls(_run_calls)
+		with uwscli_t.mock_check_output():
+			with mock():
+				t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
+				t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
+				uwscli_deploy._deploy.assert_called_once_with('testing.git', '0.999', '/home/uws/.ci')
 
 	def test_run_errors(t):
-		with mock(_run_status = 99):
-			t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
-		with mock(config = 'uwsci_scripts.conf', _run = False):
-			with uwscli_t.mock_system(status = 99):
+		with mock(_deploy_status = 99):
+			with uwscli_t.mock_check_output():
 				t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
+		with uwscli_t.mock_check_output():
+			with mock(config = 'uwsci_scripts.conf', _deploy = False):
+				with uwscli_t.mock_system(status = 99):
+					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
 
 if __name__ == '__main__':
 	unittest.main()
