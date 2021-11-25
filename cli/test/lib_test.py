@@ -5,7 +5,7 @@
 
 import unittest
 
-from os import environ
+from os import environ, getcwd
 
 import uwscli_t
 import uwscli
@@ -57,6 +57,29 @@ class Test(unittest.TestCase):
 			# errors should print anyway
 			uwscli.error('testing2')
 		t.assertEqual(uwscli_t.err().strip(), 'testing2')
+
+	def test_chdir(t):
+		cwd = '/home/uws'
+		with uwscli.chdir('/tmp'):
+			t.assertEqual(getcwd(), '/tmp')
+		t.assertEqual(getcwd(), cwd)
+
+	def test_chdir_error(t):
+		with t.assertRaises(SystemExit):
+			with uwscli.chdir('/invalid'):
+				pass
+
+	def test__setenv(t):
+		pass
+
+	def test_system(t):
+		pass
+
+	def test_gso(t):
+		pass
+
+	def test_check_output(t):
+		pass
 
 	def test_app_list(t):
 		t.assertEqual(uwscli.app_list(), ['testing'])
@@ -115,6 +138,18 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output(fail = True):
 			t.assertEqual(uwscli.list_images('testing'), [])
 		t.assertEqual(uwscli_t.err().strip(), '[ERROR] testing list images: mock_output')
+
+	def test_git_clone(t):
+		pass
+
+	def test_git_fetch(t):
+		pass
+
+	def test_git_checkout(t):
+		pass
+
+	def test_git_deploy(t):
+		pass
 
 if __name__ == '__main__':
 	unittest.main()
