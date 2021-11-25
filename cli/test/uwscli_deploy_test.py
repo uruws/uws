@@ -80,5 +80,9 @@ class Test(unittest.TestCase):
 			t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
 			uwscli_deploy._run.assert_has_calls(_run_calls)
 
+	def test_run_errors(t):
+		with mock(_run_status = 99):
+			t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 99)
+
 if __name__ == '__main__':
 	unittest.main()
