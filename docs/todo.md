@@ -1,5 +1,9 @@
 # TODO
 
+* uwscli CI - `DONE!`
+    * custom deploy scripts
+    * shellcheck tests
+
 * check ev15min new tags on App repo - `WIP`
     * build and deploy to aws.testing
 
