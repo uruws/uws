@@ -56,7 +56,7 @@ def _setenv(env):
 	return e
 
 def system(cmd, env = None, timeout = _cmdTtl):
-	p = proc_run(cmd, shell = True, capture_output = True,
+	p = proc_run(cmd, shell = True, capture_output = False,
 		timeout = timeout, env = _setenv(env))
 	return p.returncode
 
