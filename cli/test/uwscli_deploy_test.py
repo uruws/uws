@@ -80,26 +80,26 @@ class Test(unittest.TestCase):
 
 
 	def test__deploy(t):
-		t.assertEqual(uwscli_deploy._deploy('testing.git', '0.999', '.ci'), 0)
+		t.assertEqual(uwscli_deploy._deploy('testing.git', '0.999', '.ci', 3), 0)
 		with uwscli_t.mock_system():
 			with uwscli_t.mock_check_output():
-				t.assertEqual(uwscli_deploy._deploy('testing.git', '0.999', 'testdata/ci'), 0)
+				t.assertEqual(uwscli_deploy._deploy('testing.git', '0.999', 'testdata/ci', 3), 0)
 				uwscli.system.assert_called_once_with('testdata/ci/deploy.sh',
 					env = {
 						'UWSCLI_REPO': 'testing.git',
 						'UWSCLI_REPO_NAME': 'testing.git',
 						'UWSCLI_REPO_TAG': '0.999',
-					})
+					}, timeout = 3)
 
 	def test__deploy_error(t):
 		with uwscli_t.mock_system(fail_cmd = 'testdata/ci/deploy.sh'):
 				with uwscli_t.mock_check_output():
 					t.assertEqual(uwscli_deploy._deploy('testing.git', '0.999',
-						'testdata/ci'),99)
+						'testdata/ci', 3), 99)
 
 	def test__rollback(t):
 		with uwscli_t.mock_system():
-			uwscli_deploy._rollback('t.git', '0.999', '.ci')
+			uwscli_deploy._rollback('t.git', '0.999', '.ci', 3)
 			uwscli.system.assert_called_once_with('git checkout 0.999')
 
 	def test_run(t):
@@ -108,7 +108,7 @@ class Test(unittest.TestCase):
 				with mock():
 					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
 					t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
-					uwscli_deploy._deploy.assert_called_once_with('testing.git', '0.999', '/home/uws/.ci')
+					uwscli_deploy._deploy.assert_called_once_with('testing.git', '0.999', '/home/uws/.ci', 3600)
 
 	def test_run_errors(t):
 		with mock(_deploy_status = 99):

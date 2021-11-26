@@ -16,6 +16,7 @@ _ciScripts = {
 	3: 'deploy.sh',
 	4: 'clean.sh',
 }
+_scriptTtl = 3600
 
 def _newConfig():
 	global _cfgFiles
@@ -25,16 +26,20 @@ def _newConfig():
 	}
 	c['deploy'] = {
 		'ci_dir': '.ci',
+		'ttl': _scriptTtl,
 	}
 	_cfgFiles = c.read(_cfgfn)
 	cfg = c['deploy']
+
 	ci_dir = Path(cfg['ci_dir']).resolve()
 	assert ci_dir.is_absolute(), f"invalid ci_dir: {ci_dir}"
 	assert ci_dir.is_relative_to(Path('./').resolve()), f"invalid ci_dir: {ci_dir}"
 	cfg['ci_dir'] = ci_dir.as_posix()
+
+	assert isinstance(int(cfg['ttl']), int), f"invalid ttl numer: {cfg['ttl']}"
 	return cfg
 
-def _deploy(repo, tag, ci_dir):
+def _deploy(repo, tag, ci_dir, ttl):
 	for idx in sorted(_ciScripts.keys()):
 		script = Path(ci_dir, _ciScripts[idx])
 		if script.exists() and script.is_file() and not script.is_symlink():
@@ -46,33 +51,42 @@ def _deploy(repo, tag, ci_dir):
 			}
 			cmd = script.as_posix()
 			uwscli.log('run:', repo, tag, cmd)
-			rc = uwscli.system(cmd, env = env)
+			rc = uwscli.system(cmd, env = env, timeout = ttl)
 			if rc != 0:
 				return rc
 	return 0
 
-def _rollback(repo, tag, ci_dir):
+def _rollback(repo, tag, ci_dir, ttl):
 	rc = uwscli.git_checkout(tag)
 	if rc == 0:
-		_deploy(repo, tag, ci_dir)
+		# TODO: send munin-alert if rollback failed
+		_deploy(repo, tag, ci_dir, ttl)
 
 def run(repo, tag):
 	uwscli.log('uwscli deploy:', repo, tag)
+	# current
 	cur = uwscli.git_describe()
 	uwscli.log('current:', cur)
+	# fetch metadata
 	uwscli.log('git fetch')
 	rc = uwscli.git_fetch()
 	if rc != 0:
 		return rc
+	# checkout tag
 	uwscli.log('git checkout:', tag)
 	rc = uwscli.git_checkout(tag)
 	if rc != 0:
 		return rc
+	# configure
 	cfg = _newConfig()
-	uwscli.log('deploy:', repo, tag, cfg['ci_dir'])
-	rc = _deploy(repo, tag, cfg['ci_dir'])
+	ci_dir = cfg['ci_dir']
+	ttl = int(cfg['ttl'])
+	# deploy
+	uwscli.log('deploy:', repo, tag, ci_dir)
+	rc = _deploy(repo, tag, ci_dir, ttl)
 	if rc != 0:
-		uwscli.log('rollback:', repo, tag, cfg['ci_dir'])
-		_rollback(repo, cur, cfg['ci_dir'])
+		# rollback
+		uwscli.log('rollback:', repo, tag, ci_dir, ttl)
+		_rollback(repo, cur, ci_dir, ttl)
 		return rc
 	return 0
