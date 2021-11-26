@@ -35,12 +35,6 @@ class Test(unittest.TestCase):
 		for k, v in uwscli._env.items():
 			t.assertEqual(environ[k], v, msg = f"environ['{k}']")
 
-	def test_system(t):
-		t.assertEqual(uwscli.system('exit 0'), 0)
-		t.assertEqual(uwscli.system('exit 2'), 2)
-		t.assertEqual(uwscli.system('test -n "${TESTING}"',
-			env = {'TESTING': 'test'}), 0)
-
 	def test_log(t):
 		uwscli.log('test', 'ing', sep = '')
 		t.assertEqual(uwscli_t.out().strip(), 'testing')
