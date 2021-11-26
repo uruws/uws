@@ -3,12 +3,14 @@
 * uwscli CI - `DONE!`
     * custom deploy scripts
     * shellcheck tests
+    * git_deploy.py for internal repos (like Buildpack)
+
+* Buildpack CI - `DONE!`
+    * test shellcheck
+    * run test during deploy and publish coverate [report](https://ops.uws.talkingpts.org/htmlcov/buildpack/)
 
 * check ev15min new tags on App repo - `WIP`
     * build and deploy to aws.testing
-
-* Buildpack unittest
-    * run test during deploy and publish coverate [report](https://ops.uws.talkingpts.org/htmlcov/buildpack/)
 
 * nginx secure headers
     * CSP
