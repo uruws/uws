@@ -11,19 +11,22 @@ logid=$(date '+%y%m%d-%H%M%S')
 logsd=${HOME}/logs
 logsf=${logsd}/deploy-${rname}-${logid}.log
 
-mkdir -p -m 0750 "${logsd}"
+install -v -d -m 0750 "${logsd}"
 
-echo "*** START: $(date -R)" >>"${logsf}"
+exec | tee "${logsf}"
+exec 2>&1
+
+echo "*** START: $(date -R)"
 set +e
-echo "*** LOGID: ${logid}" >>"${logsf}"
-echo "*** REPO: ${REPO}" >>"${logsf}"
-echo "*** REFNAME: ${REFNAME}" >>"${logsf}"
+echo "*** LOGID: ${logid}"
+echo "*** REPO: ${REPO}"
+echo "*** REFNAME: ${REFNAME}"
 
-/srv/uws/deploy/cli/git_deploy.py --repo "${REPO}" --tagref "${REFNAME}" >>"${logsf}"
+/srv/uws/deploy/cli/git_deploy.py --repo "${REPO}" --tagref "${REFNAME}"
 deploy_rc=$?
 
-echo "*** EXIT STATUS: ${deploy_rc}" >>"${logsf}"
-echo "*** END: $(date -R)" >>"${logsf}"
+echo "*** EXIT STATUS: ${deploy_rc}"
+echo "*** END: $(date -R)"
 
 if test "X${deploy_rc}" != 'X0'; then
 	mailx -s "[FAIL] ${rname} git deploy" munin-alert <"${logsf}"
