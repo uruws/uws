@@ -57,17 +57,22 @@ def _rollback(repo, tag, ci_dir):
 		_deploy(repo, tag, ci_dir)
 
 def run(repo, tag):
-	uwscli.log('git deploy:', repo, tag)
+	uwscli.log('uwscli deploy:', repo, tag)
 	cur = uwscli.git_describe()
+	uwscli.log('current:', cur)
+	uwscli.log('git fetch')
 	rc = uwscli.git_fetch()
 	if rc != 0:
 		return rc
+	uwscli.log('git checkout:', tag)
 	rc = uwscli.git_checkout(tag)
 	if rc != 0:
 		return rc
 	cfg = _newConfig()
+	uwscli.log('deploy:', repo, tag, cfg['ci_dir'])
 	rc = _deploy(repo, tag, cfg['ci_dir'])
 	if rc != 0:
+		uwscli.log('rollback:', repo, tag, cfg['ci_dir'])
 		_rollback(repo, cur, cfg['ci_dir'])
 		return rc
 	return 0
