@@ -38,6 +38,14 @@ class Test(unittest.TestCase):
 	def test_globals(t):
 		t.assertEqual(uwscli_deploy._cfgfn, '.uwsci.conf')
 		t.assertListEqual(uwscli_deploy._cfgFiles, [])
+		t.assertDictEqual(uwscli_deploy._ciScripts, {
+			0: 'build.sh',
+			1: 'check.sh',
+			2: 'install.sh',
+			3: 'deploy.sh',
+			4: 'clean.sh',
+		})
+		t.assertEqual(uwscli_deploy._scriptTtl, 3600)
 
 	def test_newConfig(t):
 		t.assertListEqual(uwscli_deploy._cfgFiles, [])
@@ -68,16 +76,6 @@ class Test(unittest.TestCase):
 				with mock(config = 'uwsci_relpath_error.conf'):
 					with t.assertRaisesRegex(AssertionError, r'^invalid ci_dir: /tmp$'):
 						uwscli_deploy.run('testing', '0.999')
-
-	def test_ciScripts(t):
-		t.assertDictEqual(uwscli_deploy._ciScripts, {
-			0: 'build.sh',
-			1: 'check.sh',
-			2: 'install.sh',
-			3: 'deploy.sh',
-			4: 'clean.sh',
-		})
-
 
 	def test__deploy(t):
 		t.assertEqual(uwscli_deploy._deploy('testing.git', '0.999', '.ci', 3), 0)
