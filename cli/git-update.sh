@@ -41,7 +41,7 @@ case "$refname","$newrev_type" in
 			exit 1
 		fi
 		export NQDIR=${HOME}/nq
-		mkdir -p -m 0750 "${NQDIR}"
+		install -d -m 0750 "${NQDIR}"
 		nq -c -- /srv/uws/deploy/cli/git-update-run.sh "${PWD}" "${refname}"
 	;;
 esac

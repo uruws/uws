@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 export NQDIR=/run/uwscli/nq
-mkdir -p -m 0750 ${NQDIR}
+install -d -m 0750 ${NQDIR}
 user=${1:?'user?'}
 shift
 CMD=${1:?'cmd?'}
@@ -15,6 +15,6 @@ then
 fi
 logd=${HOME}/logs
 logf=${logd}/uwsq.log
-mkdir -p -m 0750 "${logd}"
+install -d -m 0750 "${logd}"
 echo "$(date -R) [${user}] ${CMD} ${*}" >>"${logf}"
 exec nq -c -- "${CMD}" "$@"
