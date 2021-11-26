@@ -13,7 +13,7 @@ logsf=${logsd}/deploy-${rname}-${logid}.log
 
 install -v -d -m 0750 "${logsd}"
 
-exec | tee "${logsf}"
+exec >>"${logsf}"
 exec 2>&1
 
 echo "*** START: $(date -R)"
