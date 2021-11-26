@@ -27,10 +27,10 @@ import uwscli_deploy
 
 def log(*args, sep = ' '):
 	if _log:
-		print(*args, sep = sep, file = _outfh)
+		print(*args, sep = sep, file = _outfh, flush = True)
 
 def error(*args):
-	print(*args, file = _errfh)
+	print(*args, file = _errfh, flush = True)
 
 @contextmanager
 def chdir(d, error_status = 2):
