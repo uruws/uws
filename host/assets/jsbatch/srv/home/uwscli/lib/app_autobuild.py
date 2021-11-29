@@ -5,9 +5,6 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
 
-def _lastTag():
-	pass
-
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.build_description())
@@ -18,7 +15,9 @@ def main(argv = []):
 
 	build = uwscli.app[args.app].build
 	with uwscli.chdir(build.dir):
-		with uwscli.chdir(build.src):
-			pass
+
+		rc = uwscli.git_fetch(workdir = build.src)
+		if rc != 0:
+			return rc
 
 	return 0
