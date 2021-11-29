@@ -7,7 +7,7 @@ _outfh = sys.stdout
 _errfh = sys.stderr
 
 from contextlib import contextmanager
-from os import environ, getenv, getcwd
+from os import environ, getenv, getcwd, linesep
 from os import chdir as os_chdir
 from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
@@ -162,4 +162,4 @@ def git_tag_list(workdir = '.'):
 	args = ''
 	if workdir != '.':
 		args += f" -C {workdir}"
-	return check_output(f"git{args} tag --list").strip().split()
+	return check_output(f"git{args} tag --list").strip().split(sep = linesep)

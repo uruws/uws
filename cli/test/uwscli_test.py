@@ -5,7 +5,7 @@
 
 import unittest
 
-from os import environ, getcwd
+from os import environ, getcwd, linesep
 from subprocess import CalledProcessError
 
 import uwscli_t
@@ -184,7 +184,7 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output():
 			t.assertListEqual(uwscli.git_tag_list(), ['mock_output'])
 			uwscli.check_output.assert_called_once_with('git tag --list')
-		with uwscli_t.mock_check_output(output = 't0\nt1\nt2\nt3\n'):
+		with uwscli_t.mock_check_output(output = linesep.join(['t0', 't1', 't2', 't3'])):
 			t.assertListEqual(uwscli.git_tag_list(), ['t0', 't1', 't2', 't3'])
 		with uwscli_t.mock_check_output():
 			t.assertListEqual(uwscli.git_tag_list(workdir = 'src/test'), ['mock_output'])
