@@ -14,12 +14,12 @@ import uwscli_conf
 
 __doc__ = 'uws git deploy'
 
-ETAGREF        = 1
-EREPO          = 2
-EDIR           = 3
-ECLONE         = 4
-EREPO_DIR      = 5
-EDEPLOY        = 6
+ETAGREF   = 1
+EREPO     = 2
+EDIR      = 3
+ECLONE    = 4
+EREPO_DIR = 5
+EDEPLOY   = 6
 
 def _getTag(tagref):
 	return '/'.join(tagref.split('/')[2:])

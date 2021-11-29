@@ -41,11 +41,15 @@ chown -v root:uws ~uwscli/bin/app-scale
 
 chown -v uwscli:root ~uwscli/bin/app-autobuild
 
-# python compile
+# python compile lib and vendor
 
 rm -vrf ~uwscli/lib/__pycache__
 python3 -m compileall ~uwscli/lib
 chown -vR root:uwscli ~uwscli/lib/__pycache__
+
+find ~uwscli/vendor -type d -name __pycache__ -exec rm -rf {} \;
+python3 -m compileall ~uwscli/vendor
+find ~uwscli/vendor -type d -name __pycache__ -exec chown -R root:uwscli {} \;
 
 # users profile
 
