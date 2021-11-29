@@ -157,3 +157,9 @@ def git_describe(workdir = '.'):
 	if workdir != '.':
 		args += f" -C {workdir}"
 	return check_output(f"git{args} describe --always").strip()
+
+def git_tag_list(workdir = '.'):
+	args = ''
+	if workdir != '.':
+		args += f" -C {workdir}"
+	return check_output(f"git{args} tag --list").strip().split()

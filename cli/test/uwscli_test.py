@@ -180,5 +180,15 @@ class Test(unittest.TestCase):
 			t.assertEqual(uwscli.git_describe(workdir = 'src/test'), 'mock_output')
 			uwscli.check_output.assert_called_once_with('git -C src/test describe --always')
 
+	def test_git_tag_list(t):
+		with uwscli_t.mock_check_output():
+			t.assertListEqual(uwscli.git_tag_list(), ['mock_output'])
+			uwscli.check_output.assert_called_once_with('git tag --list')
+		with uwscli_t.mock_check_output(output = 't0\nt1\nt2\nt3\n'):
+			t.assertListEqual(uwscli.git_tag_list(), ['t0', 't1', 't2', 't3'])
+		with uwscli_t.mock_check_output():
+			t.assertListEqual(uwscli.git_tag_list(workdir = 'src/test'), ['mock_output'])
+			uwscli.check_output.assert_called_once_with('git -C src/test tag --list')
+
 if __name__ == '__main__':
 	unittest.main()
