@@ -62,7 +62,7 @@ def _rollback(repo, tag, ci_dir, ttl):
 		_deploy(repo, tag, ci_dir, ttl)
 	# TODO: send munin-alert if rollback failed
 
-def run(repo, tag, cur = None, fetch = True):
+def run(repo, tag, cur = None, fetch = True, checkout = True):
 	uwscli.log('uwscli deploy:', repo, tag)
 	# current
 	if cur is None:
@@ -75,10 +75,11 @@ def run(repo, tag, cur = None, fetch = True):
 		if rc != 0:
 			return rc
 	# checkout tag
-	uwscli.log('git checkout:', tag)
-	rc = uwscli.git_checkout(tag)
-	if rc != 0:
-		return rc
+	if checkout:
+		uwscli.log('git checkout:', tag)
+		rc = uwscli.git_checkout(tag)
+		if rc != 0:
+			return rc
 	# configure
 	cfg = _newConfig()
 	ci_dir = cfg['ci_dir']
