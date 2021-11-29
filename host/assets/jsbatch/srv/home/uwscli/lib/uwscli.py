@@ -21,9 +21,6 @@ _env = {
 }
 environ.update(_env)
 
-import uwscli_vendor
-uwscli_vendor.setup()
-
 from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
 
 import uwscli_deploy
