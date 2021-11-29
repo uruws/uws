@@ -9,6 +9,12 @@ if test -d /srv/uws/deploy/tmp/uwscli/htmlcov; then
 	chown -vR root:www-data /srv/www/ssl/htmlcov/uwscli
 fi
 
+rm -rf /srv/www/ssl/htmlcov/uwscli_vendor
+if test -d /srv/uws/deploy/tmp/uwscli/htmlcov_vendor; then
+	cp -r /srv/uws/deploy/tmp/uwscli/htmlcov_vendor /srv/www/ssl/htmlcov/uwscli_vendor
+	chown -vR root:www-data /srv/www/ssl/htmlcov/uwscli_vendor
+fi
+
 # munin
 
 rm -rf /srv/www/ssl/htmlcov/munin
