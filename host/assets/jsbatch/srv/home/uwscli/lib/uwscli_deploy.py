@@ -56,28 +56,28 @@ def _deploy(repo, tag, ci_dir, ttl):
 				return rc
 	return 0
 
-def _rollback(repo, tag, ci_dir, ttl):
-	rc = uwscli.git_checkout(tag)
+def _rollback(repo, tag, ci_dir, ttl, workdir = ''):
+	rc = uwscli.git_checkout(tag, workdir = workdir)
 	if rc == 0:
 		_deploy(repo, tag, ci_dir, ttl)
 	# TODO: send munin-alert if rollback failed
 
-def run(repo, tag, cur = None, fetch = True, checkout = True):
+def run(repo, tag, cur = None, fetch = True, checkout = True, workdir = ''):
 	uwscli.log('uwscli deploy:', repo, tag)
 	# current
 	if cur is None:
-		cur = uwscli.git_describe()
+		cur = uwscli.git_describe(workdir = workdir)
 		uwscli.log('current:', cur)
 	# fetch metadata
 	if fetch:
 		uwscli.log('git fetch')
-		rc = uwscli.git_fetch()
+		rc = uwscli.git_fetch(workdir = workdir)
 		if rc != 0:
 			return rc
 	# checkout tag
 	if checkout:
 		uwscli.log('git checkout:', tag)
-		rc = uwscli.git_checkout(tag)
+		rc = uwscli.git_checkout(tag, workdir = workdir)
 		if rc != 0:
 			return rc
 	# configure
@@ -90,6 +90,6 @@ def run(repo, tag, cur = None, fetch = True, checkout = True):
 	if rc != 0:
 		# rollback
 		uwscli.log('rollback:', repo, tag, ci_dir, ttl)
-		_rollback(repo, cur, ci_dir, ttl)
+		_rollback(repo, cur, ci_dir, ttl, workdir = workdir)
 		return rc
 	return 0
