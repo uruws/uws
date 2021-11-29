@@ -100,6 +100,16 @@ class Test(unittest.TestCase):
 			uwscli_deploy._rollback('t.git', '0.999', '.ci', 3)
 			uwscli.system.assert_called_once_with('git checkout 0.999')
 
+	def test__rollback_cur_tag(t):
+		with uwscli_t.mock_check_output():
+			with uwscli_t.mock_system():
+				with mock(_deploy_status = 99):
+					t.assertEqual(uwscli_deploy.run('testing.git', '0.999', cur = '0.333'), 99)
+				calls = [
+					call('git checkout 0.333'),
+				]
+				uwscli.system.assert_has_calls(calls)
+
 	def test_run(t):
 		with uwscli_t.mock_system():
 			with uwscli_t.mock_check_output():
@@ -107,6 +117,22 @@ class Test(unittest.TestCase):
 					t.assertEqual(uwscli_deploy.run('testing.git', '0.999'), 0)
 					t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
 					uwscli_deploy._deploy.assert_called_once_with('testing.git', '0.999', '/home/uws/.ci', 3600)
+					calls = [
+						call('git fetch --prune --prune-tags --tags'),
+						call('git checkout 0.999'),
+					]
+					uwscli.system.assert_has_calls(calls)
+
+	def test_run_no_fetch(t):
+		with uwscli_t.mock_system():
+			with uwscli_t.mock_check_output():
+				with mock():
+					t.assertEqual(uwscli_deploy.run('testing.git', '0.999', fetch = False), 0)
+					t.assertListEqual(uwscli_deploy._cfgFiles, ['testdata/uwsci.conf'])
+					calls = [
+						call('git checkout 0.999'),
+					]
+					uwscli.system.assert_has_calls(calls)
 
 	def test_run_errors(t):
 		with mock(_deploy_status = 99):
