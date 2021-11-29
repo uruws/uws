@@ -3,6 +3,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from os import linesep
+
 import unittest
 from unittest.mock import call
 
@@ -47,6 +49,14 @@ class Test(unittest.TestCase):
 					call('git fetch --prune --prune-tags --tags'),
 				]
 				uwscli.system.assert_has_calls(calls)
+
+	def test_latestTag_errors(t):
+		with uwscli_t.mock_check_output(output = linesep.join(['0.1.0', 'Testing', 't0', '0.0.0'])):
+			t.assertEqual(app_autobuild._latestTag('src/test'), '0.1.0')
+
+	def test_latestTag(t):
+		with uwscli_t.mock_check_output(output = linesep.join(['0.0.0', '0.1.0'])):
+			t.assertEqual(app_autobuild._latestTag('src/test'), '0.1.0')
 
 if __name__ == '__main__':
 	unittest.main()
