@@ -232,6 +232,9 @@ check: check-cli check-munin
 check-cli:
 	@echo '*** test/shellcheck.sh'
 	@./docker/uwscli/cmd.sh ./test/shellcheck.sh
+	@echo '*** test/vendor.sh'
+	@./docker/uwscli/cmd.sh ./test/vendor.sh
+	@echo '*** test/coverage.sh'
 	@./docker/uwscli/cmd.sh ./test/coverage.sh
 
 .PHONY: check-munin
