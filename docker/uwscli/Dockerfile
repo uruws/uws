@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh shellcheck
+RUN /root/bin/apt-install.sh shellcheck python3-setuptools python3-pytest
 
 RUN install -v -d -o uws -g uws -m 0750 /srv/home/uwscli \
 	/srv/home/uwscli/bin /srv/home/uwscli/etc
