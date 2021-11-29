@@ -155,11 +155,17 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli.git_fetch(), 0)
 			uwscli.system.assert_called_once_with('git fetch --prune --prune-tags --tags')
+		with uwscli_t.mock_system():
+			t.assertEqual(uwscli.git_fetch(workdir = 'src/test'), 0)
+			uwscli.system.assert_called_once_with('git -C src/test fetch --prune --prune-tags --tags')
 
 	def test_git_checkout(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli.git_checkout('0.999'), 0)
 			uwscli.system.assert_called_once_with('git checkout 0.999')
+		with uwscli_t.mock_system():
+			t.assertEqual(uwscli.git_checkout('0.999', workdir = 'src/test'), 0)
+			uwscli.system.assert_called_once_with('git -C src/test checkout 0.999')
 
 	def test_git_deploy(t):
 		with uwscli_t.mock_uwscli_deploy():
@@ -170,6 +176,9 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output():
 			t.assertEqual(uwscli.git_describe(), 'mock_output')
 			uwscli.check_output.assert_called_once_with('git describe --always')
+		with uwscli_t.mock_check_output():
+			t.assertEqual(uwscli.git_describe(workdir = 'src/test'), 'mock_output')
+			uwscli.check_output.assert_called_once_with('git -C src/test describe --always')
 
 if __name__ == '__main__':
 	unittest.main()

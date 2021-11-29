@@ -5,6 +5,9 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
 
+def _lastTag():
+	pass
+
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.build_description())

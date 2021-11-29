@@ -137,14 +137,23 @@ def list_images(appname, region = None):
 def git_clone(rpath):
 	return system(f"git clone {rpath}")
 
-def git_fetch():
-	return system("git fetch --prune --prune-tags --tags")
+def git_fetch(workdir = ''):
+	args = ''
+	if workdir != '':
+		args += f" -C {workdir}"
+	return system(f"git{args} fetch --prune --prune-tags --tags")
 
-def git_checkout(tag):
-	return system(f"git checkout {tag}")
+def git_checkout(tag, workdir = ''):
+	args = ''
+	if workdir != '':
+		args += f" -C {workdir}"
+	return system(f"git{args} checkout {tag}")
 
 def git_deploy(rname, tag):
 	return uwscli_deploy.run(rname, tag)
 
-def git_describe():
-	return check_output('git describe --always').strip()
+def git_describe(workdir = ''):
+	args = ''
+	if workdir != '':
+		args += f" -C {workdir}"
+	return check_output(f"git{args} describe --always").strip()
