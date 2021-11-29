@@ -35,6 +35,11 @@ class Test(unittest.TestCase):
 		for k, v in uwscli._env.items():
 			t.assertEqual(environ[k], v, msg = f"environ['{k}']")
 
+	def test_vendor_libs(t):
+		t.assertListEqual(uwscli._libs, [
+			'semver-2.13.0',
+		])
+
 	def test_log(t):
 		uwscli.log('test', 'ing', sep = '')
 		t.assertEqual(uwscli_t.out().strip(), 'testing')

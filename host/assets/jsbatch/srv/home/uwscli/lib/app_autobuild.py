@@ -3,9 +3,9 @@
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
-import uwscli
+import semver
 
-from uwscli_vendor import semver
+import uwscli
 
 ETAG = 10
 

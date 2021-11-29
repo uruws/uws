@@ -23,6 +23,13 @@ environ.update(_env)
 
 from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
 
+# vendor libs
+_libs = [
+	'semver-2.13.0',
+]
+for lib in _libs:
+	sys.path.insert(0, f"/srv/home/uwscli/vendor/{lib}")
+
 import uwscli_deploy
 
 def log(*args, sep = ' '):
