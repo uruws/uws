@@ -4,6 +4,8 @@
 # See LICENSE file.
 
 import unittest
+from unittest.mock import call
+
 import uwscli_t
 
 import uwscli
@@ -41,6 +43,10 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_system():
 				t.assertEqual(app_autobuild.main(['testing']), 0)
+				calls = [
+					call('git fetch --prune --prune-tags --tags'),
+				]
+				uwscli.system.assert_has_calls(calls)
 
 if __name__ == '__main__':
 	unittest.main()
