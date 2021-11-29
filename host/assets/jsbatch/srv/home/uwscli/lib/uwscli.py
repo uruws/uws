@@ -9,6 +9,7 @@ _errfh = sys.stderr
 from contextlib import contextmanager
 from os import environ, getenv, getcwd, linesep
 from os import chdir as os_chdir
+from pathlib import Path
 from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
 from subprocess import run as proc_run
@@ -51,6 +52,9 @@ def chdir(d, error_status = 2):
 		yield
 	finally:
 		os_chdir(prevd)
+
+def mkdir(d, mode = 0o750, parents = True, exist_ok = True):
+	Path(d).mkdir(mode = mode, parents = parents, exist_ok = exist_ok)
 
 _cmdTtl = 180
 

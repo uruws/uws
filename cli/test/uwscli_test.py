@@ -6,6 +6,7 @@
 import unittest
 
 from os import environ, getcwd, linesep
+from shutil import rmtree
 from subprocess import CalledProcessError
 
 import uwscli_t
@@ -75,6 +76,22 @@ class Test(unittest.TestCase):
 					pass
 			err = e.exception
 			t.assertEqual(err.args[0], 2)
+
+	def test_mkdir(t):
+		try:
+			uwscli.mkdir('/tmp/testing_mkdir')
+			uwscli.mkdir('/tmp/testing_mkdir') # exists ok
+			uwscli.mkdir('/tmp/testing_mkdir/d0/d1/d2') # parents
+		finally:
+			rmtree('/tmp/testing_mkdir')
+
+	def test_mkdir_errors(t):
+		try:
+			uwscli.mkdir('/tmp/testing_mkdir')
+			with t.assertRaises(FileExistsError):
+				uwscli.mkdir('/tmp/testing_mkdir', exist_ok = False)
+		finally:
+			rmtree('/tmp/testing_mkdir')
 
 	def test__setenv(t):
 		env = uwscli._setenv({'TESTING': 'test'})

@@ -78,6 +78,18 @@ def mock_chdir(fail = False, faildir = ''):
 		uwscli.chdir = chdir_bup
 
 @contextmanager
+def mock_mkdir(fail = False, fail_path = ''):
+	def __mkdir(d, mode = 0o750, parents = True, exist_ok = True):
+		if fail or fail_path == d:
+			raise FileExistsError(d)
+	mkdir_bup = uwscli.mkdir
+	try:
+		uwscli.mkdir = MagicMock()
+		yield
+	finally:
+		uwscli.mkdir = mkdir_bup
+
+@contextmanager
 def mock_system(status = 0, fail_cmd = '', fail_status = 99):
 	def __system(cmd, env = None, timeout = 180):
 		if fail_cmd and cmd.startswith(fail_cmd):
