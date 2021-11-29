@@ -21,13 +21,12 @@ class App(object):
 		self.deploy = deploy
 
 class AppBuild(object):
-	def __init__(self, dir, script, type = 'cli', src = '.', target = None, ref = 'origin/HEAD'):
+	def __init__(self, dir, script, type = 'cli', src = '.', target = None):
 		self.dir = dir
 		self.script = script
 		self.type = type
 		self.src = src
 		self.target = target
-		self.ref = ref
 
 class AppDeploy(object):
 	def __init__(self, image, filter = None):
