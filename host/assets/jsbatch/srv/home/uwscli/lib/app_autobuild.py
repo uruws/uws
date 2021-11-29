@@ -7,6 +7,8 @@ import uwscli
 
 from uwscli_vendor import semver
 
+ETAG = 10
+
 def _semverFilter(s):
 	try:
 		return semver.VersionInfo.parse(s)
@@ -32,5 +34,11 @@ def main(argv = []):
 		rc = uwscli.git_fetch(workdir = build.src)
 		if rc != 0:
 			return rc
+
+		try:
+			tag = _latestTag(build.src)
+		except ValueError:
+			uwscli.error('[ERROR] could not get latest git tag')
+			return ETAG
 
 	return 0
