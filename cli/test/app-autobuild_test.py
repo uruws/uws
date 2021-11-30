@@ -3,6 +3,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from contextlib import contextmanager
 from os import linesep
 
 import unittest
@@ -12,6 +13,15 @@ import uwscli_t
 
 import uwscli
 import app_autobuild
+
+@contextmanager
+def mock():
+	try:
+		with uwscli_t.mock_chdir():
+			with uwscli_t.mock_mkdir():
+				yield
+	finally:
+		pass
 
 class Test(unittest.TestCase):
 
@@ -32,24 +42,24 @@ class Test(unittest.TestCase):
 
 	def test_main_errors(t):
 		# chdir
-		with t.assertRaises(SystemExit) as e:
-			app_autobuild.main(['testing'])
-		err = e.exception
-		t.assertEqual(err.args[0], 2)
-		t.assertEqual(uwscli_t.err().strip(),
-			'[ERROR] chdir not found: /srv/deploy/Testing')
-		# git fetch
-		with uwscli_t.mock_chdir():
+		with uwscli_t.mock_mkdir():
+			with t.assertRaises(SystemExit) as e:
+				app_autobuild.main(['testing'])
+			err = e.exception
+			t.assertEqual(err.args[0], 2)
+			t.assertEqual(uwscli_t.err().strip(),
+				'[ERROR] chdir not found: /srv/deploy/Testing')
+		with mock():
+			# git fetch
 			with uwscli_t.mock_system(status = 99):
 				t.assertEqual(app_autobuild.main(['testing']), 99)
-		# latest tag
-		with uwscli_t.mock_chdir():
+			# latest tag
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_check_output(output = 'Testing'):
 					t.assertEqual(app_autobuild.main(['testing']), app_autobuild.ETAG)
 
 	def test_main(t):
-		with uwscli_t.mock_chdir():
+		with mock():
 			with uwscli_t.mock_check_output(output = '0.0.999'):
 				with uwscli_t.mock_system():
 					t.assertEqual(app_autobuild.main(['testing']), 0)

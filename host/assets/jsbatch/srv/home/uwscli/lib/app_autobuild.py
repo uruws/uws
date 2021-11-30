@@ -12,6 +12,7 @@ ETAG   = 11
 
 def _setup():
 	uwscli.mkdir('~/.uwscli/app-autobuild')
+	return True
 
 def _semverFilter(s):
 	try:
