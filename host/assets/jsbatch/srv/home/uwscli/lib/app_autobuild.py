@@ -17,8 +17,7 @@ def _semverFilter(s):
 
 def _latestTag(src):
 	# https://python-semver.readthedocs.io/en/2.13.0/usage.html
-	return str(max(map(semver.VersionInfo.parse,
-		filter(_semverFilter, uwscli.git_tag_list(workdir = src)))))
+	return str(max(filter(_semverFilter, uwscli.git_tag_list(workdir = src))))
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
