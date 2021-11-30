@@ -68,11 +68,12 @@ class Test(unittest.TestCase):
 
 	def test_main(t):
 		with mock():
-			with uwscli_t.mock_check_output(output = '0.0.999'):
+			with uwscli_t.mock_check_output(output = '0.999.0'):
 				with uwscli_t.mock_system():
 					t.assertEqual(app_autobuild.main(['testing']), 0)
 					calls = [
 						call('git fetch --prune --prune-tags --tags'),
+						call('/srv/home/uwscli/bin/app-build testing 0.999.0'),
 					]
 					uwscli.system.assert_has_calls(calls)
 
