@@ -41,6 +41,10 @@ class Test(unittest.TestCase):
 		t.assertEqual(err.args[0], 2)
 
 	def test_main_errors(t):
+		# setup
+		with uwscli_t.mock_mkdir(fail = True):
+			t.assertEqual(app_autobuild.main(['testing']), app_autobuild.ESETUP)
+		t.setUp()
 		# chdir
 		with uwscli_t.mock_mkdir():
 			with t.assertRaises(SystemExit) as e:
@@ -57,9 +61,6 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_check_output(output = 'Testing'):
 					t.assertEqual(app_autobuild.main(['testing']), app_autobuild.ETAG)
-		# setup
-		with uwscli_t.mock_mkdir(fail = True):
-			app_autobuild.main(['testing'])
 
 	def test_main(t):
 		with mock():
