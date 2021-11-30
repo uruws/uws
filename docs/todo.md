@@ -4,6 +4,7 @@
     * custom deploy scripts
     * shellcheck tests
     * git_deploy.py for internal repos (like Buildpack)
+    * lib vendor and tests (semver)
 
 * Buildpack CI - `DONE!`
     * test shellcheck
