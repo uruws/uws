@@ -56,6 +56,20 @@ def chdir(d, error_status = 2):
 def mkdir(d, mode = 0o750, parents = True, exist_ok = True):
 	Path(d).mkdir(mode = mode, parents = parents, exist_ok = exist_ok)
 
+@contextmanager
+def lockf(name):
+	p = Path(name)
+	fn = Path(p.parent, f".{p.name}.lock")
+	locked = False
+	try:
+		fh = fn.open(mode = 'x')
+		fh.close()
+		locked = True
+		yield fh
+	finally:
+		if locked:
+			fn.unlink()
+
 _cmdTtl = 180
 
 def _setenv(env):

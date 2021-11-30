@@ -6,6 +6,7 @@
 import unittest
 
 from os import environ, getcwd, linesep
+from pathlib import Path
 from shutil import rmtree
 from subprocess import CalledProcessError
 
@@ -92,6 +93,27 @@ class Test(unittest.TestCase):
 				uwscli.mkdir('/tmp/testing_mkdir', exist_ok = False)
 		finally:
 			rmtree('/tmp/testing_mkdir')
+
+	def test_lockf(t):
+		p = Path('/tmp/.testing.lock')
+		t.assertFalse(p.exists())
+		with uwscli.lockf('/tmp/testing') as l:
+			t.assertEqual(l.name, '/tmp/.testing.lock')
+			t.assertTrue(p.exists())
+		t.assertFalse(p.exists())
+
+	def test_lockf_errors(t):
+		p = Path('/tmp/.testing.lock')
+		# unlock file not found
+		with t.assertRaises(FileNotFoundError):
+			with uwscli.lockf('/tmp/testing'):
+				with uwscli.lockf('/tmp/testing2'):
+					p.unlink()
+		# lock exists
+		with t.assertRaises(FileExistsError):
+			with uwscli.lockf('/tmp/testing'):
+				with uwscli.lockf('/tmp/testing'):
+					pass
 
 	def test__setenv(t):
 		env = uwscli._setenv({'TESTING': 'test'})
