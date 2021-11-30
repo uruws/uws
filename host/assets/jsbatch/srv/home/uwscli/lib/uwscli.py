@@ -33,15 +33,20 @@ for lib in _libs:
 
 import uwscli_deploy
 
+# internal utils
+
 def log(*args, sep = ' '):
+	"""print log messages to stdout"""
 	if _log:
 		print(*args, sep = sep, file = _outfh, flush = True)
 
 def error(*args):
+	"""print log messages to stderr"""
 	print(*args, file = _errfh, flush = True)
 
 @contextmanager
 def chdir(d, error_status = 2):
+	"""chdir context manager"""
 	prevd = getcwd()
 	try:
 		try:
@@ -54,10 +59,12 @@ def chdir(d, error_status = 2):
 		os_chdir(prevd)
 
 def mkdir(d, mode = 0o750, parents = True, exist_ok = True):
+	"""mkdir"""
 	Path(d).mkdir(mode = mode, parents = parents, exist_ok = exist_ok)
 
 @contextmanager
 def lockf(name):
+	"""lock file path"""
 	p = Path(name)
 	fn = Path(p.parent, f".{p.name}.lock")
 	locked = False
@@ -81,14 +88,17 @@ def _setenv(env):
 	return e
 
 def system(cmd, env = None, timeout = _cmdTtl):
+	"""run system commands"""
 	p = proc_run(cmd, shell = True, capture_output = False,
 		timeout = timeout, env = _setenv(env))
 	return p.returncode
 
 def gso(cmd):
+	"""get status output from system commands"""
 	return getstatusoutput(cmd)
 
 def check_output(cmd, env = None):
+	"""get output from system commands checking its exit status"""
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
 def __descmax(k):
@@ -113,36 +123,49 @@ def __desc(apps):
 	return d
 
 def app_list():
+	"""return list of configured apps"""
 	return sorted([n for n in app.keys() if app[n].app])
 
 def app_description():
+	"""format apps list description"""
 	return __desc(app_list())
 
 def build_list():
+	"""return list of apps configured for build"""
 	return sorted([n for n in app.keys() if app[n].build is not None])
 
 def build_description():
+	"""format build apps description"""
 	return __desc(build_list())
 
 def deploy_list():
+	"""return list of apps configured for deploy"""
 	return sorted([n for n in app.keys() if app[n].deploy is not None])
 
 def deploy_description():
+	"""format deploy apps description"""
 	return __desc(deploy_list())
 
 def ctl(args):
+	"""run internal app-ctl command"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args))
 
 def nq(cmd, args, build_dir = cmddir):
+	"""enqueue internal command"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, build_dir, cmd, args))
 
 def run(cmd, args):
+	"""run internal command"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args))
 
 def clean_build(app, version):
+	"""enqueue build clean task"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s %s" % (cmddir, _user, cmddir, app, version))
 
+# aws utils
+
 def list_images(appname, region = None):
+	"""get aws ECR list of available app images"""
 	kn = app[appname].cluster
 	if region is None:
 		region = cluster[kn]['region']
@@ -159,31 +182,39 @@ def list_images(appname, region = None):
 		error(f"[ERROR] {appname} list images: {err.output}")
 	return []
 
+# git utils
+
 def git_clone(rpath):
+	"""git clone"""
 	return system(f"git clone {rpath}")
 
 def git_fetch(workdir = '.'):
+	"""git fetch"""
 	args = ''
 	if workdir != '.':
 		args += f" -C {workdir}"
 	return system(f"git{args} fetch --prune --prune-tags --tags")
 
 def git_checkout(tag, workdir = '.'):
+	"""git checkout"""
 	args = ''
 	if workdir != '.':
 		args += f" -C {workdir}"
 	return system(f"git{args} checkout {tag}")
 
 def git_deploy(rname, tag):
+	"""run uwscli deploy"""
 	return uwscli_deploy.run(rname, tag)
 
 def git_describe(workdir = '.'):
+	"""git describe"""
 	args = ''
 	if workdir != '.':
 		args += f" -C {workdir}"
 	return check_output(f"git{args} describe --always").strip()
 
 def git_tag_list(workdir = '.'):
+	"""git tag --list"""
 	args = ''
 	if workdir != '.':
 		args += f" -C {workdir}"
