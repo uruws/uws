@@ -11,7 +11,11 @@ ESETUP = 10
 ETAG   = 11
 
 def _setup():
-	uwscli.mkdir('~/.uwscli/app-autobuild')
+	try:
+		uwscli.mkdir('~/.uwscli/app-autobuild')
+	except Exception as err:
+		uwscli.error(err)
+		return False
 	return True
 
 def _semverFilter(s):

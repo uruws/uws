@@ -57,6 +57,9 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_check_output(output = 'Testing'):
 					t.assertEqual(app_autobuild.main(['testing']), app_autobuild.ETAG)
+		# setup
+		with uwscli_t.mock_mkdir(fail = True):
+			app_autobuild.main(['testing'])
 
 	def test_main(t):
 		with mock():

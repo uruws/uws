@@ -84,7 +84,7 @@ def mock_mkdir(fail = False, fail_path = ''):
 			raise FileExistsError(d)
 	mkdir_bup = uwscli.mkdir
 	try:
-		uwscli.mkdir = MagicMock()
+		uwscli.mkdir = MagicMock(side_effect = __mkdir)
 		yield
 	finally:
 		uwscli.mkdir = mkdir_bup
