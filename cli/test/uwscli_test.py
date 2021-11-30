@@ -21,6 +21,8 @@ class Test(unittest.TestCase):
 	def setUp(t):
 		uwscli_t.mock()
 
+	# internal utils
+
 	def test_globals(t):
 		t.assertEqual(uwscli.bindir, '/srv/home/uwscli/bin')
 		t.assertEqual(uwscli.cmddir, '/srv/uws/deploy/cli')
@@ -186,6 +188,8 @@ class Test(unittest.TestCase):
 			t.assertEqual(uwscli.clean_build('testing', '0.999'), 0)
 			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing 0.999')
 
+	# aws utils
+
 	def test_list_images(t):
 		with uwscli_t.mock_check_output():
 			t.assertEqual(uwscli.list_images('testing', region = 't-1'), ['mock_output'])
@@ -195,6 +199,8 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output(fail = True):
 			t.assertEqual(uwscli.list_images('testing'), [])
 		t.assertEqual(uwscli_t.err().strip(), '[ERROR] testing list images: mock_output')
+
+	# git utils
 
 	def test_git_clone(t):
 		with uwscli_t.mock_system():

@@ -48,9 +48,10 @@ def error(*args):
 def chdir(d, error_status = 2):
 	"""chdir context manager"""
 	prevd = getcwd()
+	dn = Path(d).expanduser()
 	try:
 		try:
-			os_chdir(d)
+			os_chdir(dn)
 		except FileNotFoundError:
 			error('[ERROR] chdir not found:', d)
 			sys.exit(error_status)
@@ -60,12 +61,13 @@ def chdir(d, error_status = 2):
 
 def mkdir(d, mode = 0o750, parents = True, exist_ok = True):
 	"""mkdir"""
-	Path(d).mkdir(mode = mode, parents = parents, exist_ok = exist_ok)
+	Path(d).expanduser() \
+		.mkdir(mode = mode, parents = parents, exist_ok = exist_ok)
 
 @contextmanager
 def lockf(name):
 	"""lock file path"""
-	p = Path(name)
+	p = Path(name).expanduser()
 	fn = Path(p.parent, f".{p.name}.lock")
 	locked = False
 	try:

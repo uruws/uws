@@ -7,7 +7,11 @@ import semver
 
 import uwscli
 
-ETAG = 10
+ESETUP = 10
+ETAG   = 11
+
+def _setup():
+	uwscli.mkdir('~/.uwscli/app-autobuild')
 
 def _semverFilter(s):
 	try:
@@ -26,6 +30,9 @@ def main(argv = []):
 		default = 'app', help = 'app name')
 
 	args = flags.parse_args(argv)
+
+	if not _setup():
+		return ESETUP
 
 	build = uwscli.app[args.app].build
 	with uwscli.chdir(build.dir):
