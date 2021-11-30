@@ -5,6 +5,7 @@
 
 from contextlib import contextmanager
 from os import linesep
+from pathlib import Path
 
 import unittest
 from unittest.mock import call
@@ -27,6 +28,9 @@ class Test(unittest.TestCase):
 
 	def setUp(t):
 		uwscli_t.mock()
+
+	def test_globals(t):
+		t.assertEqual(app_autobuild._appdata, Path('~/.uwscli/app-autobuild'))
 
 	def test_main_no_args(t):
 		with t.assertRaises(SystemExit) as e:

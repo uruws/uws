@@ -2,17 +2,20 @@
 # See LICENSE file.
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from pathlib import Path
 
 import semver
 
 import uwscli
+
+_appdata = Path('~/.uwscli/app-autobuild')
 
 ESETUP = 10
 ETAG   = 11
 
 def _setup():
 	try:
-		uwscli.mkdir('~/.uwscli/app-autobuild')
+		uwscli.mkdir(_appdata)
 	except Exception as err:
 		uwscli.error(err)
 		return False

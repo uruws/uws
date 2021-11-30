@@ -68,6 +68,9 @@ class Test(unittest.TestCase):
 		with uwscli.chdir('/tmp'):
 			t.assertEqual(getcwd(), '/tmp')
 		t.assertEqual(getcwd(), cwd)
+		# Path object
+		with uwscli.chdir(Path('/tmp')):
+			t.assertEqual(getcwd(), '/tmp')
 
 	def test_chdir_error(t):
 		with t.assertRaises(SystemExit):
@@ -85,6 +88,7 @@ class Test(unittest.TestCase):
 			uwscli.mkdir('/tmp/testing_mkdir')
 			uwscli.mkdir('/tmp/testing_mkdir') # exists ok
 			uwscli.mkdir('/tmp/testing_mkdir/d0/d1/d2') # parents
+			uwscli.mkdir(Path('/tmp/testing_mkdir')) # Path object
 		finally:
 			rmtree('/tmp/testing_mkdir')
 
@@ -103,6 +107,9 @@ class Test(unittest.TestCase):
 			t.assertEqual(l.name, '/tmp/.testing.lock')
 			t.assertTrue(p.exists())
 		t.assertFalse(p.exists())
+		# Path object
+		with uwscli.lockf(Path('/tmp/testing')) as l:
+			t.assertEqual(l.name, '/tmp/.testing.lock')
 
 	def test_lockf_errors(t):
 		p = Path('/tmp/.testing.lock')
