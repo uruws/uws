@@ -5,10 +5,11 @@
     * shellcheck tests
     * git_deploy.py for internal repos (like Buildpack)
     * lib vendor and tests (semver)
+        * publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/uwscli_vendor/)
 
 * Buildpack CI - `DONE!`
     * test shellcheck
-    * run test during deploy and publish coverate [report](https://ops.uws.talkingpts.org/htmlcov/buildpack/)
+    * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/buildpack/)
 
 * check ev15min new tags on App repo - `WIP`
     * build and deploy to aws.testing
