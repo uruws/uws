@@ -11,6 +11,7 @@
     * lib vendor and tests (semver)
         * publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/uwscli_vendor/)
     * use unittest to check expected prod settings
+        * [uwscli_conf_test.py](https://github.com/TalkingPts/Infrastructure/blob/master/cli/test/uwscli_conf_test.py)
 
 * Buildpack CI - `DONE!`
     * test shellcheck
