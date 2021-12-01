@@ -33,7 +33,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli._user, 'uws')
 		t.assertTrue(uwscli._log)
 		t.assertDictEqual(uwscli._env, {'PATH': _PATH})
-		t.assertEqual(uwscli._cmdTtl, 180)
+		t.assertEqual(uwscli._cmdTtl, 600)
 
 	def test_environ(t):
 		for k, v in uwscli._env.items():

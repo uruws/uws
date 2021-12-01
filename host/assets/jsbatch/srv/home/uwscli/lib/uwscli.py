@@ -79,7 +79,7 @@ def lockf(name):
 		if locked:
 			fn.unlink()
 
-_cmdTtl = 180
+_cmdTtl = 600
 
 def _setenv(env):
 	e = {}
