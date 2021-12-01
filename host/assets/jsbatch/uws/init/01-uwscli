@@ -9,10 +9,11 @@ if test -s ${sudoers}; then
 	chown -v root:root ${sudoers}
 fi
 
-# queue run dir
+# run dirs
 
 install -v -d -o uws -g uwscli -m 0750 /run/uwscli
 install -v -d -o uws -g uwscli -m 0770 /run/uwscli/nq
+install -v -d -o uws -g uwscli -m 0770 /run/uwscli/build
 
 # utils access
 
