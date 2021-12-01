@@ -1,5 +1,9 @@
 # TODO
 
+* nlpsvc new setup - `WIP`
+    * sentiment-roberta
+    * topic-automl
+
 * uwscli CI - `DONE!`
     * custom deploy scripts
     * shellcheck tests
