@@ -79,8 +79,6 @@ def lockf(name):
 		if locked:
 			fn.unlink()
 
-_cmdTtl = 600
-
 def _setenv(env):
 	e = {}
 	for k, v in environ.items():
@@ -89,7 +87,9 @@ def _setenv(env):
 		e.update(env)
 	return e
 
-def system(cmd, env = None, timeout = _cmdTtl):
+system_ttl = 600
+
+def system(cmd, env = None, timeout = system_ttl):
 	"""run system commands"""
 	p = proc_run(cmd, shell = True, capture_output = False,
 		timeout = timeout, env = _setenv(env))
@@ -148,17 +148,19 @@ def deploy_description():
 	"""format deploy apps description"""
 	return __desc(deploy_list())
 
-def ctl(args):
+def ctl(args, timeout = system_ttl):
 	"""run internal app-ctl command"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
+		timeout = timeout)
 
 def nq(cmd, args, build_dir = cmddir):
 	"""enqueue internal command"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, build_dir, cmd, args))
 
-def run(cmd, args):
+def run(cmd, args, timeout = system_ttl):
 	"""run internal command"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
+		timeout = timeout)
 
 def clean_build(app, version):
 	"""enqueue build clean task"""

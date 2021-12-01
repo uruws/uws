@@ -18,7 +18,9 @@ def main(argv = []):
 	cmd_args = "%s %s events" % (uwscli.app[args.app].cluster,
 		uwscli.app[args.app].pod)
 
+	ttl = uwscli.system_ttl
 	if args.watch:
 		cmd_args += ' -w'
+		ttl = None
 
-	return uwscli.run('app-cli.sh', cmd_args)
+	return uwscli.run('app-cli.sh', cmd_args, timeout = ttl)

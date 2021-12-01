@@ -33,7 +33,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli._user, 'uws')
 		t.assertTrue(uwscli._log)
 		t.assertDictEqual(uwscli._env, {'PATH': _PATH})
-		t.assertEqual(uwscli._cmdTtl, 600)
+		t.assertEqual(uwscli.system_ttl, 600)
 
 	def test_environ(t):
 		for k, v in uwscli._env.items():
@@ -178,7 +178,8 @@ class Test(unittest.TestCase):
 	def test_ctl(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli.ctl('testing'), 0)
-			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws testing')
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws testing',
+				timeout = uwscli.system_ttl)
 
 	def test_nq(t):
 		with uwscli_t.mock_system():
@@ -188,7 +189,8 @@ class Test(unittest.TestCase):
 	def test_run(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli.run('testing', 'args_t'), 0)
-			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/testing args_t')
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/testing args_t',
+				timeout = uwscli.system_ttl)
 
 	def test_clean_build(t):
 		with uwscli_t.mock_system():
