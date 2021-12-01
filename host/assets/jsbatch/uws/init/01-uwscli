@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 
+umask 0027
+
 # sudoers
 
 sudoers=/etc/sudoers.d/99-uwscli
@@ -30,6 +32,9 @@ chown -vR root:uwscli ~uwscli/bin
 chmod -v 0750 ~uwscli/lib
 chown -vR root:uwscli ~uwscli/lib
 
+chmod -v 0750 ~uwscli/vendor
+chown -vR root:uwscli ~uwscli/vendor
+
 # admin utils
 
 adduser uws uwscli
@@ -44,13 +49,15 @@ chown -v uwscli:root ~uwscli/bin/app-autobuild
 
 # python compile lib and vendor
 
+umask 0022
+
 rm -vrf ~uwscli/lib/__pycache__
 python3 -m compileall ~uwscli/lib
-chown -vR root:uwscli ~uwscli/lib/__pycache__
 
-find ~uwscli/vendor -type d -name __pycache__ -exec rm -rf {} \;
+rm -vrf ~uwscli/vendor/__pycache__
 python3 -m compileall ~uwscli/vendor
-find ~uwscli/vendor -type d -name __pycache__ -exec chown -R root:uwscli {} \;
+
+umask 0027
 
 # users profile
 
