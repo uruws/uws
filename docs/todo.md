@@ -10,6 +10,7 @@
     * git_deploy.py for internal repos (like Buildpack)
     * lib vendor and tests (semver)
         * publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/uwscli_vendor/)
+    * use unittest to check expected prod settings
 
 * Buildpack CI - `DONE!`
     * test shellcheck
