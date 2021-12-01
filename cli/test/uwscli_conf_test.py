@@ -20,30 +20,25 @@ class Test(unittest.TestCase):
 		t.assertIsInstance(uwscli_conf.cluster, dict)
 
 	def test_prod_settings(t):
-		# app list
-		t.assertListEqual(uwscli.app_list(), [
+		app_list = [
 			'app-east',
 			'app-west',
 			'beta',
 			'cs',
-			'nlpsvc',
+			'nlp-sentiment-roberta',
+			'nlp-topic-automl',
 			'worker',
-		])
+		]
+		# deploy list
+		t.assertListEqual(uwscli.deploy_list(), app_list)
+		# app list
+		t.assertListEqual(uwscli.app_list(), app_list)
 		# build list
 		t.assertListEqual(uwscli.build_list(), [
 			'app',
 			'beta',
 			'cs',
 			'nlpsvc',
-		])
-		# deploy list
-		t.assertListEqual(uwscli.deploy_list(), [
-			'app-east',
-			'app-west',
-			'beta',
-			'cs',
-			'nlpsvc',
-			'worker',
 		])
 
 if __name__ == '__main__':
