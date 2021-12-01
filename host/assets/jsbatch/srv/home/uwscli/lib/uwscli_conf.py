@@ -81,12 +81,12 @@ app = {
 		build = _buildpack('cs/src', 'crowdsourcing'),
 		deploy = AppDeploy('meteor-crowdsourcing'),
 	),
-	'nlpsvc': App(True,
+	'nlp-sentiment-roberta': App(True,
 		cluster = 'panoramix',
-		desc = 'NLPService',
-		pod = 'nlpsvc',
+		desc = 'NLPService - Sentiment Roberta',
+		pod = 'nlpsvc/sentiment/roberta',
 		build = AppBuild('/srv/deploy/NLPService', 'build.sh'),
-		deploy = AppDeploy('nlpsvc'),
+		deploy = AppDeploy('nlpsvc-sentiment-roberta'),
 	),
 }
 
