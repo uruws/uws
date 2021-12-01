@@ -5,6 +5,7 @@
 
 import unittest
 
+import uwscli
 import uwscli_conf
 
 class Test(unittest.TestCase):
@@ -17,6 +18,33 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli_conf.docker_storage_min, 10485760)
 		t.assertIsInstance(uwscli_conf.app, dict)
 		t.assertIsInstance(uwscli_conf.cluster, dict)
+
+	def test_prod_settings(t):
+		# app list
+		t.assertListEqual(uwscli.app_list(), [
+			'app-east',
+			'app-west',
+			'beta',
+			'cs',
+			'nlpsvc',
+			'worker',
+		])
+		# build list
+		t.assertListEqual(uwscli.build_list(), [
+			'app',
+			'beta',
+			'cs',
+			'nlpsvc',
+		])
+		# deploy list
+		t.assertListEqual(uwscli.deploy_list(), [
+			'app-east',
+			'app-west',
+			'beta',
+			'cs',
+			'nlpsvc',
+			'worker',
+		])
 
 if __name__ == '__main__':
 	unittest.main()
