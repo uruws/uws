@@ -4,21 +4,11 @@
     * sentiment-roberta
     * topic-automl
 
-* uwscli CI - `DONE!`
-    * custom deploy scripts
-    * shellcheck tests
-    * git_deploy.py for internal repos (like Buildpack)
-    * lib vendor and tests (semver)
-        * publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/uwscli_vendor/)
-    * use unittest to check expected prod settings
-        * [uwscli_conf_test.py](https://github.com/TalkingPts/Infrastructure/blob/master/cli/test/uwscli_conf_test.py)
-
-* Buildpack CI - `DONE!`
-    * test shellcheck
-    * run test during deploy and publish coverage [report](https://ops.uws.talkingpts.org/htmlcov/buildpack/)
+* setup tapo.testing cluster
+    * as similar as possible to the prod setup
 
 * check ev15min new tags on App repo - `WIP`
-    * build and deploy to aws.testing
+    * build and deploy to tapo.testing
 
 * nginx secure headers
     * CSP
