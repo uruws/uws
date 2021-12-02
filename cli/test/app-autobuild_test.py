@@ -5,7 +5,6 @@
 
 from contextlib import contextmanager
 from os import linesep
-from pathlib import Path
 
 import unittest
 from unittest.mock import call

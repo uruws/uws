@@ -31,15 +31,25 @@ def _latestTag(src):
 	# https://python-semver.readthedocs.io/en/2.13.0/usage.html
 	return str(max(filter(_semverFilter, uwscli.git_tag_list(workdir = src))))
 
-def _isBuilding(app, tag):
-	"""check if tag is already in the build queue"""
+def _getStatus(app):
+	st = None
+	ver = None
+	f = Path(_status_dir, f"{app}.status")
+	line = f.read_text().strip()
+	items = line.split(':')
+	st = items[0]
+	ver = items[1]
+	return (st, ver)
+
+def _isBuildingOrDone(app, tag):
+	"""check if tag is in the build queue or done already"""
+	try:
+		st, ver = _getStatus(app)
+	except FileNotFoundError:
+		pass
 	return False
 
-def _isBuilt(app, tag):
-	"""check if tag was built already"""
-	return False
-
-def _doBuild(app, tag):
+def _dispatch(app, tag):
 	"""dispatch app tag build"""
 	cmd = f"/srv/home/uwscli/bin/app-build {app} {tag}"
 	return uwscli.system(cmd)
@@ -68,12 +78,9 @@ def main(argv = []):
 			uwscli.error('[ERROR] could not get latest git tag')
 			return ETAG
 
-		if _isBuilding(args.app, tag):
+		if _isBuildingOrDone(args.app, tag):
 			return 0
 
-		if _isBuilt(args.app, tag):
-			return 0
-
-		return _doBuild(args.app, tag)
+		return _dispatch(args.app, tag)
 
 	return 0
