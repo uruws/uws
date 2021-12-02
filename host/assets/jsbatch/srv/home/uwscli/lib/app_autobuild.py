@@ -41,13 +41,24 @@ def _getStatus(app):
 	ver = items[1]
 	return (st, ver)
 
+def _checkVersion(tag, ver):
+	"""check if tag is major than version"""
+	t = semver.VersionInfo.parse(tag)
+	v = semver.VersionInfo.parse(ver)
+	if tag > ver:
+		return True
+	return False
+
 def _isBuildingOrDone(app, tag):
 	"""check if tag is in the build queue or done already"""
 	try:
-		st, ver = _getStatus(app)
+		__, ver = _getStatus(app)
+		build_ver = _checkVersion(tag, ver)
+		if build_ver:
+			return False
 	except FileNotFoundError:
-		pass
-	return False
+		return False
+	return True
 
 def _dispatch(app, tag):
 	"""dispatch app tag build"""

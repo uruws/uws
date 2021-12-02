@@ -77,15 +77,16 @@ class Test(unittest.TestCase):
 					t.assertEqual(app_autobuild.main(['testing']), app_autobuild.ETAG)
 
 	def test_main(t):
+		# done already
 		with mock():
-			with uwscli_t.mock_check_output(output = '0.999.0'):
-				with uwscli_t.mock_system():
-					t.assertEqual(app_autobuild.main(['testing']), 0)
-					calls = [
-						call('git fetch --prune --prune-tags --tags'),
-						call('/srv/home/uwscli/bin/app-build testing 0.999.0'),
-					]
-					uwscli.system.assert_has_calls(calls)
+			with mock_status(st = 'OK'):
+				with uwscli_t.mock_check_output(output = '0.999.0'):
+					with uwscli_t.mock_system():
+						t.assertEqual(app_autobuild.main(['testing']), 0)
+						calls = [
+							call('git fetch --prune --prune-tags --tags'),
+						]
+						uwscli.system.assert_has_calls(calls)
 
 	def test_latestTag_errors(t):
 		with uwscli_t.mock_check_output(output = linesep.join(['0.1.0', 'Testing', 't0', '0.0.0'])):
