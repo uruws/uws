@@ -5,6 +5,7 @@
 
 from contextlib import contextmanager
 from os import linesep
+from pathlib import Path
 
 import unittest
 from unittest.mock import call
@@ -22,6 +23,16 @@ def mock():
 				yield
 	finally:
 		pass
+
+@contextmanager
+def mock_status(app = 'testing', st = 'FAIL', ver = '0.999.0'):
+	Path(app_autobuild._status_dir).mkdir(mode = 0o750, exist_ok = True)
+	f = Path(app_autobuild._status_dir, f"{app}.status")
+	try:
+		f.write_text(f"{st}:{ver}{linesep}")
+		yield f
+	finally:
+		f.unlink()
 
 class Test(unittest.TestCase):
 
@@ -86,6 +97,16 @@ class Test(unittest.TestCase):
 	def test_latestTag(t):
 		with uwscli_t.mock_check_output(output = linesep.join(['0.0.0', '0.1.0'])):
 			t.assertEqual(app_autobuild._latestTag('src/test'), '0.1.0')
+
+	def test_getStatus_errors(t):
+		with t.assertRaises(FileNotFoundError):
+			app_autobuild._getStatus('testing')
+
+	def test_getStatus(t):
+		with mock_status(st = 'OK'):
+			st, ver = app_autobuild._getStatus('testing')
+		t.assertEqual(st, 'OK')
+		t.assertEqual(ver, '0.999.0')
 
 if __name__ == '__main__':
 	unittest.main()

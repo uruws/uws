@@ -3,7 +3,8 @@ set -eu
 
 CLI_HOME=${PWD}/host/assets/jsbatch/srv/home/uwscli
 
-mkdir -vp ${PWD}/tmp/uwscli ${PWD}/tmp/uwscli/pytest_cache
+mkdir -vp ${PWD}/tmp/uwscli ${PWD}/tmp/uwscli_rundir \
+	${PWD}/tmp/uwscli/pytest_cache
 mkdir -vp ${CLI_HOME}/vendor/semver-2.13.0/.pytest_cache
 
 exec docker run --rm --name uwscli \
@@ -16,6 +17,7 @@ exec docker run --rm --name uwscli \
 	-v ${PWD}/cli:/srv/uws/deploy/cli:ro \
 	-v ${PWD}/cli/test:/home/uws/test:ro \
 	-v ${PWD}/cli/testdata:/home/uws/testdata:ro \
+	-v ${PWD}/tmp/uwscli_rundir:/run/uwscli:rw \
 	-v ${PWD}/tmp/uwscli:/home/uws/tmp:rw \
 	-v ${PWD}/tmp/uwscli/pytest_cache:/srv/home/uwscli/vendor/semver-2.13.0/.pytest_cache:rw \
 	uws/cli $@
