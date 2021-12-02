@@ -8,14 +8,14 @@ import semver
 
 import uwscli
 
-_appdata = Path('~/.uwscli/app-autobuild')
+_status_dir = '/run/uwscli/build'
 
 ESETUP = 10
 ETAG   = 11
 
 def _setup():
 	try:
-		uwscli.mkdir(_appdata)
+		uwscli.mkdir(_status_dir)
 	except Exception as err:
 		uwscli.error(err)
 		return False

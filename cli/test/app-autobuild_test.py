@@ -30,7 +30,7 @@ class Test(unittest.TestCase):
 		uwscli_t.mock()
 
 	def test_globals(t):
-		t.assertEqual(app_autobuild._appdata, Path('~/.uwscli/app-autobuild'))
+		t.assertEqual(app_autobuild._status_dir, '/run/uwscli/build')
 
 	def test_main_no_args(t):
 		with t.assertRaises(SystemExit) as e:
