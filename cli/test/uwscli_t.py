@@ -10,21 +10,27 @@ from subprocess import getstatusoutput, check_output, CalledProcessError
 import uwscli
 import uwscli_conf
 
-uwscli.app = {
-	'testing': uwscli_conf.App(True,
-		cluster = 'ktest',
-		desc = 'Testing',
-		pod = 'test',
-		build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh'),
-		deploy = uwscli_conf.AppDeploy('test'),
-	),
-}
+def _testingApp():
+	return {
+		'testing': uwscli_conf.App(True,
+			cluster = 'ktest',
+			desc = 'Testing',
+			pod = 'test',
+			build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh'),
+			deploy = uwscli_conf.AppDeploy('test'),
+		),
+	}
 
-uwscli.cluster = {
-	'ktest': {
-		'region': 'testing-1',
-	},
-}
+uwscli.app = _testingApp()
+
+def _testingCluster():
+	return {
+		'ktest': {
+			'region': 'testing-1',
+		},
+	}
+
+uwscli.cluster = _testingCluster()
 
 uwscli.docker_storage = '/srv/docker'
 uwscli.docker_storage_min = 10
@@ -34,6 +40,10 @@ def mock():
 	uwscli._outfh = StringIO()
 	uwscli._errfh = None
 	uwscli._errfh = StringIO()
+	uwscli.app = None
+	uwscli.app = _testingApp()
+	uwscli.cluster = None
+	uwscli.cluster = _testingCluster()
 
 def out():
 	uwscli._outfh.seek(0, 0)
