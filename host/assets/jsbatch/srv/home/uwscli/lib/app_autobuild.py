@@ -2,14 +2,15 @@
 # See LICENSE file.
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from os import environ
 from pathlib import Path
 from time import sleep
 
-import semver
-
 import uwscli
 
-_status_dir = '/run/uwscli/build'
+import semver
+
+_status_dir = environ.get('UWSCLI_BUILD_STATUS_DIR', '/run/uwscli/build')
 
 ESETUP     = 10
 ETAG       = 11
