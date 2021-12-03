@@ -11,10 +11,11 @@ import uwscli
 
 _status_dir = '/run/uwscli/build'
 
-ESETUP  = 10
-ETAG    = 11
-EBUILD  = 12
-EDEPLOY = 13
+ESETUP     = 10
+ETAG       = 11
+EBUILD     = 12
+EDEPLOY_NQ = 13
+EDEPLOY    = 14
 
 def _setup():
 	try:
@@ -48,7 +49,7 @@ def _checkVersion(tag, ver):
 	"""check if tag is major than version"""
 	t = semver.VersionInfo.parse(tag)
 	v = semver.VersionInfo.parse(ver)
-	if tag > ver:
+	if t > v:
 		return True
 	return False
 
@@ -73,12 +74,49 @@ def _dispatch(app, tag):
 	rc = uwscli.nq("app-autobuild", f"{app} --deploy {tag}",
 		bindir = "/srv/home/uwscli/bin")
 	if rc != 0:
-		return EDEPLOY
+		return EDEPLOY_NQ
+	return 0
+
+def _build(app):
+	build = uwscli.app[app].build
+	with uwscli.chdir(build.dir):
+		rc = uwscli.git_fetch(workdir = build.src)
+		if rc != 0:
+			return rc
+		try:
+			tag = _latestTag(build.src)
+		except ValueError:
+			uwscli.error('[ERROR] could not get latest git tag')
+			return ETAG
+		if _isBuildingOrDone(app, tag):
+			return 0
+		return _dispatch(app, tag)
+	return 0
+
+def _latestBuild(app):
+	return str(max(filter(_semverFilter, uwscli.list_images(app))))
+
+def _deploy(app, tag):
+	ver = _latestBuild(app)
+	t = semver.VersionInfo.parse(tag)
+	v = semver.VersionInfo.parse(ver)
+	if v >= t:
+		cmd = f"/srv/home/uwscli/bin/app-deploy {app} {ver}"
+		rc = uwscli.system(cmd)
+		if rc != 0:
+			return EDEPLOY
 	return 0
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.build_description())
+
+	deploy_tag = False
+	if '--deploy' in argv:
+		flags.add_argument('--deploy', metavar = 'TAG', default = '',
+			help = 'app deploy stage')
+		deploy_tag = True
+
 	flags.add_argument('app', metavar = 'app', choices = uwscli.build_list(),
 		default = 'app', help = 'app name')
 
@@ -87,22 +125,7 @@ def main(argv = []):
 	if not _setup():
 		return ESETUP
 
-	build = uwscli.app[args.app].build
-	with uwscli.chdir(build.dir):
+	if deploy_tag:
+		return _deploy(args.app, args.deploy)
 
-		rc = uwscli.git_fetch(workdir = build.src)
-		if rc != 0:
-			return rc
-
-		try:
-			tag = _latestTag(build.src)
-		except ValueError:
-			uwscli.error('[ERROR] could not get latest git tag')
-			return ETAG
-
-		if _isBuildingOrDone(args.app, tag):
-			return 0
-
-		return _dispatch(args.app, tag)
-
-	return 0
+	return _build(args.app)
