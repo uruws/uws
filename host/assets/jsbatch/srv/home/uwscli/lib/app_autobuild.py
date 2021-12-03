@@ -15,9 +15,10 @@ _nqdir = getenv('UWSCLI_NQDIR', '/run/uwscli/nq')
 
 ESETUP     = 10
 ETAG       = 11
-EBUILD     = 12
+EBUILD_RUN = 12
 EDEPLOY_NQ = 13
-EDEPLOY    = 14
+EBUILD     = 14
+EDEPLOY    = 15
 
 def _setup():
 	try:
@@ -72,7 +73,7 @@ def _dispatch(app, tag):
 	cmd = f"/srv/home/uwscli/bin/app-build {app} {tag}"
 	rc = uwscli.system(cmd)
 	if rc != 0:
-		return EBUILD
+		return EBUILD_RUN
 	sleep(1)
 	x = [
 		'/usr/bin/nq',
@@ -90,19 +91,22 @@ def _dispatch(app, tag):
 
 def _build(app):
 	build = uwscli.app[app].build
-	with uwscli.chdir(build.dir):
-		rc = uwscli.git_fetch(workdir = build.src)
-		if rc != 0:
-			return rc
-		try:
-			tag = _latestTag(build.src)
-		except ValueError:
-			uwscli.error('[ERROR] could not get latest git tag')
-			return ETAG
-		if _isBuildingOrDone(app, tag):
-			return 0
-		return _dispatch(app, tag)
-	return 0
+	try:
+		with uwscli.chdir(build.dir):
+			rc = uwscli.git_fetch(workdir = build.src)
+			if rc != 0:
+				return rc
+			try:
+				tag = _latestTag(build.src)
+			except ValueError:
+				uwscli.error('[ERROR] could not get latest git tag')
+				return ETAG
+			if _isBuildingOrDone(app, tag):
+				return 0
+			return _dispatch(app, tag)
+	except SystemExit:
+		pass
+	return EBUILD
 
 def _latestBuild(app):
 	return str(max(filter(_semverFilter, uwscli.list_images(app))))
