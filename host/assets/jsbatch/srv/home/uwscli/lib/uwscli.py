@@ -153,9 +153,9 @@ def ctl(args, timeout = system_ttl):
 	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
 		timeout = timeout)
 
-def nq(cmd, args, build_dir = cmddir):
+def nq(cmd, args, bindir = cmddir):
 	"""enqueue internal command"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, build_dir, cmd, args))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
 
 def run(cmd, args, timeout = system_ttl):
 	"""run internal command"""
