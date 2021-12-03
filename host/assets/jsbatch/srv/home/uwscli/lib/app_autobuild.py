@@ -3,6 +3,7 @@
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from pathlib import Path
+from time import sleep
 
 import semver
 
@@ -10,8 +11,10 @@ import uwscli
 
 _status_dir = '/run/uwscli/build'
 
-ESETUP = 10
-ETAG   = 11
+ESETUP  = 10
+ETAG    = 11
+EBUILD  = 12
+EDEPLOY = 13
 
 def _setup():
 	try:
@@ -63,7 +66,15 @@ def _isBuildingOrDone(app, tag):
 def _dispatch(app, tag):
 	"""dispatch app tag build"""
 	cmd = f"/srv/home/uwscli/bin/app-build {app} {tag}"
-	return uwscli.system(cmd)
+	rc = uwscli.system(cmd)
+	if rc != 0:
+		return EBUILD
+	sleep(1)
+	rc = uwscli.nq("app-autobuild", f"{app} --deploy {tag}",
+		bindir = "/srv/home/uwscli/bin")
+	if rc != 0:
+		return EDEPLOY
+	return 0
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,

@@ -8,7 +8,7 @@ from os import linesep
 from pathlib import Path
 
 import unittest
-from unittest.mock import call
+from unittest.mock import MagicMock, call
 
 import uwscli_t
 
@@ -17,12 +17,14 @@ import app_autobuild
 
 @contextmanager
 def mock():
+	sleep_bup = app_autobuild.sleep
 	try:
+		app_autobuild.sleep = MagicMock()
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_mkdir():
 				yield
 	finally:
-		pass
+		app_autobuild.sleep = sleep_bup
 
 @contextmanager
 def mock_status(app = 'testing', st = 'FAIL', ver = '0.999.0'):
