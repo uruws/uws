@@ -8,8 +8,7 @@ CMD=${1:?'cmd?'}
 shift
 if test "X${CMD}" != 'X/srv/uws/deploy/cli/app-build.sh'\
 	&& test "X${CMD}" != 'X/srv/uws/deploy/cli/app-clean-build.sh'\
-	&& test "X${CMD}" != 'X/srv/deploy/Buildpack/build.py'\
-	&& test "X${CMD}" != 'X/srv/home/uwscli/bin/app-autobuild';
+	&& test "X${CMD}" != 'X/srv/deploy/Buildpack/build.py';
 then
 	echo "${CMD}: invalid command" >&2
 	exit 9

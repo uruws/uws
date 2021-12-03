@@ -2,7 +2,7 @@
 # See LICENSE file.
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
-from os import environ
+from os import getenv
 from pathlib import Path
 from time import sleep
 
@@ -10,7 +10,8 @@ import uwscli
 
 import semver
 
-_status_dir = environ.get('UWSCLI_BUILD_STATUS_DIR', '/run/uwscli/build')
+_status_dir = getenv('UWSCLI_BUILD_STATUS_DIR', '/run/uwscli/build')
+_nqdir = getenv('UWSCLI_NQDIR', '/run/uwscli/nq')
 
 ESETUP     = 10
 ETAG       = 11
@@ -21,6 +22,7 @@ EDEPLOY    = 14
 def _setup():
 	try:
 		uwscli.mkdir(_status_dir)
+		uwscli.mkdir(_nqdir)
 	except Exception as err:
 		uwscli.error(err)
 		return False
@@ -72,8 +74,16 @@ def _dispatch(app, tag):
 	if rc != 0:
 		return EBUILD
 	sleep(1)
-	rc = uwscli.nq("app-autobuild", f"{app} --deploy {tag}",
-		bindir = "/srv/home/uwscli/bin")
+	x = [
+		'/usr/bin/nq',
+		'-c',
+		'--',
+		'/srv/home/uwscli/bin/app-autobuild',
+		app,
+		'--deploy',
+		tag,
+	]
+	rc = uwscli.system(' '.join(x), env = {'NQDIR': _nqdir})
 	if rc != 0:
 		return EDEPLOY_NQ
 	return 0

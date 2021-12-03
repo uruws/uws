@@ -43,6 +43,7 @@ class Test(unittest.TestCase):
 
 	def test_globals(t):
 		t.assertEqual(app_autobuild._status_dir, '/run/uwscli/build')
+		t.assertEqual(app_autobuild._nqdir, '/run/uwscli/nq')
 
 	def test_main_no_args(t):
 		with t.assertRaises(SystemExit) as e:
