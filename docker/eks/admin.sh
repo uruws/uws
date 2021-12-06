@@ -37,6 +37,20 @@ if test 'Xtrue' = "X${client_mode}"; then
 	hostname="${hostname}cli"
 fi
 
+if ! test -s "${awsdir}/config"; then
+	echo "${awsdir}/config: file not found" >&2
+	exit 3
+fi
+if ! test -s "${awsdir}/credentials"; then
+	echo "${awsdir}/credentials: file not found" >&2
+	exit 3
+fi
+
+if ! test -s "${secret}/ssh/${UWS_CLUSTER}/node.pub"; then
+	echo "${secret}/ssh/${UWS_CLUSTER}/node.pub: file not found" >&2
+	exit 4
+fi
+
 exec docker run -it --rm \
 	--hostname ${hostname} -u uws \
 	-p 127.0.0.1:0:3000 \
