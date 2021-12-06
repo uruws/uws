@@ -10,11 +10,15 @@
 
 [upgrades]: https://github.com/TalkingPts/Infrastructure/blob/master/docs/infra/upgrades.md
 
-* setup tapo.testing cluster
+* setup tapo.testing cluster - `WIP`
     * as similar as possible to the prod setup
+    * [app-test-1](https://amy-test-1.uws.talkingpts.org/munin/)
+    * [app-test-2](https://amy-test-2.uws.talkingpts.org/munin/)
 
 * check ev15min new tags on App repo - `WIP`
     * build and deploy to tapo.testing
+
+* k8s and eks CI checks - `WIP`
 
 * uwscli app access by group
 
