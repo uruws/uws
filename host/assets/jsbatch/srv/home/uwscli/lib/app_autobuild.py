@@ -14,11 +14,12 @@ _status_dir = getenv('UWSCLI_BUILD_STATUS_DIR', '/run/uwscli/build')
 _nqdir = getenv('UWSCLI_NQDIR', '/run/uwscli/nq')
 
 ESETUP     = 10
-ETAG       = 11
-EBUILD_RUN = 12
-EDEPLOY_NQ = 13
-EBUILD     = 14
-EDEPLOY    = 15
+EDISABLED  = 11
+ETAG       = 12
+EBUILD_RUN = 13
+EDEPLOY_NQ = 14
+EBUILD     = 15
+EDEPLOY    = 16
 
 def _setup():
 	try:
@@ -139,6 +140,10 @@ def main(argv = []):
 
 	if not _setup():
 		return ESETUP
+
+	if not uwscli.autobuild_enabled(args.app):
+		uwscli.error(f"[ERROR] {args.app}: autobuild is disabled")
+		return EDISABLED
 
 	if deploy_tag:
 		return _deploy(args.app, args.deploy)

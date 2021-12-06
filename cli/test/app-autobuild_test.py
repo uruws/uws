@@ -20,11 +20,13 @@ def mock():
 	sleep_bup = app_autobuild.sleep
 	try:
 		app_autobuild.sleep = MagicMock()
+		uwscli.app['testing'].autobuild = True
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_mkdir():
 				yield
 	finally:
 		app_autobuild.sleep = sleep_bup
+		uwscli.app['testing'].autobuild = False
 
 @contextmanager
 def mock_status(app = 'testing', st = 'FAIL', ver = '0.999.0', fail = False):
@@ -69,8 +71,15 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_mkdir(fail = True):
 			t.assertEqual(app_autobuild.main(['testing']), app_autobuild.ESETUP)
 		t.setUp()
+		# disabled
+		with mock():
+			uwscli.app['testing'].autobuild = False
+			t.assertEqual(app_autobuild.main(['testing']), app_autobuild.EDISABLED)
+			t.assertEqual(uwscli_t.err().strip(),
+				'[ERROR] testing: autobuild is disabled')
 		# chdir
 		with uwscli_t.mock_mkdir():
+			uwscli.app['testing'].autobuild = True
 			t.assertEqual(app_autobuild.main(['testing']), app_autobuild.EBUILD)
 			t.assertEqual(uwscli_t.err().strip(),
 				'[ERROR] chdir not found: /srv/deploy/Testing')
@@ -98,6 +107,7 @@ class Test(unittest.TestCase):
 	def test_main_deploy(t):
 		with uwscli_t.mock_system():
 			with uwscli_t.mock_list_images(['0.999.0']):
+				uwscli.app['testing'].autobuild = True
 				t.assertEqual(app_autobuild.main(['testing', '--deploy', '0.999.0']), 0)
 
 	def test_latestTag(t):

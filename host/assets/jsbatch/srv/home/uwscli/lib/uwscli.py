@@ -132,6 +132,10 @@ def app_description():
 	"""format apps list description"""
 	return __desc(app_list())
 
+def autobuild_enabled(n):
+	"""check if app autobuild is enabled"""
+	return app[n].autobuild is True
+
 def build_list():
 	"""return list of apps configured for build"""
 	return sorted([n for n in app.keys() if app[n].build is not None])
