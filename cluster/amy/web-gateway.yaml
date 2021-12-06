@@ -17,7 +17,7 @@ metadata:
     #~ cert-manager.io/issuer: acme-prod
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/affinity-mode: balanced
-    nginx.ingress.kubernetes.io/session-cookie-name: TAPOSID
+    nginx.ingress.kubernetes.io/session-cookie-name: ${COOKIE_NAME}
     nginx.ingress.kubernetes.io/session-cookie-path: /
     nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
     nginx.ingress.kubernetes.io/session-cookie-max-age: "43200"
@@ -28,7 +28,7 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - app.talkingpts.org
+        - ${APP_HOSTNAME}.talkingpts.org
       secretName: tapo-wild-certificate
   defaultBackend:
     service:
@@ -36,7 +36,7 @@ spec:
       port:
         number: 3000
   rules:
-    - host: app.talkingpts.org
+    - host: ${APP_HOSTNAME}.talkingpts.org
       http:
         paths:
           # /register

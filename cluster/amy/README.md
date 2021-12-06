@@ -19,3 +19,8 @@ And another cluster for the workers.
 
 * [Env](../../eks/env/amy-wrkr.env)
 * [Pod](../../pod/meteor/worker/deploy.yaml)
+
+## Test
+
+* [Test-1](../../eks/env/amy-test-1.env)
+* [Test-2](../../eks/env/amy-test-2.env)
