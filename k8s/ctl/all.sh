@@ -8,7 +8,7 @@ if ! test -x ${action}; then
 	exit 3
 fi
 
-for ef in $(ls ./eks/env/*.env); do
+for ef in ./eks/env/*.env; do
 	cluster=$(basename ${ef} .env)
 	echo "*** ${cluster}"
 	./docker/eks/admin.sh ${cluster} ${action}

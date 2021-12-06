@@ -30,14 +30,14 @@ upgrade:
 #
 
 .PHONY: all
-all: bootstrap acme clamav k8sctl eks uwsbot munin munin-backend munin-node proftpd
+all: bootstrap acme clamav k8sctl uwsbot munin munin-backend munin-node proftpd
 
 #
 # bootstrap
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert k8s python ansible uwscli
+bootstrap: awscli base base-testing golang mkcert k8s eks python ansible uwscli
 
 #
 # base
@@ -228,20 +228,25 @@ deploy:
 #
 
 .PHONY: check
-check: check-cli check-munin
+check: check-cli check-munin check-k8s
 
 .PHONY: check-cli
 check-cli:
-	@echo '*** test/run/shellcheck.sh'
+	@echo '*** cli/test/run/shellcheck.sh'
 	@./docker/uwscli/cmd.sh ./test/run/shellcheck.sh
-	@echo '*** test/run/vendor.sh'
+	@echo '*** cli/test/run/vendor.sh'
 	@./docker/uwscli/cmd.sh ./test/run/vendor.sh
-	@echo '*** test/run/coverage.sh'
+	@echo '*** cli/test/run/coverage.sh'
 	@./docker/uwscli/cmd.sh ./test/run/coverage.sh
 
 .PHONY: check-munin
 check-munin:
 	@./srv/munin/check.sh
+
+.PHONY: check-k8s
+check-k8s:
+	@echo '*** k8s/test/run/shellcheck.sh'
+	@./docker/k8s/devel.sh ./k8s/test/run/shellcheck.sh
 
 #
 # uws CA

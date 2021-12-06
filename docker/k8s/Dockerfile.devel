@@ -1,0 +1,18 @@
+FROM uws/k8s
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="211206"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh less shellcheck
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws

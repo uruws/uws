@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/events.sh worker $@
+exec ~/pod/lib/events.sh worker "$@"

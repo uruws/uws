@@ -10,7 +10,10 @@ fi
 envf=$(mktemp -p /tmp pod-${ns}-deploy.XXXXXXXX)
 ~/pod/lib/getcfg.sh "${ns}" >${envf}
 cat ${envf}
+
+# shellcheck disable=SC1090
 . ${envf}
+
 rm -f ${envf}
 envsubst <${pod}/deploy.yaml | uwskube apply -f -
 exit 0

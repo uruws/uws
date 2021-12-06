@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/events.sh web $@
+exec ~/pod/lib/events.sh web "$@"
