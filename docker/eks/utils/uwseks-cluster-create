@@ -23,6 +23,7 @@ def main():
 	parser.add_argument('--max-pods-per-node', help = 'max number of pods per node',
 		type = int, default = 0)
 	parser.add_argument('--instance-types', help = 'instance types', default = 't2.small')
+	parser.add_argument('--k8s-version', help = 'kubernetes version', default = '1.19')
 	parser.add_argument('--fargate', help = 'setup fargate nodes', action = 'store_true')
 	parser.add_argument('-v', help = 'verbose level', default = '3')
 	parser.add_argument('name', help = 'cluster name')
@@ -43,7 +44,7 @@ def _createCluster(args):
 	if args.zones is not None:
 		cmd += ' --zones %s' % args.zones
 	cmd += ' --tags uwseks=%s' % args.name
-	cmd += ' --version 1.19'
+	cmd += ' --version %s' % args.k8s_version
 	if args.fargate:
 		cmd += ' --fargate'
 		if args.max_pods_per_node > 0:
