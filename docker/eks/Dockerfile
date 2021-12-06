@@ -17,7 +17,7 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-ENV EKS_VERSION 0.67.0
+ENV EKS_VERSION 0.76.0
 ENV EKS_URL https://github.com/weaveworks/eksctl/releases/download/v${EKS_VERSION}
 
 # https://github.com/weaveworks/eksctl/tags
@@ -29,7 +29,7 @@ RUN wget ${EKS_URL}/eksctl_Linux_amd64.tar.gz \
 	&& install -v -m 0755 /tmp/eksctl /usr/local/bin \
 	&& rm -vf eksctl_*.* /tmp/eksctl
 
-ENV HELM_VERSION 3.7.0
+ENV HELM_VERSION 3.7.1
 
 # https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 # https://github.com/helm/helm/tags
