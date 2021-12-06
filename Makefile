@@ -10,8 +10,10 @@ clean:
 
 .PHONY: distclean
 distclean: clean
-	@rm -rvf ./docker/golang/tmp
-	@rm -rvf ./docker/golang/build ./docker/uwsbot/build ./srv/munin-node/build
+	@rm -rvf ./docker/golang/build ./docker/golang/tmp
+	@rm -rvf ./docker/k8s/build
+	@rm -rvf ./docker/uwsbot/build
+	@rm -rvf ./srv/munin-node/build
 
 .PHONY: prune
 prune:
