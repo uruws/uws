@@ -2,8 +2,8 @@
 set -eu
 make clean
 make prune
-make bootstrap
-make eks
+nice ionice make bootstrap
+nice ionice make eks
 make prune
 make clean
 exit 0
