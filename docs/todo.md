@@ -1,6 +1,6 @@
 # TODO
 
-* nlpsvc new setup - `WIP`
+* nlpsvc new setup - `DONE!`
     * sentiment-roberta
     * topic-automl
 
@@ -9,6 +9,8 @@
 
 * check ev15min new tags on App repo - `WIP`
     * build and deploy to tapo.testing
+
+* uwscli app access by group
 
 * nginx secure headers
     * CSP
