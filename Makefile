@@ -247,6 +247,8 @@ check-munin:
 check-k8s:
 	@echo '*** k8s/test/run/shellcheck.sh'
 	@./docker/k8s/devel.sh ./k8s/test/run/shellcheck.sh
+	@echo '*** k8s/test/run/coverage.sh'
+	@./docker/k8s/devel.sh ./k8s/test/run/coverage.sh
 
 #
 # uws CA

@@ -50,7 +50,7 @@ def main():
 		cmd += " -l %s" % args.label
 	return system(cmd) >> 8
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma no cover
 	sys.stdout.reconfigure(line_buffering = False)
 	sys.stderr.reconfigure(line_buffering = False)
 	sys.exit(main())

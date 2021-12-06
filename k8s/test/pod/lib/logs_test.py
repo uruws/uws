@@ -5,6 +5,8 @@
 
 import unittest
 
+import logs
+
 class Test(unittest.TestCase):
 
 	def test_globals(t):
