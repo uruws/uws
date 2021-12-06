@@ -15,8 +15,8 @@ import mon_metrics as metrics
 
 # load env
 
-__nginx_metrics = 'http://metrics.ingress-nginx.svc.cluster.local:10254/metrics'
-METRICS_URL = os.getenv('NGINX_METRICS_URL', __nginx_metrics)
+_nginx_metrics = 'http://metrics.ingress-nginx.svc.cluster.local:10254/metrics'
+METRICS_URL = os.getenv('NGINX_METRICS_URL', _nginx_metrics)
 
 # load modules
 
@@ -30,7 +30,7 @@ import web_sent
 import web_latency
 import web_ssl
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma no cover
 	mods = dict(
 		nginx_conn = nginx_conn,
 		nginx_proc = nginx_proc,

@@ -13,7 +13,7 @@ import mon_kube as kube
 
 import nodes_info
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma no cover
 	mods = dict(
 		nodes_info = nodes_info,
 	)

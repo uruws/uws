@@ -12,6 +12,6 @@ sys.path.insert(0, MONLIB)
 import mon_kube as kube
 import deploy
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma no cover
 	mods = dict(deploy = deploy)
 	sys.exit(kube.main("deployments", mods))
