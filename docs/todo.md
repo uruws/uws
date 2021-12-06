@@ -18,7 +18,7 @@
 * check ev15min new tags on App repo - `WIP`
     * build and deploy to tapo.testing
 
-* k8s and eks CI checks - `WIP`
+* k8s and eks CI checks - `DONE!`
 
 * uwscli app access by group
 
