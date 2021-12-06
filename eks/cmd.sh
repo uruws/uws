@@ -2,4 +2,4 @@
 set -eu
 cluster=${1:?'cluster?'}
 shift
-exec ./docker/eks/admin.sh ${cluster} --client $@
+exec ./docker/eks/admin.sh ${cluster} --client "$@"

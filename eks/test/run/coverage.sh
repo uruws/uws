@@ -1,0 +1,24 @@
+#!/bin/sh
+set -eu
+
+rm -f .coverage
+
+testfn=${1:-''}
+if test "X${testfn}" != 'X'; then
+	shift
+	python3-coverage run ${testfn} "$@"
+else
+	find eks/test/ -type f -name '*_test.py' | while read t
+	do
+		echo "*** ${t}"
+		python3-coverage run --append ${t} "$@"
+	done
+fi
+
+covd=${HOME}/tmp/htmlcov
+rm -rf ${covd}
+
+python3-coverage report
+python3-coverage html -d ${covd}
+
+exit 0

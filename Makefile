@@ -228,7 +228,7 @@ deploy:
 #
 
 .PHONY: check
-check: check-cli check-munin check-k8s
+check: check-cli check-munin check-k8s check-eks
 
 .PHONY: check-cli
 check-cli:
@@ -249,6 +249,11 @@ check-k8s:
 	@./docker/k8s/devel.sh ./k8s/test/run/shellcheck.sh
 	@echo '*** k8s/test/run/coverage.sh'
 	@./docker/k8s/devel.sh ./k8s/test/run/coverage.sh
+
+.PHONY: check-eks
+check-eks:
+	@echo '*** eks/test/run/shellcheck.sh'
+	@./docker/eks/devel.sh ./eks/test/run/shellcheck.sh
 
 #
 # uws CA
