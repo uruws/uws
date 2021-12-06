@@ -13,6 +13,7 @@ distclean: clean
 	@rm -rvf ./docker/golang/build ./docker/golang/tmp
 	@rm -rvf ./docker/k8s/build
 	@rm -rvf ./docker/uwsbot/build
+	@rm -rvf ./eks/lib/__pycache__
 	@rm -rvf ./srv/munin-node/build
 
 .PHONY: prune
@@ -254,6 +255,8 @@ check-k8s:
 check-eks:
 	@echo '*** eks/test/run/shellcheck.sh'
 	@./docker/eks/devel.sh ./eks/test/run/shellcheck.sh
+	@echo '*** eks/test/run/coverage.sh'
+	@./docker/eks/devel.sh ./eks/test/run/coverage.sh
 
 #
 # uws CA

@@ -3,8 +3,14 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import sys
-import cluster_create
+import unittest
+
+import cluster_delete
+
+class Test(unittest.TestCase):
+
+	def test_globals(t):
+		pass
 
 if __name__ == '__main__':
-	sys.exit(cluster_create.main(sys.argv[1:]))
+	unittest.main()

@@ -14,6 +14,7 @@ awsdir=${PWD}/secret/eks/aws/admin/${uws_cluster}
 secret=${PWD}/secret/eks/files
 cadir=${PWD}/secret/ca
 utils=${PWD}/docker/eks/utils
+ekslib=${PWD}/eks/lib
 k8s=${PWD}/k8s
 pod=${PWD}/pod
 eksenv=${PWD}/eks/env/${uws_cluster}.env
@@ -51,6 +52,8 @@ if ! test -s "${secret}/ssh/${UWS_CLUSTER}/node.pub"; then
 	exit 4
 fi
 
+install -v -d -m 0750 ${ekslib}/__pycache__
+
 exec docker run -it --rm \
 	--hostname ${hostname} -u uws \
 	-p 127.0.0.1:0:3000 \
@@ -58,7 +61,10 @@ exec docker run -it --rm \
 	-p 127.0.0.1:0:9090 \
 	-p 127.0.0.1:0:9091 \
 	-p 127.0.0.1:0:9093 \
+	-e PYTHONPATH=/home/uws/lib \
 	-v ${utils}:/home/uws/bin:ro \
+	-v ${ekslib}:/home/uws/lib:ro \
+	-v ${ekslib}/__pycache__:/home/uws/lib/__pycache__:rw \
 	-v ${k8s}:/home/uws/k8s:ro \
 	-v ${pod}:/home/uws/pod:ro \
 	-v ${cluster}:/home/uws/cluster:ro \

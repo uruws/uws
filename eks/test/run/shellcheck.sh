@@ -6,6 +6,7 @@ find ${HOME}/bin ${HOME}/cluster ${HOME}/eks \
 	grep -vF '.yaml' |
 	grep -vF '.md' |
 	grep -vF '.env' |
+	grep -vF 'eks/lib' |
 	grep -vF 'secret/ssh' |
 	xargs -- \
 	shellcheck --check-sourced --color=auto --norc --severity=warning \
