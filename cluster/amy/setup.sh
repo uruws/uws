@@ -1,5 +1,4 @@
 #!/bin/sh
 set -eu
-~/k8s/gateway/setup.sh
-~/k8s/mon/setup.sh
+uwseks-cluster-setup
 exit 0
