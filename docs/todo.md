@@ -4,6 +4,12 @@
     * sentiment-roberta
     * topic-automl
 
+* k8s and eks utils [upgrade][upgrades] - `DONE!`
+    * k8s `2109-2`
+    * eks `2109-1`
+
+[upgrades]: https://github.com/TalkingPts/Infrastructure/blob/master/docs/infra/upgrades.md
+
 * setup tapo.testing cluster
     * as similar as possible to the prod setup
 
