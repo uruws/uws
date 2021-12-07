@@ -53,6 +53,13 @@ class Test(unittest.TestCase):
 
 	# utils
 
+	def test_cleanfn(t):
+		t.assertEqual(mon.cleanfn('testing'), 'testing')
+		t.assertEqual(mon.cleanfn('test.ing'), 'test_ing')
+		t.assertEqual(mon.cleanfn('_test.ing'), '_test_ing')
+		t.assertEqual(mon.cleanfn('_test.in g'), '_test_in_g')
+		t.assertEqual(mon.cleanfn('_te/st.in g'), '_te_st_in_g')
+
 	def test_cluster(t):
 		t.assertIsNone(mon.cluster())
 
