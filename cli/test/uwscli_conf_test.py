@@ -20,8 +20,21 @@ class Test(unittest.TestCase):
 		t.assertIsInstance(uwscli_conf.cluster, dict)
 
 	def test_prod_settings(t):
+		# cluster
+		t.assertListEqual(sorted(uwscli.cluster.keys()), [
+			'amy-east',
+			'amy-test-1',
+			'amy-test-2',
+			'amy-west',
+			'amy-wrkr',
+			'amybeta',
+			'panoramix',
+		])
+		# app
 		app_list = [
 			'app-east',
+			'app-test-1',
+			'app-test-2',
 			'app-west',
 			'beta',
 			'cs',

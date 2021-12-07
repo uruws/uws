@@ -71,6 +71,18 @@ app = {
 		pod = 'meteor/worker',
 		deploy = AppDeploy('meteor-app'),
 	),
+	'app-test-1': App(True,
+		cluster = 'amy-test-1',
+		desc = 'App web, test cluster (east)',
+		pod = 'meteor/web',
+		deploy = AppDeploy('meteor-app'),
+	),
+	'app-test-2': App(True,
+		cluster = 'amy-test-2',
+		desc = 'App web, test cluster (west)',
+		pod = 'meteor/web',
+		deploy = AppDeploy('meteor-app'),
+	),
 	'beta': App(True,
 		cluster = 'amybeta',
 		desc = 'App beta',
@@ -115,6 +127,12 @@ cluster = {
 	},
 	'amybeta': {
 		'region': 'us-east-2',
+	},
+	'amy-test-1': {
+		'region': 'us-east-2',
+	},
+	'amy-test-2': {
+		'region': 'us-west-2',
 	},
 	'panoramix': {
 		'region': 'us-east-1',
