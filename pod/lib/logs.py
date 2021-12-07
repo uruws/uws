@@ -8,6 +8,9 @@ import sys
 from argparse import ArgumentParser
 from os import system
 
+def _system(cmd):
+	return system(cmd) >> 8
+
 def main(argv = []):
 	flags = ArgumentParser(description = 'get pod logs')
 	flags.add_argument('-n', '--namespace', metavar = 'ns', required = True,
@@ -38,7 +41,7 @@ def main(argv = []):
 	# pod logs
 	if args.pod != '':
 		cmd += " %s" % args.pod
-		return system(cmd) >> 8
+		return _system(cmd)
 
 	# all logs
 	cmd += ' --prefix=true --ignore-errors'
@@ -48,7 +51,7 @@ def main(argv = []):
 		cmd += " -l '*'"
 	else:
 		cmd += " -l %s" % args.label
-	return system(cmd) >> 8
+	return _system(cmd)
 
 if __name__ == '__main__': # pragma no cover
 	sys.stdout.reconfigure(line_buffering = False)
