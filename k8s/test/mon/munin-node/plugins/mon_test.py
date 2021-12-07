@@ -14,6 +14,7 @@ class Test(unittest.TestCase):
 
 	def setUp(t):
 		mon._print = MagicMock()
+		mon._cluster = 'k8stest'
 
 	def tearDown(t):
 		mon._print = None
@@ -70,13 +71,13 @@ class Test(unittest.TestCase):
 		t.assertEqual(mon.derive(1.9991), 2000)
 
 	def test_cluster(t):
-		t.assertIsNone(mon.cluster())
+		t.assertEqual(mon.cluster(), 'k8stest')
 		try:
-			mon._cluster = 'testing'
-			t.assertEqual(mon.cluster(), 'testing')
-		finally:
 			mon._cluster = None
-		t.assertIsNone(mon.cluster())
+			t.assertIsNone(mon.cluster())
+		finally:
+			mon._cluster = 'k8stest'
+		t.assertEqual(mon.cluster(), 'k8stest')
 
 if __name__ == '__main__':
 	unittest.main()
