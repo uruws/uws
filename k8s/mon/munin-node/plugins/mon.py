@@ -11,17 +11,20 @@ from time import time
 
 # logger
 
-__debug = os.getenv('UWS_DEBUG', None)
+_debug = os.getenv('UWS_DEBUG', None) is not None
 
 def debug():
-	return __debug
+	return _debug
+
+def _print(*args, end = os.linesep):
+	print(*args, end = end, file = sys.stderr)
 
 def log(*args):
-	print(*args, file = sys.stderr)
+	_print(*args)
 
 def dbg(*args):
-	if __debug:
-		print('DEBUG: ', end = '', file = sys.stderr)
+	if _debug:
+		_print('DEBUG: ', end = '')
 		log(*args)
 
 # utils
