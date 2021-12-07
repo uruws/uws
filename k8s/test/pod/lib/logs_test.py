@@ -21,6 +21,9 @@ class Test(unittest.TestCase):
 		logs._system = None
 		logs._system = _bup_system
 
+	def test_system(t):
+		t.assertEqual(_bup_system('exit 0'), 0)
+
 	def test_main(t):
 		t.assertEqual(logs.main(_argv), 0)
 		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors -l '*'")
