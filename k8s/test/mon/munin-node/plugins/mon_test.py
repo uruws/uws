@@ -60,6 +60,15 @@ class Test(unittest.TestCase):
 		t.assertEqual(mon.cleanfn('_test.in g'), '_test_in_g')
 		t.assertEqual(mon.cleanfn('_te/st.in g'), '_te_st_in_g')
 
+	def test_derive(t):
+		t.assertEqual(mon.derive(0.0009), 1)
+		t.assertEqual(mon.derive(0.009), 9)
+		t.assertEqual(mon.derive(0.001), 1)
+		t.assertEqual(mon.derive(1), 1000)
+		t.assertEqual(mon.derive(1.3), 1300)
+		t.assertEqual(mon.derive(1.7), 1700)
+		t.assertEqual(mon.derive(1.9991), 2000)
+
 	def test_cluster(t):
 		t.assertIsNone(mon.cluster())
 
