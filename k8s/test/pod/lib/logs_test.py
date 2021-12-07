@@ -32,5 +32,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(err.args[0], 2)
 		logs.system.assert_not_called()
 
+	def test_main_follow(t):
+		t.assertEqual(logs.main(['-n', 'ns', '-f']), 0)
+		logs.system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 -f --prefix=true --ignore-errors -l '*'")
+
 if __name__ == '__main__':
 	unittest.main()
