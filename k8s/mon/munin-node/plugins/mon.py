@@ -59,7 +59,7 @@ def generateName(pod):
 			n = gn.replace(f"-{ph}-", "", 1)
 		else:
 			n = gn
-	if n.endswith('-'):
+	if n is not None and n.endswith('-'):
 		n = n[:-1]
 	return n
 

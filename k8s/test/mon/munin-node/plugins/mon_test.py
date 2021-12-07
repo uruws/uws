@@ -83,5 +83,32 @@ class Test(unittest.TestCase):
 		t.assertEqual(mon.color(0), 1)
 		t.assertEqual(mon.color(28), 0)
 
+	def test_generateName(t):
+		_pod = {
+			'metadata': {},
+		}
+		t.assertIsNone(mon.generateName(_pod))
+		_pod = {
+			'metadata': {
+				'generateName': 'testing',
+			},
+		}
+		t.assertEqual(mon.generateName(_pod), 'testing')
+		_pod = {
+			'metadata': {
+				'generateName': 'testing-',
+			},
+		}
+		t.assertEqual(mon.generateName(_pod), 'testing')
+		_pod = {
+			'metadata': {
+				'generateName': 'testing-abc123-',
+				'labels': {
+					'pod-template-hash': 'abc123',
+				},
+			},
+		}
+		t.assertEqual(mon.generateName(_pod), 'testing')
+
 if __name__ == '__main__':
 	unittest.main()
