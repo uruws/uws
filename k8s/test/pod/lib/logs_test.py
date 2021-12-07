@@ -51,5 +51,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(logs.main(['-n', 'ns', '-m', '1']), 0)
 		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors --max-log-requests=1 -l '*'")
 
+	def test_main_label(t):
+		t.assertEqual(logs.main(['-n', 'ns', '-l', 'testing']), 0)
+		logs._system.assert_called_once_with('uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors -l testing')
+
 if __name__ == '__main__':
 	unittest.main()
