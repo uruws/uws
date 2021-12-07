@@ -108,10 +108,8 @@ class Test(unittest.TestCase):
 				with uwscli_t.mock_check_output(output = '0.999.0'):
 					with uwscli_t.mock_system():
 						t.assertEqual(app_autobuild.main(['testing']), 0)
-						calls = [
-							call('git fetch --prune --prune-tags --tags'),
-						]
-						uwscli.system.assert_has_calls(calls)
+						cmd = '/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .'
+						uwscli.system.assert_called_once_with(cmd, timeout = 600)
 
 	def test_main_deploy(t):
 		with uwscli_t.mock_system():

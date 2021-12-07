@@ -93,7 +93,7 @@ def _build(app):
 	build = uwscli.app[app].build
 	try:
 		with uwscli.chdir(build.dir):
-			rc = uwscli.git_fetch(workdir = build.src)
+			rc = uwscli.run('app-fetch.sh', build.src)
 			if rc != 0:
 				return rc
 			try:
