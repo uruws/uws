@@ -8,7 +8,7 @@ import sys
 from argparse import ArgumentParser
 from os import system
 
-def main():
+def main(argv = []):
 	flags = ArgumentParser(description = 'get pod logs')
 	flags.add_argument('-n', '--namespace', metavar = 'ns', required = True,
 		help = 'pod namespace')
@@ -25,7 +25,7 @@ def main():
 	flags.add_argument('pod', metavar = 'name', nargs = '?',
 		default = '', help = 'pod name')
 
-	args = flags.parse_args()
+	args = flags.parse_args(argv)
 
 	cmd = "uwskube logs"
 	if not args.no_timestamps:
@@ -53,4 +53,4 @@ def main():
 if __name__ == '__main__': # pragma no cover
 	sys.stdout.reconfigure(line_buffering = False)
 	sys.stderr.reconfigure(line_buffering = False)
-	sys.exit(main())
+	sys.exit(main(sys.argv[1:]))
