@@ -47,5 +47,9 @@ class Test(unittest.TestCase):
 		logs._system = MagicMock(return_value = 99)
 		t.assertEqual(logs.main(['-n', 'ns', 'pod/testing']), 99)
 
+	def test_main_max(t):
+		t.assertEqual(logs.main(['-n', 'ns', '-m', '1']), 0)
+		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors --max-log-requests=1 -l '*'")
+
 if __name__ == '__main__':
 	unittest.main()
