@@ -1,18 +1,23 @@
 PATH=/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin
-MAILTO=root
+MAILTO=munin-alert
 USER=uwscli
+UWSCLI_LOG=off
 
 # m h  dom mon dow   command
 
 # autobuild
-###*/15 * * * * app-autobuild app
+*/15 * * * * app-autobuild app
 
 # scale down
 13 3 * * 2-6 app-scale worker 40
 23 3 * * 2-6 app-scale app-east 50
 33 3 * * 2-6 app-scale app-west 50
+43 3 * * 2-6 app-scale app-test-1 30
+53 3 * * 2-6 app-scale app-test-2 30
 
 # scale up
 3 10 * * 1-5 app-scale worker 75
 3 10 * * 1-5 app-scale app-east 100
 8 10 * * 1-5 app-scale app-west 100
+13 10 * * 1-5 app-scale app-test-1 60
+13 10 * * 1-5 app-scale app-test-2 60
