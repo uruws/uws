@@ -82,15 +82,10 @@ class Test(unittest.TestCase):
 
 	def test_main_errors(t):
 		# setup
-		with uwscli_t.mock_mkdir(fail = True):
-			t.assertEqual(app_autobuild.main(['testing']), app_autobuild.ESETUP)
-		t.setUp()
-		# disabled
 		with mock():
-			uwscli.app['testing'].autobuild = False
-			t.assertEqual(app_autobuild.main(['testing']), app_autobuild.EDISABLED)
-			t.assertEqual(uwscli_t.err().strip(),
-				'[ERROR] testing: autobuild is disabled')
+			with uwscli_t.mock_mkdir(fail = True):
+				t.assertEqual(app_autobuild.main(['testing']), app_autobuild.ESETUP)
+		t.setUp()
 		# chdir
 		with uwscli_t.mock_mkdir():
 			uwscli.app['testing'].autobuild = True

@@ -14,12 +14,11 @@ _status_dir = getenv('UWSCLI_BUILD_STATUS_DIR', '/run/uwscli/build')
 _nqdir = getenv('UWSCLI_NQDIR', '/run/uwscli/nq')
 
 ESETUP     = 10
-EDISABLED  = 11
-ETAG       = 12
-EBUILD_RUN = 13
-EDEPLOY_NQ = 14
-EBUILD     = 15
-EDEPLOY    = 16
+ETAG       = 11
+EBUILD_RUN = 12
+EDEPLOY_NQ = 13
+EBUILD     = 14
+EDEPLOY    = 15
 
 def _setup():
 	try:
@@ -127,7 +126,7 @@ def _deploy(app, tag):
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
-		description = __doc__, epilog = uwscli.build_description())
+		description = __doc__, epilog = uwscli.autobuild_description())
 
 	deploy_tag = False
 	if '--deploy' in argv:
@@ -135,17 +134,13 @@ def main(argv = []):
 			help = 'app deploy stage')
 		deploy_tag = True
 
-	flags.add_argument('app', metavar = 'app', choices = uwscli.build_list(),
+	flags.add_argument('app', metavar = 'app', choices = uwscli.autobuild_list(),
 		default = 'app', help = 'app name')
 
 	args = flags.parse_args(argv)
 
 	if not _setup():
 		return ESETUP
-
-	if not uwscli.autobuild_enabled(args.app):
-		uwscli.error(f"[ERROR] {args.app}: autobuild is disabled")
-		return EDISABLED
 
 	if deploy_tag:
 		return _deploy(args.app, args.deploy)

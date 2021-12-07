@@ -30,7 +30,7 @@ class Test(unittest.TestCase):
 			'amybeta',
 			'panoramix',
 		])
-		# app
+		# app list
 		app_list = [
 			'app-east',
 			'app-test-1',
@@ -42,16 +42,20 @@ class Test(unittest.TestCase):
 			'nlp-topic-automl',
 			'worker',
 		]
-		# deploy list
+		# deploy
 		t.assertListEqual(uwscli.deploy_list(), app_list)
-		# app list
+		# app
 		t.assertListEqual(uwscli.app_list(), app_list)
-		# build list
+		# build
 		t.assertListEqual(uwscli.build_list(), [
 			'app',
 			'beta',
 			'cs',
 			'nlpsvc',
+		])
+		# autobuild
+		t.assertListEqual(uwscli.autobuild_list(), [
+			'app',
 		])
 
 if __name__ == '__main__':
