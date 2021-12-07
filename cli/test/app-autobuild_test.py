@@ -47,6 +47,18 @@ def mock_status(app = 'testing', st = 'FAIL', ver = '0.999.0', fail = False):
 			app_autobuild._getStatus = gs_bup
 		f.unlink()
 
+@contextmanager
+def mock_deploy(build = '0.999.0', status = 0):
+	lb_bup = app_autobuild._latestBuild
+	try:
+		app_autobuild._latestBuild = MagicMock(return_value = build)
+		uwscli.app['testing'].autobuild_deploy = ['test-1']
+		with uwscli_t.mock_system(status = status):
+			yield
+	finally:
+		app_autobuild._latestBuild = lb_bup
+		uwscli.app['testing'].autobuild_deploy = []
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -194,6 +206,16 @@ class Test(unittest.TestCase):
 				with uwscli_t.mock_list_images(['0.999.0']):
 					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'),
 						app_autobuild.EDEPLOY)
+
+	def test_deploy_buildpack(t):
+		with mock_deploy():
+			t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
+			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy test-1 0.999.0')
+			app_autobuild._latestBuild.assert_called_once_with('testing')
+		with mock_deploy(build = '0.999.0-bp999'):
+			t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
+			app_autobuild._latestBuild.assert_called_once_with('testing')
+			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy test-1 0.999.0-bp999')
 
 if __name__ == '__main__':
 	unittest.main()

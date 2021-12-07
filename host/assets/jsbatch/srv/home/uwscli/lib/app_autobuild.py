@@ -115,7 +115,7 @@ def _latestBuild(app):
 def _deploy(app, tag):
 	ver = _latestBuild(app)
 	t = semver.VersionInfo.parse(tag)
-	v = semver.VersionInfo.parse(ver)
+	v = semver.VersionInfo.parse(ver.split('-')[0])
 	if v >= t:
 		for n in uwscli.autobuild_deploy(app):
 			uwscli.log(app, 'autobuild deploy:', n, ver)
