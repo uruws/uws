@@ -21,12 +21,14 @@ def mock():
 	try:
 		app_autobuild.sleep = MagicMock()
 		uwscli.app['testing'].autobuild = True
+		uwscli.app['testing'].autobuild_deploy = ['test-1']
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_mkdir():
 				yield
 	finally:
 		app_autobuild.sleep = sleep_bup
 		uwscli.app['testing'].autobuild = False
+		uwscli.app['testing'].autobuild_deploy = []
 
 @contextmanager
 def mock_status(app = 'testing', st = 'FAIL', ver = '0.999.0', fail = False):
@@ -176,20 +178,22 @@ class Test(unittest.TestCase):
 			t.assertEqual(app_autobuild._latestBuild('testing'), '0.999.0')
 
 	def test_deploy(t):
-		with uwscli_t.mock_system():
-			with uwscli_t.mock_list_images(['0.999.0']):
-				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
-			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy testing 0.999.0')
+		with mock():
+			with uwscli_t.mock_system():
+				with uwscli_t.mock_list_images(['0.999.0']):
+					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
+				uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy test-1 0.999.0')
 		with uwscli_t.mock_system():
 			with uwscli_t.mock_list_images(['0.999.0']):
 				t.assertEqual(app_autobuild._deploy('testing', '1.999.0'), 0)
 			uwscli.system.assert_not_called()
 
 	def test_deploy_error(t):
-		with uwscli_t.mock_system(status = 99):
-			with uwscli_t.mock_list_images(['0.999.0']):
-				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'),
-					app_autobuild.EDEPLOY)
+		with mock():
+			with uwscli_t.mock_system(status = 99):
+				with uwscli_t.mock_list_images(['0.999.0']):
+					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'),
+						app_autobuild.EDEPLOY)
 
 if __name__ == '__main__':
 	unittest.main()

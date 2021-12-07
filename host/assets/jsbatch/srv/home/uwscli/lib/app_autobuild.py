@@ -117,10 +117,12 @@ def _deploy(app, tag):
 	t = semver.VersionInfo.parse(tag)
 	v = semver.VersionInfo.parse(ver)
 	if v >= t:
-		cmd = f"/srv/home/uwscli/bin/app-deploy {app} {ver}"
-		rc = uwscli.system(cmd)
-		if rc != 0:
-			return EDEPLOY
+		for n in uwscli.autobuild_deploy(app):
+			uwscli.log(app, 'autobuild deploy:', n, ver)
+			cmd = f"/srv/home/uwscli/bin/app-deploy {n} {ver}"
+			rc = uwscli.system(cmd)
+			if rc != 0:
+				return EDEPLOY
 	return 0
 
 def main(argv = []):
