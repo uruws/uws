@@ -79,5 +79,9 @@ class Test(unittest.TestCase):
 			mon._cluster = 'k8stest'
 		t.assertEqual(mon.cluster(), 'k8stest')
 
+	def test_color(t):
+		t.assertEqual(mon.color(0), 1)
+		t.assertEqual(mon.color(28), 0)
+
 if __name__ == '__main__':
 	unittest.main()
