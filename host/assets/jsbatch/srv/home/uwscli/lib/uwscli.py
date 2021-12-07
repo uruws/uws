@@ -136,6 +136,10 @@ def autobuild_enabled(n):
 	"""check if app autobuild is enabled"""
 	return app[n].autobuild is True
 
+def autobuild_deploy(n):
+	"""get list of apps to deploy from an autobuild"""
+	return app[n].autobuild_deploy[:]
+
 def build_list():
 	"""return list of apps configured for build"""
 	return sorted([n for n in app.keys() if app[n].build is not None])

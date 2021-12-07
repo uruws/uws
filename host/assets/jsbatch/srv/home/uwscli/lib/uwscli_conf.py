@@ -12,7 +12,7 @@ docker_storage = '/srv/docker/lib'
 docker_storage_min = 10*1024*1024 # 10G
 
 class App(object):
-	def __init__(self, app, cluster = None, desc = None, pod = None, build = None, deploy = None, autobuild = False):
+	def __init__(self, app, cluster = None, desc = None, pod = None, build = None, deploy = None, autobuild = False, autobuild_deploy = []):
 		self.app = app
 		self.cluster = cluster
 		self.desc = desc
@@ -20,6 +20,7 @@ class App(object):
 		self.build = build
 		self.deploy = deploy
 		self.autobuild = autobuild
+		self.autobuild_deploy = autobuild_deploy
 
 class AppBuild(object):
 	def __init__(self, dir, script, type = 'cli', src = '.', target = None):
@@ -49,6 +50,8 @@ app = {
 	'app': App(False,
 		desc = 'App web and workers',
 		build = _buildpack('app/src', 'app'),
+		autobuild = True,
+		autobuild_deploy = ['app-test-1', 'app-test-2'],
 	),
 	'app-east': App(True,
 		cluster = 'amy-east',

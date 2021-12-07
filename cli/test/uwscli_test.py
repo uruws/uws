@@ -168,6 +168,15 @@ class Test(unittest.TestCase):
 		uwscli.app['testing'].autobuild = True
 		t.assertTrue(uwscli.autobuild_enabled('testing'))
 
+	def test_app_autobuild_deploy(t):
+		t.assertListEqual(uwscli.app['testing'].autobuild_deploy, [])
+		t.assertListEqual(uwscli.autobuild_deploy('testing'), [])
+		uwscli.app['testing'].autobuild_deploy = ['test-1', 'test-2']
+		t.assertListEqual(uwscli.app['testing'].autobuild_deploy,
+			['test-1', 'test-2'])
+		t.assertListEqual(uwscli.autobuild_deploy('testing'),
+			['test-1', 'test-2'])
+
 	def test_build_list(t):
 		t.assertEqual(uwscli.build_list(), ['testing'])
 
