@@ -71,6 +71,12 @@ class Test(unittest.TestCase):
 
 	def test_cluster(t):
 		t.assertIsNone(mon.cluster())
+		try:
+			mon._cluster = 'testing'
+			t.assertEqual(mon.cluster(), 'testing')
+		finally:
+			mon._cluster = None
+		t.assertIsNone(mon.cluster())
 
 if __name__ == '__main__':
 	unittest.main()

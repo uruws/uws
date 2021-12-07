@@ -37,10 +37,10 @@ def cleanfn(n):
 def derive(f):
 	return math.ceil(f*1000)
 
-__cluster = os.getenv('UWS_CLUSTER', None)
+_cluster = os.getenv('UWS_CLUSTER', None)
 
 def cluster():
-	return __cluster
+	return _cluster
 
 def color(n):
 	c = n + 1
