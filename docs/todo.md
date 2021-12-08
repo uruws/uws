@@ -16,9 +16,11 @@
     * [app-test-2](https://amy-test-2.uws.talkingpts.org/munin/)
 
 * check ev15min new tags on App repo - `DONE!`
-    * build and deploy to tapo.testing
+    * autobuild and deploy to apptest
 
 * k8s and eks CI checks - `DONE!`
+    * [k8s](https://ops.uws.talkingpts.org/htmlcov/k8s/)
+    * [eks](https://ops.uws.talkingpts.org/htmlcov/eks/)
 
 * 211207 aws outage (~8hs of issues) - `REPORT`
     * there was a major outage of the whole us-east-1 region and its services
