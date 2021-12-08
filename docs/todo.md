@@ -10,15 +10,25 @@
 
 [upgrades]: https://github.com/TalkingPts/Infrastructure/blob/master/docs/infra/upgrades.md
 
-* setup tapo.testing cluster - `WIP`
+* setup tapo.testing cluster - `DONE!`
     * as similar as possible to the prod setup
     * [app-test-1](https://amy-test-1.uws.talkingpts.org/munin/)
     * [app-test-2](https://amy-test-2.uws.talkingpts.org/munin/)
 
-* check ev15min new tags on App repo - `WIP`
+* check ev15min new tags on App repo - `DONE!`
     * build and deploy to tapo.testing
 
 * k8s and eks CI checks - `DONE!`
+
+* 211207 aws outage (~8hs of issues) - `REPORT`
+    * there was a major outage of the whole us-east-1 region and its services
+    * [status.aws](https://status.aws.amazon.com/)
+    * [HN thread](https://news.ycombinator.com/item?id=29473630)
+    * we got lucky, but also our independent and distributed setup helped
+    * the aws console web access was down but we don't need such access for daily operations
+    * we were able to do a prod deploy during the outage (2.58.7)
+    * later the build of 2.58.8 was affected by the outage as the built docker image couldn't be pushed to the ECR
+    * we launched the build of 2.58.8 a second time and it worked, so we could even do a 2nd deploy during the outage
 
 * uwscli app access by group
 
