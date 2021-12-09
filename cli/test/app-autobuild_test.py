@@ -168,6 +168,17 @@ class Test(unittest.TestCase):
 				t.assertEqual(app_autobuild._dispatch('testing', '0.999.0'),
 					app_autobuild.EDEPLOY_NQ)
 
+	def test_dispatch_nq_error(t):
+		def __fail(cmd, env = {}):
+			if cmd.startswith('/usr/bin/nq'):
+				raise PermissionError('mock_error')
+			return 0
+		with mock():
+			with uwscli_t.mock_system():
+				uwscli.system.side_effect = __fail
+				t.assertEqual(app_autobuild._dispatch('testing', '0.999.0'),
+					app_autobuild.EDEPLOY_NQ)
+
 	def test_build(t):
 		with mock():
 			with uwscli_t.mock_system():

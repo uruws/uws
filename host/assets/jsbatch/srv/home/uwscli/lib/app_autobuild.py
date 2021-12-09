@@ -84,8 +84,12 @@ def _dispatch(app, tag):
 		'--deploy',
 		tag,
 	]
-	rc = uwscli.system(' '.join(x), env = {'NQDIR': _nqdir})
-	if rc != 0:
+	try:
+		rc = uwscli.system(' '.join(x), env = {'NQDIR': _nqdir})
+		if rc != 0:
+			return EDEPLOY_NQ
+	except Exception as err:
+		uwscli.error('[ERROR]:', err)
 		return EDEPLOY_NQ
 	return 0
 
