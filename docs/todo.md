@@ -35,6 +35,8 @@
 
 * uwscli app access by group
 
+* non-prod sites robots.txt to disallow all crawlers?
+
 * nginx secure headers
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
