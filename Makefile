@@ -233,36 +233,37 @@ check: check-cli check-munin check-k8s check-eks check-asb
 
 .PHONY: check-cli
 check-cli:
-	@echo '*** cli/test/run/shellcheck.sh'
+	@echo '***** cli/test/run/shellcheck.sh'
 	@./docker/uwscli/cmd.sh ./test/run/shellcheck.sh
-	@echo '*** cli/test/run/vendor.sh'
+	@echo '***** cli/test/run/vendor.sh'
 	@./docker/uwscli/cmd.sh ./test/run/vendor.sh
-	@echo '*** cli/test/run/coverage.sh'
+	@echo '***** cli/test/run/coverage.sh'
 	@./docker/uwscli/cmd.sh ./test/run/coverage.sh
 
 .PHONY: check-munin
 check-munin:
+	@echo '***** srv/munin/check.sh'
 	@./srv/munin/check.sh
 
 .PHONY: check-k8s
 check-k8s:
-	@echo '*** k8s/test/run/shellcheck.sh'
+	@echo '***** k8s/test/run/shellcheck.sh'
 	@./docker/k8s/devel.sh ./k8s/test/run/shellcheck.sh
-	@echo '*** k8s/test/run/coverage.sh'
+	@echo '***** k8s/test/run/coverage.sh'
 	@./docker/k8s/devel.sh ./k8s/test/run/coverage.sh
 
 .PHONY: check-eks
 check-eks:
-	@echo '*** eks/test/run/shellcheck.sh'
+	@echo '***** eks/test/run/shellcheck.sh'
 	@./docker/eks/devel.sh ./eks/test/run/shellcheck.sh
-	@echo '*** eks/test/run/coverage.sh'
+	@echo '***** eks/test/run/coverage.sh'
 	@./docker/eks/devel.sh ./eks/test/run/coverage.sh
 
 .PHONY: check-asb
 check-asb:
-	@echo '*** asb/test/run/shellcheck.sh'
+	@echo '***** asb/test/run/shellcheck.sh'
 	@./docker/asb/check.sh ./test/run/shellcheck.sh
-	@echo '*** asb/test/run/lint.sh'
+	@echo '***** asb/test/run/lint.sh'
 	@./docker/asb/check.sh ./test/run/lint.sh
 
 #
