@@ -39,6 +39,8 @@
     * Kevin and Eric new users setup
 
 * ansible CI checks - `DONE!`
+    * shellcheck
+    * ansible-lint
 
 * cluster stats
     * pod_container
