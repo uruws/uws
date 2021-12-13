@@ -55,9 +55,9 @@
   copy:
     src: "{{ item }}"
     dest: "/usr/local/bin/{{ item }}"
-    owner: root
-    group: "{{ jupyter_notebook_user.name }}"
-    mode: '0750'
+    owner: "{{ jupyter_notebook_user.name }}"
+    group: root
+    mode: '0550'
   loop:
     - jnb-start.sh
     - jnb-stop.sh
