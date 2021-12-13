@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
+umask 0002
 if ! test -d ~/.local/share/jupyter/kernels/python3; then
 	ipython3 kernel install --user
 fi
