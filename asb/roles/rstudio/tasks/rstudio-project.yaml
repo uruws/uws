@@ -30,6 +30,16 @@
   tags:
     - rstudio-project
 
+- name: project admin users
+  become: yes
+  user:
+    name: "{{ item.0 }}"
+    append: yes
+    groups: "{{ item.1 }}"
+  loop: "{{ rstudio_user | list | product(rstudio_project | list) | list }}"
+  tags:
+    - rstudio-project
+
 - name: projects basedir
   become: yes
   file:
@@ -74,7 +84,7 @@
     comment: "{{ item }}"
     create_home: yes
     group: ruser
-    groups: "{{ rstudio_project_user[item].groups}}"
+    groups: "{{ rstudio_project_user[item].groups }}"
     home: "{{ uws_users_homedir }}/user/{{ item }}"
     shell: /bin/bash
     expires: "{{ rstudio_user_expire }}"
