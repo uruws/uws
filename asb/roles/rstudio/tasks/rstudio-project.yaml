@@ -10,6 +10,16 @@
   tags:
     - rstudio-project
 
+- name: project group
+  become: yes
+  group:
+    name: "{{ item }}"
+    state: present
+    gid: "{{ rstudio_project[item].gid }}"
+  loop: "{{ rstudio_project | list }}"
+  tags:
+    - rstudio-project
+
 #~ - name: user
   #~ become: yes
   #~ user:
