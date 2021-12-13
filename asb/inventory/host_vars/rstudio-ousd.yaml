@@ -7,12 +7,11 @@ rstudio_user:
   # Kevin Fosnacht <kevinf@talkingpts.org>
   kevin: 3003
 
-rstudio_project_user_gid: 4000
-
 rstudio_project_user:
   # Eric Chan <echan1@babson.edu>
-  echan:
-    uid: 4001
+  echan: 4001
+
+rstudio_project_user_gid: 4000
 
 rstudio_project:
   ousd:
