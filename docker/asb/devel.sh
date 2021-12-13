@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 
 run_args=${DOCKER_RUN_ARGS:-"-it"}
 
@@ -16,4 +16,4 @@ exec docker run ${run_args} --rm --name uws-ansible-devel \
 	--tmpfs /tmp:rw,mode=1777 \
 	--tmpfs /home/uws/.ansible/tmp:rw,mode=1777 \
 	--tmpfs /home/uws/.ansible/cp:rw,mode=1777 \
-	uws/ansible
+	uws/ansible:devel

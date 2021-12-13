@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh shellcheck
+RUN /root/bin/apt-install.sh less shellcheck
 
 USER uws:uws
 WORKDIR /home/uws
