@@ -37,6 +37,8 @@
     * OUSD project setup
     * Kevin and Eric new users setup
 
+* ansible CI checks - `WIP`
+
 * cluster stats
     * pod_container
         * restarted ratio
