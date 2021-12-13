@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/asb/run.sh $@ ./kali/deploy.yaml
+exec ~/asb/run.sh "$@" ./kali/deploy.yaml

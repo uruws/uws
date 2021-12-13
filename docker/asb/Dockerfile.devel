@@ -18,4 +18,5 @@ ENV USER uws
 ENV HOME /home/uws
 
 WORKDIR /home/uws/asb
-ENTRYPOINT /bin/bash -l
+ENTRYPOINT
+CMD /bin/bash -l

@@ -40,7 +40,7 @@ done
 
 rm -vf ec2*_facts*.txt
 
-for fn in $(ls *.txt); do
+for fn in *.txt; do
 	asbdoc=$(basename ${fn} .txt)
 	echo "*** ${fn}"
 	if ! test -s ${fn}; then
