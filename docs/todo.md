@@ -33,9 +33,25 @@
     * we launched the build of 2.58.8 a second time and it worked, so we could even do a 2nd deploy during the outage
     * based on munin graphs both clusters (east and west) worked at normal and equal levels of traffic, as usual (~3900 web requests per minute each cluster)
 
-* uwscli app access by group
+* rstudio - `WIP`
+    * OUSD project setup
+    * Kevin and Eric new users setup
 
-* non-prod sites robots.txt to disallow all crawlers?
+* cluster stats
+    * pod_container
+        * restarted ratio
+    * web_request.count
+        * count_per_minute
+        * count_errors_avg: errors average
+    * resources usage (mem, cpu)
+        * nodes
+        * pods
+    * k8s apiserver metrics
+        * uwskube get --raw /metrics
+
+* check clusters k8s mon and ctl internal services from jsbatch/ops.uws
+
+* uwscli app access by group
 
 * nginx secure headers
     * CSP
@@ -69,6 +85,8 @@
     * fail2ban
     * munin
 
+* non-prod sites robots.txt to disallow all crawlers?
+
 * WAF setup
     * implement fail2ban for kubernets/aws?
     * nginx modsecurity
@@ -90,16 +108,6 @@
 
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
-
-* cluster stats
-    * web_request.count
-        * count_per_minute
-        * count_errors_avg: errors average
-    * resources usage (mem, cpu)
-        * nodes
-        * pods
-    * k8s apiserver metrics
-        * uwskube get --raw /metrics
 
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
