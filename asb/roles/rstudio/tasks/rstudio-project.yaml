@@ -10,6 +10,16 @@
   tags:
     - rstudio-project
 
+- name: project admin users group
+  become: yes
+  user:
+    name: "{{ item }}"
+    append: yes
+    groups: ruser
+  loop: "{{ rstudio_user | list }}"
+  tags:
+    - rstudio-project
+
 - name: project group
   become: yes
   group:
