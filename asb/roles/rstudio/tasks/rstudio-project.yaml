@@ -35,16 +35,17 @@
   become: yes
   user:
     state: present
-    name: "{{ item.name }}"
-    uid: "{{ item.uid }}"
+    name: "{{ item }}"
+    uid: "{{ rstudio_project_user[item].uid }}"
     append: no
-    comment: "{{ item.name }}"
+    comment: "{{ item }}"
     create_home: yes
     group: ruser
-    home: "{{ uws_users_homedir }}/user/{{ item.name }}"
+    groups: "{{ rstudio_project_user[item].groups}}"
+    home: "{{ uws_users_homedir }}/user/{{ item }}"
     shell: /bin/bash
     expires: "{{ rstudio_user_expire }}"
-  loop: "{{ rstudio_project_user | dict2items(key_name='name', value_name='uid') }}"
+  loop: "{{ rstudio_project_user | list }}"
   tags:
     - rstudio-project
 
@@ -52,10 +53,10 @@
   become: yes
   file:
     state: directory
-    path: "{{ uws_users_homedir }}/user/{{ item.name }}"
-    owner: "{{ item.name }}"
+    path: "{{ uws_users_homedir }}/user/{{ item }}"
+    owner: "{{ item }}"
     group: ruser
     mode: '0750'
-  loop: "{{ rstudio_project_user | dict2items(key_name='name', value_name='uid') }}"
+  loop: "{{ rstudio_project_user | list }}"
   tags:
     - rstudio-project
