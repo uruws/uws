@@ -229,7 +229,7 @@ deploy:
 #
 
 .PHONY: check
-check: check-cli check-munin check-k8s check-eks
+check: check-cli check-munin check-k8s check-eks check-asb
 
 .PHONY: check-cli
 check-cli:
@@ -257,6 +257,11 @@ check-eks:
 	@./docker/eks/devel.sh ./eks/test/run/shellcheck.sh
 	@echo '*** eks/test/run/coverage.sh'
 	@./docker/eks/devel.sh ./eks/test/run/coverage.sh
+
+.PHONY: check-asb
+check-asb:
+	@echo '*** asb/test/run/shellcheck.sh'
+	@./docker/asb/check.sh ./test/run/shellcheck.sh
 
 #
 # uws CA

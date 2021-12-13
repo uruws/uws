@@ -34,10 +34,11 @@
     * based on munin graphs both clusters (east and west) worked at normal and equal levels of traffic, as usual (~3900 web requests per minute each cluster)
 
 * rstudio - `WIP`
-    * OUSD project setup
+    * projects setup
+        * OUSD project
     * Kevin and Eric new users setup
 
-* ansible CI checks - `WIP`
+* ansible CI checks - `DONE!`
 
 * cluster stats
     * pod_container
