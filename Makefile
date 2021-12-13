@@ -262,6 +262,8 @@ check-eks:
 check-asb:
 	@echo '*** asb/test/run/shellcheck.sh'
 	@./docker/asb/check.sh ./test/run/shellcheck.sh
+	@echo '*** asb/test/run/lint.sh'
+	@./docker/asb/check.sh ./test/run/lint.sh
 
 #
 # uws CA
