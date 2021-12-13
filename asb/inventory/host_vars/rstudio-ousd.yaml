@@ -1,6 +1,9 @@
 ---
+rstudio_gid: 3000
+
 # 1667012400: 2022/10/29
 rstudio_user_expire: 1667012400
+
 rstudio_user:
   jrms: 3001
   rina: 3002
