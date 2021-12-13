@@ -20,6 +20,29 @@
   tags:
     - rstudio-project
 
+- name: projects basedir
+  become: yes
+  file:
+    state: directory
+    path: "{{ uws_users_homedir }}/project"
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - rstudio-project
+
+- name: project dir
+  become: yes
+  file:
+    state: directory
+    path: "{{ uws_users_homedir }}/project/{{ item }}"
+    owner: root
+    group: "{{ item }}"
+    mode: '2770'
+  loop: "{{ rstudio_project | list }}"
+  tags:
+    - rstudio-project
+
 - name: project users base homedir
   become: yes
   file:
