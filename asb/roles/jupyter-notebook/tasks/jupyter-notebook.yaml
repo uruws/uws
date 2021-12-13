@@ -39,6 +39,18 @@
   tags:
     - jupyter-notebook
 
+- name: rstudio project groups
+  become: yes
+  user:
+    state: present
+    name: "{{ jupyter_notebook_user.name }}"
+    append: yes
+    groups: "{{ item }}"
+  loop: "{{ rstudio_project | list }}"
+  tags:
+    - jupyter-notebook
+    - rstudio-project
+
 - name: user home dir
   become: yes
   file:
