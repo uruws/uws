@@ -1,2 +1,3 @@
 ---
 - import_tasks: rstudio.yaml
+- import_tasks: rstudio-project.yaml
