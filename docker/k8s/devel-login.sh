@@ -12,4 +12,4 @@ exec docker run -it --rm --name k8s-devel-login \
 	-v ${k8s}:/home/uws/k8s:ro \
 	-v ${pod}:/home/uws/pod:ro \
 	-v ${PWD}/tmp/k8s:/home/uws/tmp \
-	uws/k8s:devel $@
+	uws/k8s:devel "$@"

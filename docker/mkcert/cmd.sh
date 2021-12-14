@@ -7,7 +7,7 @@ if test 'X' = "X${CANAME}"; then
 	CANAME='default'
 fi
 CADIR=${CAROOT}/${CANAME}/${CAVERSION}
-mkdir -p -m 0700 ${CAROOT}/${CANAME}/etc \
+install -d -m 0700 ${CAROOT}/${CANAME}/etc \
 	${CADIR} ${CADIR}/cert ${CADIR}/client ${CADIR}/revoke
 exec docker run --rm --network none --name uws-mkcert \
 	--hostname "${CAVERSION}.${CANAME}.ca.uws.talkingpts.org" \

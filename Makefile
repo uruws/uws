@@ -22,9 +22,9 @@ prune:
 
 .PHONY: upgrade
 upgrade:
+	@./docker/awscli/build.sh --pull
 	@./docker/base/build.sh --pull
 	@./docker/base-testing/build.sh
-	@./docker/awscli/build.sh --pull
 
 #
 # all

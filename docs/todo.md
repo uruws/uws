@@ -42,6 +42,8 @@
     * shellcheck
     * ansible-lint
 
+* docker script CI checks - `DONE!`
+
 * cluster stats
     * pod_container
         * restarted ratio

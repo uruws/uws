@@ -6,7 +6,7 @@ umask 0027
 fn=$(uuidgen.sh "${DOMAIN}")
 
 mkcert -ecdsa -cert-file "${HOME}/ca/cert/${fn}.pem" \
-	-key-file "${HOME}/ca/cert/${fn}-key.pem" $@
+	-key-file "${HOME}/ca/cert/${fn}-key.pem" "$@"
 
 #~ export OPENSSL_CONF=/usr/local/etc/ssl/openssl.cnf
 #~ openssl verify -verbose -CAfile "${HOME}/ca/rootCA.pem" "${HOME}/ca/cert/${fn}.pem"

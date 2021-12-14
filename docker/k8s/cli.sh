@@ -11,7 +11,9 @@ pod=${PWD}/pod
 awsdir=${PWD}/secret/eks/aws/client/${cluster}
 eksenv=${PWD}/eks/env/${cluster}.env
 
+# shellcheck disable=SC1090
 . ${eksenv}
+
 hostname="${UWS_CLUSTER}.${AWS_REGION}.k8scli"
 
 kubedir=${PWD}/secret/eks/kube/cluster/${cluster}
@@ -29,4 +31,4 @@ exec docker run --rm ${docker_args} \
 	-v ${kubedir}:/home/uws/.kube/eksctl/clusters:ro \
 	-v ${kube_cache}/:/home/uws/.kube/cache \
 	--env-file ${eksenv} \
-	uws/k8s $@
+	uws/k8s "$@"

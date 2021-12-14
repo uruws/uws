@@ -7,4 +7,4 @@ exec docker run --rm --network none --name uws-golang-cmd \
 	-v ${PWD}/go:/go/src/uws \
 	-v ${BUILD_CACHE}:/go/.cache \
 	-v ${BUILD_CMD}:/go/build/cmd \
-	uws/golang-2109 $@
+	uws/golang-2109 "$@"

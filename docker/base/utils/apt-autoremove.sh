@@ -5,7 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get clean
 apt-get update
 
-apt-get autoremove -yy --purge $@
+apt-get autoremove -yy --purge "$@"
 
 rm -rf /var/lib/apt/lists/* \
 	/var/cache/apt/archives/*.deb \

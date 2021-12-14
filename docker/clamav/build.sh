@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec docker build $@ --rm -t uws/clamav ./docker/clamav
+exec docker build --rm -t uws/clamav ./docker/clamav

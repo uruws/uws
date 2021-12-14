@@ -28,10 +28,11 @@ mkdir -vp ${kubedir}
 cluster=${PWD}/cluster/${uws_cluster}
 mkdir -vp ${cluster}
 
+# shellcheck disable=SC1090
 . ${eksenv}
 
 cluster_perms='rw'
-hostname="${UWS_CLUSTER}.${AWS_REGION}.eks"
+hostname="${uws_cluster}.${AWS_REGION}.eks"
 if test 'Xtrue' = "X${client_mode}"; then
 	cluster_perms='ro'
 	awsdir=${PWD}/secret/eks/aws/client/${uws_cluster}
@@ -47,8 +48,8 @@ if ! test -s "${awsdir}/credentials"; then
 	exit 3
 fi
 
-if ! test -s "${secret}/ssh/${UWS_CLUSTER}/node.pub"; then
-	echo "${secret}/ssh/${UWS_CLUSTER}/node.pub: file not found" >&2
+if ! test -s "${secret}/ssh/${uws_cluster}/node.pub"; then
+	echo "${secret}/ssh/${uws_cluster}/node.pub: file not found" >&2
 	exit 4
 fi
 
@@ -74,4 +75,4 @@ exec docker run -it --rm \
 	-v ${kubedir}:/home/uws/.kube/eksctl/clusters:${cluster_perms} \
 	-v ${tmpdir}:/home/uws/tmp \
 	--env-file ${eksenv} \
-	uws/eks $@
+	uws/eks "$@"

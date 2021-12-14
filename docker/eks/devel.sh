@@ -17,4 +17,4 @@ exec docker run --rm --name eks-devel \
 	-v ${PWD}/eks:/home/uws/eks:ro \
 	-v ${PWD}/secret/eks/files:/home/uws/secret:ro \
 	-v ${PWD}/tmp/eks:/home/uws/tmp \
-	uws/eks:devel $@
+	uws/eks:devel "$@"

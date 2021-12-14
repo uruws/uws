@@ -12,8 +12,8 @@ KEYFN="${HOME}/ca/client/${FN}-key.pem"
 umask 0027
 
 getpw() {
-	local fn="${1}"
-	local pw=$(grep -F "${fn}:" /usr/local/etc/ca/client.pw | cut -d ':' -f 2)
+	fn="${1}"
+	pw=$(grep -F "${fn}:" /usr/local/etc/ca/client.pw | cut -d ':' -f 2)
 	if test 'X' = "X${pw}"; then
 		echo "ERROR - ${fn}: no password found!" >&2
 		echo ""
