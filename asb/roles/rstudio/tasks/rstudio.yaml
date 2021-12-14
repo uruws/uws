@@ -69,6 +69,20 @@
     - apt
     - rstudio-apt
 
+- name: server config
+  become: yes
+  template:
+  template:
+    src: rserver.conf
+    dest: /etc/rstudio/rserver.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart rstudio-server
+  tags:
+    - rstudio
+
 - name: vm info
   delegate_to: localhost
   ec2_instance_info:

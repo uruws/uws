@@ -1,0 +1,8 @@
+---
+- name: restart rstudio-server
+  become: yes
+  service:
+    name: rstudio-server
+    state: restarted
+  tags:
+    - rstudio
