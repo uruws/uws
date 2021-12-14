@@ -33,7 +33,7 @@
     * we launched the build of 2.58.8 a second time and it worked, so we could even do a 2nd deploy during the outage
     * based on munin graphs both clusters (east and west) worked at normal and equal levels of traffic, as usual (~3900 web requests per minute each cluster)
 
-* rstudio - `WIP`
+* rstudio - `DONE!`
     * projects setup
         * OUSD project
     * Kevin and Eric new users setup
