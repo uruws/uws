@@ -51,6 +51,19 @@
   tags:
     - rstudio-project
 
+- name: project admin users symlink
+  become: yes
+  file:
+    state: link
+    src: "{{ uws_users_homedir }}/project"
+    dest: "{{ uws_users_homedir }}/{{ item }}/project"
+    force: yes
+    owner: root
+    group: root
+  loop: "{{ rstudio_user | list }}"
+  tags:
+    - rstudio-project
+
 - name: project dir
   become: yes
   file:
@@ -100,6 +113,19 @@
     owner: "{{ item }}"
     group: ruser
     mode: '0750'
+  loop: "{{ rstudio_project_user | list }}"
+  tags:
+    - rstudio-project
+
+- name: project admin users symlink
+  become: yes
+  file:
+    state: link
+    src: "{{ uws_users_homedir }}/project"
+    dest: "{{ uws_users_homedir }}/user/{{ item }}/project"
+    force: yes
+    owner: root
+    group: root
   loop: "{{ rstudio_project_user | list }}"
   tags:
     - rstudio-project
