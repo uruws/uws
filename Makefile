@@ -229,7 +229,12 @@ deploy:
 #
 
 .PHONY: check
-check: check-cli check-munin check-k8s check-eks check-asb
+check: check-docker check-cli check-munin check-k8s check-eks check-asb
+
+.PHONY: check-docker
+check-docker:
+	@echo '***** docker/test/run/shellcheck.sh'
+	@./docker/check.sh ./test/run/shellcheck.sh
 
 .PHONY: check-cli
 check-cli:
