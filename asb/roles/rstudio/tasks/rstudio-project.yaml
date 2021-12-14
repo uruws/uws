@@ -68,7 +68,7 @@
   become: yes
   file:
     state: directory
-    path: "{{ uws_users_homedir }}/project/{{ item }}"
+    path: "{{ uws_users_homedir }}/project/{{ rstudio_project[item].name }}"
     owner: root
     group: "{{ item }}"
     mode: '2770'

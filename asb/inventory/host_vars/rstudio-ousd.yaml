@@ -22,3 +22,4 @@ rstudio_project_user_gid: 4000
 rstudio_project:
   ousd:
     gid: 4001
+    name: OUSD
