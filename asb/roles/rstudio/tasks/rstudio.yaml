@@ -181,3 +181,16 @@
   loop: "{{ rstudio_user | dict2items(key_name='name', value_name='uid') }}"
   tags:
     - users
+
+- name: user umask
+  become: yes
+  lineinfile:
+    path: "{{ uws_users_homedir }}/{{ item }}/.profile"
+    backup: yes
+    state: present
+    regexp: '^umask'
+    line: 'umask 0002'
+  loop: "{{ rstudio_user | list }}"
+  tags:
+    - users
+    - rstudio
