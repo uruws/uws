@@ -6,3 +6,10 @@
     state: restarted
   tags:
     - rstudio
+
+- name: reload systemd
+  become: yes
+  systemd:
+    daemon_reload: yes
+  tags:
+    - rstudio
