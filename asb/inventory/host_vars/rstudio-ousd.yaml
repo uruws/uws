@@ -23,3 +23,9 @@ rstudio_project:
   ousd:
     gid: 4001
     name: OUSD
+  tps:
+    gid: 4002
+    name: TPS
+  aps:
+    gid: 4003
+    name: APS
