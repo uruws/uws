@@ -3,12 +3,28 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from contextlib import contextmanager
+from io import StringIO
+
 import unittest
 from unittest.mock import MagicMock, call
 
 import mon
 
 _bup_print = mon._print
+
+@contextmanager
+def mock_openfn(fail = None, fh = None):
+	__bup = mon._openfn
+	def __open(fn, mode):
+		if fail is not None:
+			raise fail
+		return fh
+	try:
+		mon._openfn = MagicMock(side_effect = __open)
+		yield
+	finally:
+		mon._openfn = __bup
 
 class Test(unittest.TestCase):
 
@@ -123,6 +139,24 @@ class Test(unittest.TestCase):
 		with t.assertRaises(FileNotFoundError):
 			with mon._openfn('/tmp/testing.fn', 'r'):
 				pass
+
+	def test_jsonDump(t):
+		with StringIO() as fh:
+			mon._jsonDump({'testing': 1}, fh)
+			t.assertEqual(fh.seek(0, 0), 0)
+			t.assertEqual(fh.read(), '{"testing": 1}')
+
+	def test_jsonLoad(t):
+		with StringIO() as fh:
+			t.assertEqual(fh.write('{"testing": 1}'), 14)
+			t.assertEqual(fh.seek(0, 0), 0)
+			obj = mon._jsonLoad(fh)
+			t.assertEqual(fh.seek(0, 0), 0)
+			t.assertEqual(fh.read(), '{"testing": 1}')
+
+	def test_cacheSet(t):
+		with mock_openfn():
+			mon.cacheSet({}, 'testing')
 
 if __name__ == '__main__':
 	unittest.main()

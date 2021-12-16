@@ -75,13 +75,18 @@ def _cachefn(fn):
 def _openfn(fn, mode):
 	return open(fn, mode)
 
+def _jsonDump(obj, fh):
+	json.dump(obj, fh)
+
+def _jsonLoad(fh):
+	return json.load(fh)
+
 def cacheSet(obj, fn):
 	fn = _cachefn(fn)
 	try:
 		obj['__cache_expire'] = time() + 120
 		with _openfn(fn, 'w') as fh:
-			json.dump(obj, fh)
-			fh.close()
+			_jsonDump(obj, fh)
 	except Exception as err:
 		log(f"ERROR cacheSet{fn}:", err)
 
@@ -90,7 +95,7 @@ def cacheGet(fn):
 	obj = None
 	try:
 		with _openfn(fn, 'r') as fh:
-			obj = json.load(fh)
+			obj = _jsonLoad(fh)
 			fh.close()
 	except Exception as err:
 		log(f"ERROR cacheGet {fn}:", err)
