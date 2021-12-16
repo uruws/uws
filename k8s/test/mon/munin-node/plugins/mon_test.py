@@ -11,6 +11,8 @@ import unittest
 from unittest.mock import MagicMock, call
 
 import mon
+import mon_kube
+import mon_metrics
 
 _bup_print = mon._print
 
@@ -184,6 +186,13 @@ class Test(unittest.TestCase):
 			fh.seek(0, 0)
 			with mock_openfn(fh = fh):
 				t.assertIsNone(mon.cacheGet('testing'))
+
+	# mon_kube
+
+	def test_kube_globals(t):
+		t.assertEqual(mon_kube._uwskube_url,
+			'http://k8s.mon.svc.cluster.local:2800/kube')
+		t.assertEqual(mon_kube.UWSKUBE_URL, mon_kube._uwskube_url)
 
 if __name__ == '__main__':
 	unittest.main()

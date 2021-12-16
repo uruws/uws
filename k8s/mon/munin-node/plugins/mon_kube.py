@@ -9,8 +9,8 @@ from urllib.request import urlopen
 
 import mon
 
-__uwskube_url = 'http://k8s.mon.svc.cluster.local:2800/kube'
-UWSKUBE_URL = os.getenv('UWSKUBE_URL', __uwskube_url)
+_uwskube_url = 'http://k8s.mon.svc.cluster.local:2800/kube'
+UWSKUBE_URL = os.getenv('UWSKUBE_URL', _uwskube_url)
 
 def __get(uri):
 	mon.dbg('kube get:', uri)
