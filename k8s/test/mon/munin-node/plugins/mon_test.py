@@ -5,6 +5,7 @@
 
 from contextlib import contextmanager
 from io import StringIO
+from time import time
 
 import unittest
 from unittest.mock import MagicMock, call
@@ -161,6 +162,28 @@ class Test(unittest.TestCase):
 		with mock_openfn(fail = FileNotFoundError('mock_error')):
 			mon.cacheSet({}, 'testing')
 		mon._print.assert_called_once()
+
+	def test_cacheGet(t):
+		with StringIO() as fh:
+			tt = time() + 1
+			fh.write('{"__cache_expire": %s, "testing": 1}' % tt)
+			fh.seek(0, 0)
+			with mock_openfn(fh = fh):
+				t.assertEqual(mon.cacheGet('testing'), {
+					'__cache_expire': tt,
+					'testing': 1,
+				})
+
+	def test_cacheGet_error(t):
+		t.assertIsNone(mon.cacheGet('testing'))
+		mon._print.assert_called_once()
+
+	def test_cacheGet_expired(t):
+		with StringIO() as fh:
+			t.assertEqual(fh.write('{"__cache_expire": 1}'), 21)
+			fh.seek(0, 0)
+			with mock_openfn(fh = fh):
+				t.assertIsNone(mon.cacheGet('testing'))
 
 if __name__ == '__main__':
 	unittest.main()
