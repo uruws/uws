@@ -68,12 +68,12 @@ def containerImage(n):
 
 # cache
 
-def __cachefn(fn):
+def _cachefn(fn):
 	fn = cleanfn(fn)
 	return f"/tmp/mon.{fn}.cache"
 
 def cacheSet(obj, fn):
-	fn = __cachefn(fn)
+	fn = _cachefn(fn)
 	try:
 		obj['__cache_expire'] = time() + 120
 		with open(fn, 'w') as fh:
@@ -83,7 +83,7 @@ def cacheSet(obj, fn):
 		log(f"ERROR cacheSet{fn}:", err)
 
 def cacheGet(fn):
-	fn = __cachefn(fn)
+	fn = _cachefn(fn)
 	obj = None
 	try:
 		with open(fn, 'r') as fh:

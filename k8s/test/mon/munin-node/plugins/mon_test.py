@@ -115,5 +115,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(mon.containerImage('testing/image'), 'image')
 		t.assertEqual(mon.containerImage('test/ing/img'), 'img')
 
+	def test_cachefn(t):
+		t.assertEqual(mon._cachefn('/tmp/testing.x'),
+			'/tmp/mon._tmp_testing_x.cache')
+
 if __name__ == '__main__':
 	unittest.main()
