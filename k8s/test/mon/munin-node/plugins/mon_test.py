@@ -110,5 +110,10 @@ class Test(unittest.TestCase):
 		}
 		t.assertEqual(mon.generateName(_pod), 'testing')
 
+	def test_containerImage(t):
+		t.assertEqual(mon.containerImage('testing'), 'testing')
+		t.assertEqual(mon.containerImage('testing/image'), 'image')
+		t.assertEqual(mon.containerImage('test/ing/img'), 'img')
+
 if __name__ == '__main__':
 	unittest.main()

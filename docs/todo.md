@@ -44,7 +44,7 @@
 
 * docker script CI checks - `DONE!`
 
-* cluster stats
+* cluster stats - `WIP`
     * pod_container
         * restarted ratio
     * web_request.count
