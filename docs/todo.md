@@ -1,48 +1,6 @@
-# TODO
+* setup Vanta to check kubernets infra
 
-* nlpsvc new setup - `DONE!`
-    * sentiment-roberta
-    * topic-automl
-
-* k8s and eks utils [upgrade][upgrades] - `DONE!`
-    * k8s `2109-2`
-    * eks `2109-1`
-
-[upgrades]: https://github.com/TalkingPts/Infrastructure/blob/master/docs/infra/upgrades.md
-
-* setup tapo.testing cluster - `DONE!`
-    * as similar as possible to the prod setup
-    * [app-test-1](https://amy-test-1.uws.talkingpts.org/munin/)
-    * [app-test-2](https://amy-test-2.uws.talkingpts.org/munin/)
-
-* check ev15min new tags on App repo - `DONE!`
-    * autobuild and deploy to apptest
-
-* k8s and eks CI checks - `DONE!`
-    * [k8s](https://ops.uws.talkingpts.org/htmlcov/k8s/)
-    * [eks](https://ops.uws.talkingpts.org/htmlcov/eks/)
-
-* 211207 aws outage (~8hs of issues) - `REPORT`
-    * there was a major outage of the whole us-east-1 region and its services
-    * [status.aws](https://status.aws.amazon.com/)
-    * [HN thread](https://news.ycombinator.com/item?id=29473630)
-    * we got lucky, but also our independent and distributed setup helped
-    * the aws console web access was down but we don't need such access for daily operations
-    * we were able to do a prod deploy during the outage (2.58.7)
-    * later the build of 2.58.8 was affected by the outage as the built docker image couldn't be pushed to the ECR
-    * we launched the build of 2.58.8 a second time and it worked, so we could even do a 2nd deploy during the outage
-    * based on munin graphs both clusters (east and west) worked at normal and equal levels of traffic, as usual (~3900 web requests per minute each cluster)
-
-* rstudio - `DONE!`
-    * projects setup
-        * OUSD project
-    * Kevin and Eric new users setup
-
-* ansible CI checks - `DONE!`
-    * shellcheck
-    * ansible-lint
-
-* docker script CI checks - `DONE!`
+* configure staging prod domain name on apptest
 
 * cluster stats - `WIP`
     * pod_container
