@@ -143,20 +143,24 @@ class Test(unittest.TestCase):
 	def test_jsonDump(t):
 		with StringIO() as fh:
 			mon._jsonDump({'testing': 1}, fh)
-			t.assertEqual(fh.seek(0, 0), 0)
-			t.assertEqual(fh.read(), '{"testing": 1}')
+			t.assertEqual(fh.getvalue(), '{"testing": 1}')
 
 	def test_jsonLoad(t):
 		with StringIO() as fh:
 			t.assertEqual(fh.write('{"testing": 1}'), 14)
 			t.assertEqual(fh.seek(0, 0), 0)
 			obj = mon._jsonLoad(fh)
-			t.assertEqual(fh.seek(0, 0), 0)
-			t.assertEqual(fh.read(), '{"testing": 1}')
+			t.assertEqual(fh.getvalue(), '{"testing": 1}')
 
 	def test_cacheSet(t):
-		with mock_openfn():
+		with StringIO() as fh:
+			with mock_openfn(fh = fh):
+				mon.cacheSet({}, 'testing')
+
+	def test_cacheSet_error(t):
+		with mock_openfn(fail = FileNotFoundError('mock_error')):
 			mon.cacheSet({}, 'testing')
+		mon._print.assert_called_once()
 
 if __name__ == '__main__':
 	unittest.main()
