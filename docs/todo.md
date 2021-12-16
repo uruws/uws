@@ -1,4 +1,5 @@
-* setup Vanta to check kubernets infra
+* setup Vanta to check kubernetes infra - `DONE!`
+    * added uwsadm profile to vanta checks
 
 * configure staging prod domain name on apptest
 
