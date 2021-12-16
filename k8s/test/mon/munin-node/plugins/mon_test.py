@@ -119,5 +119,10 @@ class Test(unittest.TestCase):
 		t.assertEqual(mon._cachefn('/tmp/testing.x'),
 			'/tmp/mon._tmp_testing_x.cache')
 
+	def test_openfn(t):
+		with t.assertRaises(FileNotFoundError):
+			with mon._openfn('/tmp/testing.fn', 'r'):
+				pass
+
 if __name__ == '__main__':
 	unittest.main()
