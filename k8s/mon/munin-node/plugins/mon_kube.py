@@ -28,7 +28,7 @@ def _get(uri):
 		_exit(8)
 	return json.loads(resp.read().decode())
 
-def __parse(uri, mods):
+def _parse(uri, mods):
 	d = _get(uri)
 	sts = dict()
 	for n in mods.keys():
@@ -37,7 +37,7 @@ def __parse(uri, mods):
 	return sts
 
 def __config(uri, mods):
-	sts = __parse(uri, mods)
+	sts = _parse(uri, mods)
 	for n in mods.keys():
 		mod = mods.get(n)
 		mod.config(sts[n])
@@ -47,7 +47,7 @@ def __config(uri, mods):
 def __report(uri, mods):
 	sts = mon.cacheGet(uri)
 	if sts is None:
-		sts = __parse(uri, mods)
+		sts = _parse(uri, mods)
 	for n in mods.keys():
 		mod = mods.get(n)
 		mod.report(sts[n])
