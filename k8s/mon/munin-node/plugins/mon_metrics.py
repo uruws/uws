@@ -17,7 +17,7 @@ line2_re = re.compile(r',(\w)')
 line3_re = re.compile(r'(\w)=')
 line4_re = re.compile(r'"="')
 
-def __metrics_parse(resp):
+def _metrics_parse(resp):
 	mon.dbg('metrics parse')
 	for line in resp.read().decode().splitlines():
 		if line.startswith('#'):
@@ -62,7 +62,7 @@ def __metrics_get(url):
 	if resp.status != 200:
 		mon.log('ERROR: metrics response status', resp.status)
 		sys.exit(8)
-	return __metrics_parse(resp)
+	return _metrics_parse(resp)
 
 # module parse
 
