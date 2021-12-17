@@ -3,10 +3,40 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from contextlib import contextmanager
+import json
+
 import unittest
+from unittest.mock import MagicMock
 
 import mon_t
 import mon_kube
+
+def _mock_response(r, status):
+	resp = MagicMock()
+	resp.read = MagicMock(return_value = r)
+	resp.status = status
+	return resp
+
+@contextmanager
+def mock(resp = {}, resp_status = 200, resp_fail = False):
+	_bup_urlopen = mon_kube.urlopen
+	_bup_exit = mon_kube._exit
+	def _exit(status):
+		raise SystemExit(status)
+	def _resp_fail():
+		raise Exception('mock_error')
+	try:
+		if resp_fail:
+			mon_kube.urlopen = MagicMock(side_effect = _resp_fail)
+		else:
+			r = json.dumps(resp).encode()
+			mon_kube.urlopen = MagicMock(return_value = _mock_response(r, resp_status))
+		mon_kube._exit = MagicMock(side_effect = _exit)
+		yield
+	finally:
+		mon_kube.urlopen = _bup_urlopen
+		mon_kube._exit = _bup_exit
 
 class Test(unittest.TestCase):
 
@@ -30,6 +60,22 @@ class Test(unittest.TestCase):
 			mon_kube._exit(2)
 		err = e.exception
 		t.assertEqual(err.args[0], 2)
+
+	def test_get(t):
+		with mock():
+			t.assertDictEqual(mon_kube._get('testing'), {})
+
+	def test_get_errors(t):
+		with mock(resp_status = 500):
+			with t.assertRaises(SystemExit) as e:
+				mon_kube._get('testing')
+			err = e.exception
+			t.assertEqual(err.args[0], 8)
+		with mock(resp_fail = True):
+			with t.assertRaises(SystemExit) as e:
+				mon_kube._get('testing')
+			err = e.exception
+			t.assertEqual(err.args[0], 9)
 
 if __name__ == '__main__':
 	unittest.main()
