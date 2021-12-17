@@ -80,11 +80,25 @@ class Test(unittest.TestCase):
 	def test_parse(t):
 		with mock(resp = {'testing': 1}):
 			t.assertDictEqual(mon_kube._parse('testing', {}), {})
+			# with mods
 			tm = MagicMock()
 			tm.parse = MagicMock(return_value = 'test')
 			mods = {'testing': tm}
 			t.assertDictEqual(mon_kube._parse('testing', mods), {'testing': 'test'})
 			tm.parse.assert_called_once_with({'testing': 1})
+
+	def test_config(t):
+		with mon_t.mock_openfn():
+			with mock():
+				t.assertEqual(mon_kube._config('testing', {}), 0)
+		# with mods
+		with mon_t.mock_openfn():
+			with mock():
+				tm = MagicMock()
+				tm.config = MagicMock()
+				mods = {'testing': tm}
+				t.assertEqual(mon_kube._config('testing', mods), 0)
+				tm.config.assert_called_once()
 
 if __name__ == '__main__':
 	unittest.main()

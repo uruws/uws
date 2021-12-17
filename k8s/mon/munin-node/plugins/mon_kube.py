@@ -36,7 +36,7 @@ def _parse(uri, mods):
 		sts[n] = mod.parse(d)
 	return sts
 
-def __config(uri, mods):
+def _config(uri, mods):
 	sts = _parse(uri, mods)
 	for n in mods.keys():
 		mod = mods.get(n)
@@ -60,7 +60,7 @@ def main(argv, uri, mods):
 	uri = __uri(uri)
 	try:
 		if argv[0] == 'config':
-			return __config(uri, mods)
+			return _config(uri, mods)
 	except IndexError:
 		pass
 	return __report(uri, mods)
