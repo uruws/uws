@@ -100,5 +100,18 @@ class Test(unittest.TestCase):
 				t.assertEqual(mon_kube._config('testing', mods), 0)
 				tm.config.assert_called_once()
 
+	def test_report(t):
+		with mon_t.mock_openfn():
+			with mock():
+				t.assertEqual(mon_kube._report('testing', {}), 0)
+		# with mods
+		with mon_t.mock_openfn():
+			with mock():
+				tm = MagicMock()
+				tm.report = MagicMock()
+				mods = {'testing': tm}
+				t.assertEqual(mon_kube._report('testing', mods), 0)
+				tm.report.assert_called_once()
+
 if __name__ == '__main__':
 	unittest.main()

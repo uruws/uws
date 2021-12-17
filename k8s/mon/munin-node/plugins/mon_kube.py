@@ -44,7 +44,7 @@ def _config(uri, mods):
 	mon.cacheSet(sts, uri)
 	return 0
 
-def __report(uri, mods):
+def _report(uri, mods):
 	sts = mon.cacheGet(uri)
 	if sts is None:
 		sts = _parse(uri, mods)
@@ -63,4 +63,4 @@ def main(argv, uri, mods):
 			return _config(uri, mods)
 	except IndexError:
 		pass
-	return __report(uri, mods)
+	return _report(uri, mods)
