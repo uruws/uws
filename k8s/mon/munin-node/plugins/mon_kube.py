@@ -53,11 +53,11 @@ def _report(uri, mods):
 		mod.report(sts[n])
 	return 0
 
-def __uri(uri):
+def _uri(uri):
 	return '/'.join([UWSKUBE_URL, uri])
 
 def main(argv, uri, mods):
-	uri = __uri(uri)
+	uri = _uri(uri)
 	try:
 		if argv[0] == 'config':
 			return _config(uri, mods)

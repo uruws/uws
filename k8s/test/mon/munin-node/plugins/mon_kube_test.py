@@ -113,5 +113,8 @@ class Test(unittest.TestCase):
 				t.assertEqual(mon_kube._report('testing', mods), 0)
 				tm.report.assert_called_once()
 
+	def test_uri(t):
+		t.assertEqual(mon_kube._uri('testing'), f"{mon_kube.UWSKUBE_URL}/testing")
+
 if __name__ == '__main__':
 	unittest.main()
