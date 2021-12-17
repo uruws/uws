@@ -107,9 +107,9 @@ def __report(url, mods):
 
 # main
 
-def main(url, mods):
+def main(argv, url, mods):
 	try:
-		if sys.argv[1] == 'config':
+		if argv[0] == 'config':
 			return __config(url, mods)
 	except IndexError:
 		pass
