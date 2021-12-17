@@ -3,6 +3,7 @@
 
 import json
 import os
+import sys
 
 from urllib.request import urlopen
 
@@ -11,17 +12,20 @@ import mon
 _uwskube_url = 'http://k8s.mon.svc.cluster.local:2800/kube'
 UWSKUBE_URL = os.getenv('UWSKUBE_URL', _uwskube_url)
 
+def _exit(rc):
+	sys.exit(rc)
+
 def _get(uri):
 	mon.dbg('kube get:', uri)
 	try:
 		resp = urlopen(uri, None, 15)
 	except Exception as err:
 		mon.log('ERROR:', err)
-		sys.exit(9)
+		_exit(9)
 	mon.dbg('kube resp status:', resp.status)
 	if resp.status != 200:
 		mon.log('ERROR: kube response status', resp.status)
-		sys.exit(8)
+		_exit(8)
 	return json.loads(resp.read().decode())
 
 def __parse(uri, mods):
