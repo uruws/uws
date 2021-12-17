@@ -116,5 +116,15 @@ class Test(unittest.TestCase):
 	def test_uri(t):
 		t.assertEqual(mon_kube._uri('testing'), f"{mon_kube.UWSKUBE_URL}/testing")
 
+	def test_main(t):
+		with mon_t.mock_openfn():
+			with mock():
+				t.assertEqual(mon_kube.main([], 'testing', {}), 0)
+
+	def test_main_config(t):
+		with mon_t.mock_openfn():
+			with mock():
+				t.assertEqual(mon_kube.main(['config'], 'testing', {}), 0)
+
 if __name__ == '__main__':
 	unittest.main()
