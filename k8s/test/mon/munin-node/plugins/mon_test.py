@@ -10,34 +10,16 @@ from time import time
 import unittest
 from unittest.mock import MagicMock, call
 
+import mon_t
 import mon
-import mon_kube
-import mon_metrics
-
-_bup_print = mon._print
-
-@contextmanager
-def mock_openfn(fail = None, fh = None):
-	__bup = mon._openfn
-	def __open(fn, mode):
-		if fail is not None:
-			raise fail
-		return fh
-	try:
-		mon._openfn = MagicMock(side_effect = __open)
-		yield
-	finally:
-		mon._openfn = __bup
 
 class Test(unittest.TestCase):
 
 	def setUp(t):
-		mon._print = MagicMock()
-		mon._cluster = 'k8stest'
+		mon_t.setUp()
 
 	def tearDown(t):
-		mon._print = None
-		mon._print = _bup_print
+		mon_t.tearDown()
 
 	# logger
 
@@ -51,7 +33,7 @@ class Test(unittest.TestCase):
 		t.assertFalse(mon.debug())
 
 	def test_print(t):
-		_bup_print('testing')
+		mon_t._bup_print('testing')
 
 	def test_log(t):
 		mon.log('test', 'ing')
@@ -157,11 +139,11 @@ class Test(unittest.TestCase):
 
 	def test_cacheSet(t):
 		with StringIO() as fh:
-			with mock_openfn(fh = fh):
+			with mon_t.mock_openfn(fh = fh):
 				mon.cacheSet({}, 'testing')
 
 	def test_cacheSet_error(t):
-		with mock_openfn(fail = FileNotFoundError('mock_error')):
+		with mon_t.mock_openfn(fail = FileNotFoundError('mock_error')):
 			mon.cacheSet({}, 'testing')
 		mon._print.assert_called_once()
 
@@ -170,7 +152,7 @@ class Test(unittest.TestCase):
 			tt = time() + 1
 			fh.write('{"__cache_expire": %s, "testing": 1}' % tt)
 			fh.seek(0, 0)
-			with mock_openfn(fh = fh):
+			with mon_t.mock_openfn(fh = fh):
 				t.assertEqual(mon.cacheGet('testing'), {
 					'__cache_expire': tt,
 					'testing': 1,
@@ -184,15 +166,8 @@ class Test(unittest.TestCase):
 		with StringIO() as fh:
 			t.assertEqual(fh.write('{"__cache_expire": 1}'), 21)
 			fh.seek(0, 0)
-			with mock_openfn(fh = fh):
+			with mon_t.mock_openfn(fh = fh):
 				t.assertIsNone(mon.cacheGet('testing'))
-
-	# mon_kube
-
-	def test_kube_globals(t):
-		t.assertEqual(mon_kube._uwskube_url,
-			'http://k8s.mon.svc.cluster.local:2800/kube')
-		t.assertEqual(mon_kube.UWSKUBE_URL, mon_kube._uwskube_url)
 
 if __name__ == '__main__':
 	unittest.main()

@@ -14,4 +14,4 @@ import deploy
 
 if __name__ == '__main__': # pragma no cover
 	mods = dict(deploy = deploy)
-	sys.exit(kube.main("deployments", mods))
+	sys.exit(kube.main(sys.argv[1:], "deployments", mods))

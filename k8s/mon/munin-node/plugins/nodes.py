@@ -17,4 +17,4 @@ if __name__ == '__main__': # pragma no cover
 	mods = dict(
 		nodes_info = nodes_info,
 	)
-	sys.exit(kube.main("nodes", mods))
+	sys.exit(kube.main(sys.argv[1:], "nodes", mods))

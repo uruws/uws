@@ -3,7 +3,6 @@
 
 import json
 import os
-import sys
 
 from urllib.request import urlopen
 
@@ -12,7 +11,7 @@ import mon
 _uwskube_url = 'http://k8s.mon.svc.cluster.local:2800/kube'
 UWSKUBE_URL = os.getenv('UWSKUBE_URL', _uwskube_url)
 
-def __get(uri):
+def _get(uri):
 	mon.dbg('kube get:', uri)
 	try:
 		resp = urlopen(uri, None, 15)
@@ -26,7 +25,7 @@ def __get(uri):
 	return json.loads(resp.read().decode())
 
 def __parse(uri, mods):
-	d = __get(uri)
+	d = _get(uri)
 	sts = dict()
 	for n in mods.keys():
 		mod = mods.get(n)
@@ -53,10 +52,10 @@ def __report(uri, mods):
 def __uri(uri):
 	return '/'.join([UWSKUBE_URL, uri])
 
-def main(uri, mods):
+def main(argv, uri, mods):
 	uri = __uri(uri)
 	try:
-		if sys.argv[1] == 'config':
+		if argv[0] == 'config':
 			return __config(uri, mods)
 	except IndexError:
 		pass

@@ -20,4 +20,4 @@ if __name__ == '__main__': # pragma no cover
 		pods_condition = pods_condition,
 		pods_container = pods_container,
 	)
-	sys.exit(kube.main("pods", mods))
+	sys.exit(kube.main(sys.argv[1:], "pods", mods))
