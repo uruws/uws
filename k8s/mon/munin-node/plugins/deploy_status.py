@@ -21,95 +21,96 @@ def parse(i):
 			st.get('updatedNumberScheduled', 'U')),
 	)
 
+def _print(*args):
+	print(*args)
+
 def config(sts):
 	mon.dbg('deploy_status config')
 	cluster = mon.cluster()
 	# replicas
-	print('multigraph deploy_replicas')
-	print(f"graph_title {cluster} deployments replicas")
-	print('graph_args --base 1000 -l 0')
-	print('graph_category deploy')
-	print('graph_vlabel number')
-	print('graph_printf %3.0lf')
-	print('graph_scale yes')
+	_print('multigraph deploy_replicas')
+	_print(f"graph_title {cluster} deployments replicas")
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category deploy')
+	_print('graph_vlabel number')
+	_print('graph_printf %3.0lf')
+	_print('graph_scale yes')
 	fc = 0
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
-			print(f"f_{fid}.label {ns}/{name}")
-			print(f"f_{fid}.colour COLOUR{fc}")
-			print(f"f_{fid}.min 0")
+			_print(f"f_{fid}.label {ns}/{name}")
+			_print(f"f_{fid}.colour COLOUR{fc}")
+			_print(f"f_{fid}.min 0")
 			fc += 1
 			if fc > 28:
 				fc = 0
-	if mon.debug(): print()
+	if mon.debug(): _print()
 	# replicas all
-	print('multigraph deploy_replicas.all')
-	print(f"graph_title {cluster} all deployments")
-	print('graph_args --base 1000 -l 0')
-	print('graph_category deploy')
-	print('graph_vlabel number of replicas')
-	print('graph_printf %3.0lf')
-	print('graph_scale yes')
+	_print('multigraph deploy_replicas.all')
+	_print(f"graph_title {cluster} all deployments")
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category deploy')
+	_print('graph_vlabel number of replicas')
+	_print('graph_printf %3.0lf')
+	_print('graph_scale yes')
 	fc = 0
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
-			print(f"f_{fid}.label {ns}/{name}")
-			print(f"f_{fid}.colour COLOUR{fc}")
-			print(f"f_{fid}.min 0")
+			_print(f"f_{fid}.label {ns}/{name}")
+			_print(f"f_{fid}.colour COLOUR{fc}")
+			_print(f"f_{fid}.min 0")
 			fc += 1
-			if fc > 28:
-				fc = 0
-	if mon.debug(): print()
+			if fc > 28: fc = 0
+	if mon.debug(): _print()
 	# replicas status
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
 			sid = mon.cleanfn(ns+"_"+name)
-			print(f"multigraph deploy_replicas.{sid}")
-			print(f"graph_title {cluster} {ns}/{name} deployment")
-			print('graph_args --base 1000 -l 0')
-			print('graph_category deploy')
-			print('graph_vlabel number of replicas')
-			print('graph_printf %3.0lf')
-			print('graph_scale yes')
+			_print(f"multigraph deploy_replicas.{sid}")
+			_print(f"graph_title {cluster} {ns}/{name} deployment")
+			_print('graph_args --base 1000 -l 0')
+			_print('graph_category deploy')
+			_print('graph_vlabel number of replicas')
+			_print('graph_printf %3.0lf')
+			_print('graph_scale yes')
 			fc = 0
 			for fn in sorted(sts[ns][name].keys()):
 				n = fn.replace('_replicas', '', 1)
 				if n == 'replicas':
 					n = 'running'
-				print(f"{fn}.label", n)
-				print(f"{fn}.colour COLOUR{fc}")
-				print(f"{fn}.min 0")
+				_print(f"{fn}.label", n)
+				_print(f"{fn}.colour COLOUR{fc}")
+				_print(f"{fn}.min 0")
 				fc += 1
-				if fc > 28:
-					fc = 0
-			if mon.debug(): print()
+				if fc > 28: fc = 0
+			if mon.debug(): _print()
 
 def report(sts):
 	mon.dbg('deploy_status report')
 	# replicas
-	print('multigraph deploy_replicas')
+	_print('multigraph deploy_replicas')
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
 			val = sts[ns][name]['replicas']
-			print(f"f_{fid}.value", val)
-	if mon.debug(): print()
+			_print(f"f_{fid}.value", val)
+	if mon.debug(): _print()
 	# replicas all
-	print('multigraph deploy_replicas.all')
+	_print('multigraph deploy_replicas.all')
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
 			val = sts[ns][name]['replicas']
-			print(f"f_{fid}.value", val)
-	if mon.debug(): print()
+			_print(f"f_{fid}.value", val)
+	if mon.debug(): _print()
 	# replicas status
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
 			sid = mon.cleanfn(ns+"_"+name)
-			print(f"multigraph deploy_replicas.{sid}")
+			_print(f"multigraph deploy_replicas.{sid}")
 			for fn in sorted(sts[ns][name].keys()):
 				val = sts[ns][name][fn]
-				print(f"{fn}.value", val)
-			if mon.debug(): print()
+				_print(f"{fn}.value", val)
+			if mon.debug(): _print()
