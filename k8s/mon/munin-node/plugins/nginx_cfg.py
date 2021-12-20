@@ -12,7 +12,10 @@ sts = dict(
 )
 
 def __parse(name, value):
+	global sts
 	mon.dbg('parse nginx_cfg:', name)
+	if not name in sts:
+		return False
 	sts[name] = value
 	return True
 
