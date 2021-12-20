@@ -60,11 +60,11 @@ def config(sts):
 	print('a_total.min 0')
 	if mon.debug(): print()
 	# generation
-	deploy_generation.config(sts['deploy'])
+	deploy_generation.config(sts.get('deploy', {}))
 	# condition
 	deploy_condition.config(sts)
 	# status
-	deploy_status.config(sts['status'])
+	deploy_status.config(sts.get('status', {}))
 
 def report(sts):
 	mon.dbg('deploy_info report')

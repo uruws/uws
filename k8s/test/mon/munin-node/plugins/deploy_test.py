@@ -68,5 +68,12 @@ class Test(unittest.TestCase):
 				'metadata': {},
 			})
 
+	def test_config(t):
+		with mock_mods():
+			deploy.config({})
+			deploy.deploy_generation.config.assert_called_once_with({})
+			deploy.deploy_condition.config.assert_called_once_with({})
+			deploy.deploy_status.config.assert_called_once_with({})
+
 if __name__ == '__main__':
 	unittest.main()
