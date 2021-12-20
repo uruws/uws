@@ -97,15 +97,15 @@ def report(sts):
 	mon.dbg('report nginx_conn')
 	# connections
 	_print('multigraph nginx_connections_state')
-	_print('active.value', sts['active'])
-	_print('reading.value', sts['reading'])
-	_print('waiting.value', sts['waiting'])
-	_print('writing.value', sts['writing'])
+	_print('active.value', sts.get('active', 'U'))
+	_print('reading.value', sts.get('reading', 'U'))
+	_print('waiting.value', sts.get('waiting', 'U'))
+	_print('writing.value', sts.get('writing', 'U'))
 	# connections total
 	_print('multigraph nginx_connections')
-	_print('accepted.value', sts['accepted'])
-	_print('handled.value', sts['handled'])
+	_print('accepted.value', sts.get('accepted', 'U'))
+	_print('handled.value', sts.get('handled', 'U'))
 	# connections counter
 	_print('multigraph nginx_connections.counter')
-	_print('accepted.value', mon.derive(sts['accepted']))
-	_print('handled.value', mon.derive(sts['handled']))
+	_print('accepted.value', mon.derive(sts.get('accepted', 'U')))
+	_print('handled.value', mon.derive(sts.get('handled', 'U')))

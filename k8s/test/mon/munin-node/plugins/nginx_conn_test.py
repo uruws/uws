@@ -108,5 +108,23 @@ class Test(unittest.TestCase):
 		nginx_conn._print.assert_has_calls(config)
 		t.assertEqual(nginx_conn._print.call_count, len(config))
 
+	def test_report(t):
+		nginx_conn.report({})
+		report = [
+			call('multigraph nginx_connections_state'),
+			call('active.value', 'U'),
+			call('reading.value', 'U'),
+			call('waiting.value', 'U'),
+			call('writing.value', 'U'),
+			call('multigraph nginx_connections'),
+			call('accepted.value', 'U'),
+			call('handled.value', 'U'),
+			call('multigraph nginx_connections.counter'),
+			call('accepted.value', 'U'),
+			call('handled.value', 'U'),
+		]
+		nginx_conn._print.assert_has_calls(report)
+		t.assertEqual(nginx_conn._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
