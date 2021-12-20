@@ -37,5 +37,23 @@ class Test(unittest.TestCase):
 	def test_print(t):
 		_bup_print('test', 'ing')
 
+	def test_parse(t):
+		t.assertFalse(nginx_conn.parse('testing', None, None))
+		t.assertFalse(nginx_conn.parse('nginx_ingress_controller_nginx_process_connections',
+			{}, 0.999))
+
+	def test_parse_data(t):
+		states = [
+			'active',
+			'reading',
+			'writing',
+			'waiting',
+			'accepted',
+			'handled',
+		]
+		for s in states:
+			t.assertTrue(nginx_conn.parse('nginx_ingress_controller_nginx_process_connections',
+				{'state': s}, 0.999))
+
 if __name__ == '__main__':
 	unittest.main()

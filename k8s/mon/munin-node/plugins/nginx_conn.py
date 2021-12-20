@@ -13,25 +13,28 @@ sts = dict(
 )
 
 def __parse(meta, value):
+	global sts
 	mon.dbg('parse nginx_conn:', meta)
-	if meta['state'] == 'active':
+	s = meta.get('state', None)
+	if s == 'active':
 		sts['active'] = value
-	elif meta['state'] == 'reading':
+	elif s == 'reading':
 		sts['reading'] = value
-	elif meta['state'] == 'waiting':
+	elif s == 'waiting':
 		sts['waiting'] = value
-	elif meta['state'] == 'writing':
+	elif s == 'writing':
 		sts['writing'] = value
-	elif meta['state'] == 'accepted':
+	elif s == 'accepted':
 		sts['accepted'] = value
-	elif meta['state'] == 'handled':
+	elif s == 'handled':
 		sts['handled'] = value
+	else:
+		return False
 	return True
 
 def parse(name, meta, value):
-	if name == 'nginx_ingress_controller_nginx_process_connections':
-		return __parse(meta, value)
-	elif name == 'nginx_ingress_controller_nginx_process_connections_total':
+	if name == 'nginx_ingress_controller_nginx_process_connections'\
+		or name == 'nginx_ingress_controller_nginx_process_connections_total':
 		return __parse(meta, value)
 	return False
 
