@@ -71,5 +71,15 @@ class Test(unittest.TestCase):
 			t.assertIsNone(meta)
 			t.assertEqual(value, 'U')
 
+	def test_exit(t):
+		with t.assertRaises(SystemExit) as e:
+			mon_metrics._exit(0)
+		err = e.exception
+		t.assertEqual(err.args[0], 0)
+		with t.assertRaises(SystemExit) as e:
+			mon_metrics._exit(2)
+		err = e.exception
+		t.assertEqual(err.args[0], 2)
+
 if __name__ == '__main__':
 	unittest.main()

@@ -51,17 +51,20 @@ def _metrics_parse(resp):
 			continue
 		yield (name, meta, value)
 
+def _exit(rc):
+	sys.exit(rc)
+
 def __metrics_get(url):
 	mon.dbg('metrics get')
 	try:
 		resp = urlopen(url, None, 15)
 	except Exception as err:
 		mon.log('ERROR:', err)
-		sys.exit(9)
+		_exit(9)
 	mon.dbg('resp status:', resp.status)
 	if resp.status != 200:
 		mon.log('ERROR: metrics response status', resp.status)
-		sys.exit(8)
+		_exit(8)
 	return _metrics_parse(resp)
 
 # module parse
