@@ -69,7 +69,7 @@ def _metrics_get(url):
 
 # module parse
 
-def __metrics(url, mods):
+def _metrics(url, mods):
 	mon.dbg('metrics')
 	sts = dict()
 	for name, meta, value in _metrics_get(url):
@@ -87,7 +87,7 @@ def __metrics(url, mods):
 
 def __config(url, mods):
 	mon.dbg('config')
-	sts = __metrics(url, mods)
+	sts = _metrics(url, mods)
 	for modname in mods.keys():
 		mod = mods.get(modname)
 		mon.dbg('mod config:', modname)
@@ -101,7 +101,7 @@ def __report(url, mods):
 	mon.dbg('report')
 	sts = mon.cacheGet(url)
 	if sts is None:
-		sts = __metrics(url, mods)
+		sts = _metrics(url, mods)
 	for modname in mods.keys():
 		mod = mods.get(modname)
 		mon.dbg('mod report:', modname)

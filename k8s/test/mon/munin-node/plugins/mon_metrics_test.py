@@ -50,6 +50,15 @@ def _mock_metric(d):
 	r.read = MagicMock(return_value = body)
 	return r
 
+@contextmanager
+def mock_metrics(d):
+	_bup = mon_metrics._metrics_get
+	try:
+		mon_metrics._metrics_get = MagicMock(return_value = _mock_metric(d))
+		yield
+	finally:
+		mon_metrics._metrics_get = _bup
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -130,6 +139,17 @@ class Test(unittest.TestCase):
 				mon_metrics._metrics_get('testing')
 			err = e.exception
 			t.assertEqual(err.args[0], 8)
+
+	def test_metrics(t):
+		with mock_metrics({}):
+			t.assertEqual(mon_metrics._metrics('testing', {}), {})
+		# with mods
+		with mock_metrics({}):
+			tm = MagicMock()
+			tm.sts = MagicMock()
+			tm.sts.copy = MagicMock(return_value = 'mock_status')
+			mods = {'testing': tm}
+			t.assertEqual(mon_metrics._metrics('testing', mods), {'testing': 'mock_status'})
 
 if __name__ == '__main__':
 	unittest.main()
