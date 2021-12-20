@@ -32,11 +32,14 @@ def __parse(kind, key, value):
 		sts[kind][key] = value
 	return True
 
+CPU_CONTROLLER = 'nginx_ingress_controller_nginx_process_cpu_seconds_total'
+CPU_TOTAL = 'process_cpu_seconds_total'
+
 def parse(name, meta, value):
 	# cpu
-	if name == 'nginx_ingress_controller_nginx_process_cpu_seconds_total':
+	if name == CPU_CONTROLLER:
 		return __parse('cpu', 'controller', value)
-	elif name == 'process_cpu_seconds_total':
+	elif name == CPU_TOTAL:
 		return __parse('cpu', 'total', value)
 	# mem
 	elif name == 'nginx_ingress_controller_nginx_process_resident_memory_bytes':

@@ -48,5 +48,11 @@ class Test(unittest.TestCase):
 	def test_parse(t):
 		t.assertFalse(nginx_proc.parse('testing', None, None))
 
+	def test_parse_cpu(t):
+		t.assertTrue(nginx_proc.parse(nginx_proc.CPU_CONTROLLER, None, 0.999))
+		t.assertEqual(nginx_proc.sts['cpu']['controller'], 0.999)
+		t.assertTrue(nginx_proc.parse(nginx_proc.CPU_TOTAL, None, 0.999))
+		t.assertEqual(nginx_proc.sts['cpu']['total'], 0.999)
+
 if __name__ == '__main__':
 	unittest.main()
