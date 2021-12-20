@@ -63,6 +63,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(mon.cleanfn('_te/st.in g'), '_te_st_in_g')
 
 	def test_derive(t):
+		t.assertEqual(mon.derive('U'), 'U')
+		t.assertEqual(mon.derive('testing'), 'testing')
+		t.assertEqual(mon.derive('9'), '9')
 		t.assertEqual(mon.derive(0.0009), 1)
 		t.assertEqual(mon.derive(0.009), 9)
 		t.assertEqual(mon.derive(0.001), 1)

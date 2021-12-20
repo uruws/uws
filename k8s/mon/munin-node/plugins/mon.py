@@ -35,6 +35,8 @@ def cleanfn(n):
 	return __field_re.sub('_', n)
 
 def derive(f):
+	if isinstance(f, str):
+		return f
 	return math.ceil(f*1000)
 
 _cluster = os.getenv('UWS_CLUSTER', None)
