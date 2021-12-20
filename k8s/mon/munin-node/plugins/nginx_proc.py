@@ -23,6 +23,7 @@ sts = dict(
 )
 
 def __parse(kind, key, value):
+	global sts
 	mon.dbg('parse nginx_proc:', kind, key)
 	if kind == 'uptime':
 		sts[kind] = time() - value
@@ -34,6 +35,8 @@ def __parse(kind, key, value):
 
 CPU_CONTROLLER = 'nginx_ingress_controller_nginx_process_cpu_seconds_total'
 CPU_TOTAL = 'process_cpu_seconds_total'
+MEM_RESIDENT = 'nginx_ingress_controller_nginx_process_resident_memory_bytes'
+MEM_VIRTUAL = 'nginx_ingress_controller_nginx_process_virtual_memory_bytes'
 
 def parse(name, meta, value):
 	# cpu
@@ -42,9 +45,9 @@ def parse(name, meta, value):
 	elif name == CPU_TOTAL:
 		return __parse('cpu', 'total', value)
 	# mem
-	elif name == 'nginx_ingress_controller_nginx_process_resident_memory_bytes':
+	elif name == MEM_RESIDENT:
 		return __parse('mem', 'resident', value)
-	elif name == 'nginx_ingress_controller_nginx_process_virtual_memory_bytes':
+	elif name == MEM_VIRTUAL:
 		return __parse('mem', 'virtual', value)
 	# uptime
 	elif name == 'process_start_time_seconds':
