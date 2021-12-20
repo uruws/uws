@@ -55,5 +55,58 @@ class Test(unittest.TestCase):
 			t.assertTrue(nginx_conn.parse('nginx_ingress_controller_nginx_process_connections',
 				{'state': s}, 0.999))
 
+	def test_config(t):
+		nginx_conn.config({})
+		config = [
+			call('multigraph nginx_connections_state'),
+			call('graph_title connections state'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category nginx_conn'),
+			call('graph_vlabel number'),
+			call('graph_scale yes'),
+			call('active.label active'),
+			call('active.colour COLOUR0'),
+			call('active.min 0'),
+			call('reading.label reading'),
+			call('reading.colour COLOUR1'),
+			call('reading.min 0'),
+			call('waiting.label waiting'),
+			call('waiting.colour COLOUR2'),
+			call('waiting.min 0'),
+			call('writing.label writing'),
+			call('writing.colour COLOUR3'),
+			call('writing.min 0'),
+			call('multigraph nginx_connections'),
+			call('graph_title connections total'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category nginx_conn'),
+			call('graph_vlabel number'),
+			call('graph_scale yes'),
+			call('accepted.label accepted'),
+			call('accepted.colour COLOUR0'),
+			call('accepted.min 0'),
+			call('handled.label handled'),
+			call('handled.colour COLOUR1'),
+			call('handled.min 0'),
+			call('multigraph nginx_connections.counter'),
+			call('graph_title connections'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category nginx_conn'),
+			call('graph_vlabel number per second'),
+			call('graph_scale no'),
+			call('accepted.label accepted'),
+			call('accepted.colour COLOUR0'),
+			call('accepted.type DERIVE'),
+			call('accepted.min 0'),
+			call('accepted.cdef accepted,1000,/'),
+			call('handled.label handled'),
+			call('handled.colour COLOUR1'),
+			call('handled.type DERIVE'),
+			call('handled.min 0'),
+			call('handled.cdef handled,1000,/'),
+		]
+		nginx_conn._print.assert_has_calls(config)
+		t.assertEqual(nginx_conn._print.call_count, len(config))
+
 if __name__ == '__main__':
 	unittest.main()
