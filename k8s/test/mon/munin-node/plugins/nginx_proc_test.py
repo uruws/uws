@@ -45,5 +45,8 @@ class Test(unittest.TestCase):
 	def test_print(t):
 		_bup_print('test', 'ing')
 
+	def test_parse(t):
+		t.assertFalse(nginx_proc.parse('testing', None, None))
+
 if __name__ == '__main__':
 	unittest.main()
