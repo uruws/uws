@@ -33,6 +33,8 @@ def mock_openfn(fail = None, fh = None):
 			raise fail
 		return fh
 	try:
+		mon.cacheSet = _bup_cacheSet
+		mon.cacheGet = _bup_cacheGet
 		mon._openfn = MagicMock(side_effect = __open)
 		yield
 	finally:

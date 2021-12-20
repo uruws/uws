@@ -159,7 +159,7 @@ class Test(unittest.TestCase):
 				})
 
 	def test_cacheGet_error(t):
-		t.assertIsNone(mon.cacheGet('testing'))
+		t.assertIsNone(mon_t._bup_cacheGet('testing'))
 		mon._print.assert_called_once()
 
 	def test_cacheGet_expired(t):
