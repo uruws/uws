@@ -72,5 +72,19 @@ class Test(unittest.TestCase):
 		t.assertEqual(deploy_condition._print.call_count, len(config))
 		deploy_condition._print.assert_has_calls(config)
 
+	def test_report(t):
+		deploy_condition.report({
+			'condition': {'ns': {'name': {'Testing': 1}}},
+			'condition_index': {'Testing': 2},
+		})
+		report = [
+			call('multigraph deploy_condition'),
+			call('c_Testing.value', 2),
+			call('multigraph deploy_condition.ns_name'),
+			call('c_Testing.value', 1),
+		]
+		t.assertEqual(deploy_condition._print.call_count, len(report))
+		deploy_condition._print.assert_has_calls(report)
+
 if __name__ == '__main__':
 	unittest.main()
