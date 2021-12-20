@@ -44,17 +44,19 @@ def mock(resp = {}, resp_status = 200, resp_fail = False, metrics = (None, None,
 		mon_metrics._exit = _bup_exit
 		mon_metrics._metrics_parse = _bup_metrics_parse
 
-def _mock_metric(d):
+def _mock_metric(d: list):
 	body = '\n'.join(d).encode()
 	r = MagicMock()
 	r.read = MagicMock(return_value = body)
 	return r
 
 @contextmanager
-def mock_metrics(d):
+def mock_metrics(d = (None, None, None)):
 	_bup = mon_metrics._metrics_get
+	def __get(url):
+		yield d
 	try:
-		mon_metrics._metrics_get = MagicMock(return_value = _mock_metric(d))
+		mon_metrics._metrics_get = MagicMock(side_effect = __get)
 		yield
 	finally:
 		mon_metrics._metrics_get = _bup
@@ -140,16 +142,20 @@ class Test(unittest.TestCase):
 			err = e.exception
 			t.assertEqual(err.args[0], 8)
 
-	def test_metrics(t):
-		with mock_metrics({}):
+	def test_metrics_data(t):
+		with mock_metrics():
 			t.assertEqual(mon_metrics._metrics('testing', {}), {})
 		# with mods
-		with mock_metrics({}):
+		with mock_metrics():
 			tm = MagicMock()
 			tm.sts = MagicMock()
 			tm.sts.copy = MagicMock(return_value = 'mock_status')
+			tm.parse = MagicMock(return_value = 'mock_parse')
 			mods = {'testing': tm}
 			t.assertEqual(mon_metrics._metrics('testing', mods), {'testing': 'mock_status'})
+			mon_metrics._metrics_get.assert_called_once_with('testing')
+			tm.parse.assert_called_once_with(None, None, None)
+			tm.sts.copy.assert_called_once()
 
 if __name__ == '__main__':
 	unittest.main()
