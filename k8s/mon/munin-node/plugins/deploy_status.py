@@ -93,7 +93,7 @@ def report(sts):
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
-			val = sts[ns][name]['replicas']
+			val = sts[ns][name].get('replicas', 'U')
 			_print(f"f_{fid}.value", val)
 	if mon.debug(): _print()
 	# replicas all
@@ -101,7 +101,7 @@ def report(sts):
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
-			val = sts[ns][name]['replicas']
+			val = sts[ns][name].get('replicas', 'U')
 			_print(f"f_{fid}.value", val)
 	if mon.debug(): _print()
 	# replicas status

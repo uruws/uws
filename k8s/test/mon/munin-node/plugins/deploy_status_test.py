@@ -96,5 +96,23 @@ class Test(unittest.TestCase):
 		deploy_status._print.assert_has_calls(config)
 		t.assertEqual(deploy_status._print.call_count, len(config))
 
+	def test_report(t):
+		sts = {
+			'ns': {
+				'testing': {'spec_replicas': 'U'},
+			},
+		}
+		deploy_status.report(sts)
+		report = [
+			call('multigraph deploy_replicas'),
+			call('f_ns_testing.value', 'U'),
+			call('multigraph deploy_replicas.all'),
+			call('f_ns_testing.value', 'U'),
+			call('multigraph deploy_replicas.ns_testing'),
+			call('spec_replicas.value', 'U'),
+		]
+		deploy_status._print.assert_has_calls(report)
+		t.assertEqual(deploy_status._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
