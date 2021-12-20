@@ -8,6 +8,8 @@ from contextlib import contextmanager
 import unittest
 from unittest.mock import MagicMock, call
 
+import mon_t
+
 import deploy
 
 @contextmanager
@@ -30,9 +32,11 @@ _bup_print = deploy._print
 class Test(unittest.TestCase):
 
 	def setUp(t):
+		mon_t.setUp()
 		deploy._print = MagicMock()
 
 	def tearDown(t):
+		mon_t.tearDown()
 		deploy._print = _bup_print
 
 	def test_imports(t):
@@ -87,7 +91,7 @@ class Test(unittest.TestCase):
 			deploy.deploy_status.config.assert_called_once_with({})
 		config = [
 			call('multigraph deploy'),
-			call('graph_title None deployments'),
+			call('graph_title k8stest deployments'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category deploy'),
 			call('graph_vlabel number'),
