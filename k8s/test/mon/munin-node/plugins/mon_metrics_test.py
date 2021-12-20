@@ -117,5 +117,19 @@ class Test(unittest.TestCase):
 			mon_metrics._metrics_get('testing')
 			mon_metrics._metrics_parse.assert_called_once()
 
+	def test_metrics_get_errors(t):
+		# urlopen
+		with mock(resp_fail = True):
+			with t.assertRaises(SystemExit) as e:
+				mon_metrics._metrics_get('testing')
+			err = e.exception
+			t.assertEqual(err.args[0], 9)
+		# resp
+		with mock(resp_status = 900):
+			with t.assertRaises(SystemExit) as e:
+				mon_metrics._metrics_get('testing')
+			err = e.exception
+			t.assertEqual(err.args[0], 8)
+
 if __name__ == '__main__':
 	unittest.main()
