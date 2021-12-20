@@ -24,6 +24,7 @@
 #
 # allow ssh
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 28128 -j ACCEPT
 # allow smtps
 -A INPUT -p tcp -m tcp --dport 328 -j ACCEPT
 # allow imaps
