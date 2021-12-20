@@ -27,5 +27,14 @@ class Test(unittest.TestCase):
 	def test_print(t):
 		_bup_print('testing')
 
+	def test_parse(t):
+		t.assertDictEqual(deploy_status.parse({}), {
+			'available_replicas': 'U',
+			'ready_replicas': 'U',
+			'replicas': 'U',
+			'spec_replicas': 'U',
+			'updated_replicas': 'U',
+		})
+
 if __name__ == '__main__':
 	unittest.main()

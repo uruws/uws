@@ -5,8 +5,8 @@ import mon
 
 def parse(i):
 	sts = dict()
-	s = i['spec']
-	st = i['status']
+	s = i.get('spec', {})
+	st = i.get('status', {})
 	return dict(
 		spec_replicas = s.get('replicas',
 			st.get('desiredNumberScheduled', 'U')),
