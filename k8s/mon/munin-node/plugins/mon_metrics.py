@@ -85,7 +85,7 @@ def _metrics(url, mods):
 
 # module config
 
-def __config(url, mods):
+def _config(url, mods):
 	mon.dbg('config')
 	sts = _metrics(url, mods)
 	for modname in mods.keys():
@@ -113,7 +113,7 @@ def __report(url, mods):
 def main(argv, url, mods):
 	try:
 		if argv[0] == 'config':
-			return __config(url, mods)
+			return _config(url, mods)
 	except IndexError:
 		pass
 	return __report(url, mods)

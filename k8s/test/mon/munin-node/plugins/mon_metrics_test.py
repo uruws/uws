@@ -157,5 +157,11 @@ class Test(unittest.TestCase):
 			tm.parse.assert_called_once_with(None, None, None)
 			tm.sts.copy.assert_called_once()
 
+	def test_config(t):
+		with mock_metrics():
+			tm = MagicMock()
+			tm.config = MagicMock()
+			t.assertEqual(mon_metrics._config('testing', {'testing': tm}), 0)
+
 if __name__ == '__main__':
 	unittest.main()
