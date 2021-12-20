@@ -97,7 +97,7 @@ def _config(url, mods):
 
 # module report
 
-def __report(url, mods):
+def _report(url, mods):
 	mon.dbg('report')
 	sts = mon.cacheGet(url)
 	if sts is None:
@@ -116,4 +116,4 @@ def main(argv, url, mods):
 			return _config(url, mods)
 	except IndexError:
 		pass
-	return __report(url, mods)
+	return _report(url, mods)

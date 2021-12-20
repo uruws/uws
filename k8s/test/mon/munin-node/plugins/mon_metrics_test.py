@@ -162,6 +162,14 @@ class Test(unittest.TestCase):
 			tm = MagicMock()
 			tm.config = MagicMock()
 			t.assertEqual(mon_metrics._config('testing', {'testing': tm}), 0)
+			tm.config.assert_called_once()
+
+	def test_report(t):
+		with mock_metrics():
+			tm = MagicMock()
+			tm.report = MagicMock()
+			t.assertEqual(mon_metrics._report('testing', {'testing': tm}), 0)
+			tm.report.assert_called_once()
 
 if __name__ == '__main__':
 	unittest.main()
