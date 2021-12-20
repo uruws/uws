@@ -100,5 +100,17 @@ class Test(unittest.TestCase):
 		]
 		deploy._print.assert_has_calls(config)
 
+	def test_report(t):
+		with mock_mods():
+			deploy.report({})
+			deploy.deploy_generation.report.assert_called_once_with({})
+			deploy.deploy_condition.report.assert_called_once_with({})
+			deploy.deploy_status.report.assert_called_once_with({})
+		report = [
+			call('multigraph deploy'),
+			call('a_total.value', 'U'),
+		]
+		deploy._print.assert_has_calls(report)
+
 if __name__ == '__main__':
 	unittest.main()

@@ -73,11 +73,11 @@ def report(sts):
 	mon.dbg('deploy_info report')
 	# total
 	_print('multigraph deploy')
-	_print('a_total.value', sts['total'])
+	_print('a_total.value', sts.get('total', 'U'))
 	if mon.debug(): _print()
 	# generation
-	deploy_generation.report(sts['deploy'])
+	deploy_generation.report(sts.get('deploy', {}))
 	# condition
 	deploy_condition.report(sts)
 	# status
-	deploy_status.report(sts['status'])
+	deploy_status.report(sts.get('status', {}))
