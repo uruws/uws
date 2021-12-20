@@ -102,6 +102,7 @@ class Test(unittest.TestCase):
 			call('a_total.draw AREA'),
 			call('a_total.min 0'),
 		]
+		t.assertEqual(deploy._print.call_count, len(config))
 		deploy._print.assert_has_calls(config)
 
 	def test_report(t):
@@ -114,6 +115,7 @@ class Test(unittest.TestCase):
 			call('multigraph deploy'),
 			call('a_total.value', 'U'),
 		]
+		t.assertEqual(deploy._print.call_count, len(report))
 		deploy._print.assert_has_calls(report)
 
 if __name__ == '__main__':

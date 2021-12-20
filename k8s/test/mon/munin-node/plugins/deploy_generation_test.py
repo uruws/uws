@@ -33,5 +33,29 @@ class Test(unittest.TestCase):
 	def test_print(t):
 		_bup_print('testing')
 
+	def test_config(t):
+		deploy_generation.config({
+			'test_ns': {
+				'test_name': {},
+			},
+		})
+		config = [
+			call('multigraph deploy_generation'),
+			call('graph_title k8stest deployments generation'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category deploy'),
+			call('graph_vlabel number'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('f_test_ns_test_name_cur.label test_ns/test_name cur'),
+			call('f_test_ns_test_name_cur.colour COLOUR0'),
+			call('f_test_ns_test_name_cur.min 0'),
+			call('f_test_ns_test_name_obs.label test_ns/test_name obs'),
+			call('f_test_ns_test_name_obs.colour COLOUR0'),
+			call('f_test_ns_test_name_obs.min 0')
+		]
+		t.assertEqual(deploy_generation._print.call_count, len(config))
+		deploy_generation._print.assert_has_calls(config)
+
 if __name__ == '__main__':
 	unittest.main()

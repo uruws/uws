@@ -32,8 +32,7 @@ def config(sts):
 			_print(f"f_{fid}_obs.colour COLOUR{fc}")
 			_print(f"f_{fid}_obs.min 0")
 			fc += 1
-			if fc > 28:
-				fc = 0
+			if fc > 28: fc = 0
 	if mon.debug(): _print()
 
 def report(sts):
