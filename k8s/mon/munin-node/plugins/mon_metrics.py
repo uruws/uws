@@ -54,7 +54,7 @@ def _metrics_parse(resp):
 def _exit(rc):
 	sys.exit(rc)
 
-def __metrics_get(url):
+def _metrics_get(url):
 	mon.dbg('metrics get')
 	try:
 		resp = urlopen(url, None, 15)
@@ -72,7 +72,7 @@ def __metrics_get(url):
 def __metrics(url, mods):
 	mon.dbg('metrics')
 	sts = dict()
-	for name, meta, value in __metrics_get(url):
+	for name, meta, value in _metrics_get(url):
 		for modname in mods.keys():
 			mod = mods.get(modname)
 			if mod.parse(name, meta, value):

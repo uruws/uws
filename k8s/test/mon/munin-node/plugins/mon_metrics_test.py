@@ -3,6 +3,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from contextlib import contextmanager
+import json
 import re
 
 import unittest
@@ -13,7 +15,36 @@ import mon_metrics
 
 import mon
 
-def _mock_resp(d):
+def _mock_response(r, status):
+	resp = MagicMock()
+	resp.read = MagicMock(return_value = r)
+	resp.status = status
+	return resp
+
+@contextmanager
+def mock(resp = {}, resp_status = 200, resp_fail = False, metrics = (None, None, None)):
+	_bup_urlopen = mon_metrics.urlopen
+	_bup_exit = mon_metrics._exit
+	_bup_metrics_parse = mon_metrics._metrics_parse
+	def _exit(status):
+		raise SystemExit(status)
+	def _resp_fail():
+		raise Exception('mock_error')
+	try:
+		if resp_fail:
+			mon_metrics.urlopen = MagicMock(side_effect = _resp_fail)
+		else:
+			r = json.dumps(resp).encode()
+			mon_metrics.urlopen = MagicMock(return_value = _mock_response(r, resp_status))
+		mon_metrics._exit = MagicMock(side_effect = _exit)
+		mon_metrics._metrics_parse = MagicMock(return_value = metrics)
+		yield
+	finally:
+		mon_metrics.urlopen = _bup_urlopen
+		mon_metrics._exit = _bup_exit
+		mon_metrics._metrics_parse = _bup_metrics_parse
+
+def _mock_metric(d):
 	body = '\n'.join(d).encode()
 	r = MagicMock()
 	r.read = MagicMock(return_value = body)
@@ -36,15 +67,15 @@ class Test(unittest.TestCase):
 
 	def test_metrics_parse(t):
 		# ignore lines
-		r = _mock_resp(['# testing', '\n'])
+		r = _mock_metric(['# testing', '\n'])
 		for __, __, __ in mon_metrics._metrics_parse(r):
 			pass # pragma no cover
 		# miss lines
-		r = _mock_resp(['{}'])
+		r = _mock_metric(['{}'])
 		for __, __, __ in mon_metrics._metrics_parse(r):
 			pass # pragma no cover
 		# parse
-		r = _mock_resp(['testing 99.0'])
+		r = _mock_metric(['testing 99.0'])
 		for name, meta, value in mon_metrics._metrics_parse(r):
 			t.assertEqual(name, 'testing')
 			t.assertIsNone(meta)
@@ -52,20 +83,20 @@ class Test(unittest.TestCase):
 
 	def test_metrics_parse_meta(t):
 		# parse metadata
-		r = _mock_resp(['testing{k0="v0",k1="v1"} 0.99'])
+		r = _mock_metric(['testing{k0="v0",k1="v1"} 0.99'])
 		for name, meta, value in mon_metrics._metrics_parse(r):
 			t.assertEqual(name, 'testing')
 			t.assertDictEqual(meta, {'k0': 'v0', 'k1': 'v1'})
 			t.assertEqual(value, 0.99)
 
 	def test_metrics_parse_meta_error(t):
-		r = _mock_resp(['testing{k0=v0} 0.99'])
+		r = _mock_metric(['testing{k0=v0} 0.99'])
 		for __, __, __ in mon_metrics._metrics_parse(r):
 			pass
 		mon._print.assert_called_once()
 
 	def test_metrics_parse_value_error(t):
-		r = _mock_resp(['testing 0,99'])
+		r = _mock_metric(['testing 0,99'])
 		for name, meta, value in mon_metrics._metrics_parse(r):
 			t.assertEqual(name, 'testing')
 			t.assertIsNone(meta)
@@ -80,6 +111,11 @@ class Test(unittest.TestCase):
 			mon_metrics._exit(2)
 		err = e.exception
 		t.assertEqual(err.args[0], 2)
+
+	def test_metrics_get(t):
+		with mock():
+			mon_metrics._metrics_get('testing')
+			mon_metrics._metrics_parse.assert_called_once()
 
 if __name__ == '__main__':
 	unittest.main()
