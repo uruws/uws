@@ -57,5 +57,19 @@ class Test(unittest.TestCase):
 		t.assertEqual(deploy_generation._print.call_count, len(config))
 		deploy_generation._print.assert_has_calls(config)
 
+	def test_report(t):
+		deploy_generation.report({
+			'test_ns': {
+				'test_name': {},
+			},
+		})
+		report = [
+			call('multigraph deploy_generation'),
+			call('f_test_ns_test_name_cur.value', 'U'),
+			call('f_test_ns_test_name_obs.value', 'U'),
+		]
+		t.assertEqual(deploy_generation._print.call_count, len(report))
+		deploy_generation._print.assert_has_calls(report)
+
 if __name__ == '__main__':
 	unittest.main()

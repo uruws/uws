@@ -40,8 +40,8 @@ def report(sts):
 	for ns in sorted(sts.keys()):
 		for name in sorted(sts[ns].keys()):
 			fid = mon.cleanfn(ns+"_"+name)
-			cur = sts[ns][name]['generation']
-			obs = sts[ns][name]['observed_generation']
+			cur = sts[ns][name].get('generation', 'U')
+			obs = sts[ns][name].get('observed_generation', 'U')
 			_print(f"f_{fid}_cur.value", cur)
 			_print(f"f_{fid}_obs.value", obs)
 	if mon.debug(): _print()
