@@ -61,6 +61,18 @@ def mock_metrics(d = (None, None, None)):
 	finally:
 		mon_metrics._metrics_get = _bup
 
+@contextmanager
+def mock_main(status = 0):
+	_bup_config = mon_metrics._config
+	_bup_report = mon_metrics._report
+	try:
+		mon_metrics._config = MagicMock(return_value = status)
+		mon_metrics._report = MagicMock(return_value = status)
+		yield
+	finally:
+		mon_metrics._config = _bup_config
+		mon_metrics._report = _bup_report
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -170,6 +182,16 @@ class Test(unittest.TestCase):
 			tm.report = MagicMock()
 			t.assertEqual(mon_metrics._report('testing', {'testing': tm}), 0)
 			tm.report.assert_called_once()
+
+	def test_main_config(t):
+		with mock_main():
+			t.assertEqual(mon_metrics.main(['config'], 'testing', {}), 0)
+			mon_metrics._config.assert_called_once_with('testing', {})
+
+	def test_main_report(t):
+		with mock_main():
+			t.assertEqual(mon_metrics.main([], 'testing', {}), 0)
+			mon_metrics._report.assert_called_once_with('testing', {})
 
 if __name__ == '__main__':
 	unittest.main()
