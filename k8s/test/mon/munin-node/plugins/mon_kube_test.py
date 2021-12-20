@@ -22,10 +22,8 @@ def _mock_response(r, status):
 def mock(resp = {}, resp_status = 200, resp_fail = False):
 	_bup_urlopen = mon_kube.urlopen
 	_bup_exit = mon_kube._exit
-	def _exit(status):
-		raise SystemExit(status)
-	def _resp_fail():
-		raise Exception('mock_error')
+	def _exit(status): raise SystemExit(status)
+	def _resp_fail(): raise Exception('mock_error')
 	try:
 		if resp_fail:
 			mon_kube.urlopen = MagicMock(side_effect = _resp_fail)

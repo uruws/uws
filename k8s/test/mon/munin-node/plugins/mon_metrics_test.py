@@ -26,10 +26,8 @@ def mock(resp = {}, resp_status = 200, resp_fail = False, metrics = (None, None,
 	_bup_urlopen = mon_metrics.urlopen
 	_bup_exit = mon_metrics._exit
 	_bup_metrics_parse = mon_metrics._metrics_parse
-	def _exit(status):
-		raise SystemExit(status)
-	def _resp_fail():
-		raise Exception('mock_error')
+	def _exit(status): raise SystemExit(status)
+	def _resp_fail(): raise Exception('mock_error')
 	try:
 		if resp_fail:
 			mon_metrics.urlopen = MagicMock(side_effect = _resp_fail)
@@ -91,12 +89,10 @@ class Test(unittest.TestCase):
 	def test_metrics_parse(t):
 		# ignore lines
 		r = _mock_metric(['# testing', '\n'])
-		for __, __, __ in mon_metrics._metrics_parse(r):
-			pass # pragma no cover
+		list(mon_metrics._metrics_parse(r))
 		# miss lines
 		r = _mock_metric(['{}'])
-		for __, __, __ in mon_metrics._metrics_parse(r):
-			pass # pragma no cover
+		list(mon_metrics._metrics_parse(r))
 		# parse
 		r = _mock_metric(['testing 99.0'])
 		for name, meta, value in mon_metrics._metrics_parse(r):
@@ -114,8 +110,7 @@ class Test(unittest.TestCase):
 
 	def test_metrics_parse_meta_error(t):
 		r = _mock_metric(['testing{k0=v0} 0.99'])
-		for __, __, __ in mon_metrics._metrics_parse(r):
-			pass
+		list(mon_metrics._metrics_parse(r))
 		mon._print.assert_called_once()
 
 	def test_metrics_parse_value_error(t):
