@@ -43,8 +43,7 @@ def config(sts):
 			_print(f"f_{fid}.colour COLOUR{fc}")
 			_print(f"f_{fid}.min 0")
 			fc += 1
-			if fc > 28:
-				fc = 0
+			if fc > 28: fc = 0
 	if mon.debug(): _print()
 	# replicas all
 	_print('multigraph deploy_replicas.all')
