@@ -38,18 +38,17 @@ def config(sts):
 	_print('graph_printf %3.0lf')
 	_print('graph_scale yes')
 	cc = 0
-	for c in sorted(sts['condition_index'].keys()):
+	for c in sorted(sts.get('condition_index', {}).keys()):
 		cid = mon.cleanfn(c)
 		_print(f"c_{cid}.label", c)
 		_print(f"c_{cid}.colour COLOUR{cc}")
 		_print(f"c_{cid}.min 0")
 		cc += 1
-		if cc > 28:
-			cc = 0
+		if cc > 28: cc = 0
 	if mon.debug(): _print()
 	# condition
-	for ns in sorted(sts['condition'].keys()):
-		for name in sorted(sts['condition'][ns].keys()):
+	for ns in sorted(sts.get('condition', {}).keys()):
+		for name in sorted(sts['condition'].get(ns, {}).keys()):
 			sid = mon.cleanfn(ns+"_"+name)
 			_print(f"multigraph deploy_condition.{sid}")
 			_print(f"graph_title {cluster} {ns}/{name} condition")
@@ -65,8 +64,7 @@ def config(sts):
 				_print(f"c_{cid}.colour COLOUR{cc}")
 				_print(f"c_{cid}.min 0")
 				cc += 1
-				if cc > 28:
-					cc = 0
+				if cc > 28: cc = 0
 			if mon.debug(): _print()
 
 def report(sts):

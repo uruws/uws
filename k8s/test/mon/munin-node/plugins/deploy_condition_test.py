@@ -42,5 +42,35 @@ class Test(unittest.TestCase):
 	def test_print(t):
 		_bup_print('testing')
 
+	def test_config(t):
+		deploy_condition.config({
+			'condition': {'ns': {'name': {'Testing': 1}}},
+			'condition_index': {'Testing': 1},
+		})
+		config = [
+			call('multigraph deploy_condition'),
+			call('graph_title k8stest deployments condition'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category deploy'),
+			call('graph_vlabel number'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('c_Testing.label', 'Testing'),
+			call('c_Testing.colour COLOUR0'),
+			call('c_Testing.min 0'),
+			call('multigraph deploy_condition.ns_name'),
+			call('graph_title k8stest ns/name condition'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category deploy'),
+			call('graph_vlabel number of deployments'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('c_Testing.label', 'Testing'),
+			call('c_Testing.colour COLOUR0'),
+			call('c_Testing.min 0'),
+		]
+		t.assertEqual(deploy_condition._print.call_count, len(config))
+		deploy_condition._print.assert_has_calls(config)
+
 if __name__ == '__main__':
 	unittest.main()
