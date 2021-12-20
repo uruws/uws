@@ -11,6 +11,8 @@ from unittest.mock import MagicMock
 import mon_t
 import mon_metrics
 
+import mon
+
 def _mock_resp(d):
 	body = '\n'.join(d).encode()
 	r = MagicMock()
@@ -47,6 +49,27 @@ class Test(unittest.TestCase):
 			t.assertEqual(name, 'testing')
 			t.assertIsNone(meta)
 			t.assertEqual(value, 99.0)
+
+	def test_metrics_parse_meta(t):
+		# parse metadata
+		r = _mock_resp(['testing{k0="v0",k1="v1"} 0.99'])
+		for name, meta, value in mon_metrics._metrics_parse(r):
+			t.assertEqual(name, 'testing')
+			t.assertDictEqual(meta, {'k0': 'v0', 'k1': 'v1'})
+			t.assertEqual(value, 0.99)
+
+	def test_metrics_parse_meta_error(t):
+		r = _mock_resp(['testing{k0=v0} 0.99'])
+		for __, __, __ in mon_metrics._metrics_parse(r):
+			pass
+		mon._print.assert_called_once()
+
+	def test_metrics_parse_value_error(t):
+		r = _mock_resp(['testing 0,99'])
+		for name, meta, value in mon_metrics._metrics_parse(r):
+			t.assertEqual(name, 'testing')
+			t.assertIsNone(meta)
+			t.assertEqual(value, 'U')
 
 if __name__ == '__main__':
 	unittest.main()
