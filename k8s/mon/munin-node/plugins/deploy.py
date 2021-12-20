@@ -43,22 +43,25 @@ def parse(deploy):
 		sts['status'][ns][name] = deploy_status.parse(i)
 	return sts
 
+def _print(msg):
+	print(msg)
+
 def config(sts):
 	mon.dbg('deploy_info config')
 	cluster = mon.cluster()
 	# total
-	print('multigraph deploy')
-	print(f"graph_title {cluster} deployments")
-	print('graph_args --base 1000 -l 0')
-	print('graph_category deploy')
-	print('graph_vlabel number')
-	print('graph_printf %3.0lf')
-	print('graph_scale yes')
-	print('a_total.label total')
-	print('a_total.colour COLOUR0')
-	print('a_total.draw AREA')
-	print('a_total.min 0')
-	if mon.debug(): print()
+	_print('multigraph deploy')
+	_print(f"graph_title {cluster} deployments")
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category deploy')
+	_print('graph_vlabel number')
+	_print('graph_printf %3.0lf')
+	_print('graph_scale yes')
+	_print('a_total.label total')
+	_print('a_total.colour COLOUR0')
+	_print('a_total.draw AREA')
+	_print('a_total.min 0')
+	if mon.debug(): _print()
 	# generation
 	deploy_generation.config(sts.get('deploy', {}))
 	# condition
@@ -69,9 +72,9 @@ def config(sts):
 def report(sts):
 	mon.dbg('deploy_info report')
 	# total
-	print('multigraph deploy')
-	print('a_total.value', sts['total'])
-	if mon.debug(): print()
+	_print('multigraph deploy')
+	_print('a_total.value', sts['total'])
+	if mon.debug(): _print()
 	# generation
 	deploy_generation.report(sts['deploy'])
 	# condition

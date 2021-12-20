@@ -6,7 +6,7 @@
 from contextlib import contextmanager
 
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 
 import deploy
 
@@ -25,7 +25,15 @@ def mock_mods():
 		deploy.deploy_condition = _bup_condition
 		deploy.deploy_status = _bup_status
 
+_bup_print = deploy._print
+
 class Test(unittest.TestCase):
+
+	def setUp(t):
+		deploy._print = MagicMock()
+
+	def tearDown(t):
+		deploy._print = _bup_print
 
 	def test_imports(t):
 		t.assertEqual(deploy.deploy_generation.__name__, 'deploy_generation')
@@ -68,12 +76,29 @@ class Test(unittest.TestCase):
 				'metadata': {},
 			})
 
+	def test_print(t):
+		_bup_print('testing')
+
 	def test_config(t):
 		with mock_mods():
 			deploy.config({})
 			deploy.deploy_generation.config.assert_called_once_with({})
 			deploy.deploy_condition.config.assert_called_once_with({})
 			deploy.deploy_status.config.assert_called_once_with({})
+		config = [
+			call('multigraph deploy'),
+			call('graph_title None deployments'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category deploy'),
+			call('graph_vlabel number'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('a_total.label total'),
+			call('a_total.colour COLOUR0'),
+			call('a_total.draw AREA'),
+			call('a_total.min 0'),
+		]
+		deploy._print.assert_has_calls(config)
 
 if __name__ == '__main__':
 	unittest.main()
