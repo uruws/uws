@@ -12,6 +12,7 @@ import nginx_cfg
 
 _bup_print = nginx_cfg._print
 _bup_sts = nginx_cfg.sts
+_bup_time = nginx_cfg.time
 
 class Test(unittest.TestCase):
 
@@ -19,10 +20,12 @@ class Test(unittest.TestCase):
 		mon_t.setUp()
 		nginx_cfg._print = MagicMock()
 		nginx_cfg.sts = _bup_sts.copy()
+		nginx_cfg.time = MagicMock(return_value = 100)
 
 	def tearDown(t):
 		mon_t.tearDown()
 		nginx_cfg._print = _bup_print
+		nginx_cfg.time = _bup_time
 
 	def test_globals(t):
 		t.assertDictEqual(nginx_cfg.sts, {
@@ -80,6 +83,34 @@ class Test(unittest.TestCase):
 		]
 		nginx_cfg._print.assert_has_calls(config)
 		t.assertEqual(nginx_cfg._print.call_count, len(config))
+
+	def test_report(t):
+		nginx_cfg.report({})
+		report = [
+			call('multigraph nginx_cfg_hash'),
+			call('hash.value', 'U'),
+			call('multigraph nginx_cfg_reload'),
+			call('reload.value', 'U'),
+			call('multigraph nginx_cfg_uptime'),
+			call('uptime.value', 'U'),
+		]
+		nginx_cfg._print.assert_has_calls(report)
+		t.assertEqual(nginx_cfg._print.call_count, len(report))
+
+	def test_report_data(t):
+		nginx_cfg.report({
+			'config_last_reload_successful_timestamp_seconds': 1,
+		})
+		report = [
+			call('multigraph nginx_cfg_hash'),
+			call('hash.value', 'U'),
+			call('multigraph nginx_cfg_reload'),
+			call('reload.value', 'U'),
+			call('multigraph nginx_cfg_uptime'),
+			call('uptime.value', 0.0275),
+		]
+		nginx_cfg._print.assert_has_calls(report)
+		t.assertEqual(nginx_cfg._print.call_count, len(report))
 
 if __name__ == '__main__':
 	unittest.main()

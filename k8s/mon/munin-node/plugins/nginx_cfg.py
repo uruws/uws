@@ -68,11 +68,15 @@ def report(sts):
 	mon.dbg('report nginx_cfg')
 	# hash
 	_print('multigraph nginx_cfg_hash')
-	_print('hash.value', sts['config_hash'])
+	_print('hash.value', sts.get('config_hash', 'U'))
 	# reload status
 	_print('multigraph nginx_cfg_reload')
-	_print('reload.value', sts['config_last_reload_successful'])
+	_print('reload.value', sts.get('config_last_reload_successful', 'U'))
 	# reload uptime
 	_print('multigraph nginx_cfg_uptime')
-	t = time() - sts['config_last_reload_successful_timestamp_seconds']
-	_print('uptime.value', t / 3600.0)
+	val = sts.get('config_last_reload_successful_timestamp_seconds', 'U')
+	if val != 'U':
+		t = time() - val
+		_print('uptime.value', t / 3600.0)
+	else:
+		_print('uptime.value', val)
