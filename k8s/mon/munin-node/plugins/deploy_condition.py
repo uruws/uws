@@ -43,8 +43,7 @@ def config(sts):
 		_print(f"c_{cid}.label", c)
 		_print(f"c_{cid}.colour COLOUR{cc}")
 		_print(f"c_{cid}.min 0")
-		cc += 1
-		if cc > 28: cc = 0
+		cc = mon.color(cc)
 	if mon.debug(): _print()
 	# condition
 	for ns in sorted(sts.get('condition', {}).keys()):
@@ -63,8 +62,7 @@ def config(sts):
 				_print(f"c_{cid}.label", c)
 				_print(f"c_{cid}.colour COLOUR{cc}")
 				_print(f"c_{cid}.min 0")
-				cc += 1
-				if cc > 28: cc = 0
+				cc = mon.color(cc)
 			if mon.debug(): _print()
 
 def report(sts):

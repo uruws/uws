@@ -60,8 +60,7 @@ def config(sts):
 		_print(f"t_{t}.label", n)
 		_print(f"t_{t}.colour COLOUR{tc}")
 		_print(f"t_{t}.min 0")
-		tc += 1
-		if tc > 28: tc = 0
+		tc = mon.color(tc)
 	# condition
 	_print('multigraph nodes_condition')
 	_print(f"graph_title {cluster} nodes condition")
@@ -78,8 +77,7 @@ def config(sts):
 		_print(f"c_{cid}.colour COLOUR{cc}")
 		_print(f"c_{cid}.draw AREASTACK")
 		_print(f"c_{cid}.min 0")
-		cc += 1
-		if cc > 28: cc = 0
+		cc = mon.color(cc)
 
 def report(sts):
 	mon.dbg('nodes_info report')
