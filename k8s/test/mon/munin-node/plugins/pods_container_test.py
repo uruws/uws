@@ -301,5 +301,47 @@ class Test(unittest.TestCase):
 		pods_container._print.assert_has_calls(config)
 		t.assertEqual(pods_container._print.call_count, len(config))
 
+	def test_report(t):
+		pods = {
+			'index': {
+				'abc': 1,
+			},
+			'info': {
+				'ns': {
+					'test': {
+						'spec': {'testing.img': True},
+						'status': {
+							'testing': {'testing.img': 1},
+						},
+					},
+				},
+			},
+			'status': {
+				'ns': {
+					'test': {
+						'abc': 1,
+						'failed_ratio': 0,
+					},
+				},
+			},
+		}
+		pods_container.report(pods)
+		report = [
+			# index
+			call('multigraph pod_container'),
+			call('abc.value', 1),
+			# status
+			call('multigraph pod_container.ns_test'),
+			call('abc.value', 1),
+			call('failed_ratio.value', 0),
+			# info
+			# spec
+			call('zza_spec_0000.value 1'),
+			# status
+			call('zzz_testing_0000.value', 1),
+		]
+		pods_container._print.assert_has_calls(report)
+		t.assertEqual(pods_container._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
