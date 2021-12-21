@@ -44,60 +44,63 @@ def parse(pods):
 				sts['cond'][ns][gname][typ] += 1
 	return sts
 
+def _print(*args):
+	print(*args)
+
 def config(sts):
 	mon.dbg('pods_condition config')
 	cluster = mon.cluster()
 	# index
-	print('multigraph pod_condition')
-	print(f"graph_title {cluster} pods condition")
-	print('graph_args --base 1000 -l 0')
-	print('graph_category pod')
-	print('graph_vlabel number')
-	print('graph_printf %3.0lf')
-	print('graph_scale yes')
+	_print('multigraph pod_condition')
+	_print(f"graph_title {cluster} pods condition")
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category pod')
+	_print('graph_vlabel number')
+	_print('graph_printf %3.0lf')
+	_print('graph_scale yes')
 	cc = 0
 	for ctype in sorted(sts['index'].keys()):
 		cid = mon.cleanfn(ctype.lower())
-		print(f"c_{cid}.label", ctype)
-		print(f"c_{cid}.colour COLOUR{cc}")
-		print(f"c_{cid}.min 0")
+		_print(f"c_{cid}.label", ctype)
+		_print(f"c_{cid}.colour COLOUR{cc}")
+		_print(f"c_{cid}.min 0")
 		cc = mon.color(cc)
-	if mon.debug(): print()
+	if mon.debug(): _print()
 	# status
 	for ns in sorted(sts['cond'].keys()):
 		for gname in sorted(sts['cond'][ns].keys()):
 			cid = mon.cleanfn(f"{ns}_{gname}")
-			print(f"multigraph pod_condition.{cid}")
-			print(f"graph_title {cluster} {ns}/{gname} condition")
-			print('graph_args --base 1000 -l 0')
-			print('graph_category pod')
-			print('graph_vlabel number of pods')
-			print('graph_printf %3.0lf')
-			print('graph_scale yes')
+			_print(f"multigraph pod_condition.{cid}")
+			_print(f"graph_title {cluster} {ns}/{gname} condition")
+			_print('graph_args --base 1000 -l 0')
+			_print('graph_category pod')
+			_print('graph_vlabel number of pods')
+			_print('graph_printf %3.0lf')
+			_print('graph_scale yes')
 			cc = 0
 			for ctype in sorted(sts['cond'][ns][gname].keys()):
 				fid = mon.cleanfn(ctype.lower())
-				print(f"c_{fid}.label", ctype)
-				print(f"c_{fid}.colour COLOUR{cc}")
-				print(f"c_{fid}.min 0")
+				_print(f"c_{fid}.label", ctype)
+				_print(f"c_{fid}.colour COLOUR{cc}")
+				_print(f"c_{fid}.min 0")
 				cc = mon.color(cc)
-			if mon.debug(): print()
+			if mon.debug(): _print()
 
 def report(sts):
 	mon.dbg('pods_condition report')
 	# index
-	print('multigraph pod_condition')
+	_print('multigraph pod_condition')
 	for ctype in sorted(sts['index'].keys()):
 		cid = mon.cleanfn(ctype.lower())
-		print(f"c_{cid}.value", sts['index'][ctype])
-	if mon.debug(): print()
+		_print(f"c_{cid}.value", sts['index'][ctype])
+	if mon.debug(): _print()
 	# status
 	for ns in sorted(sts['cond'].keys()):
 		for gname in sorted(sts['cond'][ns].keys()):
 			cid = mon.cleanfn(f"{ns}_{gname}")
-			print(f"multigraph pod_condition.{cid}")
+			_print(f"multigraph pod_condition.{cid}")
 			for ctype in sorted(sts['cond'][ns][gname].keys()):
 				fid = mon.cleanfn(ctype.lower())
 				val = sts['cond'][ns][gname][ctype]
-				print(f"c_{fid}.value", val)
-			if mon.debug(): print()
+				_print(f"c_{fid}.value", val)
+			if mon.debug(): _print()
