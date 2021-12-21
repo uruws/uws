@@ -73,5 +73,9 @@ class Test(unittest.TestCase):
 		t.assertTrue(nginx_proc.parse(nginx_proc.UPTIME, None, 99.0))
 		t.assertEqual(nginx_proc.sts['uptime'], 1.0)
 
+	def test_parse_requests(t):
+		t.assertTrue(nginx_proc.parse(nginx_proc.REQ_TOTAL, None, 99.0))
+		t.assertEqual(nginx_proc.sts['requests'], 99.0)
+
 if __name__ == '__main__':
 	unittest.main()

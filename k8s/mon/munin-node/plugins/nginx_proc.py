@@ -34,10 +34,13 @@ def __parse(kind, key, value):
 	return True
 
 CPU_CONTROLLER = 'nginx_ingress_controller_nginx_process_cpu_seconds_total'
-CPU_TOTAL = 'process_cpu_seconds_total'
-MEM_RESIDENT = 'nginx_ingress_controller_nginx_process_resident_memory_bytes'
-MEM_VIRTUAL = 'nginx_ingress_controller_nginx_process_virtual_memory_bytes'
-UPTIME = 'process_start_time_seconds'
+CPU_TOTAL      = 'process_cpu_seconds_total'
+MEM_RESIDENT   = 'nginx_ingress_controller_nginx_process_resident_memory_bytes'
+MEM_VIRTUAL    = 'nginx_ingress_controller_nginx_process_virtual_memory_bytes'
+UPTIME         = 'process_start_time_seconds'
+REQ_TOTAL      = 'nginx_ingress_controller_nginx_process_requests_total'
+READ_TOTAL     = 'nginx_ingress_controller_nginx_process_read_bytes_total'
+WRITE_TOTAL    = 'nginx_ingress_controller_nginx_process_write_bytes_total'
 
 def parse(name, meta, value):
 	# cpu
@@ -54,13 +57,13 @@ def parse(name, meta, value):
 	elif name == UPTIME:
 		return __parse('uptime', 'since', value)
 	# requests
-	elif name == 'nginx_ingress_controller_nginx_process_requests_total':
+	elif name == REQ_TOTAL:
 		return __parse('requests', 'total', value)
 	# read
-	elif name == 'nginx_ingress_controller_nginx_process_read_bytes_total':
+	elif name == READ_TOTAL:
 		return __parse('byte', 'read', value)
 	# write
-	elif name == 'nginx_ingress_controller_nginx_process_write_bytes_total':
+	elif name == WRITE_TOTAL:
 		return __parse('byte', 'write', value)
 	return False
 
