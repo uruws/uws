@@ -22,7 +22,6 @@ def _print(*args):
 def config(sts):
 	mon.dbg('pods_info config')
 	cluster = mon.cluster()
-	# total
 	_print('multigraph pod')
 	_print(f"graph_title {cluster} pods")
 	_print('graph_args --base 1000 -l 0')
@@ -38,7 +37,6 @@ def config(sts):
 
 def report(sts):
 	mon.dbg('pods_info report')
-	# total
 	_print('multigraph pod')
-	_print('total.value', sts['total'])
+	_print('total.value', sts.get('total', 'U'))
 	if mon.debug(): _print()

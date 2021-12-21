@@ -55,5 +55,14 @@ class Test(unittest.TestCase):
 		pods_info._print.assert_has_calls(config)
 		t.assertEqual(pods_info._print.call_count, len(config))
 
+	def test_report(t):
+		pods_info.report({})
+		report = [
+			call('multigraph pod'),
+			call('total.value', 'U'),
+		]
+		pods_info._print.assert_has_calls(report)
+		t.assertEqual(pods_info._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
