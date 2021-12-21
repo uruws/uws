@@ -37,6 +37,7 @@ CPU_CONTROLLER = 'nginx_ingress_controller_nginx_process_cpu_seconds_total'
 CPU_TOTAL = 'process_cpu_seconds_total'
 MEM_RESIDENT = 'nginx_ingress_controller_nginx_process_resident_memory_bytes'
 MEM_VIRTUAL = 'nginx_ingress_controller_nginx_process_virtual_memory_bytes'
+UPTIME = 'process_start_time_seconds'
 
 def parse(name, meta, value):
 	# cpu
@@ -50,7 +51,7 @@ def parse(name, meta, value):
 	elif name == MEM_VIRTUAL:
 		return __parse('mem', 'virtual', value)
 	# uptime
-	elif name == 'process_start_time_seconds':
+	elif name == UPTIME:
 		return __parse('uptime', 'since', value)
 	# requests
 	elif name == 'nginx_ingress_controller_nginx_process_requests_total':
