@@ -127,7 +127,6 @@ class Test(unittest.TestCase):
 				},
 			],
 		}
-		# ~ pods_container.parse(pods)
 		t.assertDictEqual(pods_container.parse(pods), {
 			'index': {
 				'failed': 0,
@@ -166,6 +165,72 @@ class Test(unittest.TestCase):
 						'spec': 1,
 						'started': 0,
 						'testing': 1,
+					},
+				},
+			},
+		})
+
+	def test_parse_container_status(t):
+		t.maxDiff = None
+		pods = {
+			'items': [
+				{
+					'kind': 'Pod',
+					'metadata': {
+						'namespace': 'ns',
+						'generateName': 'test',
+					},
+					'status': {
+						'phase': 'Running',
+						'containerStatuses': [{
+							'image': 'testing.img',
+							'restartCount': 1,
+							'ready': True,
+							'started': True,
+						}],
+					},
+					'spec': {
+						'containers': [{'image': 'testing.img'}],
+					},
+				},
+			],
+		}
+		t.assertDictEqual(pods_container.parse(pods), {
+			'index': {
+				'failed': 0,
+				'failed_ratio': 0.0,
+				'pending': 0,
+				'ready': 1,
+				'restart': 1,
+				'restart_ratio': 1.0,
+				'restarted': 1,
+				'running': 1,
+				'spec': 1,
+				'started': 1,
+			},
+			'info': {
+				'ns': {
+					'test': {
+						'spec': {'testing.img': True},
+						'status': {
+							'running': {'testing.img': 1},
+						},
+					},
+				},
+			},
+			'status': {
+				'ns': {
+					'test': {
+						'failed': 0,
+						'failed_ratio': 0.0,
+						'pending': 0,
+						'ready': 1,
+						'restart': 1,
+						'restart_ratio': 1.0,
+						'restarted': 1,
+						'running': 1,
+						'spec': 1,
+						'started': 1,
 					},
 				},
 			},
