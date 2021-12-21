@@ -25,5 +25,17 @@ class Test(unittest.TestCase):
 	def test_print(t):
 		_bup_print('testing')
 
+	def test_parse(t):
+		pods = {
+			'items': [{}],
+		}
+		t.assertDictEqual(pods_info.parse(pods), {'total': 0})
+
+	def test_parse_data(t):
+		pods = {
+			'items': [{'kind': 'Pod'}],
+		}
+		t.assertDictEqual(pods_info.parse(pods), {'total': 1})
+
 if __name__ == '__main__':
 	unittest.main()

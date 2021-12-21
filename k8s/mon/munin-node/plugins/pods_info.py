@@ -5,15 +5,15 @@ import mon
 
 def parse(pods):
 	mon.dbg('pods_info parse')
-	sts = dict(
-		total = 'U',
-	)
-	# total
-	sts['total'] = len(pods['items'])
-	for i in pods['items']:
-		kind = i['kind']
+	sts = {
+		'total': 0,
+	}
+	items = pods.get('items', [])
+	for i in items:
+		kind = i.get('kind', None)
 		if kind != 'Pod':
 			continue
+		sts['total'] += 1
 	return sts
 
 def _print(*args):
