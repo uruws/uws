@@ -10,15 +10,21 @@ def parse(nodes):
 		condition = dict(),
 		nodes_type = dict(),
 	)
-	sts['nodes'] = len(nodes['items'])
-	for i in nodes['items']:
-		if i['kind'] == 'Node':
-			n = i['metadata']['name']
-			t = i['metadata']['labels'].get('node.kubernetes.io/instance-type', 'unknown')
+	items = nodes.get('items', [])
+	sts['nodes'] = len(items)
+	for i in items:
+		kind = i.get('kind', None)
+		if kind == 'Node':
+			m = i.get('metadata', {})
+			n = m.get('name', None)
+			t = m.get('labels', {}).get('node.kubernetes.io/instance-type', 'unknown')
+			if not sts.get('nodes_type', None):
+				sts['nodes_type'] = {}
 			if not sts['nodes_type'].get(t, None):
 				sts['nodes_type'][t] = 0
 			sts['nodes_type'][t] += 1
-			for c in i['status']['conditions']:
+			s = i.get('status', {})
+			for c in s.get('conditions', []):
 				if c['status'] == 'True':
 					typ = c['type']
 					if not sts['condition'].get(typ, None):
