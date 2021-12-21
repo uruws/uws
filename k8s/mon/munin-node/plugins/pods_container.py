@@ -117,14 +117,14 @@ def config(sts):
 	_print('graph_vlabel number')
 	_print('graph_scale no')
 	cc = 0
-	for cid in sorted(sts['index'].keys()):
+	for cid in sorted(sts.get('index', {}).keys()):
 		_print(f"{cid}.label", cid.replace('_', ' '))
 		_print(f"{cid}.colour COLOUR{cc}")
 		_print(f"{cid}.min 0")
 		cc = mon.color(cc)
 	if mon.debug(): _print()
 	# status
-	for ns in sorted(sts['status'].keys()):
+	for ns in sorted(sts.get('status', {}).keys()):
 		for gname in sorted(sts['status'][ns].keys()):
 			cid = mon.cleanfn(f"{ns}_{gname}")
 			_print(f"multigraph pod_container.{cid}")
@@ -146,7 +146,8 @@ def config(sts):
 					for n in lim.keys():
 						_print(f"{fid}.{n}", limits[fid][n])
 			# info
-			inf = sts['info'][ns].get(gname, {})
+			if not sts.get('info', None): sts['info'] = {}
+			inf = sts['info'].get(ns, {}).get(gname, {})
 			# spec
 			idx = 0
 			for i in sorted(inf.get('spec', {}).keys()):

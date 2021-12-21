@@ -236,5 +236,70 @@ class Test(unittest.TestCase):
 			},
 		})
 
+	def test_config(t):
+		pods = {
+			'index': {
+				'abc': 1,
+			},
+			'info': {
+				'ns': {
+					'test': {
+						'spec': {'testing.img': True},
+						'status': {
+							'testing': {'testing.img': 1},
+						},
+					},
+				},
+			},
+			'status': {
+				'ns': {
+					'test': {
+						'abc': 1,
+						'failed_ratio': 0,
+					},
+				},
+			},
+		}
+		pods_container.config(pods)
+		config = [
+			# index
+			call('multigraph pod_container'),
+			call('graph_title k8stest pods containers'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category pod'),
+			call('graph_vlabel number'),
+			call('graph_scale no'),
+			call('abc.label', 'abc'),
+			call('abc.colour COLOUR0'),
+			call('abc.min 0'),
+			# status
+			call('multigraph pod_container.ns_test'),
+			call('graph_title k8stest ns/test'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category pod'),
+			call('graph_vlabel containers number'),
+			call('graph_scale no'),
+			call('abc.label', 'abc'),
+			call('abc.colour COLOUR0'),
+			call('abc.min 0'),
+			call('failed_ratio.label', 'failed ratio'),
+			call('failed_ratio.colour COLOUR1'),
+			call('failed_ratio.min 0'),
+			# limits
+			call('failed_ratio.warning', 1),
+			call('failed_ratio.critical', 2),
+			# info
+			# spec
+			call('zza_spec_0000.label S', 'testing.img'),
+			call('zza_spec_0000.colour COLOUR2'),
+			call('zza_spec_0000.min 0'),
+			# status
+			call('zzz_testing_0000.label', 'T', 'testing.img'),
+			call('zzz_testing_0000.colour COLOUR3'),
+			call('zzz_testing_0000.min 0'),
+		]
+		pods_container._print.assert_has_calls(config)
+		t.assertEqual(pods_container._print.call_count, len(config))
+
 if __name__ == '__main__':
 	unittest.main()
