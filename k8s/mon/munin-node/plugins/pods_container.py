@@ -103,54 +103,57 @@ def __cstatus(sts, spec, status, phase):
 		sts['failed_ratio'] = sts['failed'] / running
 		sts['restart_ratio'] = sts['restarted'] / running
 
+def _print(*args):
+	print(*args)
+
 def config(sts):
 	mon.dbg('pods_container config')
 	cluster = mon.cluster()
 	# index
-	print('multigraph pod_container')
-	print(f"graph_title {cluster} pods containers")
-	print('graph_args --base 1000 -l 0')
-	print('graph_category pod')
-	print('graph_vlabel number')
-	print('graph_scale no')
+	_print('multigraph pod_container')
+	_print(f"graph_title {cluster} pods containers")
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category pod')
+	_print('graph_vlabel number')
+	_print('graph_scale no')
 	cc = 0
 	for cid in sorted(sts['index'].keys()):
-		print(f"{cid}.label", cid.replace('_', ' '))
-		print(f"{cid}.colour COLOUR{cc}")
-		print(f"{cid}.min 0")
+		_print(f"{cid}.label", cid.replace('_', ' '))
+		_print(f"{cid}.colour COLOUR{cc}")
+		_print(f"{cid}.min 0")
 		cc = mon.color(cc)
-	if mon.debug(): print()
+	if mon.debug(): _print()
 	# status
 	for ns in sorted(sts['status'].keys()):
 		for gname in sorted(sts['status'][ns].keys()):
 			cid = mon.cleanfn(f"{ns}_{gname}")
-			print(f"multigraph pod_container.{cid}")
-			print(f"graph_title {cluster} {ns}/{gname}")
-			print('graph_args --base 1000 -l 0')
-			print('graph_category pod')
-			print('graph_vlabel containers number')
-			print('graph_scale no')
+			_print(f"multigraph pod_container.{cid}")
+			_print(f"graph_title {cluster} {ns}/{gname}")
+			_print('graph_args --base 1000 -l 0')
+			_print('graph_category pod')
+			_print('graph_vlabel containers number')
+			_print('graph_scale no')
 			fc = 0
 			for fn in sorted(sts['status'][ns][gname].keys()):
 				fid = mon.cleanfn(fn)
-				print(f"{fid}.label", fn.replace('_', ' '))
-				print(f"{fid}.colour COLOUR{fc}")
-				print(f"{fid}.min 0")
+				_print(f"{fid}.label", fn.replace('_', ' '))
+				_print(f"{fid}.colour COLOUR{fc}")
+				_print(f"{fid}.min 0")
 				fc = mon.color(fc)
 				# limits
 				lim = limits.get(fid, None)
 				if lim is not None:
 					for n in lim.keys():
-						print(f"{fid}.{n}", limits[fid][n])
+						_print(f"{fid}.{n}", limits[fid][n])
 			# info
 			inf = sts['info'][ns].get(gname, {})
 			# spec
 			idx = 0
 			for i in sorted(inf.get('spec', {}).keys()):
 				fid = mon.cleanfn(f"zza_spec_{idx:0>4}")
-				print(f"{fid}.label S", i)
-				print(f"{fid}.colour COLOUR{fc}")
-				print(f"{fid}.min 0")
+				_print(f"{fid}.label S", i)
+				_print(f"{fid}.colour COLOUR{fc}")
+				_print(f"{fid}.min 0")
 				fc = mon.color(fc)
 				idx += 1
 			# status
@@ -158,36 +161,36 @@ def config(sts):
 				idx = 0
 				for i in sorted(inf['status'][s].keys()):
 					fid = mon.cleanfn(f"zzz_{s}_{idx:0>4}")
-					print(f"{fid}.label", s[0].upper(), i)
-					print(f"{fid}.colour COLOUR{fc}")
-					print(f"{fid}.min 0")
+					_print(f"{fid}.label", s[0].upper(), i)
+					_print(f"{fid}.colour COLOUR{fc}")
+					_print(f"{fid}.min 0")
 					fc = mon.color(fc)
 					idx += 1
-			if mon.debug(): print()
+			if mon.debug(): _print()
 
 def report(sts):
 	mon.dbg('pods_container report')
 	# index
-	print('multigraph pod_container')
+	_print('multigraph pod_container')
 	for cid in sorted(sts['index'].keys()):
-		print(f"{cid}.value", sts['index'][cid])
-	if mon.debug(): print()
+		_print(f"{cid}.value", sts['index'][cid])
+	if mon.debug(): _print()
 	# status
 	for ns in sorted(sts['status'].keys()):
 		for gname in sorted(sts['status'][ns].keys()):
 			cid = mon.cleanfn(f"{ns}_{gname}")
-			print(f"multigraph pod_container.{cid}")
+			_print(f"multigraph pod_container.{cid}")
 			for fn in sorted(sts['status'][ns][gname].keys()):
 				fid = mon.cleanfn(fn)
 				val = sts['status'][ns][gname][fn]
-				print(f"{fid}.value", val)
+				_print(f"{fid}.value", val)
 			# info
 			inf = sts['info'][ns].get(gname, {})
 			# spec
 			idx = 0
 			for i in sorted(inf.get('spec', {}).keys()):
 				fid = mon.cleanfn(f"zza_spec_{idx:0>4}")
-				print(f"{fid}.value 1")
+				_print(f"{fid}.value 1")
 				idx += 1
 			# status
 			for s in sorted(inf['status'].keys()):
@@ -195,6 +198,6 @@ def report(sts):
 				for i in sorted(inf['status'][s].keys()):
 					fid = mon.cleanfn(f"zzz_{s}_{idx:0>4}")
 					val = inf['status'][s][i]
-					print(f"{fid}.value", val)
+					_print(f"{fid}.value", val)
 					idx += 1
-			if mon.debug(): print()
+			if mon.debug(): _print()
