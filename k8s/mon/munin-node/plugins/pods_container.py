@@ -66,14 +66,14 @@ def parse(pods):
 
 def __cinfo(sts, spec, status, phase):
 	for c in spec:
-		i = mon.containerImage(c['image'])
+		i = mon.containerImage(c.get('image', 'NONE'))
 		if sts['spec'].get(i, None) is None:
 			sts['spec'][i] = True
 	p = phase.lower()
 	if not sts['status'].get(p, None):
 		sts['status'][p] = dict()
 	for c in status:
-		i = mon.containerImage(c['image'])
+		i = mon.containerImage(c.get('image', 'NONE'))
 		if sts['status'][p].get(i, None) is None:
 			sts['status'][p][i] = 0
 		sts['status'][p][i] += 1
@@ -89,12 +89,12 @@ def __cstatus(sts, spec, status, phase):
 	else:
 		sts[p] += st
 	for c in status:
-		sts['restart'] += c['restartCount']
-		if c['restartCount'] > 0:
+		sts['restart'] += c.get('restartCount', 0)
+		if c.get('restartCount', 0) > 0:
 			sts['restarted'] += 1
-		if c['ready']:
+		if c.get('ready', None):
 			sts['ready'] += 1
-		if c['started']:
+		if c.get('started', None):
 			sts['started'] += 1
 	sts['failed_ratio'] = 0
 	sts['restart_ratio'] = 0
