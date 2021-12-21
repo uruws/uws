@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
 export NQDIR=/run/uwscli/nq
-install -d -m 0750 ${NQDIR}
 user=${1:?'user?'}
 shift
 CMD=${1:?'cmd?'}
