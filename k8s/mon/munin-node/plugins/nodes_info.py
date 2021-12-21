@@ -30,61 +30,62 @@ def parse(nodes):
 						sts['condition'][typ] = 0
 	return sts
 
+def _print(*args):
+	print(*args)
+
 def config(sts):
 	mon.dbg('nodes_info config')
 	cluster = mon.cluster()
 	# nodes
-	print('multigraph nodes')
-	print(f"graph_title {cluster} nodes")
-	print('graph_args --base 1000 -l 0')
-	print('graph_category nodes')
-	print('graph_vlabel number')
-	print('graph_printf %3.0lf')
-	print('graph_scale yes')
-	print('a_total.label nodes')
-	print('a_total.colour COLOUR0')
-	print('a_total.draw AREASTACK')
-	print('a_total.min 0')
+	_print('multigraph nodes')
+	_print(f"graph_title {cluster} nodes")
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category nodes')
+	_print('graph_vlabel number')
+	_print('graph_printf %3.0lf')
+	_print('graph_scale yes')
+	_print('a_total.label nodes')
+	_print('a_total.colour COLOUR0')
+	_print('a_total.draw AREASTACK')
+	_print('a_total.min 0')
 	tc = 1
 	for n in sts['nodes_type']:
 		t = mon.cleanfn(n)
-		print(f"t_{t}.label", n)
-		print(f"t_{t}.colour COLOUR{tc}")
-		print(f"t_{t}.min 0")
+		_print(f"t_{t}.label", n)
+		_print(f"t_{t}.colour COLOUR{tc}")
+		_print(f"t_{t}.min 0")
 		tc += 1
-		if tc > 28:
-			tc = 0
+		if tc > 28: tc = 0
 	# condition
-	print('multigraph nodes_condition')
-	print(f"graph_title {cluster} nodes condition")
-	print('graph_args --base 1000 -l 0')
-	print('graph_category nodes')
-	print('graph_vlabel number')
-	print('graph_printf %3.0lf')
-	print('graph_scale yes')
-	print('graph_total total')
+	_print('multigraph nodes_condition')
+	_print(f"graph_title {cluster} nodes condition")
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category nodes')
+	_print('graph_vlabel number')
+	_print('graph_printf %3.0lf')
+	_print('graph_scale yes')
+	_print('graph_total total')
 	cc = 0
 	for cn in sorted(sts['condition'].keys()):
 		cid = mon.cleanfn(cn.lower())
-		print(f"c_{cid}.label {cn}")
-		print(f"c_{cid}.colour COLOUR{cc}")
-		print(f"c_{cid}.draw AREASTACK")
-		print(f"c_{cid}.min 0")
+		_print(f"c_{cid}.label {cn}")
+		_print(f"c_{cid}.colour COLOUR{cc}")
+		_print(f"c_{cid}.draw AREASTACK")
+		_print(f"c_{cid}.min 0")
 		cc += 1
-		if cc > 28:
-			cc = 0
+		if cc > 28: cc = 0
 
 def report(sts):
 	mon.dbg('nodes_info report')
 	# nodes
-	print('multigraph nodes')
-	print('a_total.value', sts['nodes'])
+	_print('multigraph nodes')
+	_print('a_total.value', sts['nodes'])
 	for n in sts['nodes_type']:
 		t = mon.cleanfn(n)
-		print(f"t_{t}.value", sts['nodes_type'][n])
+		_print(f"t_{t}.value", sts['nodes_type'][n])
 	# condition
-	print('multigraph nodes_condition')
+	_print('multigraph nodes_condition')
 	for cn in sorted(sts['condition'].keys()):
 		cid = mon.cleanfn(cn.lower())
 		val = sts['condition'][cn]
-		print(f"c_{cid}.value", val)
+		_print(f"c_{cid}.value", val)
