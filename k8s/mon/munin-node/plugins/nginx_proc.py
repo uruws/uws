@@ -171,27 +171,37 @@ def config(sts):
 def report(sts):
 	mon.dbg('report nginx_proc')
 	# cpu
+	if not sts.get('cpu', None):
+		sts['cpu'] = {}
 	_print('multigraph nginx_proc_cpu')
-	_print('controller.value', mon.derive(sts['cpu']['controller']))
-	_print('total.value', mon.derive(sts['cpu']['total']))
+	_print('controller.value', mon.derive(sts['cpu'].get('controller', 'U')))
+	_print('total.value', mon.derive(sts['cpu'].get('total', 'U')))
 	# mem
+	if not sts.get('mem', None):
+		sts['mem'] = {}
 	_print('multigraph nginx_proc_mem')
-	_print('resident.value', sts['mem']['resident'])
-	_print('virtual.value', sts['mem']['virtual'])
+	_print('resident.value', sts['mem'].get('resident', 'U'))
+	_print('virtual.value', sts['mem'].get('virtual', 'U'))
 	# uptime
 	_print('multigraph nginx_proc_uptime')
-	_print('uptime.value', sts['uptime'] / 3600.0)
+	uptime = sts.get('uptime', 'U')
+	if uptime != 'U':
+		_print('uptime.value', sts['uptime'] / 3600.0)
+	else:
+		_print('uptime.value U')
 	# requests total
 	_print('multigraph nginx_proc_requests')
-	_print('requests.value', sts['requests'])
+	_print('requests.value', sts.get('requests', 'U'))
 	# requests counter
 	_print('multigraph nginx_proc_requests.counter')
-	_print('requests.value', mon.derive(sts['requests']))
+	_print('requests.value', mon.derive(sts.get('requests', 'U')))
 	# bytes total
+	if not sts.get('byte', None):
+		sts['byte'] = {}
 	_print('multigraph nginx_proc_bytes')
-	_print('write.value', sts['byte']['write'])
-	_print('read.value', sts['byte']['read'])
+	_print('write.value', sts['byte'].get('write', 'U'))
+	_print('read.value', sts['byte'].get('read', 'U'))
 	# bytes counter
 	_print('multigraph nginx_proc_bytes.counter')
-	_print('write.value', mon.derive(sts['byte']['write']))
-	_print('read.value', mon.derive(sts['byte']['read']))
+	_print('write.value', mon.derive(sts['byte'].get('write', 'U')))
+	_print('read.value', mon.derive(sts['byte'].get('read', 'U')))

@@ -184,5 +184,36 @@ class Test(unittest.TestCase):
 		nginx_proc._print.assert_has_calls(config)
 		t.assertEqual(nginx_proc._print.call_count, len(config))
 
+	def test_report(t):
+		nginx_proc.report({})
+		report = [
+			call('multigraph nginx_proc_cpu'),
+			call('controller.value', 'U'),
+			call('total.value', 'U'),
+			call('multigraph nginx_proc_mem'),
+			call('resident.value', 'U'),
+			call('virtual.value', 'U'),
+			call('multigraph nginx_proc_uptime'),
+			call('uptime.value U'),
+			call('multigraph nginx_proc_requests'),
+			call('requests.value', 'U'),
+			call('multigraph nginx_proc_requests.counter'),
+			call('requests.value', 'U'),
+			call('multigraph nginx_proc_bytes'),
+			call('write.value', 'U'),
+			call('read.value', 'U'),
+			call('multigraph nginx_proc_bytes.counter'),
+			call('write.value', 'U'),
+			call('read.value', 'U'),
+		]
+		nginx_proc._print.assert_has_calls(report)
+		t.assertEqual(nginx_proc._print.call_count, len(report))
+
+	def test_report_data(t):
+		nginx_proc.report({'uptime': 100.0})
+		nginx_proc._print.assert_has_calls([
+			call('uptime.value', 0.027777777777777776),
+		])
+
 if __name__ == '__main__':
 	unittest.main()
