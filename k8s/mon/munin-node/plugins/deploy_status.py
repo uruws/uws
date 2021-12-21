@@ -42,8 +42,7 @@ def config(sts):
 			_print(f"f_{fid}.label {ns}/{name}")
 			_print(f"f_{fid}.colour COLOUR{fc}")
 			_print(f"f_{fid}.min 0")
-			fc += 1
-			if fc > 28: fc = 0
+			fc = mon.color(fc)
 	if mon.debug(): _print()
 	# replicas all
 	_print('multigraph deploy_replicas.all')
@@ -60,8 +59,7 @@ def config(sts):
 			_print(f"f_{fid}.label {ns}/{name}")
 			_print(f"f_{fid}.colour COLOUR{fc}")
 			_print(f"f_{fid}.min 0")
-			fc += 1
-			if fc > 28: fc = 0
+			fc = mon.color(fc)
 	if mon.debug(): _print()
 	# replicas status
 	for ns in sorted(sts.keys()):
@@ -82,8 +80,7 @@ def config(sts):
 				_print(f"{fn}.label", n)
 				_print(f"{fn}.colour COLOUR{fc}")
 				_print(f"{fn}.min 0")
-				fc += 1
-				if fc > 28: fc = 0
+				fc = mon.color(fc)
 			if mon.debug(): _print()
 
 def report(sts):
