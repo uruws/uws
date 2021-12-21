@@ -55,7 +55,7 @@ def config(sts):
 	_print('a_total.draw AREASTACK')
 	_print('a_total.min 0')
 	tc = 1
-	for n in sts['nodes_type']:
+	for n in sts.get('nodes_type', []):
 		t = mon.cleanfn(n)
 		_print(f"t_{t}.label", n)
 		_print(f"t_{t}.colour COLOUR{tc}")
@@ -72,7 +72,7 @@ def config(sts):
 	_print('graph_scale yes')
 	_print('graph_total total')
 	cc = 0
-	for cn in sorted(sts['condition'].keys()):
+	for cn in sorted(sts.get('condition', {}).keys()):
 		cid = mon.cleanfn(cn.lower())
 		_print(f"c_{cid}.label {cn}")
 		_print(f"c_{cid}.colour COLOUR{cc}")
