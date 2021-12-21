@@ -153,5 +153,46 @@ class Test(unittest.TestCase):
 		pods_condition._print.assert_has_calls(config)
 		t.assertEqual(pods_condition._print.call_count, len(config))
 
+	def test_report(t):
+		pods = {
+			'cond': {
+				'ns': {
+					'test': {
+						'ContainersReady': 0,
+						'Initialized': 0,
+						'PodScheduled': 0,
+						'Ready': 0,
+						'Testing': 1,
+					},
+				},
+			},
+			'index': {
+				'ContainersReady': 0,
+				'Initialized': 0,
+				'PodScheduled': 0,
+				'Ready': 0,
+				'Testing': 1,
+			},
+		}
+		pods_condition.report(pods)
+		report = [
+			# index
+			call('multigraph pod_condition'),
+			call('c_containersready.value', 0),
+			call('c_initialized.value', 0),
+			call('c_podscheduled.value', 0),
+			call('c_ready.value', 0),
+			call('c_testing.value', 1),
+			# status
+			call('multigraph pod_condition.ns_test'),
+			call('c_containersready.value', 0),
+			call('c_initialized.value', 0),
+			call('c_podscheduled.value', 0),
+			call('c_ready.value', 0),
+			call('c_testing.value', 1),
+		]
+		pods_condition._print.assert_has_calls(report)
+		t.assertEqual(pods_condition._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
