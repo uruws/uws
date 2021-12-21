@@ -25,5 +25,60 @@ class Test(unittest.TestCase):
 	def test_print(t):
 		_bup_print('testing')
 
+	def test_parse(t):
+		t.assertDictEqual(pods_condition.parse({}), {
+			'cond': {},
+			'index': {
+				'ContainersReady': 0,
+				'Initialized': 0,
+				'PodScheduled': 0,
+				'Ready': 0,
+			},
+		})
+
+	def test_parse_data(t):
+		pods = {
+			'items': [
+				{
+					'kind': 'Testing',
+				},
+				{
+					'kind': 'Pod',
+					'metadata': {
+						'namespace': 'ns',
+						'generateName': 'test',
+					},
+					'status': {
+						'conditions': [
+							{
+								'status': 'True',
+								'type': 'Testing',
+							},
+						],
+					},
+				},
+			],
+		}
+		t.assertDictEqual(pods_condition.parse(pods), {
+			'cond': {
+				'ns': {
+					'test': {
+						'ContainersReady': 0,
+						'Initialized': 0,
+						'PodScheduled': 0,
+						'Ready': 0,
+						'Testing': 1,
+					},
+				},
+			},
+			'index': {
+				'ContainersReady': 0,
+				'Initialized': 0,
+				'PodScheduled': 0,
+				'Ready': 0,
+				'Testing': 1,
+			},
+		})
+
 if __name__ == '__main__':
 	unittest.main()

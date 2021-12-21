@@ -14,12 +14,12 @@ def parse(pods):
 		),
 		cond = dict(),
 	)
-	for i in pods['items']:
+	for i in pods.get('items', []):
 		kind = i['kind']
 		if kind != 'Pod':
 			continue
 		# status
-		m = i['metadata']
+		m = i.get('metadata', {})
 		ns = m.get('namespace', None)
 		gname = mon.generateName(i)
 		if not sts['cond'].get(ns, None):
@@ -32,7 +32,7 @@ def parse(pods):
 				Ready = 0,
 			)
 		# index
-		for cond in i['status'].get('conditions', {}):
+		for cond in i.get('status', {}).get('conditions', {}):
 			st = cond['status']
 			typ = cond['type']
 			if sts['index'].get(typ, None) is None:
