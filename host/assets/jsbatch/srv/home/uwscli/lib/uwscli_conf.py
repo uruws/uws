@@ -113,6 +113,12 @@ app = {
 		pod = 'nlpsvc/topic/automl',
 		deploy = AppDeploy('nlpsvc'),
 	),
+	'nlp-category': App(True,
+		cluster = 'panoramix',
+		desc = 'NLPService - Category',
+		pod = 'nlpsvc/category',
+		deploy = AppDeploy('nlpsvc'),
+	),
 }
 
 cluster = {

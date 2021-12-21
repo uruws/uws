@@ -38,6 +38,7 @@ class Test(unittest.TestCase):
 			'app-west',
 			'beta',
 			'cs',
+			'nlp-category',
 			'nlp-sentiment-roberta',
 			'nlp-topic-automl',
 			'worker',
