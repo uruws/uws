@@ -37,5 +37,23 @@ class Test(unittest.TestCase):
 		}
 		t.assertDictEqual(pods_info.parse(pods), {'total': 1})
 
+	def test_config(t):
+		pods_info.config({})
+		config = [
+			call('multigraph pod'),
+			call('graph_title k8stest pods'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category pod'),
+			call('graph_vlabel number'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('total.label total'),
+			call('total.colour COLOUR0'),
+			call('total.draw AREA'),
+			call('total.min 0'),
+		]
+		pods_info._print.assert_has_calls(config)
+		t.assertEqual(pods_info._print.call_count, len(config))
+
 if __name__ == '__main__':
 	unittest.main()
