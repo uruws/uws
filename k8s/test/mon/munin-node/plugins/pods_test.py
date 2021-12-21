@@ -12,5 +12,10 @@ class Test(unittest.TestCase):
 	def test_globals(t):
 		t.assertEqual(pods.MONLIB, '/srv/munin/plugins')
 
+	def test_imports(t):
+		t.assertEqual(pods.pods_info.__name__, 'pods_info')
+		t.assertEqual(pods.pods_condition.__name__, 'pods_condition')
+		t.assertEqual(pods.pods_container.__name__, 'pods_container')
+
 if __name__ == '__main__':
 	unittest.main()

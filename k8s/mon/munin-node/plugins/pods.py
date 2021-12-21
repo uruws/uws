@@ -10,6 +10,7 @@ MONLIB = os.getenv('MONLIB', '/srv/munin/plugins')
 sys.path.insert(0, MONLIB)
 
 import mon_kube as kube
+
 import pods_info
 import pods_condition
 import pods_container
