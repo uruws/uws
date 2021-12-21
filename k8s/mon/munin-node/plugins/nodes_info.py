@@ -85,13 +85,13 @@ def report(sts):
 	mon.dbg('nodes_info report')
 	# nodes
 	_print('multigraph nodes')
-	_print('a_total.value', sts['nodes'])
-	for n in sts['nodes_type']:
+	_print('a_total.value', sts.get('nodes', 'U'))
+	for n in sts.get('nodes_type', []):
 		t = mon.cleanfn(n)
 		_print(f"t_{t}.value", sts['nodes_type'][n])
 	# condition
 	_print('multigraph nodes_condition')
-	for cn in sorted(sts['condition'].keys()):
+	for cn in sorted(sts.get('condition', {}).keys()):
 		cid = mon.cleanfn(cn.lower())
 		val = sts['condition'][cn]
 		_print(f"c_{cid}.value", val)

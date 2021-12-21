@@ -108,5 +108,26 @@ class Test(unittest.TestCase):
 		nodes_info._print.assert_has_calls(config)
 		t.assertEqual(nodes_info._print.call_count, len(config))
 
+	def test_report(t):
+		nodes_info.report({
+			'nodes_type': {
+				'testing': 1,
+			},
+			'condition': {
+				'Testing': 1,
+			}
+		})
+		report = [
+			# nodes
+			call('multigraph nodes'),
+			call('a_total.value', 'U'),
+			call('t_testing.value', 1),
+			# condition
+			call('multigraph nodes_condition'),
+			call('c_testing.value', 1),
+		]
+		nodes_info._print.assert_has_calls(report)
+		t.assertEqual(nodes_info._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
