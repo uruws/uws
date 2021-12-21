@@ -16,26 +16,29 @@ def parse(pods):
 			continue
 	return sts
 
+def _print(*args):
+	print(*args)
+
 def config(sts):
 	mon.dbg('pods_info config')
 	cluster = mon.cluster()
 	# total
-	print('multigraph pod')
-	print(f"graph_title {cluster} pods")
-	print('graph_args --base 1000 -l 0')
-	print('graph_category pod')
-	print('graph_vlabel number')
-	print('graph_printf %3.0lf')
-	print('graph_scale yes')
-	print('total.label total')
-	print('total.colour COLOUR0')
-	print('total.draw AREA')
-	print('total.min 0')
-	if mon.debug(): print()
+	_print('multigraph pod')
+	_print(f"graph_title {cluster} pods")
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category pod')
+	_print('graph_vlabel number')
+	_print('graph_printf %3.0lf')
+	_print('graph_scale yes')
+	_print('total.label total')
+	_print('total.colour COLOUR0')
+	_print('total.draw AREA')
+	_print('total.min 0')
+	if mon.debug(): _print()
 
 def report(sts):
 	mon.dbg('pods_info report')
 	# total
-	print('multigraph pod')
-	print('total.value', sts['total'])
-	if mon.debug(): print()
+	_print('multigraph pod')
+	_print('total.value', sts['total'])
+	if mon.debug(): _print()
