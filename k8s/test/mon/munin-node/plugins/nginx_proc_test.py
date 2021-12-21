@@ -77,5 +77,10 @@ class Test(unittest.TestCase):
 		t.assertTrue(nginx_proc.parse(nginx_proc.REQ_TOTAL, None, 99.0))
 		t.assertEqual(nginx_proc.sts['requests'], 99.0)
 
+	def test_parse_bytes(t):
+		t.assertTrue(nginx_proc.parse(nginx_proc.READ_TOTAL, None, 0.999))
+		t.assertTrue(nginx_proc.parse(nginx_proc.WRITE_TOTAL, None, 0.999))
+		t.assertDictEqual(nginx_proc.sts['byte'], {'read': 0.999, 'write': 0.999})
+
 if __name__ == '__main__':
 	unittest.main()
