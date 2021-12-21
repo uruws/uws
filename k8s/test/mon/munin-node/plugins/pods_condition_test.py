@@ -80,5 +80,78 @@ class Test(unittest.TestCase):
 			},
 		})
 
+	def test_config(t):
+		pods = {
+			'cond': {
+				'ns': {
+					'test': {
+						'ContainersReady': 0,
+						'Initialized': 0,
+						'PodScheduled': 0,
+						'Ready': 0,
+						'Testing': 1,
+					},
+				},
+			},
+			'index': {
+				'ContainersReady': 0,
+				'Initialized': 0,
+				'PodScheduled': 0,
+				'Ready': 0,
+				'Testing': 1,
+			},
+		}
+		pods_condition.config(pods)
+		config = [
+			# index
+			call('multigraph pod_condition'),
+			call('graph_title k8stest pods condition'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category pod'),
+			call('graph_vlabel number'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('c_containersready.label', 'ContainersReady'),
+			call('c_containersready.colour COLOUR0'),
+			call('c_containersready.min 0'),
+			call('c_initialized.label', 'Initialized'),
+			call('c_initialized.colour COLOUR1'),
+			call('c_initialized.min 0'),
+			call('c_podscheduled.label', 'PodScheduled'),
+			call('c_podscheduled.colour COLOUR2'),
+			call('c_podscheduled.min 0'),
+			call('c_ready.label', 'Ready'),
+			call('c_ready.colour COLOUR3'),
+			call('c_ready.min 0'),
+			call('c_testing.label', 'Testing'),
+			call('c_testing.colour COLOUR4'),
+			call('c_testing.min 0'),
+			# status
+			call('multigraph pod_condition.ns_test'),
+			call('graph_title k8stest ns/test condition'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category pod'),
+			call('graph_vlabel number of pods'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('c_containersready.label', 'ContainersReady'),
+			call('c_containersready.colour COLOUR0'),
+			call('c_containersready.min 0'),
+			call('c_initialized.label', 'Initialized'),
+			call('c_initialized.colour COLOUR1'),
+			call('c_initialized.min 0'),
+			call('c_podscheduled.label', 'PodScheduled'),
+			call('c_podscheduled.colour COLOUR2'),
+			call('c_podscheduled.min 0'),
+			call('c_ready.label', 'Ready'),
+			call('c_ready.colour COLOUR3'),
+			call('c_ready.min 0'),
+			call('c_testing.label', 'Testing'),
+			call('c_testing.colour COLOUR4'),
+			call('c_testing.min 0'),
+		]
+		pods_condition._print.assert_has_calls(config)
+		t.assertEqual(pods_condition._print.call_count, len(config))
+
 if __name__ == '__main__':
 	unittest.main()

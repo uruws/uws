@@ -59,7 +59,7 @@ def config(sts):
 	_print('graph_printf %3.0lf')
 	_print('graph_scale yes')
 	cc = 0
-	for ctype in sorted(sts['index'].keys()):
+	for ctype in sorted(sts.get('index', {}).keys()):
 		cid = mon.cleanfn(ctype.lower())
 		_print(f"c_{cid}.label", ctype)
 		_print(f"c_{cid}.colour COLOUR{cc}")
@@ -67,7 +67,7 @@ def config(sts):
 		cc = mon.color(cc)
 	if mon.debug(): _print()
 	# status
-	for ns in sorted(sts['cond'].keys()):
+	for ns in sorted(sts.get('cond', {}).keys()):
 		for gname in sorted(sts['cond'][ns].keys()):
 			cid = mon.cleanfn(f"{ns}_{gname}")
 			_print(f"multigraph pod_condition.{cid}")
