@@ -37,5 +37,75 @@ class Test(unittest.TestCase):
 			},
 		})
 
+	def test_parse(t):
+		t.assertDictEqual(pods_container.parse({}), {
+			'index': {},
+			'info': {},
+			'status': {},
+		})
+
+	def test_parse_data(t):
+		t.maxDiff = None
+		pods = {
+			'items': [
+				{
+					'kind': 'Testing',
+				},
+				{
+					'kind': 'Pod',
+					'metadata': {
+						'namespace': 'ns',
+						'generateName': 'test',
+					},
+					'status': {
+						'phase': 'testing',
+					},
+				},
+			],
+		}
+		# ~ pods_container.parse(pods)
+		t.assertDictEqual(pods_container.parse(pods), {
+			'index': {
+				'failed': 0,
+				'failed_ratio': 0,
+				'pending': 0,
+				'ready': 0,
+				'restart': 0,
+				'restart_ratio': 0,
+				'restarted': 0,
+				'running': 0,
+				'spec': 0,
+				'started': 0,
+				'testing': 0,
+			},
+			'info': {
+				'ns': {
+					'test': {
+						'spec': {},
+						'status': {
+							'testing': {},
+						},
+					},
+				},
+			},
+			'status': {
+				'ns': {
+					'test': {
+						'failed': 0,
+						'failed_ratio': 0,
+						'pending': 0,
+						'ready': 0,
+						'restart': 0,
+						'restart_ratio': 0,
+						'restarted': 0,
+						'running': 0,
+						'spec': 0,
+						'started': 0,
+						'testing': 0,
+					},
+				},
+			},
+		})
+
 if __name__ == '__main__':
 	unittest.main()

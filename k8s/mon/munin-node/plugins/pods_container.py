@@ -21,14 +21,14 @@ def parse(pods):
 		status = dict(),
 		index = dict(),
 	)
-	for i in pods['items']:
+	for i in pods.get('items', []):
 		kind = i['kind']
 		if kind != 'Pod':
 			continue
-		spec = i['spec'].get('containers', [])
-		status = i['status'].get('containerStatuses', [])
-		phase = i['status'].get('phase', None)
-		m = i['metadata']
+		spec = i.get('spec', {}).get('containers', [])
+		status = i.get('status', {}).get('containerStatuses', [])
+		phase = i.get('status', {}).get('phase', 'NONE')
+		m = i.get('metadata', {})
 		ns = m.get('namespace', None)
 		gname = mon.generateName(i)
 		# info
