@@ -88,10 +88,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(mon.color(28), 0)
 
 	def test_generateName(t):
-		_pod = {
-			'metadata': {},
-		}
-		t.assertIsNone(mon.generateName(_pod))
+		t.assertIsNone(mon.generateName({}))
 		_pod = {
 			'metadata': {
 				'generateName': 'testing',

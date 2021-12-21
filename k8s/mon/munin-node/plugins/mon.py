@@ -52,7 +52,7 @@ def color(n):
 
 def generateName(pod):
 	n = None
-	m = pod['metadata']
+	m = pod.get('metadata', {})
 	l = m.get('labels', {})
 	gn = m.get('generateName', None)
 	if gn:
