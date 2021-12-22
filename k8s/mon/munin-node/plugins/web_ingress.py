@@ -31,10 +31,15 @@ def __parse(meta, value):
 	sts[ns][ingress][service][status] += value
 	return True
 
+REQUESTS = 'nginx_ingress_controller_requests'
+
 def parse(name, meta, value):
-	if name == 'nginx_ingress_controller_requests':
+	if name == REQUESTS:
 		return __parse(meta, value)
 	return False
+
+def _print(*args):
+	print(*args)
 
 def config(sts):
 	mon.dbg('config web_ingress')
@@ -48,41 +53,41 @@ def config(sts):
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				# total
-				print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}")
-				print(f"graph_title {ns}/{ingress} {svc} client requests total")
-				print('graph_args --base 1000 -l 0')
-				print('graph_category web_ingress')
-				print('graph_vlabel number')
-				print('graph_scale yes')
-				print('graph_total total')
+				_print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}")
+				_print(f"graph_title {ns}/{ingress} {svc} client requests total")
+				_print('graph_args --base 1000 -l 0')
+				_print('graph_category web_ingress')
+				_print('graph_vlabel number')
+				_print('graph_scale yes')
+				_print('graph_total total')
 				stn = 0
 				for st in sorted(sts[ns][ingress][svc].keys()):
 					stid = mon.cleanfn(st)
-					print(f"status_{stid}.label {st}")
-					print(f"status_{stid}.colour COLOUR{stn}")
-					print(f"status_{stid}.draw AREASTACK")
-					print(f"status_{stid}.min 0")
-					stn += 1
-				if mon.debug(): print()
+					_print(f"status_{stid}.label {st}")
+					_print(f"status_{stid}.colour COLOUR{stn}")
+					_print(f"status_{stid}.draw AREASTACK")
+					_print(f"status_{stid}.min 0")
+					stn = mon.color(stn)
+				if mon.debug(): _print()
 				# count
-				print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}.count")
-				print(f"graph_title {ns}/{ingress} {svcid} client requests")
-				print('graph_args --base 1000 -l 0')
-				print('graph_category web_ingress')
-				print('graph_vlabel number per second')
-				print('graph_scale yes')
-				print('graph_total total')
+				_print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}.count")
+				_print(f"graph_title {ns}/{ingress} {svcid} client requests")
+				_print('graph_args --base 1000 -l 0')
+				_print('graph_category web_ingress')
+				_print('graph_vlabel number per second')
+				_print('graph_scale yes')
+				_print('graph_total total')
 				stn = 0
 				for st in sorted(sts[ns][ingress][svc].keys()):
 					stid = mon.cleanfn(st)
-					print(f"status_{stid}.label {st}")
-					print(f"status_{stid}.colour COLOUR{stn}")
-					print(f"status_{stid}.draw AREASTACK")
-					print(f"status_{stid}.type DERIVE")
-					print(f"status_{stid}.min 0")
-					print(f"status_{stid}.cdef status_{stid},1000,/")
-					stn += 1
-				if mon.debug(): print()
+					_print(f"status_{stid}.label {st}")
+					_print(f"status_{stid}.colour COLOUR{stn}")
+					_print(f"status_{stid}.draw AREASTACK")
+					_print(f"status_{stid}.type DERIVE")
+					_print(f"status_{stid}.min 0")
+					_print(f"status_{stid}.cdef status_{stid},1000,/")
+					stn = mon.color(stn)
+				if mon.debug(): _print()
 
 def report(sts):
 	mon.dbg('report web_ingress')
@@ -96,16 +101,16 @@ def report(sts):
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				# total
-				print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}")
+				_print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}")
 				for st in sorted(sts[ns][ingress][svc].keys()):
 					stid = mon.cleanfn(st)
 					value = sts[ns][ingress][svc][st]
-					print(f"status_{stid}.value {value}")
-				if mon.debug(): print()
+					_print(f"status_{stid}.value {value}")
+				if mon.debug(): _print()
 				# count
-				print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}.count")
+				_print(f"multigraph web_ingress_{nsid}_{ingid}_{svcid}.count")
 				for st in sorted(sts[ns][ingress][svc].keys()):
 					stid = mon.cleanfn(st)
 					value = mon.derive(sts[ns][ingress][svc][st])
-					print(f"status_{stid}.value {value}")
-				if mon.debug(): print()
+					_print(f"status_{stid}.value {value}")
+				if mon.debug(): _print()
