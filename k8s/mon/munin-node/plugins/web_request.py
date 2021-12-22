@@ -1,8 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from time import time
-
 import mon
 
 import req_total

@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 import mon
+
 import resp_total
 import resp_time
 import resp_size
@@ -35,12 +36,16 @@ def __parse(name, meta, value):
 	sts[host][path][method][status][name] += value
 	return True
 
+TIME  = 'nginx_ingress_controller_response_duration_seconds_sum'
+COUNT = 'nginx_ingress_controller_response_duration_seconds_count'
+SIZE  = 'nginx_ingress_controller_response_size_sum'
+
 def parse(name, meta, value):
-	if name == 'nginx_ingress_controller_response_duration_seconds_sum':
+	if name == TIME:
 		return __parse('time', meta, value)
-	elif name == 'nginx_ingress_controller_response_duration_seconds_count':
+	elif name == COUNT:
 		return __parse('count', meta, value)
-	elif name == 'nginx_ingress_controller_response_size_sum':
+	elif name == SIZE:
 		return __parse('size', meta, value)
 	return False
 
