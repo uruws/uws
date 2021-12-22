@@ -82,27 +82,27 @@ def config(sts):
 	for host in sorted(sts.keys()):
 		hostid = mon.cleanfn(host)
 		# total
-		req_total.config(cluster, host, hostid, sts[host]['all'])
+		req_total.config(cluster, host, hostid, sts[host].get('all', {}))
 		# by_path
-		req_by_path.config(cluster, host, hostid, sts[host]['by_path'])
+		req_by_path.config(cluster, host, hostid, sts[host].get('by_path', {}))
 		# errors
-		req_errors.config(cluster, host, hostid, sts[host]['errors'])
+		req_errors.config(cluster, host, hostid, sts[host].get('errors', {}))
 		# time
-		req_time.config(cluster, host, hostid, sts[host]['all'])
+		req_time.config(cluster, host, hostid, sts[host].get('all', {}))
 		# size
-		req_size.config(cluster, host, hostid, sts[host]['all'])
+		req_size.config(cluster, host, hostid, sts[host].get('all', {}))
 
 def report(sts):
 	mon.dbg('report web_request')
 	for host in sorted(sts.keys()):
 		hostid = mon.cleanfn(host)
 		# total
-		req_total.report(hostid, sts[host]['all'])
+		req_total.report(hostid, sts[host].get('all', {}))
 		# by_path
-		req_by_path.report(hostid, sts[host]['by_path'])
+		req_by_path.report(hostid, sts[host].get('by_path', {}))
 		# errors
-		req_errors.report(hostid, sts[host]['errors'])
+		req_errors.report(hostid, sts[host].get('errors', {}))
 		# time
-		req_time.report(hostid, sts[host]['all'])
+		req_time.report(hostid, sts[host].get('all', {}))
 		# size
-		req_size.report(hostid, sts[host]['all'])
+		req_size.report(hostid, sts[host].get('all', {}))

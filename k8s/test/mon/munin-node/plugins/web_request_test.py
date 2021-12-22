@@ -10,6 +10,12 @@ import mon_t
 
 import web_request
 
+web_request.req_total._print = MagicMock()
+web_request.req_by_path._print = MagicMock()
+web_request.req_errors._print = MagicMock()
+web_request.req_time._print = MagicMock()
+web_request.req_size._print = MagicMock()
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -102,6 +108,24 @@ class Test(unittest.TestCase):
 			'status': 'not_a_number',
 		}
 		t.assertFalse(web_request.parse(web_request.COUNT, meta, 99.0))
+
+	def test_config(t):
+		sts = {'thost.uws': {}}
+		web_request.config(sts)
+		web_request.req_total._print.assert_called()
+		web_request.req_by_path._print.assert_called()
+		web_request.req_errors._print.assert_called()
+		web_request.req_time._print.assert_called()
+		web_request.req_size._print.assert_called()
+
+	def test_report(t):
+		sts = {'thost.uws': {}}
+		web_request.report(sts)
+		web_request.req_total._print.assert_called()
+		web_request.req_by_path._print.assert_called()
+		web_request.req_errors._print.assert_called()
+		web_request.req_time._print.assert_called()
+		web_request.req_size._print.assert_called()
 
 if __name__ == '__main__':
 	unittest.main()
