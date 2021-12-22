@@ -26,7 +26,7 @@ def config(cluster, host, hostid, sts):
 				_print(f"req_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 				_print(f"req_{pathid}_{methid}_{stid}.draw AREASTACK")
 				_print(f"req_{pathid}_{methid}_{stid}.min 0")
-				fid += 1
+				fid = mon.color(fid)
 	if mon.debug(): _print()
 	# size total
 	_print(f"multigraph web_request_size_{hostid}.total")
@@ -47,7 +47,7 @@ def config(cluster, host, hostid, sts):
 				_print(f"req_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 				_print(f"req_{pathid}_{methid}_{stid}.draw AREASTACK")
 				_print(f"req_{pathid}_{methid}_{stid}.min 0")
-				fid += 1
+				fid = mon.color(fid)
 	if mon.debug(): _print()
 	# size count
 	_print(f"multigraph web_request_size_{hostid}.count")
@@ -70,7 +70,7 @@ def config(cluster, host, hostid, sts):
 				_print(f"req_{pathid}_{methid}_{stid}.type DERIVE")
 				_print(f"req_{pathid}_{methid}_{stid}.min 0")
 				_print(f"req_{pathid}_{methid}_{stid}.cdef req_{pathid}_{methid}_{stid},1000,/")
-				fid += 1
+				fid = mon.color(fid)
 	if mon.debug(): _print()
 	# size avg
 	_print(f"multigraph web_request_size_{hostid}.avg")
@@ -89,7 +89,7 @@ def config(cluster, host, hostid, sts):
 				_print(f"req_{pathid}_{methid}_{stid}.label {status} {method} {path}")
 				_print(f"req_{pathid}_{methid}_{stid}.colour COLOUR{fid}")
 				_print(f"req_{pathid}_{methid}_{stid}.min 0")
-				fid += 1
+				fid = mon.color(fid)
 	if mon.debug(): _print()
 
 def report(hostid, sts):
