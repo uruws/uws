@@ -15,6 +15,8 @@
     * k8s apiserver metrics
         * uwskube get --raw /metrics
 
+* apijob `FIX`: sort collection names to try avoiding munin colors change
+
 * check clusters k8s mon and ctl internal services from jsbatch/ops.uws
 
 * uwscli app access by group
@@ -39,6 +41,8 @@
         * web_latency?
         * web_time
             * response (request?) avg
+
+* munin (jsbatch) plugins unittest and CI integration
 
 * rstudio checks
     * http_loadtime IDE and Jupyter Notebook from jsbatch
