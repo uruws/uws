@@ -26,13 +26,18 @@ def __parse(name, meta, value):
 	sts[ns][ingress][service][name] = value
 	return True
 
+SUM   = 'nginx_ingress_controller_ingress_upstream_latency_seconds_sum'
+COUNT = 'nginx_ingress_controller_ingress_upstream_latency_seconds_count'
+
 def parse(name, meta, value):
-	if name == 'nginx_ingress_controller_ingress_upstream_latency_seconds_sum':
+	if name == SUM:
 		return __parse('sum', meta, value)
-	elif name == 'nginx_ingress_controller_ingress_upstream_latency_seconds_count':
+	elif name == COUNT:
 		return True
-		# ~ return __parse('count', meta, value)
 	return False
+
+def _print(*args):
+	print(*args)
 
 def config(sts):
 	mon.dbg('config web_latency')
@@ -43,41 +48,41 @@ def config(sts):
 		for ingress in sorted(sts[ns].keys()):
 			ingid = mon.cleanfn(ingress)
 			# sum
-			print(f"multigraph web_latency_{nsid}_{ingid}")
-			print(f"graph_title {ns}/{ingress} service latency total")
-			print('graph_args --base 1000 -l 0')
-			print('graph_category web_latency')
-			print('graph_vlabel seconds')
-			print('graph_scale no')
-			print('graph_total total')
+			_print(f"multigraph web_latency_{nsid}_{ingid}")
+			_print(f"graph_title {ns}/{ingress} service latency total")
+			_print('graph_args --base 1000 -l 0')
+			_print('graph_category web_latency')
+			_print('graph_vlabel seconds')
+			_print('graph_scale no')
+			_print('graph_total total')
 			svcn = 0
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
-				print(f"{svcid}.label {svc}")
-				print(f"{svcid}.colour COLOUR{svcn}")
-				print(f"{svcid}.draw AREASTACK")
-				print(f"{svcid}.min 0")
-				svcn += 1
-			if mon.debug(): print()
+				_print(f"{svcid}.label {svc}")
+				_print(f"{svcid}.colour COLOUR{svcn}")
+				_print(f"{svcid}.draw AREASTACK")
+				_print(f"{svcid}.min 0")
+				svcn = mon.color(svcn)
+			if mon.debug(): _print()
 			# sum derive
-			print(f"multigraph web_latency_{nsid}_{ingid}.count")
-			print(f"graph_title {ns}/{ingress} service latency")
-			print('graph_args --base 1000 -l 0')
-			print('graph_category web_latency')
-			print('graph_vlabel latency per second')
-			print('graph_scale no')
-			print('graph_total total')
+			_print(f"multigraph web_latency_{nsid}_{ingid}.count")
+			_print(f"graph_title {ns}/{ingress} service latency")
+			_print('graph_args --base 1000 -l 0')
+			_print('graph_category web_latency')
+			_print('graph_vlabel latency per second')
+			_print('graph_scale no')
+			_print('graph_total total')
 			svcn = 0
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
-				print(f"{svcid}.label {svc} seconds")
-				print(f"{svcid}.colour COLOUR{svcn}")
-				print(f"{svcid}.draw AREASTACK")
-				print(f"{svcid}.type DERIVE")
-				print(f"{svcid}.min 0")
-				print(f"{svcid}.cdef {svcid},1000,/")
-				svcn += 1
-			if mon.debug(): print()
+				_print(f"{svcid}.label {svc} seconds")
+				_print(f"{svcid}.colour COLOUR{svcn}")
+				_print(f"{svcid}.draw AREASTACK")
+				_print(f"{svcid}.type DERIVE")
+				_print(f"{svcid}.min 0")
+				_print(f"{svcid}.cdef {svcid},1000,/")
+				svcn = mon.color(svcn)
+			if mon.debug(): _print()
 
 def report(sts):
 	mon.dbg('report web_latency')
@@ -88,16 +93,16 @@ def report(sts):
 		for ingress in sorted(sts[ns].keys()):
 			ingid = mon.cleanfn(ingress)
 			# sum
-			print(f"multigraph web_latency_{nsid}_{ingid}")
+			_print(f"multigraph web_latency_{nsid}_{ingid}")
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				value = sts[ns][ingress][svc]['sum']
-				print(f"{svcid}.value {value}")
-			if mon.debug(): print()
+				_print(f"{svcid}.value {value}")
+			if mon.debug(): _print()
 			# sum derive
-			print(f"multigraph web_latency_{nsid}_{ingid}.count")
+			_print(f"multigraph web_latency_{nsid}_{ingid}.count")
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
 				value = mon.derive(sts[ns][ingress][svc]['sum'])
-				print(f"{svcid}.value {value}")
-			if mon.debug(): print()
+				_print(f"{svcid}.value {value}")
+			if mon.debug(): _print()
