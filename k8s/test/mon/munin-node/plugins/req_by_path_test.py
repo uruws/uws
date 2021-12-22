@@ -71,8 +71,10 @@ class Test(unittest.TestCase):
 		}
 		req_by_path.report('thost_uws', sts)
 		report = [
+			# per second
 			call('multigraph web_request_thost_uws.by_path'),
 			call('req__testing.value', 99000),
+			# per minute
 			call('multigraph web_request_thost_uws.by_path_per_minute'),
 			call('req__testing.value', 99000),
 		]
