@@ -48,40 +48,38 @@ class Test(unittest.TestCase):
 		sts = {
 			'ns': {
 				'ingress': {
-					'service': {
-						'200': None,
-					},
+					'service': None,
 				},
 			},
 		}
 		web_latency.config(sts)
 		config = [
-			# total
-			call('multigraph web_latency_ns_ingress_service'),
-			call('graph_title ns/ingress service client requests total'),
+			# sum
+			call('multigraph web_latency_ns_ingress'),
+			call('graph_title ns/ingress service latency total'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category web_latency'),
-			call('graph_vlabel number'),
-			call('graph_scale yes'),
+			call('graph_vlabel seconds'),
+			call('graph_scale no'),
 			call('graph_total total'),
-			call('status_200.label 200'),
-			call('status_200.colour COLOUR0'),
-			call('status_200.draw AREASTACK'),
-			call('status_200.min 0'),
-			# count
-			call('multigraph web_latency_ns_ingress_service.count'),
-			call('graph_title ns/ingress service client requests'),
+			call('service.label service'),
+			call('service.colour COLOUR0'),
+			call('service.draw AREASTACK'),
+			call('service.min 0'),
+			# sum derive
+			call('multigraph web_latency_ns_ingress.count'),
+			call('graph_title ns/ingress service latency'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category web_latency'),
-			call('graph_vlabel number per second'),
-			call('graph_scale yes'),
+			call('graph_vlabel latency per second'),
+			call('graph_scale no'),
 			call('graph_total total'),
-			call('status_200.label 200'),
-			call('status_200.colour COLOUR0'),
-			call('status_200.draw AREASTACK'),
-			call('status_200.type DERIVE'),
-			call('status_200.min 0'),
-			call('status_200.cdef status_200,1000,/'),
+			call('service.label service seconds'),
+			call('service.colour COLOUR0'),
+			call('service.draw AREASTACK'),
+			call('service.type DERIVE'),
+			call('service.min 0'),
+			call('service.cdef service,1000,/'),
 		]
 		web_latency._print.assert_has_calls(config)
 		t.assertEqual(web_latency._print.call_count, len(config))
@@ -91,19 +89,19 @@ class Test(unittest.TestCase):
 			'ns': {
 				'ingress': {
 					'service': {
-						'200': 99.0,
+						'sum': 99.0,
 					},
 				},
 			},
 		}
 		web_latency.report(sts)
 		report = [
-			# total
-			call('multigraph web_latency_ns_ingress_service'),
-			call('status_200.value 99.0'),
-			# count
-			call('multigraph web_latency_ns_ingress_service.count'),
-			call('status_200.value 99000'),
+			# sum
+			call('multigraph web_latency_ns_ingress'),
+			call('service.value 99.0'),
+			# sum derive
+			call('multigraph web_latency_ns_ingress.count'),
+			call('service.value 99000'),
 		]
 		web_latency._print.assert_has_calls(report)
 		t.assertEqual(web_latency._print.call_count, len(report))

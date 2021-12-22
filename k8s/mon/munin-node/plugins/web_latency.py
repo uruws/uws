@@ -96,13 +96,13 @@ def report(sts):
 			_print(f"multigraph web_latency_{nsid}_{ingid}")
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
-				value = sts[ns][ingress][svc]['sum']
+				value = sts[ns][ingress][svc].get('sum', 'U')
 				_print(f"{svcid}.value {value}")
 			if mon.debug(): _print()
 			# sum derive
 			_print(f"multigraph web_latency_{nsid}_{ingid}.count")
 			for svc in sorted(sts[ns][ingress].keys()):
 				svcid = mon.cleanfn(svc)
-				value = mon.derive(sts[ns][ingress][svc]['sum'])
+				value = mon.derive(sts[ns][ingress][svc].get('sum', 'U'))
 				_print(f"{svcid}.value {value}")
 			if mon.debug(): _print()
