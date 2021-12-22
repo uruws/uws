@@ -21,10 +21,15 @@ def __parse(name, meta, value):
 	sts[ns][host] = value
 	return True
 
+SUM = 'nginx_ingress_controller_ssl_expire_time_seconds'
+
 def parse(name, meta, value):
-	if name == 'nginx_ingress_controller_ssl_expire_time_seconds':
+	if name == SUM:
 		return __parse('sum', meta, value)
 	return False
+
+def _print(*args):
+	print(*args)
 
 def config(sts):
 	mon.dbg('config web_ssl')
@@ -34,20 +39,20 @@ def config(sts):
 		# host
 		for host in sorted(sts[ns].keys()):
 			hostid = mon.cleanfn(host)
-			print(f"multigraph web_ssl_{nsid}_{hostid}")
-			print(f"graph_title {host} ssl cert expire")
-			print('graph_args --base 1000')
-			print('graph_category web_ssl')
-			print('graph_vlabel days')
-			print('graph_scale no')
-			print('ssl.label expire')
-			print('ssl.colour COLOUR0')
-			print('ssl.draw AREA')
+			_print(f"multigraph web_ssl_{nsid}_{hostid}")
+			_print(f"graph_title {host} ssl cert expire")
+			_print('graph_args --base 1000')
+			_print('graph_category web_ssl')
+			_print('graph_vlabel days')
+			_print('graph_scale no')
+			_print('ssl.label expire')
+			_print('ssl.colour COLOUR0')
+			_print('ssl.draw AREA')
 			value = sts[ns][host]
-			print('ssl.info', strftime('%c %z', gmtime(value)))
-			print('ssl.warning 20:')
-			print('ssl.critical 15:')
-			if mon.debug(): print()
+			_print('ssl.info', strftime('%c %z', gmtime(value)))
+			_print('ssl.warning 20:')
+			_print('ssl.critical 15:')
+			if mon.debug(): _print()
 
 def report(sts):
 	mon.dbg('report web_ssl')
@@ -57,7 +62,7 @@ def report(sts):
 		# host
 		for host in sorted(sts[ns].keys()):
 			hostid = mon.cleanfn(host)
-			print(f"multigraph web_ssl_{nsid}_{hostid}")
+			_print(f"multigraph web_ssl_{nsid}_{hostid}")
 			value = (sts[ns][host] - time()) / (24.0 * 3600.0)
-			print('ssl.value', value)
-			if mon.debug(): print()
+			_print('ssl.value', value)
+			if mon.debug(): _print()
