@@ -33,12 +33,18 @@ def __parse(name, meta, value):
 	sts[ns][ingress][host][service][name] += value
 	return True
 
+SUM   = 'nginx_ingress_controller_bytes_sent_sum'
+COUNT = 'nginx_ingress_controller_bytes_sent_count'
+
 def parse(name, meta, value):
-	if name == 'nginx_ingress_controller_bytes_sent_sum':
+	if name == SUM:
 		return __parse('sum', meta, value)
-	elif name == 'nginx_ingress_controller_bytes_sent_count':
+	elif name == COUNT:
 		return __parse('count', meta, value)
 	return False
+
+def _print(*args):
+	print(*args)
 
 def config(sts):
 	mon.dbg('config web_sent')
@@ -53,77 +59,77 @@ def config(sts):
 			for host in sorted(sts[ns][ingress].keys()):
 				# total
 				hostid = mon.cleanfn(host)
-				print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}")
-				print(f"graph_title {ns}/{ingress} {host} sent total")
-				print('graph_args --base 1000 -l 0')
-				print('graph_category web_sent')
-				print('graph_vlabel number')
-				print('graph_scale yes')
-				print('graph_total total')
+				_print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}")
+				_print(f"graph_title {ns}/{ingress} {host} sent total")
+				_print('graph_args --base 1000 -l 0')
+				_print('graph_category web_sent')
+				_print('graph_vlabel number')
+				_print('graph_scale yes')
+				_print('graph_total total')
 				svcn = 0
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					print(f"{svcid}.label {svc}")
-					print(f"{svcid}.colour COLOUR{svcn}")
-					print(f"{svcid}.draw AREASTACK")
-					print(f"{svcid}.min 0")
-					svcn += 1
-				if mon.debug(): print()
+					_print(f"{svcid}.label {svc}")
+					_print(f"{svcid}.colour COLOUR{svcn}")
+					_print(f"{svcid}.draw AREASTACK")
+					_print(f"{svcid}.min 0")
+					svcn = mon.color(svcn)
+				if mon.debug(): _print()
 				# count
-				print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}.count")
-				print(f"graph_title {ns}/{ingress} {host} sent")
-				print('graph_args --base 1000 -l 0')
-				print('graph_category web_sent')
-				print('graph_vlabel number per second')
-				print('graph_scale yes')
-				print('graph_total total')
+				_print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}.count")
+				_print(f"graph_title {ns}/{ingress} {host} sent")
+				_print('graph_args --base 1000 -l 0')
+				_print('graph_category web_sent')
+				_print('graph_vlabel number per second')
+				_print('graph_scale yes')
+				_print('graph_total total')
 				svcn = 0
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					print(f"{svcid}.label {svc}")
-					print(f"{svcid}.colour COLOUR{svcn}")
-					print(f"{svcid}.draw AREASTACK")
-					print(f"{svcid}.type DERIVE")
-					print(f"{svcid}.min 0")
-					print(f"{svcid}.cdef {svcid},1000,/")
-					svcn += 1
-				if mon.debug(): print()
+					_print(f"{svcid}.label {svc}")
+					_print(f"{svcid}.colour COLOUR{svcn}")
+					_print(f"{svcid}.draw AREASTACK")
+					_print(f"{svcid}.type DERIVE")
+					_print(f"{svcid}.min 0")
+					_print(f"{svcid}.cdef {svcid},1000,/")
+					svcn = mon.color(svcn)
+				if mon.debug(): _print()
 				# sum total
-				print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}")
-				print(f"graph_title {ns}/{ingress} {host} bytes sent total")
-				print('graph_args --base 1024 -l 0')
-				print('graph_category web_sent')
-				print('graph_vlabel bytes')
-				print('graph_scale yes')
-				print('graph_total total')
+				_print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}")
+				_print(f"graph_title {ns}/{ingress} {host} bytes sent total")
+				_print('graph_args --base 1024 -l 0')
+				_print('graph_category web_sent')
+				_print('graph_vlabel bytes')
+				_print('graph_scale yes')
+				_print('graph_total total')
 				svcn = 0
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					print(f"{svcid}.label {svc}")
-					print(f"{svcid}.colour COLOUR{svcn}")
-					print(f"{svcid}.draw AREASTACK")
-					print(f"{svcid}.min 0")
-					svcn += 1
-				if mon.debug(): print()
+					_print(f"{svcid}.label {svc}")
+					_print(f"{svcid}.colour COLOUR{svcn}")
+					_print(f"{svcid}.draw AREASTACK")
+					_print(f"{svcid}.min 0")
+					svcn = mon.color(svcn)
+				if mon.debug(): _print()
 				# sum count
-				print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}.count")
-				print(f"graph_title {ns}/{ingress} {host} bytes sent count")
-				print('graph_args --base 1024 -l 0')
-				print('graph_category web_sent')
-				print('graph_vlabel bytes per second')
-				print('graph_scale yes')
-				print('graph_total total')
+				_print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}.count")
+				_print(f"graph_title {ns}/{ingress} {host} bytes sent count")
+				_print('graph_args --base 1024 -l 0')
+				_print('graph_category web_sent')
+				_print('graph_vlabel bytes per second')
+				_print('graph_scale yes')
+				_print('graph_total total')
 				svcn = 0
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					print(f"{svcid}.label {svc}")
-					print(f"{svcid}.colour COLOUR{svcn}")
-					print(f"{svcid}.draw AREASTACK")
-					print(f"{svcid}.type DERIVE")
-					print(f"{svcid}.min 0")
-					print(f"{svcid}.cdef {svcid},1000,/")
-					svcn += 1
-				if mon.debug(): print()
+					_print(f"{svcid}.label {svc}")
+					_print(f"{svcid}.colour COLOUR{svcn}")
+					_print(f"{svcid}.draw AREASTACK")
+					_print(f"{svcid}.type DERIVE")
+					_print(f"{svcid}.min 0")
+					_print(f"{svcid}.cdef {svcid},1000,/")
+					svcn = mon.color(svcn)
+				if mon.debug(): _print()
 
 def report(sts):
 	mon.dbg('report web_sent')
@@ -139,26 +145,26 @@ def report(sts):
 				# total
 				hostid = mon.cleanfn(host)
 				# count
-				print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}")
+				_print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					print(f"{svcid}.value", sts[ns][ingress][host][svc]['count'])
-				if mon.debug(): print()
-				print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}.count")
+					_print(f"{svcid}.value", sts[ns][ingress][host][svc]['count'])
+				if mon.debug(): _print()
+				_print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}.count")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
 					value = mon.derive(sts[ns][ingress][host][svc]['count'])
-					print(f"{svcid}.value", value)
-				if mon.debug(): print()
+					_print(f"{svcid}.value", value)
+				if mon.debug(): _print()
 				# sum
-				print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}")
+				_print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					print(f"{svcid}.value", sts[ns][ingress][host][svc]['sum'])
-				if mon.debug(): print()
-				print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}.count")
+					_print(f"{svcid}.value", sts[ns][ingress][host][svc]['sum'])
+				if mon.debug(): _print()
+				_print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}.count")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
 					value = mon.derive(sts[ns][ingress][host][svc]['sum'])
-					print(f"{svcid}.value", value)
-				if mon.debug(): print()
+					_print(f"{svcid}.value", value)
+				if mon.debug(): _print()
