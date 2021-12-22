@@ -60,30 +60,56 @@ class Test(unittest.TestCase):
 		config = [
 			# total
 			call('multigraph web_sent_ns_ingress_service'),
-			call('graph_title ns/ingress service client requests total'),
+			call('graph_title ns/ingress service sent total'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category web_sent'),
 			call('graph_vlabel number'),
 			call('graph_scale yes'),
 			call('graph_total total'),
-			call('status_200.label 200'),
-			call('status_200.colour COLOUR0'),
-			call('status_200.draw AREASTACK'),
-			call('status_200.min 0'),
+			call('200.label 200'),
+			call('200.colour COLOUR0'),
+			call('200.draw AREASTACK'),
+			call('200.min 0'),
 			# count
 			call('multigraph web_sent_ns_ingress_service.count'),
-			call('graph_title ns/ingress service client requests'),
+			call('graph_title ns/ingress service sent'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category web_sent'),
 			call('graph_vlabel number per second'),
 			call('graph_scale yes'),
 			call('graph_total total'),
-			call('status_200.label 200'),
-			call('status_200.colour COLOUR0'),
-			call('status_200.draw AREASTACK'),
-			call('status_200.type DERIVE'),
-			call('status_200.min 0'),
-			call('status_200.cdef status_200,1000,/'),
+			call('200.label 200'),
+			call('200.colour COLOUR0'),
+			call('200.draw AREASTACK'),
+			call('200.type DERIVE'),
+			call('200.min 0'),
+			call('200.cdef 200,1000,/'),
+			# sum total
+			call('multigraph web_sent_bytes_ns_ingress_service'),
+			call('graph_title ns/ingress service bytes sent total'),
+			call('graph_args --base 1024 -l 0'),
+			call('graph_category web_sent'),
+			call('graph_vlabel bytes'),
+			call('graph_scale yes'),
+			call('graph_total total'),
+			call('200.label 200'),
+			call('200.colour COLOUR0'),
+			call('200.draw AREASTACK'),
+			call('200.min 0'),
+			# sum count
+			call('multigraph web_sent_bytes_ns_ingress_service.count'),
+			call('graph_title ns/ingress service bytes sent count'),
+			call('graph_args --base 1024 -l 0'),
+			call('graph_category web_sent'),
+			call('graph_vlabel bytes per second'),
+			call('graph_scale yes'),
+			call('graph_total total'),
+			call('200.label 200'),
+			call('200.colour COLOUR0'),
+			call('200.draw AREASTACK'),
+			call('200.type DERIVE'),
+			call('200.min 0'),
+			call('200.cdef 200,1000,/'),
 		]
 		web_sent._print.assert_has_calls(config)
 		t.assertEqual(web_sent._print.call_count, len(config))
@@ -93,7 +119,10 @@ class Test(unittest.TestCase):
 			'ns': {
 				'ingress': {
 					'service': {
-						'200': 99.0,
+						'200': {
+							'count': 9,
+							'sum': 99.0,
+						},
 					},
 				},
 			},
@@ -102,10 +131,16 @@ class Test(unittest.TestCase):
 		report = [
 			# total
 			call('multigraph web_sent_ns_ingress_service'),
-			call('status_200.value 99.0'),
+			call('200.value', 9),
 			# count
 			call('multigraph web_sent_ns_ingress_service.count'),
-			call('status_200.value 99000'),
+			call('200.value', 9000),
+			# sum total
+			call('multigraph web_sent_bytes_ns_ingress_service'),
+			call('200.value', 99.0),
+			# sum count
+			call('multigraph web_sent_bytes_ns_ingress_service.count'),
+			call('200.value', 99000),
 		]
 		web_sent._print.assert_has_calls(report)
 		t.assertEqual(web_sent._print.call_count, len(report))

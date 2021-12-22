@@ -148,23 +148,24 @@ def report(sts):
 				_print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					_print(f"{svcid}.value", sts[ns][ingress][host][svc]['count'])
+					_print(f"{svcid}.value", sts[ns][ingress][host][svc].get('count', 'U'))
 				if mon.debug(): _print()
 				_print(f"multigraph web_sent_{nsid}_{ingid}_{hostid}.count")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					value = mon.derive(sts[ns][ingress][host][svc]['count'])
+					value = mon.derive(sts[ns][ingress][host][svc].get('count', 'U'))
 					_print(f"{svcid}.value", value)
 				if mon.debug(): _print()
-				# sum
+				# sum total
 				_print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					_print(f"{svcid}.value", sts[ns][ingress][host][svc]['sum'])
+					_print(f"{svcid}.value", sts[ns][ingress][host][svc].get('sum', 'U'))
 				if mon.debug(): _print()
+				# sum count
 				_print(f"multigraph web_sent_bytes_{nsid}_{ingid}_{hostid}.count")
 				for svc in sorted(sts[ns][ingress][host].keys()):
 					svcid = mon.cleanfn(svc)
-					value = mon.derive(sts[ns][ingress][host][svc]['sum'])
+					value = mon.derive(sts[ns][ingress][host][svc].get('sum', 'U'))
 					_print(f"{svcid}.value", value)
 				if mon.debug(): _print()
