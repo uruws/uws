@@ -4,6 +4,7 @@
 from time import time
 
 import mon
+
 import req_total
 import req_by_path
 import req_errors
@@ -62,12 +63,16 @@ def __parse(name, meta, value):
 			sts[host]['errors'][path][status] += value
 	return True
 
+TIME  = 'nginx_ingress_controller_request_duration_seconds_sum'
+COUNT = 'nginx_ingress_controller_request_duration_seconds_count'
+SIZE  = 'nginx_ingress_controller_request_size_sum'
+
 def parse(name, meta, value):
-	if name == 'nginx_ingress_controller_request_duration_seconds_sum':
+	if name == TIME:
 		return __parse('time', meta, value)
-	elif name == 'nginx_ingress_controller_request_duration_seconds_count':
+	elif name == COUNT:
 		return __parse('count', meta, value)
-	elif name == 'nginx_ingress_controller_request_size_sum':
+	elif name == SIZE:
 		return __parse('size', meta, value)
 	return False
 
