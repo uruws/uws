@@ -101,7 +101,7 @@ def report(hostid, sts):
 			methid = mon.cleanfn(method)
 			for status in sorted(sts[path].get(method, {}).keys()):
 				stid = mon.cleanfn(status)
-				value = sts[path][method][status]['size']
+				value = sts[path][method][status].get('size', 'U')
 				_print(f"req_{pathid}_{methid}_{stid}.value {value}")
 	if mon.debug(): _print()
 	# size total
@@ -112,7 +112,7 @@ def report(hostid, sts):
 			methid = mon.cleanfn(method)
 			for status in sorted(sts[path].get(method, {}).keys()):
 				stid = mon.cleanfn(status)
-				value = sts[path][method][status]['size']
+				value = sts[path][method][status].get('size', 'U')
 				_print(f"req_{pathid}_{methid}_{stid}.value {value}")
 	if mon.debug(): _print()
 	# size count
@@ -123,7 +123,7 @@ def report(hostid, sts):
 			methid = mon.cleanfn(method)
 			for status in sorted(sts[path].get(method, {}).keys()):
 				stid = mon.cleanfn(status)
-				value = mon.derive(sts[path][method][status]['size'])
+				value = mon.derive(sts[path][method][status].get('size', 'U'))
 				_print(f"req_{pathid}_{methid}_{stid}.value {value}")
 	if mon.debug(): _print()
 	# size avg
@@ -134,8 +134,8 @@ def report(hostid, sts):
 			methid = mon.cleanfn(method)
 			for status in sorted(sts[path].get(method, {}).keys()):
 				stid = mon.cleanfn(status)
-				s = sts[path][method][status]['size']
-				c = sts[path][method][status]['count']
+				s = sts[path][method][status].get('size', 'U')
+				c = sts[path][method][status].get('count', 0)
 				if c > 0:
 					value = s / c
 				else:
