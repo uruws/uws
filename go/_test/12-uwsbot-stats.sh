@@ -1,12 +1,12 @@
 #!/bin/sh
 set -eu
 
-TMPDIR=/go/tmp/uwsbot
+TMPDIR=/go/tmp/uwsbot-stats
 rm -rf ${TMPDIR}
 install -d -m 0750 ${TMPDIR}
 
 export CGO_ENABLED=0
-go test -coverprofile ${TMPDIR}/coverage.out ./cmd/uwsbot/... ./bot
+go test -coverprofile ${TMPDIR}/coverage.out ./cmd/uwsbot-stats/... ./bot/stats/...
 
 covd=${TMPDIR}/htmlcov
 mkdir -p ${covd}
