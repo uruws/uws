@@ -229,12 +229,17 @@ deploy:
 #
 
 .PHONY: check
-check: check-docker check-cli check-k8s check-eks check-munin check-munin-node check-asb
+check: check-docker check-golang check-cli check-k8s check-eks check-munin check-munin-node check-asb
 
 .PHONY: check-docker
 check-docker:
 	@echo '***** docker/test/run/shellcheck.sh'
 	@./docker/check.sh ./test/run/shellcheck.sh
+
+.PHONY: check-golang
+check-golang:
+	@echo '***** docker/golang/check.sh'
+	@./docker/golang/check.sh
 
 .PHONY: check-cli
 check-cli:

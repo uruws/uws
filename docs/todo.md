@@ -4,15 +4,15 @@
 
 * munin-node utils unittest and CI integration - `DONE!`
 
-* golang tools unittests and CI integration
+* golang tools unittests and CI integration - `WIP`
+    * shellcheck - `DONE!`
+    * golib
     * k8smon
     * k8sctl
     * uwsbot
     * uwsbot-stats
     * api-job-stats
     * app-stats
-
-* munin (jsbatch) plugins unittest and CI integration
 
 * cluster stats - `WIP`
     * pod_container
