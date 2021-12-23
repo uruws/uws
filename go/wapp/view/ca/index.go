@@ -15,5 +15,5 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	log.Debug("index")
 	p := wapp.NewPage("ca/index.html")
 	p.Title = "uwsca"
-	wapp.Render(w, p)
+	//~ wapp.Render(w, p)
 }
