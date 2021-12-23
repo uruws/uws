@@ -1,13 +1,16 @@
-* setup Vanta to check kubernetes infra - `DONE!`
-    * added uwsadm profile to vanta checks
-
 * configure staging prod domain name on apptest
 
-* k8s mon unittests and CI integration
-    * python tools - `DONE!`
-    * golang tools
+* k8s mon python unittests and CI integration - `DONE!`
 
 * munin-node utils unittest and CI integration - `DONE!`
+
+* golang tools unittests and CI integration
+    * uwsbot
+    * uwsbot-stats
+    * api-job-stats
+    * app-stats
+    * k8smon
+    * k8sctl
 
 * munin (jsbatch) plugins unittest and CI integration
 
