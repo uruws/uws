@@ -250,5 +250,145 @@ UNKNOWN
 """
 		t.assertEqual(c.getvalue(), body)
 
+	def test_msgContent_OK(t):
+		c = StringIO()
+		m = EmailMessage()
+		m['Date'] = 'Thu, 23 Dec 2021 11:47:23 -0300'
+		s = {
+			'group': 'test',
+			'host': 'thost',
+			'plugin': 'tplugin',
+			'category': 'category',
+			'title': 'munin_plugin_t',
+			'worst': 'OK',
+			'ok': [{
+				'label': 'testing',
+				'value': '0.99',
+			}],
+		}
+		alerts._msgContent(c, s, m)
+		body = """test :: tplugin :: category
+thost :: munin_plugin_t :: OK
+
+Thu, 23 Dec 2021 11:47:23 -0300
+state changed: False
+
+OK
+  testing: 0.99
+"""
+		t.assertEqual(c.getvalue(), body)
+
+	def test_msgContent_RECOVER(t):
+		c = StringIO()
+		m = EmailMessage()
+		m['Date'] = 'Thu, 23 Dec 2021 11:47:23 -0300'
+		s = {
+			'group': 'test',
+			'host': 'thost',
+			'plugin': 'tplugin',
+			'category': 'category',
+			'title': 'munin_plugin_t',
+			'worst': 'OK',
+			'foks': [{
+				'label': 'testing',
+				'value': '0.99',
+			}],
+		}
+		alerts._msgContent(c, s, m)
+		body = """test :: tplugin :: category
+thost :: munin_plugin_t :: OK
+
+Thu, 23 Dec 2021 11:47:23 -0300
+state changed: False
+
+RECOVER
+  testing: 0.99
+"""
+		t.assertEqual(c.getvalue(), body)
+
+	def test_msgContent_WARNING(t):
+		c = StringIO()
+		m = EmailMessage()
+		m['Date'] = 'Thu, 23 Dec 2021 11:47:23 -0300'
+		s = {
+			'group': 'test',
+			'host': 'thost',
+			'plugin': 'tplugin',
+			'category': 'category',
+			'title': 'munin_plugin_t',
+			'worst': 'WARNING',
+			'warning': [{
+				'label': 'testing',
+				'value': '0.99',
+			}],
+		}
+		alerts._msgContent(c, s, m)
+		body = """test :: tplugin :: category
+thost :: munin_plugin_t :: WARNING
+
+Thu, 23 Dec 2021 11:47:23 -0300
+state changed: False
+
+WARNING
+  testing: 0.99
+"""
+		t.assertEqual(c.getvalue(), body)
+
+	def test_msgContent_CRITICAL(t):
+		c = StringIO()
+		m = EmailMessage()
+		m['Date'] = 'Thu, 23 Dec 2021 11:47:23 -0300'
+		s = {
+			'group': 'test',
+			'host': 'thost',
+			'plugin': 'tplugin',
+			'category': 'category',
+			'title': 'munin_plugin_t',
+			'worst': 'CRITICAL',
+			'critical': [{
+				'label': 'testing',
+				'value': '0.99',
+			}],
+		}
+		alerts._msgContent(c, s, m)
+		body = """test :: tplugin :: category
+thost :: munin_plugin_t :: CRITICAL
+
+Thu, 23 Dec 2021 11:47:23 -0300
+state changed: False
+
+CRITICAL
+  testing: 0.99
+"""
+		t.assertEqual(c.getvalue(), body)
+
+	def test_msgContent_UNKNOWN(t):
+		c = StringIO()
+		m = EmailMessage()
+		m['Date'] = 'Thu, 23 Dec 2021 11:47:23 -0300'
+		s = {
+			'group': 'test',
+			'host': 'thost',
+			'plugin': 'tplugin',
+			'category': 'category',
+			'title': 'munin_plugin_t',
+			'worst': 'UNKNOWN',
+			'unknown': [{
+				'label': 'testing',
+				'value': 'U',
+			}],
+		}
+		alerts._msgContent(c, s, m)
+		body = """test :: tplugin :: category
+thost :: munin_plugin_t :: UNKNOWN
+
+Thu, 23 Dec 2021 11:47:23 -0300
+state changed: False
+
+UNKNOWN
+  testing
+"""
+		t.assertEqual(c.getvalue(), body)
+
 if __name__ == '__main__':
 	unittest.main()
