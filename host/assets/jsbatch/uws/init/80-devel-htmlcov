@@ -6,13 +6,13 @@ set -eu
 rm -rf /srv/www/ssl/htmlcov/uwscli
 if test -d /srv/uws/deploy/tmp/uwscli/htmlcov; then
 	cp -r /srv/uws/deploy/tmp/uwscli/htmlcov /srv/www/ssl/htmlcov/uwscli
-	chown -vR root:www-data /srv/www/ssl/htmlcov/uwscli
+	chown -R root:www-data /srv/www/ssl/htmlcov/uwscli
 fi
 
 rm -rf /srv/www/ssl/htmlcov/uwscli_vendor
 if test -d /srv/uws/deploy/tmp/uwscli/htmlcov_vendor; then
 	cp -r /srv/uws/deploy/tmp/uwscli/htmlcov_vendor /srv/www/ssl/htmlcov/uwscli_vendor
-	chown -vR root:www-data /srv/www/ssl/htmlcov/uwscli_vendor
+	chown -R root:www-data /srv/www/ssl/htmlcov/uwscli_vendor
 fi
 
 # munin
@@ -20,7 +20,7 @@ fi
 rm -rf /srv/www/ssl/htmlcov/munin
 if test -d /srv/uws/deploy/tmp/munin/htmlcov; then
 	cp -r /srv/uws/deploy/tmp/munin/htmlcov /srv/www/ssl/htmlcov/munin
-	chown -vR root:www-data /srv/www/ssl/htmlcov/munin
+	chown -R root:www-data /srv/www/ssl/htmlcov/munin
 fi
 
 # k8s
@@ -28,7 +28,7 @@ fi
 rm -rf /srv/www/ssl/htmlcov/k8s
 if test -d /srv/uws/deploy/tmp/k8s/htmlcov; then
 	cp -r /srv/uws/deploy/tmp/k8s/htmlcov /srv/www/ssl/htmlcov/k8s
-	chown -vR root:www-data /srv/www/ssl/htmlcov/k8s
+	chown -R root:www-data /srv/www/ssl/htmlcov/k8s
 fi
 
 # eks
@@ -36,7 +36,15 @@ fi
 rm -rf /srv/www/ssl/htmlcov/eks
 if test -d /srv/uws/deploy/tmp/eks/htmlcov; then
 	cp -r /srv/uws/deploy/tmp/eks/htmlcov /srv/www/ssl/htmlcov/eks
-	chown -vR root:www-data /srv/www/ssl/htmlcov/eks
+	chown -R root:www-data /srv/www/ssl/htmlcov/eks
+fi
+
+# golib
+
+rm -rf /srv/www/ssl/htmlcov/golib
+if test -d /srv/uws/deploy/tmp/golib/htmlcov; then
+	cp -r /srv/uws/deploy/tmp/golib/htmlcov /srv/www/ssl/htmlcov/golib
+	chown -R root:www-data /srv/www/ssl/htmlcov/golib
 fi
 
 exit 0
