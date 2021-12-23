@@ -199,5 +199,56 @@ state changed: False
 """
 		t.assertEqual(c.getvalue(), body)
 
+	def test_msgContent_error(t):
+		c = StringIO()
+		m = EmailMessage()
+		m['Date'] = 'Thu, 23 Dec 2021 11:47:23 -0300'
+		s = {
+			'group': 'test',
+			'host': 'thost',
+			'plugin': 'tplugin',
+			'category': 'category',
+			'title': 'munin_plugin_t',
+			'ok': [{
+				'label': 'testing',
+				'value': '0.99',
+			}],
+			'foks': [{
+				'label': 'testing',
+				'value': '0.99',
+			}],
+			'warning': [{
+				'label': 'testing',
+				'value': '0.99',
+			}],
+			'critical': [{
+				'label': 'testing',
+				'value': '0.99',
+			}],
+			'unknown': [{
+				'label': 'testing',
+				'value': 'U',
+			}],
+		}
+		alerts._msgContent(c, s, m)
+		body = """test :: tplugin :: category
+thost :: munin_plugin_t :: ERROR
+
+Thu, 23 Dec 2021 11:47:23 -0300
+state changed: False
+
+OK
+  testing: 0.99
+RECOVER
+  testing: 0.99
+WARNING
+  testing: 0.99
+CRITICAL
+  testing: 0.99
+UNKNOWN
+  testing
+"""
+		t.assertEqual(c.getvalue(), body)
+
 if __name__ == '__main__':
 	unittest.main()
