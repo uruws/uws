@@ -1,7 +1,7 @@
 FROM uws/base-2109
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="211027"
+LABEL version="211223"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh golang-go golang-golang-x-tools make less
+RUN /root/bin/apt-install.sh golang-go golang-golang-x-tools make less shellcheck
 
 RUN mkdir -vp /go/src/uws /go/.cache /go/bin /uws \
 	&& chown -vR uws:uws /go /uws \

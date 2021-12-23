@@ -11,4 +11,4 @@ exec docker run -it --rm --name uws-golang-devel \
 	-p 127.0.0.1:2800:2800 \
 	-p 127.0.0.1:2801:2801 \
 	--entrypoint /usr/local/bin/uws-login.sh \
-	uws/golang
+	uws/golang-2109

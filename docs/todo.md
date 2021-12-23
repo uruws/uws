@@ -5,12 +5,12 @@
 * munin-node utils unittest and CI integration - `DONE!`
 
 * golang tools unittests and CI integration
+    * k8smon
+    * k8sctl
     * uwsbot
     * uwsbot-stats
     * api-job-stats
     * app-stats
-    * k8smon
-    * k8sctl
 
 * munin (jsbatch) plugins unittest and CI integration
 

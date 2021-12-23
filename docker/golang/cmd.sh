@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eu
 BUILD_CMD=${PWD}/docker/golang/build
 BUILD_CACHE=${PWD}/docker/golang/build/cache
 mkdir -vp ${BUILD_CACHE} ${BUILD_CMD}
