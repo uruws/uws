@@ -47,4 +47,12 @@ if test -d /srv/uws/deploy/tmp/golib/htmlcov; then
 	chown -R root:www-data /srv/www/ssl/htmlcov/golib
 fi
 
+# k8smon
+
+rm -rf /srv/www/ssl/htmlcov/k8smon
+if test -d /srv/uws/deploy/tmp/k8smon/htmlcov; then
+	cp -r /srv/uws/deploy/tmp/k8smon/htmlcov /srv/www/ssl/htmlcov/k8smon
+	chown -R root:www-data /srv/www/ssl/htmlcov/k8smon
+fi
+
 exit 0

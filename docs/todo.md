@@ -8,7 +8,6 @@
     * shellcheck - `DONE!`
     * golib
     * k8smon
-    * k8sctl
     * uwsbot
     * uwsbot-stats
     * api-job-stats
