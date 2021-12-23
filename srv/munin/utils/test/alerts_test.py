@@ -390,5 +390,22 @@ UNKNOWN
 """
 		t.assertEqual(c.getvalue(), body)
 
+	def test_parse(t):
+		s = {
+			'group': 'test',
+			'host': 'thost',
+			'plugin': 'tplugin',
+			'category': 'category',
+			'title': 'munin_plugin_t',
+			'worst': 'OK',
+			'ok': [{
+				'label': 'testing',
+				'value': '0.99',
+			}],
+		}
+		m = alerts.parse(s)
+		t.assertEqual(m['From'], 'thost <munin-alert@thost>')
+		t.assertEqual(m['Subject'], 'OK: munin_plugin_t')
+
 if __name__ == '__main__':
 	unittest.main()
