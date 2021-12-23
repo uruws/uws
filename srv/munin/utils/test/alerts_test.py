@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, call
 from contextlib import contextmanager
 from email.headerregistry import Address
 from email.message import EmailMessage
-from io import StringIO
+from io import StringIO, BytesIO
 
 import alerts
 
@@ -60,6 +60,17 @@ def mock_parse():
 		yield
 	finally:
 		alerts.parse = p_bup
+
+@contextmanager
+def mock_open(fh = BytesIO()):
+	_bup_open = alerts._open
+	def _open(fn, mode):
+		return fh
+	try:
+		alerts._open = MagicMock(side_effect = _open)
+		yield
+	finally:
+		alerts._open = _bup_open
 
 class Test(unittest.TestCase):
 
@@ -406,6 +417,14 @@ UNKNOWN
 		m = alerts.parse(s)
 		t.assertEqual(m['From'], 'thost <munin-alert@thost>')
 		t.assertEqual(m['Subject'], 'OK: munin_plugin_t')
+
+	def test_nq(t):
+		with mock_open():
+			t.assertEqual(alerts.nq(EmailMessage()), 0)
+			alerts._open.assert_called_once()
+
+	def test_nq_error(t):
+		t.assertEqual(alerts.nq(EmailMessage()), 9)
 
 if __name__ == '__main__':
 	unittest.main()

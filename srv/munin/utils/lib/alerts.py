@@ -109,10 +109,13 @@ def parse(stats):
 		msg.set_content(c.getvalue())
 	return msg
 
+def _open(fn, mode):
+	return open(fn, mode)
+
 def nq(m):
 	fn = f"{QDIR}/{time_ns()}.eml"
 	try:
-		with open(fn, 'wb') as fh:
+		with _open(fn, 'wb') as fh:
 			fh.write(m.as_bytes())
 	except Exception as err:
 		print('ERROR:', err, file = sys.stderr)
