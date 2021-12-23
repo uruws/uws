@@ -71,4 +71,12 @@ if test -d /srv/uws/deploy/tmp/uwsbot-stats/htmlcov; then
 	chown -R root:www-data /srv/www/ssl/htmlcov/uwsbot-stats
 fi
 
+# api-job-stats
+
+rm -rf /srv/www/ssl/htmlcov/api-job-stats
+if test -d /srv/uws/deploy/tmp/api-job-stats/htmlcov; then
+	cp -r /srv/uws/deploy/tmp/api-job-stats/htmlcov /srv/www/ssl/htmlcov/api-job-stats
+	chown -R root:www-data /srv/www/ssl/htmlcov/api-job-stats
+fi
+
 exit 0

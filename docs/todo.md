@@ -11,7 +11,6 @@
     * uwsbot
     * uwsbot-stats
     * api-job-stats
-    * app-stats
 
 * cluster stats - `WIP`
     * pod_container
