@@ -8,7 +8,7 @@ shift
 cd ${HOME}/tmp
 rm -f .coverage
 
-python3-coverage run ${HOME}/${script} $@
+python3-coverage run ${HOME}/${script} "$@"
 
 covd=${HOME}/tmp/htmlcov
 rm -rf ${covd}
