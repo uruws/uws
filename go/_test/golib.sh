@@ -5,7 +5,8 @@ TMPDIR=/go/tmp/golib
 rm -rf ${TMPDIR}
 install -d -m 0750 ${TMPDIR}
 
-go test -coverprofile ${TMPDIR}/coverage.out ./log/...
+go test -coverprofile ${TMPDIR}/coverage.out ./config/... ./env/... ./fs/... \
+	./log/...
 
 covd=${TMPDIR}/htmlcov
 mkdir -p ${covd}
