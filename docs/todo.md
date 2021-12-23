@@ -3,6 +3,12 @@
 
 * configure staging prod domain name on apptest
 
+* k8s mon unittests and CI integration
+    * python tools - `DONE!`
+    * golang tools
+
+* munin (jsbatch) plugins unittest and CI integration
+
 * cluster stats - `WIP`
     * pod_container
         * restarted ratio
@@ -41,8 +47,6 @@
         * web_latency?
         * web_time
             * response (request?) avg
-
-* munin (jsbatch) plugins unittest and CI integration
 
 * rstudio checks
     * http_loadtime IDE and Jupyter Notebook from jsbatch
