@@ -7,6 +7,8 @@
     * python tools - `DONE!`
     * golang tools
 
+* munin-node utils unittest and CI integration - `DONE!`
+
 * munin (jsbatch) plugins unittest and CI integration
 
 * cluster stats - `WIP`

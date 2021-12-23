@@ -229,7 +229,7 @@ deploy:
 #
 
 .PHONY: check
-check: check-docker check-cli check-k8s check-eks check-munin check-asb
+check: check-docker check-cli check-k8s check-eks check-munin check-munin-node check-asb
 
 .PHONY: check-docker
 check-docker:
@@ -262,6 +262,11 @@ check-eks:
 .PHONY: check-munin
 check-munin:
 	@./srv/munin/check.sh
+
+.PHONY: check-munin-node
+check-munin-node:
+	@echo '***** munin-node/test/run/shellcheck.sh'
+	@./srv/munin-node/check.sh ./test/run/shellcheck.sh
 
 .PHONY: check-asb
 check-asb:
