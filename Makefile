@@ -229,7 +229,7 @@ deploy:
 #
 
 .PHONY: check
-check: check-docker check-cli check-munin check-k8s check-eks check-asb
+check: check-docker check-cli check-k8s check-eks check-munin check-asb
 
 .PHONY: check-docker
 check-docker:
@@ -245,11 +245,6 @@ check-cli:
 	@echo '***** cli/test/run/coverage.sh'
 	@./docker/uwscli/cmd.sh ./test/run/coverage.sh
 
-.PHONY: check-munin
-check-munin:
-	@echo '***** srv/munin/check.sh'
-	@./srv/munin/check.sh
-
 .PHONY: check-k8s
 check-k8s:
 	@echo '***** k8s/test/run/shellcheck.sh'
@@ -263,6 +258,10 @@ check-eks:
 	@./docker/eks/devel.sh ./eks/test/run/shellcheck.sh
 	@echo '***** eks/test/run/coverage.sh'
 	@./docker/eks/devel.sh ./eks/test/run/coverage.sh
+
+.PHONY: check-munin
+check-munin:
+	@./srv/munin/check.sh
 
 .PHONY: check-asb
 check-asb:

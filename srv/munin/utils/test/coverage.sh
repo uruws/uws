@@ -7,7 +7,7 @@ cd ${HOME}/tmp
 
 rm -f .coverage
 
-for t in $(ls ${HOME}/utils/test/*_test.py); do
+for t in ${HOME}/utils/test/*_test.py; do
 	echo "*** ${t}"
 	python3-coverage run --append ${t} -v
 done
