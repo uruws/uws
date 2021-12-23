@@ -6,7 +6,7 @@ rm -rf ${TMPDIR}
 install -d -m 0750 ${TMPDIR}
 
 go test -coverprofile ${TMPDIR}/coverage.out ./config/... ./env/... ./fs/... \
-	./log/...
+	./log/... ./testing/...
 
 covd=${TMPDIR}/htmlcov
 mkdir -p ${covd}
