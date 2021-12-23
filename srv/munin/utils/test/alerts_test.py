@@ -8,6 +8,8 @@ from unittest.mock import MagicMock, call
 
 from contextlib import contextmanager
 from email.headerregistry import Address
+from email.message import EmailMessage
+from io import StringIO
 
 import alerts
 
@@ -161,6 +163,41 @@ class Test(unittest.TestCase):
 				with mock_nq(status = 99):
 					with mock_parse():
 						t.assertEqual(alerts.main(), 99)
+
+	def test_msgContent_no_data(t):
+		c = StringIO()
+		m = EmailMessage()
+		alerts._msgContent(c, {}, m)
+		body = """NO_GROUP :: NO_PLUGIN :: NO_CATEGORY
+NO_HOST :: NO_TITLE :: ERROR
+
+None
+state changed: False
+
+"""
+		t.assertEqual(c.getvalue(), body)
+
+	def test_msgContent(t):
+		c = StringIO()
+		m = EmailMessage()
+		m['Date'] = 'Thu, 23 Dec 2021 11:47:23 -0300'
+		s = {
+			'worst': 'TESTING',
+			'group': 'test',
+			'host': 'thost',
+			'plugin': 'tplugin',
+			'category': 'category',
+			'title': 'munin_plugin_t',
+		}
+		alerts._msgContent(c, s, m)
+		body = """test :: tplugin :: category
+thost :: munin_plugin_t :: TESTING
+
+Thu, 23 Dec 2021 11:47:23 -0300
+state changed: False
+
+"""
+		t.assertEqual(c.getvalue(), body)
 
 if __name__ == '__main__':
 	unittest.main()
