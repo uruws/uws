@@ -4,17 +4,39 @@
 package main
 
 import (
-	"testing"
+	"net/http"
 
+	"testing"
 	"uws/testing/mock"
 
 	. "uws/testing/check"
 )
 
-func TestMain(t *testing.T) {
+var (
+	bupListenAndServe func(string, http.Handler) error
+)
+
+func init() {
+	bupListenAndServe = listenAndServe
+}
+
+func TestMainPanics(t *testing.T) {
 	out := mock.Logger()
 	defer mock.LoggerReset()
 	cluster = ""
+	defer func() {
+		cluster = "k8stest"
+	}()
 	Panics(t, main, "main")
 	Match(t, "\\[FATAL\\] UWS_CLUSTER not set", out.String(), "error log")
+}
+
+func TestMain(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	listenAndServe = mock.HTTPListenAndServe
+	defer func() {
+		listenAndServe = bupListenAndServe
+	}()
+	Panics(t, main, "main")
 }

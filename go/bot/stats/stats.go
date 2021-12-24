@@ -22,9 +22,9 @@ import (
 )
 
 //~ const (
-	//~ // limits in milliseconds
-	//~ scriptWarning  uint = 60000
-	//~ scriptCritical uint = 90000
+//~ // limits in milliseconds
+//~ scriptWarning  uint = 60000
+//~ scriptCritical uint = 90000
 //~ )
 
 var (

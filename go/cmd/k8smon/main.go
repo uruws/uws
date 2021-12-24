@@ -13,10 +13,14 @@ import (
 	"uws/wapp"
 )
 
-var cluster string
+var (
+	cluster        string
+	listenAndServe func(string, http.Handler) error
+)
 
 func init() {
 	cluster = mon.Cluster()
+	listenAndServe = http.ListenAndServe
 }
 
 func main() {
@@ -38,7 +42,7 @@ func main() {
 	http.HandleFunc("/", mainHandler)
 
 	log.Debug("serve...")
-	log.Fatal("%s", http.ListenAndServe(":2800", nil))
+	log.Fatal("%s", listenAndServe(":2800", nil))
 }
 
 func healthzHandler(w http.ResponseWriter, r *http.Request) {

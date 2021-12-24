@@ -32,7 +32,7 @@ type pod struct {
 		} `json:"labels"`
 	} `json:"metadata"`
 	Spec struct {
-		Containers  []containerStatus `json:"containers"`
+		Containers []containerStatus `json:"containers"`
 	} `json:"spec"`
 	Status struct {
 		Conditions []statusCondition `json:"conditions,omitempty"`
