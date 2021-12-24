@@ -13,15 +13,20 @@ import (
 	"uws/wapp"
 )
 
+var cluster string
+
+func init() {
+	cluster = mon.Cluster()
+}
+
 func main() {
 	log.Init("k8smon")
 	log.Debug("main init")
 
-	if mon.Cluster() == "" {
+	if cluster == "" {
 		log.Fatal("UWS_CLUSTER not set")
-	} else {
-		log.Debug("cluster %s", mon.Cluster())
 	}
+	log.Debug("cluster %s", cluster)
 
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_/ping", pingHandler)
