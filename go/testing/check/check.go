@@ -12,7 +12,6 @@ Fatal. See the examples.
 package check
 
 import (
-	"fmt"
 	"regexp"
 	"testing"
 )
