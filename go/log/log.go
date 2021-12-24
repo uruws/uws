@@ -7,6 +7,7 @@ package log
 import (
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -223,4 +224,22 @@ func NewError(format string, v ...interface{}) error {
 		l.Printf(logger.DEBUG, "[ERROR] %v", err)
 	}
 	return err
+}
+
+func mockOsExit(s int) {
+	panic(fmt.Sprintf("mock_osExit:%d", s))
+}
+
+func Mock(out io.Writer) {
+	l.SetOutput(out)
+	l.Lock()
+	defer l.Unlock()
+	osExit = mockOsExit
+}
+
+func MockReset() {
+	l.SetOutput(log.Writer())
+	l.Lock()
+	defer l.Unlock()
+	osExit = os.Exit
 }

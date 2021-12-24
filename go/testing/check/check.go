@@ -12,6 +12,7 @@ Fatal. See the examples.
 package check
 
 import (
+	"fmt"
 	"regexp"
 	"testing"
 )
@@ -115,4 +116,20 @@ func NotMatch(t *testing.T, pat, s, errmsg string) bool {
 		return false
 	}
 	return true
+}
+
+// Panics checks if the given func panics.
+func Panics(t *testing.T, f func(), errmsg string) bool {
+	t.Helper()
+	v := false
+	defer func() {
+		if r := recover(); r != nil {
+			v = true
+		}
+	}()
+	f()
+	if !v {
+		t.Fatalf("%s: did not panic", errmsg)
+	}
+	return v
 }
