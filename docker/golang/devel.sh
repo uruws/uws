@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-BUILD_CACHE=${PWD}/build/go-cache
+BUILD_CACHE=${PWD}/docker/golang/build/cache
 TMPDIR=${PWD}/tmp
 mkdir -vp ${BUILD_CACHE} ${TMPDIR}
 exec docker run -it --rm --name uws-golang-devel \
