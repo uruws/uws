@@ -16,11 +16,13 @@ import (
 var (
 	cluster        string
 	listenAndServe func(string, http.Handler) error
+	osHostname     func() (string, error)
 )
 
 func init() {
 	cluster = mon.Cluster()
 	listenAndServe = http.ListenAndServe
+	osHostname = os.Hostname
 }
 
 func main() {
@@ -47,7 +49,7 @@ func main() {
 
 func healthzHandler(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	if _, err := os.Hostname(); err != nil {
+	if _, err := osHostname(); err != nil {
 		wapp.Error(w, r, start, err)
 	} else {
 		wapp.Write(w, r, start, "ok\n")
@@ -56,7 +58,7 @@ func healthzHandler(w http.ResponseWriter, r *http.Request) {
 
 func pingHandler(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	if hostname, err := os.Hostname(); err != nil {
+	if hostname, err := osHostname(); err != nil {
 		wapp.Error(w, r, start, err)
 	} else {
 		wapp.Write(w, r, start, "uwsctl@%s\n", hostname)
