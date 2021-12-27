@@ -40,3 +40,23 @@ func TestMain(t *testing.T) {
 	}()
 	Panics(t, main, "main")
 }
+
+func TestMainHandler(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest("GET", "/")
+	mainHandler(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+}
+
+func TestMainHandlerNotFound(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest("GET", "/testing")
+	mainHandler(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 404, "resp status code")
+}
