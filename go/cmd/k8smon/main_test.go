@@ -45,7 +45,8 @@ func TestMainHandler(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	w := mock.HTTPResponse()
-	r := mock.HTTPRequest("GET", "/")
+	r := mock.HTTPRequest()
+	r.URL.Path = "/"
 	mainHandler(w, r)
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 200, "resp status code")
@@ -56,9 +57,31 @@ func TestMainHandlerNotFound(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	w := mock.HTTPResponse()
-	r := mock.HTTPRequest("GET", "/testing")
+	r := mock.HTTPRequest()
 	mainHandler(w, r)
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 404, "resp status code")
 	IsEqual(t, mock.HTTPResponseString(resp), "not found: /testing", "resp body")
+}
+
+func TestHealthzHandler(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	healthzHandler(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+	IsEqual(t, mock.HTTPResponseString(resp), "ok", "resp body")
+}
+
+func TestPingHandler(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	pingHandler(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+	IsEqual(t, mock.HTTPResponseString(resp), "uwsctl@go-devel.uws.local", "resp body")
 }

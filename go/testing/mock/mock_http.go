@@ -14,8 +14,8 @@ func HTTPListenAndServe(addr string, h http.Handler) error {
 	return nil
 }
 
-func HTTPRequest(method, target string) *http.Request {
-	return httptest.NewRequest(method, target, nil)
+func HTTPRequest() *http.Request {
+	return httptest.NewRequest("GET", "/testing", nil)
 }
 
 func HTTPResponse() *httptest.ResponseRecorder {
