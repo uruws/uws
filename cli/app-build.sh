@@ -9,7 +9,8 @@ version=${4:?'version?'}
 version_tag=$(echo "${version}" | tr '/' '_')
 
 logs_dir=${HOME}/logs
-logf=${logs_dir}/${app}-build-${version_tag}.log
+log_date=$(date '+%y%m%d-%H%M%S')
+logf=${logs_dir}/${app}-build-${log_date}-${version_tag}.log
 
 mkdir -vp "${logs_dir}"
 date -R >"${logf}"
