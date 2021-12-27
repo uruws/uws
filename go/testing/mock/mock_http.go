@@ -4,8 +4,10 @@
 package mock
 
 import (
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 )
 
 func HTTPListenAndServe(addr string, h http.Handler) error {
@@ -18,4 +20,13 @@ func HTTPRequest(method, target string) *http.Request {
 
 func HTTPResponse() *httptest.ResponseRecorder {
 	return httptest.NewRecorder()
+}
+
+func HTTPResponseString(resp *http.Response) string {
+	defer resp.Body.Close()
+	blob, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err.Error()
+	}
+	return strings.TrimSpace(string(blob))
 }
