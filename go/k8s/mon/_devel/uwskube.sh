@@ -9,6 +9,9 @@ elif test "X${1}" = 'Xtest_error_output'; then
 elif test "X${1}" = 'Xtest_output'; then
 	echo 'mock_output'
 	exit 0
+elif test "X${1}" = 'Xtest_deployments_error'; then
+	echo 'invalid_json'
+	exit 0
 fi
 
 datadir=/go/tmp/k8smon/${UWS_CLUSTER}
