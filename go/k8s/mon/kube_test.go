@@ -22,6 +22,7 @@ var (
 	bupKubeErrFH     func(string, string) (*os.File, error)
 	bupKubeSeekOutFH func(io.Seeker) error
 	bupKubeSeekErrFH func(io.Seeker) error
+	bupKubeReadAllFH func(io.Reader) ([]byte, error)
 )
 
 func init() {
@@ -31,6 +32,7 @@ func init() {
 	bupKubeErrFH = kubeErrFH
 	bupKubeSeekOutFH = kubeSeekOutFH
 	bupKubeSeekErrFH = kubeSeekErrFH
+	bupKubeReadAllFH = kubeReadAllFH
 }
 
 func mockTempFileError(d, f string) (*os.File, error) {
@@ -39,6 +41,10 @@ func mockTempFileError(d, f string) (*os.File, error) {
 
 func mockSeekFHError(fh io.Seeker) error {
 	return errors.New("mock_error")
+}
+
+func mockReadAllFHError(fh io.Reader) ([]byte, error) {
+	return nil, errors.New("mock_error")
 }
 
 func TestKubeCommandError(t *testing.T) {
@@ -118,10 +124,12 @@ func TestKubeErrorOutputReadError(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	kubecmd = develKubecmd
+	kubeReadAllFH = mockReadAllFHError
 	defer func() {
 		kubecmd = bupKubecmd
+		kubeReadAllFH = bupKubeReadAllFH
 	}()
 	_, err := Kube("test_error_output")
 	NotNil(t, err, "kube error")
-	Match(t, "\\[ERROR\\] mock_error$", mock.LoggerOutput(), "log output")
+	Match(t, "\\[ERROR\\] errfh read: mock_error$", mock.LoggerOutput(), "log output")
 }

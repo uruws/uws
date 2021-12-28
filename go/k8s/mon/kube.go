@@ -19,6 +19,7 @@ var (
 	kubeErrFH     func(string, string) (*os.File, error)
 	kubeSeekOutFH func(io.Seeker) error
 	kubeSeekErrFH func(io.Seeker) error
+	kubeReadAllFH func(io.Reader) ([]byte, error)
 )
 
 func init() {
@@ -32,6 +33,7 @@ func init() {
 		_, err := fh.Seek(0, 0)
 		return err
 	}
+	kubeReadAllFH = ioutil.ReadAll
 }
 
 func Kube(args ...string) ([]byte, error) {
@@ -67,7 +69,7 @@ func Kube(args ...string) ([]byte, error) {
 		if err := kubeSeekErrFH(errfh); err != nil {
 			log.Error("errfh seek: %s", err)
 		} else {
-			if blob, err := ioutil.ReadAll(errfh); err != nil {
+			if blob, err := kubeReadAllFH(errfh); err != nil {
 				log.Error("errfh read: %s", err)
 			} else {
 				if len(blob) > 0 {
