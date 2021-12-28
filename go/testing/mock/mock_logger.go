@@ -24,3 +24,7 @@ func LoggerReset() {
 	log.MockReset()
 	loggerOut.Reset()
 }
+
+func LoggerOutput() string {
+	return loggerOut.String()
+}
