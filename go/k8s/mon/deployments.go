@@ -6,6 +6,7 @@ package mon
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"uws/log"
 	"uws/wapp"
@@ -46,9 +47,11 @@ type deployList struct {
 	Items      []deploy `json:"items"`
 }
 
+var deployCmd string = "get deployments,statefulset,daemonset -A -o json"
+
 func Deployments(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	out, err := Kube("get", "deployments,statefulset,daemonset", "-A", "-o", "json")
+	out, err := Kube(strings.Split(deployCmd, " ")...)
 	if err != nil {
 		log.DebugError(err)
 		wapp.Error(w, r, start, err)
