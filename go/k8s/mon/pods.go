@@ -6,6 +6,7 @@ package mon
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"uws/log"
 	"uws/wapp"
@@ -47,9 +48,11 @@ type podList struct {
 	Items      []pod  `json:"items"`
 }
 
+var podsCmd string = "get pods -A -o json"
+
 func Pods(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	out, err := Kube("get", "pods", "-A", "-o", "json")
+	out, err := Kube(strings.Split(podsCmd, " ")...)
 	if err != nil {
 		log.DebugError(err)
 		wapp.Error(w, r, start, err)
