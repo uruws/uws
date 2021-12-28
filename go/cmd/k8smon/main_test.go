@@ -110,7 +110,8 @@ func TestPingHandler(t *testing.T) {
 	pingHandler(w, r)
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 200, "resp status code")
-	IsEqual(t, mock.HTTPResponseString(resp), "uwsctl@go-devel.uws.local", "resp body")
+	h, _ := osHostname()
+	IsEqual(t, mock.HTTPResponseString(resp), "uwsctl@" + h, "resp body")
 }
 
 func TestPingHandlerError(t *testing.T) {
