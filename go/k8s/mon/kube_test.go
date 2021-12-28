@@ -101,3 +101,15 @@ func TestKubeSeekErrFHError(t *testing.T) {
 	NotNil(t, err, "kube error")
 	Match(t, "errfh seek: mock_error$", mock.LoggerOutput(), "log output")
 }
+
+func TestKubeErrorOutput(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	kubecmd = develKubecmd
+	defer func() {
+		kubecmd = bupKubecmd
+	}()
+	_, err := Kube("test_error_output")
+	NotNil(t, err, "kube error")
+	Match(t, "\\[ERROR\\] mock_error$", mock.LoggerOutput(), "log output")
+}

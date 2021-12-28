@@ -4,6 +4,9 @@ datadir=/go/tmp/k8smon/${UWS_CLUSTER}
 
 if test "X${1}" = 'Xtesting'; then
 	exit 0
+elif test "X${1}" = 'Xtest_error_output'; then
+	echo 'mock_error' >&2
+	exit 1
 fi
 
 fn=${datadir}/NOTSET_IN_DEVEL_UWSKUBE_SH
