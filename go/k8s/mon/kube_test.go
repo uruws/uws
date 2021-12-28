@@ -7,13 +7,13 @@ import (
 	"errors"
 	"io"
 	"os"
-	"testing"
+	"strings"
 
+	"testing"
 	"uws/testing/mock"
 
 	. "uws/testing/check"
 )
-
 
 var (
 	develKubecmd     string
@@ -132,4 +132,16 @@ func TestKubeErrorOutputReadError(t *testing.T) {
 	_, err := Kube("test_error_output")
 	NotNil(t, err, "kube error")
 	Match(t, "\\[ERROR\\] errfh read: mock_error$", mock.LoggerOutput(), "log output")
+}
+
+func TestKubeCommand(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	kubecmd = develKubecmd
+	defer func() {
+		kubecmd = bupKubecmd
+	}()
+	out, err := Kube("test_output")
+	IsNil(t, err, "kube error")
+	IsEqual(t, strings.TrimSpace(string(out)), "mock_output", "command output")
 }

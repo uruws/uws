@@ -1,14 +1,17 @@
 #!/bin/sh
 set -eu
-datadir=/go/tmp/k8smon/${UWS_CLUSTER}
 
 if test "X${1}" = 'Xtesting'; then
 	exit 0
 elif test "X${1}" = 'Xtest_error_output'; then
 	echo 'mock_error' >&2
 	exit 1
+elif test "X${1}" = 'Xtest_output'; then
+	echo 'mock_output'
+	exit 0
 fi
 
+datadir=/go/tmp/k8smon/${UWS_CLUSTER}
 fn=${datadir}/NOTSET_IN_DEVEL_UWSKUBE_SH
 if test 'Xget nodes -o json' = "X$*"; then
 	fn=nodes.json
