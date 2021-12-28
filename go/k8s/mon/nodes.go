@@ -6,6 +6,7 @@ package mon
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"uws/log"
 	"uws/wapp"
@@ -59,9 +60,11 @@ type nodeList struct {
 	Items      []node `json:"items"`
 }
 
+var nodesCmd string = "get nodes -o json"
+
 func Nodes(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	out, err := Kube("get", "nodes", "-o", "json")
+	out, err := Kube(strings.Split(nodesCmd, " ")...)
 	if err != nil {
 		log.DebugError(err)
 		wapp.Error(w, r, start, err)
