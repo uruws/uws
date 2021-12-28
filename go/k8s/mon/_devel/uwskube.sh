@@ -15,6 +15,12 @@ elif test "X${1}" = 'Xtest_deployments_error'; then
 elif test "X${1}" = 'Xtest_deployments'; then
 	echo '{}'
 	exit 0
+elif test "X${1}" = 'Xtest_nodes_error'; then
+	echo 'invalid_json'
+	exit 0
+elif test "X${1}" = 'Xtest_nodes'; then
+	echo '{}'
+	exit 0
 fi
 
 datadir=/go/tmp/k8smon/${UWS_CLUSTER}
