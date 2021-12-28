@@ -13,13 +13,23 @@ import (
 	"uws/log"
 )
 
+var (
+	kubeOutFH func(string, string) (*os.File, error)
+	kubeErrFH func(string, string) (*os.File, error)
+)
+
+func init() {
+	kubeOutFH = ioutil.TempFile
+	kubeErrFH = ioutil.TempFile
+}
+
 func Kube(args ...string) ([]byte, error) {
 	var (
 		outfh *os.File
 		errfh *os.File
 		err   error
 	)
-	outfh, err = ioutil.TempFile("", "kube-out.*")
+	outfh, err = kubeOutFH("", "kube-out.*")
 	if err != nil {
 		return nil, log.DebugError(err)
 	}
@@ -27,7 +37,7 @@ func Kube(args ...string) ([]byte, error) {
 		os.Remove(outfh.Name())
 		outfh.Close()
 	}()
-	errfh, err = ioutil.TempFile("", "kube-err.*")
+	errfh, err = kubeErrFH("", "kube-err.*")
 	if err != nil {
 		return nil, log.DebugError(err)
 	}
