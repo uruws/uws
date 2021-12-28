@@ -5,6 +5,7 @@ package mock
 
 import (
 	"bytes"
+	"strings"
 
 	"uws/log"
 )
@@ -26,5 +27,5 @@ func LoggerReset() {
 }
 
 func LoggerOutput() string {
-	return loggerOut.String()
+	return strings.TrimSpace(loggerOut.String())
 }

@@ -5,6 +5,7 @@ package mon
 
 import (
 	"errors"
+	"io"
 	"os"
 	"testing"
 
@@ -15,17 +16,29 @@ import (
 
 
 var (
-	bupKubeOutFH func(string, string) (*os.File, error)
-	bupKubeErrFH func(string, string) (*os.File, error)
+	develKubecmd     string
+	bupKubecmd       string
+	bupKubeOutFH     func(string, string) (*os.File, error)
+	bupKubeErrFH     func(string, string) (*os.File, error)
+	bupKubeSeekOutFH func(io.Seeker) error
+	bupKubeSeekErrFH func(io.Seeker) error
 )
 
 func init() {
+	develKubecmd = "/go/src/uws/k8s/mon/_devel/uwskube.sh"
+	bupKubecmd = kubecmd
 	bupKubeOutFH = kubeOutFH
 	bupKubeErrFH = kubeErrFH
+	bupKubeSeekOutFH = kubeSeekOutFH
+	bupKubeSeekErrFH = kubeSeekErrFH
 }
 
 func mockTempFileError(d, f string) (*os.File, error) {
 	return nil, errors.New("mock_error")
+}
+
+func mockSeekFHError(fh io.Seeker) error {
+	return errors.New("mock_error")
 }
 
 func TestKubeCommandError(t *testing.T) {
@@ -61,4 +74,30 @@ func TestKubeErrFHError(t *testing.T) {
 	_, err := Kube("testing")
 	NotNil(t, err, "kube error")
 	IsEqual(t, err.Error(), "mock_error", "error message")
+}
+
+func TestKubeSeekOutFHError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	kubecmd = develKubecmd
+	kubeSeekOutFH = mockSeekFHError
+	defer func() {
+		kubecmd = bupKubecmd
+		kubeSeekOutFH = bupKubeSeekOutFH
+	}()
+	_, err := Kube("testing")
+	NotNil(t, err, "kube error")
+	IsEqual(t, err.Error(), "mock_error", "error message")
+}
+
+func TestKubeSeekErrFHError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	kubeSeekErrFH = mockSeekFHError
+	defer func() {
+		kubeSeekErrFH = bupKubeSeekErrFH
+	}()
+	_, err := Kube("testing")
+	NotNil(t, err, "kube error")
+	Match(t, "errfh seek: mock_error$", mock.LoggerOutput(), "log output")
 }

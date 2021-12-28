@@ -5,6 +5,7 @@ package mon
 
 import (
 	"context"
+	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -14,13 +15,23 @@ import (
 )
 
 var (
-	kubeOutFH func(string, string) (*os.File, error)
-	kubeErrFH func(string, string) (*os.File, error)
+	kubeOutFH     func(string, string) (*os.File, error)
+	kubeErrFH     func(string, string) (*os.File, error)
+	kubeSeekOutFH func(io.Seeker) error
+	kubeSeekErrFH func(io.Seeker) error
 )
 
 func init() {
 	kubeOutFH = ioutil.TempFile
 	kubeErrFH = ioutil.TempFile
+	kubeSeekOutFH = func(fh io.Seeker) error {
+		_, err := fh.Seek(0, 0)
+		return err
+	}
+	kubeSeekErrFH = func(fh io.Seeker) error {
+		_, err := fh.Seek(0, 0)
+		return err
+	}
 }
 
 func Kube(args ...string) ([]byte, error) {
@@ -53,7 +64,7 @@ func Kube(args ...string) ([]byte, error) {
 	log.Debug("run: %s", cmd)
 	xerr := cmd.Run()
 	if xerr != nil {
-		if _, err := errfh.Seek(0, 0); err != nil {
+		if err := kubeSeekErrFH(errfh); err != nil {
 			log.Error("errfh seek: %s", err)
 		} else {
 			if blob, err := ioutil.ReadAll(errfh); err != nil {
@@ -66,7 +77,7 @@ func Kube(args ...string) ([]byte, error) {
 		}
 		return nil, xerr
 	}
-	if _, err := outfh.Seek(0, 0); err != nil {
+	if err := kubeSeekOutFH(outfh); err != nil {
 		return nil, log.DebugError(err)
 	}
 	return ioutil.ReadAll(outfh)
