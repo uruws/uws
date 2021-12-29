@@ -63,6 +63,22 @@ class Test(unittest.TestCase):
 			call('req__testing_200.type DERIVE'),
 			call('req__testing_200.min 0'),
 			call('req__testing_200.cdef req__testing_200,1000,/'),
+			# per minute avg
+			call('multigraph web_request_thost_uws.errors_per_minute_avg'),
+			call('graph_title thost.uws request errors average'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category web'),
+			call('graph_vlabel number per minute'),
+			call('graph_scale no'),
+			call('graph_period minute'),
+			call('req_avg.label average'),
+			call('req_avg.colour COLOUR0'),
+			call('req_avg.draw AREASTACK'),
+			call('req_avg.type DERIVE'),
+			call('req_avg.min 0'),
+			call('req_avg.cdef req_avg,1000,/'),
+			call('req_avg.warning 1'),
+			call('req_avg.critical 2'),
 		]
 		req_errors._print.assert_has_calls(config)
 		t.assertEqual(req_errors._print.call_count, len(config))
@@ -73,7 +89,14 @@ class Test(unittest.TestCase):
 				'200': 99.0,
 			},
 		}
-		req_errors.report('thost_uws', sts)
+		sts_total = {
+			'/testing': {
+				'GET': {
+					'200': {'count': 99.0},
+				},
+			},
+		}
+		req_errors.report('thost_uws', sts, sts_total)
 		report = [
 			# per second
 			call('multigraph web_request_thost_uws.errors'),
@@ -81,6 +104,9 @@ class Test(unittest.TestCase):
 			# per minute
 			call('multigraph web_request_thost_uws.errors_per_minute'),
 			call('req__testing_200.value', 99000),
+			# per minute avg
+			call('multigraph web_request_thost_uws.errors_per_minute_avg'),
+			call('req_avg.value', 1.0),
 		]
 		req_errors._print.assert_has_calls(report)
 		t.assertEqual(req_errors._print.call_count, len(report))

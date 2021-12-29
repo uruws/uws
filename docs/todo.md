@@ -19,9 +19,9 @@
 * cluster stats - `WIP`
     * pod_container - `DONE!`
         * restarted ratio
-    * web_request.count
-        * count_per_minute - `DONE!`
-        * count_errors_avg: errors average
+    * web_request.count - `DONE!`
+        * count_per_minute
+        * count_errors_avg: errors average per minute with limits for alert
     * resources usage (mem, cpu)
         * nodes
         * pods

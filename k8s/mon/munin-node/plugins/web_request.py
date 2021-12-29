@@ -99,7 +99,7 @@ def report(sts):
 		# by_path
 		req_by_path.report(hostid, sts[host].get('by_path', {}))
 		# errors
-		req_errors.report(hostid, sts[host].get('errors', {}))
+		req_errors.report(hostid, sts[host].get('errors', {}), sts[host].get('all', {}))
 		# time
 		req_time.report(hostid, sts[host].get('all', {}))
 		# size
