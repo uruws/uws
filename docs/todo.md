@@ -17,7 +17,7 @@
 * configurable app-autobuild
 
 * cluster stats - `WIP`
-    * pod_container
+    * pod_container - `DONE!`
         * restarted ratio
     * web_request.count
         * count_per_minute

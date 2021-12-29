@@ -9,6 +9,10 @@ limits = {
 		'critical': 2,
 	},
 	'restart_ratio': {
+		'warning': 3,
+		'critical': 5,
+	},
+	'restarted_ratio': {
 		'warning': 1,
 		'critical': 2,
 	},
@@ -98,10 +102,12 @@ def __cstatus(sts, spec, status, phase):
 			sts['started'] += 1
 	sts['failed_ratio'] = 0
 	sts['restart_ratio'] = 0
+	sts['restarted_ratio'] = 0
 	running = sts.get('running', 0)
 	if running > 0:
 		sts['failed_ratio'] = sts['failed'] / running
-		sts['restart_ratio'] = sts['restarted'] / running
+		sts['restart_ratio'] = sts['restart'] / running
+		sts['restarted_ratio'] = sts['restarted'] / running
 
 def _print(*args):
 	print(*args)
