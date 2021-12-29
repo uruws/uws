@@ -20,7 +20,7 @@
     * pod_container - `DONE!`
         * restarted ratio
     * web_request.count
-        * count_per_minute
+        * count_per_minute - `DONE!`
         * count_errors_avg: errors average
     * resources usage (mem, cpu)
         * nodes

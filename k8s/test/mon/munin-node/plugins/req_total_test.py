@@ -74,6 +74,21 @@ class Test(unittest.TestCase):
 			call('req__testing_GET_200.type DERIVE'),
 			call('req__testing_GET_200.min 0'),
 			call('req__testing_GET_200.cdef req__testing_GET_200,1000,/'),
+			# total count per minute
+			call('multigraph web_request_thost_uws.count_per_minute'),
+			call('graph_title thost.uws request count'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category web'),
+			call('graph_vlabel number per minute'),
+			call('graph_scale no'),
+			call('graph_total', 'k8stest', 'total'),
+			call('graph_period minute'),
+			call('req__testing_GET_200.label 200 GET /testing'),
+			call('req__testing_GET_200.colour COLOUR0'),
+			call('req__testing_GET_200.draw AREASTACK'),
+			call('req__testing_GET_200.type DERIVE'),
+			call('req__testing_GET_200.min 0'),
+			call('req__testing_GET_200.cdef req__testing_GET_200,1000,/'),
 		]
 		req_total._print.assert_has_calls(config)
 		t.assertEqual(req_total._print.call_count, len(config))
@@ -96,6 +111,9 @@ class Test(unittest.TestCase):
 			call('req__testing_GET_200.value 99.0'),
 			# total count
 			call('multigraph web_request_thost_uws.count'),
+			call('req__testing_GET_200.value 99000'),
+			# total count per minute
+			call('multigraph web_request_thost_uws.count_per_minute'),
 			call('req__testing_GET_200.value 99000'),
 		]
 		req_total._print.assert_has_calls(report)
