@@ -15,10 +15,11 @@ import pods_info
 import pods_condition
 import pods_container
 
+_mods = dict(
+	pods_info = pods_info,
+	pods_condition = pods_condition,
+	pods_container = pods_container,
+)
+
 if __name__ == '__main__': # pragma no cover
-	mods = dict(
-		pods_info = pods_info,
-		pods_condition = pods_condition,
-		pods_container = pods_container,
-	)
-	sys.exit(kube.main(sys.argv[1:], "pods", mods))
+	sys.exit(kube.main(sys.argv[1:], "pods", _mods))

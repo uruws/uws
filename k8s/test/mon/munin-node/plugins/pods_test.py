@@ -17,5 +17,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(pods.pods_condition.__name__, 'pods_condition')
 		t.assertEqual(pods.pods_container.__name__, 'pods_container')
 
+	def test_mods(t):
+		t.assertListEqual(sorted(pods._mods.keys()),
+			['pods_condition', 'pods_container', 'pods_info'])
+
 if __name__ == '__main__':
 	unittest.main()
