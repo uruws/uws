@@ -7,10 +7,14 @@
 * golang tools unittests and CI integration - `WIP`
     * shellcheck - `DONE!`
     * golib
-    * k8smon
+    * k8smon - `DONE!`
     * uwsbot
     * uwsbot-stats
     * api-job-stats
+
+* configurable app-autoscale
+
+* configurable app-autobuild
 
 * cluster stats - `WIP`
     * pod_container
