@@ -51,3 +51,28 @@ func TestTopNodesCommandError(t *testing.T) {
 		"error: fork/exec /usr/local/bin/uwskube: no such file or directory",
 		"resp body")
 }
+
+func TestTopNodes(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	kubecmd = develKubecmd
+	topNodesCmd = "test_top_nodes"
+	defer func() {
+		kubecmd = bupKubecmd
+		topNodesCmd = bupTopNodesCmd
+	}()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	TopNodes(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+	IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content type")
+	tn := `{
+  "count": 3,
+  "cpu": 198,
+  "cpup": 9,
+  "mem": 2509,
+  "memp": 34
+}`
+	IsEqual(t, mock.HTTPResponseString(resp), tn, "resp body")
+}

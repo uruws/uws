@@ -27,6 +27,11 @@ elif test "X${1}" = 'Xtest_pods_error'; then
 elif test "X${1}" = 'Xtest_pods'; then
 	echo '{}'
 	exit 0
+elif test "X${1}" = 'Xtest_top_nodes'; then
+	echo 'ip-192-168-14-101.ec2.internal   62m   3%    731Mi   10%   '
+	echo 'ip-192-168-6-89.ec2.internal     63m   3%    887Mi   12%   '
+	echo 'ip-192-168-60-59.ec2.internal    73m   3%    891Mi   12%   '
+	exit 0
 fi
 
 datadir=/go/tmp/k8smon/${UWS_CLUSTER}
