@@ -12,12 +12,19 @@ import (
 	"uws/wapp"
 )
 
+type containerLastState struct {
+	Terminated struct {
+		Reason string `json:"reason"`
+	} `json:"terminated"`
+}
+
 type containerStatus struct {
-	Name         string `json:"name"`
-	Image        string `json:"image"`
-	Ready        bool   `json:"ready"`
-	RestartCount int64  `json:"restartCount"`
-	Started      bool   `json:"started"`
+	Name         string             `json:"name"`
+	Image        string             `json:"image"`
+	Ready        bool               `json:"ready"`
+	RestartCount int64              `json:"restartCount"`
+	Started      bool               `json:"started"`
+	LastState    containerLastState `json:"lastState,omitempty"`
 }
 
 type pod struct {

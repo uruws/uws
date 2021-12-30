@@ -16,9 +16,10 @@
     * uwsbot-stats
     * api-job-stats
 
-* configurable app-autoscale
-
-* configurable app-autobuild
+* k8smon api for resource usage stats - `DONE!`
+    * top nodes
+    * top pods
+    * pods last state
 
 * cluster stats - `WIP`
     * pod_container - `DONE!`
@@ -33,6 +34,10 @@
         * pods
     * k8s apiserver metrics
         * uwskube get --raw /metrics
+
+* configurable app-autoscale
+
+* configurable app-autobuild
 
 * apijob `FIX`: sort collection names to try avoiding munin colors change
 
