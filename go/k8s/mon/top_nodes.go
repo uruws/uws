@@ -4,7 +4,6 @@
 package mon
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 
@@ -13,9 +12,21 @@ import (
 )
 
 type topNodes struct {
+	Count uint   `json:"count"`
+	Sum   uint64 `json:"sum"`
 }
 
 var topNodesCmd string = "top nodes --no-headers"
+
+func parseTopNodes(tn *topNodes, out []byte) error {
+	for _, line := range strings.Split(string(out), "\n") {
+		line = strings.TrimSpace(line)
+		if line != "" {
+			tn.Count++
+		}
+	}
+	return nil
+}
 
 func TopNodes(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
@@ -26,7 +37,7 @@ func TopNodes(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tn := new(topNodes)
-	if err := json.Unmarshal(out, &tn); err != nil {
+	if err := parseTopNodes(tn, out); err != nil {
 		log.DebugError(err)
 		wapp.Error(w, r, start, err)
 		return
