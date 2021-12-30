@@ -41,6 +41,7 @@ func main() {
 	http.HandleFunc("/kube/deployments", mon.Deployments)
 	http.HandleFunc("/kube/pods", mon.Pods)
 	http.HandleFunc("/kube/top_nodes", mon.TopNodes)
+	http.HandleFunc("/kube/top_pods", mon.TopPods)
 
 	http.HandleFunc("/", mainHandler)
 
