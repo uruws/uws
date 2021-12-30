@@ -5,7 +5,7 @@ package mon
 
 import (
 	"testing"
-	//~ "uws/testing/mock"
+	"uws/testing/mock"
 
 	. "uws/testing/check"
 )
@@ -37,4 +37,17 @@ func TestParseTopNodes(t *testing.T) {
 	IsEqual(t, tn.CPUP, uint(9), "top nodes cpu percentage")
 	IsEqual(t, tn.Mem, uint64(2509), "top nodes mem")
 	IsEqual(t, tn.MemP, uint(34), "top nodes mem percentage")
+}
+
+func TestTopNodesCommandError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	TopNodes(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 500, "resp status code")
+	IsEqual(t, mock.HTTPResponseString(resp),
+		"error: fork/exec /usr/local/bin/uwskube: no such file or directory",
+		"resp body")
 }
