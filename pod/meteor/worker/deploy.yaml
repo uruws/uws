@@ -71,14 +71,14 @@ spec:
             - name: SNOWFLAKE_SYNC_ENABLED
               value: "TRUE"
             - name: NODE_OPTIONS
-              value: "--max-old-space-size=1600"
+              value: "--max-old-space-size=3200"
           resources:
             requests:
               cpu: 800m
-              memory: 1600Mi
+              memory: 3200Mi
             limits:
               cpu: 800m
-              memory: 1600Mi
+              memory: 3200Mi
           readinessProbe:
             exec:
               command:

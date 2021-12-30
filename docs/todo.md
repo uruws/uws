@@ -1,13 +1,17 @@
 * configure staging prod domain name on apptest
 
+* workers memory issue - `DONE!`
+    * increase memory limit from 1600MB to 3200MB
+    * cluster nodes have 4GB of RAM, so we run only one container per node now
+
 * k8s mon python unittests and CI integration - `DONE!`
 
 * munin-node utils unittest and CI integration - `DONE!`
 
 * golang tools unittests and CI integration - `WIP`
     * shellcheck - `DONE!`
-    * golib
     * k8smon - `DONE!`
+    * golib
     * uwsbot
     * uwsbot-stats
     * api-job-stats
@@ -22,6 +26,8 @@
     * web_request.count - `DONE!`
         * count_per_minute
         * count_errors_avg: errors average per minute with limits for alert
+    * pods last state
+        * count terminated reason
     * resources usage (mem, cpu)
         * nodes
         * pods
