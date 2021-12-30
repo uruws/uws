@@ -33,4 +33,8 @@ func TestParseTopNodes(t *testing.T) {
 	err := parseTopNodes(tn, out)
 	IsNil(t, err, "parse error")
 	IsEqual(t, tn.Count, uint(3), "top nodes count")
+	IsEqual(t, tn.CPU, uint64(198), "top nodes cpu")
+	IsEqual(t, tn.CPUP, uint(9), "top nodes cpu percentage")
+	IsEqual(t, tn.Mem, uint64(2509), "top nodes mem")
+	IsEqual(t, tn.MemP, uint(34), "top nodes mem percentage")
 }
