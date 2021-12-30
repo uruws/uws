@@ -5,6 +5,7 @@ package mon
 
 import (
 	"net/http"
+	"regexp"
 	"strings"
 
 	"uws/log"
@@ -13,16 +14,24 @@ import (
 
 type topNodes struct {
 	Count uint   `json:"count"`
-	Sum   uint64 `json:"sum"`
+	CPU   uint64 `json:"cpu"`
+	CPUP  uint64 `json:"cpup"` // percentage
+	Mem   uint64 `json:"mem"`
+	MemP  uint64 `json:"memp"` // percentage
 }
 
 var topNodesCmd string = "top nodes --no-headers"
+
+var reTopNodes = regexp.MustCompile(`^\S+\s+([0-9]+)m\s+([0-9]+)%\s+([0-9]+)Mi\s+([0-9]+)%\s*$`)
 
 func parseTopNodes(tn *topNodes, out []byte) error {
 	for _, line := range strings.Split(string(out), "\n") {
 		line = strings.TrimSpace(line)
 		if line != "" {
-			tn.Count++
+			match := reTopNodes.FindStringSubmatch(line)
+			if len(match) == 5 {
+				tn.Count++
+			}
 		}
 	}
 	return nil
@@ -37,10 +46,6 @@ func TopNodes(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tn := new(topNodes)
-	if err := parseTopNodes(tn, out); err != nil {
-		log.DebugError(err)
-		wapp.Error(w, r, start, err)
-		return
-	}
+	parseTopNodes(tn, out)
 	wapp.WriteJSON(w, r, start, &tn)
 }
