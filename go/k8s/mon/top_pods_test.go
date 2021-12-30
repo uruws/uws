@@ -5,7 +5,7 @@ package mon
 
 import (
 	"testing"
-	//~ "uws/testing/mock"
+	"uws/testing/mock"
 
 	. "uws/testing/check"
 )
@@ -51,4 +51,35 @@ func TestParseTopPods(t *testing.T) {
 	IsEqual(t, l.Items[15].Name, "munin-0", "item name")
 	IsEqual(t, l.Items[15].CPU, uint64(1), "item cpu")
 	IsEqual(t, l.Items[15].Mem, uint64(55), "item mem")
+}
+
+func TestTopPodsCommandError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	TopPods(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 500, "resp status code")
+	IsEqual(t, mock.HTTPResponseString(resp),
+		"error: fork/exec /usr/local/bin/uwskube: no such file or directory",
+		"resp body")
+}
+
+func TestTopPods(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	kubecmd = develKubecmd
+	topPodsCmd = "test_top_pods"
+	defer func() {
+		kubecmd = bupKubecmd
+		topPodsCmd = bupTopPodsCmd
+	}()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	TopPods(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+	IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content type")
+	IsEqual(t, len(mock.HTTPResponseString(resp)), 2052, "resp body size")
 }

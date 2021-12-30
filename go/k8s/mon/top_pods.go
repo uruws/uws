@@ -40,7 +40,6 @@ func parseTopPods(l *topPodsList, out []byte) {
 		line = strings.TrimSpace(line)
 		if line != "" {
 			match := reTopPods.FindStringSubmatch(line)
-			println(len(match))
 			if len(match) == 5 {
 				p := topPods{}
 				p.Namespace = match[1]
