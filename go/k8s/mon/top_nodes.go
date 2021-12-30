@@ -23,7 +23,8 @@ type topNodes struct {
 
 var topNodesCmd string = "top nodes --no-headers"
 
-var reTopNodes = regexp.MustCompile(`^\S+\s+([0-9]+)m\s+([0-9]+)%\s+([0-9]+)Mi\s+([0-9]+)%\s*$`)
+var reTopNodes = regexp.
+	MustCompile(`^\S+\s+([0-9]+)m\s+([0-9]+)%\s+([0-9]+)Mi\s+([0-9]+)%\s*$`)
 
 func parseTopNodes(tn *topNodes, out []byte) error {
 	for _, line := range strings.Split(string(out), "\n") {
