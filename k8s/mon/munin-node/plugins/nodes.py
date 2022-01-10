@@ -13,8 +13,21 @@ import mon_kube as kube
 
 import nodes_info
 
-if __name__ == '__main__': # pragma no cover
-	mods = dict(
+_mods = {
+	'info': dict(
 		nodes_info = nodes_info,
-	)
-	sys.exit(kube.main(sys.argv[1:], "nodes", mods))
+	),
+}
+
+def main():
+	st = 0
+	rc = _kube('nodes', 'info')
+	if rc != 0:
+		st = rc
+	return st
+
+def _kube(cmd, mods_name): # pragma no cover
+	return kube.main(sys.argv[1:], cmd, _mods[mods_name])
+
+if __name__ == '__main__': # pragma no cover
+	sys.exit(main())
