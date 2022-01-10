@@ -5,7 +5,17 @@ import mon
 
 def parse(nodes):
 	mon.dbg('nodes_top parse')
-	sts = dict()
+	sts = dict(
+		count = 0,
+		cpu = 0,
+		cpup = 0,
+		mem = 0,
+		memp = 0,
+	)
+	try:
+		sts.update(nodes)
+	except TypeError:
+		pass
 	return sts
 
 def _print(*args):

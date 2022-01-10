@@ -25,5 +25,23 @@ class Test(unittest.TestCase):
 	def test_print(t):
 		_bup_print('testing')
 
+	def test_parse(t):
+		t.assertDictEqual(nodes_top.parse({}), {
+			'count': 0,
+			'cpu': 0,
+			'cpup': 0,
+			'mem': 0,
+			'memp': 0,
+		})
+
+	def test_parse_error(t):
+		t.assertDictEqual(nodes_top.parse(None), {
+			'count': 0,
+			'cpu': 0,
+			'cpup': 0,
+			'mem': 0,
+			'memp': 0,
+		})
+
 if __name__ == '__main__':
 	unittest.main()
