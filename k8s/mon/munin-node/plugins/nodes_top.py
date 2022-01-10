@@ -89,5 +89,28 @@ def config(sts):
 	_print('f1_avg.min 0')
 	_print('f1_avg.max 100')
 
+def _value(sts, count, name):
+	v = sts.get(name, 'U')
+	if count > 0 and v != 'U':
+		return v / count
+	return v
+
 def report(sts):
 	mon.dbg('nodes_top report')
+	n = sts.get('count', 0)
+	# cpu
+	_print('multigraph nodes_top_cpu')
+	_print('f0_total.value', sts.get('cpu', 'U'))
+	_print('f1_avg.value', _value(sts, n, 'cpu'))
+	# cpu percentage
+	_print('multigraph nodes_top_cpup')
+	_print('f0_total.value', sts.get('cpup', 'U'))
+	_print('f1_avg.value', _value(sts, n, 'cpup'))
+	# mem
+	_print('multigraph nodes_top_mem')
+	_print('f0_total.value', sts.get('mem', 'U'))
+	_print('f1_avg.value', _value(sts, n, 'mem'))
+	# mem percentage
+	_print('multigraph nodes_top_memp')
+	_print('f0_total.value', sts.get('memp', 'U'))
+	_print('f1_avg.value', _value(sts, n, 'memp'))

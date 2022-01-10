@@ -114,5 +114,32 @@ class Test(unittest.TestCase):
 		nodes_top._print.assert_has_calls(config)
 		t.assertEqual(nodes_top._print.call_count, len(config))
 
+	def test_report(t):
+		nodes_top.report({
+			'count': 3,
+			'mem': 3130,
+			'memp': 43,
+		})
+		report = [
+			# cpu
+			call('multigraph nodes_top_cpu'),
+			call('f0_total.value', 'U'),
+			call('f1_avg.value', 'U'),
+			# cpu percentage
+			call('multigraph nodes_top_cpup'),
+			call('f0_total.value', 'U'),
+			call('f1_avg.value', 'U'),
+			# mem
+			call('multigraph nodes_top_mem'),
+			call('f0_total.value', 3130),
+			call('f1_avg.value', 1043.3333333333333),
+			# mem percentage
+			call('multigraph nodes_top_memp'),
+			call('f0_total.value', 43),
+			call('f1_avg.value', 14.333333333333334),
+		]
+		nodes_top._print.assert_has_calls(report)
+		t.assertEqual(nodes_top._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
