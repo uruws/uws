@@ -21,9 +21,13 @@ _mods = {
 
 def main():
 	st = 0
-	rc = _kube('nodes', 'info')
-	if rc != 0:
-		st = rc
+	args = (
+		('nodes', 'info'),
+	)
+	for a in args:
+		rc = _kube(a[0], a[1])
+		if rc != 0:
+			st = rc
 	return st
 
 def _kube(cmd, mods_name): # pragma no cover
