@@ -74,10 +74,6 @@ class Test(unittest.TestCase):
 			call('f0_total.draw AREASTACK'),
 			call('f0_total.min 0'),
 			call('f0_total.max 100'),
-			call('f1_avg.label average'),
-			call('f1_avg.colour COLOUR1'),
-			call('f1_avg.min 0'),
-			call('f1_avg.max 100'),
 			# mem
 			call('multigraph nodes_top_mem'),
 			call('graph_title k8stest nodes memory'),
@@ -106,10 +102,6 @@ class Test(unittest.TestCase):
 			call('f0_total.draw AREASTACK'),
 			call('f0_total.min 0'),
 			call('f0_total.max 100'),
-			call('f1_avg.label average'),
-			call('f1_avg.colour COLOUR1'),
-			call('f1_avg.min 0'),
-			call('f1_avg.max 100'),
 		]
 		nodes_top._print.assert_has_calls(config)
 		t.assertEqual(nodes_top._print.call_count, len(config))
@@ -128,15 +120,13 @@ class Test(unittest.TestCase):
 			# cpu percentage
 			call('multigraph nodes_top_cpup'),
 			call('f0_total.value', 'U'),
-			call('f1_avg.value', 'U'),
 			# mem
 			call('multigraph nodes_top_mem'),
 			call('f0_total.value', 3130),
 			call('f1_avg.value', 1043.3333333333333),
 			# mem percentage
 			call('multigraph nodes_top_memp'),
-			call('f0_total.value', 43),
-			call('f1_avg.value', 14.333333333333334),
+			call('f0_total.value', 14.333333333333334),
 		]
 		nodes_top._print.assert_has_calls(report)
 		t.assertEqual(nodes_top._print.call_count, len(report))
