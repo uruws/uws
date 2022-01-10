@@ -29,13 +29,13 @@ def main():
 		('pods', 'info'),
 	)
 	for a in args:
-		rc = _kube(a[0], _mods[a[1]])
+		rc = _kube(a[0], a[1])
 		if rc != 0:
 			st = rc
 	return st
 
 def _kube(cmd, mods): # pragma no cover
-	return mon_kube.main(sys.argv[1:], cmd, mods)
+	return mon_kube.main(sys.argv[1:], cmd, _mods[mods])
 
 if __name__ == '__main__': # pragma no cover
 	sys.exit(main)

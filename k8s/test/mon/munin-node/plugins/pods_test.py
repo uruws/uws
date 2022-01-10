@@ -4,7 +4,7 @@
 # See LICENSE file.
 
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 
 import pods
 
@@ -34,6 +34,13 @@ class Test(unittest.TestCase):
 	def test_main_error(t):
 		pods._kube.return_value = 99
 		t.assertEqual(pods.main(), 99)
+
+	def test_main(t):
+		t.assertEqual(pods.main(), 0)
+		calls = [
+			call('pods', 'info'),
+		]
+		pods._kube.assert_has_calls(calls)
 
 if __name__ == '__main__':
 	unittest.main()
