@@ -43,8 +43,8 @@ def parse(deploy):
 		sts['status'][ns][name] = deploy_status.parse(i)
 	return sts
 
-def _print(msg):
-	print(msg)
+def _print(*args):
+	print(*args)
 
 def config(sts):
 	mon.dbg('deploy_info config')

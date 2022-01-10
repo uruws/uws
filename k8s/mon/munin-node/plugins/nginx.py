@@ -42,4 +42,4 @@ if __name__ == '__main__': # pragma no cover
 		web_latency = web_latency,
 		web_ssl = web_ssl,
 	)
-	sys.exit(sys.argv[1:], metrics.main(METRICS_URL, mods))
+	sys.exit(metrics.main(sys.argv[1:], METRICS_URL, mods))

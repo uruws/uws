@@ -9,8 +9,8 @@ def parse(m, st):
 		observed_generation = st.get('observedGeneration', 'U'),
 	)
 
-def _print(msg):
-	print(msg)
+def _print(*args):
+	print(*args)
 
 def config(sts):
 	cluster = mon.cluster()

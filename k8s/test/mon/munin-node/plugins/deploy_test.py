@@ -81,7 +81,7 @@ class Test(unittest.TestCase):
 			})
 
 	def test_print(t):
-		_bup_print('testing')
+		_bup_print('test', 'ing')
 
 	def test_config(t):
 		with mock_mods():

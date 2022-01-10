@@ -23,8 +23,8 @@ def parse(sts, ns, name, i):
 			sts['condition_index'][c_typ] += 1
 			sts['condition'][ns][name][c_typ] += 1
 
-def _print(msg):
-	print(msg)
+def _print(*args):
+	print(*args)
 
 def config(sts):
 	mon.dbg('deploy_condition config')
