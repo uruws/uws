@@ -52,10 +52,6 @@ def config(sts):
 	_print('f0_total.draw AREASTACK')
 	_print('f0_total.min 0')
 	_print('f0_total.max 100')
-	_print('f1_avg.label average')
-	_print('f1_avg.colour COLOUR1')
-	_print('f1_avg.min 0')
-	_print('f1_avg.max 100')
 	# mem
 	_print('multigraph nodes_top_mem')
 	_print(f"graph_title {cluster} nodes memory")
@@ -84,10 +80,6 @@ def config(sts):
 	_print('f0_total.draw AREASTACK')
 	_print('f0_total.min 0')
 	_print('f0_total.max 100')
-	_print('f1_avg.label average')
-	_print('f1_avg.colour COLOUR1')
-	_print('f1_avg.min 0')
-	_print('f1_avg.max 100')
 
 def _value(sts, count, name):
 	v = sts.get(name, 'U')
@@ -104,13 +96,11 @@ def report(sts):
 	_print('f1_avg.value', _value(sts, n, 'cpu'))
 	# cpu percentage
 	_print('multigraph nodes_top_cpup')
-	_print('f0_total.value', sts.get('cpup', 'U'))
-	_print('f1_avg.value', _value(sts, n, 'cpup'))
+	_print('f0_total.value', _value(sts, n, 'cpup'))
 	# mem
 	_print('multigraph nodes_top_mem')
 	_print('f0_total.value', sts.get('mem', 'U'))
 	_print('f1_avg.value', _value(sts, n, 'mem'))
 	# mem percentage
 	_print('multigraph nodes_top_memp')
-	_print('f0_total.value', sts.get('memp', 'U'))
-	_print('f1_avg.value', _value(sts, n, 'memp'))
+	_print('f0_total.value', _value(sts, n, 'memp'))
