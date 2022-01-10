@@ -43,5 +43,42 @@ class Test(unittest.TestCase):
 			'memp': 0,
 		})
 
+	def test_config(t):
+		nodes_top.config({})
+		config = [
+			# cpu
+			call('multigraph nodes_top_cpu'),
+			call('graph_title k8stest nodes CPU'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category nodes'),
+			call('graph_vlabel millicores'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('f0_total.label total'),
+			call('f0_total.colour COLOUR0'),
+			call('f0_total.draw AREASTACK'),
+			call('f0_total.min 0'),
+			call('f1_avg.label average'),
+			call('f1_avg.colour COLOUR1'),
+			call('f1_avg.min 0'),
+			# cpu percentage
+			call('multigraph nodes_top_cpup'),
+			call('graph_title k8stest nodes CPU usage'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category nodes'),
+			call('graph_vlabel percentage'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('f0_total.label total'),
+			call('f0_total.colour COLOUR0'),
+			call('f0_total.draw AREASTACK'),
+			call('f0_total.min 0'),
+			call('f1_avg.label average'),
+			call('f1_avg.colour COLOUR1'),
+			call('f1_avg.min 0'),
+		]
+		nodes_top._print.assert_has_calls(config)
+		t.assertEqual(nodes_top._print.call_count, len(config))
+
 if __name__ == '__main__':
 	unittest.main()
