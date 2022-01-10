@@ -16,6 +16,11 @@ rstudio_project_user:
     uid: 4001
     groups:
       - ousd
+  # Supriya Sarda <ssarda1@babson.eu>
+  ssarda:
+    uid: 4002
+    groups:
+      - ousd
 
 rstudio_project_user_gid: 4000
 
