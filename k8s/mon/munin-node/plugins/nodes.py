@@ -12,10 +12,14 @@ sys.path.insert(0, MONLIB)
 import mon_kube as kube
 
 import nodes_info
+import nodes_top
 
 _mods = {
 	'info': dict(
 		nodes_info = nodes_info,
+	),
+	'top': dict(
+		nodes_top = nodes_top,
 	),
 }
 
@@ -23,6 +27,7 @@ def main():
 	st = 0
 	args = (
 		('nodes', 'info'),
+		('top_nodes', 'top'),
 	)
 	for a in args:
 		rc = _kube(a[0], a[1])

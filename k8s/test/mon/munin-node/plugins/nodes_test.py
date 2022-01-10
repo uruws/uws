@@ -4,7 +4,7 @@
 # See LICENSE file.
 
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 
 import nodes
 
@@ -28,11 +28,14 @@ class Test(unittest.TestCase):
 	def test_main_error(t):
 		nodes._kube.return_value = 99
 		t.assertEqual(nodes.main(), 99)
-		nodes._kube.assert_called_once_with('nodes', 'info')
 
-	def test_main_info(t):
+	def test_main(t):
 		t.assertEqual(nodes.main(), 0)
-		nodes._kube.assert_called_once_with('nodes', 'info')
+		calls = [
+			call('nodes', 'info'),
+			call('top_nodes', 'top'),
+		]
+		nodes._kube.assert_has_calls(calls)
 
 if __name__ == '__main__':
 	unittest.main()
