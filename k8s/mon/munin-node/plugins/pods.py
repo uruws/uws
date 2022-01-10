@@ -14,6 +14,7 @@ import mon_kube
 import pods_info
 import pods_condition
 import pods_container
+import pods_top
 
 _mods = {
 	'info': dict(
@@ -21,12 +22,16 @@ _mods = {
 		pods_condition = pods_condition,
 		pods_container = pods_container,
 	),
+	'top': dict(
+		pods_top = pods_top,
+	),
 }
 
 def main():
 	st = 0
 	args = (
 		('pods', 'info'),
+		('top_pods', 'top'),
 	)
 	for a in args:
 		rc = _kube(a[0], a[1])

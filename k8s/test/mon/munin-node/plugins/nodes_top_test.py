@@ -23,7 +23,7 @@ class Test(unittest.TestCase):
 		nodes_top._print = _bup_print
 
 	def test_print(t):
-		_bup_print('testing')
+		_bup_print('test', 'ing')
 
 	def test_parse(t):
 		t.assertDictEqual(nodes_top.parse({}), {

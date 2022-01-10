@@ -39,6 +39,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(pods.main(), 0)
 		calls = [
 			call('pods', 'info'),
+			call('top_pods', 'top'),
 		]
 		pods._kube.assert_has_calls(calls)
 
