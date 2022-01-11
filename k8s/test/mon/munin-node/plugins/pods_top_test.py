@@ -190,5 +190,24 @@ class Test(unittest.TestCase):
 		pods_top._print.assert_has_calls(config)
 		t.assertEqual(pods_top._print.call_count, len(config))
 
+	def test_report(t):
+		pods_top.report(_sts)
+		report = [
+			# cpu total
+			call('multigraph pods_top_cpu'),
+			call('cert_manager.value', 4),
+			call('ingress_nginx.value', 3),
+			call('kube_system.value', 16),
+			call('mon.value', 6),
+			# mem total
+			call('multigraph pods_top_mem'),
+			call('cert_manager.value', 76),
+			call('ingress_nginx.value', 76),
+			call('kube_system.value', 124),
+			call('mon.value', 85),
+		]
+		pods_top._print.assert_has_calls(report)
+		t.assertEqual(pods_top._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()

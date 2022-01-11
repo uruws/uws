@@ -32,6 +32,7 @@ def _print(*args):
 def config(sts):
 	mon.dbg('pods_top config')
 	cluster = mon.cluster()
+	total = sts.get('total', {})
 	# cpu total
 	_print('multigraph pods_top_cpu')
 	_print(f"graph_title {cluster} pods CPU")
@@ -41,7 +42,6 @@ def config(sts):
 	_print('graph_printf %3.0lf')
 	_print('graph_scale yes')
 	_print('graph_total total')
-	total = sts.get('total', {})
 	color = 0
 	for ns in sorted(total.keys()):
 		nsid = mon.cleanfn(ns)
@@ -59,7 +59,6 @@ def config(sts):
 	_print('graph_printf %3.0lf')
 	_print('graph_scale yes')
 	_print('graph_total total')
-	total = sts.get('total', {})
 	color = 0
 	for ns in sorted(total.keys()):
 		nsid = mon.cleanfn(ns)
@@ -71,3 +70,14 @@ def config(sts):
 
 def report(sts):
 	mon.dbg('pods_top report')
+	total = sts.get('total', {})
+	# cpu total
+	_print('multigraph pods_top_cpu')
+	for ns in sorted(total.keys()):
+		nsid = mon.cleanfn(ns)
+		_print(f"{nsid}.value", total[ns].get('cpu', 'U'))
+	# mem total
+	_print('multigraph pods_top_mem')
+	for ns in sorted(total.keys()):
+		nsid = mon.cleanfn(ns)
+		_print(f"{nsid}.value", total[ns].get('mem', 'U'))
