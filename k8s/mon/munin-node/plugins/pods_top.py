@@ -41,6 +41,23 @@ def config(sts):
 		_print(f"{nsid}.draw AREASTACK")
 		_print(f"{nsid}.min 0")
 		color = mon.color(color)
+	# namespace cpu
+	for ns in sorted(sts.keys()):
+		nsid = mon.cleanfn(ns)
+		_print(f"multigraph pods_top_cpu.{nsid}")
+		_print(f"graph_title {cluster} {nsid} pods CPU")
+		_print('graph_args --base 1000 -l 0')
+		_print('graph_category top')
+		_print('graph_vlabel millicores')
+		_print('graph_printf %3.0lf')
+		_print('graph_scale yes')
+		_print('f0_total.label total')
+		_print('f0_total.colour COLOUR0')
+		_print('f0_total.draw AREASTACK')
+		_print('f0_total.min 0')
+		_print('f1_avg.label average')
+		_print('f1_avg.colour COLOUR1')
+		_print('f1_avg.min 0')
 	# mem total
 	_print('multigraph pods_top_mem')
 	_print(f"graph_title {cluster} pods memory")
@@ -58,6 +75,30 @@ def config(sts):
 		_print(f"{nsid}.draw AREASTACK")
 		_print(f"{nsid}.min 0")
 		color = mon.color(color)
+	# namespace mem
+	for ns in sorted(sts.keys()):
+		nsid = mon.cleanfn(ns)
+		_print(f"multigraph pods_top_mem.{nsid}")
+		_print(f"graph_title {cluster} {nsid} pods memory")
+		_print('graph_args --base 1000 -l 0')
+		_print('graph_category top')
+		_print('graph_vlabel MiB')
+		_print('graph_printf %3.0lf')
+		_print('graph_scale yes')
+		_print('f0_total.label total')
+		_print('f0_total.colour COLOUR0')
+		_print('f0_total.draw AREASTACK')
+		_print('f0_total.min 0')
+		_print('f1_avg.label average')
+		_print('f1_avg.colour COLOUR1')
+		_print('f1_avg.min 0')
+
+def _avg(sts, k):
+	c = sts.get('count', 0)
+	v = sts.get(k, 'U')
+	if v != 'U' and c > 0:
+		return v / c
+	return v
 
 def report(sts):
 	mon.dbg('pods_top report')
@@ -66,8 +107,20 @@ def report(sts):
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		_print(f"{nsid}.value", sts[ns].get('cpu', 'U'))
+	# namespace cpu
+	for ns in sorted(sts.keys()):
+		nsid = mon.cleanfn(ns)
+		_print(f"multigraph pods_top_cpu.{nsid}")
+		_print('f0_total.value', sts[ns].get('cpu', 'U'))
+		_print('f1_avg.value', _avg(sts[ns], 'cpu'))
 	# mem total
 	_print('multigraph pods_top_mem')
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		_print(f"{nsid}.value", sts[ns].get('mem', 'U'))
+	# namespace mem
+	for ns in sorted(sts.keys()):
+		nsid = mon.cleanfn(ns)
+		_print(f"multigraph pods_top_mem.{nsid}")
+		_print('f0_total.value', sts[ns].get('mem', 'U'))
+		_print('f1_avg.value', _avg(sts[ns], 'mem'))
