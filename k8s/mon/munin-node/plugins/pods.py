@@ -43,4 +43,4 @@ def _kube(cmd, mods): # pragma no cover
 	return mon_kube.main(sys.argv[1:], cmd, _mods[mods])
 
 if __name__ == '__main__': # pragma no cover
-	sys.exit(main)
+	sys.exit(main())
