@@ -1,39 +1,22 @@
 * configure staging prod domain name on apptest
 
-* amybeta decommission?
+* amybeta decommission
 
 * App meteor upgrade
     * take the opportunity to start using docker setup?
 
-* workers memory issue - `DONE!`
-    * increase memory limit from 1600MB to 3200MB
-    * cluster nodes have 4GB of RAM, so we run only one container per node now
-
-* k8s mon python unittests and CI integration - `DONE!`
-
-* munin-node utils unittest and CI integration - `DONE!`
+* NLPService
+    * roberta decommission/cleanup
+    * twitter setup and deploy
 
 * golang tools unittests and CI integration - `WIP`
-    * shellcheck - `DONE!`
-    * k8smon - `DONE!`
     * golib
     * uwsbot
     * uwsbot-stats
     * api-job-stats
 
-* k8smon api for resource usage stats - `DONE!`
-    * top nodes
-    * top pods
-    * pods last state
-
 * cluster stats - `WIP`
-    * pod_container - `DONE!`
-        * restarted ratio
-    * web_request.count - `DONE!`
-        * count_per_minute
-        * count_errors_avg: errors average per minute with limits for alert
     * resources usage (mem, cpu)
-        * nodes - `DONE!`
         * pods
     * pods last state
         * count terminated reason
