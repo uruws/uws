@@ -5,25 +5,17 @@ import mon
 
 def parse(pods):
 	mon.dbg('pods_top parse')
-	sts = dict(
-		info = dict(),
-		total = dict(),
-	)
+	sts = dict()
 	for i in pods.get('items', []):
 		ns = i.get('namespace', None)
-		n = i.get('name', None)
 		c = i.get('cpu', 0)
 		m = i.get('mem', 0)
-		if ns is not None and n is not None:
-			if not sts['info'].get(ns, None):
-				sts['info'][ns] = dict()
-				sts['total'][ns] = dict(cpu = 0, mem = 0)
-			if not sts['info'][ns].get(n, None):
-				sts['info'][ns][n] = dict(cpu = 0, mem = 0)
-			sts['info'][ns][n]['cpu'] = c
-			sts['info'][ns][n]['mem'] = m
-			sts['total'][ns]['cpu'] += c
-			sts['total'][ns]['mem'] += m
+		if ns is not None:
+			if not sts.get(ns, None):
+				sts[ns] = dict(count = 0, cpu = 0, mem = 0)
+			sts[ns]['count'] += 1
+			sts[ns]['cpu'] += c
+			sts[ns]['mem'] += m
 	return sts
 
 def _print(*args):
@@ -32,7 +24,6 @@ def _print(*args):
 def config(sts):
 	mon.dbg('pods_top config')
 	cluster = mon.cluster()
-	total = sts.get('total', {})
 	# cpu total
 	_print('multigraph pods_top_cpu')
 	_print(f"graph_title {cluster} pods CPU")
@@ -43,7 +34,7 @@ def config(sts):
 	_print('graph_scale yes')
 	_print('graph_total total')
 	color = 0
-	for ns in sorted(total.keys()):
+	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		_print(f"{nsid}.label {ns}")
 		_print(f"{nsid}.colour COLOUR{color}")
@@ -60,7 +51,7 @@ def config(sts):
 	_print('graph_scale yes')
 	_print('graph_total total')
 	color = 0
-	for ns in sorted(total.keys()):
+	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		_print(f"{nsid}.label {ns}")
 		_print(f"{nsid}.colour COLOUR{color}")
@@ -70,14 +61,13 @@ def config(sts):
 
 def report(sts):
 	mon.dbg('pods_top report')
-	total = sts.get('total', {})
 	# cpu total
 	_print('multigraph pods_top_cpu')
-	for ns in sorted(total.keys()):
+	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"{nsid}.value", total[ns].get('cpu', 'U'))
+		_print(f"{nsid}.value", sts[ns].get('cpu', 'U'))
 	# mem total
 	_print('multigraph pods_top_mem')
-	for ns in sorted(total.keys()):
+	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"{nsid}.value", total[ns].get('mem', 'U'))
+		_print(f"{nsid}.value", sts[ns].get('mem', 'U'))
