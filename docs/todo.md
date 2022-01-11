@@ -1,5 +1,10 @@
 * configure staging prod domain name on apptest
 
+* amybeta decommission?
+
+* App meteor upgrade
+    * take the opportunity to start using docker setup?
+
 * workers memory issue - `DONE!`
     * increase memory limit from 1600MB to 3200MB
     * cluster nodes have 4GB of RAM, so we run only one container per node now
@@ -27,11 +32,11 @@
     * web_request.count - `DONE!`
         * count_per_minute
         * count_errors_avg: errors average per minute with limits for alert
+    * resources usage (mem, cpu)
+        * nodes - `DONE!`
+        * pods
     * pods last state
         * count terminated reason
-    * resources usage (mem, cpu)
-        * nodes
-        * pods
     * k8s apiserver metrics
         * uwskube get --raw /metrics
 
