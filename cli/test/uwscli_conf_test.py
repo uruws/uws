@@ -39,7 +39,7 @@ class Test(unittest.TestCase):
 			'beta',
 			'cs',
 			'nlp-category',
-			'nlp-sentiment-roberta',
+			'nlp-sentiment-twitter',
 			'nlp-topic-automl',
 			'worker',
 		]
