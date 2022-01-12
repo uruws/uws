@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube delete -f ~/cluster/meteor-gateway.yaml
+~/k8s/mon/teardown.sh
+~/k8s/gateway/teardown.sh
 exit 0

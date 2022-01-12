@@ -1,12 +1,14 @@
 * configure staging prod domain name on apptest
 
-* amybeta decommission
+* beta.tapo decommission
+
+* cs runs on amybeta cluster: move it?
 
 * App meteor upgrade
     * take the opportunity to start using docker setup?
 
-* NLPService
-    * roberta decommission/cleanup - `DONE!`
+* NLPService - `DONE!`
+    * roberta decommission/cleanup
     * twitter setup and deploy
 
 * golang tools unittests and CI integration - `WIP`
