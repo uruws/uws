@@ -25,6 +25,7 @@ def config(sts):
 	mon.dbg('pods_top config')
 	cluster = mon.cluster()
 	# cpu total
+	cpu_total = 0
 	_print('multigraph pods_top_cpu')
 	_print(f"graph_title {cluster} pods CPU")
 	_print('graph_args --base 1000 -l 0')
@@ -35,12 +36,14 @@ def config(sts):
 	color = 0
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"{nsid}.label {ns}", f"({sts[ns].get('count', 0)})")
+		c = sts[ns].get('count', 0)
+		cpu_total += c
+		_print(f"{nsid}.label {ns}", f"({c})")
 		_print(f"{nsid}.colour COLOUR{color}")
 		_print(f"{nsid}.draw AREASTACK")
 		_print(f"{nsid}.min 0")
 		color = mon.color(color)
-	_print('ztotal.label total')
+	_print('ztotal.label total', f"({cpu_total})")
 	_print('ztotal.colour 000000')
 	_print('ztotal.draw LINE1')
 	_print('ztotal.min 0')
@@ -63,6 +66,7 @@ def config(sts):
 		_print('f1_avg.draw LINE1')
 		_print('f1_avg.min 0')
 	# mem total
+	mem_total = 0
 	_print('multigraph pods_top_mem')
 	_print(f"graph_title {cluster} pods memory")
 	_print('graph_args --base 1000 -l 0')
@@ -73,12 +77,14 @@ def config(sts):
 	color = 0
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"{nsid}.label {ns}", f"({sts[ns].get('count', 0)})")
+		m = sts[ns].get('count', 0)
+		mem_total += m
+		_print(f"{nsid}.label {ns}", f"({m})")
 		_print(f"{nsid}.colour COLOUR{color}")
 		_print(f"{nsid}.draw AREASTACK")
 		_print(f"{nsid}.min 0")
 		color = mon.color(color)
-	_print('ztotal.label total')
+	_print('ztotal.label total', f"({mem_total})")
 	_print('ztotal.colour 000000')
 	_print('ztotal.draw LINE1')
 	_print('ztotal.min 0')
