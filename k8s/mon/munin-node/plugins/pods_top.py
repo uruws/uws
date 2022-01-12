@@ -35,11 +35,10 @@ def config(sts):
 	color = 0
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"{nsid}.label {ns}")
+		_print(f"{nsid}.label {ns}", f"({sts[ns].get('count', 0)})")
 		_print(f"{nsid}.colour COLOUR{color}")
 		_print(f"{nsid}.draw AREASTACK")
 		_print(f"{nsid}.min 0")
-		_print(f"{nsid}.info pods:", sts[ns].get('count', 0))
 		color = mon.color(color)
 	_print('ztotal.label total')
 	_print('ztotal.colour 000000')
@@ -74,11 +73,10 @@ def config(sts):
 	color = 0
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"{nsid}.label {ns}")
+		_print(f"{nsid}.label {ns}", f"({sts[ns].get('count', 0)})")
 		_print(f"{nsid}.colour COLOUR{color}")
 		_print(f"{nsid}.draw AREASTACK")
 		_print(f"{nsid}.min 0")
-		_print(f"{nsid}.info pods:", sts[ns].get('count', 0))
 		color = mon.color(color)
 	_print('ztotal.label total')
 	_print('ztotal.colour 000000')
