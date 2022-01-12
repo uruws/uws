@@ -74,6 +74,8 @@ class Test(unittest.TestCase):
 			call('f0_total.draw AREASTACK'),
 			call('f0_total.min 0'),
 			call('f0_total.max 100'),
+			call('f0_total.warning 93'),
+			call('f0_total.critical 97'),
 			# mem
 			call('multigraph nodes_top_mem'),
 			call('graph_title k8stest nodes memory'),
@@ -102,6 +104,8 @@ class Test(unittest.TestCase):
 			call('f0_total.draw AREASTACK'),
 			call('f0_total.min 0'),
 			call('f0_total.max 100'),
+			call('f0_total.warning 93'),
+			call('f0_total.critical 97'),
 		]
 		nodes_top._print.assert_has_calls(config)
 		t.assertEqual(nodes_top._print.call_count, len(config))

@@ -52,6 +52,8 @@ def config(sts):
 	_print('f0_total.draw AREASTACK')
 	_print('f0_total.min 0')
 	_print('f0_total.max 100')
+	_print('f0_total.warning 93')
+	_print('f0_total.critical 97')
 	# mem
 	_print('multigraph nodes_top_mem')
 	_print(f"graph_title {cluster} nodes memory")
@@ -80,6 +82,8 @@ def config(sts):
 	_print('f0_total.draw AREASTACK')
 	_print('f0_total.min 0')
 	_print('f0_total.max 100')
+	_print('f0_total.warning 93')
+	_print('f0_total.critical 97')
 
 def _value(sts, count, name):
 	v = sts.get(name, 'U')
