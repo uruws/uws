@@ -31,7 +31,6 @@ def config(sts):
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category top')
 	_print('graph_vlabel millicores')
-	_print('graph_printf %3.0lf')
 	_print('graph_scale yes')
 	color = 0
 	for ns in sorted(sts.keys()):
@@ -55,7 +54,6 @@ def config(sts):
 		_print('graph_args --base 1000 -l 0')
 		_print('graph_category top')
 		_print('graph_vlabel millicores')
-		_print('graph_printf %3.0lf')
 		_print('graph_scale yes')
 		_print('f0_total.label total', f"({sts[ns].get('count', 0)})")
 		_print('f0_total.colour COLOUR0')
@@ -72,7 +70,6 @@ def config(sts):
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category top')
 	_print('graph_vlabel MiB')
-	_print('graph_printf %3.0lf')
 	_print('graph_scale yes')
 	color = 0
 	for ns in sorted(sts.keys()):
@@ -96,7 +93,6 @@ def config(sts):
 		_print('graph_args --base 1000 -l 0')
 		_print('graph_category top')
 		_print('graph_vlabel MiB')
-		_print('graph_printf %3.0lf')
 		_print('graph_scale yes')
 		_print('f0_total.label total', f"({sts[ns].get('count', 0)})")
 		_print('f0_total.colour COLOUR0')
