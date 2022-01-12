@@ -6,7 +6,7 @@
     * take the opportunity to start using docker setup?
 
 * NLPService
-    * roberta decommission/cleanup
+    * roberta decommission/cleanup - `DONE!`
     * twitter setup and deploy
 
 * golang tools unittests and CI integration - `WIP`
@@ -16,7 +16,7 @@
     * api-job-stats
 
 * cluster stats - `WIP`
-    * resources usage (mem, cpu)
+    * resources usage (mem, cpu) - `DONE!`
         * pods
     * pods last state
         * count terminated reason
