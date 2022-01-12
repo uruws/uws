@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: sentiment-twitter
-  replicas: 5
+  replicas: 1
   template:
     metadata:
       labels:
@@ -27,7 +27,10 @@ spec:
           workingDir: /opt/app
           command:
             - /usr/bin/python3
-            - /opt/app/sentimentAnalysis_v2.py
+            - /opt/app/sentimentService_v2.py
+          env:
+            - name: DEBUG_ENABLE
+              value: "1"
           envFrom:
             - secretRef:
                 name: nlpsvc-env

@@ -28,6 +28,9 @@ spec:
           command:
             - /usr/bin/python3
             - /opt/app/topicService.py
+          env:
+            - name: DEBUG_ENABLE
+              value: "0"
           envFrom:
             - secretRef:
                 name: nlpsvc-env
