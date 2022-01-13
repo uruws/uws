@@ -16,13 +16,13 @@ def parse(pods):
 		if i.get('kind') != 'Pod':
 			continue
 		m = i.get('metadata', {})
-		ns = m.get('namespace')
-		if not ns:
+		ns = m.get('namespace', '').strip()
+		if ns == '':
 			continue
 		st = i.get('status', {}).get('containerStatuses', [])
 		for s in st:
-			n = s.get('name')
-			if not n:
+			n = s.get('name', '').strip()
+			if n == '':
 				continue
 			img = s.get('image')
 			state = s.get('lastState', {}).get('terminated', {}).get('reason', '')
@@ -53,6 +53,7 @@ def config(sts):
 	mon.dbg('pods_state config')
 	cluster = mon.cluster()
 	# total
+	total = sts.get('total', {})
 	_print('multigraph pod_state')
 	_print(f"graph_title {cluster} pods state")
 	_print('graph_args --base 1000 -l 0')
@@ -60,6 +61,20 @@ def config(sts):
 	_print('graph_vlabel number')
 	_print('graph_printf %3.0lf')
 	_print('graph_scale no')
+	color = 0
+	for s in sorted(total.keys()):
+		sid = mon.cleanfn(s)
+		_print(f"s_{sid}.label", s)
+		_print(f"s_{sid}.colour COLOUR{color}")
+		_print(f"s_{sid}.min 0")
+		color = mon.color(color)
 
 def report(sts):
 	mon.dbg('pods_state report')
+	# total
+	total = sts.get('total', {})
+	_print('multigraph pod_state')
+	for s in sorted(total.keys()):
+		sid = mon.cleanfn(s)
+		v = sts['total'][s]
+		_print(f"s_{sid}.value", v)

@@ -129,5 +129,29 @@ class Test(unittest.TestCase):
 		t.maxDiff = None
 		t.assertDictEqual(pods_state.parse(_pods), _state)
 
+	def test_config(t):
+		pods_state.config(_state)
+		config = [
+			# total
+			call('multigraph pod_state'),
+			call('graph_title k8stest pods state'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category pod'),
+			call('graph_vlabel number'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale no'),
+			call('s_Error.label', 'Error'),
+			call('s_Error.colour COLOUR0'),
+			call('s_Error.min 0'),
+			call('s_OOMKilled.label', 'OOMKilled'),
+			call('s_OOMKilled.colour COLOUR1'),
+			call('s_OOMKilled.min 0'),
+			call('s_Testing.label', 'Testing'),
+			call('s_Testing.colour COLOUR2'),
+			call('s_Testing.min 0'),
+		]
+		pods_state._print.assert_has_calls(config)
+		t.assertEqual(pods_state._print.call_count, len(config))
+
 if __name__ == '__main__':
 	unittest.main()
