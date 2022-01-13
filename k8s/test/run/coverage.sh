@@ -8,7 +8,7 @@ if test "X${testfn}" != 'X'; then
 	shift
 	python3-coverage run ${testfn} "$@"
 else
-	find k8s/test/ -type f -name '*_test.py' | while read t
+	find k8s/test/ -type f -name '*_test.py' | sort | while read t
 	do
 		echo "*** ${t}"
 		python3-coverage run --append ${t} "$@"
