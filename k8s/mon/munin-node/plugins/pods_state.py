@@ -27,7 +27,7 @@ def parse(pods):
 			n = s.get('name', '').strip()
 			if n == '':
 				continue
-			img = s.get('image', '').strip()
+			img = mon.containerImage(s.get('image', '').strip())
 			state = s.get('lastState', {}).get('terminated', {}).get('reason', '')
 			if not sts['info'].get(ns):
 				sts['info'][ns] = dict()
@@ -108,16 +108,20 @@ def config(sts):
 			_print('graph_vlabel number')
 			_print('graph_printf %3.0lf')
 			_print('graph_scale no')
-			img = info[ns][n].get('image', '').strip()
 			color = 0
 			for s in sorted(info[ns][n]['state'].keys()):
 				sid = mon.cleanfn(s)
-				_print(f"s_{sid}.label", s)
-				_print(f"s_{sid}.colour COLOUR{color}")
-				_print(f"s_{sid}.min 0")
+				_print(f"f_{sid}.label", s)
+				_print(f"f_{sid}.colour COLOUR{color}")
+				_print(f"f_{sid}.min 0")
 				color = mon.color(color)
-				if img != '':
-					_print(f"s_{sid}.info", img)
+			img = info[ns][n].get('image', {})
+			for i in sorted(img.keys()):
+				sid = mon.cleanfn(i)
+				_print(f"z_{sid}.label", i)
+				_print(f"z_{sid}.colour COLOUR{color}")
+				_print(f"z_{sid}.min 0")
+				color = mon.color(color)
 
 def report(sts):
 	mon.dbg('pods_state report')
