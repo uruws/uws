@@ -8,8 +8,11 @@ def parse(pods):
 	sts = dict(
 		info = dict(),
 		total = dict(
+			Failed = 0,
 			Error = 0,
 			OOMKilled = 0,
+			Restarted = 0,
+			Running = 0,
 		),
 	)
 	for i in pods.get('items', []):
@@ -24,19 +27,31 @@ def parse(pods):
 			n = s.get('name', '').strip()
 			if n == '':
 				continue
-			img = s.get('image')
+			img = s.get('image', '').strip()
 			state = s.get('lastState', {}).get('terminated', {}).get('reason', '')
 			if not sts['info'].get(ns):
 				sts['info'][ns] = dict()
 			if not sts['info'][ns].get(n):
 				sts['info'][ns][n] = dict(
-					image = img,
+					image = dict(),
 					state = dict(
+						Failed = 0,
 						Error = 0,
 						OOMKilled = 0,
+						Restarted = 0,
+						Running = 0,
 					),
 				)
+			ready = s.get('ready', False) is True
+			started = s.get('started', False) is True
+			restarted = s.get('restartCount', 0) > 0
+			# image
+			if img != '':
+				if not sts['info'][ns][n]['image'].get(img):
+					sts['info'][ns][n]['image'][img] = 0
+				sts['info'][ns][n]['image'][img] += 1
 			if state != '':
+				# info
 				if not sts['info'][ns][n]['state'].get(state):
 					sts['info'][ns][n]['state'][state] = 0
 				sts['info'][ns][n]['state'][state] += 1
@@ -44,6 +59,18 @@ def parse(pods):
 				if sts['total'].get(state, None) is None:
 					sts['total'][state] = 0
 				sts['total'][state] += 1
+			if ready and started:
+				# running
+				sts['info'][ns][n]['state']['Running'] += 1
+				sts['total']['Running'] += 1
+			else:
+				# failed
+				sts['info'][ns][n]['state']['Failed'] += 1
+				sts['total']['Failed'] += 1
+			if restarted:
+				# restarted
+				sts['info'][ns][n]['state']['Restarted'] += 1
+				sts['total']['Restarted'] += 1
 	return sts
 
 def _print(*args):

@@ -26,6 +26,8 @@ _pods = {
 					{
 						'name': 'test',
 						'image': 'test.img',
+						'ready': True,
+						'started': True,
 						'lastState': {
 							'terminated': {
 								'reason': '',
@@ -63,6 +65,11 @@ _pods = {
 							},
 						},
 					},
+					{
+						'name': 'test2',
+						'image': 'test2.img',
+						'restartCount': 9,
+					},
 				],
 			},
 		},
@@ -73,24 +80,33 @@ _state = {
 	'info': {
 		'testns': {
 			'test': {
-				'image': 'test.img',
+				'image': {'test.img': 1},
 				'state': {
 					'Error': 0,
+					'Failed': 0,
 					'OOMKilled': 0,
+					'Restarted': 0,
+					'Running': 1,
 				},
 			},
 			'test1': {
-				'image': 'test1.img',
+				'image': {'test1.img': 1},
 				'state': {
 					'Error': 1,
+					'Failed': 1,
 					'OOMKilled': 0,
+					'Restarted': 0,
+					'Running': 0,
 				},
 			},
 			'test2': {
-				'image': 'test2.img',
+				'image': {'test2.img': 2},
 				'state': {
 					'Error': 0,
+					'Failed': 2,
 					'OOMKilled': 0,
+					'Restarted': 1,
+					'Running': 0,
 					'Testing': 1,
 				},
 			},
@@ -98,7 +114,10 @@ _state = {
 	},
 	'total': {
 		'Error': 1,
+		'Failed': 3,
 		'OOMKilled': 0,
+		'Restarted': 1,
+		'Running': 1,
 		'Testing': 1,
 	},
 }
@@ -121,7 +140,10 @@ class Test(unittest.TestCase):
 			'info': {},
 			'total': {
 				'Error': 0,
+				'Failed': 0,
 				'OOMKilled': 0,
+				'Restarted': 0,
+				'Running': 0,
 			},
 		})
 
