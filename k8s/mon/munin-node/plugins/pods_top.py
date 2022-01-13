@@ -26,7 +26,7 @@ def config(sts):
 	cluster = mon.cluster()
 	# cpu total
 	cpu_total = 0
-	_print('multigraph pods_top_cpu')
+	_print('multigraph pod_top_cpu')
 	_print(f"graph_title {cluster} pods CPU")
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category top')
@@ -49,7 +49,7 @@ def config(sts):
 	# namespace cpu
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"multigraph pods_top_cpu.{nsid}")
+		_print(f"multigraph pod_top_cpu.{nsid}")
 		_print(f"graph_title {cluster} {nsid} pods CPU")
 		_print('graph_args --base 1000 -l 0')
 		_print('graph_category top')
@@ -65,7 +65,7 @@ def config(sts):
 		_print('f1_avg.min 0')
 	# mem total
 	mem_total = 0
-	_print('multigraph pods_top_mem')
+	_print('multigraph pod_top_mem')
 	_print(f"graph_title {cluster} pods memory")
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category top')
@@ -88,7 +88,7 @@ def config(sts):
 	# namespace mem
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"multigraph pods_top_mem.{nsid}")
+		_print(f"multigraph pod_top_mem.{nsid}")
 		_print(f"graph_title {cluster} {nsid} pods memory")
 		_print('graph_args --base 1000 -l 0')
 		_print('graph_category top')
@@ -114,7 +114,7 @@ def report(sts):
 	mon.dbg('pods_top report')
 	# cpu total
 	cpu_total = 0
-	_print('multigraph pods_top_cpu')
+	_print('multigraph pod_top_cpu')
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		c = sts[ns].get('cpu', 'U')
@@ -125,12 +125,12 @@ def report(sts):
 	# namespace cpu
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"multigraph pods_top_cpu.{nsid}")
+		_print(f"multigraph pod_top_cpu.{nsid}")
 		_print('f0_total.value', sts[ns].get('cpu', 'U'))
 		_print('f1_avg.value', _avg(sts[ns], 'cpu'))
 	# mem total
 	mem_total = 0
-	_print('multigraph pods_top_mem')
+	_print('multigraph pod_top_mem')
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		m = sts[ns].get('mem', 'U')
@@ -141,6 +141,6 @@ def report(sts):
 	# namespace mem
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
-		_print(f"multigraph pods_top_mem.{nsid}")
+		_print(f"multigraph pod_top_mem.{nsid}")
 		_print('f0_total.value', sts[ns].get('mem', 'U'))
 		_print('f1_avg.value', _avg(sts[ns], 'mem'))
