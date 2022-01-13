@@ -7,12 +7,17 @@ def parse(pods):
 	mon.dbg('pods_state parse')
 	sts = dict()
 	for i in pods.get('items', []):
-		if i.get('kind') != 'Pod': continue
+		if i.get('kind') != 'Pod':
+			continue
 		m = i.get('metadata', {})
 		ns = m.get('namespace')
+		if not ns:
+			continue
 		st = i.get('status', {}).get('containerStatuses', [])
 		for s in st:
 			n = s.get('name')
+			if not n:
+				continue
 			img = s.get('image')
 			state = s.get('lastState', {}).get('terminated', {}).get('reason', '')
 			if not sts.get(ns):
