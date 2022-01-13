@@ -37,6 +37,9 @@ _pods = {
 		},
 		{
 			'kind': 'Pod',
+		},
+		{
+			'kind': 'Pod',
 			'metadata': {
 				'namespace': 'testns',
 			},
@@ -67,29 +70,36 @@ _pods = {
 }
 
 _state = {
-	'testns': {
-		'test': {
-			'image': 'test.img',
-			'state': {
-				'Error': 0,
-				'OOMKilled': 0,
+	'info': {
+		'testns': {
+			'test': {
+				'image': 'test.img',
+				'state': {
+					'Error': 0,
+					'OOMKilled': 0,
+				},
+			},
+			'test1': {
+				'image': 'test1.img',
+				'state': {
+					'Error': 1,
+					'OOMKilled': 0,
+				},
+			},
+			'test2': {
+				'image': 'test2.img',
+				'state': {
+					'Error': 0,
+					'OOMKilled': 0,
+					'Testing': 1,
+				},
 			},
 		},
-		'test1': {
-			'image': 'test1.img',
-			'state': {
-				'Error': 1,
-				'OOMKilled': 0,
-			},
-		},
-		'test2': {
-			'image': 'test2.img',
-			'state': {
-				'Error': 0,
-				'OOMKilled': 0,
-				'Testing': 1,
-			},
-		},
+	},
+	'total': {
+		'Error': 1,
+		'OOMKilled': 0,
+		'Testing': 1,
 	},
 }
 
@@ -107,9 +117,16 @@ class Test(unittest.TestCase):
 		_bup_print('test', 'ing')
 
 	def test_parse(t):
-		t.assertDictEqual(pods_state.parse({}), {})
+		t.assertDictEqual(pods_state.parse({}), {
+			'info': {},
+			'total': {
+				'Error': 0,
+				'OOMKilled': 0,
+			},
+		})
 
 	def test_parse_data(t):
+		t.maxDiff = None
 		t.assertDictEqual(pods_state.parse(_pods), _state)
 
 if __name__ == '__main__':
