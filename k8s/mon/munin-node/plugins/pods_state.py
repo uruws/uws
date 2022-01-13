@@ -68,6 +68,29 @@ def config(sts):
 		_print(f"s_{sid}.colour COLOUR{color}")
 		_print(f"s_{sid}.min 0")
 		color = mon.color(color)
+	# info
+	info = sts.get('info', {})
+	for ns in sorted(info.keys()):
+		for n in sorted(info[ns].keys()):
+			name = f"{ns}/{n}"
+			pid = mon.cleanfn(name)
+			_print(f"multigraph pod_state.{pid}")
+			_print(f"graph_title {cluster} {name} pods state")
+			_print('graph_args --base 1000 -l 0')
+			_print('graph_category pod')
+			_print('graph_vlabel number')
+			_print('graph_printf %3.0lf')
+			_print('graph_scale no')
+			img = info[ns][n].get('image', '').strip()
+			color = 0
+			for s in sorted(info[ns][n]['state'].keys()):
+				sid = mon.cleanfn(s)
+				_print(f"s_{sid}.label", s)
+				_print(f"s_{sid}.colour COLOUR{color}")
+				_print(f"s_{sid}.min 0")
+				color = mon.color(color)
+				if img != '':
+					_print(f"s_{sid}.info", img)
 
 def report(sts):
 	mon.dbg('pods_state report')
