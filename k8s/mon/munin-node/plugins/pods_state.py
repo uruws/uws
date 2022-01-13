@@ -142,4 +142,8 @@ def report(sts):
 			for s in sorted(info[ns][n]['state'].keys()):
 				sid = mon.cleanfn(s)
 				v = info[ns][n]['state'][s]
-				_print(f"s_{sid}.value", v)
+				_print(f"f_{sid}.value", v)
+			img = info[ns][n].get('image', {})
+			for i in sorted(img.keys()):
+				sid = mon.cleanfn(i)
+				_print(f"z_{sid}.value", img[i])
