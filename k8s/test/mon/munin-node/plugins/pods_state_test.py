@@ -153,5 +153,17 @@ class Test(unittest.TestCase):
 		pods_state._print.assert_has_calls(config)
 		t.assertEqual(pods_state._print.call_count, len(config))
 
+	def test_report(t):
+		pods_state.report(_state)
+		report = [
+			# total
+			call('multigraph pod_state'),
+			call('s_Error.value', 1),
+			call('s_OOMKilled.value', 0),
+			call('s_Testing.value', 1),
+		]
+		pods_state._print.assert_has_calls(report)
+		t.assertEqual(pods_state._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
