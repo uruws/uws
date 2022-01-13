@@ -19,6 +19,8 @@
     * k8s apiserver metrics
         * uwskube get --raw /metrics
 
+* updated cs resource limits and scheduled app-scale down/up - `DONE!`
+
 * configurable app-autoscale
 
 * configurable app-autobuild
