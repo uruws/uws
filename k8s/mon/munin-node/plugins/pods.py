@@ -14,6 +14,7 @@ import mon_kube
 import pods_info
 import pods_condition
 import pods_container
+import pods_state
 import pods_top
 
 _mods = {
@@ -21,6 +22,7 @@ _mods = {
 		pods_info = pods_info,
 		pods_condition = pods_condition,
 		pods_container = pods_container,
+		pods_state = pods_state,
 	),
 	'top': dict(
 		pods_top = pods_top,

@@ -26,10 +26,12 @@ class Test(unittest.TestCase):
 		t.assertEqual(pods.pods_info.__name__, 'pods_info')
 		t.assertEqual(pods.pods_condition.__name__, 'pods_condition')
 		t.assertEqual(pods.pods_container.__name__, 'pods_container')
+		t.assertEqual(pods.pods_state.__name__, 'pods_state')
+		t.assertEqual(pods.pods_top.__name__, 'pods_top')
 
 	def test_mods(t):
 		t.assertListEqual(sorted(pods._mods['info'].keys()),
-			['pods_condition', 'pods_container', 'pods_info'])
+			['pods_condition', 'pods_container', 'pods_info', 'pods_state'])
 
 	def test_main_error(t):
 		pods._kube.return_value = 99
