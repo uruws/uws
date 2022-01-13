@@ -6,6 +6,29 @@ import mon
 def parse(pods):
 	mon.dbg('pods_state parse')
 	sts = dict()
+	for i in pods.get('items', []):
+		if i.get('kind') != 'Pod': continue
+		m = i.get('metadata', {})
+		ns = m.get('namespace')
+		st = i.get('status', {}).get('containerStatuses', [])
+		for s in st:
+			n = s.get('name')
+			img = s.get('image')
+			state = s.get('lastState', {}).get('terminated', {}).get('reason', '')
+			if not sts.get(ns):
+				sts[ns] = dict()
+			if not sts[ns].get(n):
+				sts[ns][n] = dict(
+					image = img,
+					state = dict(
+						Error = 0,
+						OOMKilled = 0,
+					),
+				)
+			if state != '':
+				if not sts[ns][n]['state'].get(state):
+					sts[ns][n]['state'][state] = 0
+				sts[ns][n]['state'][state] += 1
 	return sts
 
 def _print(*args):
