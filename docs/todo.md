@@ -1,21 +1,15 @@
 * configure staging prod domain name on apptest
 
-* beta.tapo decommission
-
 * cs runs on amybeta cluster: move it?
 
 * App meteor upgrade
     * take the opportunity to start using docker setup?
 
+* beta.tapo decommission - `DONE!`
+
 * NLPService - `DONE!`
     * roberta decommission/cleanup
     * twitter setup and deploy
-
-* golang tools unittests and CI integration - `WIP`
-    * golib
-    * uwsbot
-    * uwsbot-stats
-    * api-job-stats
 
 * cluster stats - `WIP`
     * resources usage (mem, cpu) - `DONE!`
@@ -34,6 +28,12 @@
 * check clusters k8s mon and ctl internal services from jsbatch/ops.uws
 
 * uwscli app access by group
+
+* golang tools unittests and CI integration
+    * golib
+    * uwsbot
+    * uwsbot-stats
+    * api-job-stats
 
 * nginx secure headers
     * CSP
