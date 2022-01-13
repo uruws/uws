@@ -101,3 +101,14 @@ def report(sts):
 		sid = mon.cleanfn(s)
 		v = sts['total'][s]
 		_print(f"s_{sid}.value", v)
+	# info
+	info = sts.get('info', {})
+	for ns in sorted(info.keys()):
+		for n in sorted(info[ns].keys()):
+			name = f"{ns}/{n}"
+			pid = mon.cleanfn(name)
+			_print(f"multigraph pod_state.{pid}")
+			for s in sorted(info[ns][n]['state'].keys()):
+				sid = mon.cleanfn(s)
+				v = info[ns][n]['state'][s]
+				_print(f"s_{sid}.value", v)

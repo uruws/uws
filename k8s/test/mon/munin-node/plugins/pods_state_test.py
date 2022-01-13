@@ -211,6 +211,17 @@ class Test(unittest.TestCase):
 			call('s_Error.value', 1),
 			call('s_OOMKilled.value', 0),
 			call('s_Testing.value', 1),
+			# info
+			call('multigraph pod_state.testns_test'),
+			call('s_Error.value', 0),
+			call('s_OOMKilled.value', 0),
+			call('multigraph pod_state.testns_test1'),
+			call('s_Error.value', 1),
+			call('s_OOMKilled.value', 0),
+			call('multigraph pod_state.testns_test2'),
+			call('s_Error.value', 0),
+			call('s_OOMKilled.value', 0),
+			call('s_Testing.value', 1),
 		]
 		pods_state._print.assert_has_calls(report)
 		t.assertEqual(pods_state._print.call_count, len(report))
