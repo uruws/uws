@@ -19,7 +19,10 @@
     * k8s apiserver metrics
         * uwskube get --raw /metrics
 
-* updated cs resource limits and scheduled app-scale down/up - `DONE!`
+* crowdsourcing - `DONE`
+    * updated cs resource limits: cpu 400m, mem 800Mi
+    * scheduled app-scale down/up
+    * increase mem limit to 1600Mi
 
 * configurable app-autoscale
 
