@@ -60,14 +60,14 @@ spec:
             - name: PORT
               value: "3000"
             - name: NODE_OPTIONS
-              value: "--max-old-space-size=800"
+              value: "--max-old-space-size=1600"
           resources:
             requests:
-              cpu: 200m
-              memory: 800Mi
+              cpu: 400m
+              memory: 1600Mi
             limits:
-              cpu: 200m
-              memory: 800Mi
+              cpu: 400m
+              memory: 1600Mi
           readinessProbe:
             exec:
               command:
