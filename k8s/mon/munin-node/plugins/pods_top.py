@@ -164,6 +164,8 @@ def report(sts):
 		_print(f"multigraph pod_top_cpu.{nsid}")
 		_print('f0_total.value', sts[ns].get('cpu', 'U'))
 		_print('f1_avg.value', _avg(sts[ns], 'cpu'))
+		_print('f2_min.value', sts[ns].get('cpu_min', 'U'))
+		_print('f3_max.value', sts[ns].get('cpu_max', 'U'))
 	# mem total
 	mem_total = 0
 	_print('multigraph pod_top_mem')
@@ -180,3 +182,5 @@ def report(sts):
 		_print(f"multigraph pod_top_mem.{nsid}")
 		_print('f0_total.value', sts[ns].get('mem', 'U'))
 		_print('f1_avg.value', _avg(sts[ns], 'mem'))
+		_print('f2_min.value', sts[ns].get('mem_min', 'U'))
+		_print('f3_max.value', sts[ns].get('mem_max', 'U'))
