@@ -50,7 +50,7 @@ def config(sts):
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		_print(f"multigraph pod_top_cpu.{nsid}")
-		_print(f"graph_title {cluster} {nsid} pods CPU")
+		_print(f"graph_title {cluster} {ns} pods CPU")
 		_print('graph_args --base 1000 -l 0')
 		_print('graph_category top')
 		_print('graph_vlabel millicores')
@@ -89,7 +89,7 @@ def config(sts):
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		_print(f"multigraph pod_top_mem.{nsid}")
-		_print(f"graph_title {cluster} {nsid} pods memory")
+		_print(f"graph_title {cluster} {ns} pods memory")
 		_print('graph_args --base 1000 -l 0')
 		_print('graph_category top')
 		_print('graph_vlabel MiB')
