@@ -8,13 +8,16 @@ def parse(pods):
 	sts = dict(
 		info = dict(),
 		total = dict(
+			Completed = 0,
 			Failed = 0,
 			Error = 0,
 			OOMKilled = 0,
+			Other = 0,
 			Restarted = 0,
 			Running = 0,
 		),
 	)
+	valid_field = list(sts['total'].keys())
 	for i in pods.get('items', []):
 		if i.get('kind') != 'Pod':
 			continue
@@ -40,9 +43,11 @@ def parse(pods):
 				sts['info'][ns][n] = dict(
 					image = dict(),
 					state = dict(
+						Completed = 0,
 						Failed = 0,
 						Error = 0,
 						OOMKilled = 0,
+						Other = 0,
 						Restarted = 0,
 						Running = 0,
 					),
@@ -56,22 +61,23 @@ def parse(pods):
 					sts['info'][ns][n]['image'][img] = 0
 				sts['info'][ns][n]['image'][img] += 1
 			if state != '':
-				# info
-				if not sts['info'][ns][n]['state'].get(state):
-					sts['info'][ns][n]['state'][state] = 0
+				if not state in valid_field:
+					state = 'Other'
 				sts['info'][ns][n]['state'][state] += 1
-				# total
-				if sts['total'].get(state, None) is None:
-					sts['total'][state] = 0
 				sts['total'][state] += 1
 			if ready and started:
 				# running
 				sts['info'][ns][n]['state']['Running'] += 1
 				sts['total']['Running'] += 1
 			else:
-				# failed
-				sts['info'][ns][n]['state']['Failed'] += 1
-				sts['total']['Failed'] += 1
+				if state == '':
+					# completed
+					sts['info'][ns][n]['state']['Completed'] += 1
+					sts['total']['Completed'] += 1
+				else:
+					# failed
+					sts['info'][ns][n]['state']['Failed'] += 1
+					sts['total']['Failed'] += 1
 			if restarted:
 				# restarted
 				sts['info'][ns][n]['state']['Restarted'] += 1
