@@ -104,7 +104,7 @@ def config(sts):
 		sid = mon.cleanfn(s)
 		_print(f"s_{sid}.label", s)
 		_print(f"s_{sid}.colour COLOUR{color}")
-		_print(f"s_{sid}.draw LINE3")
+		_print(f"s_{sid}.draw LINE")
 		_print(f"s_{sid}.min 0")
 		color = mon.color(color)
 	# info
@@ -125,7 +125,7 @@ def config(sts):
 				sid = mon.cleanfn(s)
 				_print(f"f_{sid}.label", s)
 				_print(f"f_{sid}.colour COLOUR{color}")
-				_print(f"f_{sid}.draw LINE3")
+				_print(f"f_{sid}.draw LINE")
 				_print(f"f_{sid}.min 0")
 				color = mon.color(color)
 			img = info[ns][n].get('image', {})
@@ -133,7 +133,7 @@ def config(sts):
 				sid = mon.cleanfn(i)
 				_print(f"z_{sid}.label", i)
 				_print(f"z_{sid}.colour COLOUR{color}")
-				_print(f"z_{sid}.draw LINE3")
+				_print(f"z_{sid}.draw LINE")
 				_print(f"z_{sid}.min 0")
 				color = mon.color(color)
 

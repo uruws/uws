@@ -1,6 +1,7 @@
 * configure staging prod domain name on apptest
 
 * cs runs on amybeta cluster: move it?
+    * make it the first k8s v1.21 version?
 
 * App meteor upgrade
     * take the opportunity to start using docker setup?
@@ -14,8 +15,9 @@
 * cluster stats - `WIP`
     * resources usage (mem, cpu) - `DONE!`
         * pods
-    * pods last state
+    * pods last state - `DONE!`
         * count all possible states
+        * show running container images
     * k8s apiserver metrics
         * uwskube get --raw /metrics
 
