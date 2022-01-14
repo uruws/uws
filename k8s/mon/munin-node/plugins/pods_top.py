@@ -12,10 +12,30 @@ def parse(pods):
 		m = i.get('mem', 0)
 		if ns is not None:
 			if not sts.get(ns, None):
-				sts[ns] = dict(count = 0, cpu = 0, mem = 0)
+				sts[ns] = dict(
+					count = 0,
+					cpu = 0,
+					cpu_min = None,
+					cpu_max = 0,
+					mem = 0,
+					mem_min = None,
+					mem_max = 0,
+				)
 			sts[ns]['count'] += 1
 			sts[ns]['cpu'] += c
+			if sts[ns]['cpu_min'] is None:
+				sts[ns]['cpu_min'] = c
+			elif c < sts[ns]['cpu_min']:
+				sts[ns]['cpu_min'] = c
+			if c > sts[ns]['cpu_max']:
+				sts[ns]['cpu_max'] = c
 			sts[ns]['mem'] += m
+			if sts[ns]['mem_min'] is None:
+				sts[ns]['mem_min'] = m
+			elif m < sts[ns]['mem_min']:
+				sts[ns]['mem_min'] = m
+			if m > sts[ns]['mem_max']:
+				sts[ns]['mem_max'] = m
 	return sts
 
 def _print(*args):

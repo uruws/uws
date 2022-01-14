@@ -84,10 +84,26 @@ _pods = {
 }
 
 _sts = {
-	'cert-manager': {'count': 2, 'cpu': 4, 'mem': 76},
-	'ingress-nginx': {'count': 1, 'cpu': 3, 'mem': 76},
-	'kube-system': {'count': 5, 'cpu': 16, 'mem': 124},
-	'mon': {'count': 3, 'cpu': 6, 'mem': 85},
+	'cert-manager': {
+		'count': 2,
+		'cpu': 4, 'cpu_max': 3, 'cpu_min': 1,
+		'mem': 76, 'mem_max': 52, 'mem_min': 24,
+	},
+	'ingress-nginx': {
+		'count': 1,
+		'cpu': 3, 'cpu_max': 3, 'cpu_min': 3,
+		'mem': 76, 'mem_max': 76, 'mem_min': 76,
+	},
+	'kube-system': {
+		'count': 5,
+		'cpu': 16, 'cpu_max': 5, 'cpu_min': 1,
+		'mem': 124, 'mem_max': 41, 'mem_min': 8,
+	},
+	'mon': {
+		'count': 3,
+		'cpu': 6, 'cpu_max': 4, 'cpu_min': 1,
+		'mem': 85, 'mem_max': 66, 'mem_min': 7,
+	},
 }
 
 class Test(unittest.TestCase):

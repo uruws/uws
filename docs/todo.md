@@ -15,7 +15,7 @@
     * resources usage (mem, cpu) - `DONE!`
         * pods
     * pods last state
-        * count terminated reason
+        * count all possible states
     * k8s apiserver metrics
         * uwskube get --raw /metrics
 
