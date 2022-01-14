@@ -83,6 +83,14 @@ def config(sts):
 		_print('f1_avg.colour COLOUR1')
 		_print('f1_avg.draw LINE1')
 		_print('f1_avg.min 0')
+		_print('f2_min.label min')
+		_print('f2_min.colour COLOUR2')
+		_print('f2_min.draw LINE1')
+		_print('f2_min.min 0')
+		_print('f3_max.label max')
+		_print('f3_max.colour COLOUR3')
+		_print('f3_max.draw LINE1')
+		_print('f3_max.min 0')
 	# mem total
 	mem_total = 0
 	_print('multigraph pod_top_mem')
@@ -122,6 +130,14 @@ def config(sts):
 		_print('f1_avg.colour COLOUR1')
 		_print('f1_avg.draw LINE1')
 		_print('f1_avg.min 0')
+		_print('f2_min.label min')
+		_print('f2_min.colour COLOUR2')
+		_print('f2_min.draw LINE1')
+		_print('f2_min.min 0')
+		_print('f3_max.label max')
+		_print('f3_max.colour COLOUR3')
+		_print('f3_max.draw LINE1')
+		_print('f3_max.min 0')
 
 def _avg(sts, k):
 	c = sts.get('count', 0)
