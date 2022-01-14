@@ -19,10 +19,10 @@ _pods = {
 			'kind': 'Pod',
 			'metadata': {
 				'namespace': 'testns',
+				'generateName': 'test-',
 			},
 			'status': {
 				'containerStatuses': [
-					{},
 					{
 						'name': 'test',
 						'image': 'test.img',
@@ -47,6 +47,7 @@ _pods = {
 			},
 			'status': {
 				'containerStatuses': [
+					{},
 					{
 						'name': 'test1',
 						'image': 'test1.img',

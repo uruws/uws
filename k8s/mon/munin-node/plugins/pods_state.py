@@ -22,9 +22,14 @@ def parse(pods):
 		ns = m.get('namespace', '').strip()
 		if ns == '':
 			continue
+		gn = mon.generateName(i)
 		st = i.get('status', {}).get('containerStatuses', [])
 		for s in st:
-			n = s.get('name', '').strip()
+			n = ''
+			if gn is None:
+				n = s.get('name', '').strip()
+			else:
+				n = gn[:]
 			if n == '':
 				continue
 			img = mon.containerImage(s.get('image', '').strip())
