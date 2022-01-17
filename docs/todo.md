@@ -21,16 +21,17 @@
     * k8s apiserver metrics
         * uwskube get --raw /metrics
 
-* crowdsourcing - `DONE`
+* crowdsourcing - `DONE!`
     * updated cs resource limits: cpu 400m, mem 800Mi
     * scheduled app-scale down/up
     * increase mem limit to 1600Mi
 
+* apijob `FIX` - `DONE!`
+    * sort collection names to try avoiding munin colors change
+
 * configurable app-autoscale
 
 * configurable app-autobuild
-
-* apijob `FIX`: sort collection names to try avoiding munin colors change
 
 * check clusters k8s mon and ctl internal services from jsbatch/ops.uws
 

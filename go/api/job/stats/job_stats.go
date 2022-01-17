@@ -65,11 +65,17 @@ type Stats struct {
 	db_name string
 	db_uri  string
 	r       map[string]*Job
+	rl      []string
 }
 
 func New(db_name, db_uri string) *Stats {
 	log.Debug("new")
-	return &Stats{db_name: db_name, db_uri: db_uri, r: make(map[string]*Job)}
+	return &Stats{
+		db_name: db_name,
+		db_uri: db_uri,
+		r: make(map[string]*Job),
+		rl: make([]string, 0),
+	}
 }
 
 func (s *Stats) Len() int {
@@ -78,9 +84,9 @@ func (s *Stats) Len() int {
 
 func (s *Stats) List() []*Job {
 	log.Debug("list")
-	l := make([]*Job, 0)
-	for _, j := range s.r {
-		l = append(l, j)
+	l := make([]*Job, len(s.rl))
+	for i, c := range s.rl {
+		l[i] = s.r[c]
 	}
 	return l
 }
@@ -108,8 +114,10 @@ func (s *Stats) Fetch() int {
 			job.Error = false
 			job.Took = time.Now().Sub(job.start).Milliseconds()
 			s.r[c] = job
+			s.rl = append(s.rl, c)
 		}
 	}
+	sort.Strings(s.rl)
 	return errcount
 }
 
@@ -177,7 +185,6 @@ func (m *mdb) Collections() ([]string, error) {
 			l = append(l, cn)
 		}
 	}
-	sort.Strings(l)
 	return l, nil
 }
 
