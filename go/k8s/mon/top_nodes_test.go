@@ -71,8 +71,12 @@ func TestTopNodes(t *testing.T) {
   "count": 3,
   "cpu": 198,
   "cpup": 9,
+  "cpu_min": 62,
+  "cpu_max": 73,
   "mem": 2509,
-  "memp": 34
+  "memp": 34,
+  "mem_min": 731,
+  "mem_max": 891
 }`
 	IsEqual(t, mock.HTTPResponseString(resp), tn, "resp body")
 }
