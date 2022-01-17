@@ -167,6 +167,35 @@ class Test(unittest.TestCase):
 		t.assertEqual(nodes_top._print.call_count, len(config))
 
 	def test_report(t):
+		nodes_top.report({})
+		report = [
+			# cpu
+			call('multigraph nodes_top_cpu'),
+			call('f0_total.value', 'U'),
+			call('f1_avg.value', 'U'),
+			call('f2_min.value', 'U'),
+			call('f3_max.value', 'U'),
+			# cpu percentage
+			call('multigraph nodes_top_cpup'),
+			call('f0_total.value', 'U'),
+			call('f1_min.value', 'U'),
+			call('f2_max.value', 'U'),
+			# mem
+			call('multigraph nodes_top_mem'),
+			call('f0_total.value', 'U'),
+			call('f1_avg.value', 'U'),
+			call('f2_min.value', 'U'),
+			call('f3_max.value', 'U'),
+			# mem percentage
+			call('multigraph nodes_top_memp'),
+			call('f0_total.value', 'U'),
+			call('f1_min.value', 'U'),
+			call('f2_max.value', 'U'),
+		]
+		nodes_top._print.assert_has_calls(report)
+		t.assertEqual(nodes_top._print.call_count, len(report))
+
+	def test_report_data(t):
 		nodes_top.report(_nodes)
 		report = [
 			# cpu
