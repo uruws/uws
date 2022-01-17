@@ -76,7 +76,7 @@ class Test(unittest.TestCase):
 		})
 
 	def test_config(t):
-		nodes_top.config({})
+		nodes_top.config(_nodes)
 		config = [
 			# cpu
 			call('multigraph nodes_top_cpu'),
@@ -85,13 +85,19 @@ class Test(unittest.TestCase):
 			call('graph_category nodes'),
 			call('graph_vlabel millicores'),
 			call('graph_scale yes'),
-			call('f0_total.label total', '(0)'),
+			call('f0_total.label total', '(3)'),
 			call('f0_total.colour COLOUR0'),
 			call('f0_total.draw AREASTACK'),
 			call('f0_total.min 0'),
 			call('f1_avg.label average'),
 			call('f1_avg.colour COLOUR1'),
 			call('f1_avg.min 0'),
+			call('f2_min.label min'),
+			call('f2_min.colour COLOUR2'),
+			call('f2_min.min 0'),
+			call('f3_max.label max'),
+			call('f3_max.colour COLOUR3'),
+			call('f3_max.min 0'),
 			# cpu percentage
 			call('multigraph nodes_top_cpup'),
 			call('graph_title k8stest nodes CPU usage'),
@@ -99,13 +105,21 @@ class Test(unittest.TestCase):
 			call('graph_category nodes'),
 			call('graph_vlabel percentage'),
 			call('graph_scale no'),
-			call('f0_total.label total', '(0)'),
+			call('f0_total.label total', '(3)'),
 			call('f0_total.colour COLOUR0'),
 			call('f0_total.draw AREASTACK'),
 			call('f0_total.min 0'),
 			call('f0_total.max 100'),
 			call('f0_total.warning 93'),
 			call('f0_total.critical 97'),
+			call('f1_min.label min'),
+			call('f1_min.colour COLOUR1'),
+			call('f1_min.min 0'),
+			call('f1_min.max 100'),
+			call('f2_max.label max'),
+			call('f2_max.colour COLOUR2'),
+			call('f2_max.min 0'),
+			call('f2_max.max 100'),
 			# mem
 			call('multigraph nodes_top_mem'),
 			call('graph_title k8stest nodes memory'),
@@ -113,13 +127,19 @@ class Test(unittest.TestCase):
 			call('graph_category nodes'),
 			call('graph_vlabel MiB'),
 			call('graph_scale yes'),
-			call('f0_total.label total', '(0)'),
+			call('f0_total.label total', '(3)'),
 			call('f0_total.colour COLOUR0'),
 			call('f0_total.draw AREASTACK'),
 			call('f0_total.min 0'),
 			call('f1_avg.label average'),
 			call('f1_avg.colour COLOUR1'),
 			call('f1_avg.min 0'),
+			call('f2_min.label min'),
+			call('f2_min.colour COLOUR2'),
+			call('f2_min.min 0'),
+			call('f3_max.label max'),
+			call('f3_max.colour COLOUR3'),
+			call('f3_max.min 0'),
 			# mem percentage
 			call('multigraph nodes_top_memp'),
 			call('graph_title k8stest nodes memory usage'),
@@ -127,38 +147,50 @@ class Test(unittest.TestCase):
 			call('graph_category nodes'),
 			call('graph_vlabel percentage'),
 			call('graph_scale no'),
-			call('f0_total.label total', '(0)'),
+			call('f0_total.label total', '(3)'),
 			call('f0_total.colour COLOUR0'),
 			call('f0_total.draw AREASTACK'),
 			call('f0_total.min 0'),
 			call('f0_total.max 100'),
 			call('f0_total.warning 93'),
 			call('f0_total.critical 97'),
+			call('f1_min.label min'),
+			call('f1_min.colour COLOUR1'),
+			call('f1_min.min 0'),
+			call('f1_min.max 100'),
+			call('f2_max.label max'),
+			call('f2_max.colour COLOUR2'),
+			call('f2_max.min 0'),
+			call('f2_max.max 100'),
 		]
 		nodes_top._print.assert_has_calls(config)
 		t.assertEqual(nodes_top._print.call_count, len(config))
 
 	def test_report(t):
-		nodes_top.report({
-			'count': 3,
-			'mem': 3130,
-			'memp': 43,
-		})
+		nodes_top.report(_nodes)
 		report = [
 			# cpu
 			call('multigraph nodes_top_cpu'),
-			call('f0_total.value', 'U'),
-			call('f1_avg.value', 'U'),
+			call('f0_total.value', 198),
+			call('f1_avg.value', 66.0),
+			call('f2_min.value', 62),
+			call('f3_max.value', 73),
 			# cpu percentage
 			call('multigraph nodes_top_cpup'),
-			call('f0_total.value', 'U'),
+			call('f0_total.value', 9),
+			call('f1_min.value', 3),
+			call('f2_max.value', 3),
 			# mem
 			call('multigraph nodes_top_mem'),
-			call('f0_total.value', 3130),
-			call('f1_avg.value', 1043.3333333333333),
+			call('f0_total.value', 2509),
+			call('f1_avg.value', 836.3333333333334),
+			call('f2_min.value', 731),
+			call('f3_max.value', 891),
 			# mem percentage
 			call('multigraph nodes_top_memp'),
-			call('f0_total.value', 14.333333333333334),
+			call('f0_total.value', 34),
+			call('f1_min.value', 10),
+			call('f2_max.value', 12),
 		]
 		nodes_top._print.assert_has_calls(report)
 		t.assertEqual(nodes_top._print.call_count, len(report))

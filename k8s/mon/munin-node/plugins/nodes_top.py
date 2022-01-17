@@ -46,6 +46,12 @@ def config(sts):
 	_print('f1_avg.label average')
 	_print('f1_avg.colour COLOUR1')
 	_print('f1_avg.min 0')
+	_print('f2_min.label min')
+	_print('f2_min.colour COLOUR2')
+	_print('f2_min.min 0')
+	_print('f3_max.label max')
+	_print('f3_max.colour COLOUR3')
+	_print('f3_max.min 0')
 	# cpu percentage
 	_print('multigraph nodes_top_cpup')
 	_print(f"graph_title {cluster} nodes CPU usage")
@@ -60,6 +66,14 @@ def config(sts):
 	_print('f0_total.max 100')
 	_print('f0_total.warning 93')
 	_print('f0_total.critical 97')
+	_print('f1_min.label min')
+	_print('f1_min.colour COLOUR1')
+	_print('f1_min.min 0')
+	_print('f1_min.max 100')
+	_print('f2_max.label max')
+	_print('f2_max.colour COLOUR2')
+	_print('f2_max.min 0')
+	_print('f2_max.max 100')
 	# mem
 	_print('multigraph nodes_top_mem')
 	_print(f"graph_title {cluster} nodes memory")
@@ -74,6 +88,12 @@ def config(sts):
 	_print('f1_avg.label average')
 	_print('f1_avg.colour COLOUR1')
 	_print('f1_avg.min 0')
+	_print('f2_min.label min')
+	_print('f2_min.colour COLOUR2')
+	_print('f2_min.min 0')
+	_print('f3_max.label max')
+	_print('f3_max.colour COLOUR3')
+	_print('f3_max.min 0')
 	# mem percentage
 	_print('multigraph nodes_top_memp')
 	_print(f"graph_title {cluster} nodes memory usage")
@@ -88,8 +108,16 @@ def config(sts):
 	_print('f0_total.max 100')
 	_print('f0_total.warning 93')
 	_print('f0_total.critical 97')
+	_print('f1_min.label min')
+	_print('f1_min.colour COLOUR1')
+	_print('f1_min.min 0')
+	_print('f1_min.max 100')
+	_print('f2_max.label max')
+	_print('f2_max.colour COLOUR2')
+	_print('f2_max.min 0')
+	_print('f2_max.max 100')
 
-def _value(sts, count, name):
+def _avg(sts, count, name):
 	v = sts.get(name, 'U')
 	if count > 0 and v != 'U':
 		return v / count
@@ -101,14 +129,22 @@ def report(sts):
 	# cpu
 	_print('multigraph nodes_top_cpu')
 	_print('f0_total.value', sts.get('cpu', 'U'))
-	_print('f1_avg.value', _value(sts, n, 'cpu'))
+	_print('f1_avg.value', _avg(sts, n, 'cpu'))
+	_print('f2_min.value', sts.get('cpu_min', 'U'))
+	_print('f3_max.value', sts.get('cpu_max', 'U'))
 	# cpu percentage
 	_print('multigraph nodes_top_cpup')
-	_print('f0_total.value', _value(sts, n, 'cpup'))
+	_print('f0_total.value', sts.get('cpup', 'U'))
+	_print('f1_min.value', sts.get('cpup_min', 'U'))
+	_print('f2_max.value', sts.get('cpup_max', 'U'))
 	# mem
 	_print('multigraph nodes_top_mem')
 	_print('f0_total.value', sts.get('mem', 'U'))
-	_print('f1_avg.value', _value(sts, n, 'mem'))
+	_print('f1_avg.value', _avg(sts, n, 'mem'))
+	_print('f2_min.value', sts.get('mem_min', 'U'))
+	_print('f3_max.value', sts.get('mem_max', 'U'))
 	# mem percentage
 	_print('multigraph nodes_top_memp')
-	_print('f0_total.value', _value(sts, n, 'memp'))
+	_print('f0_total.value', sts.get('memp', 'U'))
+	_print('f1_min.value', sts.get('memp_min', 'U'))
+	_print('f2_max.value', sts.get('memp_max', 'U'))
