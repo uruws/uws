@@ -55,6 +55,8 @@ func newJob(collection string) *Job {
 	}
 	if j.Name == "cleverSynch.jobs" {
 		j.Config.Waiting = true
+	} else if j.Name == "oneRosterSync.jobs" {
+		j.Config.Waiting = true
 	}
 	return j
 }
