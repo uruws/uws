@@ -134,7 +134,7 @@ def report(sts):
 	_print('f3_max.value', sts.get('cpu_max', 'U'))
 	# cpu percentage
 	_print('multigraph nodes_top_cpup')
-	_print('f0_total.value', sts.get('cpup', 'U'))
+	_print('f0_total.value', _avg(sts, n, 'cpup'))
 	_print('f1_min.value', sts.get('cpup_min', 'U'))
 	_print('f2_max.value', sts.get('cpup_max', 'U'))
 	# mem
@@ -145,6 +145,6 @@ def report(sts):
 	_print('f3_max.value', sts.get('mem_max', 'U'))
 	# mem percentage
 	_print('multigraph nodes_top_memp')
-	_print('f0_total.value', sts.get('memp', 'U'))
+	_print('f0_total.value', _avg(sts, n, 'memp'))
 	_print('f1_min.value', sts.get('memp_min', 'U'))
 	_print('f2_max.value', sts.get('memp_max', 'U'))

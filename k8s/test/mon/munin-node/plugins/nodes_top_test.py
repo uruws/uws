@@ -177,7 +177,7 @@ class Test(unittest.TestCase):
 			call('f3_max.value', 73),
 			# cpu percentage
 			call('multigraph nodes_top_cpup'),
-			call('f0_total.value', 9),
+			call('f0_total.value', 3.0),
 			call('f1_min.value', 3),
 			call('f2_max.value', 3),
 			# mem
@@ -188,7 +188,7 @@ class Test(unittest.TestCase):
 			call('f3_max.value', 891),
 			# mem percentage
 			call('multigraph nodes_top_memp'),
-			call('f0_total.value', 34),
+			call('f0_total.value', 11.333333333333334),
 			call('f1_min.value', 10),
 			call('f2_max.value', 12),
 		]
