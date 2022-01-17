@@ -70,13 +70,17 @@ func TestTopNodes(t *testing.T) {
 	tn := `{
   "count": 3,
   "cpu": 198,
-  "cpup": 9,
   "cpu_min": 62,
   "cpu_max": 73,
+  "cpup": 9,
+  "cpup_min": 3,
+  "cpup_max": 3,
   "mem": 2509,
-  "memp": 34,
   "mem_min": 731,
-  "mem_max": 891
+  "mem_max": 891,
+  "memp": 34,
+  "memp_min": 10,
+  "memp_max": 12
 }`
 	IsEqual(t, mock.HTTPResponseString(resp), tn, "resp body")
 }
