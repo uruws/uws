@@ -6,11 +6,19 @@ import mon
 def parse(nodes):
 	mon.dbg('nodes_top parse')
 	sts = dict(
-		count = 0,
-		cpu = 0,
-		cpup = 0,
-		mem = 0,
-		memp = 0,
+		count    = 0,
+		cpu      = 0,
+		cpu_min  = 0,
+		cpu_max  = 0,
+		cpup     = 0,
+		cpup_min = 0,
+		cpup_max = 0,
+		mem      = 0,
+		mem_min  = 0,
+		mem_max  = 0,
+		memp     = 0,
+		memp_min = 0,
+		memp_max = 0,
 	)
 	try:
 		sts.update(nodes)

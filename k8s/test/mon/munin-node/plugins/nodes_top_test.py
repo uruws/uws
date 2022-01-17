@@ -12,6 +12,22 @@ import nodes_top
 
 _bup_print = nodes_top._print
 
+_nodes = {
+	'count':    3,
+	'cpu':      198,
+	'cpu_min':  62,
+	'cpu_max':  73,
+	'cpup':     9,
+	'cpup_min': 3,
+	'cpup_max': 3,
+	'mem':      2509,
+	'mem_min':  731,
+	'mem_max':  891,
+	'memp':     34,
+	'memp_min': 10,
+	'memp_max': 12,
+}
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -23,24 +39,40 @@ class Test(unittest.TestCase):
 		nodes_top._print = _bup_print
 
 	def test_print(t):
-		_bup_print('test', 'ing')
+		_bup_print('testing', '...')
 
 	def test_parse(t):
 		t.assertDictEqual(nodes_top.parse({}), {
-			'count': 0,
-			'cpu': 0,
-			'cpup': 0,
-			'mem': 0,
-			'memp': 0,
+			'count':    0,
+			'cpu':      0,
+			'cpu_min':  0,
+			'cpu_max':  0,
+			'cpup':     0,
+			'cpup_min': 0,
+			'cpup_max': 0,
+			'mem':      0,
+			'mem_min':  0,
+			'mem_max':  0,
+			'memp':     0,
+			'memp_min': 0,
+			'memp_max': 0,
 		})
 
 	def test_parse_error(t):
 		t.assertDictEqual(nodes_top.parse(None), {
-			'count': 0,
-			'cpu': 0,
-			'cpup': 0,
-			'mem': 0,
-			'memp': 0,
+			'count':    0,
+			'cpu':      0,
+			'cpu_min':  0,
+			'cpu_max':  0,
+			'cpup':     0,
+			'cpup_min': 0,
+			'cpup_max': 0,
+			'mem':      0,
+			'mem_min':  0,
+			'mem_max':  0,
+			'memp':     0,
+			'memp_min': 0,
+			'memp_max': 0,
 		})
 
 	def test_config(t):
