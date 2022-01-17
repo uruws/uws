@@ -19,14 +19,14 @@ type topNodes struct {
 	CPUMin  uint64 `json:"cpu_min"`
 	CPUMax  uint64 `json:"cpu_max"`
 	CPUP    uint   `json:"cpup"` // percentage
-	CPUPMin uint64 `json:"cpup_min"`
-	CPUPMax uint64 `json:"cpup_max"`
+	CPUPMin uint   `json:"cpup_min"`
+	CPUPMax uint   `json:"cpup_max"`
 	Mem     uint64 `json:"mem"`
 	MemMin  uint64 `json:"mem_min"`
 	MemMax  uint64 `json:"mem_max"`
 	MemP    uint   `json:"memp"` // percentage
-	MemPMin uint64 `json:"memp_min"`
-	MemPMax uint64 `json:"memp_max"`
+	MemPMin uint   `json:"memp_min"`
+	MemPMax uint   `json:"memp_max"`
 }
 
 var topNodesCmd string = "top nodes --no-headers"
@@ -42,9 +42,11 @@ func parseTopNodes(tn *topNodes, out []byte) error {
 			match := reTopNodes.FindStringSubmatch(line)
 			if len(match) == 5 {
 				cpu, _ := strconv.ParseUint(match[1], 10, 64)
-				cpup, _ := strconv.ParseUint(match[2], 10, 32)
+				cpup64, _ := strconv.ParseUint(match[2], 10, 32)
+				cpup := uint(cpup64)
 				mem, _ := strconv.ParseUint(match[3], 10, 64)
-				memp, _ := strconv.ParseUint(match[4], 10, 32)
+				memp64, _ := strconv.ParseUint(match[4], 10, 32)
+				memp := uint(memp64)
 				if ! minSet {
 					tn.CPUMin = cpu
 					tn.CPUPMin = cpup
@@ -59,7 +61,7 @@ func parseTopNodes(tn *topNodes, out []byte) error {
 				if cpu > tn.CPUMax {
 					tn.CPUMax = cpu
 				}
-				tn.CPUP += uint(cpup)
+				tn.CPUP += cpup
 				if cpup < tn.CPUPMin {
 					tn.CPUPMin = cpup
 				}
@@ -73,7 +75,7 @@ func parseTopNodes(tn *topNodes, out []byte) error {
 				if mem > tn.MemMax {
 					tn.MemMax = mem
 				}
-				tn.MemP += uint(memp)
+				tn.MemP += memp
 				if memp < tn.MemPMin {
 					tn.MemPMin = memp
 				}
