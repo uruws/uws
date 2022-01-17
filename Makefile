@@ -349,3 +349,13 @@ k8sctl: eks
 k8sctl-publish: k8sctl
 	@./docker/ecr-login.sh us-east-1
 	@./cluster/ecr-push.sh us-east-1 uws/eks-k8s uws:ctl-eks-$(CTL_TAG)
+
+#
+# publish
+#
+
+.PHONY: publish
+publish:
+	@$(MAKE) utils-publish
+	@$(MAKE) mon-publish
+	@$(MAKE) k8sctl-publish
