@@ -134,7 +134,9 @@ func (s *Stats) Config() error {
 	}
 	for _, c := range cols {
 		s.r[c] = newJob(c)
+		s.rl = append(s.rl, c)
 	}
+	sort.Strings(s.rl)
 	return nil
 }
 
