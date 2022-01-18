@@ -4,6 +4,8 @@
 package mon
 
 import (
+	"io/ioutil"
+	"strings"
 	"testing"
 
 	"uws/testing/mock"
@@ -39,4 +41,8 @@ func TestK8s(t *testing.T) {
 	IsEqual(t, resp.StatusCode, 200, "resp status code")
 	IsEqual(t, resp.Header.Get("content-type"),
 		"text/plain; charset=utf-8", "resp content type")
+	check, err := ioutil.ReadFile("testdata/k8s_metrics.txt")
+	Fatal(t, IsNil(t, err, "read k8s_metrics.txt"))
+	IsEqual(t, mock.HTTPResponseString(resp),
+		strings.TrimSpace(string(check)), "resp body")
 }
