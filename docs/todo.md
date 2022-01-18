@@ -1,26 +1,4 @@
-* beta.tapo decommission - `DONE!`
-
-* NLPService - `DONE!`
-    * roberta decommission/cleanup
-    * twitter setup and deploy
-
-* crowdsourcing - `DONE!`
-    * updated cs resource limits: cpu 400m, mem 800Mi
-    * scheduled app-scale down/up
-    * increase mem limit to 1600Mi
-
-* `FIX`: apijob - `DONE!`
-    * sort collection names to try avoiding munin colors change
-
-* k8smon - `DONE!`
-    * apiserver metrics
-
 * cluster stats - `WIP`
-    * resources usage (mem, cpu) - `DONE!`
-        * pods
-    * pods last state - `DONE!`
-        * count all possible states
-        * show running container images
     * k8s apiserver metrics
         * uwskube get --raw /metrics
     * nginx_conn
@@ -28,7 +6,7 @@
     * nginx_req
         * requests total count (derive)
 
-* configure staging prod domain name on apptest
+* configure staging prod domain name on apptest - `DONE!`
 
 * cs runs on amybeta cluster: move it?
     * make it the first k8s v1.21 version?
