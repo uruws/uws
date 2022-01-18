@@ -71,25 +71,29 @@ def _isBuildingOrDone(app, tag):
 def _dispatch(app, tag):
 	"""dispatch app tag build"""
 	cmd = f"/srv/home/uwscli/bin/app-build {app} {tag}"
+	print('NQ:', cmd)
 	rc = uwscli.system(cmd)
 	if rc != 0:
+		uwscli.error('[ERROR]:', cmd, '- exit status:', rc)
 		return EBUILD_RUN
 	sleep(1)
+	cmd = '/srv/home/uwscli/bin/app-autobuild'
 	x = [
 		'/usr/bin/nq',
 		'-c',
 		'--',
-		'/srv/home/uwscli/bin/app-autobuild',
+		cmd,
 		app,
 		'--deploy',
 		tag,
 	]
 	try:
+		print('NQ:', cmd, app, '--deploy', tag)
 		rc = uwscli.system(' '.join(x), env = {'NQDIR': _nqdir})
 		if rc != 0:
 			return EDEPLOY_NQ
 	except Exception as err:
-		uwscli.error('[ERROR]:', err)
+		uwscli.error(f"[ERROR] {cmd}:", err)
 		return EDEPLOY_NQ
 	return 0
 
