@@ -72,9 +72,9 @@ func New(db_name, db_uri string) *Stats {
 	log.Debug("new")
 	return &Stats{
 		db_name: db_name,
-		db_uri: db_uri,
-		r: make(map[string]*Job),
-		rl: make([]string, 0),
+		db_uri:  db_uri,
+		r:       make(map[string]*Job),
+		rl:      make([]string, 0),
 	}
 }
 

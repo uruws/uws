@@ -47,7 +47,7 @@ func parseTopNodes(tn *topNodes, out []byte) error {
 				mem, _ := strconv.ParseUint(match[3], 10, 64)
 				memp64, _ := strconv.ParseUint(match[4], 10, 32)
 				memp := uint(memp64)
-				if ! minSet {
+				if !minSet {
 					tn.CPUMin = cpu
 					tn.CPUPMin = cpup
 					tn.MemMin = mem
