@@ -12,7 +12,7 @@
 * `FIX`: apijob - `DONE!`
     * sort collection names to try avoiding munin colors change
 
-* k8smon - `WIP`
+* k8smon - `DONE!`
     * apiserver metrics
 
 * cluster stats - `WIP`
