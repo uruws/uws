@@ -22,5 +22,7 @@ func K8s(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// filter the lines we only want, to reduce network usage
+	//~ for _, line := range strings.Split(string(out), "\n") {
+	//~ }
 	wapp.Write(w, r, start, "%s", out)
 }
