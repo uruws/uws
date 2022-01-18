@@ -1,16 +1,19 @@
-* configure staging prod domain name on apptest
-
-* cs runs on amybeta cluster: move it?
-    * make it the first k8s v1.21 version?
-
-* App meteor upgrade
-    * take the opportunity to start using docker setup?
-
 * beta.tapo decommission - `DONE!`
 
 * NLPService - `DONE!`
     * roberta decommission/cleanup
     * twitter setup and deploy
+
+* crowdsourcing - `DONE!`
+    * updated cs resource limits: cpu 400m, mem 800Mi
+    * scheduled app-scale down/up
+    * increase mem limit to 1600Mi
+
+* `FIX`: apijob - `DONE!`
+    * sort collection names to try avoiding munin colors change
+
+* k8smon - `WIP`
+    * apiserver metrics
 
 * cluster stats - `WIP`
     * resources usage (mem, cpu) - `DONE!`
@@ -20,14 +23,18 @@
         * show running container images
     * k8s apiserver metrics
         * uwskube get --raw /metrics
+    * nginx_conn
+        * connections total count (derive)
+    * nginx_req
+        * requests total count (derive)
 
-* crowdsourcing - `DONE!`
-    * updated cs resource limits: cpu 400m, mem 800Mi
-    * scheduled app-scale down/up
-    * increase mem limit to 1600Mi
+* configure staging prod domain name on apptest
 
-* apijob `FIX` - `DONE!`
-    * sort collection names to try avoiding munin colors change
+* cs runs on amybeta cluster: move it?
+    * make it the first k8s v1.21 version?
+
+* App meteor upgrade
+    * take the opportunity to start using docker setup?
 
 * configurable app-autoscale
 
@@ -93,7 +100,7 @@
 
 * infra docs for internal presentation
 
-* k8s/ctl - `FIX`: munin-alerts volume setup
+* `FIX`: k8s/ctl - munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
 
 * cluster stack
