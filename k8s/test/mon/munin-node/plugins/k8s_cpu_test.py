@@ -30,7 +30,7 @@ class Test(unittest.TestCase):
 	@classmethod
 	def setUpClass(k):
 		with open(_metrics_fn, 'rb') as fh:
-			k.metrics = [d for d in mon_metrics._metrics_parse(fh)]
+			k.metrics = list(mon_metrics._metrics_parse(fh))
 
 	def setUp(t):
 		mon_t.setUp()
@@ -91,6 +91,16 @@ class Test(unittest.TestCase):
 			call('usage.min 0'),
 			call('usage.type DERIVE'),
 			call('usage.cdef usage,1000,/'),
+			# uptime
+			call('multigraph k8s_cpu_uptime'),
+			call('graph_title Kubernetes apiserver uptime'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category k8s'),
+			call('graph_vlabel hours'),
+			call('graph_scale yes'),
+			call('uptime.label uptime'),
+			call('uptime.colour COLOUR0'),
+			call('uptime.min 0'),
 		]
 		k8s_cpu._print.assert_has_calls(config)
 		t.assertEqual(k8s_cpu._print.call_count, len(config))
@@ -105,6 +115,9 @@ class Test(unittest.TestCase):
 			# cpu usage
 			call('multigraph k8s_cpu_usage'),
 			call('usage.value', 708413190),
+			# uptime
+			call('multigraph k8s_cpu_uptime'),
+			call('uptime.value', 453016.3176361111),
 		]
 		k8s_cpu._print.assert_has_calls(report)
 		t.assertEqual(k8s_cpu._print.call_count, len(report))

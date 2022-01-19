@@ -61,6 +61,16 @@ def config(sts):
 	_print('usage.min 0')
 	_print('usage.type DERIVE')
 	_print('usage.cdef usage,1000,/')
+	# uptime
+	_print('multigraph k8s_cpu_uptime')
+	_print('graph_title Kubernetes apiserver uptime')
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category k8s')
+	_print('graph_vlabel hours')
+	_print('graph_scale yes')
+	_print('uptime.label uptime')
+	_print('uptime.colour COLOUR0')
+	_print('uptime.min 0')
 
 def report(sts):
 	mon.dbg('config k8s_cpu')
@@ -71,3 +81,6 @@ def report(sts):
 	# cpu usage
 	_print('multigraph k8s_cpu_usage')
 	_print('usage.value', mon.derive(sts['process_cpu_seconds_total']))
+	# uptime
+	_print('multigraph k8s_cpu_uptime')
+	_print('uptime.value', sts['process_start_time_hours'])
