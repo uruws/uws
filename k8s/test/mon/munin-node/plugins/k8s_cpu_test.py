@@ -7,13 +7,30 @@ import unittest
 from unittest.mock import MagicMock, call
 
 import mon_t
+import mon_metrics
 
 import k8s_cpu
 
 _bup_print = k8s_cpu._print
-_bup_sts = k8s_cpu.sts
+_bup_sts = k8s_cpu.sts.copy()
+
+_metrics_fn = '/go/src/k8s/mon/testdata/k8s_metrics.txt'
+_sts = dict(
+	go_info                    = 'go1.15.14',
+	go_goroutines              = 3999.0,
+	go_threads                 = 16.0,
+	process_cpu_seconds_total  = 708413.19,
+	process_start_time_seconds = 1630858743.49,
+	process_start_time_hours = 453016.3176361111,
+)
 
 class Test(unittest.TestCase):
+	metrics = None
+
+	@classmethod
+	def setUpClass(k):
+		with open(_metrics_fn, 'rb') as fh:
+			k.metrics = [d for d in mon_metrics._metrics_parse(fh)]
 
 	def setUp(t):
 		mon_t.setUp()
@@ -26,11 +43,12 @@ class Test(unittest.TestCase):
 
 	def test_globals(t):
 		t.assertDictEqual(k8s_cpu.sts, dict(
-			go_version        = 'go_version',
-			goroutines        = 'U',
-			threads           = 'U',
-			cpu_seconds_total = 'U',
-			uptime_hours      = 'U',
+			go_info                    = 'go_version',
+			go_goroutines              = 'U',
+			go_threads                 = 'U',
+			process_cpu_seconds_total  = 'U',
+			process_start_time_seconds = 'U',
+			process_start_time_hours = 'U',
 		))
 
 	def test_print(t):
@@ -38,6 +56,12 @@ class Test(unittest.TestCase):
 
 	def test_parse(t):
 		t.assertFalse(k8s_cpu.parse('testing', None, None))
+
+	def test_parse_data(t):
+		for name, meta, value in t.metrics:
+			if _bup_sts.get(name, None) is not None:
+				t.assertTrue(k8s_cpu.parse(name, meta, value))
+		t.assertDictEqual(k8s_cpu.sts, _sts)
 
 if __name__ == '__main__':
 	unittest.main()
