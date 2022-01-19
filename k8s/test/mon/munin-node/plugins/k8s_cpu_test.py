@@ -21,7 +21,7 @@ _sts = dict(
 	go_threads                 = 16.0,
 	process_cpu_seconds_total  = 708413.19,
 	process_start_time_seconds = 1630858743.49,
-	process_start_time_hours = 453016.3176361111,
+	process_start_time_hours   = 453016.3176361111,
 )
 
 class Test(unittest.TestCase):
@@ -48,7 +48,7 @@ class Test(unittest.TestCase):
 			go_threads                 = 'U',
 			process_cpu_seconds_total  = 'U',
 			process_start_time_seconds = 'U',
-			process_start_time_hours = 'U',
+			process_start_time_hours   = 'U',
 		))
 
 	def test_print(t):
@@ -62,6 +62,37 @@ class Test(unittest.TestCase):
 			if _bup_sts.get(name, None) is not None:
 				t.assertTrue(k8s_cpu.parse(name, meta, value))
 		t.assertDictEqual(k8s_cpu.sts, _sts)
+
+	def test_config(t):
+		k8s_cpu.config(_sts)
+		config = [
+			# cpu
+			call('multigraph k8s_cpu'),
+			call('graph_title Kubernetes apiserver'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category k8s'),
+			call('graph_vlabel number'),
+			call('graph_scale yes'),
+			call('f0_goroutines.label', 'go1.15.14'),
+			call('f0_goroutines.colour COLOUR0'),
+			call('f0_goroutines.min 0'),
+			call('f1_threads.label threads'),
+			call('f1_threads.colour COLOUR0'),
+			call('f1_threads.min 0'),
+		]
+		k8s_cpu._print.assert_has_calls(config)
+		t.assertEqual(k8s_cpu._print.call_count, len(config))
+
+	def test_report(t):
+		k8s_cpu.report(_sts)
+		report = [
+			# cpu
+			call('multigraph k8s_cpu'),
+			call('f0_goroutines.value', 3999.0),
+			call('f1_threads.label', 16.0),
+		]
+		k8s_cpu._print.assert_has_calls(report)
+		t.assertEqual(k8s_cpu._print.call_count, len(report))
 
 if __name__ == '__main__':
 	unittest.main()
