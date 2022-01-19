@@ -78,7 +78,7 @@ class Test(unittest.TestCase):
 		k8s_service.report(_sts)
 		report = [
 			call('multigraph k8s_service'),
-			call('MissingEndpoints_v1beta1_metrics_k8s_io.value', 15.0),
+			call('MissingEndpoints_v1beta1_metrics_k8s_io.value', 15000),
 		]
 		k8s_service._print.assert_has_calls(report)
 		t.assertEqual(k8s_service._print.call_count, len(report))

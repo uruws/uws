@@ -40,6 +40,7 @@ def config(sts):
 			_print(f"{rid}.min 0")
 			_print(f"{rid}.type DERIVE")
 			_print(f"{rid}.cdef errors,1000,/")
+			color = mon.color(color)
 
 def report(sts):
 	mon.dbg('report k8s_service')
@@ -48,4 +49,4 @@ def report(sts):
 	for reason in sorted(total.keys()):
 		for name in sorted(total[reason].keys()):
 			rid = mon.cleanfn(f"{reason}_{name}")
-			_print(f"{rid}.value", total[reason][name])
+			_print(f"{rid}.value", mon.derive(total[reason][name]))

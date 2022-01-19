@@ -77,7 +77,7 @@ class Test(unittest.TestCase):
 		k8s_tls.report(_sts)
 		report = [
 			call('multigraph k8s_tls'),
-			call('errors.value', 17328.0),
+			call('errors.value', 17328000),
 		]
 		k8s_tls._print.assert_has_calls(report)
 		t.assertEqual(k8s_tls._print.call_count, len(report))

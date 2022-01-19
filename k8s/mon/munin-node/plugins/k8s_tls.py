@@ -36,4 +36,5 @@ def config(sts):
 def report(sts):
 	mon.dbg('report k8s_tls')
 	_print('multigraph k8s_tls')
-	_print('errors.value', sts['apiserver_tls_handshake_errors_total'])
+	_print('errors.value',
+		mon.derive(sts['apiserver_tls_handshake_errors_total']))
