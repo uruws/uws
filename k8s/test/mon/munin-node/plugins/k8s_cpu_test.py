@@ -20,8 +20,8 @@ _sts = dict(
 	go_goroutines              = 3999.0,
 	go_threads                 = 16.0,
 	process_cpu_seconds_total  = 708413.19,
-	process_start_time_seconds = 1630858743.49,
-	process_start_time_hours   = 453016.3176361111,
+	process_start_time_seconds = 10147255.50999999,
+	process_start_time_hours   = 2818.6820861111087,
 )
 
 class Test(unittest.TestCase):
@@ -31,6 +31,7 @@ class Test(unittest.TestCase):
 	def setUpClass(k):
 		with open(_metrics_fn, 'rb') as fh:
 			k.metrics = list(mon_metrics._metrics_parse(fh))
+		k8s_cpu.time = MagicMock(return_value = 1641005999)
 
 	def setUp(t):
 		mon_t.setUp()
@@ -117,7 +118,7 @@ class Test(unittest.TestCase):
 			call('usage.value', 708413190),
 			# uptime
 			call('multigraph k8s_cpu_uptime'),
-			call('uptime.value', 453016.3176361111),
+			call('uptime.value', 2818.6820861111087),
 		]
 		k8s_cpu._print.assert_has_calls(report)
 		t.assertEqual(k8s_cpu._print.call_count, len(report))

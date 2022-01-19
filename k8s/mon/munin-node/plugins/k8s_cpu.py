@@ -25,8 +25,8 @@ def parse(name: str, meta: dict, value: float):
 	elif name == 'process_cpu_seconds_total':
 		sts[name] = value
 	elif name == 'process_start_time_seconds':
-		sts[name] = value
-		sts['process_start_time_hours'] = value / 60.0 / 60.0
+		sts[name] = time() - value
+		sts['process_start_time_hours'] = sts[name] / 60.0 / 60.0
 	else:
 		return False
 	return True
