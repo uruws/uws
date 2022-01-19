@@ -47,8 +47,20 @@ def config(sts):
 	_print('f0_goroutines.colour COLOUR0')
 	_print('f0_goroutines.min 0')
 	_print('f1_threads.label threads')
-	_print('f1_threads.colour COLOUR0')
+	_print('f1_threads.colour COLOUR1')
 	_print('f1_threads.min 0')
+	# cpu usage
+	_print('multigraph k8s_cpu_usage')
+	_print('graph_title Kubernetes apiserver CPU')
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category k8s')
+	_print('graph_vlabel seconds')
+	_print('graph_scale yes')
+	_print('usage.label usage')
+	_print('usage.colour COLOUR0')
+	_print('usage.min 0')
+	_print('usage.type DERIVE')
+	_print('usage.cdef usage,1000,/')
 
 def report(sts):
 	mon.dbg('config k8s_cpu')
@@ -56,3 +68,6 @@ def report(sts):
 	_print('multigraph k8s_cpu')
 	_print('f0_goroutines.value', sts['go_goroutines'])
 	_print('f1_threads.label', sts['go_threads'])
+	# cpu usage
+	_print('multigraph k8s_cpu_usage')
+	_print('usage.value', mon.derive(sts['process_cpu_seconds_total']))

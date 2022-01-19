@@ -77,8 +77,20 @@ class Test(unittest.TestCase):
 			call('f0_goroutines.colour COLOUR0'),
 			call('f0_goroutines.min 0'),
 			call('f1_threads.label threads'),
-			call('f1_threads.colour COLOUR0'),
+			call('f1_threads.colour COLOUR1'),
 			call('f1_threads.min 0'),
+			# cpu usage
+			call('multigraph k8s_cpu_usage'),
+			call('graph_title Kubernetes apiserver CPU'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category k8s'),
+			call('graph_vlabel seconds'),
+			call('graph_scale yes'),
+			call('usage.label usage'),
+			call('usage.colour COLOUR0'),
+			call('usage.min 0'),
+			call('usage.type DERIVE'),
+			call('usage.cdef usage,1000,/'),
 		]
 		k8s_cpu._print.assert_has_calls(config)
 		t.assertEqual(k8s_cpu._print.call_count, len(config))
@@ -90,6 +102,9 @@ class Test(unittest.TestCase):
 			call('multigraph k8s_cpu'),
 			call('f0_goroutines.value', 3999.0),
 			call('f1_threads.label', 16.0),
+			# cpu usage
+			call('multigraph k8s_cpu_usage'),
+			call('usage.value', 708413190),
 		]
 		k8s_cpu._print.assert_has_calls(report)
 		t.assertEqual(k8s_cpu._print.call_count, len(report))
