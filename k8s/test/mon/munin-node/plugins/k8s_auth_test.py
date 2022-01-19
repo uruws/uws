@@ -81,6 +81,18 @@ class Test(unittest.TestCase):
 			call('success.min 0'),
 			call('success.type DERIVE'),
 			call('success.cdef success,1000,/'),
+			# requests
+			call('multigraph k8s_auth_requests'),
+			call('graph_title k8stest kubernetes apiserver auth requests'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category number'),
+			call('graph_vlabel bytes'),
+			call('graph_scale yes'),
+			call('user_other.label other'),
+			call('user_other.colour COLOUR0'),
+			call('user_other.min 0'),
+			call('user_other.type DERIVE'),
+			call('user_other.cdef other,1000,/'),
 		]
 		k8s_auth._print.assert_has_calls(config)
 		t.assertEqual(k8s_auth._print.call_count, len(config))
@@ -90,8 +102,11 @@ class Test(unittest.TestCase):
 		report = [
 			# attempts
 			call('multigraph k8s_auth_attempts'),
-			call('error.value', 6.0),
-			call('success.value', 219272074.0),
+			call('error.value', 6000),
+			call('success.value', 219272074000),
+			# requests
+			call('multigraph k8s_auth_requests'),
+			call('user_other.value', 219272074000),
 		]
 		k8s_auth._print.assert_has_calls(report)
 		t.assertEqual(k8s_auth._print.call_count, len(report))
