@@ -22,9 +22,9 @@ def _print(*args):
 
 def config(sts):
 	mon.dbg('config k8s_mem')
-	# mem
+	cluster = mon.cluster()
 	_print('multigraph k8s_mem')
-	_print('graph_title Kubernetes apiserver memory')
+	_print(f"graph_title {cluster} kubernetes apiserver memory")
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category k8s')
 	_print('graph_vlabel bytes')
@@ -44,7 +44,6 @@ def config(sts):
 
 def report(sts):
 	mon.dbg('report k8s_mem')
-	# mem
 	_print('multigraph k8s_mem')
 	_print('f0_resident.value', sts['process_resident_memory_bytes'])
 	_print('f1_virtual.value', sts['process_virtual_memory_bytes'])

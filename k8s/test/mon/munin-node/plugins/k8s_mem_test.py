@@ -63,9 +63,8 @@ class Test(unittest.TestCase):
 	def test_config(t):
 		k8s_mem.config(_sts)
 		config = [
-			# mem
 			call('multigraph k8s_mem'),
-			call('graph_title Kubernetes apiserver memory'),
+			call('graph_title k8stest kubernetes apiserver memory'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category k8s'),
 			call('graph_vlabel bytes'),
@@ -89,7 +88,6 @@ class Test(unittest.TestCase):
 	def test_report(t):
 		k8s_mem.report(_sts)
 		report = [
-			# mem
 			call('multigraph k8s_mem'),
 			call('f0_resident.value', 998387712.0),
 			call('f1_virtual.value', 1782562816.0),
