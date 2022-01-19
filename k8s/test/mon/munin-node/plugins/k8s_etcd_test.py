@@ -15,8 +15,10 @@ _bup_print = k8s_etcd._print
 _bup_sts = k8s_etcd.sts.copy()
 
 _metrics_fn = '/go/src/k8s/mon/testdata/k8s_metrics.txt'
+_endpoint = 'http://internal-eks-1847b-EtcdLoad-1W9LAUN8VTRY8-2061453668.us-east-2.elb.amazonaws.com:2379'
 _sts = dict(
 	etcd_db_total_size_in_bytes = 54943744.0,
+	etcd_db_endpoint = _endpoint,
 )
 
 class Test(unittest.TestCase):
@@ -39,6 +41,7 @@ class Test(unittest.TestCase):
 	def test_globals(t):
 		t.assertDictEqual(k8s_etcd.sts, dict(
 			etcd_db_total_size_in_bytes = 'U',
+			etcd_db_endpoint = None,
 		))
 
 	def test_print(t):
@@ -66,6 +69,7 @@ class Test(unittest.TestCase):
 			call('db_size.label db size'),
 			call('db_size.colour COLOUR0'),
 			call('db_size.min 0'),
+			call('db_size.info endpoint:', _endpoint),
 		]
 		k8s_etcd._print.assert_has_calls(config)
 		t.assertEqual(k8s_etcd._print.call_count, len(config))

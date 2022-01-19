@@ -5,12 +5,14 @@ import mon
 
 sts = dict(
 	etcd_db_total_size_in_bytes = 'U',
+	etcd_db_endpoint = None,
 )
 
 def parse(name: str, meta: dict, value: float):
 	global sts
 	if sts.get(name, None) is not None:
 		sts[name] = value
+		sts['etcd_db_endpoint'] = meta.get('endpoint', None)
 		return True
 	return False
 
@@ -29,6 +31,7 @@ def config(sts):
 	_print('db_size.label db size')
 	_print('db_size.colour COLOUR0')
 	_print('db_size.min 0')
+	_print('db_size.info endpoint:', sts['etcd_db_endpoint'])
 
 def report(sts):
 	mon.dbg('report k8s_etcd')
