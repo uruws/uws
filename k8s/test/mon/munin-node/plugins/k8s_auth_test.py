@@ -61,5 +61,40 @@ class Test(unittest.TestCase):
 				t.assertTrue(k8s_auth.parse(name, meta, value))
 		t.assertDictEqual(k8s_auth.sts, _sts)
 
+	def test_config(t):
+		k8s_auth.config(_sts)
+		config = [
+			# attempts
+			call('multigraph k8s_auth_attempts'),
+			call('graph_title k8stest kubernetes apiserver auth attempts'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category number'),
+			call('graph_vlabel bytes'),
+			call('graph_scale yes'),
+			call('error.label error'),
+			call('error.colour COLOUR0'),
+			call('error.min 0'),
+			call('error.type DERIVE'),
+			call('error.cdef error,1000,/'),
+			call('success.label success'),
+			call('success.colour COLOUR1'),
+			call('success.min 0'),
+			call('success.type DERIVE'),
+			call('success.cdef success,1000,/'),
+		]
+		k8s_auth._print.assert_has_calls(config)
+		t.assertEqual(k8s_auth._print.call_count, len(config))
+
+	def test_report(t):
+		k8s_auth.report(_sts)
+		report = [
+			# attempts
+			call('multigraph k8s_auth_attempts'),
+			call('error.value', 6.0),
+			call('success.value', 219272074.0),
+		]
+		k8s_auth._print.assert_has_calls(report)
+		t.assertEqual(k8s_auth._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()

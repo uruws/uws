@@ -22,3 +22,31 @@ def parse(name: str, meta: dict, value: float):
 
 def _print(*args):
 	print(*args)
+
+def config(sts):
+	mon.dbg('config k8s_auth')
+	cluster = mon.cluster()
+	# attempts
+	_print('multigraph k8s_auth_attempts')
+	_print(f"graph_title {cluster} kubernetes apiserver auth attempts")
+	_print('graph_args --base 1000 -l 0')
+	_print('graph_category number')
+	_print('graph_vlabel bytes')
+	_print('graph_scale yes')
+	color = 0
+	for result in sorted(sts['authentication_attempts'].keys()):
+		rid = mon.cleanfn(result)
+		_print(f"{rid}.label {result}")
+		_print(f"{rid}.colour COLOUR{color}")
+		_print(f"{rid}.min 0")
+		_print(f"{rid}.type DERIVE")
+		_print(f"{rid}.cdef {rid},1000,/")
+		color = mon.color(color)
+
+def report(sts):
+	mon.dbg('report k8s_auth')
+	# attempts
+	_print('multigraph k8s_auth_attempts')
+	for result in sorted(sts['authentication_attempts'].keys()):
+		rid = mon.cleanfn(result)
+		_print(f"{rid}.value", sts['authentication_attempts'][result])

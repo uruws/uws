@@ -19,6 +19,7 @@ class Test(unittest.TestCase):
 		t.assertListEqual([i for i in dir(k8s) if not i.startswith('_')], [
 			'METRICS_URL',
 			'MONLIB',
+			'k8s_auth',
 			'k8s_cpu',
 			'k8s_etcd',
 			'k8s_mem',
