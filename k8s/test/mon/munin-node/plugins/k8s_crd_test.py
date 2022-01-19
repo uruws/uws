@@ -61,5 +61,50 @@ class Test(unittest.TestCase):
 				t.assertTrue(k8s_crd.parse(name, meta, value))
 		t.assertDictEqual(k8s_crd.sts, _sts)
 
+	def test_config(t):
+		k8s_crd.config(_sts)
+		config = [
+			call('multigraph k8s_crd'),
+			call('graph_title k8stest k8s api CRD regeneration'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category k8s'),
+			call('graph_vlabel number'),
+			call('graph_scale yes'),
+			call('update_certificates_cert_manager_io.label update certificates.cert-manager.io'),
+			call('update_certificates_cert_manager_io.colour COLOUR0'),
+			call('update_certificates_cert_manager_io.min 0'),
+			call('update_certificates_cert_manager_io.type DERIVE'),
+			call('update_certificates_cert_manager_io.cdef errors,1000,/'),
+			call('update_challenges_acme_cert_manager_io.label update challenges.acme.cert-manager.io'),
+			call('update_challenges_acme_cert_manager_io.colour COLOUR1'),
+			call('update_challenges_acme_cert_manager_io.min 0'),
+			call('update_challenges_acme_cert_manager_io.type DERIVE'),
+			call('update_challenges_acme_cert_manager_io.cdef errors,1000,/'),
+			call('update_clusterissuers_cert_manager_io.label update clusterissuers.cert-manager.io'),
+			call('update_clusterissuers_cert_manager_io.colour COLOUR2'),
+			call('update_clusterissuers_cert_manager_io.min 0'),
+			call('update_clusterissuers_cert_manager_io.type DERIVE'),
+			call('update_clusterissuers_cert_manager_io.cdef errors,1000,/'),
+			call('update_issuers_cert_manager_io.label update issuers.cert-manager.io'),
+			call('update_issuers_cert_manager_io.colour COLOUR3'),
+			call('update_issuers_cert_manager_io.min 0'),
+			call('update_issuers_cert_manager_io.type DERIVE'),
+			call('update_issuers_cert_manager_io.cdef errors,1000,/'),
+		]
+		k8s_crd._print.assert_has_calls(config)
+		t.assertEqual(k8s_crd._print.call_count, len(config))
+
+	def test_report(t):
+		k8s_crd.report(_sts)
+		report = [
+			call('multigraph k8s_crd'),
+			call('update_certificates_cert_manager_io.value', 0),
+			call('update_challenges_acme_cert_manager_io.value', 0),
+			call('update_clusterissuers_cert_manager_io.value', 0),
+			call('update_issuers_cert_manager_io.value', 0),
+		]
+		k8s_crd._print.assert_has_calls(report)
+		t.assertEqual(k8s_crd._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
