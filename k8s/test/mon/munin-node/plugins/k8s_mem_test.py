@@ -61,5 +61,31 @@ class Test(unittest.TestCase):
 				t.assertTrue(k8s_mem.parse(name, meta, value))
 		t.assertDictEqual(k8s_mem.sts, _sts)
 
+	def test_config(t):
+		k8s_mem.config(_sts)
+		config = [
+			# mem
+			call('multigraph k8s_mem'),
+			call('graph_title Kubernetes apiserver memory'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category k8s'),
+			call('graph_vlabel bytes'),
+			call('graph_scale yes'),
+			call('f0_resident.label resident'),
+			call('f0_resident.colour COLOUR0'),
+			call('f0_resident.min 0'),
+			call('f1_virtual.label virtual'),
+			call('f1_virtual.colour COLOUR1'),
+			call('f1_virtual.min 0'),
+			call('f2_allocated.label allocated'),
+			call('f2_allocated.colour COLOUR2'),
+			call('f2_allocated.min 0'),
+			call('f3_profiling.label profiling'),
+			call('f3_profiling.colour COLOUR3'),
+			call('f3_profiling.min 0'),
+		]
+		k8s_mem._print.assert_has_calls(config)
+		t.assertEqual(k8s_mem._print.call_count, len(config))
+
 if __name__ == '__main__':
 	unittest.main()
