@@ -20,6 +20,7 @@ METRICS_URL = os.getenv('K8S_METRICS_URL', _k8s_metrics)
 
 # load modules
 
+import k8s_auth
 import k8s_cpu
 import k8s_etcd
 import k8s_mem
@@ -27,8 +28,9 @@ import k8s_mem
 if __name__ == '__main__': # pragma no cover
 	mods = dict()
 	mods = dict(
-		k8s_cpu = k8s_cpu,
+		k8s_auth = k8s_auth,
+		k8s_cpu  = k8s_cpu,
 		k8s_etcd = k8s_etcd,
-		k8s_mem = k8s_mem,
+		k8s_mem  = k8s_mem,
 	)
 	sys.exit(metrics.main(sys.argv[1:], METRICS_URL, mods))
