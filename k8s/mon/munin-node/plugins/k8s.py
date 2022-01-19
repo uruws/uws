@@ -22,6 +22,7 @@ METRICS_URL = os.getenv('K8S_METRICS_URL', _k8s_metrics)
 
 import k8s_auth
 import k8s_cpu
+import k8s_crd
 import k8s_etcd
 import k8s_events
 import k8s_mem
@@ -33,6 +34,7 @@ if __name__ == '__main__': # pragma no cover
 	mods = dict(
 		k8s_auth    = k8s_auth,
 		k8s_cpu     = k8s_cpu,
+		k8s_crd     = k8s_crd,
 		k8s_etcd    = k8s_etcd,
 		k8s_events  = k8s_events,
 		k8s_mem     = k8s_mem,

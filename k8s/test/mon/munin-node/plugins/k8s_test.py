@@ -21,6 +21,7 @@ class Test(unittest.TestCase):
 			'MONLIB',
 			'k8s_auth',
 			'k8s_cpu',
+			'k8s_crd',
 			'k8s_etcd',
 			'k8s_events',
 			'k8s_mem',
