@@ -43,7 +43,7 @@ def config(sts):
 	_print('f3_profiling.min 0')
 
 def report(sts):
-	mon.dbg('config k8s_mem')
+	mon.dbg('report k8s_mem')
 	# mem
 	_print('multigraph k8s_mem')
 	_print('f0_resident.value', sts['process_resident_memory_bytes'])

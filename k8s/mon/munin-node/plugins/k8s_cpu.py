@@ -73,7 +73,7 @@ def config(sts):
 	_print('uptime.min 0')
 
 def report(sts):
-	mon.dbg('config k8s_cpu')
+	mon.dbg('report k8s_cpu')
 	# cpu
 	_print('multigraph k8s_cpu')
 	_print('f0_goroutines.value', sts['go_goroutines'])

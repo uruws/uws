@@ -54,5 +54,30 @@ class Test(unittest.TestCase):
 				t.assertTrue(k8s_etcd.parse(name, meta, value))
 		t.assertDictEqual(k8s_etcd.sts, _sts)
 
+	def test_config(t):
+		k8s_etcd.config(_sts)
+		config = [
+			call('multigraph k8s_etcd'),
+			call('graph_title Kubernetes apiserver etcd'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category k8s'),
+			call('graph_vlabel bytes'),
+			call('graph_scale yes'),
+			call('db_size.label db size'),
+			call('db_size.colour COLOUR0'),
+			call('db_size.min 0'),
+		]
+		k8s_etcd._print.assert_has_calls(config)
+		t.assertEqual(k8s_etcd._print.call_count, len(config))
+
+	def test_report(t):
+		k8s_etcd.report(_sts)
+		report = [
+			call('multigraph k8s_etcd'),
+			call('db_size.value', 54943744.0),
+		]
+		k8s_etcd._print.assert_has_calls(report)
+		t.assertEqual(k8s_etcd._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
