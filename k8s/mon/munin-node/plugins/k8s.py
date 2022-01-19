@@ -24,6 +24,7 @@ import k8s_auth
 import k8s_cpu
 import k8s_etcd
 import k8s_mem
+import k8s_tls
 
 if __name__ == '__main__': # pragma no cover
 	mods = dict()
@@ -32,5 +33,6 @@ if __name__ == '__main__': # pragma no cover
 		k8s_cpu  = k8s_cpu,
 		k8s_etcd = k8s_etcd,
 		k8s_mem  = k8s_mem,
+		k8s_tls  = k8s_tls,
 	)
 	sys.exit(metrics.main(sys.argv[1:], METRICS_URL, mods))
