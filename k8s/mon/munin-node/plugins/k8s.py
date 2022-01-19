@@ -25,16 +25,18 @@ import k8s_cpu
 import k8s_etcd
 import k8s_events
 import k8s_mem
+import k8s_service
 import k8s_tls
 
 if __name__ == '__main__': # pragma no cover
 	mods = dict()
 	mods = dict(
-		k8s_auth   = k8s_auth,
-		k8s_cpu    = k8s_cpu,
-		k8s_etcd   = k8s_etcd,
-		k8s_events = k8s_events,
-		k8s_mem    = k8s_mem,
-		k8s_tls    = k8s_tls,
+		k8s_auth    = k8s_auth,
+		k8s_cpu     = k8s_cpu,
+		k8s_etcd    = k8s_etcd,
+		k8s_events  = k8s_events,
+		k8s_mem     = k8s_mem,
+		k8s_service = k8s_service,
+		k8s_tls     = k8s_tls,
 	)
 	sys.exit(metrics.main(sys.argv[1:], METRICS_URL, mods))

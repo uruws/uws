@@ -24,6 +24,7 @@ class Test(unittest.TestCase):
 			'k8s_etcd',
 			'k8s_events',
 			'k8s_mem',
+			'k8s_service',
 			'k8s_tls',
 			'metrics',
 			'os',

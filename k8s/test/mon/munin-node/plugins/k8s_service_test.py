@@ -56,5 +56,32 @@ class Test(unittest.TestCase):
 				t.assertTrue(k8s_service.parse(name, meta, value))
 		t.assertDictEqual(k8s_service.sts, _sts)
 
+	def test_config(t):
+		k8s_service.config(_sts)
+		config = [
+			call('multigraph k8s_service'),
+			call('graph_title k8stest k8s api service unavailable'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category k8s'),
+			call('graph_vlabel number'),
+			call('graph_scale yes'),
+			call('MissingEndpoints_v1beta1_metrics_k8s_io.label MissingEndpoints v1beta1.metrics.k8s.io'),
+			call('MissingEndpoints_v1beta1_metrics_k8s_io.colour COLOUR0'),
+			call('MissingEndpoints_v1beta1_metrics_k8s_io.min 0'),
+			call('MissingEndpoints_v1beta1_metrics_k8s_io.type DERIVE'),
+			call('MissingEndpoints_v1beta1_metrics_k8s_io.cdef errors,1000,/'),
+		]
+		k8s_service._print.assert_has_calls(config)
+		t.assertEqual(k8s_service._print.call_count, len(config))
+
+	def test_report(t):
+		k8s_service.report(_sts)
+		report = [
+			call('multigraph k8s_service'),
+			call('MissingEndpoints_v1beta1_metrics_k8s_io.value', 15.0),
+		]
+		k8s_service._print.assert_has_calls(report)
+		t.assertEqual(k8s_service._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
