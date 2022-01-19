@@ -16,10 +16,10 @@ _bup_sts = k8s_mem.sts.copy()
 
 _metrics_fn = '/go/src/k8s/mon/testdata/k8s_metrics.txt'
 _sts = dict(
-	process_resident_memory_bytes   = 'U',
-	process_virtual_memory_bytes    = 'U',
-	go_memstats_alloc_bytes         = 'U',
-	go_memstats_buck_hash_sys_bytes = 'U',
+	process_resident_memory_bytes   = 998387712.0,
+	process_virtual_memory_bytes    = 1782562816.0,
+	go_memstats_alloc_bytes         = 532044520.0,
+	go_memstats_buck_hash_sys_bytes = 28589700.0,
 )
 
 class Test(unittest.TestCase):
@@ -53,6 +53,13 @@ class Test(unittest.TestCase):
 
 	def test_parse(t):
 		t.assertFalse(k8s_mem.parse('testing', None, None))
+
+	def test_parse_data(t):
+		t.maxDiff = None
+		for name, meta, value in t.metrics:
+			if _bup_sts.get(name, None) is not None:
+				t.assertTrue(k8s_mem.parse(name, meta, value))
+		t.assertDictEqual(k8s_mem.sts, _sts)
 
 if __name__ == '__main__':
 	unittest.main()
