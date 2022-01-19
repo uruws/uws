@@ -3,8 +3,6 @@
 
 import mon
 
-from time import time
-
 sts = dict(
 	process_resident_memory_bytes   = 'U',
 	process_virtual_memory_bytes    = 'U',

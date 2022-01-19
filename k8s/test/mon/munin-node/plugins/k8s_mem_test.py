@@ -29,7 +29,6 @@ class Test(unittest.TestCase):
 	def setUpClass(k):
 		with open(_metrics_fn, 'rb') as fh:
 			k.metrics = list(mon_metrics._metrics_parse(fh))
-		k8s_mem.time = MagicMock(return_value = 1641005999)
 
 	def setUp(t):
 		mon_t.setUp()
