@@ -87,5 +87,18 @@ class Test(unittest.TestCase):
 		k8s_mem._print.assert_has_calls(config)
 		t.assertEqual(k8s_mem._print.call_count, len(config))
 
+	def test_report(t):
+		k8s_mem.report(_sts)
+		report = [
+			# mem
+			call('multigraph k8s_mem'),
+			call('f0_resident.value', 998387712.0),
+			call('f1_virtual.value', 1782562816.0),
+			call('f2_allocated.value', 532044520.0),
+			call('f3_profiling.value', 28589700.0),
+		]
+		k8s_mem._print.assert_has_calls(report)
+		t.assertEqual(k8s_mem._print.call_count, len(report))
+
 if __name__ == '__main__':
 	unittest.main()
