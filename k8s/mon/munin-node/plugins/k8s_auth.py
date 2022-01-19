@@ -28,7 +28,7 @@ def config(sts):
 	cluster = mon.cluster()
 	# attempts
 	_print('multigraph k8s_auth_attempts')
-	_print(f"graph_title {cluster} kubernetes apiserver auth attempts")
+	_print(f"graph_title {cluster} k8s apiserver auth attempts")
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category number')
 	_print('graph_vlabel bytes')
@@ -44,7 +44,7 @@ def config(sts):
 		color = mon.color(color)
 	# requests
 	_print('multigraph k8s_auth_requests')
-	_print(f"graph_title {cluster} kubernetes apiserver auth requests")
+	_print(f"graph_title {cluster} k8s apiserver auth requests")
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category number')
 	_print('graph_vlabel bytes')

@@ -66,7 +66,7 @@ class Test(unittest.TestCase):
 		config = [
 			# attempts
 			call('multigraph k8s_auth_attempts'),
-			call('graph_title k8stest kubernetes apiserver auth attempts'),
+			call('graph_title k8stest k8s apiserver auth attempts'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category number'),
 			call('graph_vlabel bytes'),
@@ -83,7 +83,7 @@ class Test(unittest.TestCase):
 			call('success.cdef success,1000,/'),
 			# requests
 			call('multigraph k8s_auth_requests'),
-			call('graph_title k8stest kubernetes apiserver auth requests'),
+			call('graph_title k8stest k8s apiserver auth requests'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category number'),
 			call('graph_vlabel bytes'),

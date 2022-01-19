@@ -69,7 +69,7 @@ class Test(unittest.TestCase):
 		config = [
 			# cpu
 			call('multigraph k8s_cpu'),
-			call('graph_title k8stest kubernetes apiserver'),
+			call('graph_title k8stest k8s apiserver'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category k8s'),
 			call('graph_vlabel number'),
@@ -82,7 +82,7 @@ class Test(unittest.TestCase):
 			call('f1_threads.min 0'),
 			# cpu usage
 			call('multigraph k8s_cpu_usage'),
-			call('graph_title k8stest kubernetes apiserver CPU'),
+			call('graph_title k8stest k8s apiserver CPU'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category k8s'),
 			call('graph_vlabel seconds'),
@@ -94,7 +94,7 @@ class Test(unittest.TestCase):
 			call('usage.cdef usage,1000,/'),
 			# uptime
 			call('multigraph k8s_cpu_uptime'),
-			call('graph_title k8stest kubernetes apiserver uptime'),
+			call('graph_title k8stest k8s apiserver uptime'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category k8s'),
 			call('graph_vlabel hours'),

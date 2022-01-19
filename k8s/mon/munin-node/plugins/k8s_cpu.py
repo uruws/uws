@@ -39,7 +39,7 @@ def config(sts):
 	cluster = mon.cluster()
 	# cpu
 	_print('multigraph k8s_cpu')
-	_print(f"graph_title {cluster} kubernetes apiserver")
+	_print(f"graph_title {cluster} k8s apiserver")
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category k8s')
 	_print('graph_vlabel number')
@@ -52,7 +52,7 @@ def config(sts):
 	_print('f1_threads.min 0')
 	# cpu usage
 	_print('multigraph k8s_cpu_usage')
-	_print(f"graph_title {cluster} kubernetes apiserver CPU")
+	_print(f"graph_title {cluster} k8s apiserver CPU")
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category k8s')
 	_print('graph_vlabel seconds')
@@ -64,7 +64,7 @@ def config(sts):
 	_print('usage.cdef usage,1000,/')
 	# uptime
 	_print('multigraph k8s_cpu_uptime')
-	_print(f"graph_title {cluster} kubernetes apiserver uptime")
+	_print(f"graph_title {cluster} k8s apiserver uptime")
 	_print('graph_args --base 1000 -l 0')
 	_print('graph_category k8s')
 	_print('graph_vlabel hours')

@@ -61,7 +61,7 @@ class Test(unittest.TestCase):
 		k8s_etcd.config(_sts)
 		config = [
 			call('multigraph k8s_etcd'),
-			call('graph_title k8stest kubernetes apiserver etcd'),
+			call('graph_title k8stest k8s apiserver etcd'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category k8s'),
 			call('graph_vlabel bytes'),

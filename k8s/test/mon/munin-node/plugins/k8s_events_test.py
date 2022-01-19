@@ -69,7 +69,7 @@ class Test(unittest.TestCase):
 		k8s_events.config(_sts)
 		config = [
 			call('multigraph k8s_events'),
-			call('graph_title k8stest kubernetes apiserver events'),
+			call('graph_title k8stest k8s apiserver events'),
 			call('graph_args --base 1000 -l 0'),
 			call('graph_category k8s'),
 			call('graph_vlabel number'),
