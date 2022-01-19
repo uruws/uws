@@ -19,3 +19,5 @@ WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
+
+ENV GOPATH /go

@@ -53,6 +53,16 @@ base-testing:
 	@./docker/base-testing/build.sh
 
 #
+# devel
+#
+
+.PHONY: devel
+devel: base base-testing
+	@./docker/k8s/devel-build.sh
+	@./docker/eks/devel-build.sh
+	@./docker/asb/devel-build.sh
+
+#
 # utils
 #
 
