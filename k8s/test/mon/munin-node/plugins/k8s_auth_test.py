@@ -92,7 +92,7 @@ class Test(unittest.TestCase):
 			call('user_other.colour COLOUR0'),
 			call('user_other.min 0'),
 			call('user_other.type DERIVE'),
-			call('user_other.cdef other,1000,/'),
+			call('user_other.cdef user_other,1000,/'),
 		]
 		k8s_auth._print.assert_has_calls(config)
 		t.assertEqual(k8s_auth._print.call_count, len(config))

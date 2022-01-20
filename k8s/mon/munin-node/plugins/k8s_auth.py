@@ -56,7 +56,7 @@ def config(sts):
 		_print(f"user_{uid}.colour COLOUR{color}")
 		_print(f"user_{uid}.min 0")
 		_print(f"user_{uid}.type DERIVE")
-		_print(f"user_{uid}.cdef {uid},1000,/")
+		_print(f"user_{uid}.cdef user_{uid},1000,/")
 		color = mon.color(color)
 
 def report(sts):
