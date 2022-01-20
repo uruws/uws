@@ -31,6 +31,7 @@ def config(sts):
 	_print('db_size.label db size')
 	_print('db_size.colour COLOUR0')
 	_print('db_size.min 0')
+	_print('db_size.draw AREA')
 	_print('db_size.info endpoint:', sts['etcd_db_endpoint'])
 
 def report(sts):

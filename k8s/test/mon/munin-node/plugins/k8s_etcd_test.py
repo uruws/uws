@@ -69,6 +69,7 @@ class Test(unittest.TestCase):
 			call('db_size.label db size'),
 			call('db_size.colour COLOUR0'),
 			call('db_size.min 0'),
+			call('db_size.draw AREA'),
 			call('db_size.info endpoint:', _endpoint),
 		]
 		k8s_etcd._print.assert_has_calls(config)
