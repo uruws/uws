@@ -55,6 +55,12 @@ class Test(unittest.TestCase):
 			uwscli.log('testing3')
 		t.assertEqual(uwscli_t.out().strip(), '')
 
+	def test_info(t):
+		uwscli.info('test', 'ing')
+		t.assertEqual(uwscli_t.out().strip(), 'test ing')
+		uwscli.info('testing2')
+		t.assertEqual(uwscli_t.out().strip(), 'testing2')
+
 	def test_error(t):
 		uwscli.error('test', 'ing')
 		t.assertEqual(uwscli_t.err().strip(), 'test ing')

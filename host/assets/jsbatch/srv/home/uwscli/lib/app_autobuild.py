@@ -11,7 +11,7 @@ import uwscli
 import semver
 
 _status_dir = getenv('UWSCLI_BUILD_STATUS_DIR', '/run/uwscli/build')
-_nqdir = getenv('UWSCLI_NQDIR', '/run/uwscli/nq')
+_nqdir      = getenv('UWSCLI_NQDIR', '/run/uwscli/nq')
 
 ESETUP     = 10
 ETAG       = 11
@@ -40,13 +40,13 @@ def _latestTag(src):
 	return str(max(filter(_semverFilter, uwscli.git_tag_list(workdir = src))))
 
 def _getStatus(app):
-	st = None
-	ver = None
-	f = Path(_status_dir, f"{app}.status")
-	line = f.read_text().strip()
+	st    = None
+	ver   = None
+	f     = Path(_status_dir, f"{app}.status")
+	line  = f.read_text().strip()
 	items = line.split(':')
-	st = items[0]
-	ver = items[1]
+	st    = items[0]
+	ver   = items[1]
 	return (st, ver)
 
 def _checkVersion(tag, ver):
@@ -71,12 +71,14 @@ def _isBuildingOrDone(app, tag):
 def _dispatch(app, tag):
 	"""dispatch app tag build"""
 	cmd = f"{uwscli.bindir}/app-build {app} {tag}"
+	uwscli.info(cmd)
 	rc = uwscli.system(cmd)
 	if rc != 0:
 		uwscli.error('[ERROR]:', cmd, '- exit status:', rc)
 		return EBUILD_RUN
 	sleep(1)
 	cmd = f"{uwscli.cmddir}/app-autobuild-deploy.sh"
+	uwscli.info(cmd, app, tag)
 	x = ['/usr/bin/nq', '-c', '--', cmd, app, tag]
 	try:
 		rc = uwscli.system(' '.join(x), env = {'NQDIR': _nqdir})
@@ -120,6 +122,7 @@ def _deploy(app, tag):
 			if v >= t:
 				uwscli.log(app, 'autobuild deploy:', n, ver)
 				cmd = f"/srv/home/uwscli/bin/app-deploy {n} {ver}"
+				uwscli.info(cmd)
 				rc = uwscli.system(cmd)
 				if rc != 0:
 					return EDEPLOY

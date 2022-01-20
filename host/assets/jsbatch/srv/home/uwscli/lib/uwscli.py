@@ -36,9 +36,13 @@ import uwscli_deploy
 # internal utils
 
 def log(*args, sep = ' '):
-	"""print log messages to stdout"""
+	"""print log messages to stdout (can be disabled with UWSCLI_LOG=off env var)"""
 	if _log:
 		print(*args, sep = sep, file = _outfh, flush = True)
+
+def info(*args):
+	"""print log messages to stdout (even if log is disabled)"""
+	print(*args, file = _outfh, flush = True)
 
 def error(*args):
 	"""print log messages to stderr"""
