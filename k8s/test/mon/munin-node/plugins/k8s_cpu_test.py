@@ -112,7 +112,7 @@ class Test(unittest.TestCase):
 			# cpu
 			call('multigraph k8s_cpu'),
 			call('f0_goroutines.value', 3999.0),
-			call('f1_threads.label', 16.0),
+			call('f1_threads.value', 16.0),
 			# cpu usage
 			call('multigraph k8s_cpu_usage'),
 			call('usage.value', 708413190),

@@ -78,7 +78,7 @@ def report(sts):
 	# cpu
 	_print('multigraph k8s_cpu')
 	_print('f0_goroutines.value', sts['go_goroutines'])
-	_print('f1_threads.label', sts['go_threads'])
+	_print('f1_threads.value', sts['go_threads'])
 	# cpu usage
 	_print('multigraph k8s_cpu_usage')
 	_print('usage.value', mon.derive(sts['process_cpu_seconds_total']))
