@@ -39,7 +39,7 @@ def config(sts):
 			_print(f"{rid}.colour COLOUR{color}")
 			_print(f"{rid}.min 0")
 			_print(f"{rid}.type DERIVE")
-			_print(f"{rid}.cdef errors,1000,/")
+			_print(f"{rid}.cdef {rid},1000,/")
 			color = mon.color(color)
 
 def report(sts):
