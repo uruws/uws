@@ -60,6 +60,7 @@ def config(sts):
 	_print('usage.label usage')
 	_print('usage.colour COLOUR0')
 	_print('usage.min 0')
+	_print('usage.draw AREA')
 	_print('usage.type DERIVE')
 	_print('usage.cdef usage,1000,/')
 	# uptime
@@ -72,6 +73,7 @@ def config(sts):
 	_print('uptime.label uptime')
 	_print('uptime.colour COLOUR0')
 	_print('uptime.min 0')
+	_print('uptime.draw AREA')
 
 def report(sts):
 	mon.dbg('report k8s_cpu')

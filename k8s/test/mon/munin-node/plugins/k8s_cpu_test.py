@@ -90,6 +90,7 @@ class Test(unittest.TestCase):
 			call('usage.label usage'),
 			call('usage.colour COLOUR0'),
 			call('usage.min 0'),
+			call('usage.draw AREA'),
 			call('usage.type DERIVE'),
 			call('usage.cdef usage,1000,/'),
 			# uptime
@@ -102,6 +103,7 @@ class Test(unittest.TestCase):
 			call('uptime.label uptime'),
 			call('uptime.colour COLOUR0'),
 			call('uptime.min 0'),
+			call('uptime.draw AREA'),
 		]
 		k8s_cpu._print.assert_has_calls(config)
 		t.assertEqual(k8s_cpu._print.call_count, len(config))
