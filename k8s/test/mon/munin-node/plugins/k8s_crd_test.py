@@ -24,6 +24,7 @@ _sts = dict(
 			'issuers.cert-manager.io':         0.0,
 		},
 	},
+	total = 0.0,
 )
 
 class Test(unittest.TestCase):
@@ -46,6 +47,7 @@ class Test(unittest.TestCase):
 	def test_globals(t):
 		t.assertDictEqual(k8s_crd.sts, dict(
 			apiextensions_openapi_v2_regeneration_count = dict(),
+			total = 0.0,
 		))
 
 	def test_print(t):
@@ -70,26 +72,31 @@ class Test(unittest.TestCase):
 			call('graph_category k8s'),
 			call('graph_vlabel number'),
 			call('graph_scale yes'),
-			call('update_certificates_cert_manager_io.label update certificates.cert-manager.io'),
-			call('update_certificates_cert_manager_io.colour COLOUR0'),
-			call('update_certificates_cert_manager_io.min 0'),
-			call('update_certificates_cert_manager_io.type DERIVE'),
-			call('update_certificates_cert_manager_io.cdef update_certificates_cert_manager_io,1000,/'),
-			call('update_challenges_acme_cert_manager_io.label update challenges.acme.cert-manager.io'),
-			call('update_challenges_acme_cert_manager_io.colour COLOUR1'),
-			call('update_challenges_acme_cert_manager_io.min 0'),
-			call('update_challenges_acme_cert_manager_io.type DERIVE'),
-			call('update_challenges_acme_cert_manager_io.cdef update_challenges_acme_cert_manager_io,1000,/'),
-			call('update_clusterissuers_cert_manager_io.label update clusterissuers.cert-manager.io'),
-			call('update_clusterissuers_cert_manager_io.colour COLOUR2'),
-			call('update_clusterissuers_cert_manager_io.min 0'),
-			call('update_clusterissuers_cert_manager_io.type DERIVE'),
-			call('update_clusterissuers_cert_manager_io.cdef update_clusterissuers_cert_manager_io,1000,/'),
-			call('update_issuers_cert_manager_io.label update issuers.cert-manager.io'),
-			call('update_issuers_cert_manager_io.colour COLOUR3'),
-			call('update_issuers_cert_manager_io.min 0'),
-			call('update_issuers_cert_manager_io.type DERIVE'),
-			call('update_issuers_cert_manager_io.cdef update_issuers_cert_manager_io,1000,/'),
+			call('a_total.label total'),
+			call('a_total.colour 000000'),
+			call('a_total.min 0'),
+			call('a_total.type DERIVE'),
+			call('a_total.cdef a_total,1000,/'),
+			call('z_update_certificates_cert_manager_io.label update certificates.cert-manager.io'),
+			call('z_update_certificates_cert_manager_io.colour COLOUR0'),
+			call('z_update_certificates_cert_manager_io.min 0'),
+			call('z_update_certificates_cert_manager_io.type DERIVE'),
+			call('z_update_certificates_cert_manager_io.cdef z_update_certificates_cert_manager_io,1000,/'),
+			call('z_update_challenges_acme_cert_manager_io.label update challenges.acme.cert-manager.io'),
+			call('z_update_challenges_acme_cert_manager_io.colour COLOUR1'),
+			call('z_update_challenges_acme_cert_manager_io.min 0'),
+			call('z_update_challenges_acme_cert_manager_io.type DERIVE'),
+			call('z_update_challenges_acme_cert_manager_io.cdef z_update_challenges_acme_cert_manager_io,1000,/'),
+			call('z_update_clusterissuers_cert_manager_io.label update clusterissuers.cert-manager.io'),
+			call('z_update_clusterissuers_cert_manager_io.colour COLOUR2'),
+			call('z_update_clusterissuers_cert_manager_io.min 0'),
+			call('z_update_clusterissuers_cert_manager_io.type DERIVE'),
+			call('z_update_clusterissuers_cert_manager_io.cdef z_update_clusterissuers_cert_manager_io,1000,/'),
+			call('z_update_issuers_cert_manager_io.label update issuers.cert-manager.io'),
+			call('z_update_issuers_cert_manager_io.colour COLOUR3'),
+			call('z_update_issuers_cert_manager_io.min 0'),
+			call('z_update_issuers_cert_manager_io.type DERIVE'),
+			call('z_update_issuers_cert_manager_io.cdef z_update_issuers_cert_manager_io,1000,/'),
 		]
 		k8s_crd._print.assert_has_calls(config)
 		t.assertEqual(k8s_crd._print.call_count, len(config))
@@ -98,10 +105,11 @@ class Test(unittest.TestCase):
 		k8s_crd.report(_sts)
 		report = [
 			call('multigraph k8s_crd'),
-			call('update_certificates_cert_manager_io.value', 0),
-			call('update_challenges_acme_cert_manager_io.value', 0),
-			call('update_clusterissuers_cert_manager_io.value', 0),
-			call('update_issuers_cert_manager_io.value', 0),
+			call('a_total.value', 0),
+			call('z_update_certificates_cert_manager_io.value', 0),
+			call('z_update_challenges_acme_cert_manager_io.value', 0),
+			call('z_update_clusterissuers_cert_manager_io.value', 0),
+			call('z_update_issuers_cert_manager_io.value', 0),
 		]
 		k8s_crd._print.assert_has_calls(report)
 		t.assertEqual(k8s_crd._print.call_count, len(report))
