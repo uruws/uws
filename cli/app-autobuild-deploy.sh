@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-logfn=$(mktemp app-autobuild-deploy.XXXXXXXXXX)
+logfn=$(mktemp --tmpdir app-autobuild-deploy.XXXXXXXXXX)
 
 exec >${logfn}
 exec 2>&1
