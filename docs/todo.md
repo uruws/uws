@@ -1,12 +1,12 @@
-* cluster stats - `WIP`
+* cluster stats - `DONE!`
     * k8s apiserver metrics
         * uwskube get --raw /metrics
-    * nginx_conn
-        * connections total count (derive)
-    * nginx_req
-        * requests total count (derive)
 
 * configure staging prod domain name on apptest - `DONE!`
+
+* `FIX` app-autobuild deploy bug - `DONE!`
+
+* jsbatch munin check clusters munin
 
 * cs runs on amybeta cluster: move it?
     * make it the first k8s v1.21 version?
