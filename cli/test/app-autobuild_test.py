@@ -152,7 +152,7 @@ class Test(unittest.TestCase):
 	def test_dispatch(t):
 		calls = [
 			call('/srv/home/uwscli/bin/app-build testing 0.999.0'),
-			call('/usr/bin/nq -c -- /srv/home/uwscli/bin/app-autobuild testing --deploy 0.999.0', env={'NQDIR': app_autobuild._nqdir})
+			call('/usr/bin/nq -c -- /srv/uws/deploy/cli/app-autobuild-deploy.sh testing 0.999.0', env={'NQDIR': app_autobuild._nqdir})
 		]
 		with mock():
 			with uwscli_t.mock_system():
