@@ -19,6 +19,7 @@ _sts = dict(
 	aggregator_unavailable_apiservice_total = {
 		'MissingEndpoints': {'v1beta1.metrics.k8s.io': 15.0},
 	},
+	total = 15.0,
 )
 
 class Test(unittest.TestCase):
@@ -41,6 +42,7 @@ class Test(unittest.TestCase):
 	def test_globals(t):
 		t.assertDictEqual(k8s_service.sts, dict(
 			aggregator_unavailable_apiservice_total = dict(),
+			total = 0.0,
 		))
 
 	def test_print(t):
@@ -65,11 +67,16 @@ class Test(unittest.TestCase):
 			call('graph_category k8s'),
 			call('graph_vlabel number'),
 			call('graph_scale yes'),
-			call('MissingEndpoints_v1beta1_metrics_k8s_io.label MissingEndpoints v1beta1.metrics.k8s.io'),
-			call('MissingEndpoints_v1beta1_metrics_k8s_io.colour COLOUR0'),
-			call('MissingEndpoints_v1beta1_metrics_k8s_io.min 0'),
-			call('MissingEndpoints_v1beta1_metrics_k8s_io.type DERIVE'),
-			call('MissingEndpoints_v1beta1_metrics_k8s_io.cdef errors,1000,/'),
+			call('a_total.label total'),
+			call('a_total.colour 000000'),
+			call('a_total.min 0'),
+			call('a_total.type DERIVE'),
+			call('a_total.cdef a_total,1000,/'),
+			call('z_MissingEndpoints_v1beta1_metrics_k8s_io.label MissingEndpoints v1beta1.metrics.k8s.io'),
+			call('z_MissingEndpoints_v1beta1_metrics_k8s_io.colour COLOUR0'),
+			call('z_MissingEndpoints_v1beta1_metrics_k8s_io.min 0'),
+			call('z_MissingEndpoints_v1beta1_metrics_k8s_io.type DERIVE'),
+			call('z_MissingEndpoints_v1beta1_metrics_k8s_io.cdef z_MissingEndpoints_v1beta1_metrics_k8s_io,1000,/'),
 		]
 		k8s_service._print.assert_has_calls(config)
 		t.assertEqual(k8s_service._print.call_count, len(config))
@@ -78,7 +85,8 @@ class Test(unittest.TestCase):
 		k8s_service.report(_sts)
 		report = [
 			call('multigraph k8s_service'),
-			call('MissingEndpoints_v1beta1_metrics_k8s_io.value', 15000),
+			call('a_total.value', 15000),
+			call('z_MissingEndpoints_v1beta1_metrics_k8s_io.value', 15000),
 		]
 		k8s_service._print.assert_has_calls(report)
 		t.assertEqual(k8s_service._print.call_count, len(report))
