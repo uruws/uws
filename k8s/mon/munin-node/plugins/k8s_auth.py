@@ -30,8 +30,8 @@ def config(sts):
 	_print('multigraph k8s_auth_attempts')
 	_print(f"graph_title {cluster} k8s apiserver auth attempts")
 	_print('graph_args --base 1000 -l 0')
-	_print('graph_category number')
-	_print('graph_vlabel bytes')
+	_print('graph_category k8s')
+	_print('graph_vlabel number')
 	_print('graph_scale yes')
 	color = 0
 	for result in sorted(sts['authentication_attempts'].keys()):
@@ -46,8 +46,8 @@ def config(sts):
 	_print('multigraph k8s_auth_requests')
 	_print(f"graph_title {cluster} k8s apiserver auth requests")
 	_print('graph_args --base 1000 -l 0')
-	_print('graph_category number')
-	_print('graph_vlabel bytes')
+	_print('graph_category k8s')
+	_print('graph_vlabel number')
 	_print('graph_scale yes')
 	color = 0
 	for username in sorted(sts['authenticated_user_requests'].keys()):
