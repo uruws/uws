@@ -69,18 +69,22 @@ class Test(unittest.TestCase):
 			call('graph_category k8s'),
 			call('graph_vlabel bytes'),
 			call('graph_scale yes'),
-			call('f0_resident.label resident'),
-			call('f0_resident.colour COLOUR0'),
-			call('f0_resident.min 0'),
-			call('f1_virtual.label virtual'),
-			call('f1_virtual.colour COLOUR1'),
-			call('f1_virtual.min 0'),
+			call('f0_virtual.label virtual'),
+			call('f0_virtual.colour COLOUR0'),
+			call('f0_virtual.min 0'),
+			call('f0_virtual.draw AREA'),
+			call('f1_resident.label resident'),
+			call('f1_resident.colour COLOUR1'),
+			call('f1_resident.min 0'),
+			call('f1_resident.draw LINE'),
 			call('f2_allocated.label allocated'),
 			call('f2_allocated.colour COLOUR2'),
 			call('f2_allocated.min 0'),
+			call('f2_allocated.draw LINE'),
 			call('f3_profiling.label profiling'),
 			call('f3_profiling.colour COLOUR3'),
 			call('f3_profiling.min 0'),
+			call('f3_profiling.draw LINE'),
 		]
 		k8s_mem._print.assert_has_calls(config)
 		t.assertEqual(k8s_mem._print.call_count, len(config))
@@ -89,8 +93,8 @@ class Test(unittest.TestCase):
 		k8s_mem.report(_sts)
 		report = [
 			call('multigraph k8s_mem'),
-			call('f0_resident.value', 998387712.0),
-			call('f1_virtual.value', 1782562816.0),
+			call('f0_virtual.value', 1782562816.0),
+			call('f1_resident.value', 998387712.0),
 			call('f2_allocated.value', 532044520.0),
 			call('f3_profiling.value', 28589700.0),
 		]
