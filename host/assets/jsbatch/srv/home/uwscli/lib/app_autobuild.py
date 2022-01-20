@@ -71,7 +71,6 @@ def _isBuildingOrDone(app, tag):
 def _dispatch(app, tag):
 	"""dispatch app tag build"""
 	cmd = f"/srv/home/uwscli/bin/app-build {app} {tag}"
-	print('NQ:', cmd)
 	rc = uwscli.system(cmd)
 	if rc != 0:
 		uwscli.error('[ERROR]:', cmd, '- exit status:', rc)
@@ -88,7 +87,6 @@ def _dispatch(app, tag):
 		tag,
 	]
 	try:
-		print('NQ:', cmd, app, '--deploy', tag)
 		rc = uwscli.system(' '.join(x), env = {'NQDIR': _nqdir})
 		if rc != 0:
 			return EDEPLOY_NQ
@@ -120,16 +118,19 @@ def _latestBuild(app):
 	return str(max(filter(_semverFilter, uwscli.list_images(app))))
 
 def _deploy(app, tag):
-	ver = _latestBuild(app)
 	t = semver.VersionInfo.parse(tag)
-	v = semver.VersionInfo.parse(ver.split('-')[0])
-	if v >= t:
-		for n in uwscli.autobuild_deploy(app):
-			uwscli.log(app, 'autobuild deploy:', n, ver)
-			cmd = f"/srv/home/uwscli/bin/app-deploy {n} {ver}"
-			rc = uwscli.system(cmd)
-			if rc != 0:
-				return EDEPLOY
+	ver = None
+	for n in uwscli.autobuild_deploy(app):
+		if ver is None:
+			ver = _latestBuild(n)
+		if ver is not None:
+			v = semver.VersionInfo.parse(ver.split('-')[0])
+			if v >= t:
+				uwscli.log(app, 'autobuild deploy:', n, ver)
+				cmd = f"/srv/home/uwscli/bin/app-deploy {n} {ver}"
+				rc = uwscli.system(cmd)
+				if rc != 0:
+					return EDEPLOY
 	return 0
 
 def main(argv = []):

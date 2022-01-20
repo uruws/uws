@@ -215,11 +215,11 @@ class Test(unittest.TestCase):
 		with mock_deploy():
 			t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
 			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy test-1 0.999.0')
-			app_autobuild._latestBuild.assert_called_once_with('testing')
+			app_autobuild._latestBuild.assert_called_once_with('test-1')
 		with mock_deploy(build = '0.999.0-bp999'):
 			t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
-			app_autobuild._latestBuild.assert_called_once_with('testing')
 			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy test-1 0.999.0-bp999')
+			app_autobuild._latestBuild.assert_called_once_with('test-1')
 
 if __name__ == '__main__':
 	unittest.main()
