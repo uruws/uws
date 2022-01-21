@@ -26,5 +26,9 @@ class Test(unittest.TestCase):
 		mnpl.log('testing', '...')
 		t.assertEqual(mnpl_t.log_string(), 'testing ...')
 
+	def test_error_log(t):
+		mnpl.error('testing', '...')
+		t.assertEqual(mnpl_t.log_string(), '[E] testing ...')
+
 if __name__ == '__main__':
 	unittest.main()

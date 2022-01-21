@@ -7,9 +7,12 @@ from sys import stderr
 
 from typing import Any
 
-_log: bool = getenv('UWS_LOG', 'on') == 'on'
+_log: bool          = getenv('UWS_LOG', 'on') == 'on'
 _out: TextIOWrapper = stderr
 
 def log(*args: list[Any]):
 	if _log:
 		print(*args, file = _out)
+
+def error(*args: list[Any]):
+	print('[E]', *args, file = _out)

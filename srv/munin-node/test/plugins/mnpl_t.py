@@ -4,14 +4,14 @@
 from io import StringIO
 import mnpl
 
-mnpl._log = False
-mnpl._out = StringIO()
+mnpl._out = None
 
 def setup():
 	mnpl._log = False
+	mnpl._out = StringIO()
 
 def teardown():
-	mnpl._out.flush()
+	mnpl._out = None
 
 def log_string() -> str:
 	return mnpl._out.getvalue().strip()

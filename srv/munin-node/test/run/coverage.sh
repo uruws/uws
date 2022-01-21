@@ -8,7 +8,7 @@ cd ${HOME}/tmp
 rm -f .coverage
 
 testfn=${1:-''}
-if test "X${testfn}" != 'X'; then
+if test -f "${HOME}/${testfn}"; then
 	shift
 	python3-coverage run ${HOME}/${testfn} "$@"
 else

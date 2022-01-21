@@ -17,7 +17,7 @@ class Test(unittest.TestCase):
 		mnpl_t.teardown()
 
 	def test_main(t):
-		t.assertEqual(main.run([]), 0)
+		t.assertEqual(main.run(['']), 0)
 
 if __name__ == '__main__':
 	unittest.main()
