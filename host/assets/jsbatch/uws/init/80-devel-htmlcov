@@ -23,6 +23,14 @@ if test -d /srv/uws/deploy/tmp/munin/htmlcov; then
 	chown -R root:www-data /srv/www/ssl/htmlcov/munin
 fi
 
+# munin-node
+
+rm -rf /srv/www/ssl/htmlcov/munin-node
+if test -d /srv/uws/deploy/tmp/munin-node/htmlcov; then
+	cp -r /srv/uws/deploy/tmp/munin-node/htmlcov /srv/www/ssl/htmlcov/munin-node
+	chown -R root:www-data /srv/www/ssl/htmlcov/munin-node
+fi
+
 # k8s
 
 rm -rf /srv/www/ssl/htmlcov/k8s

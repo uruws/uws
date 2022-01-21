@@ -14,9 +14,7 @@
         * web_time
             * response (request?) avg
 
-* munin - `WIP`
-    * check clusters munin
-    * move uwsbot checks from jsbatch to its own container
+* jsbatch munin check clusters munin - `WIP`
 
 * munin alerts to slack
     * setup/devel bot

@@ -25,19 +25,34 @@ RUN wget -O munin-contrib.tgz \
 # mongodb plugins deps
 RUN /root/bin/apt-install.sh python3-pymongo
 
-ADD ./utils /root/bin
+COPY ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
-COPY --chown=uws:uws ./build/uwsbot-stats.bin /uws/bin/uwsbot-stats
+COPY --chown=root:uws ./build/uwsbot-stats.bin /uws/bin/uwsbot-stats
 RUN chmod -v 0750 /uws/bin/uwsbot-stats
 
-COPY --chown=uws:uws ./build/uwsbot-stats.env /uws/etc/env/bot/stats
+COPY --chown=root:uws ./build/uwsbot-stats.env /uws/etc/env/bot/stats
 RUN chmod -v 0640 /uws/etc/env/bot/stats
 
-COPY ./build/uwsbot-plugin.conf /etc/munin/plugin-conf.d/uwsbot
+COPY --chown=root:uws ./build/uwsbot-plugin.conf /etc/munin/plugin-conf.d/uwsbot
 RUN chmod -v 0640 /etc/munin/plugin-conf.d/uwsbot
 
-COPY --chown=uws:uws ./build/api-job-stats.bin /uws/bin/api-job-stats
+COPY --chown=root:uws ./build/api-job-stats.bin /uws/bin/api-job-stats
 RUN chmod -v 0750 /uws/bin/api-job-stats
+
+COPY --chown=root:uws ./plugins/bin/mnpl.py /uws/bin/mnpl.py
+COPY --chown=root:uws ./plugins/lib /uws/lib/plugins
+RUN chmod -v 0750 /uws/bin/mnpl.py
+
+USER root:uws
+WORKDIR /root
+
+RUN python3 -m compileall -q /uws/lib/plugins
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
 
 ENTRYPOINT exec /root/bin/mn-start.sh
