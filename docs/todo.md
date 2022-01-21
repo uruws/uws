@@ -6,7 +6,25 @@
 
 * `FIX` app-autobuild deploy bug - `DONE!`
 
-* jsbatch munin check clusters munin
+* munin alerts: tune/add graph limits - `DONE!`
+    * all cluster checks
+        * web_request (response?)
+            * errors_ratio (once created)
+        * web_latency?
+        * web_time
+            * response (request?) avg
+
+* munin - `WIP`
+    * check clusters munin
+    * move uwsbot checks from jsbatch to its own container
+
+* munin alerts to slack
+    * setup/devel bot
+    * remove setup munin limit mail alerts
+        * dev_ops_vo548nvb
+            * munin-alerts TO
+            * gmail fetch
+            * create forward rules to slack and others
 
 * cs runs on amybeta cluster: move it?
     * make it the first k8s v1.21 version?
@@ -34,22 +52,6 @@
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
         * once aws.testing is done try/deploy there
-
-* munin alerts to slack
-    * setup/devel bot
-    * remove setup munin limit mail alerts
-        * dev_ops_vo548nvb
-            * munin-alerts TO
-            * gmail fetch
-            * create forward rules to slack and others
-
-* munin alerts: tune/add graph limits
-    * all cluster checks
-        * web_request (response?)
-            * errors_ratio (once created)
-        * web_latency?
-        * web_time
-            * response (request?) avg
 
 * rstudio checks
     * http_loadtime IDE and Jupyter Notebook from jsbatch
@@ -122,7 +124,6 @@
 
 * web /bandwidthCallbackSms requests
     * add bot check/graph
-    * remove setup from workers cluster?
 
 * split nginx cluster proxy load over N instances instead of only 1
 
@@ -131,7 +132,3 @@
     * some ideas:
         * use more than one ingress (maybe in sep namespaces)
         * use different nodegroups for "core" services like nginx and the "main" nodegroup to run our services (web, workers, etc...), using node affinity annotations.
-
-* SFTP server for data sharing with schools
-    * web integration for user/pass management
-    * hook to check/validate uploaded files (try mod_exec)

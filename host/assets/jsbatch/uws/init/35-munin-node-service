@@ -50,6 +50,8 @@ rm -vf /etc/munin/plugins/app*
 rm -vf /etc/munin/plugins/uwsbot_stats
 
 ls /etc/munin/plugins >/srv/run/uws-service-restart/munin-node.plugins
-/uws/bin/service-restart.sh munin-node /etc/munin /srv/run/uws-service-restart/munin-node.plugins /etc/munin/plugin-conf.d
+
+/uws/bin/service-restart.sh munin-node /etc/munin \
+	/srv/run/uws-service-restart/munin-node.plugins /etc/munin/plugin-conf.d
 
 exit 0
