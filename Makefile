@@ -282,6 +282,8 @@ check-munin:
 check-munin-node:
 	@echo '***** munin-node/test/run/shellcheck.sh'
 	@./srv/munin-node/check.sh ./test/run/shellcheck.sh
+	@echo '***** munin-node/test/run/coverage.sh'
+	@./srv/munin-node/check.sh ./test/run/coverage.sh
 
 .PHONY: check-asb
 check-asb:
