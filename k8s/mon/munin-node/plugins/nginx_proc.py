@@ -96,14 +96,14 @@ def config(sts):
 	_print('graph_category nginx')
 	_print('graph_vlabel bytes')
 	_print('graph_scale yes')
-	_print('resident.label resident')
-	_print('resident.colour COLOUR0')
-	_print('resident.draw AREA')
-	_print('resident.min 0')
-	_print('virtual.label virtual')
-	_print('virtual.colour COLOUR1')
-	_print('virtual.draw AREA')
-	_print('virtual.min 0')
+	_print('a_virtual.label virtual')
+	_print('a_virtual.colour COLOUR1')
+	_print('a_virtual.draw AREA')
+	_print('a_virtual.min 0')
+	_print('b_resident.label resident')
+	_print('b_resident.colour COLOUR0')
+	_print('b_resident.draw LINE')
+	_print('b_resident.min 0')
 	# uptime
 	_print('multigraph nginx_proc_uptime')
 	_print('graph_title Uptime')
@@ -180,8 +180,8 @@ def report(sts):
 	if not sts.get('mem', None):
 		sts['mem'] = {}
 	_print('multigraph nginx_proc_mem')
-	_print('resident.value', sts['mem'].get('resident', 'U'))
-	_print('virtual.value', sts['mem'].get('virtual', 'U'))
+	_print('a_virtual.value', sts['mem'].get('virtual', 'U'))
+	_print('b_resident.value', sts['mem'].get('resident', 'U'))
 	# uptime
 	_print('multigraph nginx_proc_uptime')
 	uptime = sts.get('uptime', 'U')
