@@ -16,8 +16,11 @@ class Test(unittest.TestCase):
 	def tearDown(t):
 		mnpl_t.teardown()
 
+	def test_main_error(t):
+		t.assertEqual(main.run(['']), 1)
+
 	def test_main(t):
-		t.assertEqual(main.run(['']), 0)
+		t.assertEqual(main.run(['testing']), 0)
 
 if __name__ == '__main__':
 	unittest.main()
