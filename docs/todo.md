@@ -14,6 +14,8 @@
 * App meteor upgrade
     * take the opportunity to start using docker setup?
 
+* 2202 round of upgrades
+
 * configurable app-autoscale
 
 * configurable app-autobuild
