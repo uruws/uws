@@ -5,6 +5,17 @@ networks:
     driver: bridge
 
 services:
+  cluster:
+    image: uws/munin-node
+    container_name: uws-munin-node-cluster-service
+    volumes:
+      - ./prod/cluster:/srv/etc/munin-node:ro
+    restart: on-failure
+    ports:
+      - 4900:4949
+    networks:
+      - default
+
   app:
     image: uws/munin-node
     container_name: uws-munin-node-app-service
