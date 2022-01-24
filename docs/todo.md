@@ -14,7 +14,7 @@
         * web_time
             * response (request?) avg
 
-* jsbatch munin check clusters munin - `WIP`
+* jsbatch munin check clusters' munin - `WIP`
 
 * munin alerts to slack
     * setup/devel bot
