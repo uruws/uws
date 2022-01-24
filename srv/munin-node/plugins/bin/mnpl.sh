@@ -13,7 +13,7 @@ pl_setup() {
 	for fn in ${pldir}/*.py; do
 		p=$(basename ${fn} .py)
 		if test "X${p}" != 'Xmnpl'; then
-			ln -sv ${fn} /etc/munin/plugins/${p}
+			ln -sv /uws/bin/mnpl.sh /etc/munin/plugins/${p}
 		fi
 	done
 }
