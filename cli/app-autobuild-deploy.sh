@@ -23,4 +23,5 @@ else
 	cat ${logfn} | mailx -s "[OK] ${subject}" root
 fi
 
+rm -f ${logfn}
 exit ${rc}
