@@ -2,10 +2,13 @@
 # See LICENSE file.
 
 import json
+import ssl
 
-from os      import getenv
-from pathlib import Path
-from sys     import stderr
+from dataclasses import dataclass
+from os          import getenv
+from pathlib     import Path
+from ssl         import SSLContext
+from sys         import stderr
 
 from http.client    import HTTPResponse
 from urllib.request import Request
@@ -34,9 +37,26 @@ def clusters() -> list[dict[str, str]]:
 		k = [d for d in json.load(fh) if d]
 	return k
 
+def _context() -> SSLContext:
+	return ssl.create_default_context()
+
 def _open(cluster: str, path: str, method: str, timeout: int) -> HTTPResponse:
+	ctx = _context()
 	req = Request(f"https://{cluster}.{_clusters_domain}{path}", method = method)
-	return urlopen(req, timeout = timeout)
+	return urlopen(req, timeout = timeout, context = ctx)
 
 def GET(cluster: str, path: str, timeout: int = 7) -> HTTPResponse:
 	return _open(cluster, path, 'GET', timeout)
+
+@dataclass
+class Config(object):
+	path:   str = '/'
+	status: int = 200
+
+def main(argv: list[str], cfg: Config) -> int:
+	try:
+		resp = GET('panoramix', cfg.path)
+		log(resp)
+	except Exception as err:
+		error(type(err), err)
+	return 128
