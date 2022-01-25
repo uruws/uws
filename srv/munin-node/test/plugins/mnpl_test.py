@@ -3,6 +3,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from pathlib import Path
+
 import unittest
 
 import mnpl_t
@@ -29,6 +31,9 @@ class Test(unittest.TestCase):
 	def test_error_log(t):
 		mnpl.error('testing', '...')
 		t.assertEqual(mnpl_t.log_string(), '[E] testing ...')
+
+	def test_clusters(t):
+		t.assertEqual(mnpl._cluster_env, Path('/uws/etc/cluster'))
 
 	def test_GET(t):
 		t.assertIsNone(mnpl.GET('testing'))

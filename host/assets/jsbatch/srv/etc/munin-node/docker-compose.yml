@@ -10,7 +10,7 @@ services:
     container_name: uws-munin-node-cluster-service
     volumes:
       - ./prod/cluster:/srv/etc/munin-node:ro
-      - /srv/uws/deploy/eks/env:/srv/uws/deploy/eks/env:ro
+      - /srv/uws/deploy/eks/env:/uws/etc/cluster:ro
     restart: on-failure
     ports:
       - 4900:4949

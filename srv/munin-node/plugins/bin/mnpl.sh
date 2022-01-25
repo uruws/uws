@@ -9,17 +9,37 @@ mod=$(basename ${0})
 
 action=${1:-'report'}
 
+k8s_setup() (
+	if test -d /uws/etc/cluster; then
+		dst=/uws/etc/cluster.json
+		echo '[' >${dst}
+		for fn in /uws/etc/cluster/*.env; do
+			. ${fn}
+			cat <<EOF >>${dst}
+  {
+    "name": "${UWS_CLUSTER}",
+    "host": "${CLUSTER_HOST}"
+  },
+EOF
+		done
+		echo '  {}' >>${dst}
+		echo ']' >>${dst}
+		ls -lh ${dst}
+	fi
+)
+
 pl_setup() {
 	for fn in ${pldir}/*.py; do
 		p=$(basename ${fn} .py)
 		if test "X${p}" != 'Xmnpl'; then
-			ln -sv /uws/bin/mnpl.sh /etc/munin/plugins/${p}
+			ln -svf /uws/bin/mnpl.sh /etc/munin/plugins/${p}
 		fi
 	done
 }
 
 if test "X${mod}" = 'Xmnpl.sh'; then
 	if test "X${action}" = 'Xsetup'; then
+		k8s_setup
 		pl_setup
 		exit 0
 	fi
