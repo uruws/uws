@@ -8,6 +8,7 @@ from pathlib import Path
 from sys     import stderr
 
 from http.client    import HTTPResponse
+from urllib.request import Request
 from urllib.request import urlopen
 
 from typing import Any
@@ -33,11 +34,8 @@ def clusters() -> list[dict[str, str]]:
 	return k
 
 def _open(cluster: str, url: str, method: str, timeout: int) -> HTTPResponse:
-	return urlopen(
-		f"https://{cluster}/{url}",
-		timeout = timeout,
-		method = method,
-	)
+	req = Request(f"https://{cluster}/{url}", method = method)
+	return urlopen(req, timeout = timeout)
 
 def GET(cluster: str, url: str, timeout: int = 7) -> HTTPResponse:
 	return _open(cluster, url, 'GET', timeout)
