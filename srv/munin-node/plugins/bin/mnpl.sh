@@ -14,6 +14,7 @@ k8s_setup() (
 		dst=/uws/etc/cluster.json
 		echo '[' >${dst}
 		for fn in /uws/etc/cluster/*.env; do
+			# shellcheck disable=SC1090
 			. ${fn}
 			cat <<EOF >>${dst}
   {
