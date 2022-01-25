@@ -30,5 +30,8 @@ class Test(unittest.TestCase):
 		mnpl.error('testing', '...')
 		t.assertEqual(mnpl_t.log_string(), '[E] testing ...')
 
+	def test_GET(t):
+		t.assertIsNone(mnpl.GET('testing'))
+
 if __name__ == '__main__':
 	unittest.main()
