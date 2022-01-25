@@ -24,7 +24,8 @@ def log(*args: list[Any]):
 def error(*args: list[Any]):
 	print('[E]', *args, file = _out)
 
-_clusters_fn = Path(getenv('UWS_CLUSTER_ENV', '/uws/etc/cluster.json'))
+_clusters_fn     = Path(getenv('UWS_CLUSTER_ENV', '/uws/etc/cluster.json'))
+_clusters_domain = getenv('UWS_CLUSTER_DOMAIN', 'uws.talkingpts.org')
 
 def clusters() -> list[dict[str, str]]:
 	"""Returns clusters info."""
@@ -33,9 +34,9 @@ def clusters() -> list[dict[str, str]]:
 		k = [d for d in json.load(fh) if d]
 	return k
 
-def _open(cluster: str, url: str, method: str, timeout: int) -> HTTPResponse:
-	req = Request(f"https://{cluster}/{url}", method = method)
+def _open(cluster: str, path: str, method: str, timeout: int) -> HTTPResponse:
+	req = Request(f"https://{cluster}.{_clusters_domain}{path}", method = method)
 	return urlopen(req, timeout = timeout)
 
-def GET(cluster: str, url: str, timeout: int = 7) -> HTTPResponse:
-	return _open(cluster, url, 'GET', timeout)
+def GET(cluster: str, path: str, timeout: int = 7) -> HTTPResponse:
+	return _open(cluster, path, 'GET', timeout)
