@@ -8,7 +8,7 @@ from time import sleep
 
 import uwscli
 
-import semver
+import semver # type: ignore
 
 _status_dir = getenv('UWSCLI_BUILD_STATUS_DIR', '/run/uwscli/build')
 _nqdir      = getenv('UWSCLI_NQDIR', '/run/uwscli/nq')

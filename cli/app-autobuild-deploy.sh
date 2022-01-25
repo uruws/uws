@@ -15,7 +15,7 @@ rc=$?
 
 set -e
 
-subject="app-autobuild ${app} ${version}"
+subject="app-autobuild-deploy ${app} ${version}"
 
 if test "X${rc}" != 'X0'; then
 	cat ${logfn} | mailx -s "[ERROR] ${subject}" munin-alert
@@ -23,5 +23,5 @@ else
 	cat ${logfn} | mailx -s "[OK] ${subject}" root
 fi
 
-rm -f ${logfn}
+###rm -f ${logfn}
 exit ${rc}
