@@ -20,6 +20,9 @@
 
 * jsbatch munin check clusters' munin - `WIP`
 
+* meteor app
+    * set STAGING_APP_VERSION during test clusters deploy
+
 * munin alerts to slack
     * setup/devel bot
     * remove setup munin limit mail alerts
