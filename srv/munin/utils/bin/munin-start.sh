@@ -32,6 +32,8 @@ fi
 chown -v root:munin /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
 chmod -v 0640 /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
 
+###/opt/munin/bin/k8s-setup.py
+
 /etc/init.d/munin start
 /etc/init.d/cron start
 
