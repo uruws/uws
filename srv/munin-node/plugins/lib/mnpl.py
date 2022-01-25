@@ -55,9 +55,12 @@ class Config(object):
 	status: int = 200
 
 def main(argv: list[str], cfg: Config) -> int:
-	try:
-		resp = GET('panoramix', cfg.path)
-		log(resp)
-	except Exception as err:
-		error(type(err), err)
-	return 128
+	rc = 0
+	for k in clusters():
+		try:
+			resp = GET(k['host'], cfg.path)
+			log(resp)
+		except Exception as err:
+			error(type(err), err, k)
+			rc += 1
+	return rc
