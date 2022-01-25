@@ -16,15 +16,16 @@ from urllib.request import urlopen
 
 from typing import Any
 from typing import TextIO
+from typing import Union
 
 _log: bool   = getenv('UWS_LOG', 'on') == 'on'
 _out: TextIO = stderr
 
-def log(*args: list[Any]):
+def log(*args: Union[list[Any], Any]):
 	if _log:
 		print(*args, file = _out)
 
-def error(*args: list[Any]):
+def error(*args: Union[list[Any], Any]):
 	print('[E]', *args, file = _out)
 
 _clusters_fn     = Path(getenv('UWS_CLUSTER_ENV', '/uws/etc/cluster.json'))
