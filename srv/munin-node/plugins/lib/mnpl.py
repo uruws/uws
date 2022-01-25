@@ -1,6 +1,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import json
+
 from os      import getenv
 from pathlib import Path
 from sys     import stderr
@@ -21,11 +23,13 @@ def log(*args: list[Any]):
 def error(*args: list[Any]):
 	print('[E]', *args, file = _out)
 
-_cluster_env = Path(getenv('UWS_CLUSTER_ENV', '/uws/etc/cluster'))
+_clusters_fn = Path(getenv('UWS_CLUSTER_ENV', '/uws/etc/cluster.json'))
 
-def clusters() -> dict[str, Any]:
+def clusters() -> list[dict[str, str]]:
 	"""Returns clusters info."""
-	k: dict[str, Any] = {}
+	k: list[dict[str, str]] = []
+	with open(_clusters_fn, 'r') as fh:
+		k = [d for d in json.load(fh) if d]
 	return k
 
 def GET(url: str, timeout: int = 7) -> HTTPResponse:

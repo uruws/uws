@@ -33,7 +33,10 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnpl_t.log_string(), '[E] testing ...')
 
 	def test_clusters(t):
-		t.assertEqual(mnpl._cluster_env, Path('/uws/etc/cluster'))
+		t.assertEqual(mnpl._clusters_fn, Path('/uws/etc/cluster.json'))
+		t.assertListEqual(mnpl.clusters(), [
+			{'host': 'k8stest', 'name': 'k8stest'},
+		])
 
 	def test_GET(t):
 		t.assertIsNone(mnpl.GET('testing'))
