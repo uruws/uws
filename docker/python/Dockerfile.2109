@@ -1,7 +1,7 @@
 FROM uws/base-2109
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="211213"
+LABEL version="220125"
 
 USER root:root
 WORKDIR /root
@@ -9,10 +9,9 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh less shellcheck python3 python3-doc
-RUN /root/bin/apt-install.sh python3-coverage libjs-jquery \
-	libjs-jquery-throttle-debounce libjs-jquery-tablesorter \
-	libjs-jquery-isonscreen
+RUN /root/bin/apt-install.sh less shellcheck python3 python3-doc python3-mypy \
+	python3-coverage libjs-jquery libjs-jquery-isonscreen \
+	libjs-jquery-throttle-debounce libjs-jquery-tablesorter
 
 USER uws:uws
 WORKDIR /home/uws
@@ -20,7 +19,7 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-RUN python3 --version
+RUN /usr/bin/python3 --version
 
 WORKDIR /opt/uws
 CMD /usr/local/bin/uws-login.sh
