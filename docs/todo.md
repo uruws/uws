@@ -14,6 +14,10 @@
         * web_time
             * response (request?) avg
 
+* workers - `DONE!`
+    * scale down: 60
+    * scale up: 95
+
 * jsbatch munin check clusters' munin - `WIP`
 
 * munin alerts to slack
