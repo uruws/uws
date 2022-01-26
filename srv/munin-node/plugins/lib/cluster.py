@@ -10,7 +10,6 @@ def main(argv: list[str]):
 		auth     = False,
 		path     = '/',
 		status   = 400,
-		category = 'index',
 	)
 	return mnpl.main(argv, cfg)
 

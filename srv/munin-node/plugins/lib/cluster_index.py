@@ -9,7 +9,6 @@ def main(argv: list[str]):
 	cfg = mnpl.Config(
 		path     = '/',
 		status   = 404,
-		category = 'index',
 	)
 	return mnpl.main(argv, cfg)
 

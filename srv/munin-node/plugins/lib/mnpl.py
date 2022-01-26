@@ -115,7 +115,6 @@ class Config(object):
 	path:     str  = '/'
 	status:   int  = 200
 	timeout:  int  = 7
-	category: str  = 'NO_CATEGORY'
 	label:    str  = 'number'
 	base:     int  = 1000
 	scale:    bool = True
@@ -153,7 +152,7 @@ def config(cfg: Config) -> int:
 		_print(f"multigraph k8s_{gid}")
 		_print(f"graph_title k8s {name} {title}")
 		_print(f"graph_args --base {cfg.base} -l 0")
-		_print('graph_category', cfg.category)
+		_print('graph_category', cleanfn(name))
 		_print('graph_vlabel', cfg.label)
 		if cfg.scale:
 			_print('graph_scale yes')
