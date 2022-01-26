@@ -13,6 +13,7 @@ from sys         import stderr
 from sys         import stdout
 
 from http.client    import HTTPResponse
+from urllib.request import HTTPError
 from urllib.request import Request
 from urllib.request import urlopen
 
@@ -168,16 +169,31 @@ def config(cfg: Config) -> int:
 		_print('b_latency.critical', cfg.critical)
 	return 0
 
+def _report(host: str, cfg: Config) -> tuple[float, float]:
+	s: float = 0.0
+	l: float = 0.0
+	r: Union[HTTPResponse, HTTPError, None] = None
+	try:
+		r = GET(host, cfg)
+	except HTTPError as err:
+		r = err
+	code: int = r.getcode()
+	if code is not None and code == cfg.status:
+		s = 1.0
+	return (s, l)
+
 def report(cfg: Config) -> int:
-	rc = 0
 	for k in clusters():
-		try:
-			resp = GET(k['host'], cfg)
-			log(resp)
-		except Exception as err:
-			error(type(err), err, k)
-			rc += 1
-	return rc
+		name = k['name']
+		host = k['host']
+		gid  = cleanfn(f"{name}_{cfg.path}_{cfg.status}")
+		if not cfg.auth:
+			gid += '_no_auth'
+		_print(f"multigraph k8s_{gid}")
+		status, latency = _report(host, cfg)
+		_print('a_status.value', status)
+		_print('b_latency.value', latency)
+	return 0
 
 def main(argv: list[str], cfg: Config) -> int:
 	try:
