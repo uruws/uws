@@ -166,7 +166,7 @@ def config(cfg: Config) -> int:
 		_print('b_latency.min 0')
 		_print('b_latency.warning', cfg.warning)
 		_print('b_latency.critical', cfg.critical)
-		return 0
+	return 0
 
 def report(cfg: Config) -> int:
 	rc = 0
