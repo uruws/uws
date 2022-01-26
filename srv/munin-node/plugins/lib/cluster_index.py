@@ -7,8 +7,8 @@ import mnpl
 
 def main(argv: list[str]):
 	cfg = mnpl.Config(
-		path     = '/',
-		status   = 404,
+		path   = '/',
+		status = 404,
 	)
 	return mnpl.main(argv, cfg)
 

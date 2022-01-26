@@ -7,9 +7,7 @@ import mnpl
 
 def main(argv: list[str]):
 	cfg = mnpl.Config(
-		auth   = False,
-		path   = '/',
-		status = 400,
+		path = '/munin/',
 	)
 	return mnpl.main(argv, cfg)
 
