@@ -17,6 +17,8 @@ docker run --rm --name uws-munin-node-check \
 	-v ${TMPDIR}:/home/uws/tmp \
 	-v ${TMPDIR}/etc/munin:/etc/munin \
 	-v ${PWD}/srv/munin-node/test/env:/uws/etc \
+	-v ${PWD}/secret/ca/uws/ops/etc:/uws/etc/ca/ops:ro \
+	-v ${PWD}/secret/ca/uws/ops/210823/client:/uws/etc/ca/client:ro \
 	uws/python-2109 $@
 
 exit 0

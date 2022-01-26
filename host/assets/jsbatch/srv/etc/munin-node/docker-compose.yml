@@ -11,6 +11,8 @@ services:
     volumes:
       - ./prod/cluster:/srv/etc/munin-node:ro
       - /srv/uws/deploy/eks/env:/uws/etc/cluster:ro
+      - /srv/uws/deploy/secret/ca/uws/ops/etc:/uws/etc/ca/ops:ro
+      - /srv/uws/deploy/secret/ca/uws/ops/210823/client:/uws/etc/ca/client:ro
     restart: on-failure
     ports:
       - 4900:4949

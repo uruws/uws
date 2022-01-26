@@ -15,6 +15,7 @@ from urllib.request import Request
 from urllib.request import urlopen
 
 from typing import Any
+from typing import Optional
 from typing import TextIO
 from typing import Union
 
@@ -38,8 +39,13 @@ def clusters() -> list[dict[str, str]]:
 		k = [d for d in json.load(fh) if d]
 	return k
 
+_ctx: Optional[SSLContext] = None
+
 def _context() -> SSLContext:
-	return ssl.create_default_context()
+	global _ctx
+	if _ctx is None:
+		_ctx = ssl.create_default_context()
+	return _ctx
 
 def _open(cluster: str, path: str, method: str, timeout: int) -> HTTPResponse:
 	ctx = _context()
