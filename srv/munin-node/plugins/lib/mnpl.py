@@ -14,7 +14,7 @@ from sys         import stdout
 from time        import time
 
 from http.client    import HTTPResponse
-from urllib.request import HTTPError
+from urllib.error   import HTTPError
 from urllib.request import Request
 from urllib.request import urlopen
 
