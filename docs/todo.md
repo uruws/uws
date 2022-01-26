@@ -14,14 +14,18 @@
         * web_time
             * response (request?) avg
 
-* workers - `DONE!`
-    * scale down: 60
-    * scale up: 95
+* workers
+    * scale down: 40 -> 60 - `DONE!`
+    * scale up: 75 -> 95 - `DONE!`
+    * remove web endpoint? (worker.uws.talkingpts.org)
 
 * jsbatch munin check clusters' munin - `WIP`
 
 * meteor app
     * set STAGING_APP_VERSION during test clusters deploy
+
+* app-autobuild deploy
+    * wait some time between deploys on "multi cluster" apps
 
 * munin alerts to slack
     * setup/devel bot
@@ -30,6 +34,42 @@
             * munin-alerts TO
             * gmail fetch
             * create forward rules to slack and others
+
+* k8smon munin-node plugin:
+    * node_condition: graph and alert status Unknown (include message too as field.info?)
+
+    {
+        "lastHeartbeatTime": "2022-01-25T15:12:21Z",
+        "lastTransitionTime": "2022-01-25T15:13:10Z",
+        "message": "Kubelet stopped posting node status.",
+        "reason": "NodeStatusUnknown",
+        "status": "Unknown",
+        "type": "Ready"
+    }
+
+    * uwskube get node .... -o json
+
+    "spec": {
+        "providerID": "aws:///us-east-1f/i-000c306dd70ccd8d6",
+        "taints": [
+            {
+                "effect": "NoSchedule",
+                "key": "node.kubernetes.io/unreachable",
+                "timeAdded": "2022-01-25T15:13:10Z"
+            },
+            {
+                "effect": "NoExecute",
+                "key": "node.kubernetes.io/unreachable",
+                "timeAdded": "2022-01-26T05:58:24Z"
+            },
+            {
+                "effect": "NoSchedule",
+                "key": "node.kubernetes.io/unschedulable",
+                "timeAdded": "2022-01-26T15:25:32Z"
+            }
+        ],
+        "unschedulable": true
+    },
 
 * cs runs on amybeta cluster: move it?
     * make it the first k8s v1.21 version?
