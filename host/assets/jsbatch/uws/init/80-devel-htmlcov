@@ -1,98 +1,14 @@
 #!/bin/sh
 set -eu
 
-# uwscli
-
-rm -rf /srv/www/ssl/htmlcov/uwscli
-if test -d /srv/uws/deploy/tmp/uwscli/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/uwscli/htmlcov /srv/www/ssl/htmlcov/uwscli
-	chown -R root:www-data /srv/www/ssl/htmlcov/uwscli
-fi
-
-rm -rf /srv/www/ssl/htmlcov/uwscli_vendor
-if test -d /srv/uws/deploy/tmp/uwscli/htmlcov_vendor; then
-	cp -r /srv/uws/deploy/tmp/uwscli/htmlcov_vendor /srv/www/ssl/htmlcov/uwscli_vendor
-	chown -R root:www-data /srv/www/ssl/htmlcov/uwscli_vendor
-fi
-
-# munin
-
-rm -rf /srv/www/ssl/htmlcov/munin
-if test -d /srv/uws/deploy/tmp/munin/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/munin/htmlcov /srv/www/ssl/htmlcov/munin
-	chown -R root:www-data /srv/www/ssl/htmlcov/munin
-fi
-
-# munin-node
-
-rm -rf /srv/www/ssl/htmlcov/munin-node
-if test -d /srv/uws/deploy/tmp/munin-node/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/munin-node/htmlcov /srv/www/ssl/htmlcov/munin-node
-	chown -R root:www-data /srv/www/ssl/htmlcov/munin-node
-fi
-
-# k8s
-
-rm -rf /srv/www/ssl/htmlcov/k8s
-if test -d /srv/uws/deploy/tmp/k8s/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/k8s/htmlcov /srv/www/ssl/htmlcov/k8s
-	chown -R root:www-data /srv/www/ssl/htmlcov/k8s
-fi
-
-# eks
-
-rm -rf /srv/www/ssl/htmlcov/eks
-if test -d /srv/uws/deploy/tmp/eks/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/eks/htmlcov /srv/www/ssl/htmlcov/eks
-	chown -R root:www-data /srv/www/ssl/htmlcov/eks
-fi
-
-# golib
-
-rm -rf /srv/www/ssl/htmlcov/golib
-if test -d /srv/uws/deploy/tmp/golib/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/golib/htmlcov /srv/www/ssl/htmlcov/golib
-	chown -R root:www-data /srv/www/ssl/htmlcov/golib
-fi
-
-# wapp
-
-rm -rf /srv/www/ssl/htmlcov/wapp
-if test -d /srv/uws/deploy/tmp/wapp/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/wapp/htmlcov /srv/www/ssl/htmlcov/wapp
-	chown -R root:www-data /srv/www/ssl/htmlcov/wapp
-fi
-
-# k8smon
-
-rm -rf /srv/www/ssl/htmlcov/k8smon
-if test -d /srv/uws/deploy/tmp/k8smon/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/k8smon/htmlcov /srv/www/ssl/htmlcov/k8smon
-	chown -R root:www-data /srv/www/ssl/htmlcov/k8smon
-fi
-
-# uwsbot
-
-rm -rf /srv/www/ssl/htmlcov/uwsbot
-if test -d /srv/uws/deploy/tmp/uwsbot/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/uwsbot/htmlcov /srv/www/ssl/htmlcov/uwsbot
-	chown -R root:www-data /srv/www/ssl/htmlcov/uwsbot
-fi
-
-# uwsbot-stats
-
-rm -rf /srv/www/ssl/htmlcov/uwsbot-stats
-if test -d /srv/uws/deploy/tmp/uwsbot-stats/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/uwsbot-stats/htmlcov /srv/www/ssl/htmlcov/uwsbot-stats
-	chown -R root:www-data /srv/www/ssl/htmlcov/uwsbot-stats
-fi
-
-# api-job-stats
-
-rm -rf /srv/www/ssl/htmlcov/api-job-stats
-if test -d /srv/uws/deploy/tmp/api-job-stats/htmlcov; then
-	cp -r /srv/uws/deploy/tmp/api-job-stats/htmlcov /srv/www/ssl/htmlcov/api-job-stats
-	chown -R root:www-data /srv/www/ssl/htmlcov/api-job-stats
-fi
+for d in /srv/uws/deploy/tmp/*/htmlcov; do
+	app=$(basename $(dirname $d))
+	rm -rf /srv/www/ssl/htmlcov/${app}
+	if test -d /srv/uws/deploy/tmp/${app}/htmlcov; then
+		cp -r /srv/uws/deploy/tmp/${app}/htmlcov /srv/www/ssl/htmlcov/${app}
+		chown -R root:www-data /srv/www/ssl/htmlcov/${app}
+		echo "/srv/www/ssl/htmlcov/${app} done!"
+	fi
+done
 
 exit 0
