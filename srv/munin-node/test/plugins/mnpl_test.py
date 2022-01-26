@@ -39,7 +39,7 @@ class Test(unittest.TestCase):
 		])
 
 	def test_GET(t):
-		t.assertIsNone(mnpl.GET('k8stest', 'testing'))
+		t.assertIsNone(mnpl.GET('k8stest', mnpl.Config()))
 
 if __name__ == '__main__':
 	unittest.main()

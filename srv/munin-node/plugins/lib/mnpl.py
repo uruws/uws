@@ -106,13 +106,18 @@ class Config(object):
 
 def _open(cluster: str, method: str, cfg: Config) -> HTTPResponse:
 	ctx = _context(cfg.auth)
-	req = Request(f"https://{cluster}.{_clusters_domain}{cfg.path}", method = method)
+	req = Request(
+		f"https://{cluster}.{_clusters_domain}{cfg.path}",
+		method = method,
+	)
 	return urlopen(req, timeout = cfg.timeout, context = ctx)
 
 def GET(cluster: str, cfg: Config) -> HTTPResponse:
 	return _open(cluster, 'GET', cfg)
 
+#
 # main
+#
 
 def main(argv: list[str], cfg: Config) -> int:
 	rc = 0
