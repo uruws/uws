@@ -157,17 +157,19 @@ def config(cfg: Config) -> int:
 		_print('graph_vlabel', cfg.label)
 		if cfg.scale:
 			_print('graph_scale yes')
-		_print('a_status.label status:', cfg.status)
-		_print('a_status.colour COLOUR0')
-		_print('a_status.min 0')
-		_print('a_status.max 1')
-		_print('a_status.critical 1:')
-		_print('a_status.info', f"https://{host}.{_clusters_domain}{cfg.path}")
-		_print('b_latency.label latency seconds')
-		_print('b_latency.colour COLOUR1')
-		_print('b_latency.min 0')
-		_print('b_latency.warning', cfg.warning)
-		_print('b_latency.critical', cfg.critical)
+		_print('a_latency.label latency seconds')
+		_print('a_latency.colour COLOUR1')
+		_print('a_latency.draw AREA')
+		_print('a_latency.min 0')
+		_print('a_latency.warning', cfg.warning)
+		_print('a_latency.critical', cfg.critical)
+		_print('a_latency.info', f"https://{host}.{_clusters_domain}{cfg.path}")
+		_print('b_status.label status:', cfg.status)
+		_print('b_status.colour COLOUR0')
+		_print('b_status.draw LINE')
+		_print('b_status.min 0')
+		_print('b_status.max 1')
+		_print('b_status.critical 1:')
 	return 0
 
 def _report(host: str, cfg: Config) -> tuple[float, float]:
@@ -192,8 +194,8 @@ def report(cfg: Config) -> int:
 			gid += '_no_auth'
 		_print(f"multigraph k8s_{gid}")
 		status, latency = _report(host, cfg)
-		_print('a_status.value', status)
-		_print('b_latency.value', latency)
+		_print('a_latency.value', latency)
+		_print('b_status.value', status)
 	return 0
 
 def main(argv: list[str], cfg: Config) -> int:
