@@ -39,12 +39,36 @@ def clusters() -> list[dict[str, str]]:
 		k = [d for d in json.load(fh) if d]
 	return k
 
+_tls_cert:    str  = getenv('UWS_TLS_CERT', '12a549fb-96a3-5131-aa15-9bc30cc7d99d')
+_tls_conf:    Path = Path(getenv('UWS_TLS_CONF', '/uws/etc/ca/ops/client.pw'))
+_tls_certdir: Path = Path(getenv('UWS_TLS_CERTDIR', '/uws/etc/ca/client'))
+
 _ctx: Optional[SSLContext] = None
+
+def _getpw() -> str:
+	pw: str  = 'None'
+	with open(_tls_conf, 'r') as fh:
+		for line in fh.readlines():
+			field = line.strip().split(':')
+			try:
+				if field[0] == _tls_cert:
+					return field[1]
+			except IndexError:
+				pass
+	return pw
 
 def _context() -> SSLContext:
 	global _ctx
 	if _ctx is None:
+		certfn: Path = _tls_certdir.joinpath(f"{_tls_cert}.pem")
+		keyfn:  Path = _tls_certdir.joinpath(f"{_tls_cert}-key.pem")
+		pw:     str  = _getpw()
 		_ctx = ssl.create_default_context()
+		_ctx.load_cert_chain(
+			certfile = certfn,
+			keyfile  = keyfn,
+			password = pw,
+		)
 	return _ctx
 
 def _open(cluster: str, path: str, method: str, timeout: int) -> HTTPResponse:
