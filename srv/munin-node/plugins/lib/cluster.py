@@ -7,6 +7,7 @@ import mnpl
 
 def main(argv: list[str]):
 	cfg = mnpl.Config(
+		auth   = False,
 		path   = '/',
 		status = 400,
 	)

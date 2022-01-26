@@ -19,6 +19,10 @@ from typing import Optional
 from typing import TextIO
 from typing import Union
 
+#
+# logger
+#
+
 _log: bool   = getenv('UWS_LOG', 'on') == 'on'
 _out: TextIO = stderr
 
@@ -28,6 +32,10 @@ def log(*args: Union[list[Any], Any]):
 
 def error(*args: Union[list[Any], Any]):
 	print('[E]', *args, file = _out)
+
+#
+# clusters config
+#
 
 _clusters_fn     = Path(getenv('UWS_CLUSTER_ENV', '/uws/etc/cluster.json'))
 _clusters_domain = getenv('UWS_CLUSTER_DOMAIN', 'uws.talkingpts.org')
@@ -39,11 +47,16 @@ def clusters() -> list[dict[str, str]]:
 		k = [d for d in json.load(fh) if d]
 	return k
 
+#
+# tls setup
+#
+
 _tls_cert:    str  = getenv('UWS_TLS_CERT', '12a549fb-96a3-5131-aa15-9bc30cc7d99d')
 _tls_conf:    Path = Path(getenv('UWS_TLS_CONF', '/uws/etc/ca/ops/client.pw'))
 _tls_certdir: Path = Path(getenv('UWS_TLS_CERTDIR', '/uws/etc/ca/client'))
 
-_ctx: Optional[SSLContext] = None
+_ctx:      Optional[SSLContext] = None
+_ctx_auth: Optional[SSLContext] = None
 
 def _getpw() -> str:
 	pw: str  = 'None'
@@ -57,38 +70,55 @@ def _getpw() -> str:
 				pass
 	return pw
 
-def _context() -> SSLContext:
+def _context(auth: bool) -> SSLContext:
 	global _ctx
 	if _ctx is None:
+		_ctx = ssl.create_default_context()
+	global _ctx_auth
+	if _ctx_auth is None:
 		certfn: Path = _tls_certdir.joinpath(f"{_tls_cert}.pem")
 		keyfn:  Path = _tls_certdir.joinpath(f"{_tls_cert}-key.pem")
 		pw:     str  = _getpw()
-		_ctx = ssl.create_default_context()
-		_ctx.load_cert_chain(
+		_ctx_auth = ssl.create_default_context()
+		_ctx_auth.load_cert_chain(
 			certfile = certfn,
 			keyfile  = keyfn,
 			password = pw,
 		)
+	if auth:
+		return _ctx_auth
 	return _ctx
 
-def _open(cluster: str, path: str, method: str, timeout: int) -> HTTPResponse:
-	ctx = _context()
-	req = Request(f"https://{cluster}.{_clusters_domain}{path}", method = method)
-	return urlopen(req, timeout = timeout, context = ctx)
-
-def GET(cluster: str, path: str, timeout: int = 7) -> HTTPResponse:
-	return _open(cluster, path, 'GET', timeout)
+#
+# plugin config
+#
 
 @dataclass
 class Config(object):
-	path:   str = '/'
-	status: int = 200
+	auth:    bool = True
+	path:    str  = '/'
+	status:  int  = 200
+	timeout: int  = 7
+
+#
+# http helpers
+#
+
+def _open(cluster: str, method: str, cfg: Config) -> HTTPResponse:
+	ctx = _context(cfg.auth)
+	req = Request(f"https://{cluster}.{_clusters_domain}{cfg.path}", method = method)
+	return urlopen(req, timeout = cfg.timeout, context = ctx)
+
+def GET(cluster: str, cfg: Config) -> HTTPResponse:
+	return _open(cluster, 'GET', cfg)
+
+# main
 
 def main(argv: list[str], cfg: Config) -> int:
 	rc = 0
 	for k in clusters():
 		try:
-			resp = GET(k['host'], cfg.path)
+			resp = GET(k['host'], cfg)
 			log(resp)
 		except Exception as err:
 			error(type(err), err, k)
