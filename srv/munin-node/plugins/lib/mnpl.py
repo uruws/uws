@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 import json
+import re
 import ssl
 
 from dataclasses import dataclass
@@ -9,6 +10,7 @@ from os          import getenv
 from pathlib     import Path
 from ssl         import SSLContext
 from sys         import stderr
+from sys         import stdout
 
 from http.client    import HTTPResponse
 from urllib.request import Request
@@ -32,6 +34,18 @@ def log(*args: Union[list[Any], Any]):
 
 def error(*args: Union[list[Any], Any]):
 	print('[E]', *args, file = _out)
+
+#
+# utils
+#
+
+__field_re = re.compile('\W')
+
+def cleanfn(n):
+	return __field_re.sub('_', n)
+
+def _print(*args: Union[list[Any], Any]):
+	print(*args, file = stdout)
 
 #
 # clusters config
@@ -95,10 +109,16 @@ def _context(auth: bool) -> SSLContext:
 
 @dataclass
 class Config(object):
-	auth:    bool = True
-	path:    str  = '/'
-	status:  int  = 200
-	timeout: int  = 7
+	auth:     bool = True
+	path:     str  = '/'
+	status:   int  = 200
+	timeout:  int  = 7
+	category: str  = 'NO_CATEGORY'
+	label:    str  = 'number'
+	base:     int  = 1000
+	scale:    bool = True
+	warning:  int  = 2
+	critical: int  = 5
 
 #
 # http helpers
@@ -119,7 +139,36 @@ def GET(cluster: str, cfg: Config) -> HTTPResponse:
 # main
 #
 
-def main(argv: list[str], cfg: Config) -> int:
+def config(cfg: Config) -> int:
+	for k in clusters():
+		name = k['name']
+		host = k['host']
+		gid  = cleanfn(f"{name}_{cfg.path}_{cfg.status}")
+		title = cfg.path
+		if not cfg.auth:
+			title += ' (no auth)'
+			gid += '_no_auth'
+		_print(f"multigraph k8s_{gid}")
+		_print(f"graph_title k8s {name} {title}")
+		_print(f"graph_args --base {cfg.base} -l 0")
+		_print('graph_category', cfg.category)
+		_print('graph_vlabel', cfg.label)
+		if cfg.scale:
+			_print('graph_scale yes')
+		_print('a_status.label status:', cfg.status)
+		_print('a_status.colour COLOUR0')
+		_print('a_status.min 0')
+		_print('a_status.max 1')
+		_print('a_status.critical 1:')
+		_print('a_status.info', f"https://{host}.{_clusters_domain}{cfg.path}")
+		_print('b_latency.label latency seconds')
+		_print('b_latency.colour COLOUR1')
+		_print('b_latency.min 0')
+		_print('b_latency.warning', cfg.warning)
+		_print('b_latency.critical', cfg.critical)
+		return 0
+
+def report(cfg: Config) -> int:
 	rc = 0
 	for k in clusters():
 		try:
@@ -129,3 +178,12 @@ def main(argv: list[str], cfg: Config) -> int:
 			error(type(err), err, k)
 			rc += 1
 	return rc
+
+def main(argv: list[str], cfg: Config) -> int:
+	try:
+		action = argv[0]
+	except IndexError:
+		action = 'report'
+	if action == 'config':
+		return config(cfg)
+	return report(cfg)

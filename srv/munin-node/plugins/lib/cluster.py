@@ -7,9 +7,10 @@ import mnpl
 
 def main(argv: list[str]):
 	cfg = mnpl.Config(
-		auth   = False,
-		path   = '/',
-		status = 400,
+		auth     = False,
+		path     = '/',
+		status   = 400,
+		category = 'index',
 	)
 	return mnpl.main(argv, cfg)
 
