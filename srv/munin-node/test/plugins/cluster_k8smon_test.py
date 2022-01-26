@@ -7,7 +7,7 @@ import unittest
 
 import mnpl_t
 
-import cluster_munin
+import cluster_k8smon
 
 class Test(unittest.TestCase):
 
@@ -18,7 +18,7 @@ class Test(unittest.TestCase):
 		mnpl_t.teardown()
 
 	def test_main(t):
-		t.assertEqual(cluster_munin.main([]), 0)
+		t.assertEqual(cluster_k8smon.main([]), 0)
 
 if __name__ == '__main__':
 	unittest.main()
