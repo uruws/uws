@@ -11,6 +11,7 @@ from pathlib     import Path
 from ssl         import SSLContext
 from sys         import stderr
 from sys         import stdout
+from time        import time
 
 from http.client    import HTTPResponse
 from urllib.request import HTTPError
@@ -118,7 +119,7 @@ class Config(object):
 	label:    str  = 'number'
 	base:     int  = 1000
 	scale:    bool = True
-	warning:  int  = 2
+	warning:  int  = 3
 	critical: int  = 5
 
 #
@@ -170,8 +171,8 @@ def config(cfg: Config) -> int:
 	return 0
 
 def _report(host: str, cfg: Config) -> tuple[float, float]:
+	t: float = time()
 	s: float = 0.0
-	l: float = 0.0
 	r: Union[HTTPResponse, HTTPError, None] = None
 	try:
 		r = GET(host, cfg)
@@ -180,7 +181,7 @@ def _report(host: str, cfg: Config) -> tuple[float, float]:
 	code: int = r.getcode()
 	if code is not None and code == cfg.status:
 		s = 1.0
-	return (s, l)
+	return (s, time() - t)
 
 def report(cfg: Config) -> int:
 	for k in clusters():
