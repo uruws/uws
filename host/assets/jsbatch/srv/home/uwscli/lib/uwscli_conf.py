@@ -38,7 +38,7 @@ class App(object):
 	build:            Optional[AppBuild]  = None
 	deploy:           Optional[AppDeploy] = None
 	autobuild:        bool                = False
-	autobuild_deploy: list[str]           = None
+	autobuild_deploy: Optional[list[str]] = None
 
 def _buildpack(src, target):
 	return AppBuild(
