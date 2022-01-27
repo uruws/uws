@@ -10,6 +10,8 @@ import unittest
 import mnpl_t
 import mnpl
 
+_bup_print = mnpl._print
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -32,14 +34,25 @@ class Test(unittest.TestCase):
 		mnpl.error('testing', '...')
 		t.assertEqual(mnpl_t.log_string(), '[E] testing ...')
 
+	def test_cleanfn(t):
+		t.assertEqual(mnpl.cleanfn('k8s-test'), 'k8s_test')
+
+	def test_print(t):
+		_bup_print('testing', '...')
+
 	def test_clusters(t):
 		t.assertEqual(mnpl._clusters_fn, Path('/uws/etc/cluster.json'))
 		t.assertListEqual(mnpl.clusters(), [
 			{'host': 'k8stest', 'name': 'k8stest'},
 		])
 
+	def test_getpw(t):
+		t.assertEqual(mnpl._getpw(), 'pwd')
+		mnpl._tls_cert = 'test-id'
+		t.assertEqual(mnpl._getpw(), '')
+
 	def test_GET(t):
-		t.assertIsNone(mnpl.GET('k8stest', mnpl.Config()))
+		t.assertIsNone(mnpl.GET('k8stest', mnpl.Config(auth = False)))
 
 if __name__ == '__main__':
 	unittest.main()

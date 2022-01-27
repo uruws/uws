@@ -75,7 +75,7 @@ _ctx:      Optional[SSLContext] = None
 _ctx_auth: Optional[SSLContext] = None
 
 def _getpw() -> str:
-	pw: str  = 'None'
+	pw: str  = ''
 	with open(_tls_conf, 'r') as fh:
 		for line in fh.readlines():
 			field = line.strip().split(':')
@@ -91,7 +91,7 @@ def _context(auth: bool) -> SSLContext:
 	if _ctx is None:
 		_ctx = ssl.create_default_context()
 	global _ctx_auth
-	if _ctx_auth is None:
+	if auth and _ctx_auth is None:
 		certfn: Path = _tls_certdir.joinpath(f"{_tls_cert}.pem")
 		keyfn:  Path = _tls_certdir.joinpath(f"{_tls_cert}-key.pem")
 		pw:     str  = _getpw()
