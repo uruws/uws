@@ -86,7 +86,7 @@ def _getpw() -> str:
 				pass
 	return pw
 
-def _context(auth: bool) -> SSLContext:
+def _context(auth: bool) -> Optional[SSLContext]:
 	global _ctx
 	if _ctx is None:
 		_ctx = ssl.create_default_context()
