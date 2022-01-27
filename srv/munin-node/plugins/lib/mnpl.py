@@ -179,9 +179,10 @@ def _report(host: str, cfg: Config) -> tuple[float, float]:
 		r = GET(host, cfg)
 	except HTTPError as err:
 		r = err
-	code: int = r.getcode()
-	if code is not None and code == cfg.status:
-		s = 1.0
+	if r is not None:
+		code: int = r.getcode()
+		if code is not None and code == cfg.status:
+			s = 1.0
 	return (s, time() - t)
 
 def report(cfg: Config) -> int:
