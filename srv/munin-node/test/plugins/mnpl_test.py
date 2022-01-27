@@ -6,6 +6,7 @@
 from pathlib import Path
 
 import unittest
+from unittest.mock import call
 
 import mnpl_t
 import mnpl
@@ -57,6 +58,33 @@ class Test(unittest.TestCase):
 
 	def test_GET(t):
 		t.assertIsNone(mnpl.GET('k8stest', mnpl.Config(auth = False)))
+
+	def test_config(t):
+		cfg = mnpl.Config()
+		t.assertEqual(mnpl.config(cfg), 0)
+		calls = [
+			call('multigraph k8s_k8stest___200'),
+			call('graph_title k8s k8stest /'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category', 'k8stest'),
+			call('graph_vlabel', 'number'),
+			call('graph_scale yes'),
+			call('a_latency.label latency seconds'),
+			call('a_latency.colour COLOUR0'),
+			call('a_latency.draw AREA'),
+			call('a_latency.min 0'),
+			call('a_latency.warning', 3),
+			call('a_latency.critical', 5),
+			call('a_latency.info', 'https://k8stest.uws.talkingpts.org/'),
+			call('b_status.label status:', 200),
+			call('b_status.colour COLOUR1'),
+			call('b_status.draw LINE'),
+			call('b_status.min 0'),
+			call('b_status.max 1'),
+			call('b_status.critical 1:'),
+		]
+		mnpl._print.assert_has_calls(calls)
+		t.assertEqual(mnpl._print.call_count, len(calls))
 
 if __name__ == '__main__':
 	unittest.main()
