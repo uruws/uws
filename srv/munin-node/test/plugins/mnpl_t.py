@@ -20,6 +20,8 @@ def setup():
 	mnpl._out = StringIO()
 	mnpl.urlopen = MagicMock(return_value = None)
 	mnpl._print = MagicMock()
+	mnpl._ctx = None
+	mnpl._ctx_auth = None
 	mnpl._tls_cert = 'cert-id'
 	mnpl._tls_conf = Path('~/test/data/client.pw').expanduser()
 

@@ -49,6 +49,12 @@ class Test(unittest.TestCase):
 		mnpl._tls_cert = 'test-id'
 		t.assertEqual(mnpl._getpw(), '')
 
+	def test_tls_context_auth(t):
+		mnpl._tls_cert = mnpl_t.bup_tls_cert
+		mnpl._tls_conf = mnpl_t.bup_tls_conf
+		ctx = mnpl._context(True)
+		t.assertIs(mnpl._ctx_auth, ctx)
+
 	def test_GET(t):
 		t.assertIsNone(mnpl.GET('k8stest', mnpl.Config(auth = False)))
 
