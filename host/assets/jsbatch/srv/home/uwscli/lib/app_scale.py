@@ -5,7 +5,7 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
 
-def main(argv = []):
+def main(argv: list[str] = []) -> int:
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.deploy_description())
 	flags.add_argument('app', metavar = 'app', default = 'app',

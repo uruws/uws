@@ -1,7 +1,10 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from dataclasses import dataclass
 from os import getenv
+
+from typing import Optional
 
 bindir = getenv('UWSCLI_BINDIR', '/srv/home/uwscli/bin')
 cmddir = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
@@ -10,17 +13,6 @@ deploy_basedir = getenv('UWSCLI_DEPLOY_BASEDIR', '/srv/deploy')
 
 docker_storage = '/srv/docker/lib'
 docker_storage_min = 10*1024*1024 # 10G
-
-class App(object):
-	def __init__(self, app, cluster = None, desc = None, pod = None, build = None, deploy = None, autobuild = False, autobuild_deploy = []):
-		self.app = app
-		self.cluster = cluster
-		self.desc = desc
-		self.pod = pod
-		self.build = build
-		self.deploy = deploy
-		self.autobuild = autobuild
-		self.autobuild_deploy = autobuild_deploy
 
 class AppBuild(object):
 	def __init__(self, dir, script, type = 'cli', src = '.', target = None):
@@ -36,6 +28,17 @@ class AppDeploy(object):
 		self.filter = filter
 		if self.filter is None:
 			self.filter = "%s-" % image
+
+@dataclass
+class App(object):
+	app:              bool                = False
+	cluster:          Optional[str]       = None
+	desc:             Optional[str]       = None
+	pod:              Optional[str]       = None
+	build:            Optional[AppBuild]  = None
+	deploy:           Optional[AppDeploy] = None
+	autobuild:        bool                = False
+	autobuild_deploy: list[str]           = None
 
 def _buildpack(src, target):
 	return AppBuild(

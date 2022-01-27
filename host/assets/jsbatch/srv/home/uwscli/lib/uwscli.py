@@ -144,9 +144,11 @@ def autobuild_description():
 	"""format apps autobuild list description"""
 	return __desc(autobuild_list())
 
-def autobuild_deploy(n):
+def autobuild_deploy(n: str) -> list:
 	"""get list of apps to deploy from an autobuild"""
-	return app[n].autobuild_deploy[:]
+	if app[n].autobuild_deploy is None:
+		return []
+	return app[n].autobuild_deploy.copy()
 
 def build_list():
 	"""return list of apps configured for build"""
