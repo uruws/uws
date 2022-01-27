@@ -10,8 +10,6 @@ import unittest
 import mnpl_t
 import mnpl
 
-_bup_print = mnpl._print
-
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -38,7 +36,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnpl.cleanfn('k8s-test'), 'k8s_test')
 
 	def test_print(t):
-		_bup_print('testing', '...')
+		mnpl_t.bup_print('testing', '...')
 
 	def test_clusters(t):
 		t.assertEqual(mnpl._clusters_fn, Path('/uws/etc/cluster.json'))
