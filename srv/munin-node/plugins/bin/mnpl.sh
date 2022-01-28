@@ -36,6 +36,10 @@ pl_setup() {
 			ln -svf /uws/bin/mnpl.sh /etc/munin/plugins/${p}
 		fi
 	done
+	conf=/etc/munin/plugin-conf.d/mnpl
+	echo '[cluster*]' >${conf}
+	echo 'user uws' >>${conf}
+	echo 'group uws' >>${conf}
 }
 
 if test "X${mod}" = 'Xmnpl.sh'; then
