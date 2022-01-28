@@ -3,7 +3,8 @@ set -eu
 
 TMPDIR=${PWD}/tmp/munin-node
 mkdir -vp -m 0750 ${TMPDIR} ${TMPDIR}/etc
-mkdir -vp -m 0750 ${TMPDIR}/etc/munin ${TMPDIR}/etc/munin/plugins
+mkdir -vp -m 0750 ${TMPDIR}/etc/munin ${TMPDIR}/etc/munin/plugins \
+	${TMPDIR}/etc/munin/plugin-conf.d
 
 docker run -it --rm --name uws-munin-node-utils-devel \
 	--hostname munin-node.uws.local \
