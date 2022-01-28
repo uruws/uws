@@ -33,7 +33,7 @@ pl_setup() {
 	for fn in ${pldir}/*.py; do
 		p=$(basename ${fn} .py)
 		if test "X${p}" != 'Xmnpl'; then
-			install -v -C -m 0750 /uws/bin/mnpl.sh /etc/munin/plugins/${p}
+			install -v -C -m 0750 -g uws /uws/bin/mnpl.sh /etc/munin/plugins/${p}
 		fi
 	done
 	conf=/etc/munin/plugin-conf.d/mnpl
