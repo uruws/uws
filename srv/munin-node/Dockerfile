@@ -40,7 +40,7 @@ RUN chmod -v 0640 /etc/munin/plugin-conf.d/uwsbot
 COPY --chown=root:uws ./build/api-job-stats.bin /uws/bin/api-job-stats
 RUN chmod -v 0750 /uws/bin/api-job-stats
 
-RUN install -v -d -o root -g munin -m 0750 /uws/etc/ca /uws/lib
+RUN install -v -d -o root -g uws -m 0750 /uws/etc/ca /uws/lib
 
 COPY --chown=root:uws ./plugins/bin/mnpl.sh /uws/bin/mnpl.sh
 COPY --chown=root:uws ./plugins/lib /uws/lib/plugins
