@@ -3,7 +3,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from pathlib import Path
+from pathlib      import Path
+from urllib.error import HTTPError
 
 import unittest
 from unittest.mock import MagicMock
@@ -96,25 +97,38 @@ class Test(unittest.TestCase):
 		mnpl._print.assert_has_calls(calls)
 
 	def test_report(t):
+		resp = MagicMock()
+		resp.getcode = MagicMock(return_value = 200)
+		mnpl.urlopen.return_value = resp
 		mnpl._ctx_auth = MagicMock()
 		cfg = mnpl.Config()
 		t.assertEqual(mnpl.report(cfg), 0)
 		calls = [
 			call('multigraph k8s_k8stest___200'),
 			call('a_latency.value', 0.0),
-			call('b_status.value', 0.0),
+			call('b_status.value', 1.0),
 		]
 		mnpl._print.assert_has_calls(calls)
 		t.assertEqual(mnpl._print.call_count, len(calls))
 
 	def test_report_no_auth(t):
+		mnpl.urlopen.return_value = MagicMock()
 		mnpl._ctx_auth = MagicMock()
 		cfg = mnpl.Config(auth = False)
 		t.assertEqual(mnpl.report(cfg), 0)
 		calls = [
 			call('multigraph k8s_k8stest___200_no_auth'),
+			call('a_latency.value', 0.0),
+			call('b_status.value', 0.0),
 		]
 		mnpl._print.assert_has_calls(calls)
+
+	def test_report_error(t):
+		def _error(*args, **kwargs):
+			raise HTTPError('testing', 404, 'mock_error', {}, None)
+		mnpl.urlopen.side_effect = _error
+		cfg = mnpl.Config(auth = False, status = 404)
+		t.assertEqual(mnpl._report('k8stest', cfg), (1.0, 0.0))
 
 if __name__ == '__main__':
 	unittest.main()
