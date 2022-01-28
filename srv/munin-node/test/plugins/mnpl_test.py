@@ -6,6 +6,7 @@
 from pathlib import Path
 
 import unittest
+from unittest.mock import MagicMock
 from unittest.mock import call
 
 import mnpl_t
@@ -91,6 +92,27 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnpl.config(cfg), 0)
 		calls = [
 			call('graph_title k8s k8stest / (no auth)'),
+		]
+		mnpl._print.assert_has_calls(calls)
+
+	def test_report(t):
+		mnpl._ctx_auth = MagicMock()
+		cfg = mnpl.Config()
+		t.assertEqual(mnpl.report(cfg), 0)
+		calls = [
+			call('multigraph k8s_k8stest___200'),
+			call('a_latency.value', 0.0),
+			call('b_status.value', 0.0),
+		]
+		mnpl._print.assert_has_calls(calls)
+		t.assertEqual(mnpl._print.call_count, len(calls))
+
+	def test_report_no_auth(t):
+		mnpl._ctx_auth = MagicMock()
+		cfg = mnpl.Config(auth = False)
+		t.assertEqual(mnpl.report(cfg), 0)
+		calls = [
+			call('multigraph k8s_k8stest___200_no_auth'),
 		]
 		mnpl._print.assert_has_calls(calls)
 
