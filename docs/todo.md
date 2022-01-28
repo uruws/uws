@@ -21,6 +21,10 @@
 
 * jsbatch munin check clusters' munin - `WIP`
 
+* meteor configure at deploy and restart (web and workers)
+
+* mongodb credentials rotation
+
 * meteor app
     * set STAGING_APP_VERSION during test clusters deploy
 
