@@ -10,8 +10,22 @@ import unittest
 from unittest.mock import MagicMock
 from unittest.mock import call
 
+from contextlib import contextmanager
+
 import mnpl_t
 import mnpl
+
+@contextmanager
+def mock_main():
+	_bup_config = mnpl.config
+	_bup_report = mnpl.report
+	try:
+		mnpl.config = MagicMock(return_value = 0)
+		mnpl.report = MagicMock(return_value = 0)
+		yield
+	finally:
+		mnpl.config = _bup_config
+		mnpl.report = _bup_report
 
 class Test(unittest.TestCase):
 
@@ -129,6 +143,18 @@ class Test(unittest.TestCase):
 		mnpl.urlopen.side_effect = _error
 		cfg = mnpl.Config(auth = False, status = 404)
 		t.assertEqual(mnpl._report('k8stest', cfg), (1.0, 0.0))
+
+	def test_main_config(t):
+		with mock_main():
+			t.assertEqual(mnpl.main(['config'], None), 0)
+			mnpl.config.assert_called_once_with(None)
+			mnpl.report.assert_not_called()
+
+	def test_main_report(t):
+		with mock_main():
+			t.assertEqual(mnpl.main([], None), 0)
+			mnpl.report.assert_called_once_with(None)
+			mnpl.config.assert_not_called()
 
 if __name__ == '__main__':
 	unittest.main()
