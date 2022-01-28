@@ -23,9 +23,10 @@ class AppBuild(object):
 		self.target = target
 
 class AppDeploy(object):
-	def __init__(self, image, filter = None):
-		self.image = image
-		self.filter = filter
+	def __init__(self, image: str, filter: Optional[str] = None, scale_max: int = 100):
+		self.image:     str           = image
+		self.scale_max: int           = scale_max
+		self.filter:    Optional[str] = filter
 		if self.filter is None:
 			self.filter = "%s-" % image
 
