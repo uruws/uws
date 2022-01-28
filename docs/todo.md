@@ -14,12 +14,12 @@
         * web_time
             * response (request?) avg
 
+* jsbatch munin check clusters' munin - `DONE!`
+
 * workers
     * scale down: 40 -> 60 - `DONE!`
     * scale up: 75 -> 95 - `DONE!`
     * remove web endpoint? (worker.uws.talkingpts.org)
-
-* jsbatch munin check clusters' munin - `WIP`
 
 * meteor configure at deploy and restart (web and workers)
 
