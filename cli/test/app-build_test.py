@@ -22,6 +22,17 @@ def mock_check_storage(status = 0):
 	finally:
 		app_build.check_storage = cs_bup
 
+@contextmanager
+def mock_run():
+	_bup_sleep = app_build.sleep
+	try:
+		app_build.sleep = MagicMock()
+		with mock_check_storage():
+			with uwscli_t.mock_system():
+				yield
+	finally:
+		app_build.sleep = _bup_sleep
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -102,6 +113,35 @@ class Test(unittest.TestCase):
 					t.assertEqual(app_build.main(['app', '0.999']), 0)
 				finally:
 					del uwscli.app['app']
+
+	def test_run(t):
+		calls = [
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 0.999', timeout = 3600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing 0.999'),
+		]
+		with mock_run():
+			t.assertEqual(app_build.run('testing', '0.999'), 0)
+			uwscli.system.assert_has_calls(calls)
+
+	def test_run_pack(t):
+		calls = [
+			call('/usr/bin/sudo -H -n -u uws -- /srv/deploy/App/build.sh --src . --target None --version 0.999', timeout = 3600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh app 0.999'),
+		]
+		with mock_run():
+			try:
+				uwscli.app['app'] = uwscli_conf.App(True,
+					cluster = 'ktest',
+					desc = 'App',
+					pod = 'app',
+					build = uwscli_conf.AppBuild('/srv/deploy/App', 'build.sh'),
+					deploy = uwscli_conf.AppDeploy('app'),
+				)
+				uwscli.app['app'].build.type = 'pack'
+				t.assertEqual(app_build.run('app', '0.999'), 0)
+				uwscli.system.assert_has_calls(calls)
+			finally:
+				del uwscli.app['app']
 
 if __name__ == '__main__':
 	unittest.main()
