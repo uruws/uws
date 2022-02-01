@@ -19,7 +19,7 @@
     * scale up: 75 -> 95 - `DONE!`
     * remove web endpoint? (worker.uws.talkingpts.org)
 
-* setup nlp category service - `WIP`
+* setup nlp category service - `DONE!`
 
 * `FIX` app-autobuild deploy:
     * do not nq jobs to avoid sync issues
@@ -88,6 +88,8 @@
     * take the opportunity to start using docker setup?
 
 * 2202 round of upgrades
+
+* nlpsvc: separate apps namespaces (for graphs and cli status/logs)
 
 * configurable app-autoscale
 
