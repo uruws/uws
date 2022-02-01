@@ -4,8 +4,6 @@
 
 * configure staging prod domain name on apptest - `DONE!`
 
-* `FIX` app-autobuild deploy bug - `DONE!`
-
 * munin alerts: tune/add graph limits - `DONE!`
     * all cluster checks
         * web_request (response?)
@@ -21,9 +19,17 @@
     * scale up: 75 -> 95 - `DONE!`
     * remove web endpoint? (worker.uws.talkingpts.org)
 
+* setup nlp category service - `WIP`
+
+* `FIX` app-autobuild deploy:
+    * do not nq jobs to avoid sync issues
+    * just run the whole process on the same step/script
+
 * meteor configure at deploy and restart (web and workers)
 
-* mongodb credentials rotation
+* mongodb credentials rotation?
+
+* mongodb analyzer?
 
 * meteor app
     * set STAGING_APP_VERSION during test clusters deploy
