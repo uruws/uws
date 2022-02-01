@@ -36,8 +36,8 @@ class App(object):
 	cluster:          Optional[str]       = None
 	desc:             Optional[str]       = None
 	pod:              Optional[str]       = None
-	build:            Optional[AppBuild]  = None
-	deploy:           Optional[AppDeploy] = None
+	build:            AppBuild            = AppBuild('', '')
+	deploy:           AppDeploy           = AppDeploy('')
 	autobuild:        bool                = False
 	autobuild_deploy: Optional[list[str]] = None
 
@@ -50,7 +50,7 @@ def _buildpack(src, target):
 		target = target,
 	)
 
-app = {
+app: dict[str, App] = {
 	'app': App(False,
 		desc = 'App web and workers',
 		build = _buildpack('app/src', 'app'),

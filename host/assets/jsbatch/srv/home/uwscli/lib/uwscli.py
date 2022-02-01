@@ -91,7 +91,7 @@ def _setenv(env):
 		e.update(env)
 	return e
 
-system_ttl = 600
+system_ttl: int = 600
 
 def system(cmd, env = None, timeout = system_ttl):
 	"""run system commands"""
@@ -150,17 +150,17 @@ def autobuild_deploy(n: str) -> list:
 		return []
 	return app[n].autobuild_deploy.copy() # type: ignore
 
-def build_list():
+def build_list() -> list[str]:
 	"""return list of apps configured for build"""
-	return sorted([n for n in app.keys() if app[n].build is not None])
+	return sorted([n for n in app.keys() if app[n].build.dir != ''])
 
 def build_description():
 	"""format build apps description"""
 	return __desc(build_list())
 
-def deploy_list():
+def deploy_list() -> list[str]:
 	"""return list of apps configured for deploy"""
-	return sorted([n for n in app.keys() if app[n].deploy is not None])
+	return sorted([n for n in app.keys() if app[n].deploy.image != ''])
 
 def deploy_description():
 	"""format deploy apps description"""
@@ -175,7 +175,7 @@ def nq(cmd, args, bindir = cmddir):
 	"""enqueue internal command"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
 
-def run(cmd, args, timeout = system_ttl):
+def run(cmd, args, cmddir: str = cmddir, timeout: int = system_ttl):
 	"""run internal command"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
 		timeout = timeout)
