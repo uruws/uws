@@ -2,10 +2,23 @@
 # See LICENSE file.
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from time import sleep
 
 import uwscli
 
-def check_storage():
+def run(app: str, version: str, timeout: int = 3600) -> int:
+	rc = 0
+	st = check_storage()
+	if st != 0:
+		rc = st
+	st = _build(app, version, timeout = timeout)
+	if st != 0:
+		rc = st
+	sleep(1)
+	cleanBuild(app, version)
+	return rc
+
+def check_storage() -> int:
 	x = "df -kl %s" % uwscli.docker_storage
 	x += " | tail -n1 | awk '{ print $4 }'"
 	rc, out = uwscli.gso(x)
@@ -21,7 +34,20 @@ def check_storage():
 		return 8
 	return 0
 
-def nq(app, version):
+def _build(app: str, version: str, timeout: int = 3600) -> int:
+	builder = uwscli.app[app].build.type
+	build_dir = uwscli.app[app].build.dir
+	build_script = uwscli.app[app].build.script
+	if builder == 'pack':
+		src = uwscli.app[app].build.src
+		target = uwscli.app[app].build.target
+		args = "--src %s --target %s --version %s" % (src, target, version)
+		return uwscli.run(build_script, args, cmddir = build_dir)
+	else:
+		args = "%s %s %s %s" % (app, build_dir, build_script, version)
+		return uwscli.run('app-build.sh', args)
+
+def nq(app: str, version: str):
 	builder = uwscli.app[app].build.type
 	build_dir = uwscli.app[app].build.dir
 	build_script = uwscli.app[app].build.script
@@ -34,7 +60,7 @@ def nq(app, version):
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.nq('app-build.sh', args)
 
-def cleanBuild(app, version):
+def cleanBuild(app: str, version: str):
 	rc = uwscli.clean_build(app, version)
 	if rc != 0:
 		uwscli.error('ERROR: app clean:', app, version, 'failed!')
