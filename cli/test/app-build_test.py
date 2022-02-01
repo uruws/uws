@@ -33,6 +33,23 @@ def mock_run():
 	finally:
 		app_build.sleep = _bup_sleep
 
+@contextmanager
+def mock_run_error(check_storage_status = 0, build_status = 0):
+	_bup_sleep = app_build.sleep
+	_bup_check_storage = app_build.check_storage
+	_bup_build = app_build._build
+	try:
+		app_build.sleep = MagicMock()
+		with mock_check_storage():
+			with uwscli_t.mock_system():
+				app_build.check_storage = MagicMock(return_value = check_storage_status)
+				app_build._build = MagicMock(return_value = build_status)
+				yield
+	finally:
+		app_build.sleep = _bup_sleep
+		app_build.check_storage = _bup_check_storage
+		app_build._build = _bup_build
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -142,6 +159,12 @@ class Test(unittest.TestCase):
 				uwscli.system.assert_has_calls(calls)
 			finally:
 				del uwscli.app['app']
+
+	def test_run_errors(t):
+		with mock_run_error(check_storage_status = 99):
+			t.assertEqual(app_build.run('testing', '0.999'), 99)
+		with mock_run_error(build_status = 99):
+			t.assertEqual(app_build.run('testing', '0.999'), 99)
 
 if __name__ == '__main__':
 	unittest.main()

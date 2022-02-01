@@ -7,16 +7,15 @@ from time import sleep
 import uwscli
 
 def run(app: str, version: str, timeout: int = 3600) -> int:
-	rc = 0
 	st = check_storage()
 	if st != 0:
-		rc = st
+		return st
 	st = _build(app, version, timeout = timeout)
 	if st != 0:
-		rc = st
+		return st
 	sleep(1)
 	cleanBuild(app, version)
-	return rc
+	return 0
 
 def check_storage() -> int:
 	x = "df -kl %s" % uwscli.docker_storage
