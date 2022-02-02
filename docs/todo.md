@@ -21,7 +21,7 @@
 
 * setup nlp category service - `DONE!`
 
-* `FIX` app-autobuild deploy:
+* `FIX` app-autobuild deploy: - `DONE!`
     * do not nq jobs to avoid sync issues
     * just run the whole process on the same step/script
 
