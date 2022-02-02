@@ -1,38 +1,19 @@
-* cluster stats - `DONE!`
-    * k8s apiserver metrics
-        * uwskube get --raw /metrics
-
-* configure staging prod domain name on apptest - `DONE!`
-
-* munin alerts: tune/add graph limits - `DONE!`
-    * all cluster checks
-        * web_request (response?)
-            * errors_ratio (once created)
-        * web_latency?
-        * web_time
-            * response (request?) avg
-
-* jsbatch munin check clusters' munin - `DONE!`
-
 * workers
-    * scale down: 40 -> 60 - `DONE!`
-    * scale up: 75 -> 95 - `DONE!`
-    * remove web endpoint? (worker.uws.talkingpts.org)
+    * remove web endpoint (worker.uws.talkingpts.org)
+        * check traffic first
 
-* setup nlp category service - `DONE!`
+* meteor app
+    * set STAGING_APP_VERSION during test clusters deploy
 
-* `FIX` app-autobuild deploy: - `DONE!`
-    * do not nq jobs to avoid sync issues
-    * just run the whole process on the same step/script
+* uwscli app access by group
 
-* meteor configure at deploy and restart (web and workers) - `DONE!`
+* nlp app-deploy access
+
+* uwsq: clean failed jobs
 
 * mongodb credentials rotation?
 
 * mongodb analyzer?
-
-* meteor app
-    * set STAGING_APP_VERSION during test clusters deploy
 
 * app-autobuild deploy
     * wait some time between deploys on "multi cluster" apps
@@ -46,8 +27,7 @@
             * create forward rules to slack and others
 
 * k8smon munin-node plugin: - `WIP`
-    * node_condition: graph and alert status Unknown - `DONE!`
-    * uwskube get node .... -o json
+    * node_taint info
 
     "spec": {
         "providerID": "aws:///us-east-1f/i-000c306dd70ccd8d6",
@@ -86,8 +66,6 @@
 * configurable app-autobuild
 
 * check clusters k8s mon and ctl internal services from jsbatch/ops.uws
-
-* uwscli app access by group
 
 * golang tools unittests and CI integration
     * golib
@@ -151,7 +129,6 @@
     * show events log or auto-refresh status info
     * control deploy replicas
     * show web proxy logs
-    * uwsq: clean failed jobs
 
 * cache web assets
     * use separate domain for static assets
