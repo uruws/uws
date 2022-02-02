@@ -9,8 +9,9 @@ docker_args=${DOCKER_ARGS:-''}
 k8s=${PWD}/k8s
 pod=${PWD}/pod
 awsdir=${PWD}/secret/eks/aws/client/${cluster}
-eksenv=${PWD}/eks/env/${cluster}.env
+secret=${PWD}/secret/eks/files
 
+eksenv=${PWD}/eks/env/${cluster}.env
 # shellcheck disable=SC1090
 . ${eksenv}
 
@@ -28,6 +29,7 @@ exec docker run --rm ${docker_args} \
 	-v ${k8s}:/home/uws/k8s:ro \
 	-v ${pod}:/home/uws/pod:ro \
 	-v ${awsdir}:/home/uws/.aws:ro \
+	-v ${secret}/meteor:/home/uws/secret/meteor:ro \
 	-v ${kubedir}:/home/uws/.kube/eksctl/clusters:ro \
 	-v ${kube_cache}/:/home/uws/.kube/cache \
 	--env-file ${eksenv} \
