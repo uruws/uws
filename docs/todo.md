@@ -1,3 +1,6 @@
+* k8smon munin-node plugin: - `DONE!`
+    * node_taint info
+
 * workers
     * remove web endpoint (worker.uws.talkingpts.org)
         * check traffic first
@@ -25,31 +28,6 @@
             * munin-alerts TO
             * gmail fetch
             * create forward rules to slack and others
-
-* k8smon munin-node plugin: - `WIP`
-    * node_taint info
-
-    "spec": {
-        "providerID": "aws:///us-east-1f/i-000c306dd70ccd8d6",
-        "taints": [
-            {
-                "effect": "NoSchedule",
-                "key": "node.kubernetes.io/unreachable",
-                "timeAdded": "2022-01-25T15:13:10Z"
-            },
-            {
-                "effect": "NoExecute",
-                "key": "node.kubernetes.io/unreachable",
-                "timeAdded": "2022-01-26T05:58:24Z"
-            },
-            {
-                "effect": "NoSchedule",
-                "key": "node.kubernetes.io/unschedulable",
-                "timeAdded": "2022-01-26T15:25:32Z"
-            }
-        ],
-        "unschedulable": true
-    },
 
 * cs runs on amybeta cluster: move it?
     * make it the first k8s v1.21 version?
