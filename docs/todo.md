@@ -1,12 +1,12 @@
 * k8smon munin-node plugin: - `DONE!`
     * node_taint info
 
+* meteor app - `DONE!`
+    * set STAGING_APP_VERSION during test clusters deploy
+
 * workers
     * remove web endpoint (worker.uws.talkingpts.org)
         * check traffic first
-
-* meteor app
-    * set STAGING_APP_VERSION during test clusters deploy
 
 * uwscli app access by group
 

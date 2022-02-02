@@ -68,6 +68,9 @@ spec:
               value: "TRUE"
             - name: NODE_OPTIONS
               value: "--max-old-space-size=1600"
+          envFrom:
+            - secretRef:
+                name: meteor-deploy-env
           resources:
             requests:
               cpu: 800m

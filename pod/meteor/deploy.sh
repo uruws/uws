@@ -1,10 +1,11 @@
 #!/bin/sh
 set -eu
-app=${1:?'app name?'}
-appver=${2:-''}
+ns=${1:?'app namespace?'}
+app=${2:?'app name?'}
+appver=${3:-''}
 pod=${HOME}/pod/meteor/${app}
 if test "X${appver}" != 'X'; then
-	~/pod/meteor/setcfg.sh "${app}" "${appver}"
+	~/pod/meteor/setcfg.sh "${ns}" "${app}" "${appver}"
 fi
 envf=$(mktemp -p /tmp meteor-${app}-deploy.XXXXXXXX)
 ~/pod/meteor/getcfg.sh "${app}" >${envf}
