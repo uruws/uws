@@ -12,11 +12,13 @@ sys.path.insert(0, MONLIB)
 import mon_kube as kube
 
 import nodes_info
+import nodes_taint
 import nodes_top
 
 _mods = {
 	'info': dict(
 		nodes_info = nodes_info,
+		nodes_taint = nodes_taint,
 	),
 	'top': dict(
 		nodes_top = nodes_top,
