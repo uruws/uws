@@ -33,7 +33,7 @@ class AppDeploy(object):
 @dataclass
 class App(object):
 	app:              bool                = False
-	cluster:          Optional[str]       = None
+	cluster:          str                 = ''
 	desc:             Optional[str]       = None
 	pod:              Optional[str]       = None
 	build:            AppBuild            = AppBuild('', '')

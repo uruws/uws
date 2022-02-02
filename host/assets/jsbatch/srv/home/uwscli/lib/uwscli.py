@@ -186,10 +186,10 @@ def clean_build(app, version):
 
 # aws utils
 
-def list_images(appname, region = None):
+def list_images(appname: str, region: str = '') -> list[str]:
 	"""get aws ECR list of available app images"""
 	kn = app[appname].cluster
-	if region is None:
+	if region == '':
 		region = cluster[kn]['region']
 	cmd = "aws ecr list-images --output text --repository-name uws"
 	cmd += " --region %s" % region
