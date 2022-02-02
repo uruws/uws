@@ -59,7 +59,7 @@ type node struct {
 	} `json:"status"`
 	Spec struct {
 		ProviderID string      `json:"providerID"`
-		Taints     []nodeTaint `json:"taints"`
+		Taints     []nodeTaint `json:"taints,omitempty"`
 	} `json:"spec"`
 }
 
