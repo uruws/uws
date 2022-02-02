@@ -45,18 +45,8 @@
             * gmail fetch
             * create forward rules to slack and others
 
-* k8smon munin-node plugin:
-    * node_condition: graph and alert status Unknown (include message too as field.info?)
-
-    {
-        "lastHeartbeatTime": "2022-01-25T15:12:21Z",
-        "lastTransitionTime": "2022-01-25T15:13:10Z",
-        "message": "Kubelet stopped posting node status.",
-        "reason": "NodeStatusUnknown",
-        "status": "Unknown",
-        "type": "Ready"
-    }
-
+* k8smon munin-node plugin: - `WIP`
+    * node_condition: graph and alert status Unknown - `DONE!`
     * uwskube get node .... -o json
 
     "spec": {
