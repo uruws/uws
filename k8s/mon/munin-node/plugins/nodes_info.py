@@ -7,7 +7,9 @@ def parse(nodes):
 	mon.dbg('nodes_info parse')
 	sts = dict(
 		nodes = 0,
-		condition = dict(),
+		condition = dict(
+			Unknown = 0,
+		),
 		nodes_type = dict(),
 	)
 	items = nodes.get('items', [])
@@ -18,22 +20,23 @@ def parse(nodes):
 			m = i.get('metadata', {})
 			n = m.get('name', None)
 			t = m.get('labels', {}).get('node.kubernetes.io/instance-type', 'unknown')
+			# type
 			if not sts.get('nodes_type', None):
 				sts['nodes_type'] = {}
 			if not sts['nodes_type'].get(t, None):
 				sts['nodes_type'][t] = 0
 			sts['nodes_type'][t] += 1
+			# conditions
 			s = i.get('status', {})
 			for c in s.get('conditions', []):
+				typ = c['type']
+				if not sts['condition'].get(typ, None):
+					sts['condition'][typ] = 0
 				if c['status'] == 'True':
-					typ = c['type']
-					if not sts['condition'].get(typ, None):
-						sts['condition'][typ] = 0
 					sts['condition'][typ] += 1
-				else:
-					typ = c['type']
-					if not sts['condition'].get(typ, None):
-						sts['condition'][typ] = 0
+				elif c['status'] == 'Unknown':
+					if typ == 'Ready':
+						sts['condition']['Unknown'] += 1
 	return sts
 
 def _print(*args):
