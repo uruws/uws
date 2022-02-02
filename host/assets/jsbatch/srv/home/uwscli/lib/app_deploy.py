@@ -5,12 +5,15 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
 
-def deploy(app, version):
+def deploy(app: str, version: str) -> int:
+	if not version in uwscli.list_images(app):
+		uwscli.error("invalid %s build: %s" % (app, version))
+		return 9
 	args = "%s %s deploy %s" % (uwscli.app[app].cluster,
 		uwscli.app[app].pod, version)
 	return uwscli.ctl(args)
 
-def main(argv = []):
+def main(argv: list[str] = []) -> int:
 	epilog = uwscli.deploy_description()
 	epilog += '\nif no app version is provided a list of available builds will be shown'
 
@@ -24,9 +27,6 @@ def main(argv = []):
 	args = flags.parse_args(argv)
 
 	if args.version != '':
-		if not args.version in uwscli.list_images(args.app):
-			uwscli.error("invalid %s build: %s" % (args.app, args.version))
-			return 1
 		rc = deploy(args.app, args.version)
 		if rc != 0:
 			uwscli.error("enqueue of %s deploy job failed!" % args.app)

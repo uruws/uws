@@ -16,11 +16,13 @@ class Test(unittest.TestCase):
 
 	def test_deploy_error(t):
 		with uwscli_t.mock_system(status = 99):
-			t.assertEqual(app_deploy.deploy('testing', '0.999'), 99)
+			with uwscli_t.mock_list_images(['0.999']):
+				t.assertEqual(app_deploy.deploy('testing', '0.999'), 99)
 
 	def test_deploy(t):
 		with uwscli_t.mock_system():
-			t.assertEqual(app_deploy.deploy('testing', '0.999'), 0)
+			with uwscli_t.mock_list_images(['0.999']):
+				t.assertEqual(app_deploy.deploy('testing', '0.999'), 0)
 
 	def test_main_no_args(t):
 		with t.assertRaises(SystemExit) as e:
@@ -43,9 +45,10 @@ class Test(unittest.TestCase):
 
 	def test_main_errors(t):
 		with uwscli_t.mock_system(status = 99):
-			t.assertEqual(app_deploy.deploy('testing', '0.999'), 99)
+			with uwscli_t.mock_list_images(['0.999']):
+				t.assertEqual(app_deploy.deploy('testing', '0.999'), 99)
 		with uwscli_t.mock_list_images():
-			t.assertEqual(app_deploy.main(['testing', '0.999']), 1)
+			t.assertEqual(app_deploy.main(['testing', '0.999']), 9)
 		with uwscli_t.mock_list_images(['0.999']):
 			with uwscli_t.mock_system(status = 99):
 				t.assertEqual(app_deploy.main(['testing', '0.999']), 99)
