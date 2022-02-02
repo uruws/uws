@@ -25,7 +25,7 @@
     * do not nq jobs to avoid sync issues
     * just run the whole process on the same step/script
 
-* meteor configure at deploy and restart (web and workers)
+* meteor configure at deploy and restart (web and workers) - `DONE!`
 
 * mongodb credentials rotation?
 
