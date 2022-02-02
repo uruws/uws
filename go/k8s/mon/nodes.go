@@ -27,6 +27,11 @@ type nodeImages struct {
 	SizeBytes int      `json:"sizeBytes"`
 }
 
+type nodeTaint struct {
+	Effect string `json:"effect"`
+	Key    string `json:"key"`
+}
+
 type node struct {
 	Kind string `json:"kind"`
 	Meta struct {
@@ -52,6 +57,10 @@ type node struct {
 			UUID             string `json:"systemUUID"`
 		} `json:"nodeInfo"`
 	} `json:"status"`
+	Spec struct {
+		ProviderID string      `json:"providerID"`
+		Taints     []nodeTaint `json:"taints"`
+	} `json:"spec"`
 }
 
 type nodeList struct {
