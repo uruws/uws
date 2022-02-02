@@ -11,6 +11,7 @@ import unittest
 from unittest.mock import MagicMock, call
 
 import uwscli_t
+import app_build_test
 
 import uwscli
 import app_autobuild
@@ -149,41 +150,12 @@ class Test(unittest.TestCase):
 		with mock_status(fail = True):
 			t.assertFalse(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
-	def test_dispatch(t):
-		calls = [
-			call('/srv/home/uwscli/bin/app-build testing 0.999.0'),
-			call('/usr/bin/nq -c -- /srv/uws/deploy/cli/app-autobuild-deploy.sh testing 0.999.0', env={'NQDIR': app_autobuild._nqdir})
-		]
-		with mock():
-			with uwscli_t.mock_system():
-				t.assertEqual(app_autobuild._dispatch('testing', '0.999.0'), 0)
-				uwscli.system.assert_has_calls(calls)
-
-	def test_dispatch_errors(t):
-		with mock():
-			with uwscli_t.mock_system(status = 99):
-				t.assertEqual(app_autobuild._dispatch('testing', '0.999.0'),
-					app_autobuild.EBUILD_RUN)
-			with uwscli_t.mock_system(fail_cmd = '/usr/bin/nq'):
-				t.assertEqual(app_autobuild._dispatch('testing', '0.999.0'),
-					app_autobuild.EDEPLOY_NQ)
-
-	def test_dispatch_nq_error(t):
-		def __fail(cmd, env = {}):
-			if cmd.startswith('/usr/bin/nq'):
-				raise PermissionError('mock_error')
-			return 0
-		with mock():
-			with uwscli_t.mock_system():
-				uwscli.system.side_effect = __fail
-				t.assertEqual(app_autobuild._dispatch('testing', '0.999.0'),
-					app_autobuild.EDEPLOY_NQ)
-
 	def test_build(t):
 		with mock():
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_check_output(output = '0.999.0'):
-					t.assertEqual(app_autobuild._build('testing'), 0)
+					with app_build_test.mock_run():
+						t.assertEqual(app_autobuild._build('testing'), 0)
 
 	def test_build_error(t):
 		with uwscli_t.mock_chdir(fail = True):
@@ -198,7 +170,7 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_list_images(['0.999.0']):
 					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
-				uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy test-1 0.999.0')
+				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0', timeout=600)
 		with uwscli_t.mock_system():
 			with uwscli_t.mock_list_images(['0.999.0']):
 				t.assertEqual(app_autobuild._deploy('testing', '1.999.0'), 0)
@@ -212,14 +184,16 @@ class Test(unittest.TestCase):
 						app_autobuild.EDEPLOY)
 
 	def test_deploy_buildpack(t):
-		with mock_deploy():
-			t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
-			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy test-1 0.999.0')
-			app_autobuild._latestBuild.assert_called_once_with('test-1')
-		with mock_deploy(build = '0.999.0-bp999'):
-			t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
-			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy test-1 0.999.0-bp999')
-			app_autobuild._latestBuild.assert_called_once_with('test-1')
+		with uwscli_t.mock_list_images(['0.999.0']):
+			with mock_deploy():
+				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
+				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0', timeout=600)
+				app_autobuild._latestBuild.assert_called_once_with('test-1')
+		with uwscli_t.mock_list_images(['0.999.0-bp999']):
+			with mock_deploy(build = '0.999.0-bp999'):
+				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
+				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0-bp999', timeout=600)
+				app_autobuild._latestBuild.assert_called_once_with('test-1')
 
 if __name__ == '__main__':
 	unittest.main()

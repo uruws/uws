@@ -7,18 +7,18 @@ from pathlib import Path
 from time import sleep
 
 import uwscli
+import app_build
+import app_deploy
 
 import semver # type: ignore
 
 _status_dir = getenv('UWSCLI_BUILD_STATUS_DIR', '/run/uwscli/build')
 _nqdir      = getenv('UWSCLI_NQDIR', '/run/uwscli/nq')
 
-ESETUP     = 10
-ETAG       = 11
-EBUILD_RUN = 12
-EDEPLOY_NQ = 13
-EBUILD     = 14
-EDEPLOY    = 15
+ESETUP  = 10
+ETAG    = 11
+EBUILD  = 12
+EDEPLOY = 13
 
 def _setup():
 	try:
@@ -68,28 +68,7 @@ def _isBuildingOrDone(app, tag):
 		return False
 	return True
 
-def _dispatch(app, tag):
-	"""dispatch app tag build"""
-	cmd = f"{uwscli.bindir}/app-build {app} {tag}"
-	uwscli.info(cmd)
-	rc = uwscli.system(cmd)
-	if rc != 0:
-		uwscli.error('[ERROR]:', cmd, '- exit status:', rc)
-		return EBUILD_RUN
-	sleep(1)
-	cmd = f"{uwscli.cmddir}/app-autobuild-deploy.sh"
-	uwscli.info(cmd, app, tag)
-	x = ['/usr/bin/nq', '-c', '--', cmd, app, tag]
-	try:
-		rc = uwscli.system(' '.join(x), env = {'NQDIR': _nqdir})
-		if rc != 0:
-			return EDEPLOY_NQ
-	except Exception as err:
-		uwscli.error(f"[ERROR] {cmd}:", err)
-		return EDEPLOY_NQ
-	return 0
-
-def _build(app):
+def _build(app: str) -> int:
 	build = uwscli.app[app].build
 	try:
 		with uwscli.chdir(build.dir):
@@ -103,7 +82,7 @@ def _build(app):
 				return ETAG
 			if _isBuildingOrDone(app, tag):
 				return 0
-			return _dispatch(app, tag)
+			return app_build.run(app, tag)
 	except SystemExit:
 		pass
 	return EBUILD
@@ -111,19 +90,17 @@ def _build(app):
 def _latestBuild(app):
 	return str(max(filter(_semverFilter, uwscli.list_images(app))))
 
-def _deploy(app, tag):
+def _deploy(app: str, tag: str) -> int:
 	t = semver.VersionInfo.parse(tag)
-	ver = None
+	ver: str = ''
 	for n in uwscli.autobuild_deploy(app):
-		if ver is None:
+		if ver == '':
 			ver = _latestBuild(n)
-		if ver is not None:
+		if ver != '':
 			v = semver.VersionInfo.parse(ver.split('-')[0])
 			if v >= t:
-				uwscli.log(app, 'autobuild deploy:', n, ver)
-				cmd = f"/srv/home/uwscli/bin/app-deploy {n} {ver}"
-				uwscli.info(cmd)
-				rc = uwscli.system(cmd)
+				uwscli.info('app-build:', app, ver)
+				rc = app_deploy.deploy(app, ver)
 				if rc != 0:
 					return EDEPLOY
 	return 0

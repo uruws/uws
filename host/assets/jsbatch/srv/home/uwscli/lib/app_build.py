@@ -46,7 +46,7 @@ def _build(app: str, version: str, timeout: int = 3600) -> int:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.run('app-build.sh', args, timeout = timeout)
 
-def nq(app: str, version: str):
+def nq(app: str, version: str) -> int:
 	builder = uwscli.app[app].build.type
 	build_dir = uwscli.app[app].build.dir
 	build_script = uwscli.app[app].build.script
