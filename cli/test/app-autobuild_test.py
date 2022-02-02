@@ -18,16 +18,13 @@ import app_autobuild
 
 @contextmanager
 def mock():
-	sleep_bup = app_autobuild.sleep
 	try:
-		app_autobuild.sleep = MagicMock()
 		uwscli.app['testing'].autobuild = True
 		uwscli.app['testing'].autobuild_deploy = ['test-1']
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_mkdir():
 				yield
 	finally:
-		app_autobuild.sleep = sleep_bup
 		uwscli.app['testing'].autobuild = False
 		uwscli.app['testing'].autobuild_deploy = []
 
@@ -102,21 +99,31 @@ class Test(unittest.TestCase):
 				with uwscli_t.mock_check_output(output = 'Testing'):
 					t.assertEqual(app_autobuild.main(['testing']), app_autobuild.ETAG)
 
-	def test_main(t):
-		# done already
+	def test_main_steps(t):
+		calls = [
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .', timeout=600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 1.999.0', timeout=3600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing 1.999.0'),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 1.999.0-bp99', timeout=600),
+		]
+		with app_build_test.mock_run():
+			with uwscli_t.mock_check_output(output = '1.999.0'):
+				with mock_deploy(build = '1.999.0-bp99'):
+					with mock():
+						with uwscli_t.mock_list_images(['1.999.0-bp99']):
+							t.assertEqual(app_autobuild.main(['testing']), 0)
+							uwscli.system.assert_has_calls(calls)
+
+	def test_main_done(t):
+		calls = [
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .', timeout=600),
+		]
 		with mock():
 			with mock_status(st = 'OK'):
 				with uwscli_t.mock_check_output(output = '0.999.0'):
-					with uwscli_t.mock_system():
+					with mock_deploy():
 						t.assertEqual(app_autobuild.main(['testing']), 0)
-						cmd = '/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .'
-						uwscli.system.assert_called_once_with(cmd, timeout = 600)
-
-	def test_main_deploy(t):
-		with uwscli_t.mock_system():
-			with uwscli_t.mock_list_images(['0.999.0']):
-				uwscli.app['testing'].autobuild = True
-				t.assertEqual(app_autobuild.main(['testing', '--deploy', '0.999.0']), 0)
+						uwscli.system.assert_has_calls(calls)
 
 	def test_latestTag(t):
 		with uwscli_t.mock_check_output(output = linesep.join(['0.0.0', '0.1.0'])):
@@ -155,11 +162,11 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_check_output(output = '0.999.0'):
 					with app_build_test.mock_run():
-						t.assertEqual(app_autobuild._build('testing'), 0)
+						t.assertEqual(app_autobuild._build('testing'), (0, '0.999.0'))
 
 	def test_build_error(t):
 		with uwscli_t.mock_chdir(fail = True):
-			t.assertEqual(app_autobuild._build('testing'), app_autobuild.EBUILD)
+			t.assertEqual(app_autobuild._build('testing'), (app_autobuild.EBUILD, ''))
 
 	def test_latestBuild(t):
 		with uwscli_t.mock_list_images(['0.999.0', '0.0.999']):

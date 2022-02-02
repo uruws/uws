@@ -4,7 +4,6 @@
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from os import getenv
 from pathlib import Path
-from time import sleep
 
 import uwscli
 import app_build
@@ -49,43 +48,43 @@ def _getStatus(app):
 	ver   = items[1]
 	return (st, ver)
 
-def _checkVersion(tag, ver):
+def _checkVersion(tag: str, ver: str) -> bool:
 	"""check if tag is major than version"""
 	t = semver.VersionInfo.parse(tag)
 	v = semver.VersionInfo.parse(ver)
-	if t > v:
-		return True
-	return False
+	return t > v
 
 def _isBuildingOrDone(app, tag):
 	"""check if tag is in the build queue or done already"""
 	try:
-		__, ver = _getStatus(app)
-		build_ver = _checkVersion(tag, ver)
-		if build_ver:
+		st, ver = _getStatus(app)
+		not_done = _checkVersion(tag, ver)
+		if not_done:
 			return False
 	except FileNotFoundError:
 		return False
-	return True
+	return st != 'FAIL'
 
-def _build(app: str) -> int:
+__done: str = '__done__'
+
+def _build(app: str) -> tuple[int, str]:
 	build = uwscli.app[app].build
 	try:
 		with uwscli.chdir(build.dir):
 			rc = uwscli.run('app-fetch.sh', build.src)
 			if rc != 0:
-				return rc
+				return (rc, '')
 			try:
 				tag = _latestTag(build.src)
 			except ValueError:
 				uwscli.error('[ERROR] could not get latest git tag')
-				return ETAG
+				return (ETAG, '')
 			if _isBuildingOrDone(app, tag):
-				return 0
-			return app_build.run(app, tag)
+				return (0, __done)
+			return (app_build.run(app, tag), tag)
 	except SystemExit:
 		pass
-	return EBUILD
+	return (EBUILD, '')
 
 def _latestBuild(app):
 	return str(max(filter(_semverFilter, uwscli.list_images(app))))
@@ -99,7 +98,7 @@ def _deploy(app: str, tag: str) -> int:
 		if ver != '':
 			v = semver.VersionInfo.parse(ver.split('-')[0])
 			if v >= t:
-				uwscli.info('app-build:', app, ver)
+				uwscli.info('app-deploy:', app, ver)
 				rc = app_deploy.deploy(app, ver)
 				if rc != 0:
 					return EDEPLOY
@@ -109,12 +108,6 @@ def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.autobuild_description())
 
-	deploy_tag = False
-	if '--deploy' in argv:
-		flags.add_argument('--deploy', metavar = 'TAG', default = '',
-			help = 'app deploy stage')
-		deploy_tag = True
-
 	flags.add_argument('app', metavar = 'app', choices = uwscli.autobuild_list(),
 		default = 'app', help = 'app name')
 
@@ -123,7 +116,11 @@ def main(argv = []):
 	if not _setup():
 		return ESETUP
 
-	if deploy_tag:
-		return _deploy(args.app, args.deploy)
+	rc, tag = _build(args.app)
+	if rc != 0:
+		return rc
 
-	return _build(args.app)
+	if tag is __done:
+		return 0
+
+	return _deploy(args.app, tag)
