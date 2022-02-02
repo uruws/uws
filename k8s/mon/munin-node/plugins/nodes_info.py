@@ -3,6 +3,13 @@
 
 import mon
 
+limits = {
+	'Unknown': {
+		'warning': 1,
+		'critical': 3,
+	},
+}
+
 def parse(nodes):
 	mon.dbg('nodes_info parse')
 	sts = dict(
@@ -80,6 +87,14 @@ def config(sts):
 		_print(f"c_{cid}.colour COLOUR{cc}")
 		_print(f"c_{cid}.draw AREASTACK")
 		_print(f"c_{cid}.min 0")
+		l = limits.get(cn, {})
+		if l:
+			warn = l.get('warning', 0)
+			if warn > 0:
+				_print(f"c_{cid}.warning", warn)
+			crit = l.get('critical', 0)
+			if crit > 0:
+				_print(f"c_{cid}.critical", crit)
 		cc = mon.color(cc)
 
 def report(sts):
