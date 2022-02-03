@@ -58,6 +58,12 @@ spec:
             - name: munin-plugins
               mountPath: "/srv/munin/plugins"
               readOnly: true
+            - name: ops-ca
+              mountPath: "/uws/etc/ca/ops"
+              readOnly: true
+            - name: ops-ca-client
+              mountPath: "/uws/etc/ca/client"
+              readOnly: true
             - name: munin-plugins-pycache
               mountPath: "/srv/munin/plugins/__pycache__"
           resources:
@@ -86,5 +92,11 @@ spec:
         - name: munin-plugins
           configMap:
             name: munin-plugins
+        - name: ops-ca
+          configMap:
+            name: ops-ca
+        - name: ops-ca-client
+          configMap:
+            name: ops-ca-client
         - name: munin-plugins-pycache
           emptyDir: {}
