@@ -15,6 +15,7 @@ _bup_print = nodes_taint._print
 _nodes = {
 	'NoExecute': 1,
 	'NoSchedule': 0,
+	'PreferNoSchedule': 0,
 	'Testing': 1,
 	'Unknown': 1,
 }
@@ -36,6 +37,7 @@ class Test(unittest.TestCase):
 		t.assertDictEqual(nodes_taint.parse({}), {
 			'NoExecute': 0,
 			'NoSchedule': 0,
+			'PreferNoSchedule': 0,
 			'Unknown': 0,
 		})
 
@@ -88,14 +90,18 @@ class Test(unittest.TestCase):
 			call('t_noschedule.min 0'),
 			call('t_noschedule.warning', 1),
 			call('t_noschedule.critical', 3),
+			call('t_prefernoschedule.label PreferNoSchedule'),
+			call('t_prefernoschedule.colour COLOUR2'),
+			call('t_prefernoschedule.draw LINE'),
+			call('t_prefernoschedule.min 0'),
 			call('t_testing.label Testing'),
-			call('t_testing.colour COLOUR2'),
+			call('t_testing.colour COLOUR3'),
 			call('t_testing.draw LINE'),
 			call('t_testing.min 0'),
 			call('t_testing.warning', 1),
 			call('t_testing.critical', 3),
 			call('t_unknown.label Unknown'),
-			call('t_unknown.colour COLOUR3'),
+			call('t_unknown.colour COLOUR4'),
 			call('t_unknown.draw LINE'),
 			call('t_unknown.min 0'),
 			call('t_unknown.warning', 1),
@@ -110,6 +116,7 @@ class Test(unittest.TestCase):
 			call('multigraph nodes_taint'),
 			call('t_noexecute.value', 1),
 			call('t_noschedule.value', 0),
+			call('t_prefernoschedule.value', 0),
 			call('t_testing.value', 1),
 			call('t_unknown.value', 1),
 		]

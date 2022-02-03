@@ -8,6 +8,7 @@ def parse(nodes):
 	sts = dict(
 		NoExecute = 0,
 		NoSchedule = 0,
+		PreferNoSchedule = 0,
 		Unknown = 0,
 	)
 	items = nodes.get('items', [])
@@ -42,8 +43,9 @@ def config(sts):
 		_print(f"t_{tid}.colour COLOUR{color}")
 		_print(f"t_{tid}.draw LINE")
 		_print(f"t_{tid}.min 0")
-		_print(f"t_{tid}.warning", 1)
-		_print(f"t_{tid}.critical", 3)
+		if not t.startswith('Prefer'):
+			_print(f"t_{tid}.warning", 1)
+			_print(f"t_{tid}.critical", 3)
 		color = mon.color(color)
 
 def report(sts):
