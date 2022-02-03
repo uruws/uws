@@ -122,6 +122,11 @@ class Config(object):
 	warning:  int  = 3
 	critical: int  = 5
 
+@dataclass
+class HostConfig(object):
+	name: str = ''
+	host: str = ''
+
 #
 # http helpers
 #
@@ -141,36 +146,44 @@ def GET(cluster: str, cfg: Config) -> HTTPResponse:
 # main
 #
 
-def config(cfg: Config) -> int:
-	for k in clusters():
-		name = k['name']
-		host = k['host']
-		gid  = cleanfn(f"{name}_{cfg.path}_{cfg.status}")
-		title = cfg.path
-		if not cfg.auth:
-			title += ' (no auth)'
-			gid += '_no_auth'
-		_print(f"multigraph k8s_{gid}")
-		_print(f"graph_title k8s {name} {title}")
-		_print(f"graph_args --base {cfg.base} -l 0")
-		_print('graph_category', cleanfn(name))
-		_print('graph_vlabel', cfg.label)
-		if cfg.scale:
-			_print('graph_scale yes')
-		_print('a_latency.label latency seconds')
-		_print('a_latency.colour COLOUR0')
-		_print('a_latency.draw AREA')
-		_print('a_latency.min 0')
-		_print('a_latency.warning', cfg.warning)
-		_print('a_latency.critical', cfg.critical)
-		_print('a_latency.info', f"https://{host}.{cfg.domain}{cfg.path}")
-		_print('b_status.label status:', cfg.status)
-		_print('b_status.colour COLOUR1')
-		_print('b_status.draw LINE')
-		_print('b_status.min 0')
-		_print('b_status.max 1')
-		_print('b_status.critical 1:')
+def config_host(h: HostConfig, cfg: Config) -> int:
+	gid  = cleanfn(f"{h.name}_{cfg.path}_{cfg.status}")
+	title = cfg.path
+	if not cfg.auth:
+		title += ' (no auth)'
+		gid += '_no_auth'
+	_print(f"multigraph k8s_{gid}")
+	_print(f"graph_title k8s {h.name} {title}")
+	_print(f"graph_args --base {cfg.base} -l 0")
+	_print('graph_category', cleanfn(h.name))
+	_print('graph_vlabel', cfg.label)
+	if cfg.scale:
+		_print('graph_scale yes')
+	_print('a_latency.label latency seconds')
+	_print('a_latency.colour COLOUR0')
+	_print('a_latency.draw AREA')
+	_print('a_latency.min 0')
+	_print('a_latency.warning', cfg.warning)
+	_print('a_latency.critical', cfg.critical)
+	_print('a_latency.info', f"https://{h.host}.{cfg.domain}{cfg.path}")
+	_print('b_status.label status:', cfg.status)
+	_print('b_status.colour COLOUR1')
+	_print('b_status.draw LINE')
+	_print('b_status.min 0')
+	_print('b_status.max 1')
+	_print('b_status.critical 1:')
 	return 0
+
+def config(cfg: Config) -> int:
+	rc = 0
+	for k in clusters():
+		h = HostConfig(
+			name = k['name'],
+			host = k['host'],
+		)
+		st = config_host(h, cfg)
+		if st != 0: rc += 1
+	return rc
 
 def _report(host: str, cfg: Config) -> tuple[float, float]:
 	t: float = time()
@@ -186,18 +199,26 @@ def _report(host: str, cfg: Config) -> tuple[float, float]:
 			s = 1.0
 	return (s, time() - t)
 
-def report(cfg: Config) -> int:
-	for k in clusters():
-		name = k['name']
-		host = k['host']
-		gid  = cleanfn(f"{name}_{cfg.path}_{cfg.status}")
-		if not cfg.auth:
-			gid += '_no_auth'
-		_print(f"multigraph k8s_{gid}")
-		status, latency = _report(host, cfg)
-		_print('a_latency.value', latency)
-		_print('b_status.value', status)
+def report_host(h: HostConfig, cfg: Config) -> int:
+	gid  = cleanfn(f"{h.name}_{cfg.path}_{cfg.status}")
+	if not cfg.auth:
+		gid += '_no_auth'
+	_print(f"multigraph k8s_{gid}")
+	status, latency = _report(h.host, cfg)
+	_print('a_latency.value', latency)
+	_print('b_status.value', status)
 	return 0
+
+def report(cfg: Config) -> int:
+	rc = 0
+	for k in clusters():
+		h = HostConfig(
+			name = k['name'],
+			host = k['host'],
+		)
+		st = report_host(h, cfg)
+		if st != 0: rc += 1
+	return rc
 
 def main(argv: list[str], cfg: Config) -> int:
 	try:
