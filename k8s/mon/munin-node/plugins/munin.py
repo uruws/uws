@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
+
+import os
+import sys
+
+MONLIB = os.getenv('MONLIB', '/srv/munin/plugins')
+sys.path.insert(0, MONLIB)
+
+import mon
+
+MNPL = os.getenv('MNPL', '/uws/lib/plugins')
+sys.path.insert(0, MNPL)
+
+import mnpl
+
+def main(argv: list[str]):
+	h = mnpl.HostConfig(
+		name = 'ops',
+		host = 'ops',
+	)
+	cluster = mon.cleanfn(mon.cluster())
+	cfg = mnpl.Config(
+		path = f"/munin/uws.t.o/cluster.uws.t.o/k8s_{cluster}___400_no_auth-day.png",
+		category = 'munin',
+	)
+	try:
+		action = argv[0]
+	except IndexError:
+		action = 'report'
+	if action == 'config':
+		return mnpl.config_host(h, cfg)
+	return mnpl.report_host(h, cfg)
+
+if __name__ == '__main__': # pragma no cover
+	sys.exit(main(sys.argv[1:]))
