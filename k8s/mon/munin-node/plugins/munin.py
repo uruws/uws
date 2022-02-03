@@ -25,6 +25,7 @@ def main(argv: list[str]):
 	cfg = mnpl.Config(
 		path = f"/munin/uws.t.o/cluster.uws.t.o/k8s_{cluster}___400_no_auth-day.png",
 		category = 'munin',
+		title = 'munin crosscheck',
 	)
 	try:
 		action = argv[0]
