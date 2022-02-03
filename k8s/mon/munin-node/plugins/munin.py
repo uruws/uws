@@ -16,17 +16,23 @@ sys.path.insert(0, MNPL)
 
 import mnpl
 
-def main(argv: list[str]):
-	h = mnpl.HostConfig(
+def _host() -> mnpl.HostConfig:
+	return mnpl.HostConfig(
 		name = 'ops',
 		host = 'ops',
 	)
+
+def _cfg() -> mnpl.Config:
 	cluster = mon.cleanfn(mon.cluster())
-	cfg = mnpl.Config(
+	return mnpl.Config(
 		path = f"/munin/uws.t.o/cluster.uws.t.o/k8s_{cluster}___400_no_auth-day.png",
 		category = 'munin',
 		title = 'munin crosscheck',
 	)
+
+def main(argv: list[str]):
+	h = _host()
+	cfg = _cfg()
 	try:
 		action = argv[0]
 	except IndexError:
