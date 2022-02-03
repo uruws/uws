@@ -3,11 +3,13 @@
 
 from time import gmtime, strftime, time
 
+from typing import Any
+
 import mon
 
-sts = dict()
+sts: dict[str, Any] = dict()
 
-def __parse(name, meta, value):
+def __parse(name: str, meta: dict[str, str], value: float) -> bool:
 	global sts
 	ns = meta.get('namespace', '')
 	if ns == '':
@@ -23,7 +25,7 @@ def __parse(name, meta, value):
 
 SUM = 'nginx_ingress_controller_ssl_expire_time_seconds'
 
-def parse(name, meta, value):
+def parse(name: str, meta: dict[str, str], value: float) -> bool:
 	if name == SUM:
 		return __parse('sum', meta, value)
 	return False
@@ -31,7 +33,7 @@ def parse(name, meta, value):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config web_ssl')
 	# ns
 	for ns in sorted(sts.keys()):
@@ -54,7 +56,7 @@ def config(sts):
 			_print('ssl.critical 15:')
 			if mon.debug(): _print()
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report web_ssl')
 	# ns
 	for ns in sorted(sts.keys()):

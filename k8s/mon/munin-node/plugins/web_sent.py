@@ -1,11 +1,13 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
-sts = dict()
+sts: dict[str, Any] = dict()
 
-def __parse(name, meta, value):
+def __parse(name: str, meta: dict[str, str], value: float) -> bool:
 	global sts
 	ns = meta.get('namespace', '')
 	if ns == '':
@@ -36,7 +38,7 @@ def __parse(name, meta, value):
 SUM   = 'nginx_ingress_controller_bytes_sent_sum'
 COUNT = 'nginx_ingress_controller_bytes_sent_count'
 
-def parse(name, meta, value):
+def parse(name: str, meta: dict[str, str], value: float) -> bool:
 	if name == SUM:
 		return __parse('sum', meta, value)
 	elif name == COUNT:
@@ -46,7 +48,7 @@ def parse(name, meta, value):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config web_sent')
 	# ns
 	for ns in sorted(sts.keys()):
@@ -131,7 +133,7 @@ def config(sts):
 					svcn = mon.color(svcn)
 				if mon.debug(): _print()
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report web_sent')
 	# ns
 	for ns in sorted(sts.keys()):

@@ -1,11 +1,13 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
-sts = dict()
+sts: dict[str, Any] = dict()
 
-def __parse(meta, value):
+def __parse(meta: dict[str, str], value: float) -> bool:
 	global sts
 	ns = meta.get('namespace', '')
 	if ns == '':
@@ -33,7 +35,7 @@ def __parse(meta, value):
 
 REQUESTS = 'nginx_ingress_controller_requests'
 
-def parse(name, meta, value):
+def parse(name: str, meta: dict[str, str], value: float) -> bool:
 	if name == REQUESTS:
 		return __parse(meta, value)
 	return False
@@ -41,7 +43,7 @@ def parse(name, meta, value):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config web_ingress')
 	# ns
 	for ns in sorted(sts.keys()):
@@ -89,7 +91,7 @@ def config(sts):
 					stn = mon.color(stn)
 				if mon.debug(): _print()
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report web_ingress')
 	# ns
 	for ns in sorted(sts.keys()):
