@@ -8,6 +8,7 @@ install -v -m 0755 /srv/munin/plugins/nginx.py /usr/local/bin/nginx
 install -v -m 0755 /srv/munin/plugins/deployments.py /usr/local/bin/deployments
 install -v -m 0755 /srv/munin/plugins/pods.py /usr/local/bin/pods
 install -v -m 0755 /srv/munin/plugins/k8s.py /usr/local/bin/k8s
+install -v -m 0755 /srv/munin/plugins/munin.py /usr/local/bin/munin
 
 enpl=/root/bin/plugin-enable.sh
 
@@ -16,5 +17,6 @@ ${enpl} local nginx
 ${enpl} local deployments
 ${enpl} local pods
 ${enpl} local k8s
+${enpl} local munin
 
 exit 0
