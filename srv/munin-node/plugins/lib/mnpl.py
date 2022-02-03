@@ -111,6 +111,7 @@ def _context(auth: bool) -> Optional[SSLContext]:
 
 @dataclass
 class Config(object):
+	domain:   str  = _clusters_domain
 	auth:     bool = True
 	path:     str  = '/'
 	status:   int  = 200
@@ -128,7 +129,7 @@ class Config(object):
 def _open(cluster: str, method: str, cfg: Config) -> HTTPResponse:
 	ctx = _context(cfg.auth)
 	req = Request(
-		f"https://{cluster}.{_clusters_domain}{cfg.path}",
+		f"https://{cluster}.{cfg.domain}{cfg.path}",
 		method = method,
 	)
 	return urlopen(req, timeout = cfg.timeout, context = ctx)
@@ -162,7 +163,7 @@ def config(cfg: Config) -> int:
 		_print('a_latency.min 0')
 		_print('a_latency.warning', cfg.warning)
 		_print('a_latency.critical', cfg.critical)
-		_print('a_latency.info', f"https://{host}.{_clusters_domain}{cfg.path}")
+		_print('a_latency.info', f"https://{host}.{cfg.domain}{cfg.path}")
 		_print('b_status.label status:', cfg.status)
 		_print('b_status.colour COLOUR1')
 		_print('b_status.draw LINE')
