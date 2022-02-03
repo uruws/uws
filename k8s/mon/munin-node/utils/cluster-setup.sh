@@ -19,4 +19,10 @@ ${enpl} local pods
 ${enpl} local k8s
 ${enpl} local munin
 
+cat <<EOF >/etc/munin/plugin-conf.d/uws
+[munin]
+user uws
+group uws
+EOF
+
 exit 0
