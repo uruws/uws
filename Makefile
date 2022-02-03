@@ -38,7 +38,7 @@ all: bootstrap acme clamav k8sctl uwsbot munin munin-backend munin-node proftpd
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert k8s eks python ansible uwscli
+bootstrap: awscli base base-testing golang mkcert k8s eks python ansible uwscli devel
 
 #
 # base
