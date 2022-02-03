@@ -18,7 +18,7 @@ fi
 covd=${HOME}/tmp/htmlcov
 rm -rf ${covd}
 
-python3-coverage report
-python3-coverage html -d ${covd}
+python3-coverage report --omit '/uws/lib/plugins/*.py'
+python3-coverage html --omit '/uws/lib/plugins/*.py' -d ${covd}
 
 exit 0
