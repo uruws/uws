@@ -1,13 +1,15 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
-sts = dict(
+sts: dict[str, Any] = dict(
 	apiserver_init_events_total = dict(),
 )
 
-def parse(name: str, meta: dict, value: float):
+def parse(name: str, meta: dict, value: float) -> bool:
 	global sts
 	if sts.get(name, None) is not None:
 		resource = meta.get('resource', None)
@@ -18,7 +20,7 @@ def parse(name: str, meta: dict, value: float):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config k8s_events')
 	cluster = mon.cluster()
 	_print('multigraph k8s_events')
@@ -37,7 +39,7 @@ def config(sts):
 		_print(f"event_{eid}.cdef event_{eid},1000,/")
 		color = mon.color(color)
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report k8s_events')
 	_print('multigraph k8s_events')
 	for event in sorted(sts['apiserver_init_events_total'].keys()):

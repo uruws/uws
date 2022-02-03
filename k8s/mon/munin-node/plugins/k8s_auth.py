@@ -1,14 +1,16 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
-sts = dict(
+sts: dict[str, Any] = dict(
 	authenticated_user_requests = dict(),
 	authentication_attempts = dict(),
 )
 
-def parse(name: str, meta: dict, value: float):
+def parse(name: str, meta: dict, value: float) -> bool:
 	global sts
 	if name == 'authenticated_user_requests':
 		username = meta.get('username', None)
@@ -23,7 +25,7 @@ def parse(name: str, meta: dict, value: float):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config k8s_auth')
 	cluster = mon.cluster()
 	# attempts
@@ -59,7 +61,7 @@ def config(sts):
 		_print(f"user_{uid}.cdef user_{uid},1000,/")
 		color = mon.color(color)
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report k8s_auth')
 	# attempts
 	_print('multigraph k8s_auth_attempts')

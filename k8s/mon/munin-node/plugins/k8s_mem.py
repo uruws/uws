@@ -1,16 +1,18 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
-sts = dict(
+sts: dict[str, Any] = dict(
 	process_resident_memory_bytes   = 'U',
 	process_virtual_memory_bytes    = 'U',
 	go_memstats_alloc_bytes         = 'U',
 	go_memstats_buck_hash_sys_bytes = 'U',
 )
 
-def parse(name: str, meta: dict, value: float):
+def parse(name: str, meta: dict, value: float) -> bool:
 	global sts
 	if sts.get(name, None) is not None:
 		sts[name] = value
@@ -20,7 +22,7 @@ def parse(name: str, meta: dict, value: float):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config k8s_mem')
 	cluster = mon.cluster()
 	_print('multigraph k8s_mem')
@@ -46,7 +48,7 @@ def config(sts):
 	_print('f3_profiling.min 0')
 	_print('f3_profiling.draw LINE')
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report k8s_mem')
 	_print('multigraph k8s_mem')
 	_print('f0_virtual.value', sts['process_virtual_memory_bytes'])

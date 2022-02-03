@@ -1,14 +1,16 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
-sts = dict(
+sts: dict[str, Any] = dict(
 	etcd_db_total_size_in_bytes = 'U',
 	etcd_db_endpoint = None,
 )
 
-def parse(name: str, meta: dict, value: float):
+def parse(name: str, meta: dict, value: float) -> bool:
 	global sts
 	if sts.get(name, None) is not None:
 		sts[name] = value
@@ -19,7 +21,7 @@ def parse(name: str, meta: dict, value: float):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config k8s_etcd')
 	cluster = mon.cluster()
 	_print('multigraph k8s_etcd')
@@ -34,7 +36,7 @@ def config(sts):
 	_print('db_size.draw AREA')
 	_print('db_size.info endpoint:', sts['etcd_db_endpoint'])
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report k8s_etcd')
 	_print('multigraph k8s_etcd')
 	_print('db_size.value', sts['etcd_db_total_size_in_bytes'])

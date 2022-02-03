@@ -1,14 +1,16 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
-sts = dict(
+sts: dict[str, Any] = dict(
 	aggregator_unavailable_apiservice_total = dict(),
 	total = 0.0,
 )
 
-def parse(name: str, meta: dict, value: float):
+def parse(name: str, meta: dict, value: float) -> bool:
 	global sts
 	if sts.get(name, None) is not None:
 		reason = meta.get('reason', None)
@@ -23,7 +25,7 @@ def parse(name: str, meta: dict, value: float):
 def _print(*args):
 	print(*args)
 
-def config(k8s):
+def config(k8s: dict[str, Any]):
 	mon.dbg('config k8s_service')
 	cluster = mon.cluster()
 	total = k8s['aggregator_unavailable_apiservice_total']
@@ -49,7 +51,7 @@ def config(k8s):
 			_print(f"z_{rid}.cdef z_{rid},1000,/")
 			color = mon.color(color)
 
-def report(k8s):
+def report(k8s: dict[str, Any]):
 	mon.dbg('report k8s_service')
 	total = k8s['aggregator_unavailable_apiservice_total']
 	_print('multigraph k8s_service')

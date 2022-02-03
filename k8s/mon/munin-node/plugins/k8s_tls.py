@@ -1,13 +1,15 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
-sts = dict(
+sts: dict[str, Any] = dict(
 	apiserver_tls_handshake_errors_total = 'U',
 )
 
-def parse(name: str, meta: dict, value: float):
+def parse(name: str, meta: dict, value: float) -> bool:
 	global sts
 	if sts.get(name, None) is not None:
 		sts[name] = value
@@ -17,7 +19,7 @@ def parse(name: str, meta: dict, value: float):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config k8s_tls')
 	cluster = mon.cluster()
 	_print('multigraph k8s_tls')
@@ -33,7 +35,7 @@ def config(sts):
 	_print('errors.type DERIVE')
 	_print('errors.cdef errors,1000,/')
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report k8s_tls')
 	_print('multigraph k8s_tls')
 	_print('errors.value',

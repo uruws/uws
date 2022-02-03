@@ -1,11 +1,13 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
 from time import time
 
-sts = dict(
+sts: dict[str, Any] = dict(
 	go_info                    = 'go_version',
 	go_goroutines              = 'U',
 	go_threads                 = 'U',
@@ -14,7 +16,7 @@ sts = dict(
 	process_start_time_hours   = 'U',
 )
 
-def parse(name: str, meta: dict, value: float):
+def parse(name: str, meta: dict, value: float) -> bool:
 	global sts
 	if name == 'go_info':
 		sts[name] = meta.get('version', 'go_version')
@@ -34,7 +36,7 @@ def parse(name: str, meta: dict, value: float):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config k8s_cpu')
 	cluster = mon.cluster()
 	# cpu
@@ -75,7 +77,7 @@ def config(sts):
 	_print('uptime.min 0')
 	_print('uptime.draw AREA')
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report k8s_cpu')
 	# cpu
 	_print('multigraph k8s_cpu')

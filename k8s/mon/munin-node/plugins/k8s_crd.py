@@ -1,14 +1,16 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
-sts = dict(
+sts: dict[str, Any] = dict(
 	apiextensions_openapi_v2_regeneration_count = dict(),
 	total = 0,
 )
 
-def parse(name: str, meta: dict, value: float):
+def parse(name: str, meta: dict, value: float) -> bool:
 	global sts
 	if sts.get(name, None) is not None:
 		reason = meta.get('reason', None)
@@ -23,7 +25,7 @@ def parse(name: str, meta: dict, value: float):
 def _print(*args):
 	print(*args)
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config k8s_crd')
 	cluster = mon.cluster()
 	total = sts['apiextensions_openapi_v2_regeneration_count']
@@ -49,7 +51,7 @@ def config(sts):
 			_print(f"z_{rid}.cdef z_{rid},1000,/")
 			color = mon.color(color)
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report k8s_crd')
 	total = sts['apiextensions_openapi_v2_regeneration_count']
 	_print('multigraph k8s_crd')
