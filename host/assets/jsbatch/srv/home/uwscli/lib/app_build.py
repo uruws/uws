@@ -2,7 +2,6 @@
 # See LICENSE file.
 
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
-from time import sleep
 
 import uwscli
 
@@ -13,8 +12,7 @@ def run(app: str, version: str, timeout: int = 3600) -> int:
 	st = _build(app, version, timeout = timeout)
 	if st != 0:
 		return st
-	sleep(1)
-	cleanBuild(app, version)
+	cleanBuild(app)
 	return 0
 
 def check_storage() -> int:
@@ -59,10 +57,13 @@ def nq(app: str, version: str) -> int:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.nq('app-build.sh', args)
 
-def cleanBuild(app: str, version: str):
-	rc = uwscli.clean_build(app, version)
+def cleanBuild(app: str):
+	clean = uwscli.app[app].build.clean
+	if clean == '':
+		clean = app
+	rc = uwscli.clean_build(clean)
 	if rc != 0:
-		uwscli.error('ERROR: app clean:', app, version, 'failed!')
+		uwscli.error('ERROR: app clean:', app, 'failed!')
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
@@ -83,7 +84,7 @@ def main(argv = []):
 		uwscli.error("enqueue of %s build job failed!" % args.app)
 		return rc
 
-	cleanBuild(args.app, args.version)
+	cleanBuild(args.app)
 
 	uwscli.log('')
 	uwscli.log('Check build job with:')

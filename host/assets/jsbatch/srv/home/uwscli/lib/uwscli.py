@@ -180,9 +180,9 @@ def run(cmd, args, cmddir: str = cmddir, timeout: int = system_ttl):
 	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
 		timeout = timeout)
 
-def clean_build(app, version):
+def clean_build(app):
 	"""enqueue build clean task"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s %s" % (cmddir, _user, cmddir, app, version))
+	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s" % (cmddir, _user, cmddir, app))
 
 # aws utils
 

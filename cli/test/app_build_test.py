@@ -24,29 +24,24 @@ def mock_check_storage(status = 0):
 
 @contextmanager
 def mock_run():
-	_bup_sleep = app_build.sleep
 	try:
-		app_build.sleep = MagicMock()
 		with mock_check_storage():
 			with uwscli_t.mock_system():
 				yield
 	finally:
-		app_build.sleep = _bup_sleep
+		pass
 
 @contextmanager
 def mock_run_error(check_storage_status = 0, build_status = 0):
-	_bup_sleep = app_build.sleep
 	_bup_check_storage = app_build.check_storage
 	_bup_build = app_build._build
 	try:
-		app_build.sleep = MagicMock()
 		with mock_check_storage():
 			with uwscli_t.mock_system():
 				app_build.check_storage = MagicMock(return_value = check_storage_status)
 				app_build._build = MagicMock(return_value = build_status)
 				yield
 	finally:
-		app_build.sleep = _bup_sleep
 		app_build.check_storage = _bup_check_storage
 		app_build._build = _bup_build
 
@@ -86,13 +81,13 @@ class Test(unittest.TestCase):
 
 	def test_clean_build(t):
 		with uwscli_t.mock_system():
-			app_build.cleanBuild('testing', '0.999')
+			app_build.cleanBuild('testing')
 		t.assertEqual(uwscli_t.err().strip(), '')
 
 	def test_clean_build_errors(t):
 		with uwscli_t.mock_system(status = 99):
-			app_build.cleanBuild('testing', '0.999')
-		t.assertEqual(uwscli_t.err().strip(), 'ERROR: app clean: testing 0.999 failed!')
+			app_build.cleanBuild('testing')
+		t.assertEqual(uwscli_t.err().strip(), 'ERROR: app clean: testing failed!')
 
 	def test_main_no_args(t):
 		with t.assertRaises(SystemExit) as e:
@@ -111,7 +106,7 @@ class Test(unittest.TestCase):
 	def test_main(t):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 0.999'),
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing 0.999'),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing'),
 		]
 		with mock_check_storage():
 			with uwscli_t.mock_system():
@@ -134,7 +129,7 @@ class Test(unittest.TestCase):
 	def test_run(t):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 0.999', timeout = 3600),
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing 0.999'),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing'),
 		]
 		with mock_run():
 			t.assertEqual(app_build.run('testing', '0.999'), 0)
@@ -143,7 +138,7 @@ class Test(unittest.TestCase):
 	def test_run_pack(t):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/deploy/App/build.sh --src . --target None --version 0.999', timeout = 3600),
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh app 0.999'),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh app'),
 		]
 		with mock_run():
 			try:

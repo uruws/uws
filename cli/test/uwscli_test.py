@@ -214,8 +214,8 @@ class Test(unittest.TestCase):
 
 	def test_clean_build(t):
 		with uwscli_t.mock_system():
-			t.assertEqual(uwscli.clean_build('testing', '0.999'), 0)
-			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing 0.999')
+			t.assertEqual(uwscli.clean_build('testing'), 0)
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing')
 
 	# aws utils
 
