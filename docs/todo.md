@@ -4,7 +4,7 @@
 * meteor app - `DONE!`
     * set STAGING_APP_VERSION during test clusters deploy
 
-* k8smon check jsbatch munin is checking us
+* k8smon check jsbatch munin is checking us - `DONE!`
 
 * workers
     * remove web endpoint (worker.uws.talkingpts.org)
