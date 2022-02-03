@@ -1,15 +1,17 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from typing import Any
+
 import mon
 
 import resp_total
 import resp_time
 import resp_size
 
-sts = dict()
+sts: dict[str, Any] = dict()
 
-def __parse(name, meta, value):
+def __parse(name: str, meta: dict[str, str], value: float) -> bool:
 	global sts
 	host = meta.get('host', '_')
 	if host == '_':
@@ -40,7 +42,7 @@ TIME  = 'nginx_ingress_controller_response_duration_seconds_sum'
 COUNT = 'nginx_ingress_controller_response_duration_seconds_count'
 SIZE  = 'nginx_ingress_controller_response_size_sum'
 
-def parse(name, meta, value):
+def parse(name: str, meta: dict[str, str], value: float) -> bool:
 	if name == TIME:
 		return __parse('time', meta, value)
 	elif name == COUNT:
@@ -49,7 +51,7 @@ def parse(name, meta, value):
 		return __parse('size', meta, value)
 	return False
 
-def config(sts):
+def config(sts: dict[str, Any]):
 	mon.dbg('config web_response')
 	cluster = mon.cluster()
 	for host in sorted(sts.keys()):
@@ -61,7 +63,7 @@ def config(sts):
 		# size
 		resp_size.config(cluster, host, hostid, sts[host])
 
-def report(sts):
+def report(sts: dict[str, Any]):
 	mon.dbg('report web_response')
 	for host in sorted(sts.keys()):
 		hostid = mon.cleanfn(host)
