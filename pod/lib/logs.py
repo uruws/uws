@@ -54,6 +54,6 @@ def main(argv = []):
 	return _system(cmd)
 
 if __name__ == '__main__': # pragma no cover
-	sys.stdout.reconfigure(line_buffering = False)
-	sys.stderr.reconfigure(line_buffering = False)
+	sys.stdout.reconfigure(line_buffering = False) # type: ignore
+	sys.stderr.reconfigure(line_buffering = False) # type: ignore
 	sys.exit(main(sys.argv[1:]))
