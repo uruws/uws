@@ -15,12 +15,13 @@ docker_storage = '/srv/docker/lib'
 docker_storage_min = 10*1024*1024 # 10G
 
 class AppBuild(object):
-	def __init__(self, dir, script, type = 'cli', src = '.', target = None):
+	def __init__(self, dir, script, type = 'cli', src = '.', target = None, clean = ''):
 		self.dir = dir
 		self.script = script
 		self.type = type
 		self.src = src
 		self.target = target
+		self.clean = clean
 
 class AppDeploy(object):
 	def __init__(self, image: str, filter: Optional[str] = None, scale_max: int = 100):
@@ -48,6 +49,7 @@ def _buildpack(src, target):
 		type = 'pack',
 		src = src,
 		target = target,
+		clean = target,
 	)
 
 app: dict[str, App] = {
@@ -103,7 +105,7 @@ app: dict[str, App] = {
 	),
 	'nlpsvc': App(False,
 		desc = 'NLPService',
-		build = AppBuild('/srv/deploy/NLPService', 'build.sh'),
+		build = AppBuild('/srv/deploy/NLPService', 'build.sh', clean = 'nlpsvc'),
 	),
 	'nlp-sentiment-twitter': App(True,
 		cluster = 'panoramix',
