@@ -3,8 +3,13 @@
 
 import sys
 
-_outfh = sys.stdout
-_errfh = sys.stderr
+from typing import Any
+from typing import Optional
+from typing import TextIO
+from typing import Union
+
+_outfh: TextIO = sys.stdout
+_errfh: TextIO = sys.stderr
 
 from contextlib import contextmanager
 from os import environ, getenv, getcwd, linesep
@@ -14,10 +19,10 @@ from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
 from subprocess import run as proc_run
 
-_user = getenv('USER', 'unknown')
-_log = getenv('UWSCLI_LOG', 'on') == 'on'
+_user: str  = getenv('USER', 'unknown')
+_log:  bool = getenv('UWSCLI_LOG', 'on') == 'on'
 
-_env = {
+_env: dict[str, str] = {
 	'PATH': '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin',
 }
 environ.update(_env)
@@ -25,7 +30,7 @@ environ.update(_env)
 from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
 
 # vendor libs
-_libs = [
+_libs: list[str] = [
 	'semver-2.13.0',
 ]
 for lib in _libs:
@@ -35,21 +40,21 @@ import uwscli_deploy
 
 # internal utils
 
-def log(*args, sep = ' '):
+def log(*args: Union[list[Any], Any], sep: str = ' '):
 	"""print log messages to stdout (can be disabled with UWSCLI_LOG=off env var)"""
 	if _log:
 		print(*args, sep = sep, file = _outfh, flush = True)
 
-def info(*args):
+def info(*args: Union[list[Any], Any]):
 	"""print log messages to stdout (even if log is disabled)"""
 	print(*args, file = _outfh, flush = True)
 
-def error(*args):
+def error(*args: Union[list[Any], Any]):
 	"""print log messages to stderr"""
 	print(*args, file = _errfh, flush = True)
 
 @contextmanager
-def chdir(d, error_status = 2):
+def chdir(d: str, error_status: int = 2):
 	"""chdir context manager"""
 	prevd = getcwd()
 	dn = Path(d).expanduser()
@@ -63,13 +68,13 @@ def chdir(d, error_status = 2):
 	finally:
 		os_chdir(prevd)
 
-def mkdir(d, mode = 0o750, parents = True, exist_ok = True):
+def mkdir(d: str, mode: int = 0o750, parents: bool = True, exist_ok: bool = True):
 	"""mkdir"""
 	Path(d).expanduser() \
 		.mkdir(mode = mode, parents = parents, exist_ok = exist_ok)
 
 @contextmanager
-def lockf(name):
+def lockf(name: str):
 	"""lock file path"""
 	p = Path(name).expanduser()
 	fn = Path(p.parent, f".{p.name}.lock")
@@ -83,7 +88,7 @@ def lockf(name):
 		if locked:
 			fn.unlink()
 
-def _setenv(env):
+def _setenv(env: Optional[dict[str, str]]) -> dict[str, str]:
 	e = {}
 	for k, v in environ.items():
 		e[k] = v
@@ -93,21 +98,21 @@ def _setenv(env):
 
 system_ttl: int = 600
 
-def system(cmd, env = None, timeout = system_ttl):
+def system(cmd: str, env: dict[str, str] = None, timeout: int = system_ttl) -> int:
 	"""run system commands"""
 	p = proc_run(cmd, shell = True, capture_output = False,
 		timeout = timeout, env = _setenv(env))
 	return p.returncode
 
-def gso(cmd):
+def gso(cmd: str) -> tuple[int, str]:
 	"""get status output from system commands"""
 	return getstatusoutput(cmd)
 
-def check_output(cmd, env = None):
+def check_output(cmd: str, env: dict[str, str] = None) -> str:
 	"""get output from system commands checking its exit status"""
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
-def __descmax(k):
+def __descmax(k: list[str]) -> int:
 	m = 0
 	for s in k:
 		l = len(s)
@@ -115,32 +120,32 @@ def __descmax(k):
 			m = l
 	return m
 
-def __descsep(k, m):
+def __descsep(k: str, m: int) -> str:
 	s = ' '
 	for i in range(len(k), m):
 		s += ' '
 	return s
 
-def __desc(apps):
+def __desc(apps: list[str]) -> str:
 	m = __descmax(apps)
 	d = 'available apps:\n'
 	for n in apps:
 		d += "  %s%s- %s\n" % (n, __descsep(n, m), app[n].desc)
 	return d
 
-def app_list():
+def app_list() -> list[str]:
 	"""return list of configured apps"""
 	return sorted([n for n in app.keys() if app[n].app])
 
-def app_description():
+def app_description() -> str:
 	"""format apps list description"""
 	return __desc(app_list())
 
-def autobuild_list():
+def autobuild_list() -> list[str]:
 	"""return list of apps configured for autobuild"""
 	return sorted([n for n in app.keys() if app[n].build and app[n].autobuild])
 
-def autobuild_description():
+def autobuild_description() -> str:
 	"""format apps autobuild list description"""
 	return __desc(autobuild_list())
 
@@ -152,7 +157,7 @@ def build_list() -> list[str]:
 	"""return list of apps configured for build"""
 	return sorted([n for n in app.keys() if app[n].build.dir != ''])
 
-def build_description():
+def build_description() -> str:
 	"""format build apps description"""
 	return __desc(build_list())
 
@@ -160,25 +165,25 @@ def deploy_list() -> list[str]:
 	"""return list of apps configured for deploy"""
 	return sorted([n for n in app.keys() if app[n].deploy.image != ''])
 
-def deploy_description():
+def deploy_description() -> str:
 	"""format deploy apps description"""
 	return __desc(deploy_list())
 
-def ctl(args, timeout = system_ttl):
+def ctl(args: str, timeout: int = system_ttl) -> int:
 	"""run internal app-ctl command"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
 		timeout = timeout)
 
-def nq(cmd, args, bindir = cmddir):
+def nq(cmd: str, args: str, bindir: str = cmddir) -> int:
 	"""enqueue internal command"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
 
-def run(cmd, args, cmddir: str = cmddir, timeout: int = system_ttl):
+def run(cmd: str, args: str, cmddir: str = cmddir, timeout: int = system_ttl) -> int:
 	"""run internal command"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
 		timeout = timeout)
 
-def clean_build(app):
+def clean_build(app: str) -> int:
 	"""enqueue build clean task"""
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s" % (cmddir, _user, cmddir, app))
 
@@ -204,36 +209,36 @@ def list_images(appname: str, region: str = '') -> list[str]:
 
 # git utils
 
-def git_clone(rpath):
+def git_clone(rpath: str) -> int:
 	"""git clone"""
 	return system(f"git clone {rpath}")
 
-def git_fetch(workdir = '.'):
+def git_fetch(workdir: str = '.') -> int:
 	"""git fetch"""
 	args = ''
 	if workdir != '.':
 		args += f" -C {workdir}"
 	return system(f"git{args} fetch --prune --prune-tags --tags")
 
-def git_checkout(tag, workdir = '.'):
+def git_checkout(tag: str, workdir: str = '.') -> int:
 	"""git checkout"""
 	args = ''
 	if workdir != '.':
 		args += f" -C {workdir}"
 	return system(f"git{args} checkout {tag}")
 
-def git_deploy(rname, tag):
+def git_deploy(rname: str, tag: str) -> int:
 	"""run uwscli deploy"""
 	return uwscli_deploy.run(rname, tag)
 
-def git_describe(workdir = '.'):
+def git_describe(workdir: str = '.') -> str:
 	"""git describe"""
 	args = ''
 	if workdir != '.':
 		args += f" -C {workdir}"
 	return check_output(f"git{args} describe --always").strip()
 
-def git_tag_list(workdir = '.'):
+def git_tag_list(workdir: str = '.') -> list[str]:
 	"""git tag --list"""
 	args = ''
 	if workdir != '.':

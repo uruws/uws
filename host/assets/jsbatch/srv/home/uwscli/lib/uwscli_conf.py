@@ -5,8 +5,6 @@ from dataclasses import dataclass
 from dataclasses import field
 from os import getenv
 
-from typing import Optional
-
 bindir: str = getenv('UWSCLI_BINDIR', '/srv/home/uwscli/bin')
 cmddir: str = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
 
