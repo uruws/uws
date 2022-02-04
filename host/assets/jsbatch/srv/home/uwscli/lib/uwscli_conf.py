@@ -15,13 +15,13 @@ docker_storage = '/srv/docker/lib'
 docker_storage_min = 10*1024*1024 # 10G
 
 class AppBuild(object):
-	def __init__(self, dir, script, type = 'cli', src = '.', target = None, clean = ''):
-		self.dir = dir
-		self.script = script
-		self.type = type
-		self.src = src
-		self.target = target
-		self.clean = clean
+	def __init__(self, dir: str, script: str, type: str = 'cli', src: str = '.', target: str = 'None', clean: str = ''):
+		self.dir:    str = dir
+		self.script: str = script
+		self.type:   str = type
+		self.src:    str = src
+		self.target: str = target
+		self.clean:  str = clean
 
 class AppDeploy(object):
 	def __init__(self, image: str, filter: str = '', scale_max: int = 100):
