@@ -34,13 +34,13 @@ class AppDeploy(object):
 
 @dataclass
 class App(object):
-	app:              bool                = False
-	cluster:          str                 = ''
-	desc:             Optional[str]       = None
-	pod:              Optional[str]       = None
-	build:            AppBuild            = AppBuild('', '')
-	deploy:           AppDeploy           = AppDeploy('')
-	autobuild:        bool                = False
+	app:              bool      = False
+	cluster:          str       = 'None'
+	desc:             str       = 'None'
+	pod:              str       = 'None'
+	build:            AppBuild  = AppBuild('', '')
+	deploy:           AppDeploy = AppDeploy('')
+	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
 
 def _buildpack(src, target):
