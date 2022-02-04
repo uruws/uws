@@ -11,4 +11,16 @@ for d in /srv/uws/deploy/tmp/*/htmlcov; do
 	fi
 done
 
+# vendor tests
+
+for d in /srv/uws/deploy/tmp/*/htmlcov_vendor; do
+	app=$(basename $(dirname $d))
+	rm -rf /srv/www/ssl/htmlcov/${app}_vendor
+	if test -d /srv/uws/deploy/tmp/${app}/htmlcov_vendor; then
+		cp -r /srv/uws/deploy/tmp/${app}/htmlcov_vendor /srv/www/ssl/htmlcov/${app}_vendor
+		chown -R root:www-data /srv/www/ssl/htmlcov/${app}_vendor
+		echo "/srv/www/ssl/htmlcov/${app}_vendor done!"
+	fi
+done
+
 exit 0
