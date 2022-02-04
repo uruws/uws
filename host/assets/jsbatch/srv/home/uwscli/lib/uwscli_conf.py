@@ -24,13 +24,14 @@ class AppBuild(object):
 		self.target: str = target
 		self.clean:  str = clean
 
+@dataclass
 class AppDeploy(object):
-	def __init__(self, image: str, filter: str = '', scale_max: int = 100):
-		self.image:     str = image
-		self.scale_max: int = scale_max
-		self.filter:    str = filter
+	image:  str
+	filter: str = ''
+
+	def __post_init__(self):
 		if self.filter == '':
-			self.filter = "%s-" % image
+			self.filter = "%s-" % self.image
 
 @dataclass
 class App(object):
