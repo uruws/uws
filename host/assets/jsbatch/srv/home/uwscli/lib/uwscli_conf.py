@@ -7,13 +7,13 @@ from os import getenv
 
 from typing import Optional
 
-bindir = getenv('UWSCLI_BINDIR', '/srv/home/uwscli/bin')
-cmddir = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
+bindir: str = getenv('UWSCLI_BINDIR', '/srv/home/uwscli/bin')
+cmddir: str = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
 
-deploy_basedir = getenv('UWSCLI_DEPLOY_BASEDIR', '/srv/deploy')
+deploy_basedir: str = getenv('UWSCLI_DEPLOY_BASEDIR', '/srv/deploy')
 
-docker_storage = '/srv/docker/lib'
-docker_storage_min = 10*1024*1024 # 10G
+docker_storage:     str = '/srv/docker/lib'
+docker_storage_min: int = 10*1024*1024 # 10G
 
 @dataclass
 class AppBuild(object):
@@ -44,7 +44,7 @@ class App(object):
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
 
-def _buildpack(src, target):
+def _buildpack(src: str, target: str) -> AppBuild:
 	return AppBuild(
 		'/srv/deploy/Buildpack',
 		'build.py',
@@ -129,7 +129,7 @@ app: dict[str, App] = {
 	),
 }
 
-cluster = {
+cluster: dict[str, dict[str, str]] = {
 	'amy-east': {
 		'region': 'us-east-1',
 	},
