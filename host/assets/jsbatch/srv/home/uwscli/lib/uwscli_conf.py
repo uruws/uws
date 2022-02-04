@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 from dataclasses import dataclass
+from dataclasses import field
 from os import getenv
 
 from typing import Optional
@@ -40,7 +41,7 @@ class App(object):
 	build:            AppBuild            = AppBuild('', '')
 	deploy:           AppDeploy           = AppDeploy('')
 	autobuild:        bool                = False
-	autobuild_deploy: Optional[list[str]] = None
+	autobuild_deploy: list[str] = field(default_factory = list)
 
 def _buildpack(src, target):
 	return AppBuild(
