@@ -19,9 +19,9 @@ from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
 from subprocess import run as proc_run
 
-from uwscli_auth import getuser, user_auth, user_check
+from uwscli_auth import User, getuser, user_auth, user_check
 
-_user: str  = getuser()
+_user: User = getuser()
 _log:  bool = getenv('UWSCLI_LOG', 'on') == 'on'
 
 _env: dict[str, str] = {
@@ -234,7 +234,6 @@ def git_checkout(tag: str, workdir: str = '.') -> int:
 
 def git_deploy(rname: str, tag: str) -> int:
 	"""run uwscli deploy"""
-	user_check(_user)
 	return uwscli_deploy.run(rname, tag)
 
 def git_describe(workdir: str = '.') -> str:

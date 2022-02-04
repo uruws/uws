@@ -13,6 +13,7 @@ from subprocess import CalledProcessError
 import uwscli_t
 import uwscli
 import uwscli_conf
+import uwscli_auth
 
 _PATH = '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'
 
@@ -30,7 +31,8 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli.docker_storage_min, 10)
 		t.assertIsInstance(uwscli.app, dict)
 		t.assertIsInstance(uwscli.cluster, dict)
-		t.assertEqual(uwscli._user, 'uws')
+		t.assertIsInstance(uwscli._user, uwscli_auth.User)
+		t.assertEqual(uwscli._user.name, 'uws')
 		t.assertTrue(uwscli._log)
 		t.assertDictEqual(uwscli._env, {'PATH': _PATH})
 		t.assertEqual(uwscli.system_ttl, 600)
