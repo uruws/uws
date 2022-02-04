@@ -1,4 +1,5 @@
-Cmnd_Alias UWSCLI = /srv/uws/deploy/cli/app-cli.sh,\
+Cmnd_Alias UWSCLI = /srv/uws/deploy/cli/app-build.sh,\
+	/srv/uws/deploy/cli/app-cli.sh,\
 	/srv/uws/deploy/cli/app-cmd.sh,\
 	/srv/uws/deploy/cli/app-ctl.sh,\
 	/srv/uws/deploy/cli/app-fetch.sh,\

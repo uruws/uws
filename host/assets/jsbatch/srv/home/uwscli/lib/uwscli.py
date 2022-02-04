@@ -176,21 +176,21 @@ def deploy_description() -> str:
 
 def ctl(args: str, timeout: int = system_ttl) -> int:
 	"""run internal app-ctl command"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
+	return system("/usr/bin/sudo -H -P -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
 		timeout = timeout)
 
 def nq(cmd: str, args: str, bindir: str = cmddir) -> int:
 	"""enqueue internal command"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
+	return system("/usr/bin/sudo -H -P -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
 
 def run(cmd: str, args: str, cmddir: str = cmddir, timeout: int = system_ttl) -> int:
 	"""run internal command"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
+	return system("/usr/bin/sudo -H -P -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
 		timeout = timeout)
 
 def clean_build(app: str) -> int:
 	"""enqueue build clean task"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s" % (cmddir, _user, cmddir, app))
+	return system("/usr/bin/sudo -H -P -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s" % (cmddir, _user, cmddir, app))
 
 # aws utils
 
