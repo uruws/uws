@@ -15,14 +15,14 @@ deploy_basedir = getenv('UWSCLI_DEPLOY_BASEDIR', '/srv/deploy')
 docker_storage = '/srv/docker/lib'
 docker_storage_min = 10*1024*1024 # 10G
 
+@dataclass
 class AppBuild(object):
-	def __init__(self, dir: str, script: str, type: str = 'cli', src: str = '.', target: str = 'None', clean: str = ''):
-		self.dir:    str = dir
-		self.script: str = script
-		self.type:   str = type
-		self.src:    str = src
-		self.target: str = target
-		self.clean:  str = clean
+	dir:    str
+	script: str
+	type:   str = 'cli'
+	src:    str = '.'
+	target: str = 'None'
+	clean:  str = ''
 
 @dataclass
 class AppDeploy(object):
