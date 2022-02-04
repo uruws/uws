@@ -19,7 +19,9 @@ from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
 from subprocess import run as proc_run
 
-_user: str  = getenv('USER', 'unknown')
+from uwscli_auth import getuser, user_auth, user_check
+
+_user: str  = getuser()
 _log:  bool = getenv('UWSCLI_LOG', 'on') == 'on'
 
 _env: dict[str, str] = {
@@ -100,16 +102,19 @@ system_ttl: int = 600
 
 def system(cmd: str, env: dict[str, str] = None, timeout: int = system_ttl) -> int:
 	"""run system commands"""
+	user_check(_user)
 	p = proc_run(cmd, shell = True, capture_output = False,
 		timeout = timeout, env = _setenv(env))
 	return p.returncode
 
 def gso(cmd: str) -> tuple[int, str]:
 	"""get status output from system commands"""
+	user_check(_user)
 	return getstatusoutput(cmd)
 
 def check_output(cmd: str, env: dict[str, str] = None) -> str:
 	"""get output from system commands checking its exit status"""
+	user_check(_user)
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
 def __descmax(k: list[str]) -> int:
@@ -135,7 +140,7 @@ def __desc(apps: list[str]) -> str:
 
 def app_list() -> list[str]:
 	"""return list of configured apps"""
-	return sorted([n for n in app.keys() if app[n].app])
+	return user_auth(_user, [n for n in app.keys() if app[n].app])
 
 def app_description() -> str:
 	"""format apps list description"""
@@ -143,7 +148,7 @@ def app_description() -> str:
 
 def autobuild_list() -> list[str]:
 	"""return list of apps configured for autobuild"""
-	return sorted([n for n in app.keys() if app[n].build and app[n].autobuild])
+	return user_auth(_user, [n for n in app.keys() if app[n].build and app[n].autobuild])
 
 def autobuild_description() -> str:
 	"""format apps autobuild list description"""
@@ -155,7 +160,7 @@ def autobuild_deploy(n: str) -> list[str]:
 
 def build_list() -> list[str]:
 	"""return list of apps configured for build"""
-	return sorted([n for n in app.keys() if app[n].build.dir != ''])
+	return user_auth(_user, [n for n in app.keys() if app[n].build.dir != ''])
 
 def build_description() -> str:
 	"""format build apps description"""
@@ -163,7 +168,7 @@ def build_description() -> str:
 
 def deploy_list() -> list[str]:
 	"""return list of apps configured for deploy"""
-	return sorted([n for n in app.keys() if app[n].deploy.image != ''])
+	return user_auth(_user, [n for n in app.keys() if app[n].deploy.image != ''])
 
 def deploy_description() -> str:
 	"""format deploy apps description"""
@@ -229,6 +234,7 @@ def git_checkout(tag: str, workdir: str = '.') -> int:
 
 def git_deploy(rname: str, tag: str) -> int:
 	"""run uwscli deploy"""
+	user_check(_user)
 	return uwscli_deploy.run(rname, tag)
 
 def git_describe(workdir: str = '.') -> str:
