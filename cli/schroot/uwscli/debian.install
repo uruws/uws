@@ -3,3 +3,5 @@ less
 doas
 ca-certificates
 locales
+python3
+docker.io
