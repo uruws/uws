@@ -253,14 +253,7 @@ check-golang:
 
 .PHONY: check-cli
 check-cli:
-	@echo '***** cli/test/run/shellcheck.sh'
-	@./docker/uwscli/cmd.sh ./test/run/shellcheck.sh
-	@echo '***** cli/test/run/vendor.sh'
-	@./docker/uwscli/cmd.sh ./test/run/vendor.sh
-	@echo '***** cli/test/run/typecheck.sh'
-	@./docker/uwscli/cmd.sh ./test/run/typecheck.sh
-	@echo '***** cli/test/run/coverage.sh'
-	@./docker/uwscli/cmd.sh ./test/run/coverage.sh
+	@./docker/uwscli/cmd.sh ./test/check.sh
 
 .PHONY: check-k8s
 check-k8s:
