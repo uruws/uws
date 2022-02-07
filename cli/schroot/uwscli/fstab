@@ -8,6 +8,8 @@
 /dev/pts        /dev/pts        none    rw,bind         0       0
 tmpfs           /dev/shm        tmpfs   defaults        0       0
 
+/var/run		/var/run		none	rw,bind	0 0
+
 /opt/uws/src/uws	/srv/deploy/uws		none	rw,bind	0 0
 
 /opt/uws/src/uws/host/assets/jsbatch/srv/home/uwscli	/srv/home/uwscli	none	rw,bind	0 0
