@@ -40,7 +40,7 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_list_images(['0.999']):
 			with uwscli_t.mock_system():
 				t.assertEqual(app_deploy.main(['testing', '0.999']), 0)
-				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999',
+				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999',
 					timeout = uwscli.system_ttl)
 
 	def test_main_errors(t):

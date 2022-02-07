@@ -200,24 +200,24 @@ class Test(unittest.TestCase):
 	def test_ctl(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli.ctl('testing'), 0)
-			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws testing',
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws testing',
 				timeout = uwscli.system_ttl)
 
 	def test_nq(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli.nq('testing', 'args_t'), 0)
-			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/testing args_t')
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/testing args_t')
 
 	def test_run(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli.run('testing', 'args_t'), 0)
-			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/testing args_t',
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/testing args_t',
 				timeout = uwscli.system_ttl)
 
 	def test_clean_build(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli.clean_build('testing'), 0)
-			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing')
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing')
 
 	# aws utils
 
