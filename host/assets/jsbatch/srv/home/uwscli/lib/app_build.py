@@ -39,7 +39,7 @@ def _build(app: str, version: str, timeout: int = 3600) -> int:
 		src = uwscli.app[app].build.src
 		target = uwscli.app[app].build.target
 		args = "--src %s --target %s --version %s" % (src, target, version)
-		return uwscli.run(build_script, args, cmddir = build_dir, timeout = timeout)
+		return uwscli.run('buildpack.sh', args, timeout = timeout)
 	else:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.run('app-build.sh', args, timeout = timeout)
@@ -52,7 +52,7 @@ def nq(app: str, version: str) -> int:
 		src = uwscli.app[app].build.src
 		target = uwscli.app[app].build.target
 		args = "--src %s --target %s --version %s" % (src, target, version)
-		return uwscli.nq(build_script, args, build_dir)
+		return uwscli.run('buildpack.sh', args, timeout = timeout)
 	else:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.nq('app-build.sh', args)

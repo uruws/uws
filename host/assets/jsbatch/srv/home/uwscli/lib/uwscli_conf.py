@@ -22,6 +22,16 @@ class AppBuild(object):
 	target: str = 'None'
 	clean:  str = ''
 
+def _buildpack(src: str, target: str) -> AppBuild:
+	return AppBuild(
+		'/srv/deploy/Buildpack',
+		'build.py',
+		type = 'pack',
+		src = src,
+		target = target,
+		clean = target,
+	)
+
 @dataclass
 class AppDeploy(object):
 	image:  str
@@ -41,16 +51,6 @@ class App(object):
 	deploy:           AppDeploy = AppDeploy('')
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
-
-def _buildpack(src: str, target: str) -> AppBuild:
-	return AppBuild(
-		'/srv/deploy/Buildpack',
-		'build.py',
-		type = 'pack',
-		src = src,
-		target = target,
-		clean = target,
-	)
 
 app: dict[str, App] = {
 	'app': App(False,
