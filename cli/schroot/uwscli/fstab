@@ -10,6 +10,6 @@ tmpfs           /dev/shm        tmpfs   defaults        0       0
 
 /var/run		/var/run		none	rw,bind	0 0
 
-/opt/uws/src/uws	/srv/uws/deploy		none	rw,bind	0 0
+/srv/uws/deploy	/srv/uws/deploy	none	rw,bind	0 0
 
-/opt/uws/src/uws/host/assets/jsbatch/srv/home/uwscli	/srv/home/uwscli	none	rw,bind	0 0
+/srv/uws/deploy/host/assets/jsbatch/srv/home/uwscli	/srv/home/uwscli	none	rw,bind	0 0
