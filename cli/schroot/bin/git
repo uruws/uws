@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 
 if echo $@ | grep -qF -- '--tags'; then
 	echo "fake git fetch"

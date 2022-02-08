@@ -86,8 +86,11 @@ def _build(app: str) -> tuple[int, str]:
 		pass
 	return (EBUILD, '')
 
-def _latestBuild(app):
-	return str(max(filter(_semverFilter, uwscli.list_images(app))))
+def _latestBuild(app: str) -> str:
+	img = uwscli.list_images(app)
+	if len(img) == 0:
+		return ''
+	return str(max(filter(_semverFilter, img)))
 
 def _deploy(app: str, tag: str) -> int:
 	t = semver.VersionInfo.parse(tag)

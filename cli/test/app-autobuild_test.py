@@ -172,6 +172,10 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_list_images(['0.999.0', '0.0.999']):
 			t.assertEqual(app_autobuild._latestBuild('testing'), '0.999.0')
 
+	def test_latestBuild_error(t):
+		with uwscli_t.mock_list_images([]):
+			t.assertEqual(app_autobuild._latestBuild('testing'), '')
+
 	def test_deploy(t):
 		with mock():
 			with uwscli_t.mock_system():
