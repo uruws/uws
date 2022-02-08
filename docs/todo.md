@@ -8,6 +8,7 @@
 
 * uwscli - `WIP`
     * setup local schroot testing environment - `DONE!`
+    * setup testing k8s application (pod/test) - `DONE!`
     * `FIX` autobuild deploys
     * app access by group
 
@@ -43,6 +44,8 @@
 * 2202 round of upgrades
 
 * nlpsvc: separate apps namespaces (for graphs and cli status/logs)
+
+* munin: add pod/test to mon deploys and check it from jsbatch munin cluster checks
 
 * configurable app-autoscale
 
