@@ -56,11 +56,20 @@ base-testing:
 # devel
 #
 
+.PHONY: pod/base
+pod/base:
+	@./pod/base/build.sh
+
+.PHONY: pod/test
+pod/test:
+	@./pod/test/build.sh
+
 .PHONY: devel
 devel: base base-testing
 	@./docker/k8s/devel-build.sh
 	@./docker/eks/devel-build.sh
 	@./docker/asb/devel-build.sh
+	@$(MAKE) pod/base pod/test
 
 #
 # utils

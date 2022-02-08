@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec docker build --rm -t uwspod/base ./pod/base
+exec docker build --rm -t uws/pod:base ./pod/base
