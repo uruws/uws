@@ -101,10 +101,10 @@ class Test(unittest.TestCase):
 
 	def test_main_steps(t):
 		calls = [
-			call('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .', timeout=600),
-			call('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 1.999.0', timeout=3600),
-			call('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing'),
-			call('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 1.999.0-bp99', timeout=600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .', timeout=600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 1.999.0', timeout=3600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing'),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 1.999.0-bp99', timeout=600),
 		]
 		with app_build_test.mock_run():
 			with uwscli_t.mock_check_output(output = '1.999.0'):
@@ -116,7 +116,7 @@ class Test(unittest.TestCase):
 
 	def test_main_done(t):
 		calls = [
-			call('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .', timeout=600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .', timeout=600),
 		]
 		with mock():
 			with mock_status(st = 'OK'):
@@ -177,7 +177,7 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_list_images(['0.999.0']):
 					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
-				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0', timeout=600)
+				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0', timeout=600)
 		with uwscli_t.mock_system():
 			with uwscli_t.mock_list_images(['0.999.0']):
 				t.assertEqual(app_autobuild._deploy('testing', '1.999.0'), 0)
@@ -194,12 +194,12 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_list_images(['0.999.0']):
 			with mock_deploy():
 				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
-				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0', timeout=600)
+				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0', timeout=600)
 				app_autobuild._latestBuild.assert_called_once_with('test-1')
 		with uwscli_t.mock_list_images(['0.999.0-bp999']):
 			with mock_deploy(build = '0.999.0-bp999'):
 				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
-				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0-bp999', timeout=600)
+				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0-bp999', timeout=600)
 				app_autobuild._latestBuild.assert_called_once_with('test-1')
 
 if __name__ == '__main__':

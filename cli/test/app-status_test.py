@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
 	def test_main(t):
 		with uwscli_t.mock_system(0):
 			t.assertEqual(app_status.main(['testing']), 0)
-			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -P -n -u uws -- /srv/uws/deploy/cli/app-cmd.sh ktest test status',
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-cmd.sh ktest test status',
 				timeout = uwscli.system_ttl)
 
 if __name__ == '__main__':
