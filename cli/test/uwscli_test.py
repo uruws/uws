@@ -3,6 +3,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import sys
 import unittest
 
 from os import environ, getcwd, linesep
@@ -40,6 +41,19 @@ class Test(unittest.TestCase):
 	def test_environ(t):
 		for k, v in uwscli._env.items():
 			t.assertEqual(environ[k], v, msg = f"environ['{k}']")
+
+	def test_local_conf(t):
+		t.assertFalse('local_conf' in uwscli.app.keys())
+		t.assertFalse('local_conf' in uwscli.cluster.keys())
+		try:
+			uwscli._local_conf('./testdata/etc')
+			t.assertFalse(uwscli.app['local_conf'].app)
+			t.assertDictEqual(uwscli.cluster['local_conf'],
+				{'region': 'testing'})
+		finally:
+			del uwscli.app['local_conf']
+			del uwscli.cluster['local_conf']
+			sys.path.remove('./testdata/etc')
 
 	def test_vendor_libs(t):
 		t.assertListEqual(uwscli._libs, [
