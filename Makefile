@@ -56,20 +56,27 @@ base-testing:
 # devel
 #
 
-.PHONY: pod/base
-pod/base:
+.PHONY: pod-base
+pod-base:
 	@./pod/base/build.sh
 
-.PHONY: pod/test
-pod/test:
+.PHONY: pod-test
+pod-test:
 	@./pod/test/build.sh
+
+PODTEST_TAG != cat ./pod/test/VERSION
+
+.PHONY: pod-publish
+pod-publish:
+	@./docker/ecr-login.sh us-east-1
+	@./cluster/ecr-push.sh us-east-1 uws/pod:test uws:podtest-$(PODTEST_TAG)
 
 .PHONY: devel
 devel: base base-testing
 	@./docker/k8s/devel-build.sh
 	@./docker/eks/devel-build.sh
 	@./docker/asb/devel-build.sh
-	@$(MAKE) pod/base pod/test
+	@$(MAKE) pod-base pod-test
 
 #
 # utils
@@ -374,3 +381,4 @@ publish:
 	@$(MAKE) utils-publish
 	@$(MAKE) mon-publish
 	@$(MAKE) k8sctl-publish
+	@$(MAKE) pod-publish

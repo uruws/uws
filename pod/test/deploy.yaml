@@ -15,7 +15,7 @@ spec:
         app.kubernetes.io/name: podtest
     spec:
       containers:
-        - image: 789470191893.dkr.ecr.sa-east-1.amazonaws.com/uws:podtest-${APP_VERSION}
+        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:podtest-${APP_VERSION}
           imagePullPolicy: IfNotPresent
           name: podtest
           ports:
