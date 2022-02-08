@@ -6,11 +6,14 @@
 
 * k8smon check jsbatch munin is checking us - `DONE!`
 
+* uwscli - `WIP`
+    * setup local schroot testing environment - `DONE!`
+    * `FIX` autobuild deploys
+    * app access by group
+
 * workers
     * remove web endpoint (worker.uws.talkingpts.org)
         * check traffic first
-
-* uwscli app access by group
 
 * nlp app-deploy access
 
