@@ -14,7 +14,7 @@ uwscli.app = dict()
 app: dict[str, App] = {
 	'uwspod': App(False,
 		desc = 'uwspod tests',
-		build = AppBuild('/etc/uws/cli', 'build.sh'),
+		build = AppBuild('/srv/deploy/uwspod', 'build.sh'),
 		autobuild = True,
 		autobuild_deploy = ['podtest'],
 	),
