@@ -31,6 +31,18 @@ environ.update(_env)
 
 from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
 
+cfgdir: str = '/etc/uws/cli'
+
+if Path(cfgdir).is_dir():
+	fn = Path(cfgdir, 'local_conf.py')
+	if fn.is_file() and not fn.is_symlink():
+		sys.path.insert(0, cfgdir)
+		import local_conf # type: ignore
+		if hasattr(local_conf, 'app'):
+			app.update(local_conf.app)
+		if hasattr(local_conf, 'cluster'):
+			cluster.update(local_conf.cluster)
+
 # vendor libs
 _libs: list[str] = [
 	'semver-2.13.0',
