@@ -16,6 +16,8 @@
     * remove web endpoint (worker.uws.talkingpts.org)
         * check traffic first
 
+* 2202 round of [upgrades](./infra/upgrades.md)
+
 * nlp app-deploy access
 
 * uwsq: clean failed jobs
@@ -40,8 +42,6 @@
 
 * App meteor upgrade
     * take the opportunity to start using docker setup?
-
-* 2202 round of upgrades
 
 * nlpsvc: separate apps namespaces (for graphs and cli status/logs)
 
