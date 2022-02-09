@@ -229,7 +229,11 @@ def list_images(appname: str, region: str = '') -> list[str]:
 	"""get aws ECR list of available app images"""
 	kn = app[appname].cluster
 	if region == '':
-		region = cluster[kn]['region']
+		try:
+			region = cluster[kn]['region']
+		except KeyError:
+			error(f"{kn}: no cluster region")
+			return []
 	cmd = "aws ecr list-images --output text --repository-name uws"
 	cmd += " --region %s" % region
 	cmd += " | grep -F '%s'" % app[appname].deploy.image

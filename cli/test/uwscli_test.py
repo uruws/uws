@@ -244,6 +244,9 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output(fail = True):
 			t.assertEqual(uwscli.list_images('testing'), [])
 		t.assertEqual(uwscli_t.err().strip(), '[ERROR] testing list images: mock_output')
+		with uwscli_t.mock_check_output():
+			uwscli.app['testerror'] = uwscli_conf.App(False)
+			t.assertEqual(uwscli.list_images('testerror'), [])
 
 	# git utils
 
