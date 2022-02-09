@@ -61,10 +61,11 @@ def nq(app: str, version: str, timeout: int = 3600) -> int:
 def cleanBuild(app: str):
 	clean = uwscli.app[app].build.clean
 	if clean == '':
-		clean = app
-	rc = uwscli.clean_build(clean)
-	if rc != 0:
-		uwscli.error('ERROR: app clean:', app, 'failed!')
+		uwscli.info('nothing to clean for app:', app)
+	else:
+		rc = uwscli.clean_build(clean)
+		if rc != 0:
+			uwscli.error('ERROR: app clean:', app, 'failed!')
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
