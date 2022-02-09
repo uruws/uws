@@ -109,6 +109,7 @@ def _deploy(app: str, tag: str) -> int:
 	for n in uwscli.autobuild_deploy(app):
 		uwscli.debug('deploy:', n)
 		if ver == '':
+			uwscli.debug('get', app, 'latest build')
 			ver = _latestBuild(n)
 		if ver != '':
 			uwscli.debug('version:', ver)

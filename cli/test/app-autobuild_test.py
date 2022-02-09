@@ -189,9 +189,8 @@ class Test(unittest.TestCase):
 
 	def test_deploy(t):
 		with mock_deploy():
-			with uwscli_t.mock_system():
-				with uwscli_t.mock_list_images(['0.999.0']):
-					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
+			with uwscli_t.mock_list_images(['0.999.0']):
+				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
 				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0', timeout=600)
 		with uwscli_t.mock_system():
 			with uwscli_t.mock_list_images(['0.999.0']):
@@ -200,18 +199,20 @@ class Test(unittest.TestCase):
 
 	def test_deploy_error(t):
 		# deploy error
-		with mock_deploy():
-			with uwscli_t.mock_system(status = 99):
-				with uwscli_t.mock_list_images(['0.999.0']):
-					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'),
-						app_autobuild.EDEPLOY)
+		with mock_deploy(status = 99):
+			with uwscli_t.mock_list_images(['0.999.0']):
+				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'),
+					app_autobuild.EDEPLOY)
 		# nothing to do
 		with mock_deploy():
-			with uwscli_t.mock_system():
-				with uwscli_t.mock_list_images(['0.999.0']):
-					t.assertEqual(app_autobuild._deploy('testing', '999.0.0'), 0)
-					t.assertEqual(uwscli_t.out().strip().splitlines()[-1],
-						'nothing to do for app: test-1 - ver: 0.999.0 - tag: 999.0.0')
+			t.assertEqual(app_autobuild._deploy('testing', '999.0.0'), 0)
+			t.assertEqual(uwscli_t.out().strip().splitlines()[-1],
+				'nothing to do for app: test-1 - ver: 0.999.0 - tag: 999.0.0')
+		# no build
+		with mock_deploy(build = ''):
+			t.assertEqual(app_autobuild._deploy('testing', '0.666.0'), 0)
+			t.assertEqual(uwscli_t.out().strip().splitlines()[-1],
+				'no build to deploy for app: test-1')
 
 	def test_deploy_buildpack(t):
 		with uwscli_t.mock_list_images(['0.999.0']):
