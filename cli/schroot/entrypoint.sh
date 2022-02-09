@@ -44,6 +44,11 @@ doas ln -vsf /srv/uws/deploy/cli/schroot/bin /usr/local/bin
 doas install -v -d -m 0750 -o ${SCHROOT_USER} -g ${SCHROOT_GROUP} ${HOME}
 doas ln -vsf /srv/uws/deploy/secret/aws ${HOME}/.aws
 
+# set env
+
+UWSCLI_DEBUG=on
+export UWSCLI_DEBUG
+
 # login
 
 PATH=/srv/home/uwscli/bin:${PATH}
