@@ -9,7 +9,7 @@ from uwscli_conf import App, AppBuild, AppDeploy
 
 uwscli.docker_storage_min = 10
 
-uwscli.app = dict()
+uwscli.app.clear()
 
 app: dict[str, App] = {
 	'uwspod': App(False,
@@ -26,7 +26,7 @@ app: dict[str, App] = {
 	),
 }
 
-uwscli.cluster = dict()
+uwscli.cluster.clear()
 
 cluster: dict[str, dict[str, str]] = {
 	'panoramix': {

@@ -16,6 +16,8 @@ import app_build_test
 import uwscli
 import app_autobuild
 
+from uwscli_conf import App, AppDeploy
+
 @contextmanager
 def mock():
 	try:
@@ -51,11 +53,18 @@ def mock_deploy(build = '0.999.0', status = 0):
 	try:
 		app_autobuild._latestBuild = MagicMock(return_value = build)
 		uwscli.app['testing'].autobuild_deploy = ['test-1']
+		uwscli.app['test-1'] = App(True,
+			cluster = 'ktest',
+			desc = 'Testing',
+			pod = 'test',
+			deploy = AppDeploy('test'),
+		)
 		with uwscli_t.mock_system(status = status):
 			yield
 	finally:
 		app_autobuild._latestBuild = lb_bup
 		uwscli.app['testing'].autobuild_deploy = []
+		del uwscli.app['test-1']
 
 class Test(unittest.TestCase):
 
@@ -179,7 +188,7 @@ class Test(unittest.TestCase):
 			t.assertEqual(app_autobuild._latestBuild('testing'), '')
 
 	def test_deploy(t):
-		with mock():
+		with mock_deploy():
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_list_images(['0.999.0']):
 					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
@@ -190,7 +199,7 @@ class Test(unittest.TestCase):
 			uwscli.system.assert_not_called()
 
 	def test_deploy_error(t):
-		with mock():
+		with mock_deploy():
 			with uwscli_t.mock_system(status = 99):
 				with uwscli_t.mock_list_images(['0.999.0']):
 					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'),

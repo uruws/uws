@@ -74,7 +74,7 @@ __done: str = '__done__'
 
 def _build(app: str) -> tuple[int, str]:
 	build = uwscli.app[app].build
-	uwscli.debug('build:', build)
+	uwscli.debug(build)
 	try:
 		with uwscli.chdir(build.dir):
 			rc = uwscli.run('app-fetch.sh', build.src)
@@ -103,19 +103,26 @@ def _latestBuild(app: str) -> str:
 	return str(max(img))
 
 def _deploy(app: str, tag: str) -> int:
-	uwscli.debug('deploy')
+	uwscli.debug('deploy:', app, tag)
 	t = semver.VersionInfo.parse(tag)
 	ver: str = ''
 	for n in uwscli.autobuild_deploy(app):
+		uwscli.debug('deploy:', n)
 		if ver == '':
 			ver = _latestBuild(n)
 		if ver != '':
+			uwscli.debug('version:', ver)
 			v = semver.VersionInfo.parse(ver.split('-')[0])
 			if v >= t:
-				uwscli.info('app-deploy:', app, ver)
-				rc = app_deploy.deploy(app, ver)
+				uwscli.debug('new version to deploy:', ver)
+				uwscli.info('app-deploy:', n, ver)
+				rc = app_deploy.deploy(n, ver)
 				if rc != 0:
 					return EDEPLOY
+			else:
+				uwscli.debug('nothing to do, ver:', ver, ' - tag:', tag)
+		else:
+			uwscli.info('no build to deploy for:', n)
 	return 0
 
 def main(argv = []):
