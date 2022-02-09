@@ -28,7 +28,7 @@ def _setup():
 		return False
 	return True
 
-def _semverFilter(s):
+def _semverFilter(s: str) -> semver.VersionInfo:
 	try:
 		return semver.VersionInfo.parse(s)
 	except ValueError:
@@ -90,7 +90,10 @@ def _latestBuild(app: str) -> str:
 	img = uwscli.list_images(app)
 	if len(img) == 0:
 		return ''
-	return str(max(filter(_semverFilter, img)))
+	img = list(filter(_semverFilter, img))
+	if len(img) == 0:
+		return ''
+	return str(max(img))
 
 def _deploy(app: str, tag: str) -> int:
 	t = semver.VersionInfo.parse(tag)

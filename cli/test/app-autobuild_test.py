@@ -175,6 +175,8 @@ class Test(unittest.TestCase):
 	def test_latestBuild_error(t):
 		with uwscli_t.mock_list_images([]):
 			t.assertEqual(app_autobuild._latestBuild('testing'), '')
+		with uwscli_t.mock_list_images(['220208']):
+			t.assertEqual(app_autobuild._latestBuild('testing'), '')
 
 	def test_deploy(t):
 		with mock():
