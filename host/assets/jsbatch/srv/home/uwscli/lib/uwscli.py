@@ -57,24 +57,31 @@ import uwscli_deploy
 
 # internal utils
 
+def _print(*args: Union[list[Any], Any], fh = _outfh, sep = ' '):
+	if _debug:
+		s = inspect.stack()[2]
+		print(f"{s.filename}:{s.function}:{s.lineno}:", *args,
+			sep = sep, flush = True, file = fh)
+	else:
+		print(*args, sep = sep, flush = True, file = fh)
+
 def log(*args: Union[list[Any], Any], sep: str = ' '):
 	"""print log messages to stdout (can be disabled with UWSCLI_LOG=off env var)"""
 	if _log:
-		print(*args, sep = sep, file = _outfh, flush = True)
+		_print(*args, sep = sep, fh = _outfh)
 
 def info(*args: Union[list[Any], Any]):
 	"""print log messages to stdout (even if log is 'off')"""
-	print(*args, file = _outfh, flush = True)
+	_print(*args, fh = _outfh)
 
 def debug(*args: Union[list[Any], Any]):
 	"""print debug messages to stdout"""
 	if _debug:
-		s = inspect.stack()[2]
-		print(f"{s.filename}:{s.function}:{s.lineno}:", '[D]', *args, file = _outfh, flush = True)
+		_print(*args, fh = _outfh)
 
 def error(*args: Union[list[Any], Any]):
 	"""print log messages to stderr"""
-	print(*args, file = _errfh, flush = True)
+	_print(*args, fh = _errfh)
 
 @contextmanager
 def chdir(d: str, error_status: int = 2):

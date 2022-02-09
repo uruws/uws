@@ -6,6 +6,7 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 import uwscli
 
 def run(app: str, version: str, timeout: int = 3600) -> int:
+	uwscli.debug('run:', app)
 	st = check_storage()
 	if st != 0:
 		return st
