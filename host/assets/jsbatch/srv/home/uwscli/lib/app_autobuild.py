@@ -120,9 +120,9 @@ def _deploy(app: str, tag: str) -> int:
 				if rc != 0:
 					return EDEPLOY
 			else:
-				uwscli.debug('nothing to do, ver:', ver, ' - tag:', tag)
+				uwscli.info('nothing to do for app:', n, '- ver:', ver, '- tag:', tag)
 		else:
-			uwscli.info('no build to deploy for:', n)
+			uwscli.info('no build to deploy for app:', n)
 	return 0
 
 def main(argv = []):

@@ -199,11 +199,19 @@ class Test(unittest.TestCase):
 			uwscli.system.assert_not_called()
 
 	def test_deploy_error(t):
+		# deploy error
 		with mock_deploy():
 			with uwscli_t.mock_system(status = 99):
 				with uwscli_t.mock_list_images(['0.999.0']):
 					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'),
 						app_autobuild.EDEPLOY)
+		# nothing to do
+		with mock_deploy():
+			with uwscli_t.mock_system():
+				with uwscli_t.mock_list_images(['0.999.0']):
+					t.assertEqual(app_autobuild._deploy('testing', '999.0.0'), 0)
+					t.assertEqual(uwscli_t.out().strip().splitlines()[-1],
+						'nothing to do for app: test-1 - ver: 0.999.0 - tag: 999.0.0')
 
 	def test_deploy_buildpack(t):
 		with uwscli_t.mock_list_images(['0.999.0']):
