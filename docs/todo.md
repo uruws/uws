@@ -1,14 +1,4 @@
-* k8smon munin-node plugin: - `DONE!`
-    * node_taint info
-
-* meteor app - `DONE!`
-    * set STAGING_APP_VERSION during test clusters deploy
-
-* k8smon check jsbatch munin is checking us - `DONE!`
-
 * uwscli - `WIP`
-    * setup local schroot testing environment - `DONE!`
-    * setup testing k8s application (pod/test) - `DONE!`
     * `FIX` autobuild deploys
     * app access by group
 
