@@ -60,15 +60,22 @@ def _checkVersion(tag: str, ver: str) -> bool:
 
 def _isBuildingOrDone(app, tag):
 	"""check if tag is in the build queue or done already"""
-	uwscli.debug('isBuildingOrDone')
+	uwscli.debug(app, tag)
 	try:
 		st, ver = _getStatus(app)
 		not_done = _checkVersion(tag, ver)
 		if not_done:
+			uwscli.debug('not done:', app, tag)
 			return False
 	except FileNotFoundError:
+		uwscli.debug('no status:', app, tag)
 		return False
-	return st != 'FAIL'
+	ok = st != 'FAIL'
+	if ok:
+		uwscli.debug('already built app:', app, tag)
+	else:
+		uwscli.error('build for app:', app, ver, 'failed')
+	return ok
 
 __done: str = '__done__'
 
