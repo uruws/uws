@@ -77,6 +77,11 @@ class Test(unittest.TestCase):
 		uwscli.info('testing2')
 		t.assertEqual(uwscli_t.out().strip(), 'testing2')
 
+	def test_debug(t):
+		uwscli._debug = True
+		uwscli.debug('testing', '...')
+		t.assertTrue(uwscli_t.out().strip().endswith(': testing ...'))
+
 	def test_error(t):
 		uwscli.error('test', 'ing')
 		t.assertEqual(uwscli_t.err().strip(), 'test ing')

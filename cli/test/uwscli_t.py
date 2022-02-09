@@ -32,6 +32,8 @@ uwscli.docker_storage = '/srv/docker'
 uwscli.docker_storage_min = 10
 
 def mock():
+	uwscli._log = True
+	uwscli._debug = False
 	uwscli._outfh = None
 	uwscli._outfh = StringIO()
 	uwscli._errfh = None
@@ -60,9 +62,11 @@ def err():
 def log_disable():
 	try:
 		uwscli._log = False
+		uwscli._debug = False
 		yield
 	finally:
 		uwscli._log = True
+		uwscli._debug = False
 
 @contextmanager
 def mock_chdir(fail = False, faildir = ''):
