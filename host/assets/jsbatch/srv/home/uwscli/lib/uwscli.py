@@ -1,6 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import inspect
 import sys
 
 from typing import Any
@@ -68,7 +69,8 @@ def info(*args: Union[list[Any], Any]):
 def debug(*args: Union[list[Any], Any]):
 	"""print debug messages to stdout"""
 	if _debug:
-		print(*args, file = _outfh, flush = True)
+		s = inspect.stack()[2]
+		print(f"{s.filename}:{s.function}:{s.lineno}:", '[D]', *args, file = _outfh, flush = True)
 
 def error(*args: Union[list[Any], Any]):
 	"""print log messages to stderr"""
@@ -195,15 +197,18 @@ def deploy_description() -> str:
 
 def ctl(args: str, timeout: int = system_ttl) -> int:
 	"""run internal app-ctl command"""
+	debug('ctl:', args)
 	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
 		timeout = timeout)
 
 def nq(cmd: str, args: str, bindir: str = cmddir) -> int:
 	"""enqueue internal command"""
+	debug('nq:', cmd)
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
 
 def run(cmd: str, args: str, cmddir: str = cmddir, timeout: int = system_ttl) -> int:
 	"""run internal command"""
+	debug('run:', cmd)
 	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
 		timeout = timeout)
 
