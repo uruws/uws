@@ -10,7 +10,7 @@ from subprocess import getstatusoutput, check_output, CalledProcessError
 import uwscli
 import uwscli_conf
 
-def _testingApp():
+def _testingApp() -> dict[str, uwscli_conf.App]:
 	return {
 		'testing': uwscli_conf.App(True,
 			cluster = 'ktest',
@@ -23,12 +23,8 @@ def _testingApp():
 
 uwscli.app = _testingApp()
 
-def _testingCluster():
-	return {
-		'ktest': {
-			'region': 'testing-1',
-		},
-	}
+def _testingCluster() -> dict[str, uwscli_conf.AppCluster]:
+	return {'ktest': uwscli_conf.AppCluster(region = 'testing-1')}
 
 uwscli.cluster = _testingCluster()
 

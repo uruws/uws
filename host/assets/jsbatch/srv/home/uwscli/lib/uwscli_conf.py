@@ -127,26 +127,16 @@ app: dict[str, App] = {
 	),
 }
 
-cluster: dict[str, dict[str, str]] = {
-	'amy-east': {
-		'region': 'us-east-1',
-	},
-	'amy-west': {
-		'region': 'us-west-1',
-	},
-	'amy-wrkr': {
-		'region': 'us-east-1',
-	},
-	'amybeta': {
-		'region': 'us-east-2',
-	},
-	'amy-test-1': {
-		'region': 'us-east-2',
-	},
-	'amy-test-2': {
-		'region': 'us-west-2',
-	},
-	'panoramix': {
-		'region': 'us-east-1',
-	},
+@dataclass
+class AppCluster(object):
+	region: str
+
+cluster: dict[str, AppCluster] = {
+	'amy-east':   AppCluster(region = 'us-east-1'),
+	'amy-west':   AppCluster(region = 'us-west-1'),
+	'amy-wrkr':   AppCluster(region = 'us-east-1'),
+	'amybeta':    AppCluster(region = 'us-east-2'),
+	'amy-test-1': AppCluster(region = 'us-east-2'),
+	'amy-test-2': AppCluster(region = 'us-west-2'),
+	'panoramix':  AppCluster(region = 'us-east-1'),
 }

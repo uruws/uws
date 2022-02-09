@@ -5,7 +5,7 @@
 
 import uwscli
 
-from uwscli_conf import App, AppBuild, AppDeploy
+from uwscli_conf import App, AppBuild, AppDeploy, AppCluster
 
 uwscli.docker_storage_min = 10
 
@@ -28,8 +28,6 @@ app: dict[str, App] = {
 
 uwscli.cluster.clear()
 
-cluster: dict[str, dict[str, str]] = {
-	'panoramix': {
-		'region': 'us-east-1',
-	},
+cluster: dict[str, AppCluster] = {
+	'panoramix': AppCluster(region = 'us-east-1'),
 }

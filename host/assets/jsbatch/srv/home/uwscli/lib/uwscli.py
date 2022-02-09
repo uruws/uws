@@ -230,7 +230,7 @@ def list_images(appname: str, region: str = '') -> list[str]:
 	kn = app[appname].cluster
 	if region == '':
 		try:
-			region = cluster[kn]['region']
+			region = cluster[kn].region
 		except KeyError:
 			error(f"{kn}: no cluster region")
 			return []
