@@ -21,8 +21,9 @@ from subprocess import run as proc_run
 
 from uwscli_auth import User, getuser, user_auth, user_check
 
-_user: User = getuser()
-_log:  bool = getenv('UWSCLI_LOG', 'on') == 'on'
+_user:  User = getuser()
+_log:   bool = getenv('UWSCLI_LOG', 'on') == 'on'
+_debug: bool = getenv('UWSCLI_DEBUG', 'off') == 'on'
 
 _env: dict[str, str] = {
 	'PATH': '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin',
@@ -61,8 +62,13 @@ def log(*args: Union[list[Any], Any], sep: str = ' '):
 		print(*args, sep = sep, file = _outfh, flush = True)
 
 def info(*args: Union[list[Any], Any]):
-	"""print log messages to stdout (even if log is disabled)"""
+	"""print log messages to stdout (even if log is 'off')"""
 	print(*args, file = _outfh, flush = True)
+
+def debug(*args: Union[list[Any], Any]):
+	"""print debug messages to stdout"""
+	if _debug:
+		print(*args, file = _outfh, flush = True)
 
 def error(*args: Union[list[Any], Any]):
 	"""print log messages to stderr"""
