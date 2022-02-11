@@ -154,29 +154,28 @@ def check_output(cmd: str, env: dict[str, str] = None) -> str:
 	user_check(_user)
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
-def _sudo(cmd: str, args: list[str]) -> int:
-	return system(f"/usr/bin/sudo -H -n -u uws -- {cmddir}/{cmd} {args}")
+def _sudo(cmd: str, args: str, timeout = system_ttl) -> int:
+	return system(f"/usr/bin/sudo -H -n -u uws -- {cmddir}/{cmd} {args}",
+		timeout = timeout)
 
 def ctl(args: str, timeout: int = system_ttl) -> int:
 	"""run internal app-ctl command"""
 	debug('ctl:', args)
-	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
-		timeout = timeout)
+	return _sudo("app-ctl.sh", "%s %s" % (_user, args), timeout = timeout)
 
 def nq(cmd: str, args: str, bindir: str = cmddir) -> int:
 	"""enqueue internal command"""
 	debug('nq:', cmd)
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
+	return _sudo("uwsnq.sh", "%s %s/%s %s" % (_user, bindir, cmd, args))
 
-def run(cmd: str, args: str, cmddir: str = cmddir, timeout: int = system_ttl) -> int:
+def run(cmd: str, args: str, timeout: int = system_ttl) -> int:
 	"""run internal command"""
 	debug('run:', cmd)
-	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
-		timeout = timeout)
+	return _sudo(cmd, args, timeout = timeout)
 
 def clean_build(app: str) -> int:
 	"""enqueue build clean task"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s" % (cmddir, _user, cmddir, app))
+	return _sudo("uwsnq.sh", "%s %s/app-clean-build.sh %s" % (_user, cmddir, app))
 
 #
 # app list / description
