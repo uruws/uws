@@ -46,16 +46,21 @@ def _local_conf(cfgdir: str = '/etc/uws/cli'):
 
 _local_conf()
 
+#
 # vendor libs
+#
+
 _libs: list[str] = [
 	'semver-2.13.0',
 ]
 for lib in _libs:
 	sys.path.insert(0, f"/srv/home/uwscli/vendor/{lib}")
 
-import uwscli_deploy
-
+#
 # internal utils
+#
+
+import uwscli_deploy
 
 def _print(*args: Union[list[Any], Any], fh = _outfh, sep = ' '):
 	if _debug:
@@ -118,6 +123,10 @@ def lockf(name: str):
 		if locked:
 			fn.unlink()
 
+#
+# system utils
+#
+
 def _setenv(env: Optional[dict[str, str]]) -> dict[str, str]:
 	e = {}
 	for k, v in environ.items():
@@ -144,6 +153,34 @@ def check_output(cmd: str, env: dict[str, str] = None) -> str:
 	"""get output from system commands checking its exit status"""
 	user_check(_user)
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
+
+def _sudo(cmd: str, args: list[str]) -> int:
+	return system(f"/usr/bin/sudo -H -n -u uws -- {cmddir}/{cmd} {args}")
+
+def ctl(args: str, timeout: int = system_ttl) -> int:
+	"""run internal app-ctl command"""
+	debug('ctl:', args)
+	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
+		timeout = timeout)
+
+def nq(cmd: str, args: str, bindir: str = cmddir) -> int:
+	"""enqueue internal command"""
+	debug('nq:', cmd)
+	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
+
+def run(cmd: str, args: str, cmddir: str = cmddir, timeout: int = system_ttl) -> int:
+	"""run internal command"""
+	debug('run:', cmd)
+	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
+		timeout = timeout)
+
+def clean_build(app: str) -> int:
+	"""enqueue build clean task"""
+	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s" % (cmddir, _user, cmddir, app))
+
+#
+# app list / description
+#
 
 def __descmax(k: list[str]) -> int:
 	m = 0
@@ -202,28 +239,9 @@ def deploy_description() -> str:
 	"""format deploy apps description"""
 	return __desc(deploy_list())
 
-def ctl(args: str, timeout: int = system_ttl) -> int:
-	"""run internal app-ctl command"""
-	debug('ctl:', args)
-	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
-		timeout = timeout)
-
-def nq(cmd: str, args: str, bindir: str = cmddir) -> int:
-	"""enqueue internal command"""
-	debug('nq:', cmd)
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
-
-def run(cmd: str, args: str, cmddir: str = cmddir, timeout: int = system_ttl) -> int:
-	"""run internal command"""
-	debug('run:', cmd)
-	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
-		timeout = timeout)
-
-def clean_build(app: str) -> int:
-	"""enqueue build clean task"""
-	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/app-clean-build.sh %s" % (cmddir, _user, cmddir, app))
-
+#
 # aws utils
+#
 
 def list_images(appname: str, region: str = '') -> list[str]:
 	"""get aws ECR list of available app images"""
@@ -247,7 +265,9 @@ def list_images(appname: str, region: str = '') -> list[str]:
 		error(f"[ERROR] {appname} list images: {err.output}")
 	return []
 
+#
 # git utils
+#
 
 def git_clone(rpath: str) -> int:
 	"""git clone"""
