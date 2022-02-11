@@ -19,6 +19,14 @@
 * app-autobuild deploy
     * wait some time between deploys on "multi cluster" apps
 
+* munin pods_container (check phase)
+    "status": {
+        "message": "The node was low on resource: memory. Container controller was using 2391212Ki, which exceeds its request of 90Mi. ",
+        "phase": "Failed",
+        "reason": "Evicted",
+        "startTime": "2022-02-09T03:24:23Z"
+    }
+
 * munin alerts to slack
     * setup/devel bot
     * remove setup munin limit mail alerts
@@ -125,7 +133,10 @@
 * web /bandwidthCallbackSms requests
     * add bot check/graph
 
-* split nginx cluster proxy load over N instances instead of only 1
+* nginx
+    * split cluster load over N instances instead of only 1
+    * run them in their own node group?
+    * or tune mem and cpu resources to make them run in a "dedicated" node?
 
 * improve web deploys
     * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.
