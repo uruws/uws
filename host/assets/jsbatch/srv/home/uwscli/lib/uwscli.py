@@ -20,7 +20,7 @@ from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
 from subprocess import run as proc_run
 
-from uwscli_auth import User, getuser, user_auth, user_check
+from uwscli_auth import User, getuser, user_auth
 
 _user:  User = getuser()
 _log:   bool = getenv('UWSCLI_LOG', 'on') == 'on'
@@ -139,19 +139,16 @@ system_ttl: int = 600
 
 def system(cmd: str, env: dict[str, str] = None, timeout: int = system_ttl) -> int:
 	"""run system commands"""
-	user_check(_user)
 	p = proc_run(cmd, shell = True, capture_output = False,
 		timeout = timeout, env = _setenv(env))
 	return p.returncode
 
 def gso(cmd: str) -> tuple[int, str]:
 	"""get status output from system commands"""
-	user_check(_user)
 	return getstatusoutput(cmd)
 
 def check_output(cmd: str, env: dict[str, str] = None) -> str:
 	"""get output from system commands checking its exit status"""
-	user_check(_user)
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
 def _sudo(cmd: str, args: str, timeout = system_ttl) -> int:
