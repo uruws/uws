@@ -8,6 +8,8 @@ action=${4:?'action?'}
 
 shift 4
 
+/srv/uws/deploy/cli/auth.py --user "${SUDO_USER}" --pod "${kind}"
+
 logs_dir=${HOME}/logs
 logf=${logs_dir}/app-ctl.log
 

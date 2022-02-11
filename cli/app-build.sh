@@ -8,6 +8,8 @@ version=${4:?'version?'}
 
 version_tag=$(echo "${version}" | tr '/' '_')
 
+/srv/uws/deploy/cli/auth.py --user "${SUDO_USER}" --build "${app}"
+
 logs_dir=${HOME}/logs
 log_date=$(date '+%y%m%d-%H%M%S')
 logf=${logs_dir}/${app}-build-${log_date}-${version_tag}.log

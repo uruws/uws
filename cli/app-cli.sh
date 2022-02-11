@@ -7,6 +7,8 @@ action=${3:?'action?'}
 
 shift 3
 
+/srv/uws/deploy/cli/auth.py --user "${SUDO_USER}" --pod "${kind}"
+
 cmd=./pod/${kind}/${action}.sh
 
 cd /srv/uws/deploy
