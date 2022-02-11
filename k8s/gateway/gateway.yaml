@@ -6,6 +6,7 @@ metadata:
 spec:
   type: ExternalName
   externalName: munin-web.mon.svc.cluster.local
+
 ---
 apiVersion: v1
 kind: Service
@@ -14,6 +15,7 @@ metadata:
 spec:
   type: ExternalName
   externalName: k8s.mon.svc.cluster.local
+
 ---
 apiVersion: v1
 kind: Service
@@ -33,6 +35,7 @@ spec:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/component: controller
+
 ---
 apiVersion: v1
 kind: Service
@@ -41,6 +44,16 @@ metadata:
 spec:
   type: ExternalName
   externalName: metrics.ingress-nginx.svc.cluster.local
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uwspod-test
+spec:
+  type: ExternalName
+  externalName: podtest.uwspod.svc.cluster.local
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -92,3 +105,10 @@ spec:
                 name: nginx-metrics
                 port:
                   number: 10254
+          - pathType: Prefix
+            path: /podtest/(.*)
+            backend:
+              service:
+                name: uwspod-test
+                port:
+                  number: 8699

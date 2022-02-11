@@ -6,6 +6,7 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 import uwscli
 
 def run(app: str, version: str, timeout: int = 3600) -> int:
+	uwscli.debug('run:', app)
 	st = check_storage()
 	if st != 0:
 		return st
@@ -39,12 +40,12 @@ def _build(app: str, version: str, timeout: int = 3600) -> int:
 		src = uwscli.app[app].build.src
 		target = uwscli.app[app].build.target
 		args = "--src %s --target %s --version %s" % (src, target, version)
-		return uwscli.run(build_script, args, cmddir = build_dir, timeout = timeout)
+		return uwscli.run('buildpack.sh', args, timeout = timeout)
 	else:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.run('app-build.sh', args, timeout = timeout)
 
-def nq(app: str, version: str) -> int:
+def nq(app: str, version: str, timeout: int = 3600) -> int:
 	builder = uwscli.app[app].build.type
 	build_dir = uwscli.app[app].build.dir
 	build_script = uwscli.app[app].build.script
@@ -52,7 +53,7 @@ def nq(app: str, version: str) -> int:
 		src = uwscli.app[app].build.src
 		target = uwscli.app[app].build.target
 		args = "--src %s --target %s --version %s" % (src, target, version)
-		return uwscli.nq(build_script, args, build_dir)
+		return uwscli.run('buildpack.sh', args, timeout = timeout)
 	else:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.nq('app-build.sh', args)
@@ -60,10 +61,11 @@ def nq(app: str, version: str) -> int:
 def cleanBuild(app: str):
 	clean = uwscli.app[app].build.clean
 	if clean == '':
-		clean = app
-	rc = uwscli.clean_build(clean)
-	if rc != 0:
-		uwscli.error('ERROR: app clean:', app, 'failed!')
+		uwscli.info('nothing to clean for app:', app)
+	else:
+		rc = uwscli.clean_build(clean)
+		if rc != 0:
+			uwscli.error('ERROR: app clean:', app, 'failed!')
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,

@@ -20,6 +20,7 @@ EBUILD  = 12
 EDEPLOY = 13
 
 def _setup():
+	uwscli.debug('setup')
 	try:
 		uwscli.mkdir(_status_dir)
 		uwscli.mkdir(_nqdir)
@@ -28,17 +29,19 @@ def _setup():
 		return False
 	return True
 
-def _semverFilter(s):
+def _semverFilter(s: str) -> semver.VersionInfo:
 	try:
 		return semver.VersionInfo.parse(s)
 	except ValueError:
 		return None
 
 def _latestTag(src):
+	uwscli.debug('latestTag')
 	# https://python-semver.readthedocs.io/en/2.13.0/usage.html
 	return str(max(filter(_semverFilter, uwscli.git_tag_list(workdir = src))))
 
 def _getStatus(app):
+	uwscli.debug('getStatus')
 	st    = None
 	ver   = None
 	f     = Path(_status_dir, f"{app}.status")
@@ -50,25 +53,35 @@ def _getStatus(app):
 
 def _checkVersion(tag: str, ver: str) -> bool:
 	"""check if tag is major than version"""
+	uwscli.debug('checkVersion')
 	t = semver.VersionInfo.parse(tag)
 	v = semver.VersionInfo.parse(ver)
 	return t > v
 
 def _isBuildingOrDone(app, tag):
 	"""check if tag is in the build queue or done already"""
+	uwscli.debug(app, tag)
 	try:
 		st, ver = _getStatus(app)
 		not_done = _checkVersion(tag, ver)
 		if not_done:
+			uwscli.debug('not done:', app, tag)
 			return False
 	except FileNotFoundError:
+		uwscli.debug('no status:', app, tag)
 		return False
-	return st != 'FAIL'
+	ok = st != 'FAIL'
+	if ok:
+		uwscli.debug('already built app:', app, tag)
+	else:
+		uwscli.error('build for app:', app, ver, 'failed')
+	return ok
 
 __done: str = '__done__'
 
 def _build(app: str) -> tuple[int, str]:
 	build = uwscli.app[app].build
+	uwscli.debug(build)
 	try:
 		with uwscli.chdir(build.dir):
 			rc = uwscli.run('app-fetch.sh', build.src)
@@ -86,25 +99,43 @@ def _build(app: str) -> tuple[int, str]:
 		pass
 	return (EBUILD, '')
 
-def _latestBuild(app):
-	return str(max(filter(_semverFilter, uwscli.list_images(app))))
+def _latestBuild(app: str) -> str:
+	uwscli.debug('latestBuild')
+	img = uwscli.list_images(app)
+	if len(img) == 0:
+		return ''
+	img = list(filter(_semverFilter, img))
+	if len(img) == 0:
+		return ''
+	return str(max(img))
 
 def _deploy(app: str, tag: str) -> int:
+	uwscli.debug('deploy:', app, tag)
 	t = semver.VersionInfo.parse(tag)
 	ver: str = ''
 	for n in uwscli.autobuild_deploy(app):
+		uwscli.debug('deploy:', n)
 		if ver == '':
+			uwscli.debug('get', app, 'latest build')
 			ver = _latestBuild(n)
 		if ver != '':
+			uwscli.debug('version:', ver)
 			v = semver.VersionInfo.parse(ver.split('-')[0])
 			if v >= t:
-				uwscli.info('app-deploy:', app, ver)
-				rc = app_deploy.deploy(app, ver)
+				uwscli.debug('new version to deploy:', ver)
+				uwscli.info('app-deploy:', n, ver)
+				rc = app_deploy.deploy(n, ver)
 				if rc != 0:
 					return EDEPLOY
+			else:
+				uwscli.info('nothing to do for app:', n, '- ver:', ver, '- tag:', tag)
+		else:
+			uwscli.info('no build to deploy for app:', n)
 	return 0
 
 def main(argv = []):
+	uwscli.debug('main')
+
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.autobuild_description())
 

@@ -10,25 +10,21 @@ from subprocess import getstatusoutput, check_output, CalledProcessError
 import uwscli
 import uwscli_conf
 
-def _testingApp():
+def _testingApp() -> dict[str, uwscli_conf.App]:
 	return {
 		'testing': uwscli_conf.App(True,
 			cluster = 'ktest',
 			desc = 'Testing',
 			pod = 'test',
-			build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh'),
+			build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh', clean = 'testing'),
 			deploy = uwscli_conf.AppDeploy('test'),
 		),
 	}
 
 uwscli.app = _testingApp()
 
-def _testingCluster():
-	return {
-		'ktest': {
-			'region': 'testing-1',
-		},
-	}
+def _testingCluster() -> dict[str, uwscli_conf.AppCluster]:
+	return {'ktest': uwscli_conf.AppCluster(region = 'testing-1')}
 
 uwscli.cluster = _testingCluster()
 
@@ -36,6 +32,8 @@ uwscli.docker_storage = '/srv/docker'
 uwscli.docker_storage_min = 10
 
 def mock():
+	uwscli._log = True
+	uwscli._debug = False
 	uwscli._outfh = None
 	uwscli._outfh = StringIO()
 	uwscli._errfh = None
@@ -64,9 +62,11 @@ def err():
 def log_disable():
 	try:
 		uwscli._log = False
+		uwscli._debug = False
 		yield
 	finally:
 		uwscli._log = True
+		uwscli._debug = False
 
 @contextmanager
 def mock_chdir(fail = False, faildir = ''):

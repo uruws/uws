@@ -22,6 +22,16 @@ class AppBuild(object):
 	target: str = 'None'
 	clean:  str = ''
 
+def _buildpack(src: str, target: str) -> AppBuild:
+	return AppBuild(
+		'/srv/deploy/Buildpack',
+		'build.py',
+		type = 'pack',
+		src = src,
+		target = target,
+		clean = target,
+	)
+
 @dataclass
 class AppDeploy(object):
 	image:  str
@@ -33,7 +43,7 @@ class AppDeploy(object):
 
 @dataclass
 class App(object):
-	app:              bool      = False
+	app:              bool
 	cluster:          str       = 'None'
 	desc:             str       = 'None'
 	pod:              str       = 'None'
@@ -41,16 +51,6 @@ class App(object):
 	deploy:           AppDeploy = AppDeploy('')
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
-
-def _buildpack(src: str, target: str) -> AppBuild:
-	return AppBuild(
-		'/srv/deploy/Buildpack',
-		'build.py',
-		type = 'pack',
-		src = src,
-		target = target,
-		clean = target,
-	)
 
 app: dict[str, App] = {
 	'app': App(False,
@@ -127,26 +127,16 @@ app: dict[str, App] = {
 	),
 }
 
-cluster: dict[str, dict[str, str]] = {
-	'amy-east': {
-		'region': 'us-east-1',
-	},
-	'amy-west': {
-		'region': 'us-west-1',
-	},
-	'amy-wrkr': {
-		'region': 'us-east-1',
-	},
-	'amybeta': {
-		'region': 'us-east-2',
-	},
-	'amy-test-1': {
-		'region': 'us-east-2',
-	},
-	'amy-test-2': {
-		'region': 'us-west-2',
-	},
-	'panoramix': {
-		'region': 'us-east-1',
-	},
+@dataclass
+class AppCluster(object):
+	region: str
+
+cluster: dict[str, AppCluster] = {
+	'amy-east':   AppCluster(region = 'us-east-1'),
+	'amy-west':   AppCluster(region = 'us-west-1'),
+	'amy-wrkr':   AppCluster(region = 'us-east-1'),
+	'amybeta':    AppCluster(region = 'us-east-2'),
+	'amy-test-1': AppCluster(region = 'us-east-2'),
+	'amy-test-2': AppCluster(region = 'us-west-2'),
+	'panoramix':  AppCluster(region = 'us-east-1'),
 }

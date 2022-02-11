@@ -1,6 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import inspect
 import sys
 
 from typing import Any
@@ -21,8 +22,9 @@ from subprocess import run as proc_run
 
 from uwscli_auth import User, getuser, user_auth, user_check
 
-_user: User = getuser()
-_log:  bool = getenv('UWSCLI_LOG', 'on') == 'on'
+_user:  User = getuser()
+_log:   bool = getenv('UWSCLI_LOG', 'on') == 'on'
+_debug: bool = getenv('UWSCLI_DEBUG', 'off') == 'on'
 
 _env: dict[str, str] = {
 	'PATH': '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin',
@@ -30,6 +32,19 @@ _env: dict[str, str] = {
 environ.update(_env)
 
 from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
+
+def _local_conf(cfgdir: str = '/etc/uws/cli'):
+	if Path(cfgdir).is_dir():
+		fn = Path(cfgdir, 'local_conf.py')
+		if fn.is_file() and not fn.is_symlink():
+			sys.path.insert(0, cfgdir)
+			import local_conf # type: ignore
+			if hasattr(local_conf, 'app'):
+				app.update(local_conf.app)
+			if hasattr(local_conf, 'cluster'):
+				cluster.update(local_conf.cluster)
+
+_local_conf()
 
 # vendor libs
 _libs: list[str] = [
@@ -42,18 +57,31 @@ import uwscli_deploy
 
 # internal utils
 
+def _print(*args: Union[list[Any], Any], fh = _outfh, sep = ' '):
+	if _debug:
+		s = inspect.stack()[2]
+		print(f"{s.filename}:{s.function}:{s.lineno}:", *args,
+			sep = sep, flush = True, file = fh)
+	else:
+		print(*args, sep = sep, flush = True, file = fh)
+
 def log(*args: Union[list[Any], Any], sep: str = ' '):
 	"""print log messages to stdout (can be disabled with UWSCLI_LOG=off env var)"""
 	if _log:
-		print(*args, sep = sep, file = _outfh, flush = True)
+		_print(*args, sep = sep, fh = _outfh)
 
 def info(*args: Union[list[Any], Any]):
-	"""print log messages to stdout (even if log is disabled)"""
-	print(*args, file = _outfh, flush = True)
+	"""print log messages to stdout (even if log is 'off')"""
+	_print(*args, fh = _outfh)
+
+def debug(*args: Union[list[Any], Any]):
+	"""print debug messages to stdout"""
+	if _debug:
+		_print(*args, fh = _outfh)
 
 def error(*args: Union[list[Any], Any]):
 	"""print log messages to stderr"""
-	print(*args, file = _errfh, flush = True)
+	_print(*args, fh = _errfh)
 
 @contextmanager
 def chdir(d: str, error_status: int = 2):
@@ -176,15 +204,18 @@ def deploy_description() -> str:
 
 def ctl(args: str, timeout: int = system_ttl) -> int:
 	"""run internal app-ctl command"""
+	debug('ctl:', args)
 	return system("/usr/bin/sudo -H -n -u uws -- %s/app-ctl.sh %s %s" % (cmddir, _user, args),
 		timeout = timeout)
 
 def nq(cmd: str, args: str, bindir: str = cmddir) -> int:
 	"""enqueue internal command"""
+	debug('nq:', cmd)
 	return system("/usr/bin/sudo -H -n -u uws -- %s/uwsnq.sh %s %s/%s %s" % (cmddir, _user, bindir, cmd, args))
 
 def run(cmd: str, args: str, cmddir: str = cmddir, timeout: int = system_ttl) -> int:
 	"""run internal command"""
+	debug('run:', cmd)
 	return system("/usr/bin/sudo -H -n -u uws -- %s/%s %s" % (cmddir, cmd, args),
 		timeout = timeout)
 
@@ -198,7 +229,11 @@ def list_images(appname: str, region: str = '') -> list[str]:
 	"""get aws ECR list of available app images"""
 	kn = app[appname].cluster
 	if region == '':
-		region = cluster[kn]['region']
+		try:
+			region = cluster[kn].region
+		except KeyError:
+			error(f"{kn}: no cluster region")
+			return []
 	cmd = "aws ecr list-images --output text --repository-name uws"
 	cmd += " --region %s" % region
 	cmd += " | grep -F '%s'" % app[appname].deploy.image

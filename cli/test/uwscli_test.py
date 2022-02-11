@@ -3,6 +3,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import sys
 import unittest
 
 from os import environ, getcwd, linesep
@@ -41,6 +42,19 @@ class Test(unittest.TestCase):
 		for k, v in uwscli._env.items():
 			t.assertEqual(environ[k], v, msg = f"environ['{k}']")
 
+	def test_local_conf(t):
+		t.assertFalse('local_conf' in uwscli.app.keys())
+		t.assertFalse('local_conf' in uwscli.cluster.keys())
+		try:
+			uwscli._local_conf('./testdata/etc')
+			t.assertFalse(uwscli.app['local_conf'].app)
+			t.assertDictEqual(uwscli.cluster['local_conf'],
+				{'region': 'testing'})
+		finally:
+			del uwscli.app['local_conf']
+			del uwscli.cluster['local_conf']
+			sys.path.remove('./testdata/etc')
+
 	def test_vendor_libs(t):
 		t.assertListEqual(uwscli._libs, [
 			'semver-2.13.0',
@@ -62,6 +76,11 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli_t.out().strip(), 'test ing')
 		uwscli.info('testing2')
 		t.assertEqual(uwscli_t.out().strip(), 'testing2')
+
+	def test_debug(t):
+		uwscli._debug = True
+		uwscli.debug('testing', '...')
+		t.assertTrue(uwscli_t.out().strip().endswith(': testing ...'))
 
 	def test_error(t):
 		uwscli.error('test', 'ing')
@@ -230,6 +249,9 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output(fail = True):
 			t.assertEqual(uwscli.list_images('testing'), [])
 		t.assertEqual(uwscli_t.err().strip(), '[ERROR] testing list images: mock_output')
+		with uwscli_t.mock_check_output():
+			uwscli.app['testerror'] = uwscli_conf.App(False)
+			t.assertEqual(uwscli.list_images('testerror'), [])
 
 	# git utils
 

@@ -16,6 +16,8 @@ import app_build_test
 import uwscli
 import app_autobuild
 
+from uwscli_conf import App, AppDeploy
+
 @contextmanager
 def mock():
 	try:
@@ -51,11 +53,18 @@ def mock_deploy(build = '0.999.0', status = 0):
 	try:
 		app_autobuild._latestBuild = MagicMock(return_value = build)
 		uwscli.app['testing'].autobuild_deploy = ['test-1']
+		uwscli.app['test-1'] = App(True,
+			cluster = 'ktest',
+			desc = 'Testing',
+			pod = 'test',
+			deploy = AppDeploy('test'),
+		)
 		with uwscli_t.mock_system(status = status):
 			yield
 	finally:
 		app_autobuild._latestBuild = lb_bup
 		uwscli.app['testing'].autobuild_deploy = []
+		del uwscli.app['test-1']
 
 class Test(unittest.TestCase):
 
@@ -157,6 +166,10 @@ class Test(unittest.TestCase):
 		with mock_status(fail = True):
 			t.assertFalse(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
+	def test_isBuildingOrDone_fail(t):
+		with mock_status(st = 'FAIL'):
+			t.assertFalse(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+
 	def test_build(t):
 		with mock():
 			with uwscli_t.mock_system():
@@ -172,11 +185,16 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_list_images(['0.999.0', '0.0.999']):
 			t.assertEqual(app_autobuild._latestBuild('testing'), '0.999.0')
 
+	def test_latestBuild_error(t):
+		with uwscli_t.mock_list_images([]):
+			t.assertEqual(app_autobuild._latestBuild('testing'), '')
+		with uwscli_t.mock_list_images(['220208']):
+			t.assertEqual(app_autobuild._latestBuild('testing'), '')
+
 	def test_deploy(t):
-		with mock():
-			with uwscli_t.mock_system():
-				with uwscli_t.mock_list_images(['0.999.0']):
-					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
+		with mock_deploy():
+			with uwscli_t.mock_list_images(['0.999.0']):
+				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
 				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0', timeout=600)
 		with uwscli_t.mock_system():
 			with uwscli_t.mock_list_images(['0.999.0']):
@@ -184,11 +202,21 @@ class Test(unittest.TestCase):
 			uwscli.system.assert_not_called()
 
 	def test_deploy_error(t):
-		with mock():
-			with uwscli_t.mock_system(status = 99):
-				with uwscli_t.mock_list_images(['0.999.0']):
-					t.assertEqual(app_autobuild._deploy('testing', '0.999.0'),
-						app_autobuild.EDEPLOY)
+		# deploy error
+		with mock_deploy(status = 99):
+			with uwscli_t.mock_list_images(['0.999.0']):
+				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'),
+					app_autobuild.EDEPLOY)
+		# nothing to do
+		with mock_deploy():
+			t.assertEqual(app_autobuild._deploy('testing', '999.0.0'), 0)
+			t.assertEqual(uwscli_t.out().strip().splitlines()[-1],
+				'nothing to do for app: test-1 - ver: 0.999.0 - tag: 999.0.0')
+		# no build
+		with mock_deploy(build = ''):
+			t.assertEqual(app_autobuild._deploy('testing', '0.666.0'), 0)
+			t.assertEqual(uwscli_t.out().strip().splitlines()[-1],
+				'no build to deploy for app: test-1')
 
 	def test_deploy_buildpack(t):
 		with uwscli_t.mock_list_images(['0.999.0']):

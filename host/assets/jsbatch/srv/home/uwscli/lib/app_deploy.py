@@ -6,6 +6,7 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 import uwscli
 
 def deploy(app: str, version: str) -> int:
+	uwscli.debug('deploy:', app, version)
 	if not version in uwscli.list_images(app):
 		uwscli.error("invalid %s build: %s" % (app, version))
 		return 9
