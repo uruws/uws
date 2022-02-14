@@ -5,6 +5,10 @@ from dataclasses import dataclass, field
 from os import getenv
 from subprocess import getstatusoutput
 
+EGROUPS = 40
+EARGS   = 41
+ECHECK  = 42
+
 @dataclass
 class User(object):
 	name:   str
@@ -24,18 +28,17 @@ class User(object):
 		return rc
 
 def getuser() -> User:
-	return User(name = getenv('USER', 'unknown'))
+	return User(name = getenv('USER', 'nobody'))
+
+def _check_app(user: User, app: str) -> int:
+	if user.groups.get(app) is True:
+		return 0
+	return ECHECK
 
 def user_auth(user: User, apps: list[str]) -> list[str]:
 	if user.load_groups() != 0:
 		return []
-	return [a for a in sorted(apps) if user.groups.get(a) is True]
-
-EGROUPS = 40
-ECHECK  = 41
-
-def _check_build(user: User, build: str) -> int:
-	return 0
+	return [a for a in sorted(apps) if _check_app(user, a) == 0]
 
 def _check_pod(user: User, pod: str) -> int:
 	return 0
@@ -47,16 +50,16 @@ def user_check(username: str, build: str, pod: str, workdir: str) -> int:
 	user = User(name = username)
 	if user.load_groups() != 0:
 		return EGROUPS
-	rc = 0
+	rc = -1
 	if build != '':
-		st = _check_build(user, build)
-		if st != 0: rc += 1
+		st = _check_app(user, build)
+		if st != 0: rc = st
 	if pod != '':
 		st = _check_pod(user, pod)
-		if st != 0: rc += 1
+		if st != 0: rc = st
 	if workdir != '':
 		st = _check_workdir(user, workdir)
-		if st != 0: rc += 1
-	if rc != 0:
-		return ECHECK
-	return 0
+		if st != 0: rc = st
+	if rc < 0:
+		rc = EARGS
+	return rc

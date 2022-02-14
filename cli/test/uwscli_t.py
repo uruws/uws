@@ -9,6 +9,7 @@ from subprocess import getstatusoutput, check_output, CalledProcessError
 
 import uwscli
 import uwscli_conf
+import uwscli_auth
 
 def _testingApp() -> dict[str, uwscli_conf.App]:
 	return {
@@ -42,6 +43,7 @@ def mock():
 	uwscli.app = _testingApp()
 	uwscli.cluster = None
 	uwscli.cluster = _testingCluster()
+	uwscli_auth.getstatusoutput = MagicMock(return_value = (0, 'testing\napp\n'))
 
 def out():
 	uwscli._outfh.seek(0, 0)

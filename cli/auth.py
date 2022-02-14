@@ -19,11 +19,11 @@ def main(argv = []):
 	flags.add_argument('-u', '--user', metavar = 'USER', required = True,
 		help = 'uws user name')
 	flags.add_argument('-b', '--build', metavar = 'APP',
-		help = 'check build access')
+		help = 'check build access', default = '')
 	flags.add_argument('-p', '--pod', metavar = 'KIND',
-		help = 'check pod access')
+		help = 'check pod access', default = '')
 	flags.add_argument('-w', '--workdir', metavar = 'PATH',
-		help = 'check access to app workdir')
+		help = 'check access to app workdir', default = '')
 	args = flags.parse_args(argv)
 	return user_check(
 		username = args.user,

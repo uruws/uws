@@ -8,6 +8,7 @@ import unittest
 
 import uwscli_t
 import uwscli
+import uwscli_auth
 
 sys.path.insert(0, '/srv/uws/deploy/cli')
 import auth
@@ -17,8 +18,8 @@ class Test(unittest.TestCase):
 	def setUp(t):
 		uwscli_t.mock()
 
-	def test_main(t):
-		t.assertEqual(auth.main(['--user', 'testing']), 0)
+	def test_args_error(t):
+		t.assertEqual(auth.main(['--user', 'testing']), uwscli_auth.EARGS)
 
 if __name__ == '__main__':
 	unittest.main()
