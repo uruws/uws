@@ -2,7 +2,7 @@
     * `FIX` autobuild deploys
     * app access by group
 
-* workers
+* workers - `DONE!`
     * remove web endpoint (worker.uws.talkingpts.org)
         * check traffic first
 
