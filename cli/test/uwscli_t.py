@@ -43,7 +43,7 @@ def mock():
 	uwscli.app = _testingApp()
 	uwscli.cluster = None
 	uwscli.cluster = _testingCluster()
-	uwscli_auth.getstatusoutput = MagicMock(return_value = (0, 'testing\napp\n'))
+	uwscli_auth.getstatusoutput = MagicMock(return_value = (0, uwscli_conf.admin_group))
 
 def out():
 	uwscli._outfh.seek(0, 0)

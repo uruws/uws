@@ -5,14 +5,17 @@ from dataclasses import dataclass, field
 from os import getenv
 from subprocess import getstatusoutput
 
+import uwscli_conf as conf
+
 EGROUPS = 40
 EARGS   = 41
 ECHECK  = 42
 
 @dataclass
 class User(object):
-	name:   str
-	groups: dict[str, bool] = field(default_factory = dict)
+	name:     str
+	groups:   dict[str, bool] = field(default_factory = dict)
+	is_admin: bool            = False
 
 	def __repr__(u) -> str:
 		return u.name
@@ -25,13 +28,17 @@ class User(object):
 			for g in out.splitlines():
 				g = g.strip()
 				u.groups[g] = True
+		if u.groups.get(conf.admin_group) is True:
+			u.is_admin = True
 		return rc
 
 def getuser() -> User:
 	return User(name = getenv('USER', 'nobody'))
 
 def _check_app(user: User, app: str) -> int:
-	if user.groups.get(app) is True:
+	if user.is_admin:
+		return 0
+	elif user.groups.get(app) is True:
 		return 0
 	return ECHECK
 

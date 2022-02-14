@@ -4,11 +4,17 @@
 # See LICENSE file.
 
 import unittest
+from unittest.mock import MagicMock
 
 import uwscli
 import uwscli_conf
+import uwscli_auth
 
 class Test(unittest.TestCase):
+
+	@classmethod
+	def setUpClass(c):
+		uwscli_auth.getstatusoutput = MagicMock(return_value = (0, uwscli_conf.admin_group))
 
 	def test_defaults(t):
 		t.assertEqual(uwscli_conf.bindir, '/srv/home/uwscli/bin')
