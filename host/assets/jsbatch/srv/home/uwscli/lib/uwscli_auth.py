@@ -57,16 +57,16 @@ def user_check(username: str, build: str, pod: str, workdir: str) -> int:
 	user = User(name = username)
 	if user.load_groups() != 0:
 		return EGROUPS
-	rc = -1
 	if build != '':
 		st = _check_app(user, build)
-		if st != 0: rc = st
+		if st != 0:
+			return st
 	if pod != '':
 		st = _check_pod(user, pod)
-		if st != 0: rc = st
+		if st != 0:
+			return st
 	if workdir != '':
 		st = _check_workdir(user, workdir)
-		if st != 0: rc = st
-	if rc < 0:
-		rc = EARGS
-	return rc
+		if st != 0:
+			return st
+	return EARGS
