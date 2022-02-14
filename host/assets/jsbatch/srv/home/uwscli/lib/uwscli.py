@@ -162,16 +162,17 @@ def ctl(args: str, timeout: int = system_ttl) -> int:
 
 def nq(cmd: str, args: str, bindir: str = cmddir) -> int:
 	"""enqueue internal command"""
-	debug('nq:', cmd)
+	debug('nq:', cmd, args)
 	return _sudo("uwsnq.sh", "%s %s/%s %s" % (_user, bindir, cmd, args))
 
 def run(cmd: str, args: str, timeout: int = system_ttl) -> int:
 	"""run internal command"""
-	debug('run:', cmd)
+	debug('run:', cmd, args)
 	return _sudo(cmd, args, timeout = timeout)
 
 def clean_build(app: str) -> int:
 	"""enqueue build clean task"""
+	debug('clean build:', app)
 	return _sudo("uwsnq.sh", "%s %s/app-clean-build.sh %s" % (_user, cmddir, app))
 
 #
