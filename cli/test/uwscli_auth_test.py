@@ -35,9 +35,6 @@ class Test(unittest.TestCase):
 		finally:
 			auth.User = bup
 
-	def test_user_auth(t):
-		t.assertListEqual(auth.user_auth(auth.getuser(), ['testing']), ['testing'])
-
 	def test_check_app(t):
 		u = auth.User('testing')
 		u.groups['testing'] = True
@@ -51,6 +48,17 @@ class Test(unittest.TestCase):
 	def test_check_app_error(t):
 		u = auth.User('testing')
 		t.assertEqual(auth._check_app(u, 'testing'), auth.ECHECK)
+
+	def test_user_auth(t):
+		auth.getstatusoutput = MagicMock(return_value = (0, 'testing'))
+		t.assertListEqual(auth.user_auth(auth.getuser(), ['testing']), ['testing'])
+
+	def test_user_auth_no_apps(t):
+		auth.getstatusoutput = MagicMock(return_value = (0, ''))
+		t.assertListEqual(auth.user_auth(auth.getuser(), ['testing']), [])
+
+	def test_user_auth_admin(t):
+		t.assertListEqual(auth.user_auth(auth.getuser(), ['testing']), ['testing'])
 
 	def test_check_pod(t):
 		u = auth.User('testing')
