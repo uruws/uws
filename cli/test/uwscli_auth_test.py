@@ -38,5 +38,14 @@ class Test(unittest.TestCase):
 	def test_user_auth(t):
 		t.assertListEqual(auth.user_auth(auth.getuser(), ['testing']), ['testing'])
 
+	def test_check_app(t):
+		u = auth.User('testing')
+		u.groups['testing'] = True
+		t.assertEqual(auth._check_app(u, 'testing'), 0)
+
+	def test_check_app_error(t):
+		u = auth.User('testing')
+		t.assertEqual(auth._check_app(u, 'testing'), auth.ECHECK)
+
 if __name__ == '__main__':
 	unittest.main()
