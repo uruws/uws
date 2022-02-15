@@ -43,6 +43,11 @@ class Test(unittest.TestCase):
 		u.groups['testing'] = True
 		t.assertEqual(auth._check_app(u, 'testing'), 0)
 
+	def test_check_app_admin(t):
+		u = auth.User('testing')
+		u.is_admin = True
+		t.assertEqual(auth._check_app(u, 'testing'), 0)
+
 	def test_check_app_error(t):
 		u = auth.User('testing')
 		t.assertEqual(auth._check_app(u, 'testing'), auth.ECHECK)
