@@ -15,6 +15,12 @@ class Test(unittest.TestCase):
 	def setUp(t):
 		uwscli_t.mock()
 
+	def test_user(t):
+		u = auth.User('testing')
+		t.assertEqual(u.name, 'testing')
+		t.assertEqual(repr(u), 'testing')
+		t.assertDictEqual(u.groups, {})
+
 	def test_load_groups_errors(t):
 		# user_auth
 		u = auth.User(name = 'testing')
