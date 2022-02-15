@@ -65,5 +65,9 @@ class Test(unittest.TestCase):
 		u.groups['testing'] = True
 		t.assertEqual(auth._check_pod(u, 'test'), 0)
 
+	def test_check_pod_error(t):
+		u = auth.User('testing')
+		t.assertEqual(auth._check_pod(u, 'test'), auth.EPOD)
+
 if __name__ == '__main__':
 	unittest.main()
