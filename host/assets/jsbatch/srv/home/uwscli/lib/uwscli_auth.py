@@ -11,6 +11,7 @@ EGROUPS = 40
 EARGS   = 41
 ECHECK  = 42
 EPOD    = 43
+EWKDIR  = 44
 
 @dataclass
 class User(object):
@@ -49,28 +50,28 @@ def user_auth(user: User, apps: list[str]) -> list[str]:
 	if user.is_admin:
 		return sorted(apps)
 	r = {}
+	groups: dict[str, bool] = {}
 	for a in apps:
-		groups = {}
 		for g in conf.app[a].groups:
-			groups[g] = True
-		for g in groups.keys():
-			if _check_app(user, g) == 0:
-				r[a] = True
+			if not groups.get(g, False):
+				if _check_app(user, g) == 0:
+					r[a] = True
+				groups[g] = True
 	return sorted(r.keys())
 
 def _check_pod(user: User, pod: str) -> int:
-	groups = {}
+	groups: dict[str, bool] = {}
 	for a in conf.app.keys():
 		if conf.app[a].pod == pod:
 			for g in conf.app[a].groups:
-				groups[g] = True
-	for g in groups.keys():
-		if _check_app(user, g) == 0:
-			return 0
+				if not groups.get(g, False):
+					if _check_app(user, g) == 0:
+						return 0
+					groups[g] = True
 	return EPOD
 
 def _check_workdir(user: User, workdir: str) -> int:
-	return 0
+	return EWKDIR
 
 def user_check(username: str, build: str, pod: str, workdir: str) -> int:
 	user = User(name = username)
