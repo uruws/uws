@@ -122,6 +122,7 @@ class Test(unittest.TestCase):
 						pod = 'app',
 						build = uwscli_conf.AppBuild('/srv/deploy/App', 'build.sh'),
 						deploy = uwscli_conf.AppDeploy('app'),
+						groups = ['app'],
 					)
 					t.assertEqual(app_build.main(['app', '0.999']), 0)
 				finally:

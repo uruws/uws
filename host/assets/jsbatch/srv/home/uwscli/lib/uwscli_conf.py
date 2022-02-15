@@ -53,6 +53,11 @@ class App(object):
 	deploy:           AppDeploy = AppDeploy('')
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
+	groups:           list[str] = field(default_factory = list)
+
+	def __post_init__(self):
+		if len(self.groups) == 0:
+			self.groups = ['nogroup']
 
 app: dict[str, App] = {
 	'app': App(False,

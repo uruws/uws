@@ -19,15 +19,18 @@ def _testingApp() -> dict[str, uwscli_conf.App]:
 			pod = 'test',
 			build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh', clean = 'testing'),
 			deploy = uwscli_conf.AppDeploy('test'),
+			groups = ['testing'],
 		),
 	}
 
-uwscli.app = _testingApp()
+uwscli.app.clear()
+uwscli.app.update(_testingApp())
 
 def _testingCluster() -> dict[str, uwscli_conf.AppCluster]:
 	return {'ktest': uwscli_conf.AppCluster(region = 'testing-1')}
 
-uwscli.cluster = _testingCluster()
+uwscli.cluster.clear()
+uwscli.cluster.update(_testingCluster())
 
 uwscli.docker_storage = '/srv/docker'
 uwscli.docker_storage_min = 10
@@ -39,10 +42,10 @@ def mock():
 	uwscli._outfh = StringIO()
 	uwscli._errfh = None
 	uwscli._errfh = StringIO()
-	uwscli.app = None
-	uwscli.app = _testingApp()
-	uwscli.cluster = None
-	uwscli.cluster = _testingCluster()
+	uwscli.app.clear()
+	uwscli.app.update(_testingApp())
+	uwscli.cluster.clear()
+	uwscli.cluster.update(_testingCluster())
 	uwscli_auth.getstatusoutput = MagicMock(return_value = (0, uwscli_conf.admin_group))
 
 def out():

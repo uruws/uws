@@ -47,5 +47,10 @@ class Test(unittest.TestCase):
 		u = auth.User('testing')
 		t.assertEqual(auth._check_app(u, 'testing'), auth.ECHECK)
 
+	def test_check_pod(t):
+		u = auth.User('testing')
+		u.groups['testing'] = True
+		t.assertEqual(auth._check_pod(u, 'test'), 0)
+
 if __name__ == '__main__':
 	unittest.main()

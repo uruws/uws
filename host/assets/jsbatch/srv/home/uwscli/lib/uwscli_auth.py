@@ -10,6 +10,7 @@ import uwscli_conf as conf
 EGROUPS = 40
 EARGS   = 41
 ECHECK  = 42
+EPOD    = 43
 
 @dataclass
 class User(object):
@@ -35,20 +36,38 @@ class User(object):
 def getuser() -> User:
 	return User(name = getenv('USER', 'nobody'))
 
-def _check_app(user: User, app: str) -> int:
+def _check_app(user: User, group: str) -> int:
 	if user.is_admin:
 		return 0
-	elif user.groups.get(app) is True:
+	elif user.groups.get(group) is True:
 		return 0
 	return ECHECK
 
 def user_auth(user: User, apps: list[str]) -> list[str]:
 	if user.load_groups() != 0:
 		return []
-	return [a for a in sorted(apps) if _check_app(user, a) == 0]
+	if user.is_admin:
+		return sorted(apps)
+	r = {}
+	for a in apps:
+		groups = {}
+		for g in conf.app[a].groups:
+			groups[g] = True
+		for g in groups.keys():
+			if _check_app(user, g) == 0:
+				r[a] = True
+	return sorted(r.keys())
 
 def _check_pod(user: User, pod: str) -> int:
-	return 0
+	groups = {}
+	for a in conf.app.keys():
+		if conf.app[a].pod == pod:
+			for g in conf.app[a].groups:
+				groups[g] = True
+	for g in groups.keys():
+		if _check_app(user, g) == 0:
+			return 0
+	return EPOD
 
 def _check_workdir(user: User, workdir: str) -> int:
 	return 0
