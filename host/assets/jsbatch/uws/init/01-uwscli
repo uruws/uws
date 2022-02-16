@@ -26,23 +26,25 @@ chown -v uwscli:uwscli ~uwscli
 chmod -v 0750 ~uwscli/etc
 chown -vR root:uwscli ~uwscli/etc
 
-chmod -v 0550 ~uwscli/bin/*
-chmod -v 0750 ~uwscli/bin
-chown -vR root:uwscli ~uwscli/bin
-
 chmod -v 0750 ~uwscli/lib
 chown -vR root:uwscli ~uwscli/lib
 
 chmod -v 0750 ~uwscli/vendor
 chown -vR root:uwscli ~uwscli/vendor
 
-# admin utils
+chmod -v 0550 ~uwscli/bin/*
+chmod -v 0750 ~uwscli/bin
+chown -vR root:uwscli ~uwscli/bin
 
 adduser uws uwscli
 
-chown -v root:uws ~uwscli/bin/app-deploy
-chown -v root:uws ~uwscli/bin/app-rollin
-chown -v root:uws ~uwscli/bin/app-scale
+# ops utils
+
+addgroup uwsops || true
+
+chown -v root:uwsops ~uwscli/bin/app-deploy
+chown -v root:uwsops ~uwscli/bin/app-rollin
+chown -v root:uwsops ~uwscli/bin/app-scale
 
 # internal utils
 
@@ -92,6 +94,12 @@ addgroup uwsadm || true
 adduser uwscli   uwsadm
 adduser aram     uwsadm
 adduser jeremias uwsadm
+
+# ops users
+
+adduser uwscli   uwsops
+adduser aram     uwsops
+adduser jeremias uwsops
 
 # app groups
 
