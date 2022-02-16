@@ -10,6 +10,7 @@ from unittest.mock import MagicMock
 
 import uwscli_t
 import uwscli_auth as auth
+import uwscli
 
 @contextmanager
 def mock_noauth():
@@ -88,6 +89,13 @@ class Test(unittest.TestCase):
 		u = auth.User('testing')
 		u.groups['testing'] = True
 		t.assertEqual(auth._check_workdir(u, 'test'), auth.EWKDIR)
+
+	def test_check_workdir_buildpack(t):
+		u = auth.User('testing')
+		u.is_admin = True
+		uwscli.app['testing'].build.type = 'pack'
+		uwscli.app['testing'].build.src = 'app/src'
+		t.assertEqual(auth._check_workdir(u, 'app/src'), 0)
 
 	def test_user_check_args_error(t):
 		t.assertEqual(auth.user_check('testing', '', '', ''), auth.EARGS)

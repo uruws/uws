@@ -81,6 +81,8 @@ def _check_workdir(user: User, workdir: str) -> int:
 	for a in conf.app.keys():
 		# app build dir
 		wd = conf.app[a].build.dir
+		if conf.app[a].build.type == 'pack':
+			wd = conf.app[a].build.src
 		if wd != '' and wd == workdir:
 			for g in conf.app[a].groups:
 				if not groups.get(g, False):
