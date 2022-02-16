@@ -94,6 +94,7 @@ def user_check(username: str, build: str, pod: str, workdir: str) -> int:
 	if user.load_groups() != 0:
 		log.error('[ERROR] user load groups:', username)
 		return EGROUPS
+	st = EARGS
 	if build != '':
 		log.debug(user, 'build:', build)
 		st = _check_app(user, build)
@@ -112,4 +113,4 @@ def user_check(username: str, build: str, pod: str, workdir: str) -> int:
 		if st != 0:
 			log.error('[ERROR] user:', user, '- workdir:', workdir)
 		return st
-	return EARGS
+	return st

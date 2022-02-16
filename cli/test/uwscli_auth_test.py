@@ -12,10 +12,10 @@ import uwscli_t
 import uwscli_auth as auth
 
 @contextmanager
-def mock_noauth(status = 99):
+def mock_noauth():
 	bup = auth._check_app
 	try:
-		auth._check_app = MagicMock(return_value = status)
+		auth._check_app = MagicMock(return_value = auth.ECHECK)
 		yield
 	finally:
 		auth._check_app = bup
@@ -97,7 +97,14 @@ class Test(unittest.TestCase):
 
 	def test_user_check_build_error(t):
 		with mock_noauth():
-			t.assertEqual(auth.user_check('testing', 'testing', '', ''), 99)
+			t.assertEqual(auth.user_check('testing', 'testing', '', ''), auth.ECHECK)
+
+	def test_user_check_pod(t):
+		t.assertEqual(auth.user_check('testing', '', 'test', ''), 0)
+
+	def test_user_check_pod_error(t):
+		with mock_noauth():
+			t.assertEqual(auth.user_check('testing', '', 'test', ''), auth.EPOD)
 
 if __name__ == '__main__':
 	unittest.main()
