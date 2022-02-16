@@ -1,8 +1,9 @@
 * uwscli - `WIP`
-    * `FIX` autobuild deploys
+    * `FIX` autobuild deploys - `DONE!`
+        * 2.62.5 successfully auto built and auto deployed to test cluster
     * app access by group
 
-* workers
+* workers - `DONE!`
     * remove web endpoint (worker.uws.talkingpts.org)
         * check traffic first
 
