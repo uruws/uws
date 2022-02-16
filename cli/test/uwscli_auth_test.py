@@ -3,12 +3,22 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from contextlib import contextmanager
+
 import unittest
 from unittest.mock import MagicMock
 
 import uwscli_t
-
 import uwscli_auth as auth
+
+@contextmanager
+def mock_noauth(status = 99):
+	bup = auth._check_app
+	try:
+		auth._check_app = MagicMock(return_value = status)
+		yield
+	finally:
+		auth._check_app = bup
 
 class Test(unittest.TestCase):
 
@@ -84,6 +94,10 @@ class Test(unittest.TestCase):
 
 	def test_user_check_build(t):
 		t.assertEqual(auth.user_check('testing', 'testing', '', ''), 0)
+
+	def test_user_check_build_error(t):
+		with mock_noauth():
+			t.assertEqual(auth.user_check('testing', 'testing', '', ''), 99)
 
 if __name__ == '__main__':
 	unittest.main()
