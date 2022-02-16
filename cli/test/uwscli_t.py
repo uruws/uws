@@ -8,6 +8,7 @@ from io import StringIO
 from subprocess import getstatusoutput, check_output, CalledProcessError
 
 import uwscli
+import uwscli_log
 import uwscli_conf
 import uwscli_auth
 
@@ -36,12 +37,12 @@ uwscli.docker_storage = '/srv/docker'
 uwscli.docker_storage_min = 10
 
 def mock():
-	uwscli._log = True
-	uwscli._debug = False
-	uwscli._outfh = None
-	uwscli._outfh = StringIO()
-	uwscli._errfh = None
-	uwscli._errfh = StringIO()
+	uwscli_log._log = True
+	uwscli_log._debug = False
+	uwscli_log._outfh = None
+	uwscli_log._outfh = StringIO()
+	uwscli_log._errfh = None
+	uwscli_log._errfh = StringIO()
 	uwscli.app.clear()
 	uwscli.app.update(_testingApp())
 	uwscli.cluster.clear()
@@ -49,29 +50,29 @@ def mock():
 	uwscli_auth.getstatusoutput = MagicMock(return_value = (0, uwscli_conf.admin_group))
 
 def out():
-	uwscli._outfh.seek(0, 0)
-	s = uwscli._outfh.read()
-	uwscli._outfh.seek(0, 0)
-	uwscli._outfh.truncate()
+	uwscli_log._outfh.seek(0, 0)
+	s = uwscli_log._outfh.read()
+	uwscli_log._outfh.seek(0, 0)
+	uwscli_log._outfh.truncate()
 	return s
 
 def err():
-	uwscli._errfh.seek(0, 0)
-	s = uwscli._errfh.read()
-	uwscli._errfh.seek(0, 0)
-	uwscli._errfh.truncate()
+	uwscli_log._errfh.seek(0, 0)
+	s = uwscli_log._errfh.read()
+	uwscli_log._errfh.seek(0, 0)
+	uwscli_log._errfh.truncate()
 	return s
 
 
 @contextmanager
 def log_disable():
 	try:
-		uwscli._log = False
-		uwscli._debug = False
+		uwscli_log._log = False
+		uwscli_log._debug = False
 		yield
 	finally:
-		uwscli._log = True
-		uwscli._debug = False
+		uwscli_log._log = True
+		uwscli_log._debug = False
 
 @contextmanager
 def mock_chdir(fail = False, faildir = ''):

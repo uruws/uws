@@ -34,7 +34,6 @@ class Test(unittest.TestCase):
 		t.assertIsInstance(uwscli.cluster, dict)
 		t.assertIsInstance(uwscli._user, uwscli_auth.User)
 		t.assertEqual(uwscli._user.name, 'uws')
-		t.assertTrue(uwscli._log)
 		t.assertDictEqual(uwscli._env, {'PATH': _PATH})
 		t.assertEqual(uwscli.system_ttl, 600)
 
@@ -59,36 +58,6 @@ class Test(unittest.TestCase):
 		t.assertListEqual(uwscli._libs, [
 			'semver-2.13.0',
 		])
-
-	def test_log(t):
-		uwscli.log('test', 'ing', sep = '')
-		t.assertEqual(uwscli_t.out().strip(), 'testing')
-		uwscli.log('testing2')
-		t.assertEqual(uwscli_t.out().strip(), 'testing2')
-
-	def test_log_disable(t):
-		with uwscli_t.log_disable():
-			uwscli.log('testing3')
-		t.assertEqual(uwscli_t.out().strip(), '')
-
-	def test_info(t):
-		uwscli.info('test', 'ing')
-		t.assertEqual(uwscli_t.out().strip(), 'test ing')
-		uwscli.info('testing2')
-		t.assertEqual(uwscli_t.out().strip(), 'testing2')
-
-	def test_debug(t):
-		uwscli._debug = True
-		uwscli.debug('testing', '...')
-		t.assertTrue(uwscli_t.out().strip().endswith(': testing ...'))
-
-	def test_error(t):
-		uwscli.error('test', 'ing')
-		t.assertEqual(uwscli_t.err().strip(), 'test ing')
-		with uwscli_t.log_disable():
-			# errors should print anyway
-			uwscli.error('testing2')
-		t.assertEqual(uwscli_t.err().strip(), 'testing2')
 
 	def test_chdir(t):
 		cwd = '/home/uws'

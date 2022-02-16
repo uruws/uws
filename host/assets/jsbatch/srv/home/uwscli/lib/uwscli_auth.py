@@ -6,6 +6,7 @@ from os import getenv
 from subprocess import getstatusoutput
 
 import uwscli_conf as conf
+import uwscli_log as log
 
 EGROUPS = 40
 EARGS   = 41
@@ -38,6 +39,7 @@ def getuser() -> User:
 	return User(name = getenv('USER', 'nobody'))
 
 def _check_app(user: User, group: str) -> int:
+	log.debug()
 	if user.is_admin:
 		return 0
 	elif user.groups.get(group) is True:
@@ -74,19 +76,27 @@ def _check_workdir(user: User, workdir: str) -> int:
 	return EWKDIR
 
 def user_check(username: str, build: str, pod: str, workdir: str) -> int:
+	log.debug(username)
 	user = User(name = username)
 	if user.load_groups() != 0:
+		log.error('[ERROR] user load groups')
 		return EGROUPS
 	if build != '':
+		log.debug('build:', build)
 		st = _check_app(user, build)
 		if st != 0:
+			log.error('[ERROR] user:', user, '- build:', build)
 			return st
 	if pod != '':
+		log.debug('pod:', pod)
 		st = _check_pod(user, pod)
 		if st != 0:
+			log.error('[ERROR] user:', user, '- pod:', pod)
 			return st
 	if workdir != '':
+		log.debug('workdir:', workdir)
 		st = _check_workdir(user, workdir)
 		if st != 0:
+			log.error('[ERROR] user:', user, '- workdir:', workdir)
 			return st
 	return EARGS
