@@ -1,5 +1,5 @@
-* uwscli - `WIP`
-    * `FIX` autobuild deploys - `DONE!`
+* uwscli - `DONE!`
+    * `FIX` autobuild deploys
         * 2.62.5 successfully auto built and auto deployed to test cluster
     * app access by group
 

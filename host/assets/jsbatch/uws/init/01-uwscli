@@ -85,19 +85,32 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~nelson/.bash_profile
 chmod -v 0750 ~ramiro
 install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
 
-# app groups
-
 # admin users
+
 addgroup uwsadm || true
-adduser uwscli uwsadm
-adduser aram uwsadm
+
+adduser uwscli   uwsadm
+adduser aram     uwsadm
 adduser jeremias uwsadm
 
 # app groups
+
+# app
 addgroup uwsapp_app || true
+
+adduser gabriel uwsapp_app
+adduser nelson  uwsapp_app
+
+# apptest
 addgroup uwsapp_apptest || true
+
+# cs
 addgroup uwsapp_cs || true
+
+# nlp
 addgroup uwsapp_nlp || true
+
+adduser guillermo uwsapp_nlp
 
 # install crontab
 
