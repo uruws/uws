@@ -13,7 +13,8 @@ deploy_basedir: str = getenv('UWSCLI_DEPLOY_BASEDIR', '/srv/deploy')
 docker_storage:     str = '/srv/docker/lib'
 docker_storage_min: int = 10*1024*1024 # 10G
 
-admin_group: str = getenv('UWSCLI_ADMIN_GROUP', 'uwsadm')
+admin_group:    str = getenv('UWSCLI_ADMIN_GROUP',    'uwsadm')
+operator_group: str = getenv('UWSCLI_OPERATOR_GROUP', 'uwsops')
 
 @dataclass
 class AppBuild(object):

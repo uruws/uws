@@ -16,9 +16,10 @@ EWKDIR  = 44
 
 @dataclass
 class User(object):
-	name:     str
-	groups:   dict[str, bool] = field(default_factory = dict)
-	is_admin: bool            = False
+	name:        str
+	groups:      dict[str, bool] = field(default_factory = dict)
+	is_admin:    bool            = False
+	is_operator: bool            = False
 
 	def __repr__(u) -> str:
 		return u.name
@@ -31,21 +32,30 @@ class User(object):
 			for g in out.strip().split():
 				g = g.strip()
 				u.groups[g] = True
+		# admin
 		if u.groups.get(conf.admin_group) is True:
 			u.is_admin = True
+		# operator
+		if u.groups.get(conf.operator_group) is True:
+			u.is_operator = True
 		return rc
 
 def getuser() -> User:
 	return User(name = getenv('USER', 'nobody'))
 
-def _check_app(user: User, group: str) -> int:
-	log.debug(user, group, user.groups)
+def _check_app(user: User, group: str, ops: str = '') -> int:
+	log.debug(user, group, ops)
 	if user.is_admin:
 		log.debug(user, 'is admin')
 		return 0
 	elif user.groups.get(group) is True:
 		log.debug(user, 'auth group:', group)
-		return 0
+		if ops != '':
+			if user.is_operator:
+				log.debug(user, 'is operator:', ops)
+				return 0
+		else:
+			return 0
 	log.debug(user, 'no auth')
 	return ECHECK
 
@@ -91,11 +101,14 @@ def _check_workdir(user: User, workdir: str) -> int:
 					groups[g] = True
 	return EWKDIR
 
-def user_check(username: str, build: str, pod: str, workdir: str) -> int:
+def user_check(username: str, build: str, pod: str, workdir: str, ops: str) -> int:
 	user = User(name = username)
 	if user.load_groups() != 0:
 		log.error('[ERROR] user load groups:', username)
 		return EGROUPS
+	if ops != '' and not user.is_operator:
+		log.error('[ERROR] unauth operation:', ops)
+		return EOPS
 	st = EARGS
 	if build != '':
 		log.debug(user, 'build:', build)
