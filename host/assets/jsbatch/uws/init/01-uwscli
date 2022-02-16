@@ -93,6 +93,12 @@ adduser uwscli uwsadm
 adduser aram uwsadm
 adduser jeremias uwsadm
 
+# app groups
+addgroup uwsapp_app || true
+addgroup uwsapp_apptest || true
+addgroup uwsapp_cs || true
+addgroup uwsapp_nlp || true
+
 # install crontab
 
 crontab -u uwscli ~uwscli/etc/crontab.in
