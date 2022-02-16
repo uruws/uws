@@ -99,17 +99,17 @@ def user_check(username: str, build: str, pod: str, workdir: str) -> int:
 		st = _check_app(user, build)
 		if st != 0:
 			log.error('[ERROR] user:', user, '- build:', build)
-			return st
+		return st
 	if pod != '':
 		log.debug(user, 'pod:', pod)
 		st = _check_pod(user, pod)
 		if st != 0:
 			log.error('[ERROR] user:', user, '- pod:', pod)
-			return st
+		return st
 	if workdir != '':
 		log.debug(user, 'workdir:', workdir)
 		st = _check_workdir(user, workdir)
 		if st != 0:
 			log.error('[ERROR] user:', user, '- workdir:', workdir)
-			return st
+		return st
 	return EARGS

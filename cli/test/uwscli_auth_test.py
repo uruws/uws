@@ -82,5 +82,8 @@ class Test(unittest.TestCase):
 	def test_user_check_args_error(t):
 		t.assertEqual(auth.user_check('testing', '', '', ''), auth.EARGS)
 
+	def test_user_check_build(t):
+		t.assertEqual(auth.user_check('testing', 'testing', '', ''), 0)
+
 if __name__ == '__main__':
 	unittest.main()
