@@ -106,5 +106,12 @@ class Test(unittest.TestCase):
 		with mock_noauth():
 			t.assertEqual(auth.user_check('testing', '', 'test', ''), auth.EPOD)
 
+	def test_user_check_workdir(t):
+		t.assertEqual(auth.user_check('testing', '', '', '/srv/deploy/Testing'), 0)
+
+	def test_user_check_workdir_error(t):
+		with mock_noauth():
+			t.assertEqual(auth.user_check('testing', '', '', 'test'), auth.EWKDIR)
+
 if __name__ == '__main__':
 	unittest.main()
