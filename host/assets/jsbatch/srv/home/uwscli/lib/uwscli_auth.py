@@ -9,10 +9,11 @@ import uwscli_conf as conf
 import uwscli_log as log
 
 EGROUPS = 40
-EARGS   = 41
-ECHECK  = 42
-EPOD    = 43
-EWKDIR  = 44
+EOPS    = 41
+EARGS   = 42
+ECHECK  = 43
+EPOD    = 44
+EWKDIR  = 45
 
 @dataclass
 class User(object):
@@ -101,7 +102,7 @@ def _check_workdir(user: User, workdir: str) -> int:
 					groups[g] = True
 	return EWKDIR
 
-def user_check(username: str, build: str, pod: str, workdir: str, ops: str) -> int:
+def user_check(username: str, build: str, pod: str, workdir: str, ops: str = '') -> int:
 	user = User(name = username)
 	if user.load_groups() != 0:
 		log.error('[ERROR] user load groups:', username)

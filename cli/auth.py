@@ -32,6 +32,7 @@ def main(argv = []):
 		build    = args.build,
 		pod      = args.pod,
 		workdir  = args.workdir,
+		ops      = args.ops,
 	)
 
 if __name__ == '__main__': # pragma: no coverage
