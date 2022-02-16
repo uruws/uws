@@ -79,5 +79,8 @@ class Test(unittest.TestCase):
 		u.groups['testing'] = True
 		t.assertEqual(auth._check_workdir(u, 'test'), auth.EWKDIR)
 
+	def test_user_check_args_error(t):
+		t.assertEqual(auth.user_check('testing', '', '', ''), auth.EARGS)
+
 if __name__ == '__main__':
 	unittest.main()
