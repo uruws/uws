@@ -11,6 +11,10 @@
 
 * nlp app-deploy access
 
+* uwscli:
+    * cli/buildpack.sh should manage the log and email report if any fail
+    * cli/app-build.sh should do the same
+
 * uwsq: clean failed jobs
 
 * mongodb credentials rotation?
