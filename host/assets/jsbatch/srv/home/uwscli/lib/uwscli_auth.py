@@ -28,7 +28,7 @@ class User(object):
 		rc, out = getstatusoutput(cmd)
 		if rc == 0:
 			u.groups.clear()
-			for g in out.splitlines():
+			for g in out.strip().split():
 				g = g.strip()
 				u.groups[g] = True
 		if u.groups.get(conf.admin_group) is True:
@@ -39,11 +39,14 @@ def getuser() -> User:
 	return User(name = getenv('USER', 'nobody'))
 
 def _check_app(user: User, group: str) -> int:
-	log.debug()
+	log.debug(user, group, user.groups)
 	if user.is_admin:
+		log.debug(user, 'is admin')
 		return 0
 	elif user.groups.get(group) is True:
+		log.debug(user, 'auth group:', group)
 		return 0
+	log.debug(user, 'no auth')
 	return ECHECK
 
 def user_auth(user: User, apps: list[str]) -> list[str]:
@@ -76,25 +79,24 @@ def _check_workdir(user: User, workdir: str) -> int:
 	return EWKDIR
 
 def user_check(username: str, build: str, pod: str, workdir: str) -> int:
-	log.debug(username)
 	user = User(name = username)
 	if user.load_groups() != 0:
-		log.error('[ERROR] user load groups')
+		log.error('[ERROR] user load groups:', username)
 		return EGROUPS
 	if build != '':
-		log.debug('build:', build)
+		log.debug(user, 'build:', build)
 		st = _check_app(user, build)
 		if st != 0:
 			log.error('[ERROR] user:', user, '- build:', build)
 			return st
 	if pod != '':
-		log.debug('pod:', pod)
+		log.debug(user, 'pod:', pod)
 		st = _check_pod(user, pod)
 		if st != 0:
 			log.error('[ERROR] user:', user, '- pod:', pod)
 			return st
 	if workdir != '':
-		log.debug('workdir:', workdir)
+		log.debug(user, 'workdir:', workdir)
 		st = _check_workdir(user, workdir)
 		if st != 0:
 			log.error('[ERROR] user:', user, '- workdir:', workdir)
