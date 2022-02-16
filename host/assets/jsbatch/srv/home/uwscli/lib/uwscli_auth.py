@@ -67,6 +67,7 @@ def user_auth(user: User, apps: list[str]) -> list[str]:
 def _check_pod(user: User, pod: str) -> int:
 	groups: dict[str, bool] = {}
 	for a in conf.app.keys():
+		# app pod
 		if conf.app[a].pod == pod:
 			for g in conf.app[a].groups:
 				if not groups.get(g, False):
@@ -76,6 +77,16 @@ def _check_pod(user: User, pod: str) -> int:
 	return EPOD
 
 def _check_workdir(user: User, workdir: str) -> int:
+	groups: dict[str, bool] = {}
+	for a in conf.app.keys():
+		# app build dir
+		wd = conf.app[a].build.dir
+		if wd != '' and wd == workdir:
+			for g in conf.app[a].groups:
+				if not groups.get(g, False):
+					if _check_app(user, g) == 0:
+						return 0
+					groups[g] = True
 	return EWKDIR
 
 def user_check(username: str, build: str, pod: str, workdir: str) -> int:

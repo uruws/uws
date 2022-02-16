@@ -20,7 +20,7 @@ def _testingApp() -> dict[str, uwscli_conf.App]:
 			pod = 'test',
 			build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh', clean = 'testing'),
 			deploy = uwscli_conf.AppDeploy('test'),
-			groups = ['testing'],
+			groups = ['app', 'testing'],
 		),
 	}
 

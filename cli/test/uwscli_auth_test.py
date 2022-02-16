@@ -69,5 +69,15 @@ class Test(unittest.TestCase):
 		u = auth.User('testing')
 		t.assertEqual(auth._check_pod(u, 'test'), auth.EPOD)
 
+	def test_check_workdir(t):
+		u = auth.User('testing')
+		u.groups['testing'] = True
+		t.assertEqual(auth._check_workdir(u, '/srv/deploy/Testing'), 0)
+
+	def test_check_workdir_error(t):
+		u = auth.User('testing')
+		u.groups['testing'] = True
+		t.assertEqual(auth._check_workdir(u, 'test'), auth.EWKDIR)
+
 if __name__ == '__main__':
 	unittest.main()
