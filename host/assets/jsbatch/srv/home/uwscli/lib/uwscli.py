@@ -53,6 +53,10 @@ for lib in _libs:
 
 import uwscli_deploy
 from uwscli_log import log, info, debug, error
+from uwscli_version import VERSION
+
+def version() -> str:
+	return f"uwscli version {VERSION}"
 
 @contextmanager
 def chdir(d: str, error_status: int = 2):

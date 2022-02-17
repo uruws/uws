@@ -8,6 +8,8 @@ import uwscli
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.app_description())
+	flags.add_argument('-V', '--version', action = 'version',
+		version = uwscli.version())
 	flags.add_argument('-f', '--follow', action = 'store_true', default = False,
 		help = 'follow messages')
 	flags.add_argument('-t', '--tail', type = int, default = 10,

@@ -36,6 +36,8 @@ def all_help():
 
 def main(argv = []):
 	flags = ArgumentParser(description = 'show uwscli commands help')
+	flags.add_argument('-V', '--version', action = 'version',
+		version = uwscli.version())
 	flags.add_argument('cmd', metavar = 'cmd', default = '', nargs = '?',
 		help = 'command')
 

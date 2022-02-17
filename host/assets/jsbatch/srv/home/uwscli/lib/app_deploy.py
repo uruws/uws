@@ -20,6 +20,8 @@ def main(argv: list[str] = []) -> int:
 
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = epilog)
+	flags.add_argument('-V', '--version', action = 'version',
+		version = uwscli.version())
 	flags.add_argument('app', metavar = 'app', choices = uwscli.deploy_list(),
 		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z-bpV', nargs = '?',

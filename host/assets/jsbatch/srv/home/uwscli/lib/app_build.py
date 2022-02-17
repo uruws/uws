@@ -70,6 +70,8 @@ def cleanBuild(app: str):
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.build_description())
+	flags.add_argument('-V', '--version', action = 'version',
+		version = uwscli.version())
 	flags.add_argument('app', metavar = 'app', choices = uwscli.build_list(),
 		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
