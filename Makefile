@@ -273,12 +273,7 @@ check-cli:
 
 .PHONY: check-k8s
 check-k8s:
-	@echo '***** k8s/test/run/shellcheck.sh'
-	@./docker/k8s/devel.sh ./k8s/test/run/shellcheck.sh
-	@echo '***** k8s/test/run/typecheck.sh'
-	@./docker/k8s/devel.sh ./k8s/test/run/typecheck.sh
-	@echo '***** k8s/test/run/coverage.sh'
-	@./docker/k8s/devel.sh ./k8s/test/run/coverage.sh
+	@./docker/k8s/devel.sh ./k8s/test/all.sh
 
 .PHONY: check-eks
 check-eks:
