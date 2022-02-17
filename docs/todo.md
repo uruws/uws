@@ -8,7 +8,7 @@
         * check traffic first
 
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
-    * fix munin pod failed ratio when running == 0 and failed > 0
+    * fix munin pod failed ratio when running == 0 and failed > 0 - `DONE!`
     * fix munin pod state Error not being counted for failed pods?
     * fix aws-ami auto upgrades (k8s/ctl)
 

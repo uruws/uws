@@ -100,9 +100,9 @@ def __cstatus(sts, spec, status, phase):
 			sts['ready'] += 1
 		if c.get('started', None):
 			sts['started'] += 1
-	sts['failed_ratio'] = 0
-	sts['restart_ratio'] = 0
-	sts['restarted_ratio'] = 0
+	sts['failed_ratio'] = sts['failed']
+	sts['restart_ratio'] = sts['restart']
+	sts['restarted_ratio'] = sts['restarted']
 	running = sts.get('running', 0)
 	if running > 0:
 		sts['failed_ratio'] = sts['failed'] / running
