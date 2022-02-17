@@ -10,6 +10,7 @@ from unittest.mock import MagicMock
 
 import uwscli_t
 import uwscli_auth as auth
+import uwscli_conf as conf
 import uwscli
 
 @contextmanager
@@ -20,6 +21,14 @@ def mock_noauth():
 		yield
 	finally:
 		auth._check_app = bup
+
+@contextmanager
+def mock_unauth_operator():
+	try:
+		auth.getstatusoutput = MagicMock(return_value = (0, 'testing'))
+		yield
+	finally:
+		pass
 
 class Test(unittest.TestCase):
 
@@ -59,6 +68,12 @@ class Test(unittest.TestCase):
 	def test_check_app_error(t):
 		u = auth.User('testing')
 		t.assertEqual(auth._check_app(u, 'testing'), auth.ECHECK)
+
+	def test_check_app_operator(t):
+		u = auth.User('testing')
+		u.is_operator = True
+		u.groups['testing'] = True
+		t.assertEqual(auth._check_app(u, 'testing', ops = 'test'), 0)
 
 	def test_user_auth(t):
 		auth.getstatusoutput = MagicMock(return_value = (0, 'testing'))
@@ -120,6 +135,10 @@ class Test(unittest.TestCase):
 	def test_user_check_workdir_error(t):
 		with mock_noauth():
 			t.assertEqual(auth.user_check('testing', '', '', 'test'), auth.EWKDIR)
+
+	def test_user_check_unauth_operation(t):
+		with mock_unauth_operator():
+			t.assertEqual(auth.user_check('testing', 'testing', '', '', 'test'), auth.EOPS)
 
 if __name__ == '__main__':
 	unittest.main()
