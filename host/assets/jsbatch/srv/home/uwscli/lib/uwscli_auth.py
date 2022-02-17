@@ -33,12 +33,13 @@ class User(object):
 			for g in out.strip().split():
 				g = g.strip()
 				u.groups[g] = True
-		# admin
-		if u.groups.get(conf.admin_group) is True:
-			u.is_admin = True
 		# operator
 		if u.groups.get(conf.operator_group) is True:
 			u.is_operator = True
+		# admin
+		if u.groups.get(conf.admin_group) is True:
+			u.is_operator = True
+			u.is_admin = True
 		return rc
 
 def getuser() -> User:

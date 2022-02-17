@@ -97,9 +97,7 @@ adduser jeremias uwsadm
 
 # ops users
 
-adduser uwscli   uwsops
-adduser aram     uwsops
-adduser jeremias uwsops
+adduser gabriel uwsops
 
 # app groups
 

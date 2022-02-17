@@ -14,6 +14,11 @@ doas install -v -d -m 0750 -o uws -g uws /home/uws
 doas /usr/sbin/adduser uws ${SCHROOT_GROUP}
 doas /usr/sbin/adduser uws docker
 
+# devel user
+
+doas /usr/sbin/addgroup uwsadm
+doas /usr/sbin/adduser ${SCHROOT_USER} uwsadm
+
 # local conf
 
 doas install -v -d -m 0750 -o root -g uws /etc/uws
