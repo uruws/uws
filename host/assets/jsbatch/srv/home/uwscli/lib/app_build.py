@@ -53,7 +53,7 @@ def nq(app: str, version: str, timeout: int = 3600) -> int:
 		src = uwscli.app[app].build.src
 		target = uwscli.app[app].build.target
 		args = "%s %s %s" % (src, target, version)
-		return uwscli.run('buildpack.sh', args, timeout = timeout)
+		return uwscli.nq('buildpack.sh', args, timeout = timeout)
 	else:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.nq('app-build.sh', args)
