@@ -27,6 +27,7 @@ def parse(pods):
 			continue
 		gn = mon.generateName(i)
 		st = i.get('status', {}).get('containerStatuses', [])
+		phase = i.get('status', {}).get('phase', '')
 		for s in st:
 			n = ''
 			if gn is None:
@@ -65,12 +66,12 @@ def parse(pods):
 					state = 'Other'
 				sts['info'][ns][n]['state'][state] += 1
 				sts['total'][state] += 1
-			if ready and started:
+			if ready and started and phase == 'Running':
 				# running
 				sts['info'][ns][n]['state']['Running'] += 1
 				sts['total']['Running'] += 1
 			else:
-				if state == '':
+				if state == '' and phase != 'Failed':
 					# completed
 					sts['info'][ns][n]['state']['Completed'] += 1
 					sts['total']['Completed'] += 1

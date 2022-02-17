@@ -35,6 +35,7 @@ _pods = {
 						},
 					},
 				],
+				'phase': 'Running',
 			},
 		},
 		{
@@ -72,6 +73,7 @@ _pods = {
 						'restartCount': 9,
 					},
 				],
+				'phase': 'Running',
 			},
 		},
 	],
