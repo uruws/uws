@@ -111,7 +111,7 @@ func TestPingHandler(t *testing.T) {
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 200, "resp status code")
 	h, _ := osHostname()
-	IsEqual(t, mock.HTTPResponseString(resp), "uwsctl@"+h, "resp body")
+	IsEqual(t, mock.HTTPResponseString(resp), "mon@"+h, "resp body")
 }
 
 func TestPingHandlerError(t *testing.T) {

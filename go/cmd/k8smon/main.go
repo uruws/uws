@@ -64,7 +64,7 @@ func pingHandler(w http.ResponseWriter, r *http.Request) {
 	if hostname, err := osHostname(); err != nil {
 		wapp.Error(w, r, start, err)
 	} else {
-		wapp.Write(w, r, start, "uwsctl@%s\n", hostname)
+		wapp.Write(w, r, start, "mon@%s\n", hostname)
 	}
 }
 

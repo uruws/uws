@@ -3,16 +3,16 @@
         * 2.62.5 successfully auto built and auto deployed to test cluster
     * app access by group
 
+* nlp app-deploy access - `DONE!`
+
 * workers - `DONE!`
     * remove web endpoint (worker.uws.talkingpts.org)
         * check traffic first
 
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
     * fix munin pod failed ratio when running == 0 and failed > 0 - `DONE!`
-    * fix munin pod state Error not being counted for failed pods?
+    * fix munin pod state Error not being counted for failed pods? - `DONE!`
     * fix aws-ami auto upgrades (k8s/ctl)
-
-* nlp app-deploy access
 
 * uwscli:
     * cli/buildpack.sh should manage the log and email report if any fail
