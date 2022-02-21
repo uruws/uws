@@ -317,10 +317,18 @@ eks: k8s
 #
 # k8s
 #
+K8SCTL_DEPS != find go/cmd/k8sctl go/k8s/ctl -type f -name '*.go'
 
 .PHONY: k8s
-k8s: k8smon
+k8s: k8smon docker/k8s/build/k8sctl.bin
 	@./docker/k8s/build.sh
+
+docker/k8s/build/k8sctl.bin: docker/golang/build/k8sctl.bin
+	@mkdir -vp ./docker/k8s/build
+	@install -v docker/golang/build/k8sctl.bin ./docker/k8s/build/k8sctl.bin
+
+docker/golang/build/k8sctl.bin: $(K8SCTL_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/k8sctl.bin ./cmd/k8sctl
 
 #
 # k8smon
