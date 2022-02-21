@@ -27,6 +27,10 @@
 * app-autobuild deploy
     * wait some time between deploys on "multi cluster" apps
 
+* munin
+    * graphs and limits/alerts about HTTP "error status ratio"
+        * in example: # of 404 / # of 200, #500 / #200, etc...
+
 * munin pods_container (check phase)
     "status": {
         "message": "The node was low on resource: memory. Container controller was using 2391212Ki, which exceeds its request of 90Mi. ",
@@ -51,7 +55,8 @@
 
 * nlpsvc: separate apps namespaces (for graphs and cli status/logs)
 
-* munin: add pod/test to mon deploys and check it from jsbatch munin cluster checks
+* munin
+    * add pod/test to mon deploys and check it from jsbatch munin cluster checks
 
 * configurable app-autoscale
 
