@@ -5,7 +5,10 @@
 package ctl
 
 import (
+	"net/http"
 	"os"
+
+	"uws/wapp"
 )
 
 var (
@@ -23,4 +26,13 @@ func init() {
 
 func Cluster() string {
 	return cluster
+}
+
+func MainHandler(w http.ResponseWriter, r *http.Request) {
+	start := wapp.Start()
+	if r.URL.Path != "/" {
+		wapp.NotFound(w, r, start)
+	} else {
+		wapp.Write(w, r, start, "index\n")
+	}
 }

@@ -37,7 +37,7 @@ func main() {
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_", pingHandler)
 
-	http.HandleFunc("/", mainHandler)
+	http.HandleFunc("/", ctl.MainHandler)
 
 	log.Debug("serve...")
 	log.Fatal("%s", listenAndServe(":4200", nil))
@@ -58,14 +58,5 @@ func pingHandler(w http.ResponseWriter, r *http.Request) {
 		wapp.Error(w, r, start, err)
 	} else {
 		wapp.Write(w, r, start, "ctl@%s\n", hostname)
-	}
-}
-
-func mainHandler(w http.ResponseWriter, r *http.Request) {
-	start := wapp.Start()
-	if r.URL.Path != "/" {
-		wapp.NotFound(w, r, start)
-	} else {
-		wapp.Write(w, r, start, "index\n")
 	}
 }
