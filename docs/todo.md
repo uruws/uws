@@ -13,6 +13,8 @@
     * fix munin pod failed ratio when running == 0 and failed > 0 - `DONE!`
     * fix munin pod state Error not being counted for failed pods? - `DONE!`
     * fix aws-ami auto upgrades (k8s/ctl)
+        * remove old (broken) k8s jobs setup
+        * create crond service to run scheduled tasks and report over email
 
 * uwscli:
     * cli/buildpack.sh should manage the log and email report if any fail
