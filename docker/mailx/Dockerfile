@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh ssl-cert postfix bsd-mailx
+RUN /root/bin/apt-install.sh ssl-cert msmtp-mta bsd-mailx
 
 RUN adduser uws ssl-cert
 
@@ -23,4 +23,7 @@ RUN echo 'mailx.uws.talkingpts.org' >/etc/mailname
 COPY ./files/etc/aliases /etc/
 RUN chmod -v 0644 /etc/aliases
 
-RUN newaliases
+COPY ./files/etc/msmtprc /etc/
+RUN chmod -v 0644 /etc/msmtprc
+
+RUN echo 'set mta=/usr/bin/msmtp' >>/etc/mail.rc
