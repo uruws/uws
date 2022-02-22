@@ -17,3 +17,5 @@ RUN install -v -d -o root -g root -m 0750 /srv/etc \
 	&& install -v -d -o root -g root -m 0750 /srv/etc/ca \
 	&& install -v -d -o root -g root -m 0750 /etc/opt/uws \
 	&& install -v -d -o root -g root -m 0750 /etc/opt/uws/ca
+
+RUN echo 'mailx.uws.talkingpts.org' >/etc/mailname
