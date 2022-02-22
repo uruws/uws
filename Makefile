@@ -203,7 +203,7 @@ mailx:
 #
 
 .PHONY: crond
-crond: mailx
+crond:
 	@./srv/crond/build.sh
 
 #
