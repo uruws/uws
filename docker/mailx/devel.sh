@@ -11,5 +11,6 @@ exec docker run -it --rm --name uws-mailx-devel \
 	-e HOME=/home/uws \
 	-v ${PWD}/tmp:/home/uws/tmp \
 	-v ${CA}/client:/etc/opt/uws/ca:ro \
+	--tmpfs /tmp \
 	--workdir /home/uws \
 	uws/mailx
