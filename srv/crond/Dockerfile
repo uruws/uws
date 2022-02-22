@@ -15,7 +15,7 @@ RUN echo 'crond.uws.talkingpts.org' >/etc/mailname
 
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
-###COPY ./files/etc/cron.d/uws /etc/cron.d/uws
+COPY ./files/etc/cron.d/uws /etc/cron.d/uws
 
 COPY ./utils /usr/local/bin
 RUN chmod -v 0755 /usr/local/bin/*.sh

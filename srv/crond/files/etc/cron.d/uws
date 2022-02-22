@@ -1,0 +1,5 @@
+MAILTO=root
+
+@reboot	root echo 'crond started'
+
+# m h  dom mon dow	username command
