@@ -9,7 +9,7 @@ exec docker run -it --rm --name uws-crond-devel \
 	--entrypoint /usr/local/bin/uws-login.sh \
 	-e USER=uws \
 	-e HOME=/home/uws \
+	-v ${CA}:/srv/etc/ca:ro \
 	-v ${PWD}/tmp:/home/uws/tmp \
-	-v ${CA}/client:/etc/opt/uws/ca:ro \
 	--workdir /home/uws \
 	uws/crond
