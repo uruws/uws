@@ -14,6 +14,8 @@ distclean: clean
 	@rm -rvf ./docker/k8s/build
 	@rm -rvf ./docker/uwsbot/build
 	@rm -rvf ./eks/lib/__pycache__
+	@rm -rvf ./srv/crond/build
+	@rm -rvf ./srv/munin/build
 	@rm -rvf ./srv/munin-node/build
 
 .PHONY: prune
@@ -31,7 +33,7 @@ upgrade:
 #
 
 .PHONY: all
-all: bootstrap acme clamav k8sctl uwsbot munin munin-backend munin-node proftpd
+all: bootstrap acme clamav k8sctl uwsbot crond munin munin-backend munin-node proftpd
 
 #
 # bootstrap
@@ -41,7 +43,7 @@ all: bootstrap acme clamav k8sctl uwsbot munin munin-backend munin-node proftpd
 bootstrap: awscli base base-testing golang mkcert k8s eks python ansible uwscli devel
 
 #
-# base
+# base containers
 #
 
 .PHONY: base
@@ -187,6 +189,14 @@ API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
 
 docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
+
+#
+# crond
+#
+
+.PHONY: crond
+crond:
+	@./srv/crond/build.sh
 
 #
 # munin
