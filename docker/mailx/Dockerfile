@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh ssl-cert bsd-mailx
+RUN /root/bin/apt-install.sh ssl-cert postfix bsd-mailx
 
 RUN adduser uws ssl-cert
 
@@ -19,3 +19,8 @@ RUN install -v -d -o root -g root -m 0750 /srv/etc \
 	&& install -v -d -o root -g root -m 0750 /etc/opt/uws/ca
 
 RUN echo 'mailx.uws.talkingpts.org' >/etc/mailname
+
+COPY ./files/etc/aliases /etc/
+RUN chmod -v 0644 /etc/aliases
+
+RUN newaliases
