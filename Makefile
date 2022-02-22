@@ -33,7 +33,7 @@ upgrade:
 #
 
 .PHONY: all
-all: bootstrap acme clamav k8sctl uwsbot crond munin munin-backend munin-node proftpd
+all: bootstrap acme clamav k8sctl uwsbot mailx crond munin munin-backend munin-node proftpd
 
 #
 # bootstrap
@@ -191,11 +191,19 @@ docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
 
 #
+# mailx
+#
+
+.PHONY: mailx
+mailx:
+	@./docker/mailx/build.sh
+
+#
 # crond
 #
 
 .PHONY: crond
-crond:
+crond: mailx
 	@./srv/crond/build.sh
 
 #
