@@ -11,12 +11,11 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh ssl-cert msmtp-mta bsd-mailx
 
-RUN adduser uws ssl-cert
+RUN adduser uws ssl-cert \
+	&& adduser uws msmtp
 
-RUN install -v -d -o root -g root -m 0750 /srv/etc \
-	&& install -v -d -o root -g root -m 0750 /srv/etc/ca \
-	&& install -v -d -o root -g root -m 0750 /etc/opt/uws \
-	&& install -v -d -o root -g root -m 0750 /etc/opt/uws/ca
+RUN install -v -d -o root -g msmtp -m 0750 /srv/etc \
+	&& install -v -d -o root -g msmtp -m 0750 /srv/etc/ca
 
 RUN echo 'mailx.uws.talkingpts.org' >/etc/mailname
 
