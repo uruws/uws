@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh ssl-cert msmtp-mta bsd-mailx
+RUN /root/bin/apt-install.sh ssl-cert msmtp-mta bsd-mailx rsyslog
 
 RUN adduser uws ssl-cert \
 	&& adduser uws msmtp
@@ -26,3 +26,6 @@ COPY ./files/etc/msmtprc /etc/
 RUN chmod -v 0644 /etc/msmtprc
 
 RUN echo 'set mta=/usr/bin/msmtp' >>/etc/mail.rc
+
+COPY ./files/etc/rsyslog.conf /etc/
+COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/

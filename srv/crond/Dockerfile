@@ -9,12 +9,9 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh rsyslog cron logrotate
+RUN /root/bin/apt-install.sh cron logrotate
 
 RUN echo 'crond.uws.talkingpts.org' >/etc/mailname
-
-COPY ./files/etc/rsyslog.conf /etc/
-COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
 
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
