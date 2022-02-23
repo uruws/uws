@@ -6,11 +6,13 @@ package ctl
 type ctlCmd struct {
 	name string
 	args []string
+	bindir string
 }
 
 func newCmd(name string, args ...string) *ctlCmd {
 	return &ctlCmd{
 		name: name,
 		args: args,
+		bindir: bindir,
 	}
 }
