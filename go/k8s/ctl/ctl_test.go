@@ -16,6 +16,8 @@ func TestGlobals(t *testing.T) {
 
 func TestCluster(t *testing.T) {
 	IsEqual(t, Cluster(), "k8stest", "Cluster()")
+	IsEqual(t, cluster.Name, "k8stest", "cluster.Name")
+	IsEqual(t, cluster.Type, "eks", "cluster.Type")
 }
 
 func TestMainHandler(t *testing.T) {
