@@ -32,14 +32,13 @@ func main() {
 	if cluster == "" {
 		log.Fatal("UWS_CLUSTER not set")
 	}
-	log.Debug("cluster %s", cluster)
 
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_", pingHandler)
 
 	http.HandleFunc("/", ctl.MainHandler)
 
-	log.Debug("serve...")
+	log.Print("%s", cluster)
 	log.Fatal("%s", listenAndServe(":4200", nil))
 }
 

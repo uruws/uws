@@ -11,13 +11,29 @@ import (
 	"uws/wapp"
 )
 
+type K8s struct {
+	Name string
+	Type string
+}
+
+func newK8s() *K8s {
+	typ := os.Getenv("UWS_CLUSTER_TYPE")
+	if typ == "" {
+		typ = "eks"
+	}
+	return &K8s{
+		Name: os.Getenv("UWS_CLUSTER"),
+		Type: typ,
+	}
+}
+
 var (
 	kubecmd string
-	cluster string
+	cluster *K8s
 )
 
 func init() {
-	cluster = os.Getenv("UWS_CLUSTER")
+	cluster = newK8s()
 	kubecmd = os.Getenv("UWSKUBE")
 	if kubecmd == "" {
 		kubecmd = "/usr/local/bin/uwskube"
@@ -25,7 +41,7 @@ func init() {
 }
 
 func Cluster() string {
-	return cluster
+	return cluster.Name
 }
 
 func MainHandler(w http.ResponseWriter, r *http.Request) {
