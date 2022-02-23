@@ -11,7 +11,7 @@ ${pl_ena} contrib mongodb/mongo_mem mongo_mem
 ${pl_ena} contrib mongodb/mongo_ops mongo_ops
 
 rm -vf /etc/munin/plugins/uwsbot_stats
-ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
+###ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
 
 rm -vf /etc/munin/plugins/api*
 ln -svf /uws/bin/api-job-stats /etc/munin/plugins/api_job_stats
