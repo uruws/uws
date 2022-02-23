@@ -28,15 +28,15 @@ func newK8s() *K8s {
 }
 
 var (
-	kubecmd string
 	cluster *K8s
+	bindir  string
 )
 
 func init() {
 	cluster = newK8s()
-	kubecmd = os.Getenv("UWSKUBE")
-	if kubecmd == "" {
-		kubecmd = "/usr/local/bin/uwskube"
+	bindir = os.Getenv("UWSCTL_BINDIR")
+	if bindir == "" {
+		bindir = "/usr/local/bin"
 	}
 }
 

@@ -11,7 +11,7 @@ import (
 )
 
 func TestGlobals(t *testing.T) {
-	IsEqual(t, kubecmd, "/usr/local/bin/uwskube", "kubecmd")
+	IsEqual(t, bindir, "/usr/local/bin", "bindir")
 }
 
 func TestCluster(t *testing.T) {
