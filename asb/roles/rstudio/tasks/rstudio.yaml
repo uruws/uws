@@ -55,6 +55,7 @@
     pkg:
       - r-base
       - xz-utils
+      - r-cran-devtools
   tags:
     - apt
     - rstudio-apt
