@@ -45,16 +45,12 @@ func TestMainHandlerNotFound(t *testing.T) {
 
 func TestStatus(t *testing.T) {
 	s := newStatus(0, "testing")
-	IsEqual(t, s.StatusCode, 0, "status code")
 	IsEqual(t, s.Status, "ok", "status")
-	IsEqual(t, s.Error, "", "error message")
 	IsEqual(t, s.Message, "testing", "message")
 }
 
 func TestStatusError(t *testing.T) {
 	s := newStatus(99, "testing")
-	IsEqual(t, s.StatusCode, 99, "status code")
 	IsEqual(t, s.Status, "error", "status")
-	IsEqual(t, s.Error, "testing", "error message")
-	IsEqual(t, s.Message, "", "message")
+	IsEqual(t, s.Message, "testing", "message")
 }

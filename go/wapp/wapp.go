@@ -57,7 +57,7 @@ func WriteJSONStatus(
 	status int,
 	obj interface{},
 ) {
-	blob, err := json.MarshalIndent(obj, "", "  ")
+	blob, err := json.Marshal(obj)
 	if err != nil {
 		Error(w, r, start, err)
 		return

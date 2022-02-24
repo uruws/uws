@@ -81,5 +81,5 @@ func TestTopPods(t *testing.T) {
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 200, "resp status code")
 	IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content type")
-	IsEqual(t, len(mock.HTTPResponseString(resp)), 2052, "resp body size")
+	IsEqual(t, len(mock.HTTPResponseString(resp)), 1330, "resp body size")
 }

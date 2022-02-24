@@ -67,20 +67,6 @@ func TestTopNodes(t *testing.T) {
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 200, "resp status code")
 	IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content type")
-	tn := `{
-  "count": 3,
-  "cpu": 198,
-  "cpu_min": 62,
-  "cpu_max": 73,
-  "cpup": 9,
-  "cpup_min": 3,
-  "cpup_max": 3,
-  "mem": 2509,
-  "mem_min": 731,
-  "mem_max": 891,
-  "memp": 34,
-  "memp_min": 10,
-  "memp_max": 12
-}`
+	tn := `{"count":3,"cpu":198,"cpu_min":62,"cpu_max":73,"cpup":9,"cpup_min":3,"cpup_max":3,"mem":2509,"mem_min":731,"mem_max":891,"memp":34,"memp_min":10,"memp_max":12}`
 	IsEqual(t, mock.HTTPResponseString(resp), tn, "resp body")
 }

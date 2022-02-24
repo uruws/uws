@@ -55,24 +55,16 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 
 type ctlStatus struct {
 	Status     string `json:"status"`
-	StatusCode int    `json:"status_code"`
-	Error      string `json:"error,omitempty"`
-	Message    string `json:"message,omitempty"`
+	Message    string `json:"message"`
 }
 
 func newStatus(code int, msg string) *ctlStatus {
 	st := "ok"
-	info := msg
-	errmsg := ""
 	if code != 0 {
 		st = "error"
-		info = ""
-		errmsg = msg
 	}
 	return &ctlStatus{
 		Status: st,
-		StatusCode: code,
-		Error: errmsg,
-		Message: info,
+		Message: msg,
 	}
 }

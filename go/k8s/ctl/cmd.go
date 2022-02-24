@@ -39,8 +39,11 @@ func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
 	log.Debug("run: %s", cmd)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		wapp.Error(w, r, start, err)
+		p := err.(*exec.ExitError).ProcessState
+		st := newStatus(p.ExitCode(), err.Error())
+		wapp.WriteJSONStatus(w, r, start, http.StatusInternalServerError, st)
 	} else {
-		wapp.Write(w, r, start, "%s", out)
+		st := newStatus(0, string(out))
+		wapp.WriteJSON(w, r, start, st)
 	}
 }
