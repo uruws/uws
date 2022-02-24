@@ -86,6 +86,15 @@ class Test(unittest.TestCase):
 	def test_user_auth_admin(t):
 		t.assertListEqual(auth.user_auth(auth.getuser(), ['testing']), ['testing'])
 
+	def test_user_auth_app_groups(t):
+		uwscli.app['app0'] = uwscli.app['testing']
+		uwscli.app['app0'].groups = ['testing', 'gtest']
+		uwscli.app['app1'] = uwscli.app['testing']
+		uwscli.app['app1'].groups = ['testing', 'gtest']
+		auth.getstatusoutput = MagicMock(return_value = (0, 'gtest'))
+		t.assertListEqual(auth.user_auth(auth.getuser(),
+			['app0', 'app1']), ['app0', 'app1'])
+
 	def test_check_pod(t):
 		u = auth.User('testing')
 		u.groups['testing'] = True

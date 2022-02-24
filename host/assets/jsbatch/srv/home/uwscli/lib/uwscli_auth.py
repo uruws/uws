@@ -67,13 +67,10 @@ def user_auth(user: User, apps: list[str]) -> list[str]:
 	if user.is_admin:
 		return sorted(apps)
 	r = {}
-	groups: dict[str, bool] = {}
 	for a in apps:
 		for g in conf.app[a].groups:
-			if not groups.get(g, False):
-				if _check_app(user, g) == 0:
-					r[a] = True
-				groups[g] = True
+			if _check_app(user, g) == 0:
+				r[a] = True
 	return sorted(r.keys())
 
 def _check_pod(user: User, pod: str) -> int:
