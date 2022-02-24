@@ -69,7 +69,7 @@ func newStatus(code int, msg string) *ctlStatus {
 		st = "error"
 	}
 	return &ctlStatus{
-		Status: st,
+		Status:  st,
 		Message: msg,
 	}
 }

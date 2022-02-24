@@ -16,18 +16,18 @@ import (
 )
 
 type ctlCmd struct {
-	name string
-	args []string
+	name   string
+	args   []string
 	bindir string
-	ttl int
+	ttl    int
 }
 
 func newCmd(name string, args ...string) *ctlCmd {
 	return &ctlCmd{
-		name: name,
-		args: args,
+		name:   name,
+		args:   args,
 		bindir: bindir,
-		ttl: 300, // 5min
+		ttl:    300, // 5min
 	}
 }
 

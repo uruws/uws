@@ -8,7 +8,7 @@ exec docker run -it --rm --name uws-golang-devel \
 	--hostname godev.uws.local \
 	--read-only \
 	-u uws \
-	-v ${PWD}/go:/go/src/uws:ro \
+	-v ${PWD}/go:/go/src/uws \
 	-v ${BUILD_CACHE}:/go/.cache \
 	-v ${BUILD_TMP}:/tmp \
 	-v ${TMPDIR}:/go/tmp \
