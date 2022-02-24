@@ -50,10 +50,11 @@ func Write(
 	}
 }
 
-func WriteJSON(
+func WriteJSONStatus(
 	w http.ResponseWriter,
 	r *http.Request,
 	start time.Time,
+	status int,
 	obj interface{},
 ) {
 	blob, err := json.MarshalIndent(obj, "", "  ")
@@ -62,13 +63,23 @@ func WriteJSON(
 		return
 	}
 	w.Header().Set("content-type", "application/json")
+	w.WriteHeader(status)
 	var n int
 	n, err = fmt.Fprintf(w, "%s", blob)
 	if err != nil {
 		log.Error("%s %s: %s", r.Method, r.URL, err)
 	} else {
-		logRequest(r, http.StatusOK, n, start)
+		logRequest(r, status, n, start)
 	}
+}
+
+func WriteJSON(
+	w http.ResponseWriter,
+	r *http.Request,
+	start time.Time,
+	obj interface{},
+) {
+	WriteJSONStatus(w, r, start, http.StatusOK, obj)
 }
 
 func ServeStatic(dir string) {
