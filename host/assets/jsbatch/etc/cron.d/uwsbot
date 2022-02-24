@@ -1,5 +1,5 @@
 # cron-jobs for uwsbot
-MAILTO=uws
+MAILTO=root
 UWS_LOG=quiet
 UWS_PREFIX=/uws
 
