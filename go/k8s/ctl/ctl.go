@@ -16,6 +16,10 @@ type K8s struct {
 	Type string
 }
 
+func (c *K8s) String() string {
+	return c.Name
+}
+
 func newK8s() *K8s {
 	typ := os.Getenv("UWS_CLUSTER_TYPE")
 	if typ == "" {
@@ -41,7 +45,7 @@ func init() {
 }
 
 func Cluster() string {
-	return cluster.Name
+	return cluster.String()
 }
 
 func MainHandler(w http.ResponseWriter, r *http.Request) {
