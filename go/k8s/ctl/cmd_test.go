@@ -31,6 +31,7 @@ func TestCmdRun(t *testing.T) {
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
 	r.URL.Path = "/"
+	cmd.bindir = "/bin"
 	cmd.Run(w, r)
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 200, "resp status code")
@@ -45,11 +46,12 @@ func TestCmdRunError(t *testing.T) {
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
 	r.URL.Path = "/"
+	cmd.bindir = "/bin"
 	cmd.Run(w, r)
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 500, "resp status code")
 	IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content-type")
-	IsEqual(t, mock.HTTPResponseString(resp), `{"status":"error","message":""}`, "resp body")
+	IsEqual(t, mock.HTTPResponseString(resp), `{"status":"error","message":"","error":"exit status 1"}`, "resp body")
 }
 
 func TestCmdRunInvalidCmd(t *testing.T) {
@@ -59,9 +61,10 @@ func TestCmdRunInvalidCmd(t *testing.T) {
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
 	r.URL.Path = "/"
+	cmd.bindir = "/bin"
 	cmd.Run(w, r)
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 500, "resp status code")
 	IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content-type")
-	IsEqual(t, mock.HTTPResponseString(resp), `{"status":"error","message":""}`, "resp body")
+	IsEqual(t, mock.HTTPResponseString(resp), `{"status":"error","message":"","error":"fork/exec /bin/testing_invalid_cmd: no such file or directory"}`, "resp body")
 }

@@ -2,3 +2,21 @@
 // See LICENSE file.
 
 package ctl
+
+import (
+	"testing"
+	"uws/testing/mock"
+
+	. "uws/testing/check"
+)
+
+func TestNodegroupUpgrade(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	NodegroupUpgrade(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+	IsEqual(t, mock.HTTPResponseString(resp), `{"status":"ok","message":""}`, "resp body")
+}

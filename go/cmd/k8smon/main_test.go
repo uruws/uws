@@ -72,6 +72,7 @@ func TestMainHandlerNotFound(t *testing.T) {
 	defer mock.LoggerReset()
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
+	r.URL.Path = "/testing"
 	mainHandler(w, r)
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 404, "resp status code")

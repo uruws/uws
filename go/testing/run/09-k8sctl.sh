@@ -6,6 +6,7 @@ rm -rf ${TMPDIR}
 install -d -m 0750 ${TMPDIR}
 
 export UWS_CLUSTER=k8stest
+export UWSCTL_BINDIR=/go/src/uws/k8s/ctl/_devel/bin
 
 go test -coverprofile ${TMPDIR}/coverage.out ./cmd/k8sctl/... ./k8s/ctl/...
 

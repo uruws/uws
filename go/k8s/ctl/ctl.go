@@ -58,8 +58,9 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 type ctlStatus struct {
-	Status     string `json:"status"`
-	Message    string `json:"message"`
+	Status  string `json:"status"`
+	Message string `json:"message"`
+	Error   string `json:"error,omitempty"`
 }
 
 func newStatus(code int, msg string) *ctlStatus {

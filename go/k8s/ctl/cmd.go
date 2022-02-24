@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"os/exec"
+	"path/filepath"
 	"time"
 
 	"uws/log"
@@ -35,7 +36,8 @@ func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
 	ttl, _ := time.ParseDuration(fmt.Sprintf("%ds", c.ttl))
 	ctx, cancel := context.WithTimeout(context.Background(), ttl)
 	defer cancel()
-	cmd := exec.CommandContext(ctx, c.name, c.args...)
+	cmdpath := filepath.Clean(filepath.Join(c.bindir, c.name))
+	cmd := exec.CommandContext(ctx, cmdpath, c.args...)
 	log.Debug("run: %s", cmd)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -48,6 +50,7 @@ func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
 			code = p.ExitCode()
 		}
 		st := newStatus(code, string(out))
+		st.Error = err.Error()
 		wapp.WriteJSONStatus(w, r, start, http.StatusInternalServerError, st)
 	} else {
 		st := newStatus(0, string(out))

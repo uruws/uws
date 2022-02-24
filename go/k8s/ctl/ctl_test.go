@@ -11,7 +11,7 @@ import (
 )
 
 func TestGlobals(t *testing.T) {
-	IsEqual(t, bindir, "/usr/local/bin", "bindir")
+	IsEqual(t, bindir, "/go/src/uws/k8s/ctl/_devel/bin", "bindir")
 }
 
 func TestCluster(t *testing.T) {
@@ -37,6 +37,7 @@ func TestMainHandlerNotFound(t *testing.T) {
 	defer mock.LoggerReset()
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
+	r.URL.Path = "/testing"
 	MainHandler(w, r)
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 404, "resp status code")
