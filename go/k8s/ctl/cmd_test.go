@@ -41,6 +41,20 @@ func TestCmdRun(t *testing.T) {
 func TestCmdRunError(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
+	cmd := newCmd("false")
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	r.URL.Path = "/"
+	cmd.Run(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 500, "resp status code")
+	IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content-type")
+	IsEqual(t, mock.HTTPResponseString(resp), `{"status":"error","message":""}`, "resp body")
+}
+
+func TestCmdRunInvalidCmd(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
 	cmd := newCmd("testing_invalid_cmd")
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
@@ -49,5 +63,5 @@ func TestCmdRunError(t *testing.T) {
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 500, "resp status code")
 	IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content-type")
-	IsEqual(t, mock.HTTPResponseString(resp), `{"status":"error","message":"exec: \"testing_invalid_cmd\": executable file not found in $PATH"}`, "resp body")
+	IsEqual(t, mock.HTTPResponseString(resp), `{"status":"error","message":""}`, "resp body")
 }

@@ -39,13 +39,14 @@ func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
 	log.Debug("run: %s", cmd)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
+		log.Error("%s: %s", cmd, err)
 		code := -128
 		switch err.(type) {
 		case *exec.ExitError:
 			p := err.(*exec.ExitError).ProcessState
 			code = p.ExitCode()
 		}
-		st := newStatus(code, err.Error())
+		st := newStatus(code, string(out))
 		wapp.WriteJSONStatus(w, r, start, http.StatusInternalServerError, st)
 	} else {
 		st := newStatus(0, string(out))
