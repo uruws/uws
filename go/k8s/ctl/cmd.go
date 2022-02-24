@@ -40,6 +40,7 @@ func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Error("%s: %s", cmd, err)
+		log.Debug("%s", out)
 		code := -128
 		switch err.(type) {
 		case *exec.ExitError:
