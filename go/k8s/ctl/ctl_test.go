@@ -10,8 +10,20 @@ import (
 	. "uws/testing/check"
 )
 
+const ctlDevelBindir string = "/go/src/uws/k8s/ctl/_devel/bin"
+
+func mockCtl() {
+	bindir = ctlDevelBindir
+	mock.Logger()
+}
+
+func mockCtlReset() {
+	bindir = "/usr/local/bin"
+	mock.LoggerReset()
+}
+
 func TestGlobals(t *testing.T) {
-	IsEqual(t, bindir, "/go/src/uws/k8s/ctl/_devel/bin", "bindir")
+	IsEqual(t, bindir, "/usr/local/bin", "bindir")
 }
 
 func TestCluster(t *testing.T) {

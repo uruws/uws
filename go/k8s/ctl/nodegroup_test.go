@@ -11,8 +11,8 @@ import (
 )
 
 func TestNodegroupUpgrade(t *testing.T) {
-	mock.Logger()
-	defer mock.LoggerReset()
+	mockCtl()
+	defer mockCtlReset()
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
 	NodegroupUpgrade(w, r)
