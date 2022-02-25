@@ -17,10 +17,16 @@
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
     * fix munin pod failed ratio when running == 0 and failed > 0 - `DONE!`
     * fix munin pod state Error not being counted for failed pods? - `DONE!`
-    * fix aws-ami auto upgrades (k8s/ctl)
-        * remove old (broken) k8s jobs setup
-        * create mailx base container
-        * create crond service to run scheduled tasks and report over email (using mailx as base container)
+    * fix aws-ami auto upgrades (k8s/ctl) - `WIP`
+        * remove old (broken) k8s jobs setup - `DONE!`
+        * create mailx base container - `DONE!`
+        * create crond service to run scheduled tasks and report over email (using mailx as base container) - `DONE!`
+        * devel, setup and deploy ctl service
+            * auth by secret token generated at deploy time (configmap)
+            * run internal commands
+                * uwseks-nodegroup-upgrade
+        * setup and deploy crond service
+            * schedule nodegroup upgrade job
 
 * uwscli:
     * app-autobuild: nq build and deploy jobs
@@ -39,6 +45,7 @@
 * munin
     * graphs and limits/alerts about HTTP "error status ratio"
         * in example: # of 404 / # of 200, #500 / #200, etc...
+    * cluster cross check k8sctl service
 
 * munin pods_container (check phase)
     "status": {
