@@ -31,8 +31,8 @@ func newCmd(name string, args ...string) *ctlCmd {
 	}
 }
 
-func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
-	start := wapp.Start()
+func (c *ctlCmd) Run(r *http.Request) {
+	//~ start := wapp.Start()
 	ttl, _ := time.ParseDuration(fmt.Sprintf("%ds", c.ttl))
 	ctx, cancel := context.WithTimeout(context.Background(), ttl)
 	defer cancel()
@@ -43,18 +43,18 @@ func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		wapp.LogError(r, "%s: %s", cmd, err)
 		wapp.Debug(r, "%s", out)
-		code := -128
-		switch err.(type) {
-		case *exec.ExitError:
-			p := err.(*exec.ExitError).ProcessState
-			code = p.ExitCode()
-		}
-		st := newStatus(code, string(out))
-		st.Error = err.Error()
-		wapp.WriteJSONStatus(w, r, start, http.StatusInternalServerError, st)
+		//~ code := -128
+		//~ switch err.(type) {
+		//~ case *exec.ExitError:
+			//~ p := err.(*exec.ExitError).ProcessState
+			//~ code = p.ExitCode()
+		//~ }
+		//~ st := newStatus(code, string(out))
+		//~ st.Error = err.Error()
+		//~ wapp.WriteJSONStatus(w, r, start, http.StatusInternalServerError, st)
 	} else {
-		st := newStatus(0, string(out))
-		wapp.WriteJSON(w, r, start, st)
+		//~ st := newStatus(0, string(out))
+		//~ wapp.WriteJSON(w, r, start, st)
 	}
 }
 
@@ -62,13 +62,13 @@ func ExecHandler(w http.ResponseWriter, r *http.Request) {
 	wapp.Debug(r, "exec handler: %s", cluster)
 	start := wapp.Start()
 	if r.Method == "POST" {
-
-		cmd := r.PostFormValue("command")
+		cmd := r.PostFormValue("cmd")
 		if cmd == "" {
 			wapp.Error(w, r, start, errors.New("no command"))
 		} else {
-			wapp.Debug(r, "exec: %s", cmd)
-			go doExec(r, cmd)
+			args := r.PostForm["args"]
+			wapp.Debug(r, "exec: %s %v", cmd, args)
+			go doExec(r, cmd, args...)
 			wapp.Write(w, r, start, "dispatch ok\n")
 		}
 	} else {
@@ -77,6 +77,11 @@ func ExecHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func doExec(r *http.Request, cmd string) {
-	wapp.Debug(r, "do exec: %s", cmd)
+func doExec(r *http.Request, cmd string, args ...string) {
+	wapp.Debug(r, "do exec: %s %v", cmd, args)
+	newCmd(cmd, args...).Run(r)
+}
+
+func cmdRun(w http.ResponseWriter, r *http.Request, cmd string, args ...string) {
+	wapp.Debug(r, "%s %v", cmd, args)
 }
