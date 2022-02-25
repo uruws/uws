@@ -38,7 +38,7 @@ chown -vR root:uwscli ~uwscli/bin
 
 adduser uws uwscli
 
-# ops utils
+# operator utils
 
 addgroup uwsops || true
 
@@ -95,23 +95,33 @@ adduser uwscli   uwsadm
 adduser aram     uwsadm
 adduser jeremias uwsadm
 
-# ops users
+# operator users
 
-adduser uwscli   uwsops
-adduser aram     uwsops
-adduser gabriel  uwsops
-adduser jeremias uwsops
+adduser uwscli    uwsops
+adduser aram      uwsops
+adduser gabriel   uwsops
+adduser guillermo uwsops
+adduser jeremias  uwsops
+adduser nelson    uwsops
 
 # app groups
 
 # app
 addgroup uwsapp_app || true
 
+adduser antonio uwsapp_app
 adduser gabriel uwsapp_app
 adduser nelson  uwsapp_app
 
 # apptest
 addgroup uwsapp_apptest || true
+
+adduser gabriel uwsapp_apptest
+
+# beta
+addgroup uwsapp_beta || true
+
+adduser gabriel uwsapp_beta
 
 # cs
 addgroup uwsapp_cs || true
@@ -120,6 +130,7 @@ addgroup uwsapp_cs || true
 addgroup uwsapp_nlp || true
 
 adduser guillermo uwsapp_nlp
+adduser ramiro    uwsapp_nlp
 
 # install crontab
 
