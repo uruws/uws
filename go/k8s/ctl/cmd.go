@@ -5,6 +5,7 @@ package ctl
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"os/exec"
@@ -60,9 +61,22 @@ func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
 func ExecHandler(w http.ResponseWriter, r *http.Request) {
 	wapp.Debug(r, "exec handler: %s", cluster)
 	start := wapp.Start()
-	if r.Method == "PUT" {
+	if r.Method == "POST" {
+
+		cmd := r.PostFormValue("command")
+		if cmd == "" {
+			wapp.Error(w, r, start, errors.New("no command"))
+		} else {
+			wapp.Debug(r, "exec: %s", cmd)
+			go doExec(r, cmd)
+			wapp.Write(w, r, start, "dispatch ok\n")
+		}
 	} else {
 		wapp.LogError(r, "invalid method: %s", r.Method)
 		wapp.BadRequest(w, r, start)
 	}
+}
+
+func doExec(r *http.Request, cmd string) {
+	wapp.Debug(r, "do exec: %s", cmd)
 }
