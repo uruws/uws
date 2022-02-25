@@ -2,10 +2,7 @@
     * `FIX` autobuild deploys
         * 2.62.5 successfully auto built and auto deployed to test cluster
     * app access by group
-        * we have 3 levels of access now:
-            * user: "read" access to authorized apps only; can get logs and such, but no deploy nor any disruptive action
-            * operator: "read/write" access to authorized apps only; can do deploys and such
-            * admin: can take any action to all apps
+        * [Auth](./devops/auth.md) docs
 
 * nlp app-deploy access - `DONE!`
 
