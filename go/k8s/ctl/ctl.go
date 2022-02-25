@@ -7,6 +7,7 @@ package ctl
 import (
 	"net/http"
 	"os"
+	"strings"
 
 	"uws/wapp"
 )
@@ -70,6 +71,6 @@ func newStatus(code int, msg string) *ctlStatus {
 	}
 	return &ctlStatus{
 		Status:  st,
-		Message: msg,
+		Message: strings.TrimSpace(msg),
 	}
 }
