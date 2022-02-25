@@ -36,6 +36,8 @@ func main() {
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_", pingHandler)
 
+	http.HandleFunc("/nodegroup/upgrade", ctl.NodegroupUpgrade)
+
 	http.HandleFunc("/", ctl.MainHandler)
 
 	log.Print("%s", cluster)
