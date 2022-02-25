@@ -33,6 +33,8 @@ func main() {
 		log.Fatal("UWS_CLUSTER not set")
 	}
 
+	http.HandleFunc("/_/exec", ctl.ExecHandler)
+
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_", pingHandler)
 
@@ -40,7 +42,7 @@ func main() {
 
 	http.HandleFunc("/", ctl.MainHandler)
 
-	log.Print("%s", cluster)
+	log.Print("%s (%s)", cluster, ctl.ClusterType())
 	log.Fatal("%s", listenAndServe(":4200", nil))
 }
 

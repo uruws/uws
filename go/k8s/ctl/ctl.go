@@ -49,6 +49,10 @@ func Cluster() string {
 	return cluster.String()
 }
 
+func ClusterType() string {
+	return cluster.Type
+}
+
 func MainHandler(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
 	if r.URL.Path != "/" {

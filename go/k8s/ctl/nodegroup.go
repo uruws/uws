@@ -7,11 +7,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"uws/log"
+	"uws/wapp"
 )
 
 func NodegroupUpgrade(w http.ResponseWriter, r *http.Request) {
-	log.Debug("nodegroup upgrade: %s (%s)", cluster, cluster.Type)
+	wapp.Debug(r, "nodegroup upgrade: %s", cluster)
 	cmd := fmt.Sprintf("uws%s-nodegroup-upgrade", cluster.Type)
 	newCmd(cmd).Run(w, r)
 }

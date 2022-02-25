@@ -22,6 +22,16 @@ func logRequest(r *http.Request, status, size int, start time.Time) {
 	log.Print("%s %s %s %d %d %s", r.RemoteAddr, r.Method, r.URL, status, size, took)
 }
 
+func LogError(r *http.Request, format string, v ...interface{}) {
+	msg := fmt.Sprintf(format, v...)
+	log.Error("%s %s %s: %s", r.RemoteAddr, r.Method, r.URL, msg)
+}
+
+func Debug(r *http.Request, format string, v ...interface{}) {
+	msg := fmt.Sprintf(format, v...)
+	log.Debug("%s %s %s: %s", r.RemoteAddr, r.Method, r.URL, msg)
+}
+
 func Error(w http.ResponseWriter, r *http.Request, start time.Time, err error) {
 	log.Error("%s", err)
 	http.Error(w, fmt.Sprintf("error: %s", err), http.StatusInternalServerError)
@@ -33,6 +43,13 @@ func NotFound(w http.ResponseWriter, r *http.Request, start time.Time) {
 	http.Error(w, fmt.Sprintf("not found: %s", r.URL.Path), http.StatusNotFound)
 	logRequest(r, http.StatusNotFound,
 		len("not found: \n")+len(r.URL.Path), start)
+}
+
+func BadRequest(w http.ResponseWriter, r *http.Request, start time.Time) {
+	st := http.StatusBadRequest
+	msg := fmt.Sprintf("bad request: %s", r.URL.Path)
+	http.Error(w, msg, st)
+	logRequest(r, st, len("\n")+len(msg), start)
 }
 
 func Write(

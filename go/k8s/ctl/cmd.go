@@ -11,7 +11,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"uws/log"
 	"uws/wapp"
 )
 
@@ -38,11 +37,11 @@ func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
 	defer cancel()
 	cmdpath := filepath.Clean(filepath.Join(c.bindir, c.name))
 	cmd := exec.CommandContext(ctx, cmdpath, c.args...)
-	log.Debug("run: %s", cmd)
+	wapp.Debug(r, "run: %s", cmd)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Error("%s: %s", cmd, err)
-		log.Debug("%s", out)
+		wapp.LogError(r, "%s: %s", cmd, err)
+		wapp.Debug(r, "%s", out)
 		code := -128
 		switch err.(type) {
 		case *exec.ExitError:
@@ -55,5 +54,15 @@ func (c *ctlCmd) Run(w http.ResponseWriter, r *http.Request) {
 	} else {
 		st := newStatus(0, string(out))
 		wapp.WriteJSON(w, r, start, st)
+	}
+}
+
+func ExecHandler(w http.ResponseWriter, r *http.Request) {
+	wapp.Debug(r, "exec handler: %s", cluster)
+	start := wapp.Start()
+	if r.Method == "PUT" {
+	} else {
+		wapp.LogError(r, "invalid method: %s", r.Method)
+		wapp.BadRequest(w, r, start)
 	}
 }
