@@ -32,11 +32,9 @@ func TestCmdRun(t *testing.T) {
 	r := mock.HTTPRequest()
 	r.URL.Path = "/"
 	cmd.bindir = "/bin"
-	cmd.Run(r)
-	//~ resp := w.Result()
-	//~ IsEqual(t, resp.StatusCode, 200, "resp status code")
-	//~ IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content-type")
-	//~ IsEqual(t, mock.HTTPResponseString(resp), `{"status":"ok","message":""}`, "resp body")
+	outs, err := cmd.Run(r)
+	IsNil(t, err, "cmd error")
+	IsEqual(t, outs, "", "cmd output")
 }
 
 func TestCmdRunError(t *testing.T) {
@@ -47,24 +45,23 @@ func TestCmdRunError(t *testing.T) {
 	r := mock.HTTPRequest()
 	r.URL.Path = "/"
 	cmd.bindir = "/bin"
-	cmd.Run(r)
-	//~ resp := w.Result()
-	//~ IsEqual(t, resp.StatusCode, 500, "resp status code")
-	//~ IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content-type")
-	//~ IsEqual(t, mock.HTTPResponseString(resp), `{"status":"error","message":"","error":"exit status 1"}`, "resp body")
+	outs, err := cmd.Run(r)
+	IsEqual(t, outs, "", "cmd output")
+	NotNil(t, err, "cmd error")
+	IsEqual(t, err.Error(), "exit status 1", "cmd error message")
 }
 
 func TestCmdRunInvalidCmd(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	cmd := newCmd("testing_invalid_cmd")
-	//~ w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
 	r.URL.Path = "/"
 	cmd.bindir = "/bin"
-	cmd.Run(r)
-	//~ resp := w.Result()
-	//~ IsEqual(t, resp.StatusCode, 500, "resp status code")
-	//~ IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content-type")
-	//~ IsEqual(t, mock.HTTPResponseString(resp), `{"status":"error","message":"","error":"fork/exec /bin/testing_invalid_cmd: no such file or directory"}`, "resp body")
+	outs, err := cmd.Run(r)
+	IsEqual(t, outs, "", "cmd output")
+	NotNil(t, err, "cmd error")
+	IsEqual(t, err.Error(),
+		"fork/exec /bin/testing_invalid_cmd: no such file or directory",
+		"cmd error message")
 }
