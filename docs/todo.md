@@ -28,6 +28,15 @@
         * setup and deploy crond service
             * schedule nodegroup upgrade job
 
+* aws support meeting
+    * setup CDN mainly to help saving network transfer costs
+    * Route53 app.t.o use geolocation inside US or latency setup
+        * versus current weighted 50/50 setup
+        * we must keep the "heroku contingency plan" setup or adapt it to new ways
+        * `wait` for support people suggestions about it
+    * EKS ec2 "reserved instances" setup to help saving costs
+        * `wait` for support people suggestions about it
+
 * uwscli:
     * app-autobuild: nq build and deploy jobs
     * cli/buildpack.sh: should manage the log and email report if any fail
