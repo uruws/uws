@@ -17,6 +17,6 @@ func TestNodegroupUpgrade(t *testing.T) {
 	r := mock.HTTPRequest()
 	NodegroupUpgrade(w, r)
 	resp := w.Result()
-	IsEqual(t, resp.StatusCode, 500, "resp status code")
-	//~ IsEqual(t, mock.HTTPResponseString(resp), `{"status":"ok","message":"testing"}`, "resp body")
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+	IsEqual(t, mock.HTTPResponseString(resp), "ok", "resp body")
 }

@@ -35,6 +35,7 @@ var (
 	cluster *K8s
 	bindir  string
 	mailx   string
+	execurl string
 )
 
 func init() {
@@ -46,6 +47,10 @@ func init() {
 	mailx = os.Getenv("UWSCTL_MAILX")
 	if mailx == "" {
 		mailx = "/usr/bin/mailx"
+	}
+	execurl = os.Getenv("UWSCTL_EXECURL")
+	if execurl == "" {
+		execurl = "http://localhost:4200"
 	}
 }
 

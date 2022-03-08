@@ -122,7 +122,7 @@ func sendmail(r *http.Request, origcmd, out string, err error) {
 func cmdRun(w http.ResponseWriter, r *http.Request, cmd string, args ...string) {
 	wapp.Debug(r, "%s %v", cmd, args)
 	start := wapp.Start()
-	resp, err := http.PostForm("http://k8sctl/_/exec",
+	resp, err := http.PostForm(execurl,
 		url.Values{"cmd": {cmd}, "args": args})
 	if err != nil {
 		wapp.Error(w, r, start, err)

@@ -4,7 +4,11 @@
 package ctl
 
 import (
+	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"testing"
+
 	"uws/testing/mock"
 
 	. "uws/testing/check"
@@ -12,14 +16,29 @@ import (
 
 const ctlDevelBindir string = "/go/src/uws/k8s/ctl/_devel/bin"
 
+var (
+	ctlTestServer *httptest.Server
+	bupExecurl    string
+)
+
+func init() {
+	bupExecurl = execurl
+}
+
 func mockCtl() {
 	bindir = ctlDevelBindir
 	mock.Logger()
+	ctlTestServer = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "httptest")
+	}))
+	execurl = ctlTestServer.URL
 }
 
 func mockCtlReset() {
 	bindir = "/usr/local/bin"
 	mock.LoggerReset()
+	ctlTestServer.Close()
+	execurl = bupExecurl
 }
 
 func TestGlobals(t *testing.T) {
