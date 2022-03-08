@@ -14,6 +14,7 @@ func TestCmd(t *testing.T) {
 	cmd := newCmd("testing")
 	IsEqual(t, cmd.name, "testing", "cmd.name")
 	IsEqual(t, len(cmd.args), 0, "cmd.args")
+	IsEqual(t, cmd.String(), "/usr/local/bin/testing", "cmd.String()")
 }
 
 func TestCmdArgs(t *testing.T) {

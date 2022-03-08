@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"os/exec"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"uws/wapp"
@@ -33,8 +32,7 @@ func newCmd(name string, args ...string) *ctlCmd {
 }
 
 func (c *ctlCmd) String() string {
-	return fmt.Sprintf("%s %s",
-		filepath.Join(c.bindir, c.name), strings.Join(c.args, " "))
+	return filepath.Join(c.bindir, c.name)
 }
 
 func (c *ctlCmd) Run(r *http.Request) (string, error) {
