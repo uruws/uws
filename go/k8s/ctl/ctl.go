@@ -7,7 +7,6 @@ package ctl
 import (
 	"net/http"
 	"os"
-	"strings"
 
 	"uws/wapp"
 )
@@ -64,22 +63,5 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 		wapp.NotFound(w, r, start)
 	} else {
 		wapp.Write(w, r, start, "index\n")
-	}
-}
-
-type ctlStatus struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-	Error   string `json:"error,omitempty"`
-}
-
-func newStatus(code int, msg string) *ctlStatus {
-	st := "ok"
-	if code != 0 {
-		st = "error"
-	}
-	return &ctlStatus{
-		Status:  st,
-		Message: strings.TrimSpace(msg),
 	}
 }

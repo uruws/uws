@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os/exec"
 	"path/filepath"
 	"time"
@@ -120,5 +121,16 @@ func sendmail(r *http.Request, origcmd, out string, err error) {
 
 func cmdRun(w http.ResponseWriter, r *http.Request, cmd string, args ...string) {
 	wapp.Debug(r, "%s %v", cmd, args)
-	// TODO: call exec endpoint to dispatch cmd run
+	start := wapp.Start()
+	resp, err := http.PostForm("http://k8sctl/_/exec",
+		url.Values{"cmd": {cmd}, "args": args})
+	if err != nil {
+		wapp.Error(w, r, start, err)
+		return
+	}
+	if resp.StatusCode != http.StatusOK {
+		wapp.Error(w, r, start, errors.New(resp.Status))
+		return
+	}
+	wapp.Write(w, r, start, "ok")
 }

@@ -56,15 +56,3 @@ func TestMainHandlerNotFound(t *testing.T) {
 	IsEqual(t, resp.StatusCode, 404, "resp status code")
 	IsEqual(t, mock.HTTPResponseString(resp), "not found: /testing", "resp body")
 }
-
-func TestStatus(t *testing.T) {
-	s := newStatus(0, "testing")
-	IsEqual(t, s.Status, "ok", "status")
-	IsEqual(t, s.Message, "testing", "message")
-}
-
-func TestStatusError(t *testing.T) {
-	s := newStatus(99, "testing")
-	IsEqual(t, s.Status, "error", "status")
-	IsEqual(t, s.Message, "testing", "message")
-}
