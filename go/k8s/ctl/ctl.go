@@ -35,6 +35,7 @@ func newK8s() *K8s {
 var (
 	cluster *K8s
 	bindir  string
+	mailx   string
 )
 
 func init() {
@@ -42,6 +43,10 @@ func init() {
 	bindir = os.Getenv("UWSCTL_BINDIR")
 	if bindir == "" {
 		bindir = "/usr/local/bin"
+	}
+	mailx = os.Getenv("UWSCTL_MAILX")
+	if mailx == "" {
+		mailx = "/usr/bin/mailx"
 	}
 }
 

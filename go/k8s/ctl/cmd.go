@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"uws/wapp"
@@ -31,8 +32,12 @@ func newCmd(name string, args ...string) *ctlCmd {
 	}
 }
 
-func (c *ctlCmd) Run(r *http.Request) {
-	//~ start := wapp.Start()
+func (c *ctlCmd) String() string {
+	return fmt.Sprintf("%s %s",
+		filepath.Join(c.bindir, c.name), strings.Join(c.args, " "))
+}
+
+func (c *ctlCmd) Run(r *http.Request) (string, error) {
 	ttl, _ := time.ParseDuration(fmt.Sprintf("%ds", c.ttl))
 	ctx, cancel := context.WithTimeout(context.Background(), ttl)
 	defer cancel()
@@ -43,19 +48,9 @@ func (c *ctlCmd) Run(r *http.Request) {
 	if err != nil {
 		wapp.LogError(r, "%s: %s", cmd, err)
 		wapp.Debug(r, "%s", out)
-		//~ code := -128
-		//~ switch err.(type) {
-		//~ case *exec.ExitError:
-			//~ p := err.(*exec.ExitError).ProcessState
-			//~ code = p.ExitCode()
-		//~ }
-		//~ st := newStatus(code, string(out))
-		//~ st.Error = err.Error()
-		//~ wapp.WriteJSONStatus(w, r, start, http.StatusInternalServerError, st)
-	} else {
-		//~ st := newStatus(0, string(out))
-		//~ wapp.WriteJSON(w, r, start, st)
+		return "", err
 	}
+	return string(out), nil
 }
 
 func ExecHandler(w http.ResponseWriter, r *http.Request) {
@@ -79,9 +74,53 @@ func ExecHandler(w http.ResponseWriter, r *http.Request) {
 
 func doExec(r *http.Request, cmd string, args ...string) {
 	wapp.Debug(r, "do exec: %s %v", cmd, args)
-	newCmd(cmd, args...).Run(r)
+	x := newCmd(cmd, args...)
+	outs, err := x.Run(r)
+	sendmail(r, x.String(), outs, err)
+}
+
+func sendmail(r *http.Request, origcmd, out string, err error) {
+	wapp.Debug(r, "sendmail: origcmd='%s' error='%v'", origcmd, err)
+	subject := fmt.Sprintf("[OK] %s", origcmd)
+	mailto := "root@localhost"
+	msg := out
+	if err != nil {
+		subject = fmt.Sprintf("[FAIL] %s", origcmd)
+		mailto = "munin-alert@localhost"
+		msg = fmt.Sprintf("ERROR: %s\n\n%s", err.Error(), out)
+	}
+	args := []string{
+		"-s",
+		subject,
+		"--",
+		mailto,
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 60)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, mailx, args...)
+	wapp.Debug(r, "sendmail: %s", cmd)
+	stdin, xerr := cmd.StdinPipe()
+	if xerr != nil {
+		wapp.LogError(r, "sendmail: %s", xerr)
+		return
+	}
+	defer stdin.Close()
+	xerr = cmd.Start()
+	if xerr != nil {
+		wapp.LogError(r, "sendmail: %s", xerr)
+		return
+	}
+	_, xerr = fmt.Fprint(stdin, msg)
+	if xerr != nil {
+		wapp.LogError(r, "sendmail: %s", xerr)
+	}
+	xerr = cmd.Wait()
+	if xerr != nil {
+		wapp.LogError(r, "sendmail: %s", xerr)
+	}
 }
 
 func cmdRun(w http.ResponseWriter, r *http.Request, cmd string, args ...string) {
 	wapp.Debug(r, "%s %v", cmd, args)
+	// TODO: call exec endpoint to dispatch cmd run
 }
