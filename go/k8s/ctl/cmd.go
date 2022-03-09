@@ -125,11 +125,13 @@ func cmdRun(w http.ResponseWriter, r *http.Request, cmd string, args ...string) 
 	resp, err := http.PostForm(execurl,
 		url.Values{"cmd": {cmd}, "args": args})
 	if err != nil {
-		wapp.Error(w, r, start, err)
+		wapp.LogError(r, "%s", err)
+		wapp.Error(w, r, start, errors.New("ERROR: internal exec call"))
 		return
 	}
 	if resp.StatusCode != http.StatusOK {
-		wapp.Error(w, r, start, errors.New(resp.Status))
+		wapp.LogError(r, "%s", resp.Status)
+		wapp.Error(w, r, start, errors.New("ERROR: internal exec response"))
 		return
 	}
 	wapp.Write(w, r, start, "ok")
