@@ -41,6 +41,10 @@
     * app-autobuild: nq build and deploy jobs
     * cli/buildpack.sh: should manage the log and email report if any fail
     * cli/app-build.sh: should do the same
+    * `FIX` app-autobuild: when jsbatch is restarted autobuild of last tag fails because the image already exists in the ECR; as /run/uwscli/build/app.status is with a failed state it keeps trying (looping) and failing every 15min...
+        * maybe add an @reboot job to se app.status accordingly? BOOT state or similar?
+        * if .status file is not find assume it was built and do nothing?
+        * and/or check the going to be built tag exists in the ECR
 
 * uwsq: clean failed jobs
 
