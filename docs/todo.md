@@ -1,22 +1,7 @@
-* uwscli - `DONE!`
-    * `FIX` autobuild deploys
-        * 2.62.5 successfully auto built and auto deployed to test cluster
-    * app access by group
-        * [Auth](./devops/auth.md) docs
-
-* nlp app-deploy access - `DONE!`
-
-* workers - `DONE!`
-    * remove web endpoint (worker.uws.talkingpts.org)
-        * check traffic first
-
-* rstudio - `DONE!`
-    * R packages setup
-        * installed r-cran-devtools (including +190 deps)
+* uwscli auth
+    * what accesses to whom?
 
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
-    * fix munin pod failed ratio when running == 0 and failed > 0 - `DONE!`
-    * fix munin pod state Error not being counted for failed pods? - `DONE!`
     * fix aws-ami auto upgrades (k8s/ctl) - `WIP`
         * remove old (broken) k8s jobs setup - `DONE!`
         * create mailx base container - `DONE!`
@@ -33,9 +18,7 @@
     * Route53 app.t.o use geolocation inside US or latency setup
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
-        * `wait` for support people suggestions about it
     * EKS ec2 "reserved instances" setup to help saving costs
-        * `wait` for support people suggestions about it
 
 * uwscli:
     * app-autobuild: nq build and deploy jobs
@@ -133,7 +116,7 @@
 
 * infra docs for internal presentation
 
-* `FIX`: k8s/ctl - munin-alerts volume setup
+* `FIX` k8s/ctl: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
 
 * cluster stack
