@@ -13,6 +13,16 @@
         * setup and deploy crond service
             * schedule nodegroup upgrade job
 
+* `FIX` buildpack:
+    * use tag version from command line for publishing the image
+    * instead of using the git describe tag
+    * currently if a commit has more than one tag associated build fails because previous version already exists
+    * that or fix the git describe command to get latest tag instead of first one
+
+    tag invalid: The image tag 'meteor-app-2.64.7-bp21' already exists in the 'uws' repository and cannot be overwritten because the repository is immutable.
+    make: *** [Makefile:164: publish-app] Error 1
+    Publish app version 2.64.8 failed
+
 * aws support meeting
     * setup CDN mainly to help saving network transfer costs
     * Route53 app.t.o use geolocation inside US or latency setup
