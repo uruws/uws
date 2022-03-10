@@ -19,8 +19,9 @@
     * currently if a commit has more than one tag associated build fails because previous version already exists
     * that or fix the git describe command to get latest tag instead of first one
 
-    tag invalid: The image tag 'meteor-app-2.64.7-bp21' already exists in the 'uws' repository and cannot be overwritten because the repository is immutable.
-    make: *** [Makefile:164: publish-app] Error 1
+    tag invalid: The image tag 'meteor-app-2.64.7-bp21' already exists in the
+    'uws' repository and cannot be overwritten because the repository is immutable.
+
     Publish app version 2.64.8 failed
 
 * aws support meeting
@@ -34,10 +35,13 @@
     * app-autobuild: nq build and deploy jobs
     * cli/buildpack.sh: should manage the log and email report if any fail
     * cli/app-build.sh: should do the same
-    * `FIX` app-autobuild: when jsbatch is restarted autobuild of last tag fails because the image already exists in the ECR; as /run/uwscli/build/app.status is with a failed state it keeps trying (looping) and failing every 15min...
-        * maybe add an @reboot job to se app.status accordingly? BOOT state or similar?
+    * `FIX` app-autobuild: when jsbatch is restarted autobuild of last tag fails
+        * because the image already exists in the ECR
+        * as /run/uwscli/build/app.status is with a failed state it keeps trying (looping) and failing every 15min...
+        * maybe add an @reboot job to se app.status accordingly? set a BOOT state or similar?
         * if .status file is not find assume it was built and do nothing?
-        * and/or check the going to be built tag exists in the ECR
+        * and/or check the going to be built tag exists in the ECR?
+        * improve checking/setting build status, maybe stop doing that?
 
 * uwsq: clean failed jobs
 
