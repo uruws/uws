@@ -1,4 +1,4 @@
-* uwscli auth
+* uwscli auth groups
     * what accesses to whom?
 
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
@@ -42,7 +42,9 @@
         * if .status file is not find assume it was built and do nothing?
         * and/or check the going to be built tag exists in the ECR?
         * improve checking/setting build status, maybe stop doing that? - `DONE!`
-        * `FIX` bug getting latest tag and build image - `DONE!`
+        * fix bug getting latest tag and build image - `DONE!`
+    * app-deploy:
+        * list available builds using semver sort order
 
 * uwsq: clean failed jobs
 
@@ -54,8 +56,11 @@
     * wait some time between deploys on "multi cluster" apps
 
 * munin
+    * nodes taint limits based on percentage instead of fixed number
+        * maybe something like: 50% (or <=5 nodes) warning
+        * 70% (or <= 3 nodes) critical
     * graphs and limits/alerts about HTTP "error status ratio"
-        * in example: # of 404 / # of 200, #500 / #200, etc...
+        * aka: ratio between failed (!=200) vs ok (==200)status
     * cluster cross check k8sctl service
 
 * munin pods_container (check phase)
