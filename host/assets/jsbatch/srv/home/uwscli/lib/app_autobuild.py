@@ -29,16 +29,21 @@ def _setup():
 		return False
 	return True
 
-def _semverFilter(s: str) -> semver.VersionInfo:
-	try:
-		return semver.VersionInfo.parse(s)
-	except ValueError:
-		return None
-
 def _latestTag(src):
 	uwscli.debug('latestTag')
-	# https://python-semver.readthedocs.io/en/2.13.0/usage.html
-	return str(max(filter(_semverFilter, uwscli.git_tag_list(workdir = src))))
+	vmax = None
+	for t in uwscli.git_tag_list(workdir = src):
+		try:
+			v = semver.VersionInfo.parse(t)
+		except ValueError as err:
+			uwscli.debug('latest tag semver error:', err)
+			continue
+		if vmax is None:
+			vmax = v
+		else:
+			if v > vmax:
+				vmax = v
+	return str(vmax)
 
 def _getStatus(app):
 	uwscli.debug('getStatus')
@@ -84,12 +89,13 @@ def _build(app: str) -> tuple[int, str]:
 	uwscli.debug(build)
 	try:
 		with uwscli.chdir(build.dir):
+			uwscli.debug('build.dir:', build.dir)
 			rc = uwscli.run('app-fetch.sh', build.src)
 			if rc != 0:
+				uwscli.error('[ERROR] app-fetch.sh failed, exit status:', rc)
 				return (rc, '')
-			try:
-				tag = _latestTag(build.src)
-			except ValueError:
+			tag = _latestTag(build.src)
+			if tag == 'None':
 				uwscli.error('[ERROR] could not get latest git tag')
 				return (ETAG, '')
 			if _isBuildingOrDone(app, tag):
@@ -101,13 +107,19 @@ def _build(app: str) -> tuple[int, str]:
 
 def _latestBuild(app: str) -> str:
 	uwscli.debug('latestBuild')
-	img = uwscli.list_images(app)
-	if len(img) == 0:
-		return ''
-	img = list(filter(_semverFilter, img))
-	if len(img) == 0:
-		return ''
-	return str(max(img))
+	l = None
+	for img in uwscli.list_images(app):
+		try:
+			v = semver.VersionInfo.parse(img)
+		except ValueError as err:
+			uwscli.debug('latest build semver error:', err)
+			continue
+		if l is None:
+			l = v
+		else:
+			if v > l:
+				l = v
+	return str(l)
 
 def _deploy(app: str, tag: str) -> int:
 	uwscli.debug('deploy:', app, tag)
