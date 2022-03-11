@@ -170,7 +170,7 @@ class Test(unittest.TestCase):
 
 	def test_isBuildingOrDone_fail(t):
 		with mock_status(st = 'FAIL'):
-			t.assertFalse(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
 	def test_build(t):
 		with mock():

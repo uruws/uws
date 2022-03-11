@@ -80,7 +80,7 @@ def _isBuildingOrDone(app, tag):
 		uwscli.debug('already built app:', app, tag)
 	else:
 		uwscli.error('build for app:', app, ver, 'failed')
-	return ok
+	return True
 
 __done: str = '__done__'
 

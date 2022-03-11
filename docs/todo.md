@@ -41,7 +41,8 @@
         * maybe add an @reboot job to se app.status accordingly? set a BOOT state or similar?
         * if .status file is not find assume it was built and do nothing?
         * and/or check the going to be built tag exists in the ECR?
-        * improve checking/setting build status, maybe stop doing that?
+        * improve checking/setting build status, maybe stop doing that? - `DONE!`
+        * `FIX` bug getting latest tag and build image - `DONE!`
 
 * uwsq: clean failed jobs
 
