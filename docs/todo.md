@@ -1,6 +1,11 @@
 * uwscli auth groups
     * what accesses to whom?
 
+* InfraUI - `WIP`
+    * github repo
+    * Alejandro uwscli access
+    * devel/testing cluster
+
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
     * fix aws-ami auto upgrades (k8s/ctl) - `WIP`
         * remove old (broken) k8s jobs setup - `DONE!`
