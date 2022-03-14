@@ -44,6 +44,7 @@ class Test(unittest.TestCase):
 			'app-west',
 			'beta',
 			'cs',
+			'infra-ui-test',
 			'nlp-category',
 			'nlp-sentiment-twitter',
 			'nlp-topic-automl',
@@ -58,6 +59,7 @@ class Test(unittest.TestCase):
 			'app',
 			'beta',
 			'cs',
+			'infra-ui',
 			'nlpsvc',
 		])
 		# autobuild
