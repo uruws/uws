@@ -145,6 +145,18 @@ app: dict[str, App] = {
 		deploy = AppDeploy('nlpsvc'),
 		groups = ['uwsapp_nlp'],
 	),
+	'infra-ui': App(False,
+		desc = 'Infra-UI',
+		build = _buildpack('infra-ui/src', 'infra-ui'),
+		groups = ['uwsapp_infraui'],
+	),
+	'infra-ui-test': App(True,
+		cluster = 'panoramix',
+		desc = 'Infra-UI testing',
+		pod = 'meteor/infra-ui',
+		deploy = AppDeploy('meteor-infra-ui'),
+		groups = ['uwsapp_infraui'],
+	),
 }
 
 @dataclass
