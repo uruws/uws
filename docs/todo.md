@@ -4,8 +4,12 @@
 * InfraUI - `WIP`
     * github repo
     * Alejandro uwscli access
-    * uwscli app setup (infra-ui)
-    * devel/testing cluster (infra-ui-test)
+    * uwscli app setup
+        * build: infra-ui
+        * deploy: infra-ui-test
+    * buildpack setup (infra-ui)
+    * devel/testing cluster
+        * uws devel cluster to "play with it" from infra-ui-test and such
 
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
     * fix aws-ami auto upgrades (k8s/ctl) - `WIP`
