@@ -130,6 +130,8 @@ adduser gabriel uwsapp_beta
 # cs
 addgroup uwsapp_cs || true
 
+adduser gabriel uwsapp_cs
+
 # nlp
 addgroup uwsapp_nlp || true
 
