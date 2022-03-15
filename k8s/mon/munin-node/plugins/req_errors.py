@@ -103,4 +103,4 @@ def report(hostid, sts, sts_total):
 	if total > 0:
 		avg = errors / total
 	_print(f"multigraph web_request_{hostid}.errors_per_minute_avg")
-	_print(f"req_avg.value", avg)
+	_print(f"req_avg.value", mon.derive(avg))

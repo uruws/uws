@@ -8,6 +8,8 @@
     * devel/testing cluster
         * uws devel cluster to "play with it" from infra-ui-test and such
 
+* `FIX` k8smon: web request average errors bug - `DONE!`
+
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
     * fix aws-ami auto upgrades (k8s/ctl) - `WIP`
         * remove old (broken) k8s jobs setup - `DONE!`

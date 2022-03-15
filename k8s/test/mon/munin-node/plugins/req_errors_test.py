@@ -106,7 +106,7 @@ class Test(unittest.TestCase):
 			call('req__testing_200.value', 99000),
 			# per minute avg
 			call('multigraph web_request_thost_uws.errors_per_minute_avg'),
-			call('req_avg.value', 1.0),
+			call('req_avg.value', 1000),
 		]
 		req_errors._print.assert_has_calls(report)
 		t.assertEqual(req_errors._print.call_count, len(report))
