@@ -46,7 +46,8 @@
 ## Debian OS
 
 * [jsbatch][debian-os]
-    * `2109`: 10 (buster) -> 11 (bullseye)
+    * `2203`: 11 (bullseye) - 5.10.0-12
+    * 2109: 10 (buster) -> 11 (bullseye)
 * asb/rstudio
     * `2109`: Debian 11 (bullseye)
 
