@@ -1,4 +1,4 @@
-* [InfraUI](/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
+* [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
     * github repo - `DONE!`
     * Alejandro uwscli access - `DONE!`
     * uwscli app setup - `DONE!`
