@@ -18,6 +18,7 @@ _nodes = {
 	'PreferNoSchedule': 0,
 	'Testing': 1,
 	'Unknown': 1,
+	'Total': 2,
 }
 
 class Test(unittest.TestCase):
@@ -38,6 +39,7 @@ class Test(unittest.TestCase):
 			'NoExecute': 0,
 			'NoSchedule': 0,
 			'PreferNoSchedule': 0,
+			'Total': 0,
 			'Unknown': 0,
 		})
 
@@ -83,13 +85,13 @@ class Test(unittest.TestCase):
 			call('t_noexecute.draw LINE'),
 			call('t_noexecute.min 0'),
 			call('t_noexecute.warning', 1),
-			call('t_noexecute.critical', 3),
+			call('t_noexecute.critical', 1),
 			call('t_noschedule.label NoSchedule'),
 			call('t_noschedule.colour COLOUR1'),
 			call('t_noschedule.draw LINE'),
 			call('t_noschedule.min 0'),
 			call('t_noschedule.warning', 1),
-			call('t_noschedule.critical', 3),
+			call('t_noschedule.critical', 1),
 			call('t_prefernoschedule.label PreferNoSchedule'),
 			call('t_prefernoschedule.colour COLOUR2'),
 			call('t_prefernoschedule.draw LINE'),
@@ -99,13 +101,13 @@ class Test(unittest.TestCase):
 			call('t_testing.draw LINE'),
 			call('t_testing.min 0'),
 			call('t_testing.warning', 1),
-			call('t_testing.critical', 3),
+			call('t_testing.critical', 1),
 			call('t_unknown.label Unknown'),
 			call('t_unknown.colour COLOUR4'),
 			call('t_unknown.draw LINE'),
 			call('t_unknown.min 0'),
 			call('t_unknown.warning', 1),
-			call('t_unknown.critical', 3),
+			call('t_unknown.critical', 1),
 		]
 		nodes_taint._print.assert_has_calls(config)
 		t.assertEqual(nodes_taint._print.call_count, len(config))

@@ -8,7 +8,11 @@
     * devel/testing cluster
         * uws devel cluster to "play with it" from infra-ui-test and such
 
-* `FIX` k8smon: web request average errors bug - `DONE!`
+* `FIX` k8smon munin plugins - `DONE!`
+    * web request average errors bug
+    * nodes taint limits based on percentage instead of fixed number
+        * maybe something like: 50% (or <=5 nodes) warning
+        * 70% (or <= 3 nodes) critical
 
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
     * fix aws-ami auto upgrades (k8s/ctl) - `WIP`
@@ -65,9 +69,6 @@
     * wait some time between deploys on "multi cluster" apps
 
 * munin
-    * nodes taint limits based on percentage instead of fixed number
-        * maybe something like: 50% (or <=5 nodes) warning
-        * 70% (or <= 3 nodes) critical
     * graphs and limits/alerts about HTTP "error status ratio"
         * aka: ratio between failed (!=200) vs ok (==200)status
     * cluster cross check k8sctl service
