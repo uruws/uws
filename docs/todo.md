@@ -1,13 +1,10 @@
-* uwscli auth groups
-    * what accesses to whom?
-
 * InfraUI - `WIP`
-    * github repo
-    * Alejandro uwscli access
-    * uwscli app setup
+    * github repo - `DONE!`
+    * Alejandro uwscli access - `DONE!`
+    * uwscli app setup - `DONE!`
         * build: infra-ui
         * deploy: infra-ui-test
-    * buildpack setup (infra-ui)
+    * buildpack setup (infra-ui) - `DONE!`
     * devel/testing cluster
         * uws devel cluster to "play with it" from infra-ui-test and such
 
