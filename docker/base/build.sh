@@ -17,4 +17,11 @@ docker build "$@" --rm -t uws/base-2109 \
 	--build-arg "UWS_UMASK=$(umask)" \
 	-f docker/base/Dockerfile.2109 \
 	./docker/base
+# base.2203
+docker build "$@" --rm -t uws/base-2203 \
+	--build-arg "UWS_UID=$(id -u)" \
+	--build-arg "UWS_GID=$(id -g)" \
+	--build-arg "UWS_UMASK=$(umask)" \
+	-f docker/base/Dockerfile.2203 \
+	./docker/base
 exit 0

@@ -59,9 +59,11 @@
 ## Container
 
 * [docker/base][debian-container]
-    * `2109`: Debian 10 (buster) -> 11 (bullseye)
+    * `2203`: Debian 11 (bullseye)
+    * 2109: Debian 10 (buster) -> 11 (bullseye)
 * docker/base-testing
-    * `2109`: Debian bullseye -> bookworm
+    * `2203`: base-2203, Debian bookworm
+    * 2109: Debian bullseye -> bookworm
 * docker/golang
     * `2109`: base-testing
 * docker/python
