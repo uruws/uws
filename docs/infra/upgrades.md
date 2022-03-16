@@ -107,7 +107,10 @@
     * `2203`: base-2203
     * 2109: base-2109
 * srv/munin
-    * `2109`: base-2109, munin-contrib 22ba051
+    * `2203`: base-2203, munin-contrib 438e31f
+        * check.sh, utils-devel.sh: python-2203
+        * devel.sh, service-start.sh: munin-2203
+    * 2109: base-2109, munin-contrib 22ba051
 * srv/munin-backend
     * `2109`: munin
 * srv/munin-node

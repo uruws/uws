@@ -13,7 +13,7 @@ for cmd in $(echo ${RUN}); do
 		--workdir /home/uws \
 		-v ${PWD}/srv/munin/utils:/home/uws/utils:ro \
 		-v ${TMPDIR}:/home/uws/tmp \
-		uws/python-2109 ./utils/test/${cmd}
+		uws/python-2203 ./utils/test/${cmd}
 done
 
 exit 0

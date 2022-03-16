@@ -12,4 +12,4 @@ exec /usr/bin/docker run --rm -u root \
 	-v /srv/munin/cache/www:/var/cache/munin/www \
 	-v /srv/etc/munin:/srv/etc/munin \
 	-v ${CA}/client:/srv/etc/ca:ro \
-	uws/munin
+	uws/munin-2203
