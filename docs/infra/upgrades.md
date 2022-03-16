@@ -110,23 +110,26 @@
     * `2203`: base-2203, munin-contrib 438e31f
         * check.sh, utils-devel.sh: python-2203
         * devel.sh, service-start.sh: munin-2203
-        * Makefile mon-publish: munin-2203
     * 2109: base-2109, munin-contrib 22ba051
 * srv/munin-backend
     * `2203`: munin-2203
         * backend-service-start.sh: munin-backend-2203
-        * Makefile mon-publish: munin-backend-2203
     * 2109: munin
 * srv/munin-node
     * `2203`: base-2203, munin-contrib 438e31f
         * check.sh, utils-devel.sh: python-2203
         * devel.sh, docker-compose.yml: munin-node-2203
-        * Makefile mon-publish: munin-node-2203
     * 2109: base-2109, munin-contrib 22ba051
-* k8s/mon
-    * `2109`: k8s, munin, munin-backend, munin-node
-* k8s/ctl
-    * `2109`: eks
+* Makefile/utils-publish
+    * `2203`: acme-2203
+* Makefile/k8smon-publish
+    * `2203`: k8s-2203
+* Makefile/mon-publish
+    * `2203`: munin-2203, munin-backend-2203, munin-node-2203
+* Makefile/k8sctl-publish
+    * `2203`: eks-k8s-2203
+* Makefile/pod-publish
+    * `2203`: pod:test
 
 [debian-container]: https://hub.docker.com/_/debian
 [awscli]: https://hub.docker.com/r/amazon/aws-cli/tags

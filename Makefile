@@ -90,7 +90,7 @@ utils: acme
 .PHONY: utils-publish
 utils-publish: utils
 	@./docker/ecr-login.sh sa-east-1
-	@./cluster/ecr-push.sh sa-east-1 uws/acme uwsops:acme
+	@./cluster/ecr-push.sh sa-east-1 uws/acme-2203 uwsops:acme
 
 .PHONY: awscli
 awscli:
@@ -377,7 +377,7 @@ docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
 .PHONY: k8smon-publish
 k8smon-publish: k8s
 	@./docker/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/k8s uws:mon-k8s-$(MON_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/k8s-2203 uws:mon-k8s-$(MON_TAG)
 
 #
 # k8sctl
@@ -391,7 +391,7 @@ k8sctl: eks
 .PHONY: k8sctl-publish
 k8sctl-publish: k8sctl
 	@./docker/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/eks-k8s uws:ctl-eks-$(CTL_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/eks-k8s-2203 uws:ctl-eks-$(CTL_TAG)
 
 #
 # publish
