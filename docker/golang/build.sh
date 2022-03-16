@@ -7,4 +7,7 @@ docker build --rm -t uws/golang ./docker/golang
 # golang-2109
 docker build --rm -t uws/golang-2109 \
 	-f ./docker/golang/Dockerfile.2109 ./docker/golang
+# golang-2203
+docker build --rm -t uws/golang-2203 \
+	-f ./docker/golang/Dockerfile.2203 ./docker/golang
 exit 0

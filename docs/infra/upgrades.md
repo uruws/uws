@@ -65,7 +65,8 @@
     * `2203`: base-2203, Debian bookworm
     * 2109: Debian bullseye -> bookworm
 * docker/golang
-    * `2109`: base-testing
+    * `2203`: base-2203
+    * 2109: base-2109
 * docker/python
     * `2109`: base-2109
 * docker/awscli
