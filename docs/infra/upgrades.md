@@ -70,7 +70,7 @@
 * docker/python
     * `2203`: base-2203
     * 2109: base-2109
-* docker/awscli
+* [docker/awscli][awscli]
     * `2203`: amazon/aws-cli:2.4.26
     * 2109: amazon/aws-cli
 * docker/clamav
@@ -80,7 +80,8 @@
     * `2203`: base-2203
     * 2109: base-2109
 * docker/mkcert
-    * `2109`: base-2109
+    * `2203`: base-2203
+    * 2109: base-2109
 * docker/k8s
     * `2109`: base-2109
 * docker/eks
@@ -105,6 +106,7 @@
     * `2109`: eks
 
 [debian-container]: https://hub.docker.com/_/debian
+[awscli]: https://hub.docker.com/r/amazon/aws-cli/tags
 
 ## App
 
