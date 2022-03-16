@@ -74,7 +74,8 @@
     * `2203`: amazon/aws-cli:2.4.26
     * 2109: amazon/aws-cli
 * docker/clamav
-    * `2109`: base-testing
+    * `2203`: base-testing
+    * 2109: base-testing
 * srv/acme
     * `2109`: base-2109
 * docker/mkcert
