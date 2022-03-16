@@ -101,7 +101,8 @@
     * `2203`: base-2203, devel golang-2203
     * 2109: base-2109
 * docker/uwscli
-    * `2109`: python-2109
+    * `2203`: python-2203
+    * 2109: python-2109
 * srv/proftpd
     * `2109`: base-2109
 * srv/munin
