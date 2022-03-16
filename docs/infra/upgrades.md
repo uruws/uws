@@ -11,11 +11,13 @@
     * 2108: 1.19.6-20210722, 5.4.129
 * [docker/k8s][kubectl]
     * [1.19][kubectl-119]
-        * `2109-2`: 1.19.15/2021-11-10
+        * `2203`: 1.19.15/2021-11-10
+        * 2109-2: 1.19.15/2021-11-10
         * 2109-1: 1.19.14/2021-10-12
         * 2109: 1.19.13/2021-09-02
 * [docker/eks][eksctl], [helm][helm]
-    * `2109-1`: eksctl 0.76.0, helm 3.7.1
+    * `2203`: eksctl 0.87.0, helm 3.8.1
+    * 2109-1: eksctl 0.76.0, helm 3.7.1
     * 2109: eksctl 0.67.0, helm 3.7.0
 * [k8s/nginx-ingress][nginx-ingress]
     * `2109`: 0.49.2
@@ -88,7 +90,10 @@
 * docker/k8s:devel
     * `2203`: k8s-2203
 * docker/eks
-    * `2109`: k8s
+    * `2203`: k8s-2203
+    * 2109: k8s
+* docker/eks:devel
+    * `2203`: eks-2203
 * docker/asb
     * `2109`: base-2109
 * docker/uwsbot
