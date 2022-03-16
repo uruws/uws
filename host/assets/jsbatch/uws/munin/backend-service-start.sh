@@ -8,6 +8,6 @@ set -eu
 	-v /srv/munin/var/lib:/var/lib/munin:ro \
 	-v /srv/munin/var/lib/cgi-tmp:/var/lib/munin/cgi-tmp \
 	-v /srv/munin/cache/www:/var/cache/munin/www:ro \
-	uws/munin-backend
+	uws/munin-backend-2203
 
 exit 0
