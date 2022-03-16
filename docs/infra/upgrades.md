@@ -68,7 +68,8 @@
     * `2203`: base-2203
     * 2109: base-2109
 * docker/python
-    * `2109`: base-2109
+    * `2203`: base-2203
+    * 2109: base-2109
 * docker/awscli
     * `2109`: amazon/aws-cli
 * docker/clamav
