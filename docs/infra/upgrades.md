@@ -104,7 +104,8 @@
     * `2203`: python-2203
     * 2109: python-2109
 * srv/proftpd
-    * `2109`: base-2109
+    * `2203`: base-2203
+    * 2109: base-2109
 * srv/munin
     * `2109`: base-2109, munin-contrib 22ba051
 * srv/munin-backend
