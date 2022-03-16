@@ -110,15 +110,18 @@
     * `2203`: base-2203, munin-contrib 438e31f
         * check.sh, utils-devel.sh: python-2203
         * devel.sh, service-start.sh: munin-2203
+        * Makefile mon-publish: munin-2203
     * 2109: base-2109, munin-contrib 22ba051
 * srv/munin-backend
     * `2203`: munin-2203
         * backend-service-start.sh: munin-backend-2203
+        * Makefile mon-publish: munin-backend-2203
     * 2109: munin
 * srv/munin-node
     * `2203`: base-2203, munin-contrib 438e31f
         * check.sh, utils-devel.sh: python-2203
         * devel.sh, docker-compose.yml: munin-node-2203
+        * Makefile mon-publish: munin-node-2203
     * 2109: base-2109, munin-contrib 22ba051
 * k8s/mon
     * `2109`: k8s, munin, munin-backend, munin-node
