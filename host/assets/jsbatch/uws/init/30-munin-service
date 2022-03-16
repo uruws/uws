@@ -18,6 +18,13 @@ if ! systemctl is-enabled uws-munin.service; then
 	systemctl start uws-munin
 fi
 
-/uws/bin/service-restart.sh uws-munin /uws/munin/service-start.sh /srv/etc/munin
+install -v -o root -g root -m 0640 \
+	/srv/uws/deploy/secret/mongodb/meteor/app/munin-plugin.conf \
+	/etc/munin/plugin-conf.d/mongodb
+
+/uws/bin/service-restart.sh uws-munin \
+	/uws/munin/service-start.sh \
+	/srv/etc/munin \
+	/etc/munin/plugin-conf.d/mongodb
 
 exit 0
