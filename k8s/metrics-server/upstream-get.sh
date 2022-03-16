@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-VERSION='0.5.1'
+VERSION='0.6.1'
 SRCD=../../../metrics-server
 
 wd=${PWD}
