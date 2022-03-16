@@ -1,3 +1,11 @@
 #!/bin/sh
 set -eu
-exec docker build $@ --rm -t uws/acme ./srv/acme
+# acme
+docker build $@ --rm -t uws/acme \
+	-f srv/acme/Dockerfile \
+	./srv/acme
+# acme-2203
+docker build $@ --rm -t uws/acme-2203 \
+	-f srv/acme/Dockerfile.2203 \
+	./srv/acme
+exit 0
