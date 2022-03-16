@@ -95,7 +95,8 @@
 * docker/eks:devel
     * `2203`: eks-2203
 * docker/asb
-    * `2109`: base-2109
+    * `2203`: base-2203
+    * 2109: base-2109
 * docker/uwsbot
     * `2109`: base-2109
 * docker/uwscli
