@@ -7,24 +7,12 @@ import sys
 from os import getenv
 
 from typing import Any
-# ~ from typing import Optional
 from typing import TextIO
 from typing import Union
 
 _outfh: TextIO = sys.stdout
 _errfh: TextIO = sys.stderr
 
-# ~ from contextlib import contextmanager
-# ~ from os import environ, getenv, getcwd, linesep
-# ~ from os import chdir as os_chdir
-# ~ from pathlib import Path
-# ~ from subprocess import getstatusoutput, CalledProcessError
-# ~ from subprocess import check_output as proc_check_output
-# ~ from subprocess import run as proc_run
-
-# ~ from uwscli_auth import User, getuser, user_auth
-
-# ~ _user:  User = getuser()
 _log:   bool = getenv('UWSCLI_LOG', 'on') == 'on'
 _debug: bool = getenv('UWSCLI_DEBUG', 'off') == 'on'
 
