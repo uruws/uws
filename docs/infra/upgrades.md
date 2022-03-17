@@ -28,7 +28,7 @@
 * [k8s/autoscaler][k8s-autoscaler]
     * 1.19
         * `2203`: upstream-get.sh, setup.sh 1.19.2
-            * amy-test-1, amy-test-2
+            * all clusters done
         * 2109: 1.19.1 -> 1.19.2
 * [k8s/cert-manager][cert-manager]
     * `2203`: install.sh 1.7.1
