@@ -22,7 +22,7 @@
 * [k8s/nginx-ingress][nginx-ingress]
     * 1.19
         * `2203`: upstream-get.sh 0.49.3
-            * amy-test-1, amy-test-2
+            * all clusters done
         * 2109: 0.49.2
         * 2108: 0.45.0 -> 0.48.1
 * [k8s/autoscaler][k8s-autoscaler]
