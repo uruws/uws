@@ -131,6 +131,7 @@ adduser gabriel uwsapp_beta
 addgroup uwsapp_cs || true
 
 adduser gabriel uwsapp_cs
+adduser ramiro  uwsapp_cs
 
 # nlp
 addgroup uwsapp_nlp || true
