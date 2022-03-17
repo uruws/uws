@@ -128,21 +128,28 @@ addgroup uwsapp_beta || true
 adduser gabriel uwsapp_beta
 
 # cs
+addgroup uwsapp_crowdsourcing || true
 addgroup uwsapp_cs || true
 
+adduser gabriel uwsapp_crowdsourcing
 adduser gabriel uwsapp_cs
 adduser ramiro  uwsapp_cs
 
 # nlp
+addgroup uwsapp_nlpsvc || true
 addgroup uwsapp_nlp || true
 
+adduser guillermo uwsapp_nlpsvc
 adduser guillermo uwsapp_nlp
 adduser ramiro    uwsapp_nlp
 
 # infraui
-addgroup uwsapp_infraui || true
+addgroup uwsapp_infra-ui || true
 
-adduser alejandro uwsapp_infraui
+adduser alejandro uwsapp_infra-ui
+
+deluser alejandro uwsapp_infraui || true
+delgroup uwsapp_infraui || true
 
 # install crontab
 

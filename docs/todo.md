@@ -14,7 +14,7 @@
         * maybe something like: 50% (or <=5 nodes) warning
         * 70% (or <= 3 nodes) critical
 
-* `FIX` uwscli auth bug?
+* `FIX` uwscli auth bug? - `DONE!`
     * gabriel couldn't build cs app even if he is an operator and part of app's group
 
     exec nq -c -- /srv/uws/deploy/cli/app-clean-build.sh crowdsourcing
