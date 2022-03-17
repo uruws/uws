@@ -165,4 +165,5 @@
 ### MonitoringBots
 
 * docker
-    * `2109`: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
+    * `2203`: Debian 11 (bullseye), uwsbot e5cc124
+    * 2109: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
