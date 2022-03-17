@@ -22,11 +22,13 @@
 * [k8s/nginx-ingress][nginx-ingress]
     * 1.19
         * `2203`: upstream-get.sh 0.49.3
+            * amy-test-1, amy-test-2
         * 2109: 0.49.2
         * 2108: 0.45.0 -> 0.48.1
 * [k8s/autoscaler][k8s-autoscaler]
     * 1.19
-        * `2203`: 1.19.2
+        * `2203`: upstream-get.sh, setup.sh 1.19.2
+            * amy-test-1, amy-test-2
         * 2109: 1.19.1 -> 1.19.2
 * [k8s/cert-manager][cert-manager]
     * `2203`: install.sh 1.7.1
