@@ -14,6 +14,15 @@
         * maybe something like: 50% (or <=5 nodes) warning
         * 70% (or <= 3 nodes) critical
 
+* `FIX` uwscli auth bug?
+    * gabriel couldn't build cs app even if he is an operator and part of app's group
+
+    exec nq -c -- /srv/uws/deploy/cli/app-clean-build.sh crowdsourcing
+
+    [ERROR] user: gabriel - build: crowdsourcing
+
+    [exited with status 43.]
+
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
     * fix aws-ami auto upgrades (k8s/ctl) - `WIP`
         * remove old (broken) k8s jobs setup - `DONE!`
