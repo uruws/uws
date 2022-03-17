@@ -67,5 +67,14 @@ class Test(unittest.TestCase):
 			'app',
 		])
 
+	def test_app_build_group(t):
+		for appname, app in uwscli_conf.app.items():
+			if app.build.dir != '':
+				group_ok = False
+				for g in app.groups:
+					if g == "uwsapp_%s" % appname:
+						group_ok = True
+				t.assertTrue(group_ok, appname)
+
 if __name__ == '__main__':
 	unittest.main()
