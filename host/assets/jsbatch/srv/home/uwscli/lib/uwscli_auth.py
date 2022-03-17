@@ -121,7 +121,7 @@ def user_check(username: str, build: str, pod: str, workdir: str, ops: str = '')
 	st = EARGS
 	if build != '':
 		log.debug(user, 'build:', build)
-		st = _check_app(user, build)
+		st = _check_app(user, "uwsapp_%s" % build)
 		if st != 0:
 			log.error('[ERROR] user:', user, '- build:', build)
 		return st

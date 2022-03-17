@@ -23,9 +23,9 @@ def mock_noauth():
 		auth._check_app = bup
 
 @contextmanager
-def mock_unauth_operator():
+def mock_unauth_operator(group = 'testing'):
 	try:
-		auth.getstatusoutput = MagicMock(return_value = (0, 'testing'))
+		auth.getstatusoutput = MagicMock(return_value = (0, group))
 		yield
 	finally:
 		pass
@@ -130,6 +130,10 @@ class Test(unittest.TestCase):
 	def test_user_check_build_error(t):
 		with mock_noauth():
 			t.assertEqual(auth.user_check('testing', 'testing', '', ''), auth.ECHECK)
+
+	def test_user_check_build_operator(t):
+		with mock_unauth_operator(group = 'uwsapp_testing'):
+			t.assertEqual(auth.user_check('testing', 'testing', '', ''), 0)
 
 	def test_user_check_pod(t):
 		t.assertEqual(auth.user_check('testing', '', 'test', ''), 0)
