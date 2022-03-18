@@ -145,7 +145,14 @@
 ### NLPService
 
 * docker/base
-    * `2109`: Debian 11 (bullseye)
+    * `2203`: Debian 11 (bullseye)
+    * 2109: Debian 11 (bullseye)
+* src
+    * `2203`: base-2203
+* sentiment/roberta
+    * `2203`: nlpsvc-2203
+* sentiment/twitter
+    * `2203`: nlpsvc-2203
 
 ### Buildpack
 
