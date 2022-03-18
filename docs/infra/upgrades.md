@@ -55,8 +55,8 @@
     * `2203`: 11 (bullseye) - 5.10.0-12
     * 2109: 10 (buster) -> 11 (bullseye)
 * asb/rstudio
-    * `TODO`: 2203 schedule with Rina
-    * `2109`: Debian 11 (bullseye)
+    * `TODO` 2203: schedule with Rina.
+    * 2109: Debian 11 (bullseye)
 
 [debian-os]: https://www.debian.org/releases/
 
@@ -142,6 +142,12 @@
 
 ## App
 
+### MonitoringBots
+
+* docker
+    * `2203`: Debian 11.2 (bullseye-20220316-slim), uwsbot e5cc124
+    * 2109: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
+
 ### NLPService
 
 * docker/base
@@ -153,27 +159,32 @@
     * `2203`: nlpsvc-2203
 * sentiment/twitter
     * `2203`: nlpsvc-2203
-* `TODO` Makefile/publish
-    * Schedule with Guillermo a new release date and time.
-    * `2203`: nlpsvc-2203, sentiment-twitter-2203
+* Makefile/publish
+    * `TODO` 2203: nlpsvc-2203, sentiment-twitter-2203
+        * Schedule with Guillermo a new release date and time.
 
 ### Buildpack
 
 * docker/base
-    * `2109`: Debian 10 (buster) -> 11 (bullseye)
-* docker/meteor-2.2
-    * `2109`: base-2109
-* cs
-    * `2109`: meteor-2.2
+    * `2203`: Debian 11.2 (bullseye-20220316-slim)
+    * 2109: Debian 10 (buster) -> 11 (bullseye)
 * docker/meteor-1.10.2
-    * `2109`: base-2109
+    * `2203`: base-2203, devel.sh: meteor:1.10.2-2203
+        * `TODO` check/build.sh: Dockerfile.2203
+    * 2109: base-2109
+* docker/meteor-2.2
+    * `2203`: base-2203, devel.sh: meteor:2.2-2203
+    * 2109: base-2109
+* cs
+    * `2203`: meteor:2.2-2203
+        * `TODO` build.sh: Dockerfile.2203
+        * `TODO` devel.sh: crowdsourcing-2203
+        * `TODO` Makefile/publish-crowdsourcing: crowdsourcing-2203
+    * 2109: meteor-2.2
 * beta
-    * `2109`: meteor-1.10.2-2109
+    * `2203`: meteor-1.10.2-2203
+        * `TODO` Makefile/publish-crowdsourcing: crowdsourcing-2203
+    * 2109: meteor-1.10.2-2109
 * app
-    * `2109`: meteor-1.10.2-2109
-
-### MonitoringBots
-
-* docker
-    * `2203`: Debian 11.2 (bullseye-20220316-slim), uwsbot e5cc124
-    * 2109: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
+    * `2203`: meteor-1.10.2-2203
+    * 2109: meteor-1.10.2-2109
