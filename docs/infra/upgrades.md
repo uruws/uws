@@ -69,7 +69,7 @@
     * `2203`: base-2203, Debian bookworm
     * 2109: Debian bullseye -> bookworm
 * pod/base
-    * `2203`: Debian 11 (bullseye)
+    * `2203`: Debian 11.2 (bullseye-20220316-slim)
 * pod/test
     * `2203`: pod:base
 * docker/golang
