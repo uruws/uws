@@ -145,7 +145,7 @@
 ### NLPService
 
 * docker/base
-    * `2203`: Debian 11 (bullseye)
+    * `2203`: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 11 (bullseye)
 * src
     * `2203`: base-2203
