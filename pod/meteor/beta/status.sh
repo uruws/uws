@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ~/pod/meteor/status.sh meteor-beta beta
+exec ~/pod/meteor/status.sh meteor-beta

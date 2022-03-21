@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ~/pod/meteor/status.sh meteor web
+exec ~/pod/meteor/status.sh web

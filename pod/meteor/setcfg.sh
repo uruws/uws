@@ -1,16 +1,15 @@
 #!/bin/sh
 set -eu
 ns=${1:?'app namespace?'}
-app=${2:?'app name?'}
-appver=${3:?'app version?'}
-envf=$(mktemp -p /tmp meteor-deploy-${app}-env.XXXXXXXX)
+appver=${2:?'app version?'}
+envf=$(mktemp -p /tmp meteor-deploy-${ns}-env.XXXXXXXX)
 
-uwskube delete configmap "deploy-${app}-env" -n "${ns}" || true
+uwskube delete configmap deploy-meteor-env -n "${ns}" || true
 
 echo "export AWS_REGION='${AWS_REGION}'" >${envf}
 echo "export METEOR_APP='${appver}'" >>${envf}
 
-uwskube create configmap "deploy-${app}-env" -n "${ns}" \
+uwskube create configmap deploy-meteor-env -n "${ns}" \
 	--from-file="deploy-env=${envf}"
 rm -f ${envf}
 
