@@ -5,8 +5,10 @@
         * build: infra-ui
         * deploy: infra-ui-test
     * buildpack setup (infra-ui) - `DONE!`
-    * devel/testing cluster
-        * uws devel cluster to "play with it" from infra-ui-test and such
+    * testing cluster - `DONE!`
+        * using panoramix for now
+        * https://testing.uws.talkingpts.org/
+    * devel cluster to "play with it" from local/devel envs
 
 * `FIX` k8smon munin plugins - `DONE!`
     * web request average errors bug
