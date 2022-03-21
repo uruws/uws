@@ -8,7 +8,7 @@ if test "X${appver}" != 'X'; then
 	~/pod/meteor/setcfg.sh "${ns}" "${app}" "${appver}"
 fi
 envf=$(mktemp -p /tmp meteor-${app}-deploy.XXXXXXXX)
-~/pod/meteor/getcfg.sh "${app}" >${envf}
+~/pod/meteor/getcfg.sh "${ns}" "${app}" >${envf}
 cat ${envf}
 
 # shellcheck disable=SC1090
