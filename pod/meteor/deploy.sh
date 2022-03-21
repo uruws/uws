@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eu
 ns=${1:?'app namespace?'}
-appver=${2:-''}
+app=${2:?'app name?'}
+appver=${3:-''}
 pod=${HOME}/pod/meteor/${app}
 if test "X${appver}" != 'X'; then
 	~/pod/meteor/setcfg.sh "${ns}" "${appver}"
