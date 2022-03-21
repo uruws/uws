@@ -1,13 +1,9 @@
 #!/bin/sh
-namespace=${APP_NAMESPACE:-''}
 set -eu
-app=${1:?'app name?'}
-opts=${2:-'all'}
-if test "X${namespace}" = 'X'; then
-	namespace="${app}"
-fi
-uwskube get ${opts} -n ${namespace}
+ns=${1:?'app namespace?'}
+app=${2:?'app name?'}
+uwskube get ${opts} -n "${ns}"
 echo
 echo 'DEPLOY ENV'
-~/pod/meteor/getcfg.sh ${app}
+~/pod/meteor/getcfg.sh "${ns}" "${app}"
 exit 0

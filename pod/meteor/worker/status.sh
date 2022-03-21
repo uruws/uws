@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ~/pod/meteor/status.sh worker
+exec ~/pod/meteor/status.sh worker worker

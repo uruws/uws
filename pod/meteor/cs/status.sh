@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ~/pod/meteor/status.sh cs
+exec ~/pod/meteor/status.sh cs cs
