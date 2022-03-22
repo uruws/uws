@@ -168,36 +168,34 @@
 * docker/base
     * `2203`: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 10 (buster) -> 11 (bullseye)
+* docker/devel
+    * `2203`: python-2203
+        * build.sh: Dockerfile.2203
 * docker/meteor-devel
-    * `TODO` 2203: base-2203, devel.sh: meteor
-        * `TODO` check/build.sh: Dockerfile.2203
+    * `2203`: base-2203
+        * build.sh: Dockerfile.2203
 * docker/meteor-1.10.2
-    * `2203`: base-2203, devel.sh: meteor:1.10.2-2203
-        * `TODO` check/build.sh: Dockerfile.2203
+    * `2203`: base-2203
+        * devel.sh: meteor:1.10.2-2203
+        * check/build.sh: Dockerfile.2203
     * 2109: base-2109
 * docker/meteor-2.2
-    * `2203`: base-2203, devel.sh: meteor:2.2-2203
-        * `TODO` check/build.sh: Dockerfile.2203
+    * `2203`: base-2203
+        * devel.sh: meteor:2.2-2203
+        * check/build.sh: Dockerfile.2203
     * 2109: base-2109
 * docker/meteor-2.6
     * `TODO` 2203: base-2203, devel.sh: meteor:2.6-2203
 * cs
     * `2203`: meteor:2.2-2203
-        * `TODO` release upgrade
-            * build.sh: Dockerfile.2203, crowdsourcing-2203
-            * devel.sh: crowdsourcing-2203
-            * Makefile/publish-crowdsourcing: crowdsourcing-2203
+        * `TODO` build.sh: Dockerfile.2203
     * 2109: meteor-2.2
 * app
     * `2203`: meteor-1.10.2-2203
-        * `TODO` release upgrade
-            * build.sh: ${app}/Dockerfile.2203, ${app}-2203
-            * devel.sh: ${app}-2203
-            * Makefile/publish-app: app-2203
+        * `TODO` build.sh: ${app}/Dockerfile.2203
     * 2109: meteor-1.10.2-2109
 * beta
     * `2203`: meteor-1.10.2-2203
-        * `TODO` Makefile/publish-beta: beta-2203
     * 2109: meteor-1.10.2-2109
 * infra-ui
     * `TODO` 2203: meteor-2.6-2203
