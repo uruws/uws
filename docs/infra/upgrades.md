@@ -201,11 +201,13 @@
         * check/build.sh: Dockerfile.2203
 * cs
     * `2203`: meteor:2.2-2203
-        * `TODO` build.sh: Dockerfile.2203
+        * build.sh: Dockerfile.2203
+        * `TODO` schedule new release with Aram/Gabriel?
     * 2109: meteor-2.2
 * app
     * `2203`: meteor-1.10.2-2203
-        * `TODO` build.sh: ${app}/Dockerfile.2203
+        * build.sh: ${app}/Dockerfile.2203
+        * `TODO` schedule new release with Aram/Gabriel?
     * 2109: meteor-1.10.2-2109
 * beta
     * `2203`: meteor-1.10.2-2203
