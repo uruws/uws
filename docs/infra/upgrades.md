@@ -52,10 +52,10 @@
 ## Debian OS
 
 * [jsbatch][debian-os]
-    * `2203`: 11 (bullseye) - 5.10.0-12
+    * `2203`: 11.2 (bullseye) - 5.10.0-12
     * 2109: 10 (buster) -> 11 (bullseye)
 * asb/rstudio
-    * `TODO` 2203: schedule with Rina.
+    * `2203`: 11.2 (bullseye) - 5.10.0-12
     * 2109: Debian 11 (bullseye)
 
 [debian-os]: https://www.debian.org/releases/
