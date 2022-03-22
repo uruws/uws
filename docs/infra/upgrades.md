@@ -165,6 +165,9 @@
 
 ### NLPService
 
+* Changelog
+    * [2203](https://github.com/TalkingPts/NLPService/compare/e417263b0fc48f7b1a22156cb8d46d1cbafbdd32...235706f19ab5eac08af4b046e3fd66ba7e50fc84)
+
 * docker/base
     * `2203`: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 11 (bullseye)
