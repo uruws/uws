@@ -21,6 +21,8 @@
         * [2203 Changelog](https://github.com/TalkingPts/Buildpack/compare/81af1d8b7c139a057a6191d9b6310f43721ca2af...b6f62a5f2aa686ba510123d1768e906d8b2180f8)
     * NLPService - `DONE!`
         * [2203 Changelog](https://github.com/TalkingPts/NLPService/compare/e417263b0fc48f7b1a22156cb8d46d1cbafbdd32...235706f19ab5eac08af4b046e3fd66ba7e50fc84)
+    * MonitoringBots - `DONE!`
+        * [2203 Changelog](https://github.com/TalkingPts/MonitoringBots/compare/ff20e4dac62f53d2cddd4399e820f2fe781604c1...0006eb83ef048c00418c8e5727faf977e8d25b01)
 
 * `FIX` buildpack:
     * use tag version from command line for publishing the image

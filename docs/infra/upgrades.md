@@ -159,6 +159,10 @@
 
 ### MonitoringBots
 
+* Changelog
+
+    * [2203](https://github.com/TalkingPts/MonitoringBots/compare/ff20e4dac62f53d2cddd4399e820f2fe781604c1...0006eb83ef048c00418c8e5727faf977e8d25b01)
+
 * docker
     * `2203`: Debian 11.2 (bullseye-20220316-slim), uwsbot e5cc124
     * 2109: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
