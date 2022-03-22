@@ -185,7 +185,9 @@
         * check/build.sh: Dockerfile.2203
     * 2109: base-2109
 * docker/meteor-2.6
-    * `TODO` 2203: base-2203, devel.sh: meteor:2.6-2203
+    * `2203`: base-2203
+        * devel.sh: meteor:2.6-2203
+        * check/build.sh: Dockerfile.2203
 * cs
     * `2203`: meteor:2.2-2203
         * `TODO` build.sh: Dockerfile.2203
@@ -198,4 +200,5 @@
     * `2203`: meteor-1.10.2-2203
     * 2109: meteor-1.10.2-2109
 * infra-ui
-    * `TODO` 2203: meteor-2.6-2203
+    * `2203`: meteor-2.6-2203
+        * build.sh: Dockerfile.2203
