@@ -168,12 +168,16 @@
 * docker/base
     * `2203`: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 10 (buster) -> 11 (bullseye)
+* docker/meteor-devel
+    * `TODO` 2203: base-2203, devel.sh: meteor
+        * `TODO` check/build.sh: Dockerfile.2203
 * docker/meteor-1.10.2
     * `2203`: base-2203, devel.sh: meteor:1.10.2-2203
         * `TODO` check/build.sh: Dockerfile.2203
     * 2109: base-2109
 * docker/meteor-2.2
     * `2203`: base-2203, devel.sh: meteor:2.2-2203
+        * `TODO` check/build.sh: Dockerfile.2203
     * 2109: base-2109
 * docker/meteor-2.6
     * `TODO` 2203: base-2203, devel.sh: meteor:2.6-2203
