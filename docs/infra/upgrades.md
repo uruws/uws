@@ -171,8 +171,8 @@
 * sentiment/twitter
     * `2203`: nlpsvc-2203
 * Makefile/publish
-    * `TODO` 2203: nlpsvc-2203, sentiment-twitter-2203
-        * Schedule with Guillermo a new release date and time.
+    * `2203`: nlpsvc-2203, sentiment-twitter-2203
+        * `TODO` Schedule with Guillermo a new release date and time.
 
 ### Buildpack
 
