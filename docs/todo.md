@@ -8,7 +8,7 @@
     * testing cluster - `DONE!`
         * using panoramix for now
         * https://testing.uws.talkingpts.org/
-    * devel cluster to "play with it" from local/devel envs
+    * devel cluster for local/devel envs
 
 * `FIX` k8smon munin plugins - `DONE!`
     * web request average errors bug
