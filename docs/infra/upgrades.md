@@ -89,7 +89,11 @@
     * 2109: base-2109
 * docker/mkcert
     * `2203`: base-2203
+* docker/mailx
+    * `2203`: base-2203
+        * devel.sh: mailx-2203
     * 2109: base-2109
+        * devel.sh: mailx
 * docker/k8s
     * `2203`: base-2203
     * 2109: base-2109
