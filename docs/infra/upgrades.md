@@ -176,6 +176,9 @@
 
 ### Buildpack
 
+* Changelog
+    * [2203](https://github.com/TalkingPts/Buildpack/compare/81af1d8b7c139a057a6191d9b6310f43721ca2af...b6f62a5f2aa686ba510123d1768e906d8b2180f8)
+
 * docker/base
     * `2203`: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 10 (buster) -> 11 (bullseye)

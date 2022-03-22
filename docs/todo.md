@@ -26,16 +26,8 @@
     [exited with status 43.]
 
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
-    * fix aws-ami auto upgrades (k8s/ctl) - `WIP`
-        * remove old (broken) k8s jobs setup - `DONE!`
-        * create mailx base container - `DONE!`
-        * create crond service to run scheduled tasks and report over email (using mailx as base container) - `DONE!`
-        * devel, setup and deploy ctl service
-            * auth by secret token generated at deploy time (configmap)
-            * run internal commands
-                * uwseks-nodegroup-upgrade
-        * setup and deploy crond service
-            * schedule nodegroup upgrade job
+    * Buildpack - `DONE`
+        * [2203 Changelog](https://github.com/TalkingPts/Buildpack/compare/81af1d8b7c139a057a6191d9b6310f43721ca2af...b6f62a5f2aa686ba510123d1768e906d8b2180f8)
 
 * `FIX` buildpack:
     * use tag version from command line for publishing the image
@@ -54,6 +46,8 @@
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
     * EKS ec2 "reserved instances" setup to help saving costs
+
+* k8sctl: deprecate?
 
 * uwscli:
     * app-autobuild: nq build and deploy jobs
