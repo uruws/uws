@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
-#~ buildd=${PWD}/srv/crond/build
-#~ mkdir -vp ${buildd}
-#~ install -v -C ${PWD}/python/lib/sendmail.py ${buildd}/sendmail.py
-exec docker build --rm -t uws/crond ./srv/crond
+# crond
+docker build --rm -t uws/crond \
+	-f srv/crond/Dockerfile \
+	./srv/crond
+# crond-2203
+docker build --rm -t uws/crond-2203 \
+	-f srv/crond/Dockerfile.2203 \
+	./srv/crond
+exit 0
