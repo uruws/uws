@@ -1,9 +1,4 @@
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
-    * github repo - `DONE!`
-    * Alejandro uwscli access - `DONE!`
-    * uwscli app setup - `DONE!`
-        * build: infra-ui
-        * deploy: infra-ui-test
     * buildpack setup (infra-ui) - `DONE!`
     * testing cluster - `DONE!`
         * using panoramix for now
@@ -19,14 +14,10 @@
 * `FIX` uwscli auth bug? - `DONE!`
     * gabriel couldn't build cs app even if he is an operator and part of app's group
 
-    exec nq -c -- /srv/uws/deploy/cli/app-clean-build.sh crowdsourcing
-
-    [ERROR] user: gabriel - build: crowdsourcing
-
-    [exited with status 43.]
-
 * 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
-    * Buildpack - `DONE`
+    * Infrastructure - `DONE!`
+        * [2203 Changelog](https://github.com/TalkingPts/Infrastructure/compare/b6a7990e1cae40d194303c7a6375f1d1142d86a9...9b32f1516ff7f6f9eb03149ac1387c3c6c19280f)
+    * Buildpack - `DONE!`
         * [2203 Changelog](https://github.com/TalkingPts/Buildpack/compare/81af1d8b7c139a057a6191d9b6310f43721ca2af...b6f62a5f2aa686ba510123d1768e906d8b2180f8)
 
 * `FIX` buildpack:

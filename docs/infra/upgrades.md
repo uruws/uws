@@ -1,5 +1,9 @@
 # Upgrades schedule
 
+## Changelog
+
+* [2203](https://github.com/TalkingPts/Infrastructure/compare/b6a7990e1cae40d194303c7a6375f1d1142d86a9...9b32f1516ff7f6f9eb03149ac1387c3c6c19280f)
+
 ## Cluster
 
 * [aws AMI][aws-ami]
