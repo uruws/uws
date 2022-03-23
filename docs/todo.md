@@ -1,6 +1,12 @@
+* nlpsvc
+    * remove nlp-topic-automl from uwscli config
+
+* Vanta
+    * S3 bucket MFA delete setup
+    * enable [VPC flow logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
+
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
     * devel cluster for local/devel envs
-
 
 * 2202 round of [upgrades](./infra/upgrades.md) - `DONE!`
     * all apps released
