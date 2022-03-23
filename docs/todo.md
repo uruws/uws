@@ -1,28 +1,9 @@
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
-    * buildpack setup (infra-ui) - `DONE!`
-    * testing cluster - `DONE!`
-        * using panoramix for now
-        * https://testing.uws.talkingpts.org/
     * devel cluster for local/devel envs
 
-* `FIX` k8smon munin plugins - `DONE!`
-    * web request average errors bug
-    * nodes taint limits based on percentage instead of fixed number
-        * maybe something like: 50% (or <=5 nodes) warning
-        * 70% (or <= 3 nodes) critical
 
-* `FIX` uwscli auth bug? - `DONE!`
-    * gabriel couldn't build cs app even if he is an operator and part of app's group
-
-* 2202 round of [upgrades](./infra/upgrades.md) - `WIP`
-    * Infrastructure - `DONE!`
-        * [2203 Changelog](https://github.com/TalkingPts/Infrastructure/compare/b6a7990e1cae40d194303c7a6375f1d1142d86a9...9b32f1516ff7f6f9eb03149ac1387c3c6c19280f)
-    * Buildpack - `DONE!`
-        * [2203 Changelog](https://github.com/TalkingPts/Buildpack/compare/81af1d8b7c139a057a6191d9b6310f43721ca2af...b6f62a5f2aa686ba510123d1768e906d8b2180f8)
-    * NLPService - `DONE!`
-        * [2203 Changelog](https://github.com/TalkingPts/NLPService/compare/e417263b0fc48f7b1a22156cb8d46d1cbafbdd32...235706f19ab5eac08af4b046e3fd66ba7e50fc84)
-    * MonitoringBots - `DONE!`
-        * [2203 Changelog](https://github.com/TalkingPts/MonitoringBots/compare/ff20e4dac62f53d2cddd4399e820f2fe781604c1...0006eb83ef048c00418c8e5727faf977e8d25b01)
+* 2202 round of [upgrades](./infra/upgrades.md) - `DONE!`
+    * all apps released
 
 * `FIX` buildpack:
     * use tag version from command line for publishing the image
@@ -54,8 +35,6 @@
         * maybe add an @reboot job to se app.status accordingly? set a BOOT state or similar?
         * if .status file is not find assume it was built and do nothing?
         * and/or check the going to be built tag exists in the ECR?
-        * improve checking/setting build status, maybe stop doing that? - `DONE!`
-        * fix bug getting latest tag and build image - `DONE!`
     * app-deploy:
         * list available builds using semver sort order
 
