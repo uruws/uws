@@ -1,9 +1,10 @@
 * nlpsvc
     * remove nlp-topic-automl from uwscli config
 
-* Vanta
+* Vanta - `WIP`
     * S3 bucket MFA delete setup
-    * enable [VPC flow logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
+    * [VPC flow logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) - `DONE!`
+        * create awscli script and schedule it to run weekly
 
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
     * devel cluster for local/devel envs

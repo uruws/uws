@@ -3,12 +3,14 @@ set -eu
 
 CMD=${1:?'command?'}
 
+cd $(dirname $0)
+
 awsdir=${PWD}/secret/aws
 utils=${PWD}/docker/awscli/utils
 
 docker run --rm --name uws-awscli --hostname awscli.uws.local \
 	-u uws \
-	--entrypoint "${CMD}" \
+	--entrypoint "/home/uws/bin/${CMD}" \
 	--workdir /home/uws \
 	--env-file ${awsdir}/cli.env \
 	-v ${awsdir}:/home/uws/.aws:ro \

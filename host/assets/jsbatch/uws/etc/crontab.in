@@ -10,3 +10,6 @@ HOME=/home/uws
 
 # docker prune
 11 7 * * * docker system prune -f
+
+# vanta vpc flow logs
+11 8 * * 1 /srv/uws/deploy/docker/awscli/run.sh vanta-vpc-flow-logs.sh
