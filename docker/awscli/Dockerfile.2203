@@ -1,7 +1,7 @@
 FROM amazon/aws-cli:2.4.26
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220316"
+LABEL version="220324"
 
 ARG UWS_UID=1000
 ARG UWS_GID=1000
@@ -14,6 +14,8 @@ RUN mkdir -vp /home/uws \
 	&& chown -v uws:uws /aws /home/uws \
 	&& chmod -v 0750 /aws /home/uws
 
+RUN install -v -d -m 0750 -o uws -g uws /home/uws/bin
+
 USER uws:uws
 WORKDIR /aws
 
@@ -22,3 +24,4 @@ ENV HOME /home/uws
 
 ARG UWS_UMASK=0027
 RUN printf 'umask %s\n' ${UWS_UMASK} >>/home/uws/.profile
+RUN printf 'export PATH=%s:${PATH}' /home/uws/bin >>/home/uws/.profile
