@@ -1,9 +1,9 @@
 * nlpsvc
     * remove nlp-topic-automl from uwscli config
 
-* Vanta - `WIP`
+* Vanta - `DONE!`
     * S3 bucket MFA delete setup
-    * [VPC flow logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) - `DONE!`
+    * [VPC flow logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
         * create awscli script and schedule it to run weekly
 
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
@@ -135,7 +135,7 @@
 
 * infra docs for internal presentation
 
-* `FIX` k8s/ctl: munin-alerts volume setup
+* `FIX` k8smon: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
 
 * cluster stack
