@@ -3,7 +3,7 @@ set -eu
 
 CMD=${1:?'command?'}
 
-cd "$(dirname $0)"
+cd "$(dirname $0)"/../../
 
 awsdir=${PWD}/secret/aws
 utils=${PWD}/docker/awscli/utils
