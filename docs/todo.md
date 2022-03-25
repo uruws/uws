@@ -47,9 +47,12 @@
 
 * uwsq: clean failed jobs
 
-* mongodb credentials rotation?
+* `SEC` mongodb credentials rotation?
 
 * mongodb analyzer?
+
+* `SEC` aws auth credentials rotation
+    * uwsadm and friends "access keys"
 
 * app-autobuild deploy
     * wait some time between deploys on "multi cluster" apps
