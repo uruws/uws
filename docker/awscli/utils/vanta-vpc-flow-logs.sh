@@ -8,8 +8,13 @@ list_vpc() (
 )
 
 describe_logs=/tmp/vanta-vpc-flow-logs.describe
+describe_logs_group=/tmp/vanta-vpc-flow-logs-group.describe
 
 for region in ${VANTA_REGIONS}; do
+	aws logs describe-log-groups --region "${region}" >${describe_logs_group}
+	if ! grep -qF vpc-flow-logs ${describe_logs_group}; then
+		~/bin/vpc-flow-logs-group.sh "${region}"
+	fi
 	aws ec2 describe-flow-logs --region "${region}" >${describe_logs}
 	for vpc in $(list_vpc ${region}); do
 		echo "*** ${region} -> ${vpc}"
