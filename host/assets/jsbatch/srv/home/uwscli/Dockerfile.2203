@@ -17,6 +17,8 @@ RUN groupadd -o -g 3000 uwscli \
 
 COPY --chown=root:uwscli ./ /srv/home/uwscli
 
+RUN /srv/home/uwscli/sbin/uwscli_setup.py
+
 USER uwscli:uwscli
 WORKDIR /srv/home/uwscli
 
