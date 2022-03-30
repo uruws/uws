@@ -1,0 +1,28 @@
+FROM uws/base-2203
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="220329"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh doas python3 sudo nq awscli
+
+RUN groupadd -o -g 3000 uwscli \
+	&& useradd -o -d /srv/home/uwscli -m -c 'uwscli' -g 3000 -u 3000 uwscli \
+	&& chmod -v 0750 /srv/home/uwscli
+
+COPY --chown=root:root ./ /srv/home/uwscli
+
+USER uwscli:uwscli
+WORKDIR /srv/home/uwscli
+
+ENV USER uwscli
+ENV HOME /srv/home/uwscli
+
+ENV PYTHONPATH /srv/home/uwscli/lib:/srv/home/uwscli/vendor/semver-2.13.0
+
+RUN /usr/bin/python3 --version

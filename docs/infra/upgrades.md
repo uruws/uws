@@ -114,8 +114,12 @@
 * docker/uwsbot
     * `2203`: base-2203, devel golang-2203
     * 2109: base-2109
+* host/assets/jsbatch/srv/home/uwscli
+    * `2203`: base-2203
+        * semver-2.13.0
 * docker/uwscli
     * `2203`: python-2203
+        * login.sh: uwscli-2203
     * 2109: python-2109
 * srv/proftpd
     * `2203`: base-2203
