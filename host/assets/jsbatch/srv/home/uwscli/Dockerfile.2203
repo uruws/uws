@@ -23,6 +23,4 @@ WORKDIR /srv/home/uwscli
 ENV USER uwscli
 ENV HOME /srv/home/uwscli
 
-ENV PYTHONPATH /srv/home/uwscli/lib:/srv/home/uwscli/vendor/semver-2.13.0
-
 RUN /usr/bin/python3 --version
