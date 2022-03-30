@@ -15,7 +15,7 @@ RUN groupadd -o -g 3000 uwscli \
 	&& useradd -o -d /srv/home/uwscli -m -c 'uwscli' -g 3000 -u 3000 uwscli \
 	&& chmod -v 0750 /srv/home/uwscli
 
-COPY --chown=root:root ./ /srv/home/uwscli
+COPY --chown=root:uwscli ./ /srv/home/uwscli
 
 USER uwscli:uwscli
 WORKDIR /srv/home/uwscli
