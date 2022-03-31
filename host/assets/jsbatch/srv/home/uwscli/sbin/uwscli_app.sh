@@ -7,7 +7,7 @@ groupname=${1:?'group name?'}
 
 addgroup "${groupname}" || true
 
-for username in $*; do
+for username in "$@"; do
 	adduser "${username}" "${groupname}"
 done
 

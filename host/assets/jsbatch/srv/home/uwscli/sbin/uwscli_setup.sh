@@ -46,11 +46,17 @@ chown -v uwscli:root ~uwscli/bin/app-autobuild
 umask 0022
 
 rm -vrf ~uwscli/lib/__pycache__
+
 python3 -m compileall ~uwscli/lib
+
 chown -R root:uwscli ~uwscli/lib/__pycache__
 
-find ~uwscli/vendor/ -type d -name __pycache__ | xargs rm -rf
+find ~uwscli/vendor/ -type d -name __pycache__ -print0 |
+	xargs -0 rm -rf
+
 python3 -m compileall ~uwscli/vendor
-find ~uwscli/vendor/ -type d -name __pycache__ | xargs chown -R root:uwscli
+
+find ~uwscli/vendor/ -type d -name __pycache__ -print0 |
+	xargs -0 chown -R root:uwscli
 
 exit 0

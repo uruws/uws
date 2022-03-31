@@ -3,7 +3,7 @@ set -eu
 
 umask 0027
 
-for username in $*; do
+for username in "$@"; do
 	adduser "${username}" uwsops
 done
 
