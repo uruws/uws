@@ -1,7 +1,7 @@
 FROM uws/base-2203
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220329"
+LABEL version="220331"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh openssh-server doas python3 sudo nq awscli
+RUN /root/bin/apt-install.sh openssh-server python3 sudo nq
 
 RUN groupadd -o -g 3000 uwscli \
 	&& useradd -o -d /srv/home/uwscli -m -c 'uwscli' -g 3000 -u 3000 uwscli \
