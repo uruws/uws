@@ -12,9 +12,26 @@ from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
 
-_run = {
-	0: 'uwscli_setup.sh',
-}
+class _cmdFailed(Exception):
+	rc = -1
+
+	def __init__(self, rc):
+		super().__init__()
+		self.rc = rc
+
+def _run(cmd, args = []):
+	uwscli.log('***', cmd)
+	x = f"/srv/home/uwscli/sbin/{cmd}"
+	if len(args) > 0:
+		x = f"{cmd} {' '.join(args)}"
+	rc = uwscli.system(x, env = {'PATH': '/bin:/usr/bin:/sbin:/usr/sbin'})
+	if rc != 0:
+		uwscli.error(f"{cmd}: exit status {rc}")
+		raise _cmdFailed(rc)
+
+def _getUsers():
+	l = []
+	return l
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
@@ -24,11 +41,11 @@ def main(argv = []):
 
 	args = flags.parse_args(argv)
 
-	for i in sorted(_run.keys()):
-		cmd = f"/srv/home/uwscli/sbin/{_run[i]}"
-		rc = uwscli.system(cmd, env = {'PATH': '/bin:/usr/bin:/sbin:/usr/sbin'})
-		if rc != 0:
-			return rc
+	try:
+		_run('uwscli_setup.sh')
+		_run('uwscli_user_profile.sh', _getUsers())
+	except _cmdFailed as err:
+		return err.rc
 
 	return 0
 
