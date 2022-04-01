@@ -19,7 +19,7 @@ class _cmdFailed(Exception):
 		super().__init__()
 		self.rc = rc
 
-def _run(cmd, args = []):
+def _run(cmd, args: list[str] = []):
 	uwscli.log('***', cmd)
 	x = f"/srv/home/uwscli/sbin/{cmd}"
 	if len(args) > 0:
@@ -29,11 +29,11 @@ def _run(cmd, args = []):
 		uwscli.error(f"{cmd}: exit status {rc}")
 		raise _cmdFailed(rc)
 
-def _getUsers():
+def _getUsers() -> list[str]:
 	l = []
 	return l
 
-def main(argv = []):
+def main(argv: list[str] = []) -> int:
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.deploy_description())
 	flags.add_argument('-V', '--version', action = 'version',
