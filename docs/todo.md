@@ -12,6 +12,18 @@
 * 2202 round of [upgrades](./infra/upgrades.md) - `DONE!`
     * all apps released
 
+* zlib security update
+    * [CVE-2018-25032](https://security-tracker.debian.org/tracker/CVE-2018-25032)
+
+* rstudio server capacity upgrade
+
+* aws support meeting
+    * setup CDN mainly to help saving network transfer costs
+    * Route53 app.t.o use geolocation inside US or latency setup
+        * versus current weighted 50/50 setup
+        * we must keep the "heroku contingency plan" setup or adapt it to new ways
+    * EKS ec2 "reserved instances" setup to help saving costs
+
 * `FIX` buildpack:
     * use tag version from command line for publishing the image
     * instead of using the git describe tag
@@ -22,13 +34,6 @@
     'uws' repository and cannot be overwritten because the repository is immutable.
 
     Publish app version 2.64.8 failed
-
-* aws support meeting
-    * setup CDN mainly to help saving network transfer costs
-    * Route53 app.t.o use geolocation inside US or latency setup
-        * versus current weighted 50/50 setup
-        * we must keep the "heroku contingency plan" setup or adapt it to new ways
-    * EKS ec2 "reserved instances" setup to help saving costs
 
 * k8sctl: deprecate?
 
