@@ -15,7 +15,7 @@ from subprocess import run as proc_run
 
 from uwscli_auth import User, getuser, user_auth
 
-_user:  User = getuser()
+_user: User = getuser()
 
 _env: dict[str, str] = {
 	'PATH': '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin',
@@ -271,3 +271,12 @@ def git_tag_list(workdir: str = '.') -> list[str]:
 	if workdir != '.':
 		args += f" -C {workdir}"
 	return check_output(f"git{args} tag --list").strip().split(sep = linesep)
+
+#
+# users
+#
+
+from uwscli_user import user
+
+def user_list() -> list[str]:
+	return sorted(user.keys())

@@ -29,10 +29,6 @@ def _run(cmd, args: list[str] = []):
 		uwscli.error(f"{cmd}: exit status {rc}")
 		raise _cmdFailed(rc)
 
-def _getUsers() -> list[str]:
-	l = []
-	return l
-
 def main(argv: list[str] = []) -> int:
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.deploy_description())
@@ -43,7 +39,7 @@ def main(argv: list[str] = []) -> int:
 
 	try:
 		_run('uwscli_setup.sh')
-		_run('uwscli_user_profile.sh', _getUsers())
+		_run('uwscli_user_profile.sh', uwscli.user_list())
 	except _cmdFailed as err:
 		return err.rc
 
