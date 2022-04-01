@@ -30,11 +30,6 @@ def _local_conf(cfgdir: str = '/etc/uws/cli'):
 		if fn.is_file() and not fn.is_symlink():
 			sys.path.insert(0, cfgdir)
 			import local_conf # type: ignore
-			if hasattr(local_conf, 'app'):
-				app.update(local_conf.app)
-			if hasattr(local_conf, 'cluster'):
-				cluster.update(local_conf.cluster)
-
 _local_conf()
 
 #
