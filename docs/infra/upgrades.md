@@ -56,10 +56,12 @@
 ## Debian OS
 
 * [jsbatch][debian-os]
-    * `2203`: 11.2 (bullseye) - 5.10.0-12
+    * `2203-1`: zlib security upgrade CVE-2018-25032
+    * 2203: 11.2 (bullseye) - 5.10.0-12
     * 2109: 10 (buster) -> 11 (bullseye)
 * asb/rstudio
-    * `2203`: 11.2 (bullseye) - 5.10.0-12
+    * `TODO` 2203-1: zlib security upgrade CVE-2018-25032
+    * 2203: 11.2 (bullseye) - 5.10.0-12
     * 2109: Debian 11 (bullseye)
 
 [debian-os]: https://www.debian.org/releases/
@@ -67,13 +69,18 @@
 ## Container
 
 * [docker/base][debian-container]
-    * `2203`: Debian 11.2 (bullseye-20220316-slim)
+    * `2203-1`: Debian 11.3 (bullseye-20220328-slim)
+        * zlib security upgrade CVE-2018-25032
+    * 2203: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 10 (buster) -> 11 (bullseye)
 * docker/base-testing
-    * `2203`: base-2203, Debian bookworm
+    * `2203-1`: zlib security upgrade CVE-2018-25032
+    * 2203: base-2203, Debian bookworm
     * 2109: Debian bullseye -> bookworm
 * pod/base
-    * `2203`: Debian 11.2 (bullseye-20220316-slim)
+    * `2203-1`: Debian 11.3 (bullseye-20220328-slim)
+        * zlib security upgrade CVE-2018-25032
+    * 2203: Debian 11.2 (bullseye-20220316-slim)
 * pod/test
     * `2203`: pod:base
 * docker/golang
@@ -168,7 +175,9 @@
     * [2203](https://github.com/TalkingPts/MonitoringBots/compare/ff20e4dac62f53d2cddd4399e820f2fe781604c1...0006eb83ef048c00418c8e5727faf977e8d25b01)
 
 * docker
-    * `2203`: Debian 11.2 (bullseye-20220316-slim), uwsbot e5cc124
+    * `2203-1`: Debian 11.3 (bullseye-20220328-slim)
+        * zlib security upgrade CVE-2018-25032
+    * 2203: Debian 11.2 (bullseye-20220316-slim), uwsbot e5cc124
     * 2109: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
 
 ### NLPService
@@ -177,7 +186,9 @@
     * [2203](https://github.com/TalkingPts/NLPService/compare/e417263b0fc48f7b1a22156cb8d46d1cbafbdd32...235706f19ab5eac08af4b046e3fd66ba7e50fc84)
 
 * docker/base
-    * `2203`: Debian 11.2 (bullseye-20220316-slim)
+    * `2203-1`: Debian 11.3 (bullseye-20220328-slim)
+        * zlib security upgrade CVE-2018-25032
+    * 2203: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 11 (bullseye)
 * src
     * `2203`: base-2203
@@ -195,7 +206,9 @@
     * [2203](https://github.com/TalkingPts/Buildpack/compare/81af1d8b7c139a057a6191d9b6310f43721ca2af...b6f62a5f2aa686ba510123d1768e906d8b2180f8)
 
 * docker/base
-    * `2203`: Debian 11.2 (bullseye-20220316-slim)
+    * `2203-1`: Debian 11.3 (bullseye-20220328-slim)
+        * zlib security upgrade CVE-2018-25032
+    * 2203: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 10 (buster) -> 11 (bullseye)
 * docker/devel
     * `2203`: python-2203

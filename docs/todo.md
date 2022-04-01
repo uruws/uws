@@ -9,10 +9,10 @@
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
     * devel and testing cluster for local/devel envs
 
-* 2202 round of [upgrades](./infra/upgrades.md) - `DONE!`
+* 2203 round of [upgrades](./infra/upgrades.md) - `DONE!`
     * all apps released
 
-* zlib security update
+* 2203-1 zlib security update
     * [CVE-2018-25032](https://security-tracker.debian.org/tracker/CVE-2018-25032)
 
 * rstudio server capacity upgrade
