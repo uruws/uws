@@ -23,7 +23,7 @@ def _run(cmd, args: list[str] = []):
 	uwscli.log('***', cmd)
 	x = f"/srv/home/uwscli/sbin/{cmd}"
 	if len(args) > 0:
-		x = f"{cmd} {' '.join(args)}"
+		x = f"{x} {' '.join(args)}"
 	rc = uwscli.system(x, env = {'PATH': '/bin:/usr/bin:/sbin:/usr/sbin'})
 	if rc != 0:
 		uwscli.error(f"{cmd}: exit status {rc}")
@@ -49,7 +49,7 @@ def main(argv: list[str] = []) -> int:
 
 	return 0
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no cover
 	sys.stdout.reconfigure(line_buffering = False)
 	sys.stderr.reconfigure(line_buffering = False)
 	sys.exit(main(sys.argv[1:]))
