@@ -17,5 +17,14 @@ class Test(unittest.TestCase):
 	def test_defaults(t):
 		t.assertDictEqual(uwscli_user.user, {})
 
+	def test_mock_user(t):
+		with uwscli_t.mock_users():
+			t.assertDictEqual(uwscli_user.user, {
+				'tuser': uwscli_user.AppUser(5000,
+					groups = ['tapp', 'tapp1'],
+					is_admin = True,
+				)
+			})
+
 if __name__ == '__main__':
 	unittest.main()
