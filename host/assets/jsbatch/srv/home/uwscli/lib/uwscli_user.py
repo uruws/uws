@@ -1,6 +1,18 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from uwscli_auth import User
+from dataclasses import dataclass
+from dataclasses import field
 
-user: dict[str, User] = {}
+@dataclass
+class AppUser(object):
+	uid:         int
+	groups:      dict[str, bool] = field(default_factory = dict)
+	is_admin:    bool            = False
+	is_operator: bool            = False
+
+	def __post_init__(u):
+		if u.is_admin:
+			u.is_operator
+
+user: dict[str, AppUser] = {}
