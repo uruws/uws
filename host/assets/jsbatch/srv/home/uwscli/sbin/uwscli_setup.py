@@ -11,6 +11,7 @@ __doc__ = 'setup uwscli environment'
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
+import uwscli_conf as conf
 
 class _cmdFailed(Exception):
 	rc = -1
@@ -21,7 +22,7 @@ class _cmdFailed(Exception):
 
 def _run(cmd, args: list[str] = []):
 	uwscli.log('***', cmd)
-	x = f"/srv/home/uwscli/sbin/{cmd}"
+	x = f"{conf.sbindir}/{cmd}"
 	if len(args) > 0:
 		x = f"{x} {' '.join(args)}"
 	rc = uwscli.system(x, env = {'PATH': '/bin:/usr/bin:/sbin:/usr/sbin'})
@@ -39,7 +40,8 @@ def main(argv: list[str] = []) -> int:
 
 	try:
 		_run('uwscli_setup.sh')
-		_run('uwscli_user_profile.sh', uwscli.user_list())
+		for user in uwscli.user_list():
+			_run('uwscli_user.sh', conf.homedir, user.uid, user)
 	except _cmdFailed as err:
 		return err.rc
 
