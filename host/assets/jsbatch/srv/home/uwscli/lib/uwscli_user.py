@@ -7,6 +7,7 @@ from dataclasses import field
 @dataclass
 class AppUser(object):
 	uid:         int
+	name:        str             = ""
 	groups:      dict[str, bool] = field(default_factory = dict)
 	is_admin:    bool            = False
 	is_operator: bool            = False

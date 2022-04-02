@@ -273,7 +273,11 @@ def git_tag_list(workdir: str = '.') -> list[str]:
 # users
 #
 
-from uwscli_user import user
+from uwscli_user import AppUser, user
 
-def user_list() -> list[str]:
-	return sorted(user.keys())
+def user_list() -> list[AppUser]:
+	l = []
+	for n in sorted(user.keys()):
+		user[n].name = n
+		l.append(user[n])
+	return l

@@ -3,13 +3,10 @@ set -eu
 
 umask 0027
 
-groupname=${1:?'group name?'}
-shift
-
-addgroup "${groupname}" || true
+addgroup uwsadm || true
 
 for username in "$@"; do
-	adduser "${username}" "${groupname}"
+	adduser "${username}" uwsadm
 done
 
 exit 0
