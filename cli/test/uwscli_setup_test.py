@@ -23,10 +23,12 @@ class Test(unittest.TestCase):
 			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_admin.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_operator.sh', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_app.sh app testing', env = _env),
 		]
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli_setup.main(), 0)
 			uwscli.system.assert_has_calls(calls)
+			t.assertEqual(uwscli.system.call_count, len(calls))
 
 if __name__ == '__main__':
 	unittest.main()

@@ -175,6 +175,14 @@ def app_description() -> str:
 	"""format apps list description"""
 	return __desc(app_list())
 
+def app_groups() -> list[str]:
+	"""return list of app groups"""
+	g: dict[str, bool] = {}
+	for n in app.keys():
+		for gn in app[n].groups:
+			g[gn] = True
+	return sorted(g.keys())
+
 def autobuild_list() -> list[str]:
 	"""return list of apps configured for autobuild"""
 	return user_auth(_user, [n for n in app.keys() if app[n].build and app[n].autobuild])

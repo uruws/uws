@@ -3,12 +3,8 @@ set -eu
 
 umask 0027
 
-groupname=${1:?'group name?'}
-
-addgroup "${groupname}" || true
-
-for username in "$@"; do
-	adduser "${username}" "${groupname}"
+for groupname in ${1}; do
+	addgroup "${groupname}" || true
 done
 
 exit 0

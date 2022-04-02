@@ -44,6 +44,7 @@ def main(argv: list[str] = []) -> int:
 			_run('uwscli_user.sh', conf.homedir, user.uid, user.name)
 		_run('uwscli_admin.sh', uwscli.admin_list())
 		_run('uwscli_operator.sh', uwscli.operator_list())
+		_run('uwscli_app.sh', uwscli.app_groups())
 	except _cmdFailed as err:
 		return err.rc
 
