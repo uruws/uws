@@ -21,7 +21,6 @@ class Test(unittest.TestCase):
 	def test_main(t):
 		calls = [
 			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
-			call('/srv/home/uwscli/sbin/uwscli_user_profile.sh', env = _env),
 		]
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli_setup.main(), 0)
