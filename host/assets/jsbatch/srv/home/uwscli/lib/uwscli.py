@@ -270,7 +270,7 @@ def git_tag_list(workdir: str = '.') -> list[str]:
 	return check_output(f"git{args} tag --list").strip().split(sep = linesep)
 
 #
-# users
+# app users
 #
 
 from uwscli_user import AppUser, user
@@ -280,4 +280,18 @@ def user_list() -> list[AppUser]:
 	for n in sorted(user.keys()):
 		user[n].name = n
 		l.append(user[n])
+	return l
+
+def admin_list() -> list[AppUser]:
+	l = []
+	for u in user_list():
+		if u.is_admin:
+			l.append(u)
+	return l
+
+def operator_list() -> list[AppUser]:
+	l = []
+	for u in user_list():
+		if u.is_operator:
+			l.append(u)
 	return l
