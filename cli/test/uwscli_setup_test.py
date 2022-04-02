@@ -30,5 +30,20 @@ class Test(unittest.TestCase):
 			uwscli.system.assert_has_calls(calls)
 			t.assertEqual(uwscli.system.call_count, len(calls))
 
+	def test_users(t):
+		calls = [
+			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_app.sh app testing', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_user.sh /srv/home 5000 tuser', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_user_groups.sh tuser tapp tapp1', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_admin.sh tuser', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_operator.sh tuser', env = _env),
+		]
+		with uwscli_t.mock_users():
+			with uwscli_t.mock_system():
+				t.assertEqual(uwscli_setup.main(), 0)
+				uwscli.system.assert_has_calls(calls)
+				t.assertEqual(uwscli.system.call_count, len(calls))
+
 if __name__ == '__main__':
 	unittest.main()

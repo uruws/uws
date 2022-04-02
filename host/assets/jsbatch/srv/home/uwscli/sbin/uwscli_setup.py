@@ -42,8 +42,10 @@ def main(argv: list[str] = []) -> int:
 		_run('uwscli_setup.sh')
 		_run('uwscli_app.sh', uwscli.app_groups())
 		for user in uwscli.user_list():
-			_run('uwscli_user.sh', conf.homedir, user.uid, user.name)
-			_run('uwscli_user_groups.sh', user.name, user.groups)
+			_run('uwscli_user.sh', [conf.homedir, str(user.uid), user.name])
+			args = [user.name]
+			args.extend(user.groups)
+			_run('uwscli_user_groups.sh', args)
 		_run('uwscli_admin.sh', uwscli.admin_list())
 		_run('uwscli_operator.sh', uwscli.operator_list())
 	except _cmdFailed as err:

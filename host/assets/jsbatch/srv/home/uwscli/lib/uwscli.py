@@ -281,25 +281,26 @@ def git_tag_list(workdir: str = '.') -> list[str]:
 # app users
 #
 
-from uwscli_user import AppUser, user
+import uwscli_user
+from   uwscli_user import AppUser
 
 def user_list() -> list[AppUser]:
 	l = []
-	for n in sorted(user.keys()):
-		user[n].name = n
-		l.append(user[n])
+	for n in sorted(uwscli_user.user.keys()):
+		uwscli_user.user[n].name = n
+		l.append(uwscli_user.user[n])
 	return l
 
-def admin_list() -> list[AppUser]:
+def admin_list() -> list[str]:
 	l = []
 	for u in user_list():
 		if u.is_admin:
-			l.append(u)
+			l.append(u.name)
 	return l
 
-def operator_list() -> list[AppUser]:
+def operator_list() -> list[str]:
 	l = []
 	for u in user_list():
-		if u.is_operator:
-			l.append(u)
+		if u.is_admin or u.is_operator:
+			l.append(u.name)
 	return l
