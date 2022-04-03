@@ -15,7 +15,8 @@
 * 2203-1 zlib security update
     * [CVE-2018-25032](https://security-tracker.debian.org/tracker/CVE-2018-25032)
 
-* rstudio server capacity upgrade
+* rstudio server capacity upgrade - `DONE!`
+    * upgraded to c5a.4xlarge (16 vCPUs - 32G RAM)
 
 * aws support meeting
     * setup CDN mainly to help saving network transfer costs
