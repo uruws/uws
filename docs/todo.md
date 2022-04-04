@@ -1,4 +1,4 @@
-* nlpsvc - `WIP`
+* nlpsvc - `DONE!`
     * remove nlp-topic-automl from uwscli config
 
 * Vanta - `DONE!`

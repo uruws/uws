@@ -47,7 +47,6 @@ class Test(unittest.TestCase):
 			'infra-ui-test',
 			'nlp-category',
 			'nlp-sentiment-twitter',
-			'nlp-topic-automl',
 			'worker',
 		]
 		# deploy
