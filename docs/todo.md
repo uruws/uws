@@ -12,7 +12,7 @@
 * 2203 round of [upgrades](./infra/upgrades.md) - `DONE!`
     * all apps released
 
-* 2203-1 zlib security update
+* 2203-1 zlib security update - `DONE!`
     * [CVE-2018-25032](https://security-tracker.debian.org/tracker/CVE-2018-25032)
 
 * rstudio server capacity upgrade - `WIP`
