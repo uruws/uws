@@ -16,4 +16,7 @@ if ! systemctl is-enabled munin-graph.socket; then
 	systemctl start munin-html.socket
 fi
 
+${install} /usr/share/doc/munin/examples/nginx/munin-cgi.conf \
+	/etc/munin/munin-conf.d/cgi.conf
+
 exit 0
