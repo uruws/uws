@@ -8,10 +8,12 @@ rstudio_server_version: rstudio-server-2021.09.0-351-amd64.deb
 
 iptables_nginx_enable: yes
 
+server_name: "{{ inventory_hostname }}.{{ uws_domain }}"
 rstudio_server_name: "{{ inventory_hostname }}-ide.{{ uws_domain }}"
 rstudio_jnb_server_name: "{{ inventory_hostname }}-jnb.{{ uws_domain }}"
 
 uws_acme_certs:
+  - "{{ server_name }}"
   - "{{ rstudio_server_name }}"
   - "{{ rstudio_jnb_server_name }}"
 
