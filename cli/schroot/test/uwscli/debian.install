@@ -1,0 +1,9 @@
+bash
+less
+doas
+ca-certificates
+locales
+python3
+sudo
+docker.io
+nq
