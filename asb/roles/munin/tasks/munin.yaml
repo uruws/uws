@@ -1,0 +1,44 @@
+---
+- name: apt install
+  become: yes
+  apt:
+    pkg:
+      - munin
+      - munin-node
+      - munin-plugins-extra
+  tags:
+    - apt
+    - munin
+
+- name: service enable
+  become: yes
+  service:
+    name: munin-node
+    enabled: yes
+  tags:
+    - munin
+
+- name: service
+  become: yes
+  service:
+    name: munin-node
+    state: started
+  tags:
+    - munin
+
+- name: munin-setup
+  become: yes
+  template:
+    src: munin/uws-setup.sh
+    dest: /etc/munin/uws-setup.sh
+    owner: root
+    group: root
+    mode: '0750'
+  tags:
+    - munin
+
+- name: run munin-setup
+  become: yes
+  cmd: /etc/munin/uws-setup.sh
+  tags:
+    - munin
