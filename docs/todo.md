@@ -1,4 +1,4 @@
-* nlpsvc
+* nlpsvc - `WIP`
     * remove nlp-topic-automl from uwscli config
 
 * Vanta - `DONE!`
@@ -15,8 +15,9 @@
 * 2203-1 zlib security update
     * [CVE-2018-25032](https://security-tracker.debian.org/tracker/CVE-2018-25032)
 
-* rstudio server capacity upgrade - `DONE!`
+* rstudio server capacity upgrade - `WIP`
     * upgraded to c5a.4xlarge (16 vCPUs - 32G RAM)
+    * setup munin to get more info in case something fails again
 
 * aws support meeting
     * setup CDN mainly to help saving network transfer costs
