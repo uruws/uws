@@ -39,6 +39,7 @@
 
 - name: run munin-setup
   become: yes
-  cmd: /etc/munin/uws-setup.sh
+  script:
+    cmd: /etc/munin/uws-setup.sh
   tags:
     - munin
