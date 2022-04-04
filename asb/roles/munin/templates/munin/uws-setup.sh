@@ -2,7 +2,7 @@
 # {{ ansible_managed | comment }}
 set -eu
 
-srcd=/usr/share/doc/munin/examples/nginx
+srcd=/usr/share/doc/munin/examples/systemd-fastcgi
 sysd=/etc/systemd/system
 install='install -v -m 0644 -o root -g root -C'
 
