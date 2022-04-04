@@ -5,25 +5,25 @@ prof=uwscli
 
 # debootstrap
 
-debdist=$(cat ./cli/schroot/${prof}/debian.distro)
+debdist=$(cat ./cli/schroot/devel/${prof}/debian.distro)
 
-if ! test -d /opt/uws/chroot/uwscli; then
+if ! test -d /opt/uws/chroot/uwscli-devel; then
 	PATH=/usr/sbin:${PATH}
 	doas /usr/sbin/debootstrap --variant=minbase \
-		"${debdist}" /opt/uws/chroot/uwscli \
+		"${debdist}" /opt/uws/chroot/uwscli-devel \
 		http://deb.debian.org/debian/
 fi
 
 # schroot configure
 
-doas rm -rf /etc/schroot/${prof}
-doas cp -va ./cli/schroot/${prof} /etc/schroot/${prof}
-doas cp -va ./cli/schroot/${prof}.conf /etc/schroot/chroot.d/${prof}.conf
-doas chown -v root:uws /etc/schroot/chroot.d/${prof}.conf
+doas rm -rf /etc/schroot/${prof}-devel
+doas cp -va ./cli/schroot/devel/${prof} /etc/schroot/${prof}-devel
+doas cp -va ./cli/schroot/devel/${prof}.conf /etc/schroot/chroot.d/${prof}-devel.conf
+doas chown -v root:uws /etc/schroot/chroot.d/${prof}-devel.conf
 
 # debian install
 
-debpkg=$(cat ./cli/schroot/${prof}/debian.install)
+debpkg=$(cat ./cli/schroot/devel/${prof}/debian.install)
 
 schroot_src="doas schroot -c source:${prof}"
 
