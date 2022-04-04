@@ -6,6 +6,7 @@
       - munin
       - munin-node
       - munin-plugins-extra
+      - libcgi-fast-perl
   tags:
     - apt
     - munin
