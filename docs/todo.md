@@ -6,18 +6,21 @@
     * [VPC flow logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
         * create awscli script and schedule it to run weekly
 
-* [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
-    * devel and testing cluster for local/devel envs
-
 * 2203 round of [upgrades](./infra/upgrades.md) - `DONE!`
     * all apps released
 
 * 2203-1 zlib security update - `DONE!`
     * [CVE-2018-25032](https://security-tracker.debian.org/tracker/CVE-2018-25032)
 
-* rstudio server capacity upgrade - `WIP`
+* rstudio server capacity upgrade - `DONE!`
     * upgraded to c5a.4xlarge (16 vCPUs - 32G RAM)
     * setup munin to get more info in case something fails again
+
+* [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
+    * devel and testing cluster for local/devel envs
+
+* cluster stack
+    * k8s 1.20 (and 1.21) already available (we run 1.19)
 
 * aws support meeting
     * setup CDN mainly to help saving network transfer costs
@@ -144,9 +147,6 @@
 
 * `FIX` k8smon: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
-
-* cluster stack
-    * k8s 1.20 (and 1.21) already available (we run 1.19)
 
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
