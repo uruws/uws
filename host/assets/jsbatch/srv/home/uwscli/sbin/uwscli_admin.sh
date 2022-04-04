@@ -5,6 +5,10 @@ umask 0027
 
 addgroup uwsadm || true
 
+if test $# -eq 0; then
+	exit 0
+fi
+
 for username in ${1}; do
 	adduser "${username}" uwsadm
 done
