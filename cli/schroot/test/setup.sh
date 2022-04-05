@@ -19,6 +19,18 @@ doas cp -va ./cli/schroot/test/uwscli /etc/schroot/uwscli-test
 doas cp -va ./cli/schroot/test/uwscli.conf /etc/schroot/chroot.d/uwscli-test.conf
 doas chown -v root:uws /etc/schroot/chroot.d/uwscli-test.conf
 
+# env setup
+
+doas install -v -d -o root -g root -m 0755 /srv/uwscli/test/user
+doas install -v -d -o root -g root -m 0755 /srv/uwscli/test/home
+doas install -v -d -o root -g root -m 0755 /srv/uwscli/test/utils
+
+doas rsync -vxrltD --delete-before \
+	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/test/home/
+
+doas rsync -vxrltD --delete-before --exclude=./schroot --exclude='./test*' \
+	./cli/ /srv/uwscli/test/utils/
+
 # debian install
 
 debpkg=$(cat ./cli/schroot/test/uwscli/debian.install)
