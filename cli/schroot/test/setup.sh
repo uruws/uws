@@ -7,7 +7,7 @@ profile='test'
 
 debdist=$(cat ./cli/schroot/${profile}/uwscli/debian.distro)
 
-doas install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}
+doas install -v -d -o root -g uws -m 0750 /srv/uwscli/${profile}
 doas install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union
 doas install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/overlay
 doas install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/underlay

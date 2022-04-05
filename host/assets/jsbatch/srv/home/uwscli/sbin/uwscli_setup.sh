@@ -3,6 +3,8 @@ set -eu
 
 umask 0027
 
+install -v -d -o root -g root -m 0751 /srv/home
+
 # internal groups
 
 groupadd -g 1500 uwsadm
@@ -18,6 +20,7 @@ chmod -v 0750 /srv/home/uws
 # uwscli
 groupadd -g 3100 uwscli
 useradd -d /srv/home/uwscli -M -c 'uwscli' -g 3100 -u 3100 uwscli
+chmod -v 0750 /srv/home/uwscli
 
 adduser uws uwscli
 
