@@ -29,16 +29,17 @@ doas chown -v root:uws /etc/schroot/chroot.d/uwscli-${profile}.conf
 # env setup
 
 doas install -v -d -o root -g root -m 0751 /srv/uwscli/${profile}/user
-doas install -v -d -o root -g 3100 -m 0755 /srv/uwscli/${profile}/home
-doas install -v -d -o root -g 3100 -m 0755 /srv/uwscli/${profile}/utils
+doas install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/home
+doas install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils
 
-doas rsync -vxrltD --delete-before \
+doas rsync -vxrltDp --delete-before --delete-excluded \
+	--exclude=__pycache__ \
 	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/${profile}/home/
 
-doas rsync -vxrltD --delete-before --delete-excluded \
+doas rsync -vxrltDp --delete-before --delete-excluded \
 	--exclude=schroot \
 	--exclude='test*' \
-	./cli/ /srv/uwscli/${profile}/utils/
+	./cli/ /srv/uwscli/${profile}/utils/cli/
 
 # debian install
 
