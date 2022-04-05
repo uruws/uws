@@ -1,31 +1,29 @@
 #!/bin/sh
 set -eu
 
-prof=uwscli
-
 # debootstrap
 
-debdist=$(cat ./cli/schroot/devel/${prof}/debian.distro)
+debdist=$(cat ./cli/schroot/test/uwscli/debian.distro)
 
-if ! test -d /opt/uws/chroot/uwscli-devel; then
+if ! test -d /opt/uws/chroot/uwscli-test; then
 	PATH=/usr/sbin:${PATH}
 	doas /usr/sbin/debootstrap --variant=minbase \
-		"${debdist}" /opt/uws/chroot/uwscli-devel \
+		"${debdist}" /opt/uws/chroot/uwscli-test \
 		http://deb.debian.org/debian/
 fi
 
 # schroot configure
 
-doas rm -rf /etc/schroot/${prof}-devel
-doas cp -va ./cli/schroot/devel/${prof} /etc/schroot/${prof}-devel
-doas cp -va ./cli/schroot/devel/${prof}.conf /etc/schroot/chroot.d/${prof}-devel.conf
-doas chown -v root:uws /etc/schroot/chroot.d/${prof}-devel.conf
+doas rm -rf /etc/schroot/uwscli-test
+doas cp -va ./cli/schroot/test/uwscli /etc/schroot/uwscli-test
+doas cp -va ./cli/schroot/test/uwscli.conf /etc/schroot/chroot.d/uwscli-test.conf
+doas chown -v root:uws /etc/schroot/chroot.d/uwscli-test.conf
 
 # debian install
 
-debpkg=$(cat ./cli/schroot/devel/${prof}/debian.install)
+debpkg=$(cat ./cli/schroot/test/uwscli/debian.install)
 
-schroot_src="doas schroot -c source:${prof}-devel"
+schroot_src="doas schroot -c source:uwscli-test"
 
 ${schroot_src} -d /root -u root -- apt-get -q update -yy
 
