@@ -36,8 +36,8 @@ doas rsync -vxrltD --delete-before \
 	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/${profile}/home/
 
 doas rsync -vxrltD --delete-before --delete-excluded \
-	--exclude=./cli/schroot \
-	--exclude='./cli/test*' \
+	--exclude=schroot \
+	--exclude='test*' \
 	./cli/ /srv/uwscli/${profile}/utils/
 
 # debian install
