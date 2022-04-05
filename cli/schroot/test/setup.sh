@@ -1,41 +1,50 @@
 #!/bin/sh
 set -eu
 
+profile='test'
+
 # debootstrap
 
-debdist=$(cat ./cli/schroot/test/uwscli/debian.distro)
+debdist=$(cat ./cli/schroot/${profile}/uwscli/debian.distro)
 
-if ! test -d /opt/uws/chroot/uwscli-test; then
+doas install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}
+doas install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union
+doas install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/overlay
+doas install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/underlay
+
+if ! test -d /srv/uwscli/${profile}/chroot; then
 	PATH=/usr/sbin:${PATH}
 	doas /usr/sbin/debootstrap --variant=minbase \
-		"${debdist}" /opt/uws/chroot/uwscli-test \
+		"${debdist}" /srv/uwscli/${profile}/chroot \
 		http://deb.debian.org/debian/
 fi
 
 # schroot configure
 
-doas rm -rf /etc/schroot/uwscli-test
-doas cp -va ./cli/schroot/test/uwscli /etc/schroot/uwscli-test
-doas cp -va ./cli/schroot/test/uwscli.conf /etc/schroot/chroot.d/uwscli-test.conf
-doas chown -v root:uws /etc/schroot/chroot.d/uwscli-test.conf
+doas rm -rf /etc/schroot/uwscli-${profile}
+doas cp -va ./cli/schroot/${profile}/uwscli /etc/schroot/uwscli-${profile}
+doas cp -va ./cli/schroot/${profile}/uwscli.conf /etc/schroot/chroot.d/uwscli-${profile}.conf
+doas chown -v root:uws /etc/schroot/chroot.d/uwscli-${profile}.conf
 
 # env setup
 
-doas install -v -d -o root -g root -m 0755 /srv/uwscli/test/user
-doas install -v -d -o root -g root -m 0755 /srv/uwscli/test/home
-doas install -v -d -o root -g root -m 0755 /srv/uwscli/test/utils
+doas install -v -d -o root -g root -m 0751 /srv/uwscli/${profile}/user
+doas install -v -d -o root -g 3100 -m 0755 /srv/uwscli/${profile}/home
+doas install -v -d -o root -g 3100 -m 0755 /srv/uwscli/${profile}/utils
 
 doas rsync -vxrltD --delete-before \
-	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/test/home/
+	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/${profile}/home/
 
-doas rsync -vxrltD --delete-before --exclude=./schroot --exclude='./test*' \
-	./cli/ /srv/uwscli/test/utils/
+doas rsync -vxrltD --delete-before --delete-excluded \
+	--exclude=./cli/schroot \
+	--exclude='./cli/test*' \
+	./cli/ /srv/uwscli/${profile}/utils/
 
 # debian install
 
-debpkg=$(cat ./cli/schroot/test/uwscli/debian.install)
+debpkg=$(cat ./cli/schroot/${profile}/uwscli/debian.install)
 
-schroot_src="doas schroot -c source:uwscli-test"
+schroot_src="doas schroot -c source:uwscli-${profile}"
 
 ${schroot_src} -d /root -u root -- apt-get -q update -yy
 
@@ -50,4 +59,4 @@ echo 'es_US.UTF-8 UTF-8' |
 
 ${schroot_src} -d /root -u root -- locale-gen
 
-exit 0
+exec ${schroot_src} -d /root -u root -- /srv/home/uwscli/sbin/uwscli_setup.py

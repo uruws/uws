@@ -3,6 +3,24 @@ set -eu
 
 umask 0027
 
+# internal groups
+
+groupadd -g 1500 uwsadm
+groupadd -g 1600 uwsops
+
+# internal users
+
+# uws
+groupadd -g 3000 uws
+useradd -d /srv/home/uws -m -c 'uws' -g 3000 -u 3000 uws
+chmod -v 0750 /srv/home/uws
+
+# uwscli
+groupadd -g 3100 uwscli
+useradd -d /srv/home/uwscli -M -c 'uwscli' -g 3100 -u 3100 uwscli
+
+adduser uws uwscli
+
 # sudoers
 
 install -v -m 0640 -o root -g root \
@@ -27,11 +45,7 @@ chmod -v 0550 ~uwscli/bin/*
 chmod -v 0750 ~uwscli/bin
 chown -vR root:uwscli ~uwscli/bin
 
-adduser uws uwscli
-
 # operator utils
-
-addgroup uwsops || true
 
 chown -v root:uwsops ~uwscli/bin/app-deploy
 chown -v root:uwsops ~uwscli/bin/app-rollin
