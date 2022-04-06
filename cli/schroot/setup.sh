@@ -68,9 +68,6 @@ ${schroot_src} -d /root -u root -- apt-get -q update -yy
 echo ${debpkg} | xargs ${schroot_src} -d /root -u root -- \
 	apt-get -q install -yy --purge --no-install-recommends
 
-echo 'permit nopass keepenv setenv { PATH } :uws as root' |
-	${schroot_src} -d /root -u root -- tee /etc/${surun}.conf
-
 echo 'es_US.UTF-8 UTF-8' |
 	${schroot_src} -d /root -u root -- tee /etc/locale.gen
 

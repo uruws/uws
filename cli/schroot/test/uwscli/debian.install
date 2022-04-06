@@ -1,6 +1,5 @@
 bash
 less
-doas
 ca-certificates
 locales
 python3
