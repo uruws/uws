@@ -35,10 +35,10 @@ ${surun} cp -va ./cli/schroot/${profile}/uwscli.conf \
 	/etc/schroot/chroot.d/uwscli-${profile}.conf
 ${surun} chown -v root:uws /etc/schroot/chroot.d/uwscli-${profile}.conf
 
+${surun} rm -rf /etc/schroot/uwscli-${profile}-src
 ${surun} cp -va /etc/schroot/uwscli-${profile} \
 	/etc/schroot/uwscli-${profile}-src
-
-${surun} mv -v /etc/schroot/uwscli-${profile}-src/fstab.setup \
+${surun} cp -va /etc/schroot/uwscli-${profile}/fstab.setup \
 	/etc/schroot/uwscli-${profile}-src/fstab
 
 # env setup
