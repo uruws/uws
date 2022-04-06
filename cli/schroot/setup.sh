@@ -1,7 +1,12 @@
 #!/bin/sh
 set -eu
 
-profile='test'
+profile=${1:?'profile?'}
+
+if ! test -d ./cli/schroot/${profile}; then
+	echo "invalid profile: ${profile}" >&2
+	exit 1
+fi
 
 # debootstrap
 
