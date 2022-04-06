@@ -90,8 +90,4 @@ ${surun} rsync -vxrltDp --delete-before --delete-excluded \
 
 ${schroot_src} -d /root -u root -- /srv/home/uwscli/sbin/uwscli_setup.py
 
-# remove old versions?
-
-${surun} rm -rf /srv/uwscli/test/chroot
-
 exit 0
