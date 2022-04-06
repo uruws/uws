@@ -80,6 +80,6 @@ ${schroot_src} -d /root -u root -- /srv/home/uwscli/sbin/uwscli_setup.py
 
 # remove old versions?
 
-rm -rf /srv/uwscli/test/chroot
+${surun} rm -rf /srv/uwscli/test/chroot
 
 exit 0
