@@ -3,10 +3,13 @@ set -eu
 
 profile=${1:?'profile?'}
 
-if ! test -d ./cli/schroot/${profile}; then
+if ! test -s ./cli/schroot/${profile}/VERSION; then
 	echo "invalid profile: ${profile}" >&2
 	exit 1
 fi
+
+version=$(cat ./cli/schroot/${profile}/VERSION)
+echo "*** ${profile}/chroot.${version}"
 
 surun='sudo'
 
@@ -19,10 +22,10 @@ ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union
 ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/overlay
 ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/underlay
 
-if ! test -d /srv/uwscli/${profile}/chroot; then
+if ! test -d /srv/uwscli/${profile}/chroot.${version}; then
 	PATH=/usr/sbin:${PATH}
 	${surun} /usr/sbin/debootstrap --variant=minbase \
-		"${debdist}" /srv/uwscli/${profile}/chroot \
+		"${debdist}" /srv/uwscli/${profile}/chroot.${version} \
 		http://deb.debian.org/debian/
 fi
 
@@ -74,5 +77,9 @@ echo 'es_US.UTF-8 UTF-8' |
 ${schroot_src} -d /root -u root -- locale-gen
 
 ${schroot_src} -d /root -u root -- /srv/home/uwscli/sbin/uwscli_setup.py
+
+# remove old versions?
+
+rm -rf /srv/uwscli/test/chroot
 
 exit 0
