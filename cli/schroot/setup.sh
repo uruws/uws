@@ -51,14 +51,13 @@ ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/home
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/tmp
 
-${surun} rsync -vxrltDp --delete-before --delete-excluded \
-	--exclude=__pycache__ \
-	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/${profile}/home/
+# symlink latest chroot
 
-${surun} rsync -vxrltDp --delete-before --delete-excluded \
-	--exclude=schroot \
-	--exclude='test*' \
-	./cli/ /srv/uwscli/${profile}/utils/cli/
+if test -d /srv/uwscli/${profile}/chroot; then
+	${surun} rm -rf /srv/uwscli/${profile}/chroot
+fi
+
+${surun} ln -svf /srv/uwscli/${profile}/chroot.${version}  /srv/uwscli/${profile}/chroot
 
 # debian install
 
@@ -75,6 +74,19 @@ echo 'es_US.UTF-8 UTF-8' |
 	${schroot_src} -d /root -u root -- tee /etc/locale.gen
 
 ${schroot_src} -d /root -u root -- locale-gen
+
+# sync utils
+
+${surun} rsync -vxrltDp --delete-before --delete-excluded \
+	--exclude=__pycache__ \
+	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/${profile}/home/
+
+${surun} rsync -vxrltDp --delete-before --delete-excluded \
+	--exclude=schroot \
+	--exclude='test*' \
+	./cli/ /srv/uwscli/${profile}/utils/cli/
+
+# uwscli setup
 
 ${schroot_src} -d /root -u root -- /srv/home/uwscli/sbin/uwscli_setup.py
 
