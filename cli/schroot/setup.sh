@@ -90,4 +90,6 @@ ${surun} rsync -vxrltDp --delete-before --delete-excluded \
 
 ${schroot_src} -d /root -u root -- /srv/home/uwscli/sbin/uwscli_setup.py
 
+${schroot_src} -d /root -u root -- rm -vf /var/run
+
 exit 0
