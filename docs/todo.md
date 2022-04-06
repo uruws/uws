@@ -1,21 +1,3 @@
-* nlpsvc - `DONE!`
-    * remove nlp-topic-automl from uwscli config
-
-* Vanta - `DONE!`
-    * S3 bucket MFA delete setup
-    * [VPC flow logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html)
-        * create awscli script and schedule it to run weekly
-
-* 2203 round of [upgrades](./infra/upgrades.md) - `DONE!`
-    * all apps released
-
-* 2203-1 zlib security update - `DONE!`
-    * [CVE-2018-25032](https://security-tracker.debian.org/tracker/CVE-2018-25032)
-
-* rstudio server capacity upgrade - `DONE!`
-    * upgraded to c5a.4xlarge (16 vCPUs - 32G RAM)
-    * setup munin to get more info in case something fails again
-
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
     * devel and testing cluster for local/devel envs
 
@@ -28,6 +10,8 @@
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
     * EKS ec2 "reserved instances" setup to help saving costs
+
+* `CLEAN` /srv/deploy/analysis.git setup for (old) iss72 deploy
 
 * `FIX` buildpack:
     * use tag version from command line for publishing the image
