@@ -9,7 +9,7 @@ userid=${3:?'user ID?'}
 
 groupadd -o -g "${userid}" "${username}"
 
-useradd -o -d "${homedir}/${username}" -m -c "${username}" \
+useradd -o -d "${homedir}/${username}" -m -c "${username}" -s /bin/bash \
 	-g "${userid}" -u "${userid}" "${username}"
 
 chmod -v 0750 "${homedir}/${username}"
