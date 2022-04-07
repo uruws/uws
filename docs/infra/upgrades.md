@@ -85,6 +85,11 @@
     * `2203`: pod:base
 * docker/golang
     * `2203`: base-2203
+        * build.sh: Dockerfile.2203
+        * check.sh: golang-2203
+        * cmd.sh: golang-2203
+        * devel.sh: golang-2203
+        * docs.sh: golang-2203
     * 2109: base-2109
 * docker/python
     * `2203`: base-2203
