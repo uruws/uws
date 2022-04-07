@@ -119,16 +119,20 @@ fi
 
 rsync="${surun} rsync -vxrltDp --delete-before --delete-excluded"
 
-# uwscli home
+# home
 ${rsync} --exclude=__pycache__ \
 	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/${profile}/home/
 
-# repo utils
+# secret
+${rsync} ./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
+
+# cli
 ${rsync} --exclude=schroot --exclude='test*' \
 	./cli/ /srv/uwscli/${profile}/utils/cli/
 
-# secrets
-${rsync} ./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
+# pod
+${rsync} --exclude=build \
+	./pod/ /srv/uwscli/${profile}/utils/pod/
 
 #
 # uwscli setup
