@@ -14,6 +14,9 @@ Group=uws
 WorkingDirectory=/home/uwsrun
 ExecStart=/srv/uwscli/schroot/start.sh test sshd
 ExecStop=/srv/uwscli/schroot/stop.sh test sshd
+StandardError=journal
+SyslogIdentifier=sshd
+SyslogFacility=authpriv
 
 [Install]
 WantedBy=multi-user.target
