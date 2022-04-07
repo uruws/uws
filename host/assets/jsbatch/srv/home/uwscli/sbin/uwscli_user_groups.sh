@@ -8,6 +8,11 @@ shift
 
 adduser "${username}" uwscli || true
 
+if test $# -ne 1; then
+	echo 'uwscli_user_groups.sh: no groups' >&2
+	exit 0
+fi
+
 for groupname in ${1}; do
 	adduser "${username}" "${groupname}" || true
 done
