@@ -158,6 +158,8 @@ ${surun} install -v -d -o root -g root -m 0755 \
 # docker/k8s
 ${rsync} --exclude=build --exclude=tmp \
 	./docker/k8s/ /srv/uwscli/${profile}/utils/docker/k8s/
+${surun} install -v -d -o root -g root -m 0755 \
+	/srv/uwscli/${profile}/utils/docker/k8s/build
 
 # k8s
 ${rsync} --exclude=build --exclude=tmp --exclude=/test \

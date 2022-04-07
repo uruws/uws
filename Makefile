@@ -150,6 +150,7 @@ uwscli-setup-schroot:
 	@sleep 1
 	@$(MAKE) base
 	@$(MAKE) golang
+	@$(MAKE) k8s
 	@$(MAKE) prune
 	@sleep 1
 	@sudo /etc/init.d/docker stop

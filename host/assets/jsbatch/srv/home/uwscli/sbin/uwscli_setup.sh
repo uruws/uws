@@ -66,7 +66,7 @@ chmod -v 0550 ~uwscli/bin/*
 chown -vR root:root ~uwscli/sbin
 chmod -v 0550 ~uwscli/sbin/*.*
 
-chown -R root:uwscli /srv/uws/deploy
+chown -R root:uws /srv/uws/deploy
 
 # operator utils
 
