@@ -144,10 +144,14 @@ kali:
 uwscli:
 	@./docker/uwscli/build.sh
 
-.PHONY: uwscli-setup
-uwscli-setup:
+.PHONY: uwscli-setup-schroot
+uwscli-setup-schroot:
+	@sudo /etc/init.d/docker start
+	@sleep 1
 	@$(MAKE) base
-	@$(MAKE) k8s
+	@$(MAKE) prune
+	@sleep 1
+	@sudo /etc/init.d/docker stop
 
 #
 # uwsbot
