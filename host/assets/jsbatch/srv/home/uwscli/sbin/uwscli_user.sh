@@ -7,10 +7,19 @@ homedir=${1:?'home dir?'}
 userid=${2:?'user ID?'}
 username=${3:?'username?'}
 
-groupadd -o -g "${userid}" "${username}" || true
+groupadd -g "${userid}" "${username}" || true
 
-useradd -o -d "${homedir}/${username}" -m -c "${username}" -s /bin/bash \
-	-g "${userid}" -u "${userid}" "${username}" || true
+create_home='-m'
+if test -d "${homedir}/${username}"; then
+	create_home='-M'
+fi
+
+useradd -d "${homedir}/${username}" "${create_home}" \
+	-c "${username}" \
+	-g "${userid}" \
+	-u "${userid}" \
+	-s /bin/bash \
+	"${username}" || true
 
 chmod -v 0750 "${homedir}/${username}"
 
