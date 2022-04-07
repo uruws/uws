@@ -162,6 +162,4 @@ ${schroot_src} -d /root -u root -- install -v -C -o root -g 3100 -m 0640 \
 
 ${schroot_src} -d /root -u root -- /srv/home/uwscli/sbin/uwscli_setup.py
 
-${schroot_src} -d /root -u root -- rm -vf /var/run
-
 exit 0

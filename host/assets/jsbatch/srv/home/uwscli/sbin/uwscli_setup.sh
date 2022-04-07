@@ -17,6 +17,8 @@ groupadd -g 3000 uws || true
 useradd -d /srv/home/uws -m -c 'uws' -s /bin/bash -g 3000 -u 3000 uws || true
 chmod -v 0750 /srv/home/uws
 
+adduser uws docker
+
 # uwscli
 groupadd -g 3100 uwscli || true
 useradd -d /srv/home/uwscli -M -c 'uwscli' -s /bin/bash -g 3100 -u 3100 uwscli || true
