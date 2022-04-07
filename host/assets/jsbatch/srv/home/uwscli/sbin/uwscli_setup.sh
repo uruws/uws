@@ -74,4 +74,12 @@ python3 -m compileall ~uwscli/vendor
 
 chown -R root:uwscli ~uwscli/vendor
 
+# uwscli user
+
+install -v -C -o root -g uwscli -m 0640 \
+	~uwscli/etc/user.bash_profile ~uwscli/.bash_profile
+
+adduser uwscli uwsadm
+adduser uwscli uwsops
+
 exit 0
