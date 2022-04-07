@@ -44,7 +44,7 @@ chown -vR root:uwscli ~uwscli/etc/bash_profile
 chown -vR root:uwscli ~uwscli/bin
 chmod -v 0550 ~uwscli/bin/*
 
-chown -vR root:uwscli ~uwscli/sbin
+chown -vR root:root ~uwscli/sbin
 chmod -v 0550 ~uwscli/sbin/*.*
 
 # operator utils
@@ -65,14 +65,13 @@ rm -rf ~uwscli/lib/__pycache__
 
 python3 -m compileall ~uwscli/lib
 
-chown -R root:uwscli ~uwscli/lib/__pycache__
+chown -R root:uwscli ~uwscli/lib
 
 find ~uwscli/vendor/ -type d -name __pycache__ -print0 |
 	xargs -0 rm -rf
 
 python3 -m compileall ~uwscli/vendor
 
-find ~uwscli/vendor/ -type d -name __pycache__ -print0 |
-	xargs -0 chown -R root:uwscli
+chown -R root:uwscli ~uwscli/vendor
 
 exit 0
