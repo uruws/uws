@@ -28,4 +28,4 @@ install -v -C -o root -g root -m 0640 \
 	/usr/local/etc/sshd/uwscli.conf \
 	/etc/ssh/sshd_config.d/uwscli.conf
 
-exec /usr/sbin/sshd -D -e -4 -q
+exec /usr/sbin/sshd -D -e -4
