@@ -151,6 +151,8 @@ ${rsync} --exclude=build --exclude=tmp \
 ${rsync} --exclude=build --exclude=tmp \
 	./docker/golang/ /srv/uwscli/${profile}/utils/docker/golang/
 ${surun} install -v -d -o root -g root -m 0755 \
+	/srv/uwscli/${profile}/utils/docker/golang/build
+${surun} install -v -d -o root -g root -m 0755 \
 	/srv/uwscli/${profile}/utils/docker/golang/tmp
 
 # docker/k8s
