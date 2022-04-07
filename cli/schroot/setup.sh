@@ -147,9 +147,17 @@ ${rsync} --exclude=build \
 ${rsync} --exclude=build --exclude=tmp \
 	./docker/base/ /srv/uwscli/${profile}/utils/docker/base/
 
+# docker/golang
+${rsync} --exclude=build --exclude=tmp \
+	./docker/golang/ /srv/uwscli/${profile}/utils/docker/golang/
+
 # docker/k8s
 ${rsync} --exclude=build --exclude=tmp \
 	./docker/k8s/ /srv/uwscli/${profile}/utils/docker/k8s/
+
+# k8s
+${rsync} --exclude=build --exclude=tmp --exclude=/test \
+	./k8s/ /srv/uwscli/${profile}/utils/k8s/
 
 # eks
 ${rsync} --exclude=build --exclude=tmp \
@@ -158,6 +166,10 @@ ${rsync} --exclude=build --exclude=tmp \
 # secret/eks
 ${rsync} \
 	./secret/eks/ /srv/uwscli/${profile}/utils/secret/eks/
+
+# go
+${rsync} \
+	./go/ /srv/uwscli/${profile}/utils/go/
 
 #
 # uwscli setup
