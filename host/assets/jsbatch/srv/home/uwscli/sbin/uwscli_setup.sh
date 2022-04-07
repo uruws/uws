@@ -39,8 +39,13 @@ install -v -d -m 0750 -o root -g uwscli ~uwscli/vendor
 install -v -d -m 0750 -o root -g uwscli ~uwscli/bin
 install -v -d -m 0750 -o root -g root   ~uwscli/sbin
 
+chown -vR root:uwscli ~uwscli/etc/bash_profile
+
+chown -vR root:uwscli ~uwscli/bin
 chmod -v 0550 ~uwscli/bin/*
-chmod -v 0550 ~uwscli/sbin/*
+
+chown -vR root:uwscli ~uwscli/sbin
+chmod -v 0550 ~uwscli/sbin/*.*
 
 # operator utils
 
