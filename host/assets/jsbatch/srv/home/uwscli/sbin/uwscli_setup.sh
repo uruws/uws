@@ -56,7 +56,7 @@ chown -v uwscli:root ~uwscli/bin/app-autobuild
 
 umask 0022
 
-rm -vrf ~uwscli/lib/__pycache__
+rm -rf ~uwscli/lib/__pycache__
 
 python3 -m compileall ~uwscli/lib
 
