@@ -30,6 +30,13 @@ install -v -C -m 0640 -o root -g root \
 	~uwscli/etc/sudoers.d/99-uwscli \
 	/etc/sudoers.d/99-uwscli
 
+# run dirs
+
+install -v -d -o uws -g uwscli -m 0750 /run/uwscli
+install -v -d -o uws -g uwscli -m 0770 /run/uwscli/nq
+install -v -d -o uws -g uwscli -m 0770 /run/uwscli/build
+#install -v -d -o uws -g uwscli -m 0770 /run/uwscli/logs
+
 # utils access
 
 install -v -d -m 0750 -o root -g uwscli ~uwscli

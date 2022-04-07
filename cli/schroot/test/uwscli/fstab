@@ -10,6 +10,7 @@ tmpfs           /dev/shm        tmpfs   defaults        0       0
 tmpfs           /run            tmpfs   defaults        0       0
 
 /run					/var/run			none	rw,bind		0 0
+/srv/uwscli/test/run	/run/uwscli			none	rw,bind		0 0
 /srv/uwscli/test/user	/home				none	rw,bind		0 0
 
 /srv/uwscli/test/home	/srv/home/uwscli	none	ro,bind		0 0
