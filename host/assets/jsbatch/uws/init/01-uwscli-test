@@ -10,7 +10,6 @@ if ! systemctl is-enabled uwscli-test.service; then
 fi
 
 /uws/bin/service-restart.sh uwscli-test \
-	/etc/systemd/system/uwscli-test.service \
 	/srv/uwscli/test/secret \
 	/srv/uwscli/schroot/start.sh \
 	/srv/uwscli/schroot/stop.sh
