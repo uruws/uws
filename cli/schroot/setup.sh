@@ -22,7 +22,10 @@ ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union
 ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/overlay
 ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/underlay
 
+debian_install='false'
+
 if ! test -d /srv/uwscli/${profile}/chroot.${version}; then
+	debian_install='true'
 	PATH=/usr/sbin:${PATH}
 	${surun} /usr/sbin/debootstrap --variant=minbase \
 		"${debdist}" /srv/uwscli/${profile}/chroot.${version} \
@@ -60,21 +63,25 @@ fi
 
 ${surun} ln -svf /srv/uwscli/${profile}/chroot.${version}  /srv/uwscli/${profile}/chroot
 
-# debian install
-
-debpkg=$(cat ./cli/schroot/${profile}/uwscli/debian.install)
+# schroot command
 
 schroot_src="${surun} schroot -c source:uwscli-${profile}-src"
 
-${schroot_src} -d /root -u root -- apt-get -q update -yy
+# debian install
 
-echo ${debpkg} | xargs ${schroot_src} -d /root -u root -- \
-	apt-get -q install -yy --purge --no-install-recommends
+if test 'Xtrue' = "X${debian_install}"; then
+	debpkg=$(cat ./cli/schroot/${profile}/uwscli/debian.install)
 
-echo 'es_US.UTF-8 UTF-8' |
-	${schroot_src} -d /root -u root -- tee /etc/locale.gen
+	${schroot_src} -d /root -u root -- apt-get -q update -yy
 
-${schroot_src} -d /root -u root -- locale-gen
+	echo ${debpkg} | xargs ${schroot_src} -d /root -u root -- \
+		apt-get -q install -yy --purge --no-install-recommends
+
+	echo 'es_US.UTF-8 UTF-8' |
+		${schroot_src} -d /root -u root -- tee /etc/locale.gen
+
+	${schroot_src} -d /root -u root -- locale-gen
+fi
 
 # sync utils
 
