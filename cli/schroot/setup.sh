@@ -50,6 +50,7 @@ ${surun} install -v -d -o root -g root -m 0751 /srv/uwscli/${profile}/user
 ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/home
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/tmp
+${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/secret
 
 # symlink latest chroot
 
@@ -77,14 +78,20 @@ ${schroot_src} -d /root -u root -- locale-gen
 
 # sync utils
 
+# uwscli home
 ${surun} rsync -vxrltDp --delete-before --delete-excluded \
 	--exclude=__pycache__ \
 	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/${profile}/home/
 
+# repo utils
 ${surun} rsync -vxrltDp --delete-before --delete-excluded \
 	--exclude=schroot \
 	--exclude='test*' \
 	./cli/ /srv/uwscli/${profile}/utils/cli/
+
+# secrets
+${surun} rsync -vxrltDp --delete-before --delete-excluded \
+	./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
 
 # uwscli setup
 
