@@ -139,7 +139,11 @@ ${rsync} --exclude=schroot --exclude='test*' \
 ${rsync} --exclude=build \
 	./pod/ /srv/uwscli/${profile}/utils/pod/
 
-# k8s
+# docker/base
+${rsync} --exclude=build --exclude=tmp \
+	./docker/base/ /srv/uwscli/${profile}/utils/docker/base/
+
+# docker/k8s
 ${rsync} --exclude=build --exclude=tmp \
 	./docker/k8s/ /srv/uwscli/${profile}/utils/docker/k8s/
 

@@ -3,6 +3,12 @@ set -eu
 
 umask 0027
 
+# docker setup
+
+echo 'export DOCKER_RAMDISK=true' >/etc/default/docker
+
+# home dir
+
 install -v -d -o root -g root -m 0751 /srv/home
 
 # internal groups
