@@ -111,9 +111,9 @@ ${rsync} ./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
 # uwscli setup
 #
 
-${schroot_src} -d /root -u root -- install -v -d -o root -g uwscli -m 0750 \
+${schroot_src} -d /root -u root -- install -v -d -o root -g 3100 -m 0750 \
 	/etc/uws/cli
-${schroot_src} -d /root -u root -- install -v -C -o root -g uwscli -m 0640 \
+${schroot_src} -d /root -u root -- install -v -C -o root -g 3100 -m 0640 \
 	/usr/local/etc/local_conf.py \
 	/etc/uws/cli/local_conf.py
 

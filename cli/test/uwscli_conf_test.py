@@ -17,6 +17,8 @@ class Test(unittest.TestCase):
 		uwscli_auth.getstatusoutput = MagicMock(return_value = (0, uwscli_conf.admin_group))
 
 	def test_defaults(t):
+		t.assertEqual(uwscli_conf.homedir, '/home')
+		t.assertEqual(uwscli_conf.sbindir, '/srv/home/uwscli/sbin')
 		t.assertEqual(uwscli_conf.bindir, '/srv/home/uwscli/bin')
 		t.assertEqual(uwscli_conf.cmddir, '/srv/uws/deploy/cli')
 		t.assertEqual(uwscli_conf.deploy_basedir, '/srv/deploy')
