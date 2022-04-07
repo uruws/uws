@@ -11,3 +11,4 @@ tmpfs           /run            tmpfs   defaults        0       0
 
 /srv/uwscli/test/user	/home				none	rw,bind		0 0
 /srv/uwscli/test/home	/srv/home/uwscli	none	rw,bind		0 0
+/srv/uwscli/test/secret	/usr/local/etc		none	ro,bind		0 0
