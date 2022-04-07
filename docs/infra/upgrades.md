@@ -60,7 +60,7 @@
     * 2203: 11.2 (bullseye) - 5.10.0-12
     * 2109: 10 (buster) -> 11 (bullseye)
 * asb/rstudio
-    * `TODO` 2203-1: zlib security upgrade CVE-2018-25032
+    * `2203-1`: zlib security upgrade CVE-2018-25032
     * 2203: 11.2 (bullseye) - 5.10.0-12
     * 2109: Debian 11 (bullseye)
 
@@ -195,7 +195,6 @@
     * `2203`: nlpsvc-2203
 * Makefile/publish
     * `2203`: nlpsvc-2203, sentiment-twitter-2203
-        * `TODO` Schedule with Guillermo a new release date and time.
 
 ### Buildpack
 
@@ -210,8 +209,13 @@
 * docker/devel
     * `2203`: python-2203
         * build.sh: Dockerfile.2203
+* docker/meteor
+    * `2203`: base-2203, meteor release 2.7.1
+        * build.sh: Dockerfile.2203
+        * check/star/.meteor/release: METEOR@2.7.1
+        * devel.sh: meteor-2203
 * docker/meteor-devel
-    * `2203`: base-2203
+    * `2203`: meteor-2203
         * build.sh: Dockerfile.2203
 * docker/meteor-1.10.2
     * `2203`: base-2203
@@ -230,16 +234,14 @@
 * cs
     * `2203`: meteor:2.2-2203
         * build.sh: Dockerfile.2203
-        * `TODO` schedule new release with Aram/Gabriel?
     * 2109: meteor-2.2
 * app
     * `2203`: meteor-1.10.2-2203
         * build.sh: ${app}/Dockerfile.2203
-        * `TODO` schedule new release with Aram/Gabriel?
     * 2109: meteor-1.10.2-2109
 * beta
     * `2203`: meteor-1.10.2-2203
     * 2109: meteor-1.10.2-2109
 * infra-ui
-    * `2203`: meteor-2.6-2203
+    * `2203`: meteor-2203
         * build.sh: Dockerfile.2203
