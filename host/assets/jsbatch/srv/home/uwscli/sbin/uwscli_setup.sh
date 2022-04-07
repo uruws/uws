@@ -35,6 +35,10 @@ adduser uws uwscli
 # sudoers
 
 install -v -C -m 0640 -o root -g root \
+	~uwscli/etc/sudoers.d/99-uws \
+	/etc/sudoers.d/99-uws
+
+install -v -C -m 0640 -o root -g root \
 	~uwscli/etc/sudoers.d/99-uwscli \
 	/etc/sudoers.d/99-uwscli
 

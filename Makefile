@@ -112,10 +112,6 @@ python:
 uwspkg:
 	@./docker/uwspkg/build.sh
 
-.PHONY: uwscli
-uwscli:
-	@./docker/uwscli/build.sh
-
 .PHONY: acme
 acme:
 	@./srv/acme/build.sh
@@ -139,6 +135,19 @@ ansible:
 .PHONY: kali
 kali:
 	@./srv/kali/build.sh
+
+#
+# uwscli
+#
+
+.PHONY: uwscli
+uwscli:
+	@./docker/uwscli/build.sh
+
+.PHONY: uwscli-setup
+uwscli-setup:
+	@$(MAKE) base
+	@$(MAKE) k8s
 
 #
 # uwsbot

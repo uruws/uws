@@ -131,6 +131,10 @@ ${rsync} --exclude=__pycache__ \
 # secret
 ${rsync} ./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
 
+# Makefile
+${rsync} \
+	./Makefile /srv/uwscli/${profile}/utils/Makefile
+
 # cli
 ${rsync} --exclude=schroot --exclude='test*' \
 	./cli/ /srv/uwscli/${profile}/utils/cli/
@@ -167,4 +171,4 @@ ${schroot_src} -d /root -u root -- install -v -C -o root -g 3100 -m 0640 \
 
 ${schroot_src} -d /root -u root -- /srv/home/uwscli/sbin/uwscli_setup.py
 
-exit 0
+exec ./cli/schroot/build.sh ${profile}

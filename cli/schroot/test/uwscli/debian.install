@@ -8,3 +8,4 @@ docker.io
 nq
 openssh-server
 awscli
+make
