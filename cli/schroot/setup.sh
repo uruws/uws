@@ -27,6 +27,26 @@ ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/unde
 
 debian_install='false'
 
+cksum() (
+	sha256sum ./cli/schroot/${profile}/uwscli/debian.distro \
+		./cli/schroot/${profile}/uwscli/debian.install
+)
+
+LAST='NONE'
+curfn=/srv/uwscli/${profile}/.check
+if test -s "${curfn}"; then
+	LAST=$(${surun} cat ${curfn})
+fi
+
+CUR=$(cksum)
+
+if test "X${CUR}" = 'XNONE'; then
+	debian_install='true'
+fi
+if test "X${CUR}" != "X${LAST}"; then
+	debian_install='true'
+fi
+
 if ! test -d /srv/uwscli/${profile}/chroot.${version}; then
 	debian_install='true'
 	PATH=/usr/sbin:${PATH}
@@ -34,6 +54,8 @@ if ! test -d /srv/uwscli/${profile}/chroot.${version}; then
 		"${debdist}" /srv/uwscli/${profile}/chroot.${version} \
 		http://deb.debian.org/debian/
 fi
+
+cksum | ${surun} tee ${curfn}
 
 #
 # schroot configure
