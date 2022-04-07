@@ -12,8 +12,11 @@ version=$(cat ./cli/schroot/${profile}/VERSION)
 echo "*** ${profile}/chroot.${version}"
 
 surun='sudo'
+schroot_src="${surun} schroot -c source:uwscli-${profile}-src"
 
+#
 # debootstrap
+#
 
 debdist=$(cat ./cli/schroot/${profile}/uwscli/debian.distro)
 
@@ -32,7 +35,9 @@ if ! test -d /srv/uwscli/${profile}/chroot.${version}; then
 		http://deb.debian.org/debian/
 fi
 
+#
 # schroot configure
+#
 
 ${surun} rm -rf /etc/schroot/uwscli-${profile}
 ${surun} cp -va ./cli/schroot/${profile}/uwscli \
@@ -47,7 +52,9 @@ ${surun} cp -va /etc/schroot/uwscli-${profile} \
 ${surun} cp -va /etc/schroot/uwscli-${profile}/fstab.setup \
 	/etc/schroot/uwscli-${profile}-src/fstab
 
+#
 # env setup
+#
 
 ${surun} install -v -d -o root -g root -m 0751 /srv/uwscli/${profile}/user
 ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/home
@@ -55,7 +62,9 @@ ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/tmp
 ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/secret
 
+#
 # symlink latest chroot
+#
 
 if test -d /srv/uwscli/${profile}/chroot; then
 	${surun} rm -rf /srv/uwscli/${profile}/chroot
@@ -63,11 +72,9 @@ fi
 
 ${surun} ln -svf /srv/uwscli/${profile}/chroot.${version}  /srv/uwscli/${profile}/chroot
 
-# schroot command
-
-schroot_src="${surun} schroot -c source:uwscli-${profile}-src"
-
+#
 # debian install
+#
 
 if test 'Xtrue' = "X${debian_install}"; then
 	debpkg=$(cat ./cli/schroot/${profile}/uwscli/debian.install)
@@ -83,24 +90,36 @@ if test 'Xtrue' = "X${debian_install}"; then
 	${schroot_src} -d /root -u root -- locale-gen
 fi
 
+#
+# schroot service utils
+#
+
+${surun} install -v -d -o root -g uws -m 0750 /srv/uwscli/${profile}/schroot
+${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/start.sh \
+	/srv/uwscli/${profile}/schroot/start.sh
+${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/stop.sh \
+	/srv/uwscli/${profile}/schroot/stop.sh
+
+#
 # sync utils
+#
+
+rsync="${surun} rsync -vxrltDp --delete-before --delete-excluded"
 
 # uwscli home
-${surun} rsync -vxrltDp --delete-before --delete-excluded \
-	--exclude=__pycache__ \
+${rsync} --exclude=__pycache__ \
 	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/${profile}/home/
 
 # repo utils
-${surun} rsync -vxrltDp --delete-before --delete-excluded \
-	--exclude=schroot \
-	--exclude='test*' \
+${rsync} --exclude=schroot --exclude='test*' \
 	./cli/ /srv/uwscli/${profile}/utils/cli/
 
 # secrets
-${surun} rsync -vxrltDp --delete-before --delete-excluded \
-	./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
+${rsync} ./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
 
+#
 # uwscli setup
+#
 
 ${schroot_src} -d /root -u root -- install -v -d -o root -g uwscli -m 0750 \
 	/etc/uws/cli
