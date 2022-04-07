@@ -1,0 +1,19 @@
+[Unit]
+Description=uwscli-test
+Requires=syslog.service
+AssertFileIsExecutable=/usr/bin/schroot
+AssertFileIsExecutable=/srv/uwscli/schroot/start.sh
+AssertFileIsExecutable=/srv/uwscli/schroot/stop.sh
+
+[Service]
+Type=exec
+Restart=on-failure
+StandardError=syslog
+User=uwsrun
+Group=uws
+WorkingDirectory=/home/uwsrun
+ExecStart=/srv/uwscli/schroot/start.sh test sshd
+ExecStop=/srv/uwscli/schroot/stop.sh test sshd
+
+[Install]
+WantedBy=multi-user.target

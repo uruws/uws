@@ -1,4 +1,17 @@
 #!/bin/sh
 set -eu
-cd /srv/uws/deploy
-exec ./cli/schroot/setup.sh test
+uwsrun='sudo -n -u uws -D /srv/uws/deploy'
+
+${uwsrun} ./cli/schroot/setup.sh test
+
+if ! systemctl is-enabled uwscli-test.service; then
+	systemctl enable uwscli-test.service
+	systemctl start uwscli-test
+fi
+
+/uws/bin/service-restart.sh uwscli-test \
+	/srv/uwscli/test/secret \
+	/srv/uwscli/schroot/start.sh \
+	/srv/uwscli/schroot/stop.sh
+
+exit 0
