@@ -91,16 +91,6 @@ if test 'Xtrue' = "X${debian_install}"; then
 fi
 
 #
-# schroot service utils
-#
-
-${surun} install -v -d -o root -g uws -m 0750 /srv/uwscli/${profile}/schroot
-${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/start.sh \
-	/srv/uwscli/${profile}/schroot/start.sh
-${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/stop.sh \
-	/srv/uwscli/${profile}/schroot/stop.sh
-
-#
 # sync utils
 #
 

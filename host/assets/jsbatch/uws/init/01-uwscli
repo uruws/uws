@@ -155,4 +155,14 @@ delgroup uwsapp_infraui || true
 
 crontab -u uwscli ~uwscli/etc/crontab.in
 
+# uwscli setup
+
+install -v -d -o root -g uws -m 0750 /srv/uwscli
+install -v -d -o root -g uws -m 0750 /srv/uwscli/schroot
+
+install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/start.sh \
+	/srv/uwscli/schroot/start.sh
+install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/stop.sh \
+	/srv/uwscli/schroot/stop.sh
+
 exit 0
