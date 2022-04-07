@@ -12,7 +12,7 @@ cmddir:  str = getenv('UWSCLI_CMDDIR', '/srv/uws/deploy/cli')
 
 deploy_basedir: str = getenv('UWSCLI_DEPLOY_BASEDIR', '/srv/deploy')
 
-docker_storage:     str = '/srv/docker/lib'
+docker_storage:     str = '/srv/docker'
 docker_storage_min: int = 10*1024*1024 # 10G
 
 admin_group:    str = getenv('UWSCLI_ADMIN_GROUP',    'uwsadm')

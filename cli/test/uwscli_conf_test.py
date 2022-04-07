@@ -20,7 +20,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(uwscli_conf.bindir, '/srv/home/uwscli/bin')
 		t.assertEqual(uwscli_conf.cmddir, '/srv/uws/deploy/cli')
 		t.assertEqual(uwscli_conf.deploy_basedir, '/srv/deploy')
-		t.assertEqual(uwscli_conf.docker_storage, '/srv/docker/lib')
+		t.assertEqual(uwscli_conf.docker_storage, '/srv/docker')
 		t.assertEqual(uwscli_conf.docker_storage_min, 10485760)
 		t.assertIsInstance(uwscli_conf.app, dict)
 		t.assertIsInstance(uwscli_conf.cluster, dict)
