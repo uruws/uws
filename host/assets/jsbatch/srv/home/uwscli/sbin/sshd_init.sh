@@ -24,7 +24,7 @@ install -v -C -o root -g root -m 0640 \
 	/usr/local/etc/sshd/ssh_host_ed25519_key.pub \
 	/etc/ssh/ssh_host_ed25519_key.pub
 
-install -v -C -o root -g root -m 0640
+install -v -C -o root -g root -m 0640 \
 	/usr/local/etc/sshd/uwscli.conf \
 	/etc/ssh/sshd_config.d/uwscli.conf
 
