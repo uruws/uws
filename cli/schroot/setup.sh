@@ -83,6 +83,7 @@ ${surun} install -v -d -o root -g root -m 0751 /srv/uwscli/${profile}/user
 ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/home
 ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils
 ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/secret
+${surun} install -v -d -o root -g root -m 0710 /srv/uwscli/${profile}/docker
 
 #
 # symlink latest chroot
