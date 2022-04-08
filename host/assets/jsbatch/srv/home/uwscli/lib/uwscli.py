@@ -203,6 +203,21 @@ def build_description() -> str:
 	"""format build apps description"""
 	return __desc(build_list())
 
+def build_repo() -> list[dict[str, str]]:
+	"""return list of app build repositories"""
+	l = []
+	for n in build_list():
+		if app[n].build.repo != '':
+			workdir = Path(app[n].build.dir)
+			if app[n].build.src != '.':
+				workdir = workdir.joinpath(app[n].build.src)
+			l.append({
+				"app": n,
+				"uri": app[n].build.repo,
+				"workdir": workdir.as_posix(),
+			})
+	return l
+
 def deploy_list() -> list[str]:
 	"""return list of apps configured for deploy"""
 	return user_auth(_user, [n for n in app.keys() if app[n].deploy.image != ''])
