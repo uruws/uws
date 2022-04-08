@@ -85,6 +85,7 @@ ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/secret
 ${surun} install -v -d -o root -g root -m 0710 /srv/uwscli/${profile}/docker
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/build
 ${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/build/golang
+${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/deploy
 
 #
 # symlink latest chroot
@@ -123,32 +124,32 @@ ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/eks
 ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/secret
 ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/tmp
 
-rsync="${surun} rsync -vxrltDp --delete-before --delete-excluded"
+rsync="${surun} rsync -vxrltDp --delete-before"
 
-# home
+echo '*** sync: home'
 ${rsync} --exclude=__pycache__ \
 	./host/assets/jsbatch/srv/home/uwscli/ /srv/uwscli/${profile}/home/
 
-# secret
+echo '*** sync: secret'
 ${rsync} ./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
 
-# Makefile
+echo '*** sync: Makefile'
 ${rsync} \
 	./Makefile /srv/uwscli/${profile}/utils/Makefile
 
-# cli
+echo '*** sync: cli'
 ${rsync} --exclude=schroot --exclude='test*' \
 	./cli/ /srv/uwscli/${profile}/utils/cli/
 
-# pod
+echo '*** sync: pod'
 ${rsync} --exclude=build \
 	./pod/ /srv/uwscli/${profile}/utils/pod/
 
-# docker/base
+echo '*** sync: docker/base'
 ${rsync} --exclude=build --exclude=tmp \
 	./docker/base/ /srv/uwscli/${profile}/utils/docker/base/
 
-# docker/golang
+echo '*** sync: docker/golang'
 ${rsync} --exclude=build --exclude=tmp \
 	./docker/golang/ /srv/uwscli/${profile}/utils/docker/golang/
 ${surun} install -v -d -o root -g root -m 0755 \
@@ -156,25 +157,25 @@ ${surun} install -v -d -o root -g root -m 0755 \
 ${surun} install -v -d -o root -g root -m 0755 \
 	/srv/uwscli/${profile}/utils/docker/golang/tmp
 
-# docker/k8s
+echo '*** sync: docker/k8s'
 ${rsync} --exclude=build --exclude=tmp \
 	./docker/k8s/ /srv/uwscli/${profile}/utils/docker/k8s/
 ${surun} install -v -d -o root -g root -m 0755 \
 	/srv/uwscli/${profile}/utils/docker/k8s/build
 
-# k8s
+echo '*** sync: k8s'
 ${rsync} --exclude=build --exclude=tmp --exclude=/test \
 	./k8s/ /srv/uwscli/${profile}/utils/k8s/
 
-# eks
+echo '*** sync: eks'
 ${rsync} --exclude=build --exclude=tmp \
 	./eks/env/ /srv/uwscli/${profile}/utils/eks/env/
 
-# secret/eks
+echo '*** sync: secret/eks'
 ${rsync} \
 	./secret/eks/ /srv/uwscli/${profile}/utils/secret/eks/
 
-# go
+echo '*** sync: go'
 ${rsync} \
 	./go/ /srv/uwscli/${profile}/utils/go/
 

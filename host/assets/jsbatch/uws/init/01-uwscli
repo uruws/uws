@@ -164,5 +164,7 @@ install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/start.sh \
 	/srv/uwscli/schroot/start.sh
 install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/stop.sh \
 	/srv/uwscli/schroot/stop.sh
+install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/make.sh \
+	/srv/uwscli/schroot/make.sh
 
 exit 0
