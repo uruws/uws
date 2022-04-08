@@ -146,14 +146,11 @@ uwscli:
 
 .PHONY: uwscli-setup-schroot
 uwscli-setup-schroot:
-	@sudo /etc/init.d/docker start
-	@sleep 1
 	@$(MAKE) base
 	@$(MAKE) golang
 	@$(MAKE) k8s
 	@$(MAKE) prune
 	@docker images
-	@sudo /etc/init.d/docker stop
 
 #
 # uwsbot
