@@ -17,7 +17,7 @@ cleanup() {
 	schroot -c ${sess} -e
 }
 
-trap cleanup INT EXIT
+trap cleanup INT
 
 schroot -c uwscli-${profile} -n ${sess} -b
 
