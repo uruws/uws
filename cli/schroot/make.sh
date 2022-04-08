@@ -10,12 +10,15 @@ if ! test -d ./cli/schroot/${profile}; then
 	exit 1
 fi
 
-if ! test -d /srv/uwscli/${profile}/deploy/${repo}; then
-	echo "invalid repository: ${repo}" >&2
-	exit 2
-fi
-
 sess="uwscli-${profile}"
 schroot_sess="schroot -c ${sess} -d /root -u root -r"
+
+${schroot_sess} -- /usr/bin/true || {
+	exit 2
+}
+${schroot_sess} -- /usr/bin/test -d /srv/deploy/${repo} || {
+	echo "invalid repository: ${repo}" >&2
+	exit 3
+}
 
 exec ${schroot_sess} -- /usr/bin/make -C /srv/deploy/${repo} ${target}
