@@ -17,7 +17,7 @@ User=uws
 Group=uws
 WorkingDirectory=/home/uws
 ExecStartPre=cd /srv/uws/deploy
-ExecStartPre=./cli/schroot/setup.sh %i
+ExecStartPre=/srv/uws/deploy/cli/schroot/setup.sh %i
 ExecStart=/srv/uwscli/schroot/start.sh %i
 ExecStop=/srv/uwscli/schroot/stop.sh %i
 
