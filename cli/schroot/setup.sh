@@ -18,7 +18,7 @@ schroot_src="${surun} schroot -c source:uwscli-${profile}-src"
 # debootstrap
 #
 
-debdist=$(cat ./cli/schroot/${profile}/uwscli/debian.distro)
+debdist=$(cat ./cli/schroot/debian.distro)
 
 ${surun} install -v -d -o root -g uws -m 0750 /srv/uwscli/${profile}
 ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union
@@ -28,8 +28,7 @@ ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/unde
 debian_install='false'
 
 cksum() (
-	sha256sum ./cli/schroot/${profile}/uwscli/debian.distro \
-		./cli/schroot/${profile}/uwscli/debian.install
+	sha256sum ./cli/schroot/debian.distro ./cli/schroot/debian.install
 )
 
 LAST='NONE'
@@ -102,7 +101,7 @@ ${surun} ln -svf /srv/uwscli/${profile}/chroot.${version}  /srv/uwscli/${profile
 #
 
 if test 'Xtrue' = "X${debian_install}"; then
-	debpkg=$(cat ./cli/schroot/${profile}/uwscli/debian.install)
+	debpkg=$(cat ./cli/schroot/debian.install)
 
 	${schroot_src} -d /root -u root -- apt-get -q update -yy
 

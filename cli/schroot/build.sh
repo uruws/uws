@@ -22,6 +22,6 @@ schroot -c uwscli-${profile} -n ${sess} -b
 
 ${schroot_sess} -- /etc/init.d/docker start
 ${schroot_sess} -- /usr/bin/sudo -n -u uws make -C /srv/uws/deploy uwscli-setup-schroot
-${schroot_sess} -- /usr/bin/sudo -n -u uws make -C /srv/deploy/Buildpack bootstrap
+#~ ${schroot_sess} -- /usr/bin/sudo -n -u uws make -C /srv/deploy/Buildpack bootstrap
 
 exit 0
