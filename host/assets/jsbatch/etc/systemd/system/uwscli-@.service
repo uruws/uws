@@ -5,7 +5,6 @@ AssertFileIsExecutable=/usr/bin/schroot
 AssertFileIsExecutable=/usr/sbin/debootstrap
 AssertFileIsExecutable=/srv/uwscli/schroot/start.sh
 AssertFileIsExecutable=/srv/uwscli/schroot/stop.sh
-AssertFileIsExecutable=/srv/uws/deploy/cli/schroot/setup.sh
 
 [Service]
 Type=exec
@@ -16,8 +15,6 @@ Restart=on-failure
 User=uws
 Group=uws
 WorkingDirectory=/home/uws
-ExecStartPre=cd /srv/uws/deploy
-ExecStartPre=/srv/uws/deploy/cli/schroot/setup.sh %i
 ExecStart=/srv/uwscli/schroot/start.sh %i
 ExecStop=/srv/uwscli/schroot/stop.sh %i
 
