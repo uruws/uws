@@ -6,9 +6,10 @@ mkdir -vp ./docker/uwsbot/build/env/bot/bot
 install -C -v -m 644 ./go/etc/env/bot/* ./docker/uwsbot/build/env/bot/bot
 
 # uwsbot
-docker build --rm -t uws/uwsbot \
-	-f docker/uwsbot/Dockerfile \
-	./docker/uwsbot
+#docker build --rm -t uws/uwsbot \
+#	-f docker/uwsbot/Dockerfile \
+#	./docker/uwsbot
+docker rmi uws/uwsbot || true
 # uwsbot-2203
 docker build --rm -t uws/uwsbot-2203 \
 	-f docker/uwsbot/Dockerfile.2203 \
