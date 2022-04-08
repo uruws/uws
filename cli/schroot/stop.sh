@@ -9,4 +9,9 @@ if ! test -d /etc/schroot/uwscli-${profile}; then
 fi
 
 sess="uwscli-${profile}"
+schroot_sess="schroot -c ${sess} -d /root -u root -r"
+
+${schroot_sess} -- /etc/init.d/docker stop || true
+sleep 1
+
 exec schroot -c ${sess} -e
