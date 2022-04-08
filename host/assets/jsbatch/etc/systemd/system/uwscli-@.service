@@ -1,5 +1,5 @@
 [Unit]
-Description=uwscli-test
+Description=uwscli-%i
 Requires=syslog.service
 AssertFileIsExecutable=/usr/bin/schroot
 AssertFileIsExecutable=/usr/sbin/debootstrap
@@ -17,9 +17,9 @@ User=uws
 Group=uws
 WorkingDirectory=/home/uws
 ExecStartPre=cd /srv/uws/deploy
-ExecStartPre=./cli/schroot/setup.sh test
-ExecStart=/srv/uwscli/schroot/start.sh test sshd
-ExecStop=/srv/uwscli/schroot/stop.sh test sshd
+ExecStartPre=./cli/schroot/setup.sh %i
+ExecStart=/srv/uwscli/schroot/start.sh %i
+ExecStop=/srv/uwscli/schroot/stop.sh %i
 
 [Install]
 WantedBy=multi-user.target
