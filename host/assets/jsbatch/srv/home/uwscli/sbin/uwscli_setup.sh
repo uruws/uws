@@ -67,6 +67,7 @@ chown -vR root:root ~uwscli/sbin
 chmod -v 0550 ~uwscli/sbin/*.*
 
 chown -R root:uws /srv/uws/deploy
+chown -vR uws:uws /srv/uws/deploy/secret/eks/kube/cluster
 
 # operator utils
 
