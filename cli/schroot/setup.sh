@@ -190,10 +190,4 @@ ${schroot_src} -d /root -u root -- install -v -C -o root -g 3100 -m 0640 \
 
 ${schroot_src} -d /root -u root -- /srv/home/uwscli/sbin/uwscli_setup.py
 
-#
-# docker images
-#
-
-./cli/schroot/build.sh ${profile}
-
 exit 0

@@ -8,18 +8,7 @@ if ! test -d ./cli/schroot/${profile}; then
 	exit 1
 fi
 
-sess=$(schroot -c uwscli-${profile} -b)
+sess="uwscli-${profile}"
 schroot_sess="schroot -c ${sess} -d /root -u root -r"
 
-cleanup() {
-	${schroot_sess} -- /etc/init.d/docker stop
-	schroot -c ${sess} -e
-}
-
-trap cleanup INT EXIT
-
-${schroot_sess} -- /etc/init.d/docker start
-sleep 1
-${schroot_sess} -- /bin/bash -i
-
-exit 0
+exec ${schroot_sess} -- /bin/bash -i
