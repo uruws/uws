@@ -11,7 +11,7 @@ fi
 
 /uws/bin/service-restart.sh uwscli-@test \
 	/etc/systemd/system/uwscli-@.service \
-	/srv/uwscli/test/secret/sshd \
+	/srv/uwscli/test/secret \
 	/srv/uwscli/schroot/start.sh \
 	/srv/uwscli/schroot/stop.sh
 
