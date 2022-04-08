@@ -18,6 +18,9 @@ docker_storage_min: int = 10*1024*1024 # 10G
 admin_group:    str = getenv('UWSCLI_ADMIN_GROUP',    'uwsadm')
 operator_group: str = getenv('UWSCLI_OPERATOR_GROUP', 'uwsops')
 
+def _ghrepo(n: str) -> str:
+	return f"git@github.com:TalkingPts/{n}.git"
+
 @dataclass
 class AppBuild(object):
 	dir:    str
@@ -26,8 +29,12 @@ class AppBuild(object):
 	src:    str = '.'
 	target: str = 'None'
 	clean:  str = ''
+	repo:   str = ''
 
-def _buildpack(src: str, target: str) -> AppBuild:
+def _buildpack(src: str, target: str, repo: str = '') -> AppBuild:
+	_uri = ''
+	if repo != '':
+		_uri = _ghrepo(repo)
 	return AppBuild(
 		'/srv/deploy/Buildpack',
 		'build.py',
@@ -35,6 +42,7 @@ def _buildpack(src: str, target: str) -> AppBuild:
 		src = src,
 		target = target,
 		clean = target,
+		repo = _uri,
 	)
 
 @dataclass
@@ -65,7 +73,7 @@ class App(object):
 app: dict[str, App] = {
 	'app': App(False,
 		desc = 'App web and workers',
-		build = _buildpack('app/src', 'app'),
+		build = _buildpack('app/src', 'app', 'App'),
 		autobuild = True,
 		autobuild_deploy = ['app-test-1', 'app-test-2'],
 		groups = ['uwsapp_app'],
@@ -117,13 +125,18 @@ app: dict[str, App] = {
 		cluster = 'amybeta',
 		desc = 'Crowdsourcing',
 		pod = 'meteor/cs',
-		build = _buildpack('cs/src', 'crowdsourcing'),
+		build = _buildpack('cs/src', 'crowdsourcing', 'Crowdsourcing'),
 		deploy = AppDeploy('meteor-crowdsourcing'),
 		groups = ['uwsapp_crowdsourcing', 'uwsapp_cs'],
 	),
 	'nlpsvc': App(False,
 		desc = 'NLPService',
-		build = AppBuild('/srv/deploy/NLPService', 'build.sh', clean = 'nlpsvc'),
+		build = AppBuild(
+			'/srv/deploy/NLPService',
+			'build.sh',
+			clean = 'nlpsvc',
+			repo = _ghrepo('NLPService'),
+		),
 		groups = ['uwsapp_nlpsvc', 'uwsapp_nlp'],
 	),
 	'nlp-sentiment-twitter': App(True,
@@ -142,7 +155,7 @@ app: dict[str, App] = {
 	),
 	'infra-ui': App(False,
 		desc = 'Infra-UI',
-		build = _buildpack('infra-ui/src', 'infra-ui'),
+		build = _buildpack('infra-ui/src', 'infra-ui', 'Infra-UI'),
 		groups = ['uwsapp_infra-ui'],
 	),
 	'infra-ui-test': App(True,

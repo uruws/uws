@@ -34,7 +34,7 @@ class Test(unittest.TestCase):
 		calls = [
 			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_app.sh app testing', env = _env),
-			call('/srv/home/uwscli/sbin/uwscli_user.sh /srv/home 5000 tuser', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_user.sh /home 5000 tuser', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_user_groups.sh tuser tapp tapp1', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_admin.sh tuser', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_operator.sh tuser', env = _env),
