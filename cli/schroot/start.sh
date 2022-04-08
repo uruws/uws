@@ -29,6 +29,7 @@ schroot -c uwscli-${profile} -n ${sess} -b
 
 if test 'Xsshd' = "X${service}"; then
 	${schroot_sess} -- /etc/init.d/docker start
+	sleep 1
 	${schroot_sess} -- /usr/bin/sudo -n -u uws make -C /srv/uws/deploy uwscli-setup-schroot
 	#~ ${schroot_sess} -- /usr/bin/sudo -n -u uws make -C /srv/deploy/Buildpack bootstrap
 fi
