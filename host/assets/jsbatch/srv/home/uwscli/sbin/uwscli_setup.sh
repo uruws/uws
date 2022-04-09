@@ -25,12 +25,23 @@ chmod -v 0750 /srv/home/uws
 
 adduser uws docker
 
+install -v -d -o uws -g uws -m 0750 ~uws/.ssh
+install -v -C -o uws -g uws -m 0400 /usr/local/etc/ssh/id_ed25519 ~uws/.ssh/
+install -v -C -o uws -g uws -m 0440 /usr/local/etc/ssh/id_ed25519.pub ~uws/.ssh/
+install -v -C -o uws -g uws -m 0440 /usr/local/etc/ssh/config ~uws/.ssh/
+
 # uwscli
 groupadd -g 3100 uwscli || true
 useradd -d /srv/home/uwscli -M -c 'uwscli' -s /bin/bash -g 3100 -u 3100 uwscli || true
 chmod -v 0750 /srv/home/uwscli
 
 adduser uws uwscli
+
+install -v -C -o root -g uwscli -m 0640 \
+	~uwscli/etc/user.bash_profile ~uwscli/.bash_profile
+
+adduser uwscli uwsadm
+adduser uwscli uwsops
 
 # sudoers
 
@@ -95,13 +106,5 @@ find ~uwscli/vendor/ -type d -name __pycache__ -print0 |
 python3 -m compileall ~uwscli/vendor
 
 chown -R root:uwscli ~uwscli/vendor
-
-# uwscli user
-
-install -v -C -o root -g uwscli -m 0640 \
-	~uwscli/etc/user.bash_profile ~uwscli/.bash_profile
-
-adduser uwscli uwsadm
-adduser uwscli uwsops
 
 exit 0
