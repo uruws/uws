@@ -48,6 +48,7 @@ def main(argv: list[str] = []) -> int:
 			_run('uwscli_user_groups.sh', args)
 		_run('uwscli_admin.sh', uwscli.admin_list())
 		_run('uwscli_operator.sh', uwscli.operator_list())
+		_run('buildpack_setup.sh', ['/srv/deploy/Buildpack', uwscli.buildpack_repo()])
 	except _cmdFailed as err:
 		return err.rc
 

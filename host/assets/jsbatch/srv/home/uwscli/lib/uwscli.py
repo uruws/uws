@@ -22,7 +22,9 @@ _env: dict[str, str] = {
 }
 environ.update(_env)
 
-from uwscli_conf import app, cluster, bindir, cmddir, docker_storage, docker_storage_min
+from uwscli_conf import app, cluster, bindir, cmddir
+from uwscli_conf import docker_storage, docker_storage_min
+from uwscli_conf import buildpack_repo
 
 def _local_conf(cfgdir: str = '/etc/uws/cli'):
 	if Path(cfgdir).is_dir():

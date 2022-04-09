@@ -21,6 +21,9 @@ operator_group: str = getenv('UWSCLI_OPERATOR_GROUP', 'uwsops')
 def _ghrepo(n: str) -> str:
 	return f"git@github.com:TalkingPts/{n}.git"
 
+def buildpack_repo() -> str:
+	return _ghrepo('Buildpack')
+
 @dataclass
 class AppBuild(object):
 	dir:    str
