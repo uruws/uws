@@ -151,6 +151,9 @@ uwscli-setup-schroot:
 	@$(MAKE) k8s
 	@$(MAKE) prune
 	@docker images
+	@echo '*** Buildpack'
+	@NQDIR=/run/uwscli/nq nq -c -- make -C /srv/deploy/Buildpack bootstrap
+	@NQDIR=/run/uwscli/nq nq -c -- make -C /srv/deploy/Buildpack prune
 
 #
 # uwsbot
