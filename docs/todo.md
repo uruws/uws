@@ -13,7 +13,7 @@
 
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
     * uwscli schroot setup - `DONE!`
-    * uwscli testing env (jsbatch)
+    * uwscli testing env (jsbatch) - `DONE!`
     * devel infra-api
     * setup infra-api for testing: apitest.u.t.o
     * opsdev CA
@@ -23,7 +23,7 @@
 * infra-api
     * devel and setup
 
-* Infrastructure
+* Infrastructure - `DONE!`
     * deploy *only* signed git commits
     * once we have that in place we can set it up for App and other critical stuff
 
