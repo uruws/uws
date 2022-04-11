@@ -21,6 +21,10 @@
 * infra-api
     * devel and setup
 
+* Infrastructure
+    * deploy *only* signed git commits
+    * once we have that in place we can set it up for App and other critical stuff
+
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
 
