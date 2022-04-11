@@ -13,7 +13,7 @@ export GIT_DIR=.git
 echo "i - START $(date -R)"
 echo "i - git checkout ${refname} ${oldrev} ${newrev}"
 
-git fetch --all
+git fetch --prune --prune-tags --tags
 git checkout "${newrev}"
 git status
 
