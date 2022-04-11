@@ -15,7 +15,7 @@ echo "i - git checkout ${refname} ${oldrev} ${newrev}"
 
 #~ git fetch --prune --prune-tags --tags
 #~ git checkout "${newrev}"
-git pull --quiet --no-rebase --verify-signatures
+git pull --quiet --no-rebase --verify-signatures --prune origin master
 git status
 
 sleep 1
