@@ -1,5 +1,7 @@
 * Buildpack meteor 2.7.1 setup - `DONE!`
 
+* App migrate to meteor 2.7.1 setup - `DONE!`
+
 * uwscli auto-setup from main configuration - `WIP`
     * setup users and groups - `DONE!`
     * setup apps groups - `DONE!`
@@ -24,6 +26,8 @@
 * Infrastructure
     * deploy *only* signed git commits
     * once we have that in place we can set it up for App and other critical stuff
+
+* Buildpack: deploy from signed tags only
 
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
