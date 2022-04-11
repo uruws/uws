@@ -215,6 +215,8 @@
 * docker/devel
     * `2203`: python-2203
         * build.sh: Dockerfile.2203
+* deploy
+    * `2203`: Dockerfile buildpack:base-2203
 * docker/meteor
     * `2203`: base-2203, meteor release 2.7.1
         * build.sh: Dockerfile.2203
