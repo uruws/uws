@@ -13,8 +13,9 @@ export GIT_DIR=.git
 echo "i - START $(date -R)"
 echo "i - git checkout ${refname} ${oldrev} ${newrev}"
 
-git fetch --prune --prune-tags --tags
-git checkout "${newrev}"
+#~ git fetch --prune --prune-tags --tags
+#~ git checkout "${newrev}"
+git pull --quiet --no-rebase
 git status
 
 sleep 1
