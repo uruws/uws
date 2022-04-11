@@ -1,9 +1,25 @@
 * Buildpack meteor 2.7.1 setup - `DONE!`
 
+* uwscli auto-setup from main configuration - `WIP`
+    * setup users and groups - `DONE!`
+    * setup apps groups - `DONE!`
+    * grant users apps access - `DONE!`
+    * setup buildpack repo - `DONE!`
+    * build buildpack - `DONE!`
+    * integrate with buildpack deploy scripts
+    * setup apps repo
+
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
     * uwscli schroot setup - `DONE!`
     * uwscli testing env (jsbatch)
+    * devel infra-api
+    * setup infra-api for testing: apitest.u.t.o
+    * opsdev CA
+    * protect testing.u.t.o and apitest.u.t.o with opsdev
     * devel and testing cluster for local/devel envs
+
+* infra-api
+    * devel and setup
 
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
