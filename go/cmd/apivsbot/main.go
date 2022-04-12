@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"uws/api/stats"
+	"uws/tapo/api/stats"
 	"uws/fs"
 	"uws/log"
 

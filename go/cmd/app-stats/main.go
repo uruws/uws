@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"uws/app/stats"
+	"uws/tapo/app/stats"
 	"uws/log"
 )
 

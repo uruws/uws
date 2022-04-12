@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"uws/api/job/stats"
+	"uws/tapo/api/job/stats"
 	"uws/log"
 )
 
