@@ -11,7 +11,7 @@
 * infra-api
     * devel and setup
 
-* Buildpack: deploy from signed tags only
+* Buildpack: deploy from signed tags only - `DONE!`
 
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
