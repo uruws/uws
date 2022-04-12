@@ -8,8 +8,8 @@
     * grant users apps access - `DONE!`
     * setup buildpack repo - `DONE!`
     * build buildpack - `DONE!`
-    * integrate with buildpack deploy scripts
     * setup apps repo
+    * integrate with buildpack deploy scripts
 
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
     * uwscli schroot setup - `DONE!`

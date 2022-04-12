@@ -19,12 +19,14 @@ class Test(unittest.TestCase):
 		uwscli_t.mock()
 
 	def test_main(t):
+		uwscli.app['testing'].build.repo = 'testing.git'
 		calls = [
 			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_app.sh app testing', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_admin.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_operator.sh', env = _env),
 			call('/srv/home/uwscli/sbin/buildpack_setup.sh /srv/deploy/Buildpack git@github.com:TalkingPts/Buildpack.git', env = _env),
+			call('/srv/home/uwscli/sbin/app_repo.sh testing.git /srv/deploy/Testing', env = _env),
 		]
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli_setup.main(), 0)

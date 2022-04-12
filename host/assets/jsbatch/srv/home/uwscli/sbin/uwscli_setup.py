@@ -49,6 +49,9 @@ def main(argv: list[str] = []) -> int:
 		_run('uwscli_admin.sh', uwscli.admin_list())
 		_run('uwscli_operator.sh', uwscli.operator_list())
 		_run('buildpack_setup.sh', ['/srv/deploy/Buildpack', uwscli.buildpack_repo()])
+		for app in uwscli.build_repo():
+			uwscli.log('app repo:', app['app'])
+			_run('app_repo.sh', [app['uri'], app['workdir']])
 	except _cmdFailed as err:
 		return err.rc
 
