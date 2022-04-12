@@ -1,20 +1,8 @@
-* Buildpack meteor 2.7.1 setup - `DONE!`
-
-* App migrate to meteor 2.7.1 setup - `DONE!`
-
 * uwscli auto-setup from main configuration - `WIP`
-    * setup users and groups - `DONE!`
-    * setup apps groups - `DONE!`
-    * grant users apps access - `DONE!`
-    * setup buildpack repo - `DONE!`
-    * build buildpack - `DONE!`
-    * setup apps repo
+    * setup apps repo - `DONE!`
     * integrate with buildpack deploy scripts
 
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
-    * uwscli schroot setup - `DONE!`
-    * uwscli testing env (jsbatch) - `DONE!`
-    * devel infra-api
     * setup infra-api for testing: apitest.u.t.o
     * opsdev CA
     * protect testing.u.t.o and apitest.u.t.o with opsdev
@@ -22,10 +10,6 @@
 
 * infra-api
     * devel and setup
-
-* Infrastructure - `DONE!`
-    * deploy *only* signed git commits
-    * once we have that in place we can set it up for App and other critical stuff
 
 * Buildpack: deploy from signed tags only
 
