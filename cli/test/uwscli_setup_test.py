@@ -33,6 +33,15 @@ class Test(unittest.TestCase):
 			uwscli.system.assert_has_calls(calls)
 			t.assertEqual(uwscli.system.call_count, len(calls))
 
+	def test_main_error(t):
+		calls = [
+			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
+		]
+		with uwscli_t.mock_system(status = 99):
+			t.assertEqual(uwscli_setup.main(), 99)
+			uwscli.system.assert_has_calls(calls)
+			t.assertEqual(uwscli.system.call_count, len(calls))
+
 	def test_users(t):
 		calls = [
 			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
@@ -48,6 +57,25 @@ class Test(unittest.TestCase):
 				t.assertEqual(uwscli_setup.main(), 0)
 				uwscli.system.assert_has_calls(calls)
 				t.assertEqual(uwscli.system.call_count, len(calls))
+
+	def test_run(t):
+		calls = [
+			call('/srv/home/uwscli/sbin/testing.sh', env = _env),
+		]
+		with uwscli_t.mock_system():
+			uwscli_setup._run('testing.sh')
+			uwscli.system.assert_has_calls(calls)
+			t.assertEqual(uwscli.system.call_count, len(calls))
+
+	def test_run_error(t):
+		calls = [
+			call('/srv/home/uwscli/sbin/testing.sh', env = _env),
+		]
+		with uwscli_t.mock_system(status = 99):
+			with t.assertRaises(uwscli_setup._cmdFailed):
+				uwscli_setup._run('testing.sh')
+			uwscli.system.assert_has_calls(calls)
+			t.assertEqual(uwscli.system.call_count, len(calls))
 
 if __name__ == '__main__':
 	unittest.main()
