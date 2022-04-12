@@ -1,12 +1,5 @@
 #!/bin/sh
 set -eu
-# awscli
-#docker build "$@" --rm -t uws/awscli \
-#	--build-arg "UWS_UID=$(id -u)" \
-#	--build-arg "UWS_GID=$(id -g)" \
-#	--build-arg "UWS_UMASK=$(umask)" \
-#	-f docker/awscli/Dockerfile \
-#	./docker/awscli
 docker rmi uws/awscli || true
 docker rmi amazon/aws-cli || true
 # awscli-2203

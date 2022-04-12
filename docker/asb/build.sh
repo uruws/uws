@@ -1,9 +1,5 @@
 #!/bin/sh
 set -eu
-# ansible
-#docker build --rm -t uws/ansible \
-#	-f docker/asb/Dockerfile \
-#	./docker/asb
 docker rmi uws/ansible || true
 # ansible-2203
 docker build --rm -t uws/ansible-2203 \
