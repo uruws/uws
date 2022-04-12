@@ -48,6 +48,7 @@ class Test(unittest.TestCase):
 			call('/srv/home/uwscli/sbin/uwscli_app.sh app testing', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_user.sh /home 5000 tuser', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_user_groups.sh tuser tapp tapp1', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_user_authkeys.sh /home tuser t.key', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_admin.sh tuser', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_operator.sh tuser', env = _env),
 			call('/srv/home/uwscli/sbin/buildpack_setup.sh /srv/deploy/Buildpack git@github.com:TalkingPts/Buildpack.git', env = _env),

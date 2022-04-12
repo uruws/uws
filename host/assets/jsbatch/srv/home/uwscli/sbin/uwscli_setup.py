@@ -41,13 +41,21 @@ def main(argv: list[str] = []) -> int:
 	try:
 		_run('uwscli_setup.sh')
 		_run('uwscli_app.sh', uwscli.app_groups())
+
 		for user in uwscli.user_list():
+			# user
 			_run('uwscli_user.sh', [conf.homedir, str(user.uid), user.name])
+			# groups
 			args = [user.name]
 			args.extend(user.groups)
 			_run('uwscli_user_groups.sh', args)
+			# authkeys
+			if user.keyid != '':
+				_run('uwscli_user_authkeys.sh', [conf.homedir, user.name, user.keyid])
+
 		_run('uwscli_admin.sh', uwscli.admin_list())
 		_run('uwscli_operator.sh', uwscli.operator_list())
+
 		_run('buildpack_setup.sh', ['/srv/deploy/Buildpack', uwscli.buildpack_repo()])
 		for app in uwscli.build_repo():
 			uwscli.log('app repo:', app['app'])

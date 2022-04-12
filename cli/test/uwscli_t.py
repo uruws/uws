@@ -178,6 +178,7 @@ def mock_users():
 			'tuser': uwscli_user.AppUser(5000,
 				groups = ['tapp', 'tapp1'],
 				is_admin = True,
+				keyid = 't.key',
 			),
 		}
 		yield

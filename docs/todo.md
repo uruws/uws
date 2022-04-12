@@ -1,5 +1,6 @@
 * uwscli auto-setup from main configuration - `WIP`
     * setup apps repo - `DONE!`
+    * setup users ssh keys - `DONE!`
     * integrate with buildpack deploy scripts
 
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`

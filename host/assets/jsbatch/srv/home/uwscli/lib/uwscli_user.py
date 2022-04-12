@@ -11,6 +11,7 @@ class AppUser(object):
 	groups:      dict[str, bool] = field(default_factory = dict)
 	is_admin:    bool            = False
 	is_operator: bool            = False
+	keyid:       str             = ""
 
 	def __post_init__(u):
 		if u.is_admin:
