@@ -82,3 +82,13 @@ func TestPingHandlerError(t *testing.T) {
 	IsEqual(t, resp.StatusCode, 500, "resp status code")
 	IsEqual(t, mock.HTTPResponseString(resp), "error: mock_error", "resp body")
 }
+
+func TestMain(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	listenAndServe = mock.HTTPListenAndServe
+	defer func() {
+		listenAndServe = bupListenAndServe
+	}()
+	Panics(t, main, "main")
+}
