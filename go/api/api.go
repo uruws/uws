@@ -7,18 +7,29 @@ package api
 import (
 	"net/http"
 	"os"
+	"strconv"
 
 	"uws/wapp"
 )
 
 var (
-	bindir  string
+	bindir string
+	cmdttl int
 )
 
 func init() {
 	bindir = os.Getenv("UWSAPI_BINDIR")
 	if bindir == "" {
 		bindir = "/usr/local/bin"
+	}
+	cmdttlString := os.Getenv("UWSAPI_CMDTTL")
+	if cmdttlString == "" {
+		cmdttlString = "/usr/local/bin"
+	}
+	cmdttlInt, _ := strconv.ParseInt(cmdttlString, 10, 0)
+	cmdttl = int(cmdttlInt)
+	if cmdttl <= 0 {
+		cmdttl = 300 // 5 minutes
 	}
 }
 

@@ -27,7 +27,7 @@ func newCmd(name string, args ...string) *apiCmd {
 		name:   name,
 		args:   args,
 		bindir: bindir,
-		ttl:    300, // 5min
+		ttl:    cmdttl,
 	}
 }
 
