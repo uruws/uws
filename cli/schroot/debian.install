@@ -10,3 +10,4 @@ openssh-server
 awscli
 make
 git
+ssh-import-id
