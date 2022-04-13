@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	//~ "uws/api"
+	"uws/api"
 	"uws/log"
 	"uws/wapp"
 )
@@ -29,6 +29,8 @@ func main() {
 
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_", pingHandler)
+
+	http.HandleFunc("/", api.MainHandler)
 
 	log.Fatal("%s", listenAndServe(":3800", nil))
 }
