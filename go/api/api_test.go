@@ -5,6 +5,7 @@ package api
 
 import (
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	"uws/testing/mock"
@@ -30,6 +31,19 @@ func mockApiReset() {
 
 func TestGlobals(t *testing.T) {
 	IsEqual(t, bindir, "/usr/local/bin", "bindir")
+	IsEqual(t, cmdttl, 300, "cmdttl")
+	IsEqual(t, Port, 3800, "Port")
+}
+
+func TestConfigure(t *testing.T) {
+	// cmdttl
+	os.Setenv("UWSAPI_CMDTTL", "0")
+	configure()
+	IsEqual(t, cmdttl, 300, "cmdttl")
+	// Port
+	os.Setenv("UWSAPI_PORT", "-1")
+	configure()
+	IsEqual(t, Port, 3800, "Port")
 }
 
 func TestMainHandler(t *testing.T) {
