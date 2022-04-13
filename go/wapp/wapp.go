@@ -19,7 +19,8 @@ func Start() time.Time {
 
 func logRequest(r *http.Request, status, size int, start time.Time) {
 	took := time.Now().Sub(start)
-	log.Print("%s %s %s %d %d %s", r.RemoteAddr, r.Method, r.URL, status, size, took)
+	msg := fmt.Sprintf("%s %s %s %d %d %s", r.RemoteAddr, r.Method, r.URL, status, size, took)
+	log.Output(3, msg)
 }
 
 func LogError(r *http.Request, format string, v ...interface{}) {
