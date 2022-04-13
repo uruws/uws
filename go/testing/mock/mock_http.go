@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 )
 
@@ -15,7 +16,20 @@ func HTTPListenAndServe(addr string, h http.Handler) error {
 }
 
 func HTTPRequest() *http.Request {
-	r := httptest.NewRequest("GET", "/", nil)
+	return httptest.NewRequest("GET", "/", nil)
+}
+
+func HTTPRequestPost(query string) *http.Request {
+	if query == "" {
+		return httptest.NewRequest("POST", "/", nil)
+	}
+	v, err := url.ParseQuery(query)
+	if err != nil {
+		panic(err)
+	}
+	body := strings.NewReader(v.Encode())
+	r := httptest.NewRequest("POST", "/", body)
+	r.Header.Set("content-type", "application/x-www-form-urlencoded")
 	return r
 }
 

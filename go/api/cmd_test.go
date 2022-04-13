@@ -91,3 +91,36 @@ func TestDoExecError(t *testing.T) {
 	resp := w.Result()
 	IsEqual(t, resp.StatusCode, 500, "resp status code")
 }
+
+func TestExecHandlerNoCmd(t *testing.T) {
+	mockApi()
+	defer mockApiReset()
+	bindir = "/bin"
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequestPost("")
+	ExecHandler(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 500, "resp status code")
+}
+
+func TestExecHandlerInvalidMethod(t *testing.T) {
+	mockApi()
+	defer mockApiReset()
+	bindir = "/bin"
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	ExecHandler(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 400, "resp status code")
+}
+
+func TestExecHandler(t *testing.T) {
+	mockApi()
+	defer mockApiReset()
+	bindir = "/bin"
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequestPost("cmd=true")
+	ExecHandler(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+}
