@@ -200,7 +200,7 @@ docker/uwsbot/build/uwsbot-devel.tgz: docker/uwsbot/build/uwsbot.bin docker/uwsb
 # api-job-stats
 #
 
-API_JOB_DEPS != find go/api go/cmd/api-job-stats go/log -type f -name '*.go'
+API_JOB_DEPS != find go/tapo/api go/cmd/api-job-stats go/log -type f -name '*.go'
 
 docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
@@ -263,7 +263,7 @@ heroku:
 # app-stats
 #
 
-APP_STATS_DEPS := go/cmd/app-stats/main.go go/app/stats/*.go
+APP_STATS_DEPS := go/cmd/app-stats/main.go go/tapo/app/stats/*.go
 
 .PHONY: app-stats
 app-stats: docker/golang/build/app-stats.bin
