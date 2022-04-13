@@ -4,6 +4,8 @@
 package api
 
 import (
+	"uws/wapp"
+
 	"testing"
 	"uws/testing/mock"
 
@@ -64,4 +66,28 @@ func TestCmdRunInvalidCmd(t *testing.T) {
 	IsEqual(t, err.Error(),
 		"fork/exec /bin/testing_invalid_cmd: no such file or directory",
 		"cmd error message")
+}
+
+func TestDoExec(t *testing.T) {
+	mockApi()
+	defer mockApiReset()
+	bindir = "/bin"
+	start := wapp.Start()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	doExec(w, r, start, "true")
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+}
+
+func TestDoExecError(t *testing.T) {
+	mockApi()
+	defer mockApiReset()
+	bindir = "/bin"
+	start := wapp.Start()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	doExec(w, r, start, "false")
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 500, "resp status code")
 }
