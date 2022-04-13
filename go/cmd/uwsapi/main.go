@@ -5,6 +5,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
@@ -33,7 +34,7 @@ func main() {
 	http.HandleFunc("/exec", api.ExecHandler)
 	http.HandleFunc("/", api.MainHandler)
 
-	log.Fatal("%s", listenAndServe(":3800", nil))
+	log.Fatal("%s", listenAndServe(fmt.Sprintf(":%d", api.Port), nil))
 }
 
 func healthzHandler(w http.ResponseWriter, r *http.Request) {
