@@ -353,7 +353,13 @@ check-asb:
 #
 
 .PHONY: CA
-CA: mkcert ca/ops ca/opstest ca/smtps
+CA: mkcert
+	@echo '*** ca/ops'
+	@$(MAKE) ca/ops
+	@echo '*** ca/opstest'
+	@$(MAKE) ca/opstest
+	@echo '*** ca/smtps'
+	@$(MAKE) ca/smtps
 
 .PHONY: ca/ops
 ca/ops:
