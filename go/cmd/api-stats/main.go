@@ -11,9 +11,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"uws/tapo/api/stats"
 	"uws/fs"
 	"uws/log"
+	"uws/tapo/api/stats"
 )
 
 func main() {

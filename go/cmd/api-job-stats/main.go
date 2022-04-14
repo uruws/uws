@@ -10,8 +10,8 @@ import (
 	"os"
 	"strings"
 
-	"uws/tapo/api/job/stats"
 	"uws/log"
+	"uws/tapo/api/job/stats"
 )
 
 func main() {

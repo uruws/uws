@@ -9,8 +9,8 @@ import (
 	"os"
 	"strings"
 
-	"uws/tapo/app/stats"
 	"uws/log"
+	"uws/tapo/app/stats"
 )
 
 func main() {
