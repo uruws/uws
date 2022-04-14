@@ -130,6 +130,8 @@
 * docker/uwscli
     * `2203`: python-2203
     * 2109: python-2109
+* srv/uwsapi
+    * `2203`: base-2203
 * srv/proftpd
     * `2203`: base-2203
     * 2109: base-2109

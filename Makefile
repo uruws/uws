@@ -17,6 +17,7 @@ distclean: clean
 	@rm -rvf ./srv/crond/build
 	@rm -rvf ./srv/munin/build
 	@rm -rvf ./srv/munin-node/build
+	@rm -rvf ./srv/uwsapi/build
 
 .PHONY: prune
 prune:
@@ -40,7 +41,7 @@ all: bootstrap acme clamav k8sctl uwsbot mailx crond munin munin-backend munin-n
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert k8s eks python ansible uwscli devel
+bootstrap: awscli base base-testing golang mkcert k8s eks python ansible uwscli uwsapi devel
 
 #
 # base containers
@@ -156,6 +157,23 @@ uwscli-setup-schroot:
 	@NQDIR=/run/uwscli/nq nq -c -- make -C /srv/deploy/Buildpack prune
 
 #
+# uwsapi
+#
+
+.PHONY: uwsapi
+uwsapi: srv/uwsapi/build/uwsapi.bin
+	@./srv/uwsapi/build.sh
+
+srv/uwsapi/build/uwsapi.bin: docker/golang/build/uwsapi.bin
+	@mkdir -vp ./srv/uwsapi/build
+	@install -v -C docker/golang/build/uwsapi.bin ./srv/uwsapi/build/uwsapi.bin
+
+UWSAPI_DEPS != find go/cmd/uwsapi go/api go/wapp -type f -name '*.go'
+
+docker/golang/build/uwsapi.bin: $(UWSAPI_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/uwsapi.bin ./cmd/uwsapi
+
+#
 # uwsbot
 #
 
@@ -167,14 +185,14 @@ uwsbot: docker/uwsbot/build/uwsbot.bin docker/uwsbot/build/uwsbot-stats.bin dock
 
 docker/uwsbot/build/uwsbot.bin: docker/golang/build/uwsbot.bin
 	@mkdir -vp ./docker/uwsbot/build
-	@install -v docker/golang/build/uwsbot.bin ./docker/uwsbot/build/uwsbot.bin
+	@install -v -C docker/golang/build/uwsbot.bin ./docker/uwsbot/build/uwsbot.bin
 
 docker/golang/build/uwsbot.bin: $(UWS_BOT_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/uwsbot.bin ./cmd/uwsbot
 
 docker/uwsbot/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
 	@mkdir -vp ./docker/uwsbot/build
-	@install -v docker/golang/build/uwsbot-stats.bin ./docker/uwsbot/build/uwsbot-stats.bin
+	@install -v -C docker/golang/build/uwsbot-stats.bin ./docker/uwsbot/build/uwsbot-stats.bin
 
 docker/golang/build/uwsbot-stats.bin: $(UWS_BOT_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/uwsbot-stats.bin ./cmd/uwsbot-stats
