@@ -5,8 +5,8 @@
 
 * [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
     * setup infra-api for testing: apitest.u.t.o
-    * opsdev CA
-    * protect testing.u.t.o and apitest.u.t.o with opsdev
+    * opstest CA
+    * protect testing.u.t.o and apitest.u.t.o with opstest
     * devel and testing cluster for local/devel envs
 
 * infra-api

@@ -353,8 +353,18 @@ check-asb:
 #
 
 .PHONY: CA
-CA: mkcert
+CA: mkcert ca/ops ca/opstest ca/smtps
+
+.PHONY: ca/ops
+ca/ops:
 	@./secret/ca/uws/gen.sh ops
+
+.PHONY: ca/opstest
+ca/opstest:
+	@./secret/ca/uws/gen.sh opstest
+
+.PHONY: ca/smtps
+ca/smtps:
 	@./secret/ca/uws/gen.sh smtps
 
 #
