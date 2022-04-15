@@ -157,14 +157,21 @@ crontab -u uwscli ~uwscli/etc/crontab.in
 
 # uwscli setup
 
+
+# env dirs
 install -v -d -o root -g uws -m 0750 /srv/uwscli
 install -v -d -o root -g uws -m 0750 /srv/uwscli/schroot
 
+# helper scripts
 install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/start.sh \
 	/srv/uwscli/schroot/start.sh
 install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/stop.sh \
 	/srv/uwscli/schroot/stop.sh
 install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/make.sh \
 	/srv/uwscli/schroot/make.sh
+
+# systemd service
+install -v -C -o root -g root -m 0640 /srv/uws/deploy/cli/schroot/uwscli-@.service \
+	/etc/systemd/system/uwscli-@.service
 
 exit 0
