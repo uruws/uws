@@ -26,6 +26,8 @@
 
 * add mongodb indexes monbot check?
 
+* add bot to check we can send emails? (mandrill service)
+
 * `CLEAN` /srv/deploy/analysis.git setup for (old) iss72 deploy
 
 * `FIX` buildpack:
