@@ -24,6 +24,8 @@
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
     * EKS ec2 "reserved instances" setup to help saving costs
 
+* add mongodb indexes monbot check?
+
 * `CLEAN` /srv/deploy/analysis.git setup for (old) iss72 deploy
 
 * `FIX` buildpack:
