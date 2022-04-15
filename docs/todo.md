@@ -1,3 +1,10 @@
+* emails issue: added notifications job collections limits/alerts - `DONE!`
+    * emailNotifications
+    * parentNotifications
+    * smsNotifications
+    * teacherNotifications
+
+
 * uwscli auto-setup from main configuration - `WIP`
     * setup apps repo - `DONE!`
     * setup users ssh keys - `DONE!`
