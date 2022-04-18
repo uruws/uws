@@ -15,7 +15,9 @@ chmod -v 0644 /var/www/html/index.html
 
 rm -vf /etc/nginx/sites-enabled/*
 
-install -v -C -m 0644 /etc/nginx/sites-available/jsbatch /etc/nginx/sites-enabled
+install_cmd='install -v -C -m 0644 -o root -g root'
+
+${install_cmd} /etc/nginx/sites-available/jsbatch /etc/nginx/sites-enabled
 
 mkdir -vp /srv/etc/ssl
 dhparam=/srv/etc/ssl/dhparam.pem
@@ -24,19 +26,24 @@ if ! test -s ${dhparam}; then
 fi
 
 if test -s /srv/acme/cert/jsbatch.uws.talkingpts.org.crt; then
-	install -v -C -m 0644 /etc/nginx/sites-available/ssl-jsbatch /etc/nginx/sites-enabled
+	${install_cmd} /etc/nginx/sites-available/ssl-jsbatch /etc/nginx/sites-enabled
 fi
 
 # ops
-install -v -C -m 0644 /etc/nginx/sites-available/ops /etc/nginx/sites-enabled
+${install_cmd} /etc/nginx/sites-available/ops /etc/nginx/sites-enabled
 if test -s /srv/acme/cert/ops.uws.talkingpts.org.crt; then
-	install -v -C -m 0644 /etc/nginx/sites-available/ssl-ops /etc/nginx/sites-enabled
+	${install_cmd} /etc/nginx/sites-available/ssl-ops /etc/nginx/sites-enabled
 fi
 
 # public
 if test -s /srv/acme/cert/public.uws.talkingpts.org.crt; then
-	install -v -C -m 0644 /etc/nginx/sites-available/public-jsbatch /etc/nginx/sites-enabled
+	${install_cmd} /etc/nginx/sites-available/public-jsbatch /etc/nginx/sites-enabled
 fi
 chmod -v 0644 /srv/www/public/index.html
+
+# uwsapi-test
+if test -s /srv/acme/cert/apitest.uws.talkingpts.org.crt; then
+	${install_cmd} /etc/nginx/sites-available/ssl-apitest /etc/nginx/sites-enabled
+fi
 
 exit 0
