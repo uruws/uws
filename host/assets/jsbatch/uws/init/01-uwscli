@@ -87,9 +87,6 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~nelson/.bash_profile
 chmod -v 0750 ~ramiro
 install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
 
-chmod -v 0750 ~alejandro
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~alejandro/.bash_profile
-
 # admin users
 
 addgroup uwsadm || true
@@ -106,7 +103,6 @@ adduser gabriel   uwsops
 adduser guillermo uwsops
 adduser jeremias  uwsops
 adduser nelson    uwsops
-adduser alejandro uwsops
 
 # app groups
 
@@ -146,17 +142,15 @@ adduser ramiro    uwsapp_nlp
 # infraui
 addgroup uwsapp_infra-ui || true
 
-adduser alejandro uwsapp_infra-ui
-
-deluser alejandro uwsapp_infraui || true
-delgroup uwsapp_infraui || true
-
 # install crontab
 
 crontab -u uwscli ~uwscli/etc/crontab.in
 
-# uwscli setup
+# remove old users
 
+deluser --remove-home alejandro || true
+
+# uwscli setup
 
 # env dirs
 install -v -d -o root -g uws -m 0750 /srv/uwscli
