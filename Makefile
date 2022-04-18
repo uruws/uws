@@ -34,14 +34,14 @@ upgrade:
 #
 
 .PHONY: all
-all: bootstrap acme clamav k8sctl uwsbot mailx crond munin munin-backend munin-node proftpd
+all: bootstrap clamav k8sctl uwsbot mailx crond munin munin-backend munin-node proftpd
 
 #
 # bootstrap
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert k8s eks python ansible uwscli uwsapi devel
+bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli uwsapi devel
 
 #
 # base containers
