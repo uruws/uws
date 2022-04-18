@@ -9,6 +9,8 @@ if ! systemctl is-enabled uwscli-@test.service; then
 	systemctl start uwscli-@test.service
 fi
 
+export DOCKER_IMAGE='uws/cli-2203'
+
 /uws/bin/service-restart.sh uwscli-@test \
 	/etc/systemd/system/uwscli-@.service \
 	/srv/uwscli/test/secret \
