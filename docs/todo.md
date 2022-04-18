@@ -4,6 +4,7 @@
     * smsNotifications
     * teacherNotifications
 
+* remove uwscli alejandro's user/access - `DONE!`
 
 * uwscli auto-setup from main configuration - `WIP`
     * setup apps repo - `DONE!`
