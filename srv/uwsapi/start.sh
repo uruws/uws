@@ -2,8 +2,12 @@
 set -eu
 envname="${1:?'env name?'}"
 umask 0027
-exec docker run -it --rm --name "uwsapi-${envname}" \
+port=3800
+if test "X${envname}" = 'Xtest'; then
+	port=3810
+fi
+exec docker run --rm --name "uwsapi-${envname}" \
 	--hostname "api${envname}.uws.local" \
 	--read-only \
-	-p 127.0.0.1:3800:3800 \
+	-p "127.0.0.1:${port}:3800" \
 	uws/api-2203
