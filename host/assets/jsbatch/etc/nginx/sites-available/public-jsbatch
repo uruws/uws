@@ -1,0 +1,17 @@
+#
+# public HTTPS server
+#
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	server_name public.uws.talkingpts.org;
+	server_tokens off;
+
+	root /srv/www/public;
+
+	ssl_certificate /srv/acme/cert/public.uws.talkingpts.org.crt;
+	ssl_certificate_key /srv/acme/key/public.uws.talkingpts.org.key;
+
+	include /srv/etc/nginx/ssl.conf;
+}

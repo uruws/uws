@@ -24,13 +24,19 @@ if ! test -s ${dhparam}; then
 fi
 
 if test -s /srv/acme/cert/jsbatch.uws.talkingpts.org.crt; then
-	install -v /etc/nginx/sites-available/ssl-jsbatch /etc/nginx/sites-enabled
+	install -v -C /etc/nginx/sites-available/ssl-jsbatch /etc/nginx/sites-enabled
 fi
 
 # ops
 install -v /etc/nginx/sites-available/ops /etc/nginx/sites-enabled
 if test -s /srv/acme/cert/ops.uws.talkingpts.org.crt; then
-	install -v /etc/nginx/sites-available/ssl-ops /etc/nginx/sites-enabled
+	install -v -C /etc/nginx/sites-available/ssl-ops /etc/nginx/sites-enabled
 fi
+
+# public
+if test -s /srv/acme/cert/public.uws.talkingpts.org.crt; then
+	install -v -C /etc/nginx/sites-available/public-jsbatch /etc/nginx/sites-enabled
+fi
+chmod -v 0644 /srv/www/public/index.html
 
 exit 0
