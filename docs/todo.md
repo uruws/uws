@@ -1,33 +1,18 @@
-* emails issue: added notifications job collections limits/alerts - `DONE!`
-    * emailNotifications
-    * parentNotifications
-    * smsNotifications
-    * teacherNotifications
-
-* remove uwscli alejandro's user/access - `DONE!`
-
-* uwscli auto-setup from main configuration - `WIP`
-    * setup apps repo - `DONE!`
-    * setup users ssh keys - `DONE!`
-    * integrate with buildpack deploy scripts
-
-* [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `DONE!`
-    * setup infra-api for testing: apitest.u.t.o
-    * opstest CA
-    * protect testing.u.t.o and apitest.u.t.o with opstest
-
-* Buildpack: deploy from signed tags only - `DONE!`
-
-* setup Mauro for Infra-UI development - `WIP`
-
 * `FIX` CS test cluster setup
     * heroku stopped working... we need an aws setup for it
+
+* setup Mauro for Infra-UI development - `WIP`
 
 * `FIX` mongodb app prod and staging "engine checks"
     * it stopped working after mongo credentials rotation
 
+* upgrade jsbatch resources
+
 * infra-api
     * devel and setup
+
+* uwscli auto-setup from main configuration
+    * integrate with buildpack deploy scripts
 
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
@@ -73,12 +58,12 @@
 
 * uwsq: clean failed jobs
 
-* `SEC` mongodb credentials rotation?
+* `SEC` mongodb credentials rotation schedule
+
+* `SEC` aws auth credentials rotation schedule
+    * uwsadm and friends "access keys"
 
 * mongodb analyzer?
-
-* `SEC` aws auth credentials rotation
-    * uwsadm and friends "access keys"
 
 * app-autobuild deploy
     * wait some time between deploys on "multi cluster" apps
