@@ -18,7 +18,11 @@
 
 * Buildpack: deploy from signed tags only - `DONE!`
 
-* CS test cluster setup
+* `FIX` CS test cluster setup
+    * heroku stopped working... we need an aws setup for it
+
+* `FIX` mongodb app prod and staging "engine checks"
+    * it stopped working after mongo credentials rotation
 
 * infra-api
     * devel and setup
