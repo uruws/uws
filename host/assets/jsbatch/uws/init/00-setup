@@ -22,4 +22,9 @@ if test -s ${sudoers}; then
 	chown -v root:root ${sudoers}
 fi
 
+install -v -d -m 0755 -o root -g root /srv/etc
+install -v -d -m 0750 -o root -g root /srv/etc/sec
+install -v -d -m 0750 -o root -g root /srv/etc/sec/production
+install -v -d -m 0750 -o root -g root /srv/etc/sec/staging
+
 exit 0

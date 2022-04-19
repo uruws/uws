@@ -5,6 +5,12 @@ sudo -n -u uws -D /srv/uws/deploy make munin-node
 
 chown -vR root:uws /srv/etc/munin-node
 
+rsync -vax --delete-before /srv/uws/deploy/secret/munin-node/prod/ \
+	/srv/etc/sec/production/munin-node/
+
+rsync -vax --delete-before /srv/uws/deploy/secret/munin-node/staging/ \
+	/srv/etc/sec/staging/munin-node/
+
 if ! systemctl is-enabled uws-munin-node.service; then
 	systemctl enable uws-munin-node.service
 	systemctl start uws-munin-node

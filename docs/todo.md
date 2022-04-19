@@ -18,6 +18,8 @@
 
 * Buildpack: deploy from signed tags only - `DONE!`
 
+* CS test cluster setup
+
 * infra-api
     * devel and setup
 
