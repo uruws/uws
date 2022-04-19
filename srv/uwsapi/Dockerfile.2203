@@ -21,4 +21,6 @@ WORKDIR /home/uwsops
 ENV USER uwsops
 ENV HOME /home/uwsops
 
+RUN /usr/bin/ssh -V
+
 ENTRYPOINT exec /usr/local/bin/uwsapi
