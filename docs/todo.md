@@ -11,16 +11,15 @@
     * setup users ssh keys - `DONE!`
     * integrate with buildpack deploy scripts
 
-* [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `WIP`
+* [Infra-UI](https://github.com/TalkingPts/Infra-UI/blob/main/docs/todo.md) - `DONE!`
     * setup infra-api for testing: apitest.u.t.o
     * opstest CA
     * protect testing.u.t.o and apitest.u.t.o with opstest
-    * devel and testing cluster for local/devel envs
+
+* Buildpack: deploy from signed tags only - `DONE!`
 
 * infra-api
     * devel and setup
-
-* Buildpack: deploy from signed tags only - `DONE!`
 
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
