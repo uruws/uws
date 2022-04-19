@@ -26,7 +26,7 @@ func init() {
 
 func main() {
 	log.Init("uwsapi")
-	log.Print("init...")
+	log.Print("uwsapi version %s", api.Version())
 
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_", pingHandler)
