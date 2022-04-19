@@ -26,7 +26,7 @@ func init() {
 
 func main() {
 	log.Init("uwsapi")
-	log.Debug("main init")
+	log.Print("init...")
 
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_", pingHandler)
@@ -34,6 +34,7 @@ func main() {
 	http.HandleFunc("/exec", api.ExecHandler)
 	http.HandleFunc("/", api.MainHandler)
 
+	log.Print("listen...")
 	log.Fatal("%s", listenAndServe(fmt.Sprintf(":%d", api.Port), nil))
 }
 
