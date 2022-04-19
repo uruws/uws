@@ -143,15 +143,11 @@ func setColors(cfg string) {
 }
 
 func SetPrefix(name string) {
-	p := fmt.Sprintf("[%s:%d] ", name, os.Getpid())
+	p := fmt.Sprintf("[%s] ", name)
 	l.SetPrefix(p)
 }
 
 func Init(progname string) {
-	if progname == "" {
-		progname = os.Args[0]
-	}
-	SetPrefix(progname)
 	if mode := os.Getenv("UWS_LOG"); mode != "" {
 		setMode(mode)
 	} else {
