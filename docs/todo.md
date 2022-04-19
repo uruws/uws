@@ -18,6 +18,8 @@
 
 * Buildpack: deploy from signed tags only - `DONE!`
 
+* setup Mauro for Infra-UI development - `WIP`
+
 * `FIX` CS test cluster setup
     * heroku stopped working... we need an aws setup for it
 
