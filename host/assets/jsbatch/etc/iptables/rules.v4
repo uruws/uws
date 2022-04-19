@@ -1,44 +1,72 @@
-# deployed via uws host assests.
+# deployed via uws host assets
 *filter
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
+#
 # allow loopback
+#
 -A INPUT -i lo -j ACCEPT
+#
 # allow icmp
+#
 -A INPUT -p icmp -j ACCEPT
+#
 # allow dns
+#
 -A INPUT -p tcp -m tcp --dport 53 -j ACCEPT
 -A INPUT -p udp -m udp --dport 53 -j ACCEPT
 -A INPUT -p udp -m udp --sport 53 -j ACCEPT
+#
 # allow dhclient
+#
 -A INPUT -p udp -m udp --dport 68 -j ACCEPT
 -A INPUT -p udp -m udp --sport 68 -j ACCEPT
+#
 # allow ntp/chrony
+#
 -A INPUT -p udp -m udp --dport 123 -j ACCEPT
 -A INPUT -p udp -m udp --sport 123 -j ACCEPT
 #
 # allow docker container connections
+#
 # allow munin-node
+#
 -A INPUT -i docker0 -p tcp -m tcp --dport 4900 -j ACCEPT
 -A INPUT -i docker0 -p tcp -m tcp --dport 4949:4969 -j ACCEPT
 #
 # allow ssh
+#
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 28128 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 333 -j ACCEPT
+#
 # allow smtps
+#
 -A INPUT -p tcp -m tcp --dport 328 -j ACCEPT
+#
 # allow imaps
+#
 -A INPUT -p tcp -m tcp --dport 993 -j ACCEPT
+#
 # allow pop3s
+#
 -A INPUT -p tcp -m tcp --dport 995 -j ACCEPT
+#
 # allow http
+#
 -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+#
 # allow https
+#
 -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+#
 # allow established connections
+#
 -A INPUT -p tcp -m state --state RELATED,ESTABLISHED -j ACCEPT
+#
 # drop anything else
+#
 -A INPUT -m state --state INVALID,NEW -j DROP
 -A INPUT -j DROP
 COMMIT
