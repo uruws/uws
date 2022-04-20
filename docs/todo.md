@@ -6,7 +6,8 @@
 * `FIX` mongodb app prod and staging "engine checks"
     * it stopped working after mongo credentials rotation
 
-* upgrade jsbatch resources
+* upgrade jsbatch resources - `DONE!`
+    * t3a.large to t3a.xlarge
 
 * infra-api
     * devel and setup
