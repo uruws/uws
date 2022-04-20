@@ -13,7 +13,9 @@ if test $# -eq 0; then
 	exit 0
 fi
 
-for groupname in "$@"; do
+
+# shellcheck disable=SC2048
+for groupname in $*; do
 	adduser "${username}" "${groupname}"
 done
 
