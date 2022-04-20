@@ -50,6 +50,7 @@ class Test(unittest.TestCase):
 			'nlp-category',
 			'nlp-sentiment-twitter',
 			'worker',
+			'worker-test',
 		]
 		# deploy
 		t.assertListEqual(uwscli.deploy_list(), app_list)
