@@ -6,8 +6,10 @@ umask 0027
 uri=${1:?'uri?'}
 workdir=${2:?'workdir?'}
 
+uwsrun='sudo -n -u uws'
+
 if ! test -d "${workdir}"; then
-	git clone --depth 15 "${uri}" "${workdir}"
+	${uwsrun} git clone --depth 15 "${uri}" "${workdir}"
 fi
 
 exit 0
