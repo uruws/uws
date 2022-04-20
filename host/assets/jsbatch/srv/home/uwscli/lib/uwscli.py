@@ -9,6 +9,7 @@ from contextlib import contextmanager
 from os import environ, getcwd, linesep
 from os import chdir as os_chdir
 from pathlib import Path
+from subprocess import PIPE
 from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
 from subprocess import run as proc_run
@@ -108,7 +109,7 @@ system_ttl: int = 600
 
 def system(cmd: str, env: dict[str, str] = None, timeout: int = system_ttl) -> int:
 	"""run system commands"""
-	p = proc_run(cmd, shell = True, capture_output = False,
+	p = proc_run(cmd, shell = True, capture_output = False, stderr = PIPE,
 		timeout = timeout, env = _setenv(env))
 	return p.returncode
 
