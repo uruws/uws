@@ -7,7 +7,7 @@ if test $# -eq 0; then
 	exit 0
 fi
 
-for username in ${1}; do
+for username in "$@"; do
 	adduser "${username}" uwsops
 done
 

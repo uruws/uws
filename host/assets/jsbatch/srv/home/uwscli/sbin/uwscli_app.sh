@@ -3,7 +3,7 @@ set -eu
 
 umask 0027
 
-for groupname in ${1}; do
+for groupname in "$@"; do
 	addgroup "${groupname}" || true
 done
 
