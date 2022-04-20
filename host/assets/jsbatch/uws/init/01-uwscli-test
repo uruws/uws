@@ -2,7 +2,9 @@
 set -eu
 uwsrun='sudo -n -u uws -D /srv/uws/deploy'
 
-${uwsrun} ./cli/schroot/setup.sh test
+date -R | tee /srv/uwscli/logs/test-setup.log
+${uwsrun} ./cli/schroot/setup.sh test | tee -a /srv/uwscli/logs/test-setup.log
+date -R | tee -a /srv/uwscli/logs/test-setup.log
 
 if ! systemctl is-enabled uwscli-@test.service; then
 	systemctl enable uwscli-@test.service

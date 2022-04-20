@@ -155,6 +155,7 @@ deluser --remove-home alejandro || true
 # env dirs
 install -v -d -o root -g uws -m 0750 /srv/uwscli
 install -v -d -o root -g uws -m 0750 /srv/uwscli/schroot
+install -v -d -o root -g uws -m 0770 /srv/uwscli/logs
 
 # helper scripts
 install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/start.sh \
