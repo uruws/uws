@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 umask 0027
 
 homedir=${1:?'home dir?'}

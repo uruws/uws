@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 
 umask 0027
 
@@ -8,8 +8,7 @@ if test $# -eq 0; then
 	exit 0
 fi
 
-# shellcheck disable=SC2048
-for groupname in $*; do
+for groupname in "$@"; do
 	addgroup "${groupname}" || true
 done
 

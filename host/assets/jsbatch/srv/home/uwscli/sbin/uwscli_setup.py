@@ -25,6 +25,7 @@ def _run(cmd, args: list[str] = []):
 	x = f"{conf.sbindir}/{cmd}"
 	if len(args) > 0:
 		x = f"{x} {' '.join(args)}"
+	uwscli.log('*****', x)
 	rc = uwscli.system(x, env = {'PATH': '/bin:/usr/bin:/sbin:/usr/sbin'})
 	if rc != 0:
 		uwscli.error(f"{cmd}: exit status {rc}")
