@@ -40,6 +40,11 @@ class User(object):
 		if u.groups.get(conf.admin_group) is True:
 			u.is_operator = True
 			u.is_admin = True
+		# root
+		elif u.name == 'root':
+			# make root an admin too for uwscli_setup.py stuff
+			u.is_operator = True
+			u.is_admin = True
 		return rc
 
 def getuser() -> User:
