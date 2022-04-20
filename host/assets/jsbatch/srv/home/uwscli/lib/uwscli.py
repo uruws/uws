@@ -109,8 +109,8 @@ system_ttl: int = 600
 
 def system(cmd: str, env: dict[str, str] = None, timeout: int = system_ttl) -> int:
 	"""run system commands"""
-	p = proc_run(cmd, shell = True, capture_output = False, stderr = PIPE,
-		timeout = timeout, env = _setenv(env))
+	p = proc_run(cmd, shell = True, capture_output = False, timeout = timeout,
+		stdout = None, stderr = None, env = _setenv(env))
 	return p.returncode
 
 def gso(cmd: str) -> tuple[int, str]:
