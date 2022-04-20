@@ -48,6 +48,8 @@ def _buildpack(src: str, target: str, repo: str = '') -> AppBuild:
 		repo = _uri,
 	)
 
+Buildpack = _buildpack
+
 @dataclass
 class AppDeploy(object):
 	image:  str
