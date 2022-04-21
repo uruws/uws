@@ -1,14 +1,15 @@
 #!/bin/sh
 set -eu
 uwsrun='sudo -n -u uws -D /srv/uws/deploy'
+logfn=/srv/uwscli/logs/test-setup.log
 
-date -R | tee /srv/uwscli/logs/test-setup.log
-${uwsrun} ./cli/schroot/setup.sh test | tee -a /srv/uwscli/logs/test-setup.log
-date -R | tee -a /srv/uwscli/logs/test-setup.log
+date -R | tee "${logfn}"
+${uwsrun} ./cli/schroot/setup.sh test 2>&1 | tee -a "${logfn}"
+date -R | tee -a "${logfn}"
 
 if ! systemctl is-enabled uwscli-@test.service; then
-	systemctl enable uwscli-@test.service
-	systemctl start uwscli-@test.service
+	systemctl enable uwscli-@test.service 2>&1 | tee -a "${logfn}"
+	systemctl start uwscli-@test.service 2>&1 | tee -a "${logfn}"
 fi
 
 export DOCKER_IMAGE='uws/cli-2203'
@@ -17,6 +18,7 @@ export DOCKER_IMAGE='uws/cli-2203'
 	/etc/systemd/system/uwscli-@.service \
 	/srv/uwscli/test/secret \
 	/srv/uwscli/schroot/start.sh \
-	/srv/uwscli/schroot/stop.sh
+	/srv/uwscli/schroot/stop.sh \
+	2>&1 | tee -a "${logfn}"
 
 exit 0
