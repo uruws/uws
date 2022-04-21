@@ -1,3 +1,9 @@
+* setup worker-test env - `DONE!`
+
+* `FIX` app-build
+    * do not dispatch build if one already in place for same version
+    * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)
+
 * `FIX` CS test cluster setup
     * heroku stopped working... we need an aws setup for it
 
