@@ -28,7 +28,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor
-  replicas: 50
+  replicas: ${APP_REPLICAS}
   revisionHistoryLimit: 2
   strategy:
     type: RollingUpdate

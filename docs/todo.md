@@ -3,15 +3,15 @@
 * upgrade jsbatch resources - `DONE!`
     * t3a.large to t3a.xlarge
 
+* `FIX` CS test cluster setup
+    * heroku stopped working... we need an aws setup for it
+
 * [DEV-2475](https://talkingpointsorg.atlassian.net/browse/DEV-2475) - Unrestricted File Upload
     * create script to set S3 policies so we restrict upload file types
 
 * `FIX` app-build
     * do not dispatch build if one already in place for same version
     * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)
-
-* `FIX` CS test cluster setup
-    * heroku stopped working... we need an aws setup for it
 
 * setup Mauro for Infra-UI development - `WIP`
 
