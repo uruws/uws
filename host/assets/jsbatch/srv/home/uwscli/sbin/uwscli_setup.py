@@ -21,11 +21,11 @@ class _cmdFailed(Exception):
 		self.rc = rc
 
 def _run(cmd, args: list[str] = []):
-	uwscli.log('***', cmd)
+	uwscli.debug('***', cmd)
 	x = f"{conf.sbindir}/{cmd}"
 	if len(args) > 0:
 		x = f"{x} {' '.join(args)}"
-	uwscli.log('*****', x)
+	uwscli.log('***', x)
 	rc = uwscli.system(x, env = {'PATH': '/bin:/usr/bin:/sbin:/usr/sbin'})
 	if rc != 0:
 		uwscli.error(f"{cmd}: exit status {rc}")
