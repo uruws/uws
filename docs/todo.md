@@ -6,8 +6,18 @@
 * `FIX` CS test cluster setup
     * heroku stopped working... we need an aws setup for it
 
-* [DEV-2475](https://talkingpointsorg.atlassian.net/browse/DEV-2475) - Unrestricted File Upload
-    * create script to set S3 policies so we restrict upload file types
+* [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473) - SOC2 fixes/setup
+    * DEV-2475 - Unrestricted File Upload
+        * create script to set S3 policies so we restrict upload file types
+    * DEV-2478, DEV-2482 - 3rd party cookies
+        * investigate if there's something we can do there at web server level
+    * DEV-2484 - HTTP Secure headers implementation
+        * we had it on this TODO already as: nginx secure headers
+
+* nginx secure headers
+    * CSP
+        * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+        * once aws.testing is done try/deploy there
 
 * `FIX` app-build
     * do not dispatch build if one already in place for same version
@@ -121,11 +131,6 @@
     * uwsbot
     * uwsbot-stats
     * api-job-stats
-
-* nginx secure headers
-    * CSP
-        * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-        * once aws.testing is done try/deploy there
 
 * rstudio checks
     * http_loadtime IDE and Jupyter Notebook from jsbatch
