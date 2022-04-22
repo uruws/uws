@@ -19,6 +19,8 @@
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
         * once aws.testing is done try/deploy there
 
+* AI-Backend (Angel) S3 bucket for DB dumps
+
 * `FIX` app-build
     * do not dispatch build if one already in place for same version
     * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)
