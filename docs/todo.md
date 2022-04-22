@@ -3,6 +3,10 @@
 * upgrade jsbatch resources - `DONE!`
     * t3a.large to t3a.xlarge
 
+* userInbox.jobs limits - `DONE!`
+    * warning:  3s -> 7s
+    * critical: 7s -> 9s
+
 * `FIX` CS test cluster setup
     * heroku stopped working... we need an aws setup for it
 
