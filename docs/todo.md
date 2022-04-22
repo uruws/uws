@@ -3,7 +3,7 @@
 * upgrade jsbatch resources - `DONE!`
     * t3a.large to t3a.xlarge
 
-* [DEV-2475](https://talkingpointsorg.atlassian.net/browse/DEV-2475)
+* [DEV-2475](https://talkingpointsorg.atlassian.net/browse/DEV-2475) - Unrestricted File Upload
     * create script to set S3 policies so we restrict upload file types
 
 * `FIX` app-build
