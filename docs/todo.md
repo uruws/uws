@@ -1,5 +1,11 @@
 * setup worker-test env - `DONE!`
 
+* upgrade jsbatch resources - `DONE!`
+    * t3a.large to t3a.xlarge
+
+* [DEV-2475](https://talkingpointsorg.atlassian.net/browse/DEV-2475)
+    * create script to set S3 policies so we restrict upload file types
+
 * `FIX` app-build
     * do not dispatch build if one already in place for same version
     * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)
@@ -11,9 +17,6 @@
 
 * `FIX` mongodb app prod and staging "engine checks"
     * it stopped working after mongo credentials rotation
-
-* upgrade jsbatch resources - `DONE!`
-    * t3a.large to t3a.xlarge
 
 * infra-api
     * devel and setup
