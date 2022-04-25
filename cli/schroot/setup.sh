@@ -80,7 +80,7 @@ ${surun} cp -va /etc/schroot/uwscli-${profile}/fstab.setup \
 ${surun} install -v -d -o 3000 -g 3100 -m 0750 /srv/uwscli/${profile}/run
 ${surun} install -v -d -o root -g root -m 0751 /srv/uwscli/${profile}/user
 ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/home
-${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils
 ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/secret
 ${surun} install -v -d -o root -g root -m 0710 /srv/uwscli/${profile}/docker
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/build
@@ -119,10 +119,10 @@ fi
 # sync utils
 #
 
-${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/docker
-${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/eks
-${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/secret
-${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/tmp
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/docker
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/eks
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/secret
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/tmp
 
 rsync="${surun} rsync -xrltDp --delete-before"
 
