@@ -179,6 +179,16 @@ echo '*** sync: go'
 ${rsync} \
 	./go/ /srv/uwscli/${profile}/utils/go/
 
+# host/cluster utils
+
+${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/host
+${surun} install -v -C -o root -g 3100 -m 0750 \
+	./host/ecr-login.sh /srv/uwscli/${profile}/utils/host/ecr-login.sh
+
+${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/cluster
+${surun} install -v -C -o root -g 3100 -m 0750 \
+	./cluster/ecr-push.sh /srv/uwscli/${profile}/utils/cluster/ecr-push.sh
+
 #
 # uwscli setup
 #
