@@ -7,6 +7,7 @@ sudo
 docker.io
 nq
 openssh-server
+openssh-client
 awscli
 make
 git
