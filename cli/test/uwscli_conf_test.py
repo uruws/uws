@@ -46,6 +46,7 @@ class Test(unittest.TestCase):
 			'app-west',
 			'beta',
 			'cs',
+			'cs-test',
 			'infra-ui-test',
 			'nlp-category',
 			'nlp-sentiment-twitter',

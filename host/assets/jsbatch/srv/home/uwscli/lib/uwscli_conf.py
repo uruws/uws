@@ -141,6 +141,13 @@ app: dict[str, App] = {
 		deploy = AppDeploy('meteor-crowdsourcing'),
 		groups = ['uwsapp_crowdsourcing', 'uwsapp_cs'],
 	),
+	'cs-test': App(True,
+		cluster = 'amy-test-1',
+		desc = 'Crowdsourcing test',
+		pod = 'meteor/cs',
+		deploy = AppDeploy('meteor-crowdsourcing'),
+		groups = ['uwsapp_crowdsourcing', 'uwsapp_cs'],
+	),
 	'nlpsvc': App(False,
 		desc = 'NLPService',
 		build = AppBuild(
