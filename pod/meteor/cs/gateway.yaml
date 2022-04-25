@@ -18,10 +18,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - crowdsourcing.talkingpts.org
+        - ${METEOR_CS_HOST}.talkingpts.org
       secretName: tapo-wild-certificate
   rules:
-    - host: crowdsourcing.talkingpts.org
+    - host: ${METEOR_CS_HOST}.talkingpts.org
       http:
         paths:
           # /images/
