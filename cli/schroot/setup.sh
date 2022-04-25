@@ -124,7 +124,7 @@ ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/eks
 ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/secret
 ${surun} install -v -d -o root -g 3100 -m 0750 /srv/uwscli/${profile}/utils/tmp
 
-rsync="${surun} rsync -vxrltDp --delete-before"
+rsync="${surun} rsync -xrltDp --delete-before"
 
 echo '*** sync: home'
 ${rsync} --exclude=__pycache__ \
