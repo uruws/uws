@@ -7,6 +7,8 @@
     * warning:  3s -> 7s
     * critical: 7s -> 9s
 
+* setup Mauro for Infra-UI development - `DONE!`
+
 * `FIX` CS test cluster setup
     * heroku stopped working... we need an aws setup for it
 
@@ -33,8 +35,6 @@
 * `FIX` app-build
     * do not dispatch build if one already in place for same version
     * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)
-
-* setup Mauro for Infra-UI development - `WIP`
 
 * `FIX` mongodb app prod and staging "engine checks"
     * it stopped working after mongo credentials rotation
