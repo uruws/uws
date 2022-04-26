@@ -4,7 +4,6 @@
 package api
 
 import (
-	"net/http/httptest"
 	"os"
 	"testing"
 
@@ -14,10 +13,6 @@ import (
 )
 
 const apiDevelBindir string = "/go/src/uws/api/_devel/bin"
-
-var (
-	apiTestServer *httptest.Server
-)
 
 func mockApi() {
 	bindir = apiDevelBindir
