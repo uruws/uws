@@ -9,6 +9,9 @@
 
 * setup Mauro for Infra-UI development - `DONE!`
 
+* infra-api - `WIP`
+    * devel and setup
+
 * `FIX` CS test cluster setup
     * heroku stopped working... we need an aws setup for it
 
@@ -38,9 +41,6 @@
 
 * `FIX` mongodb app prod and staging "engine checks"
     * it stopped working after mongo credentials rotation
-
-* infra-api
-    * devel and setup
 
 * uwscli auto-setup from main configuration
     * integrate with buildpack deploy scripts
