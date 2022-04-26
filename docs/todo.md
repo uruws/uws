@@ -9,6 +9,9 @@
 
 * setup Mauro for Infra-UI development - `DONE!`
 
+* `FIX` mongodb app prod and staging "engine checks" - `DONE!`
+    * it stopped working after mongo credentials rotation
+
 * infra-api - `WIP`
     * devel and setup
 
@@ -39,9 +42,6 @@
     * do not dispatch build if one already in place for same version
     * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)
 
-* `FIX` mongodb app prod and staging "engine checks"
-    * it stopped working after mongo credentials rotation
-
 * uwscli auto-setup from main configuration
     * integrate with buildpack deploy scripts
 
@@ -54,8 +54,6 @@
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
     * EKS ec2 "reserved instances" setup to help saving costs
-
-* add mongodb indexes monbot check?
 
 * add bot to check we can send emails? (mandrill service)
 
