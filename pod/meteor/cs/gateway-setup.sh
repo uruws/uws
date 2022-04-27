@@ -1,4 +1,6 @@
 #!/bin/sh
 set -eu
-envsubst <~/pod/meteor/cs/gateway.yaml | uwskube apply -f -
+cat ~/pod/meteor/cs/gateway-${METEOR_CS_ENV}.yaml \
+	~/pod/meteor/cs/gateway-common.yaml |
+	envsubst | uwskube apply -f -
 exit 0

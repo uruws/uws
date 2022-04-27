@@ -48,6 +48,8 @@
 * cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
 
+* munin: scan cluster ingress domains and add them to the checks (munin-node-clusters)
+
 * aws support meeting
     * setup CDN mainly to help saving network transfer costs
     * Route53 app.t.o use geolocation inside US or latency setup
