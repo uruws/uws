@@ -15,6 +15,8 @@
 * `FIX` CS test cluster setup - `DONE!`
     * heroku stopped working... we need an aws setup for it
 
+* munin: mongo checks and bots use secondary servers - `DONE!`
+
 * infra-api - `WIP`
     * devel and setup
 
