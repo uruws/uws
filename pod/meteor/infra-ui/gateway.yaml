@@ -15,10 +15,10 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     cert-manager.io/issuer: acme-prod
-    #~ nginx.ingress.kubernetes.io/auth-tls-secret: ${INFRA_UI_CA}
-    #~ nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
-    #~ nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
-    #~ nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "false"
+    nginx.ingress.kubernetes.io/auth-tls-secret: ${INFRA_UI_CA}
+    nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
 spec:
   ingressClassName: nginx
   tls:

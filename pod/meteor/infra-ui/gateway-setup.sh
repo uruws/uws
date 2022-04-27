@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-exec envsubst <${HOME}/pod/meteor/infra-ui/gateway.yaml |
-	uwskube apply -f -
+~/k8s/ca/uws/opstest/setup.sh
+envsubst <${HOME}/pod/meteor/infra-ui/gateway.yaml | uwskube apply -f -
+exit 0
