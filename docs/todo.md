@@ -12,11 +12,11 @@
 * `FIX` mongodb app prod and staging "engine checks" - `DONE!`
     * it stopped working after mongo credentials rotation
 
+* `FIX` CS test cluster setup - `DONE!`
+    * heroku stopped working... we need an aws setup for it
+
 * infra-api - `WIP`
     * devel and setup
-
-* `FIX` CS test cluster setup
-    * heroku stopped working... we need an aws setup for it
 
 * [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473) - SOC2 fixes/setup
     * DEV-2475 - Unrestricted File Upload
