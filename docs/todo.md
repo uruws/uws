@@ -17,6 +17,14 @@
 
 * munin: mongo checks and bots use secondary servers - `DONE!`
 
+* `URGENT` cluster stack
+    * k8s 1.20 (and 1.21) already available (we run 1.19)
+    * Amazon EKS has deprecated Kubernetes version 1.19 and this version will no
+      longer be supported as of June 30, 2022. As of June 30, 2022, you will no
+      longer be able to create new 1.19 clusters and all EKS clusters running
+      Kubernetes version 1.19 will be updated to the latest available platform
+      version of Kubernetes version 1.20.
+
 * infra-api - `WIP`
     * devel and setup
 
@@ -46,9 +54,6 @@
 
 * uwscli auto-setup from main configuration
     * integrate with buildpack deploy scripts
-
-* cluster stack
-    * k8s 1.20 (and 1.21) already available (we run 1.19)
 
 * munin: scan cluster ingress domains and add them to the checks (munin-node-clusters)
 
