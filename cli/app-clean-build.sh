@@ -5,6 +5,8 @@ app=${1:?'app?'}
 
 /srv/uws/deploy/cli/auth.py --user "${SUDO_USER}" --build "${app}"
 
+set +e
+
 docker images | grep -F "${app}" |
 	awk '{ print $1":"$2 }' | xargs docker rmi
 
