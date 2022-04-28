@@ -46,6 +46,7 @@ if test "X${rc}" != 'X0'; then
 	echo "FAIL:${version}" >${statusf}
 else
 	echo "OK:${version}" >${statusf}
+	/srv/uws/deploy/cli/app-clean-build.sh "${app}"
 fi
 
 exit ${rc}
