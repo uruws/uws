@@ -7,10 +7,10 @@ version=${3:?'build version?'}
 
 /srv/uws/deploy/cli/auth.py --user "${SUDO_USER}" --build "${target}"
 
-/srv/uws/deploy/cli/uwsnq.sh -- "${SUDO_USER}" /srv/deploy/Buildpack/build.py \
+/srv/uws/deploy/cli/uwsnq.sh "${SUDO_USER}" /srv/deploy/Buildpack/build.py \
 	--src "${src}" --target "${target}" --version "${version}"
 
-/srv/uws/deploy/cli/uwsnq.sh -- "${SUDO_USER}" \
+/srv/uws/deploy/cli/uwsnq.sh "${SUDO_USER}" \
 	/srv/uws/deploy/cli/app-clean-build.sh "${target}"
 
 exit 0

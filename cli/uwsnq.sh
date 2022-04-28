@@ -15,7 +15,7 @@ if test "X${CMD}" != 'X/srv/uws/deploy/cli/app-build.sh'\
 	&& test "X${CMD}" != 'X/srv/uws/deploy/cli/buildpack.sh'\
 	&& test "X${CMD}" != 'X/srv/deploy/Buildpack/build.py'
 then
-	echo "${CMD}: invalid command" >&2
+	echo "uwsnq invalid command: ${CMD}" >&2
 	exit 9
 fi
 
