@@ -5,12 +5,23 @@ UWSCLI_LOG=off
 
 # m h  dom mon dow   command
 
+###########
+# restarts
+###########
+
+# cs-test: hourly restart due to Redis issues
+27 * * * * app-restart cs-test
+
+############
 # autobuild
+############
+
+# app
 */15 * * * * app-autobuild app
 
-#
+#############
 # scale down
-#
+#############
 
 # app
 10 3 * * 2-6 app-scale worker 60
@@ -25,9 +36,9 @@ UWSCLI_LOG=off
 # crowdsourcing
 16 3 * * 2-6 app-scale cs 20
 
-#
+###########
 # scale up
-#
+###########
 
 # app
 3 10 * * 1-5 app-scale worker 95
