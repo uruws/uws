@@ -5,13 +5,6 @@ UWSCLI_LOG=off
 
 # m h  dom mon dow   command
 
-###########
-# restarts
-###########
-
-# cs-test: hourly restart due to Redis issues
-27 * * * * app-restart cs-test
-
 ############
 # autobuild
 ############
