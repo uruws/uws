@@ -13,7 +13,6 @@ def run(app: str, version: str, timeout: int = 3600) -> int:
 	st = _build(app, version, timeout = timeout)
 	if st != 0:
 		return st
-	cleanBuild(app)
 	return 0
 
 def check_storage() -> int:
@@ -58,15 +57,6 @@ def nq(app: str, version: str, timeout: int = 3600) -> int:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.nq('app-build.sh', args)
 
-def cleanBuild(app: str):
-	clean = uwscli.app[app].build.clean
-	if clean == '':
-		uwscli.info('nothing to clean for app:', app)
-	else:
-		rc = uwscli.clean_build(clean)
-		if rc != 0:
-			uwscli.error('ERROR: app clean:', app, 'failed!')
-
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.build_description())
@@ -87,8 +77,6 @@ def main(argv = []):
 	if rc != 0:
 		uwscli.error("enqueue of %s build job failed!" % args.app)
 		return rc
-
-	cleanBuild(args.app)
 
 	uwscli.log('')
 	uwscli.log('Check build job with:')

@@ -79,16 +79,6 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_system(status = 99):
 			t.assertEqual(app_build.nq('testing', '0.999'), 99)
 
-	def test_clean_build(t):
-		with uwscli_t.mock_system():
-			app_build.cleanBuild('testing')
-		t.assertEqual(uwscli_t.err().strip(), '')
-
-	def test_clean_build_errors(t):
-		with uwscli_t.mock_system(status = 99):
-			app_build.cleanBuild('testing')
-		t.assertEqual(uwscli_t.err().strip(), 'ERROR: app clean: testing failed!')
-
 	def test_main_no_args(t):
 		with t.assertRaises(SystemExit) as e:
 			app_build.main()
@@ -107,7 +97,6 @@ class Test(unittest.TestCase):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 0.999',
 				timeout = 600),
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing', timeout = 600),
 		]
 		with mock_check_storage():
 			with uwscli_t.mock_system():
@@ -131,7 +120,6 @@ class Test(unittest.TestCase):
 	def test_run(t):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 0.999', timeout = 3600),
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing', timeout = 600),
 		]
 		with mock_run():
 			t.assertEqual(app_build.run('testing', '0.999'), 0)
@@ -140,7 +128,6 @@ class Test(unittest.TestCase):
 	def test_run_pack(t):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/buildpack.sh /srv/deploy/App app 0.999', timeout = 3600),
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh app', timeout = 600),
 		]
 		with mock_run():
 			try:

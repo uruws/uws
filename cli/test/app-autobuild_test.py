@@ -112,7 +112,6 @@ class Test(unittest.TestCase):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .', timeout=600),
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 1.999.0', timeout=3600),
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/uwsnq.sh uws /srv/uws/deploy/cli/app-clean-build.sh testing', timeout=600),
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 1.999.0-bp99', timeout=600),
 		]
 		with app_build_test.mock_run():
