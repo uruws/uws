@@ -34,7 +34,7 @@ func main() {
 	http.HandleFunc("/exec", api.ExecHandler)
 	http.HandleFunc("/", api.MainHandler)
 
-	log.Print("listen...")
+	log.Print("http://0.0.0.0:%d/", api.Port)
 	log.Fatal("%s", listenAndServe(fmt.Sprintf(":%d", api.Port), nil))
 }
 
