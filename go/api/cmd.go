@@ -32,15 +32,14 @@ func newCmd(name string, args ...string) *apiCmd {
 }
 
 func (c *apiCmd) String() string {
-	return filepath.Join(c.bindir, c.name)
+	return filepath.Clean(filepath.Join(c.bindir, c.name))
 }
 
 func (c *apiCmd) Run(r *http.Request) (string, error) {
 	ttl, _ := time.ParseDuration(fmt.Sprintf("%ds", c.ttl))
 	ctx, cancel := context.WithTimeout(context.Background(), ttl)
 	defer cancel()
-	cmdpath := filepath.Clean(filepath.Join(c.bindir, c.name))
-	cmd := exec.CommandContext(ctx, cmdpath, c.args...)
+	cmd := exec.CommandContext(ctx, c.String(), c.args...)
 	wapp.Debug(r, "run: %s", cmd)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
