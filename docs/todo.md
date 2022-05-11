@@ -1,22 +1,3 @@
-* setup worker-test env - `DONE!`
-
-* upgrade jsbatch resources - `DONE!`
-    * t3a.large to t3a.xlarge
-
-* userInbox.jobs limits - `DONE!`
-    * warning:  3s -> 7s
-    * critical: 7s -> 9s
-
-* setup Mauro for Infra-UI development - `DONE!`
-
-* `FIX` mongodb app prod and staging "engine checks" - `DONE!`
-    * it stopped working after mongo credentials rotation
-
-* `FIX` CS test cluster setup - `DONE!`
-    * heroku stopped working... we need an aws setup for it
-
-* munin: mongo checks and bots use secondary servers - `DONE!`
-
 * `URGENT` cluster stack
     * k8s 1.20 (and 1.21) already available (we run 1.19)
     * Amazon EKS has deprecated Kubernetes version 1.19 and this version will no
@@ -133,9 +114,6 @@
 * cs runs on amybeta cluster: move it?
     * make it the first k8s v1.21 version?
 
-* App meteor upgrade
-    * take the opportunity to start using docker setup?
-
 * nlpsvc: separate apps namespaces (for graphs and cli status/logs)
 
 * munin
@@ -172,14 +150,6 @@
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
 
-* develope infra webapp
-    * users auth/cert manager
-    * github webhook
-    * jira webhook
-    * munin dashboard
-    * events history (builds, restarts, deploys, etc...)
-    * API for UI interaction
-
 * infra docs for internal presentation
 
 * `FIX` k8smon: munin-alerts volume setup
@@ -188,16 +158,10 @@
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
 
-* uwscli integration
+* uwscli wish list
     * cleanup old images in ECR
     * app-build
-        * github webhook integration
         * we should be able to properly stop/abort a building process
-    * let Jira know about deployments status
-        * https://talkingpointsorg.atlassian.net/jira/software/c/projects/DEV/deployments
-    * github CI/Actions integration with app builds
-
-* uwscli wish list
     * show events log or auto-refresh status info
     * control deploy replicas
     * show web proxy logs
@@ -215,10 +179,8 @@
 
 * web deploy autoscale setup on custom metrics
 
-* web and workers scheduled (uwscli crontab) scale up/down
-    * restart services before (1h) scale up
-
 * web /bandwidthCallbackSms requests
+    * move to separate service?
     * add bot check/graph
 
 * nginx
