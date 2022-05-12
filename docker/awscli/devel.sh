@@ -2,6 +2,7 @@
 set -eu
 
 awsdir=${PWD}/secret/aws
+cfgdir=${PWD}/secret/aws.config
 utils=${PWD}/docker/awscli/utils
 
 tmpdir=${PWD}/tmp/awscli
@@ -14,6 +15,7 @@ exec docker run -it --rm --name uws-awscli-devel \
 	--workdir /home/uws \
 	--env-file ${awsdir}/cli.env \
 	-v ${awsdir}:/home/uws/.aws:ro \
+	-v ${cfgdir}:/home/uws/config:ro \
 	-v ${utils}:/home/uws/bin:ro \
 	-v ${tmpdir}:/home/uws/tmp \
 	uws/awscli-2203 -il

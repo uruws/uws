@@ -3,6 +3,8 @@ set -u
 
 bucket=${1:?'bucket name?'}
 
+. "${HOME}/config/s3/${bucket}.env"
+
 echo '*** acl'
 aws s3api get-bucket-acl --bucket "${bucket}"
 

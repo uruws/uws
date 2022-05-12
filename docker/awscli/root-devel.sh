@@ -7,6 +7,7 @@ if ! test -d ${awsdir}; then
 	echo "${awsdir}: root env not found" >&2
 	exit 1
 fi
+cfgdir=${PWD}/secret/aws.config
 exec docker run -it --rm --name uws-awscli-root-${root} \
 	--hostname awscli-root-${root}.uws.local \
 	-u uws \
@@ -14,5 +15,6 @@ exec docker run -it --rm --name uws-awscli-root-${root} \
 	--workdir /home/uws \
 	--env-file ${awsdir}/cli.env \
 	-v ${awsdir}:/home/uws/.aws:ro \
+	-v ${cfgdir}:/home/uws/config:ro \
 	-v ${utils}:/home/uws/bin:ro \
 	uws/awscli-2203 -il
