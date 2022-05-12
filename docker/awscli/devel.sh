@@ -7,8 +7,8 @@ utils=${PWD}/docker/awscli/utils
 tmpdir=${PWD}/tmp/awscli
 install -v -d -m 0750 ${tmpdir}
 
-exec docker run -it --rm --name uws-awscli-login \
-	--hostname awscli-login.uws.local \
+exec docker run -it --rm --name uws-awscli-devel \
+	--hostname awscli-devel.uws.local \
 	-u uws \
 	--entrypoint /bin/bash \
 	--workdir /home/uws \
