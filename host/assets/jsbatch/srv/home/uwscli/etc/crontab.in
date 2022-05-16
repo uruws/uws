@@ -11,6 +11,7 @@ UWSCLI_LOG=off
 
 # app
 */15 * * * * app-autobuild app
+*/15 * * * * app-autobuild cs
 
 #############
 # scale down

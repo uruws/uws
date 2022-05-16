@@ -140,6 +140,8 @@ app: dict[str, App] = {
 		build = _buildpack('cs/src', 'crowdsourcing', 'Crowdsourcing'),
 		deploy = AppDeploy('meteor-crowdsourcing'),
 		groups = ['uwsapp_crowdsourcing', 'uwsapp_cs'],
+		autobuild = True,
+		autobuild_deploy = ['cs-test'],
 	),
 	'cs-test': App(True,
 		cluster = 'amy-test-1',
