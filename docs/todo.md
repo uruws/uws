@@ -29,6 +29,8 @@
     * nothing to do for app: app-test-2 - ver: 2.69.9-bp32 - tag: 2.69.10
     * nothing to do for app: worker-test - ver: 2.69.9-bp32 - tag: 2.69.10
 
+* `FIX` app-autobuild for CS needs to ignore tags not starting with 1.
+
 * nginx secure headers
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
