@@ -9,5 +9,6 @@ bucket=${1:?'bucket name?'}
 ~/bin/s3-app-bucket-policy.sh "${bucket}"
 ~/bin/s3-app-bucket-cors.sh "${bucket}"
 ~/bin/s3-app-bucket-versioning.sh "${bucket}"
+~/bin/s3-app-bucket-encryption.sh "${bucket}"
 
 exit 0
