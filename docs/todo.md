@@ -20,6 +20,17 @@
     * DEV-2484 - HTTP Secure headers implementation
         * we had it on this TODO already as: nginx secure headers
 
+* `FIX` app-autobuild calling deploy from buildpack.sh, using --deploy option
+    * From github.com:TalkingPts/App
+    * [new tag]             2.69.10    -> 2.69.10
+    * ,180cd0fbf93.2192493
+    * ,180cd0fbf97.2192498
+    * nothing to do for app: app-test-1 - ver: 2.69.9-bp32 - tag: 2.69.10
+    * nothing to do for app: app-test-2 - ver: 2.69.9-bp32 - tag: 2.69.10
+    * nothing to do for app: worker-test - ver: 2.69.9-bp32 - tag: 2.69.10
+
+* `FIX` app-autobuild for CS needs to ignore tags not starting with 1.
+
 * nginx secure headers
     * CSP
         * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy

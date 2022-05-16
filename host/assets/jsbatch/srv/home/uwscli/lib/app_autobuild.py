@@ -169,4 +169,5 @@ def main(argv = []):
 	if tag is __done:
 		return 0
 
+	# FIXME
 	return _deploy(args.app, tag)

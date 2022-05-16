@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+bucket=${1:?'bucket name?'}
+. "${HOME}/config/s3/${bucket}.env"
+
+exec aws s3api put-bucket-cors \
+	--bucket "${bucket}" \
+	--cors-configuration "file://${HOME}/config/s3/${UWSBUCKET_CORS}"
