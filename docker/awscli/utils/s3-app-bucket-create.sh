@@ -8,4 +8,4 @@ bucket=${1:?'bucket name?'}
 
 exec aws s3api create-bucket \
 	--bucket "${bucket}" \
-	--acl public-read
+	--acl private
