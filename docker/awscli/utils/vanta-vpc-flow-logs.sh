@@ -2,7 +2,7 @@
 set -eu
 
 list_vpc() (
-	aws ec2 describe-vpcs --filter Name=state,Values=available --region ${1} |
+	aws ec2 describe-vpcs --filter Name=state,Values=available --region "${1}" |
 		grep -E '^VPCS' |
 		awk '{ print $8 }'
 )
@@ -16,7 +16,7 @@ for region in ${VANTA_REGIONS}; do
 		~/bin/vpc-flow-logs-group.sh "${region}"
 	fi
 	aws ec2 describe-flow-logs --region "${region}" >${describe_logs}
-	for vpc in $(list_vpc ${region}); do
+	for vpc in $(list_vpc "${region}"); do
 		echo "*** ${region} -> ${vpc}"
 		if grep -qF "${vpc}" ${describe_logs}; then
 			echo "done already!"

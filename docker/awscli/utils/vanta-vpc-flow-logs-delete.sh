@@ -10,7 +10,7 @@ list_fl() (
 )
 
 for region in ${VANTA_REGIONS}; do
-	for fl in $(list_fl ${region}); do
+	for fl in $(list_fl "${region}"); do
 		echo "*** ${region} -> ${fl}"
 		~/bin/vpc-flow-logs-delete.sh "${region}" "${fl}"
 	done
