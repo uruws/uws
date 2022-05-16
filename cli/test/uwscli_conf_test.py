@@ -68,6 +68,7 @@ class Test(unittest.TestCase):
 		# autobuild
 		t.assertListEqual(uwscli.autobuild_list(), [
 			'app',
+			'cs',
 		])
 
 	def test_app_build_group(t):
