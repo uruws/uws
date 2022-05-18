@@ -9,19 +9,20 @@
 * infra-api - `WIP`
     * devel and setup
 
-* [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473) - SOC2 fixes/setup
-    * DEV-2475 - Unrestricted File Upload - `WIP`
+* [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473): SOC2 fixes/setup - `DONE!`
+    * DEV-2475 - Unrestricted File Upload
         * `NOTE` I think a better setup could be that App sends assets to S3 but
           we serve does assests from a CDN created for that purpose. That way we
           avoid some S3 cost and we only pay for CDN uploading.
         * create script to set S3 policies so we restrict upload file types
         * implement BucketAV to scan uploaded files for viruses
-    * DEV-2478, DEV-2482 - 3rd party cookies - `DONE!`
+    * DEV-2478, DEV-2482 - 3rd party cookies
         * investigate if there's something we can do there at web server level
-    * DEV-2484 - HTTP Secure headers implementation - `DONE!`
+    * DEV-2484 - HTTP Secure headers implementation
         * we had it on this TODO already as: nginx secure headers
     * Changelog:
         * https://github.com/TalkingPts/Infrastructure/pull/4
+        * https://github.com/TalkingPts/Infrastructure/pull/5
 
 * `FIX` app-autobuild calling deploy from buildpack.sh, using --deploy option
     * From github.com:TalkingPts/App
