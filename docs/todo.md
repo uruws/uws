@@ -15,6 +15,7 @@
           we serve does assests from a CDN created for that purpose. That way we
           avoid some S3 cost and we only pay for CDN uploading.
         * create script to set S3 policies so we restrict upload file types
+        * implement BucketAV to scan uploaded files for viruses
     * DEV-2478, DEV-2482 - 3rd party cookies - `DONE!`
         * investigate if there's something we can do there at web server level
     * DEV-2484 - HTTP Secure headers implementation - `DONE!`
