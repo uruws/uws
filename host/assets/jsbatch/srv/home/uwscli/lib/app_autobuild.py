@@ -63,7 +63,7 @@ def _checkVersion(tag: str, ver: str) -> bool:
 	v = semver.VersionInfo.parse(ver)
 	return t > v
 
-def _isBuildingOrDone(app, tag):
+def _isBuildingOrDone(app: str, tag: str) -> bool:
 	"""check if tag is in the build queue or done already"""
 	uwscli.debug(app, tag)
 	try:
@@ -77,14 +77,12 @@ def _isBuildingOrDone(app, tag):
 		return False
 	ok = st != 'FAIL'
 	if ok:
-		uwscli.debug('already built app:', app, tag)
+		uwscli.debug('already built:', app, tag)
 	else:
-		uwscli.error('build for app:', app, ver, 'failed')
+		uwscli.error('build failed:', app, ver)
 	return True
 
-__done: str = '__done__'
-
-def _build(app: str) -> tuple[int, str]:
+def _build(app: str) -> int:
 	build = uwscli.app[app].build
 	uwscli.debug(build)
 	try:
@@ -93,17 +91,17 @@ def _build(app: str) -> tuple[int, str]:
 			rc = uwscli.run('app-fetch.sh', build.src)
 			if rc != 0:
 				uwscli.error('[ERROR] app-fetch.sh failed, exit status:', rc)
-				return (rc, '')
+				return rc
 			tag = _latestTag(build.src)
 			if tag == 'None':
 				uwscli.error('[ERROR] could not get latest git tag')
-				return (ETAG, '')
+				return ETAG
 			if _isBuildingOrDone(app, tag):
-				return (0, __done)
-			return (app_build.run(app, tag), tag)
+				return 0
+			return app_build.run(app, tag)
 	except SystemExit:
 		pass
-	return (EBUILD, '')
+	return EBUILD
 
 def _latestBuild(app: str) -> str:
 	uwscli.debug('latestBuild')
@@ -154,20 +152,21 @@ def main(argv = []):
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
 
+	flags.add_argument('-d', '--deploy', action = 'store_true', default = False,
+		help = 'app deploy')
+
 	flags.add_argument('app', metavar = 'app', choices = uwscli.autobuild_list(),
 		default = 'app', help = 'app name')
+
+	if '--deploy' in argv:
+		flags.add_argument('tag', metavar = 'tag', help = 'deploy app tag version')
 
 	args = flags.parse_args(argv)
 
 	if not _setup():
 		return ESETUP
 
-	rc, tag = _build(args.app)
-	if rc != 0:
-		return rc
+	if args.deploy:
+		return _deploy(args.app, args.tag)
 
-	if tag is __done:
-		return 0
-
-	# FIXME
-	return _deploy(args.app, tag)
+	return _build(args.app)

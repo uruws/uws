@@ -25,7 +25,7 @@ def main(argv = []):
 	flags.add_argument('-w', '--workdir', metavar = 'PATH',
 		help = 'check access to app workdir', default = '')
 	flags.add_argument('-o', '--ops', metavar = 'ACTION',
-		help = 'check operation access', default = '')
+		help = 'check operator access', default = '')
 	args = flags.parse_args(argv)
 	return user_check(
 		username = args.user,

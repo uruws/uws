@@ -13,4 +13,7 @@ version=${3:?'build version?'}
 /srv/uws/deploy/cli/uwsnq.sh "${SUDO_USER}" \
 	/srv/uws/deploy/cli/app-clean-build.sh "${target}"
 
+/srv/uws/deploy/cli/uwsnq.sh "${SUDO_USER}" \
+	/srv/uws/deploy/cli/app-autobuild-deploy.sh "${target}" "${version}"
+
 exit 0

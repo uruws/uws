@@ -112,7 +112,6 @@ class Test(unittest.TestCase):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .', timeout=600),
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 1.999.0', timeout=3600),
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 1.999.0-bp99', timeout=600),
 		]
 		with app_build_test.mock_run():
 			with uwscli_t.mock_check_output(output = '1.999.0'):
@@ -176,11 +175,11 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_check_output(output = '0.999.0'):
 					with app_build_test.mock_run():
-						t.assertEqual(app_autobuild._build('testing'), (0, '0.999.0'))
+						t.assertEqual(app_autobuild._build('testing'), 0)
 
 	def test_build_error(t):
 		with uwscli_t.mock_chdir(fail = True):
-			t.assertEqual(app_autobuild._build('testing'), (app_autobuild.EBUILD, ''))
+			t.assertEqual(app_autobuild._build('testing'), app_autobuild.EBUILD)
 
 	def test_latestBuild(t):
 		with uwscli_t.mock_list_images(['0.999.0', '0.0.999']):
