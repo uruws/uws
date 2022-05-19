@@ -47,7 +47,7 @@ if test -s /srv/acme/cert/apitest.uws.talkingpts.org.crt; then
 fi
 
 # parents
-${install_cmd} /etc/nginx/sites-available/parents /etc/nginx/sites-enabled
+${install_cmd} /etc/nginx/sites-available/parents-redirect /etc/nginx/sites-enabled
 if test -s /srv/acme/cert/parents.talkingpts.org.crt; then
 	${install_cmd} /etc/nginx/sites-available/ssl-parents-redirect /etc/nginx/sites-enabled
 fi
