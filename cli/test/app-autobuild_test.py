@@ -233,5 +233,11 @@ class Test(unittest.TestCase):
 				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0-bp999', timeout=600)
 				app_autobuild._latestBuild.assert_called_once_with('test-1')
 
+	def test_main_deploy(t):
+		with mock():
+			with mock_deploy():
+				with uwscli_t.mock_list_images(['0.999.0']):
+					t.assertEqual(app_autobuild.main(['--deploy', 'testing', '0.999.0']), 0)
+
 if __name__ == '__main__':
 	unittest.main()
