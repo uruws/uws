@@ -71,7 +71,6 @@ func TestCmdRunInvalidCmd(t *testing.T) {
 func TestDoExec(t *testing.T) {
 	mockApi()
 	defer mockApiReset()
-	bindir = "/bin"
 	start := wapp.Start()
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
@@ -83,7 +82,6 @@ func TestDoExec(t *testing.T) {
 func TestDoExecError(t *testing.T) {
 	mockApi()
 	defer mockApiReset()
-	bindir = "/bin"
 	start := wapp.Start()
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
@@ -95,7 +93,6 @@ func TestDoExecError(t *testing.T) {
 func TestExecHandlerNoCmd(t *testing.T) {
 	mockApi()
 	defer mockApiReset()
-	bindir = "/bin"
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequestPost("")
 	ExecHandler(w, r)
@@ -106,7 +103,6 @@ func TestExecHandlerNoCmd(t *testing.T) {
 func TestExecHandlerInvalidMethod(t *testing.T) {
 	mockApi()
 	defer mockApiReset()
-	bindir = "/bin"
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequest()
 	ExecHandler(w, r)
@@ -117,7 +113,6 @@ func TestExecHandlerInvalidMethod(t *testing.T) {
 func TestExecHandler(t *testing.T) {
 	mockApi()
 	defer mockApiReset()
-	bindir = "/bin"
 	w := mock.HTTPResponse()
 	r := mock.HTTPRequestPost("cmd=true")
 	ExecHandler(w, r)

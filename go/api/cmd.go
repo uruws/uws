@@ -67,13 +67,22 @@ func ExecHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func newApiCmd(name string, args ...string) *apiCmd {
+	xargs := make([]string, 0)
+	xargs = append(xargs, name)
+	for _, a := range args {
+		xargs = append(xargs, a)
+	}
+	return newCmd("uwsapi-ssh.sh", xargs...)
+}
+
 func doExec(w http.ResponseWriter, r *http.Request, start time.Time, cmd string, args ...string) {
 	wapp.Debug(r, "exec: %s %v", cmd, args)
-	x := newCmd(cmd, args...)
+	x := newApiCmd(cmd, args...)
 	outs, err := x.Run(r)
 	if err != nil {
 		wapp.LogError(r, "%s", err)
-		wapp.Error(w, r, start, errors.New("ERROR: internal exec call"))
+		wapp.Error(w, r, start, errors.New("internal exec call"))
 		return
 	}
 	wapp.Write(w, r, start, outs)
