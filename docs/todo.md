@@ -39,13 +39,6 @@
 
 [PR#7]: https://github.com/TalkingPts/Infrastructure/pull/7
 
-* nginx secure headers
-    * CSP
-        * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-        * once aws.testing is done try/deploy there
-
-* AI-Backend (Angel) S3 bucket for DB dumps
-
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
     * maybe use an script for Route53 editions which alerts about prod domains or similar
@@ -53,7 +46,7 @@
 
 * `FIX` app-build
     * do not dispatch build if one already in place for same version
-    * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)
+    * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)?
 
 * uwscli auto-setup from main configuration
     * integrate with buildpack deploy scripts
