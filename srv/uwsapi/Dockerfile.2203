@@ -22,5 +22,6 @@ ENV USER uwsops
 ENV HOME /home/uwsops
 
 RUN /usr/bin/ssh -V
+RUN /usr/local/bin/uwsapi --version
 
 ENTRYPOINT exec /usr/local/bin/uwsapi

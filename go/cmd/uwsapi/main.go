@@ -28,6 +28,12 @@ func main() {
 	log.Init("uwsapi")
 	log.Print("uwsapi version %s", api.Version())
 
+	if len(os.Args) >= 2 {
+		if os.Args[1] == "--version" {
+			os.Exit(0)
+		}
+	}
+
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_", pingHandler)
 
