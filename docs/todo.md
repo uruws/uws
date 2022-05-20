@@ -35,7 +35,9 @@
 
 [PR#6]: https://github.com/TalkingPts/Infrastructure/pull/6
 
-* `FIX` app-autobuild for CS needs to ignore tags not starting with 1.
+* `FIX` app-autobuild for CS needs to ignore tags not starting with 1. `DONE!` [PR#7][PR#7]
+
+[PR#7]: https://github.com/TalkingPts/Infrastructure/pull/7
 
 * nginx secure headers
     * CSP
