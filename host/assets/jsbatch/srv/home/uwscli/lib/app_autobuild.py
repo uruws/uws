@@ -84,7 +84,7 @@ def _isBuildingOrDone(app: str, tag: str) -> bool:
 
 def _uglyHackApplies(app: str, tag: str) -> bool:
 	if app == 'cs' and not tag.startswith('1.'):
-		uwscli.log('uggly hack ignore:', app, 'tag', tag)
+		uwscli.log('ugly hack ignore:', app, 'tag', tag)
 		return True
 	return False
 
