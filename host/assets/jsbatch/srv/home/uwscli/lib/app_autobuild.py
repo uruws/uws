@@ -82,9 +82,15 @@ def _isBuildingOrDone(app: str, tag: str) -> bool:
 		uwscli.error('build failed:', app, ver)
 	return True
 
+def _uglyHackApplies(app: str, tag: str) -> bool:
+	if app == 'cs' and not tag.startswith('1.'):
+		uwscli.log('uggly hack ignore:', app, 'tag', tag)
+		return True
+	return False
+
 def _build(app: str) -> int:
 	build = uwscli.app[app].build
-	uwscli.debug(build)
+	uwscli.debug(app, build)
 	try:
 		with uwscli.chdir(build.dir):
 			uwscli.debug('build.dir:', build.dir)
@@ -96,6 +102,8 @@ def _build(app: str) -> int:
 			if tag == 'None':
 				uwscli.error('[ERROR] could not get latest git tag')
 				return ETAG
+			if _uglyHackApplies(app, tag):
+				return 0
 			if _isBuildingOrDone(app, tag):
 				return 0
 			return app_build.run(app, tag)

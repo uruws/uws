@@ -16,7 +16,7 @@ import app_build_test
 import uwscli
 import app_autobuild
 
-from uwscli_conf import App, AppDeploy
+from uwscli_conf import App, AppDeploy, AppBuild
 
 @contextmanager
 def mock():
@@ -65,6 +65,23 @@ def mock_deploy(build = '0.999.0', status = 0):
 		app_autobuild._latestBuild = lb_bup
 		uwscli.app['testing'].autobuild_deploy = []
 		del uwscli.app['test-1']
+
+@contextmanager
+def mock_cs_app():
+	try:
+		uwscli.app['cs'] = App(True,
+			cluster = 'ktest',
+			desc = 'CS',
+			pod = 'test',
+			deploy = AppDeploy('crowdsourcing'),
+			build = AppBuild(dir = 'testing/cs', script = 'build.sh'),
+		)
+		with mock():
+			with uwscli_t.mock_system(status = 0):
+				with uwscli_t.mock_check_output(output = '5.1.0'):
+					yield
+	finally:
+		del uwscli.app['cs']
 
 class Test(unittest.TestCase):
 
@@ -238,6 +255,10 @@ class Test(unittest.TestCase):
 			with mock_deploy():
 				with uwscli_t.mock_list_images(['0.999.0']):
 					t.assertEqual(app_autobuild.main(['--deploy', 'testing', '0.999.0']), 0)
+
+	def test_build_cs_ugly_hack(t):
+		with mock_cs_app():
+			t.assertEqual(app_autobuild._build('cs'), 0)
 
 if __name__ == '__main__':
 	unittest.main()
