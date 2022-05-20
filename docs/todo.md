@@ -9,7 +9,7 @@
 * infra-api - `WIP`
     * devel and setup
 
-* [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473): SOC2 fixes/setup - `DONE!`
+* [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473): SOC2 fixes/setup - `DONE!` [PR#4][PR#4] [PR#5][PR#5]
     * DEV-2475 - Unrestricted File Upload
         * `NOTE` I think a better setup could be that App sends assets to S3 but
           we serve does assests from a CDN created for that purpose. That way we
@@ -20,11 +20,11 @@
         * investigate if there's something we can do there at web server level
     * DEV-2484 - HTTP Secure headers implementation
         * we had it on this TODO already as: nginx secure headers
-    * Changelog:
-        * https://github.com/TalkingPts/Infrastructure/pull/4
-        * https://github.com/TalkingPts/Infrastructure/pull/5
 
-* `FIX` app-autobuild calling deploy from buildpack.sh, using --deploy option
+[PR#4]: https://github.com/TalkingPts/Infrastructure/pull/4
+[PR#5]: https://github.com/TalkingPts/Infrastructure/pull/5
+
+* `FIX` app-autobuild calling deploy from buildpack.sh, using --deploy option `DONE!` [PR#6][PR#6]
     * From github.com:TalkingPts/App
     * [new tag]             2.69.10    -> 2.69.10
     * ,180cd0fbf93.2192493
@@ -32,6 +32,8 @@
     * nothing to do for app: app-test-1 - ver: 2.69.9-bp32 - tag: 2.69.10
     * nothing to do for app: app-test-2 - ver: 2.69.9-bp32 - tag: 2.69.10
     * nothing to do for app: worker-test - ver: 2.69.9-bp32 - tag: 2.69.10
+
+[PR#6]: https://github.com/TalkingPts/Infrastructure/pull/6
 
 * `FIX` app-autobuild for CS needs to ignore tags not starting with 1.
 
