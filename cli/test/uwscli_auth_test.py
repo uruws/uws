@@ -153,5 +153,8 @@ class Test(unittest.TestCase):
 		with mock_unauth_operator():
 			t.assertEqual(auth.user_check('testing', 'testing', '', '', 'test'), auth.EOPS)
 
+	def test_user_check_operator_build_deploy(t):
+		t.assertEqual(auth.user_check('testing', 'test', '', '', 'deploy'), 0)
+
 if __name__ == '__main__':
 	unittest.main()

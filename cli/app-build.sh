@@ -8,6 +8,9 @@ version=${4:?'version?'}
 
 version_tag=$(echo "${version}" | tr '/' '_')
 
+export UWSCLI_LOG=on
+export UWSCLI_DEBUG=off
+
 /srv/uws/deploy/cli/auth.py --user "${SUDO_USER}" --build "${app}"
 
 logs_dir=${HOME}/logs
