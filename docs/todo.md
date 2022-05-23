@@ -24,7 +24,7 @@
 [PR#4]: https://github.com/TalkingPts/Infrastructure/pull/4
 [PR#5]: https://github.com/TalkingPts/Infrastructure/pull/5
 
-* `FIX` app-autobuild calling deploy from buildpack.sh, using --deploy option `DONE!` [PR#6][PR#6]
+* `FIX` app-autobuild calling deploy from buildpack.sh, using --deploy option `DONE!` [PR#6][PR#6] [PR#8][PR#8]
     * From github.com:TalkingPts/App
     * [new tag]             2.69.10    -> 2.69.10
     * ,180cd0fbf93.2192493
@@ -34,6 +34,7 @@
     * nothing to do for app: worker-test - ver: 2.69.9-bp32 - tag: 2.69.10
 
 [PR#6]: https://github.com/TalkingPts/Infrastructure/pull/6
+[PR#8]: https://github.com/TalkingPts/Infrastructure/pull/8
 
 * `FIX` app-autobuild for CS needs to ignore tags not starting with 1. `DONE!` [PR#7][PR#7]
 
