@@ -50,6 +50,7 @@ if test "X${rc}" != 'X0'; then
 else
 	echo "OK:${version}" >${statusf}
 	/srv/uws/deploy/cli/app-clean-build.sh "${app}"
+	/srv/uws/deploy/cli/app-autobuild-deploy.sh "${app}" "${version}"
 fi
 
 exit ${rc}
