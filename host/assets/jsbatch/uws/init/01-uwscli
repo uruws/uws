@@ -45,7 +45,7 @@ chown -v root:uwsops ~uwscli/bin/app-scale
 
 # internal utils
 
-chown -v uwscli:root ~uwscli/bin/app-autobuild
+chown -v uwscli:uws ~uwscli/bin/app-autobuild
 
 # python compile lib and vendor
 
