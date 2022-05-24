@@ -163,11 +163,14 @@ def main(argv = []):
 	flags.add_argument('-d', '--deploy', action = 'store_true', default = False,
 		help = 'app deploy')
 
-	flags.add_argument('app', metavar = 'app', choices = uwscli.autobuild_list(),
-		default = 'app', help = 'app name')
-
-	if '--deploy' in argv:
-		flags.add_argument('tag', metavar = 'tag', help = 'deploy app tag version')
+	if '--deploy' in argv or '-d' in argv:
+		flags.add_argument('app', metavar = 'app',
+			help = 'app name')
+		flags.add_argument('tag', metavar = 'tag',
+			help = 'deploy app tag version')
+	else:
+		flags.add_argument('app', metavar = 'app',
+			choices = uwscli.autobuild_list(), help = 'app name')
 
 	args = flags.parse_args(argv)
 
@@ -175,6 +178,7 @@ def main(argv = []):
 		return ESETUP
 
 	if args.deploy:
+		uwscli.debug('deploy:', args.app, 'tag', args.tag)
 		return _deploy(args.app, args.tag)
 
 	return _build(args.app)
