@@ -88,14 +88,14 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
 
 addgroup uwsadm || true
 
+# Make uws user an admin. Needed for autobuild deploys.
+adduser uws uwsadm
+
 adduser uwscli   uwsadm
 adduser aram     uwsadm
 adduser jeremias uwsadm
 
 # operator users
-
-# Make uws user an operator. Needed for autobuild deploys.
-adduser uws uwsops
 
 adduser uwscli    uwsops
 adduser aram      uwsops

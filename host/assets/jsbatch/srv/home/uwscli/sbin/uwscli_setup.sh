@@ -26,8 +26,8 @@ chmod -v 0750 /srv/home/uws
 # Allow uws user docker access.
 adduser uws docker
 
-# Make uws user an operator. Needed for autobuild deploys.
-adduser uws uwsops
+# Make uws user an admin. Needed for autobuild deploys.
+adduser uws uwsadm
 
 install -v -d -o uws -g uws -m 0750 ~uws/.ssh
 install -v -C -o uws -g uws -m 0400 /usr/local/etc/ssh/id_ed25519 ~uws/.ssh/
