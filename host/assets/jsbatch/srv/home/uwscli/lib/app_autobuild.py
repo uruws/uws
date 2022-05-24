@@ -178,7 +178,10 @@ def main(argv = []):
 		return ESETUP
 
 	if args.deploy:
-		uwscli.debug('deploy:', args.app, 'tag', args.tag)
-		return _deploy(args.app, args.tag)
+		app = args.app
+		if app == 'crowdsourcing':
+			app = 'cs'
+		uwscli.debug('deploy:', app, 'tag', args.tag)
+		return _deploy(app, args.tag)
 
 	return _build(args.app)
