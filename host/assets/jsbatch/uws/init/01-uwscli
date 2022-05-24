@@ -94,6 +94,9 @@ adduser jeremias uwsadm
 
 # operator users
 
+# Make uws user an operator. Needed for autobuild deploys.
+adduser uws uwsops
+
 adduser uwscli    uwsops
 adduser aram      uwsops
 adduser gabriel   uwsops

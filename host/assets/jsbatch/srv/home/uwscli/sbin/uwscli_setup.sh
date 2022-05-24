@@ -23,7 +23,11 @@ groupadd -g 3000 uws || true
 useradd -d /srv/home/uws -m -c 'uws' -s /bin/bash -g 3000 -u 3000 uws || true
 chmod -v 0750 /srv/home/uws
 
+# Allow uws user docker access.
 adduser uws docker
+
+# Make uws user an operator. Needed for autobuild deploys.
+adduser uws uwsops
 
 install -v -d -o uws -g uws -m 0750 ~uws/.ssh
 install -v -C -o uws -g uws -m 0400 /usr/local/etc/ssh/id_ed25519 ~uws/.ssh/
