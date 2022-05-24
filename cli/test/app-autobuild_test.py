@@ -83,6 +83,16 @@ def mock_cs_app():
 	finally:
 		del uwscli.app['cs']
 
+@contextmanager
+def mock_main_deploy(status = 0):
+	try:
+		deploy_bup = app_autobuild._deploy
+		app_autobuild._deploy = MagicMock(return_value = status)
+		with uwscli_t.mock_mkdir():
+			yield
+	finally:
+		app_autobuild._deploy = deploy_bup
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -259,6 +269,11 @@ class Test(unittest.TestCase):
 	def test_build_cs_ugly_hack(t):
 		with mock_cs_app():
 			t.assertEqual(app_autobuild._build('cs'), app_autobuild.ETAG)
+
+	def test_deploy_cs_alias_name(t):
+		with mock_main_deploy():
+			t.assertEqual(app_autobuild.main(['--deploy', 'crowdsourcing', '0.999.0']), 0)
+			app_autobuild._deploy.assert_called_once_with('cs', '0.999.0')
 
 if __name__ == '__main__':
 	unittest.main()
