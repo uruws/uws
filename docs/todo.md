@@ -9,6 +9,11 @@
 * infra-api - `WIP`
     * devel and setup
 
+* App encrypt secrets - `WIP`
+    * git-crypt setup for private/secrets directory [App PR#910][APP#910]
+
+[APP#910]: https://github.com/TalkingPts/App/pull/910
+
 * [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473): SOC2 fixes/setup - `DONE!` [PR#4][PR#4] [PR#5][PR#5]
     * DEV-2475 - Unrestricted File Upload
         * `NOTE` I think a better setup could be that App sends assets to S3 but
