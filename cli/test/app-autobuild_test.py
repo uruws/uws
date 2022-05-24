@@ -78,7 +78,7 @@ def mock_cs_app():
 		)
 		with mock():
 			with uwscli_t.mock_system(status = 0):
-				with uwscli_t.mock_check_output(output = '5.1.0'):
+				with uwscli_t.mock_check_output(output = '0.9.999'):
 					yield
 	finally:
 		del uwscli.app['cs']
@@ -151,16 +151,16 @@ class Test(unittest.TestCase):
 
 	def test_latestTag(t):
 		with uwscli_t.mock_check_output(output = linesep.join(['0.0.0', '0.1.0'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), '0.1.0')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '0.1.0')
 		# check numerical order
 		with uwscli_t.mock_check_output(output = linesep.join(['2.64.8', '2.64.9', '2.64.10', '2.64.11'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), '2.64.11')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '2.64.11')
 
 	def test_latestTag_errors(t):
 		with uwscli_t.mock_check_output(output = linesep.join(['0.1.0', 'Testing', 't0', '0.0.0'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), '0.1.0')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '0.1.0')
 		with uwscli_t.mock_check_output(output = linesep.join(['Testing', 't0'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), 'None')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), 'None')
 
 	def test_getStatus(t):
 		with mock_status(st = 'OK'):
@@ -258,7 +258,7 @@ class Test(unittest.TestCase):
 
 	def test_build_cs_ugly_hack(t):
 		with mock_cs_app():
-			t.assertEqual(app_autobuild._build('cs'), 0)
+			t.assertEqual(app_autobuild._build('cs'), app_autobuild.ETAG)
 
 if __name__ == '__main__':
 	unittest.main()

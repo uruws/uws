@@ -29,10 +29,18 @@ def _setup():
 		return False
 	return True
 
-def _latestTag(src):
-	uwscli.debug('latestTag')
+def _uglyHackApplies(app: str, tag: str) -> bool:
+	if app == 'cs' and not tag.startswith('1.'):
+		uwscli.log('ugly hack ignore:', app, 'tag', tag)
+		return True
+	return False
+
+def _latestTag(app: str, src: str) -> str:
+	uwscli.debug('latestTag:', app, src)
 	vmax = None
 	for t in uwscli.git_tag_list(workdir = src):
+		if _uglyHackApplies(app, t):
+			continue
 		try:
 			v = semver.VersionInfo.parse(t)
 		except ValueError as err:
@@ -82,12 +90,6 @@ def _isBuildingOrDone(app: str, tag: str) -> bool:
 		uwscli.error('build failed:', app, ver)
 	return True
 
-def _uglyHackApplies(app: str, tag: str) -> bool:
-	if app == 'cs' and not tag.startswith('1.'):
-		uwscli.log('ugly hack ignore:', app, 'tag', tag)
-		return True
-	return False
-
 def _build(app: str) -> int:
 	build = uwscli.app[app].build
 	uwscli.debug(app, build)
@@ -98,12 +100,10 @@ def _build(app: str) -> int:
 			if rc != 0:
 				uwscli.error('[ERROR] app-fetch.sh failed, exit status:', rc)
 				return rc
-			tag = _latestTag(build.src)
+			tag = _latestTag(app, build.src)
 			if tag == 'None':
 				uwscli.error('[ERROR] could not get latest git tag')
 				return ETAG
-			if _uglyHackApplies(app, tag):
-				return 0
 			if _isBuildingOrDone(app, tag):
 				return 0
 			return app_build.run(app, tag)
