@@ -11,7 +11,9 @@
 
 * SOC2 - `WIP`
     * stop using my personal account on github (jrmsgit) and use a tapo one
-    * replace all accesses/permissions
+    * replace all accesses/permissions from jrmsgit to jrmstp
+    * enable MFA for jrmstp
+    * enable MFA for j@tp.o
 
 * App encrypt secrets - `DONE`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
