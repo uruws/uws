@@ -9,7 +9,11 @@
 * infra-api - `WIP`
     * devel and setup
 
-* App encrypt secrets - `WIP`
+* SOC2 - `WIP`
+    * stop using my personal account on github (jrmsgit) and use a tapo one
+    * replace all accesses/permissions
+
+* App encrypt secrets - `DONE`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
 
 [APP#910]: https://github.com/TalkingPts/App/pull/910
