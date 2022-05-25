@@ -8,17 +8,25 @@
 
 * infra-api - `WIP`
     * devel and setup
+    * building on [InfraApp][InfraApp] repository
+        * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
+
+[InfraApp]: https://github.com/TalkingPts/InfraApp
 
 * SOC2 - `WIP`
     * stop using my personal account on github (jrmsgit) and use a tapo one
-    * replace all accesses/permissions from jrmsgit to jrmstp
-    * enable MFA for jrmstp
-    * enable MFA for j@tp.o
+    * replace all accesses/permissions from jrmsgit to jrmstp on github
+    * enable MFA for jrmstp (github)
+    * enable MFA for j@tp.o (gmail)
 
 * App encrypt secrets - `WIP`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
+    * `WAIT` for dev team to do the private files migration
+        * do we need to update the Buildpack for new private files location?
 
 [APP#910]: https://github.com/TalkingPts/App/pull/910
+
+* tapoS3Dev bucket for App local devel
 
 * webhooks cluster - `WIP`
     * separate user's web traffic from hooks/callbacks
@@ -34,8 +42,6 @@
     * https://app.vanta.com/tests#logs-retained-for-twelve-months-config
     * https://app.vanta.com/tests#sqs-queues-monitored-and-alarmed-config-age
     * https://app.vanta.com/tests?tab=documents#ci-cd-implemented
-
-* tapoS3Dev bucket for App local devel
 
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
