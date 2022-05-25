@@ -26,6 +26,11 @@
     * /coconut_webhook
     * etc?
 
+* Vanta tests
+    * https://app.vanta.com/tests#logs-retained-for-twelve-months-config
+    * https://app.vanta.com/tests#sqs-queues-monitored-and-alarmed-config-age
+    * https://app.vanta.com/tests?tab=documents#ci-cd-implemented
+
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
     * maybe use an script for Route53 editions which alerts about prod domains or similar
