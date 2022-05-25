@@ -41,3 +41,11 @@ spec:
                 name: meteor-worker
                 port:
                   number: 3000
+          # /twilio/smsSendCallback
+          - pathType: Prefix
+            path: /(twilio/smsSendCallback)$
+            backend:
+              service:
+                name: meteor-worker
+                port:
+                  number: 3000
