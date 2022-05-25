@@ -69,7 +69,11 @@ def _checkVersion(tag: str, ver: str) -> bool:
 	uwscli.debug('checkVersion')
 	t = semver.VersionInfo.parse(tag)
 	v = semver.VersionInfo.parse(ver)
-	return t > v
+	if t > v:
+		uwscli.log('tag', tag, 'is newer than latest build', ver)
+		return True
+	uwscli.debug('tag', tag, 'is older than latest build', ver)
+	return False
 
 def _isBuildingOrDone(app: str, tag: str) -> bool:
 	"""check if tag is in the build queue or done already"""
