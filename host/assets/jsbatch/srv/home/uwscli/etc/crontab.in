@@ -10,8 +10,8 @@ UWSCLI_LOG=off
 ############
 
 # app
-*/15 * * * * UWSCLI_LOG=on UWSCLI_DEBUG=on app-autobuild app
-*/15 * * * * UWSCLI_LOG=on UWSCLI_DEBUG=on app-autobuild cs
+*/15 * * * * UWSCLI_LOG=on app-autobuild app
+*/15 * * * * UWSCLI_LOG=on app-autobuild cs
 
 #############
 # scale down
