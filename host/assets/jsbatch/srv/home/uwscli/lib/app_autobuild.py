@@ -53,8 +53,9 @@ def _latestTag(app: str, src: str) -> str:
 				vmax = v
 	return str(vmax)
 
-def _getStatus(app):
-	uwscli.debug('getStatus')
+def _getStatus(app: str):
+	if app == 'cs': app = 'crowdsourcing'
+	uwscli.debug('getStatus:', app)
 	st    = None
 	ver   = None
 	f     = Path(_status_dir, f"{app}.status")
