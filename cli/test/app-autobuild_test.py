@@ -197,6 +197,10 @@ class Test(unittest.TestCase):
 		with mock_status(st = 'FAIL'):
 			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
+	def test_isBuildingOrDone_building(t):
+		with mock_status(st = 'BUILD'):
+			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+
 	def test_build(t):
 		with mock():
 			with uwscli_t.mock_system():

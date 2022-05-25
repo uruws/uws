@@ -53,7 +53,7 @@ def _latestTag(app: str, src: str) -> str:
 				vmax = v
 	return str(vmax)
 
-def _getStatus(app: str):
+def _getStatus(app: str) -> tuple[str, str]:
 	if app == 'cs': app = 'crowdsourcing'
 	uwscli.debug('getStatus:', app)
 	st    = None
@@ -61,8 +61,8 @@ def _getStatus(app: str):
 	f     = Path(_status_dir, f"{app}.status")
 	line  = f.read_text().strip()
 	items = line.split(':')
-	st    = items[0]
-	ver   = items[1]
+	st    = items[0].strip().upper()
+	ver   = items[1].strip()
 	return (st, ver)
 
 def _checkVersion(tag: str, ver: str) -> bool:
@@ -73,7 +73,7 @@ def _checkVersion(tag: str, ver: str) -> bool:
 	if t > v:
 		uwscli.log('tag', tag, 'is newer than latest build', ver)
 		return True
-	uwscli.debug('tag', tag, 'is older than latest build', ver)
+	uwscli.debug('tag', tag, 'is older than or equal to the latest build', ver)
 	return False
 
 def _isBuildingOrDone(app: str, tag: str) -> bool:
@@ -81,18 +81,21 @@ def _isBuildingOrDone(app: str, tag: str) -> bool:
 	uwscli.debug(app, tag)
 	try:
 		st, ver = _getStatus(app)
-		not_done = _checkVersion(tag, ver)
-		if not_done:
-			uwscli.log('not done:', app, tag)
-			return False
 	except FileNotFoundError:
 		uwscli.log('no status:', app, tag)
 		return False
+	not_done = _checkVersion(tag, ver)
+	if not_done:
+		uwscli.log('not done:', app, tag)
+		return False
+	if st == 'BUILD':
+		uwscli.log('building:', app, ver)
+		return True
 	ok = st != 'FAIL'
 	if ok:
 		uwscli.debug('already built:', app, tag)
 	else:
-		uwscli.error('build failed:', app, ver)
+		uwscli.error('[ERROR] build failed:', app, ver)
 	return True
 
 def _build(app: str) -> int:
@@ -111,6 +114,7 @@ def _build(app: str) -> int:
 				return ETAG
 			if _isBuildingOrDone(app, tag):
 				return 0
+			uwscli.log('dispatch autobuild:', app, tag)
 			return app_build.run(app, tag)
 	except SystemExit:
 		pass
