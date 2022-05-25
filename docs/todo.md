@@ -20,11 +20,15 @@
 
 [APP#910]: https://github.com/TalkingPts/App/pull/910
 
-* webhooks cluster
+* webhooks cluster - `WIP`
     * separate user's web traffic from hooks/callbacks
     * /bandwidth*
     * /coconut_webhook
     * etc?
+    * it was implemented on the workers cluster
+    * `MISS` migrate coconut_webhook [DEV-2785][DEV-2785]
+
+[DEV-2785]: https://talkingpointsorg.atlassian.net/browse/DEV-2785
 
 * Vanta tests
     * https://app.vanta.com/tests#logs-retained-for-twelve-months-config
