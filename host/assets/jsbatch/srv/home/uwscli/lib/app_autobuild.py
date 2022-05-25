@@ -31,7 +31,7 @@ def _setup():
 
 def _uglyHackApplies(app: str, tag: str) -> bool:
 	if app == 'cs' and not tag.startswith('1.'):
-		uwscli.log('ugly hack ignore:', app, 'tag', tag)
+		uwscli.debug('ugly hack ignore:', app, 'tag', tag)
 		return True
 	return False
 
