@@ -78,10 +78,10 @@ def _isBuildingOrDone(app: str, tag: str) -> bool:
 		st, ver = _getStatus(app)
 		not_done = _checkVersion(tag, ver)
 		if not_done:
-			uwscli.debug('not done:', app, tag)
+			uwscli.log('not done:', app, tag)
 			return False
 	except FileNotFoundError:
-		uwscli.debug('no status:', app, tag)
+		uwscli.log('no status:', app, tag)
 		return False
 	ok = st != 'FAIL'
 	if ok:
