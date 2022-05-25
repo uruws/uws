@@ -51,6 +51,12 @@
 
 [PR#7]: https://github.com/TalkingPts/Infrastructure/pull/7
 
+* webhooks cluster
+    * separate user's web traffic from hooks/callbacks
+    * /bandwidth*
+    * /coconut_webhook
+    * etc?
+
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
     * maybe use an script for Route53 editions which alerts about prod domains or similar
