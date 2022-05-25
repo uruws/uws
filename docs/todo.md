@@ -15,41 +15,10 @@
     * enable MFA for jrmstp
     * enable MFA for j@tp.o
 
-* App encrypt secrets - `DONE`
+* App encrypt secrets - `WIP`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
 
 [APP#910]: https://github.com/TalkingPts/App/pull/910
-
-* [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473): SOC2 fixes/setup - `DONE!` [PR#4][PR#4] [PR#5][PR#5]
-    * DEV-2475 - Unrestricted File Upload
-        * `NOTE` I think a better setup could be that App sends assets to S3 but
-          we serve does assests from a CDN created for that purpose. That way we
-          avoid some S3 cost and we only pay for CDN uploading.
-        * create script to set S3 policies so we restrict upload file types
-        * implement BucketAV to scan uploaded files for viruses
-    * DEV-2478, DEV-2482 - 3rd party cookies
-        * investigate if there's something we can do there at web server level
-    * DEV-2484 - HTTP Secure headers implementation
-        * we had it on this TODO already as: nginx secure headers
-
-[PR#4]: https://github.com/TalkingPts/Infrastructure/pull/4
-[PR#5]: https://github.com/TalkingPts/Infrastructure/pull/5
-
-* `FIX` app-autobuild calling deploy from buildpack.sh, using --deploy option `DONE!` [PR#6][PR#6] [PR#8][PR#8]
-    * From github.com:TalkingPts/App
-    * [new tag]             2.69.10    -> 2.69.10
-    * ,180cd0fbf93.2192493
-    * ,180cd0fbf97.2192498
-    * nothing to do for app: app-test-1 - ver: 2.69.9-bp32 - tag: 2.69.10
-    * nothing to do for app: app-test-2 - ver: 2.69.9-bp32 - tag: 2.69.10
-    * nothing to do for app: worker-test - ver: 2.69.9-bp32 - tag: 2.69.10
-
-[PR#6]: https://github.com/TalkingPts/Infrastructure/pull/6
-[PR#8]: https://github.com/TalkingPts/Infrastructure/pull/8
-
-* `FIX` app-autobuild for CS needs to ignore tags not starting with 1. `DONE!` [PR#7][PR#7]
-
-[PR#7]: https://github.com/TalkingPts/Infrastructure/pull/7
 
 * webhooks cluster
     * separate user's web traffic from hooks/callbacks
