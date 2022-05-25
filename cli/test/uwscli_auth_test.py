@@ -41,7 +41,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(repr(u), 'testing')
 		t.assertDictEqual(u.groups, {})
 
-	def test_load_groups_errors(t):
+	def test_user_load_groups_errors(t):
 		# user_auth
 		u = auth.User(name = 'testing')
 		u.load_groups = MagicMock(return_value = 99)
@@ -54,6 +54,15 @@ class Test(unittest.TestCase):
 			t.assertEqual(auth.user_check('testing', '', '', ''), auth.EGROUPS)
 		finally:
 			auth.User = bup
+
+	def test_user_root_admin(t):
+		u = auth.User(name = 'root')
+		t.assertFalse(u.is_admin)
+		t.assertFalse(u.is_operator)
+		with mock_unauth_operator():
+			t.assertEqual(u.load_groups(), 0)
+		t.assertTrue(u.is_admin)
+		t.assertTrue(u.is_operator)
 
 	def test_check_app(t):
 		u = auth.User('testing')
