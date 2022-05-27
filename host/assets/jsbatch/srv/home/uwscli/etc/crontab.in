@@ -18,27 +18,27 @@ UWSCLI_LOG=off
 #############
 
 # app
-11 3 * * 2-6 app-scale app-east 50
-12 3 * * 2-6 app-scale app-west 50
+11 3 * * 2-6 app-scale app-east 30
+12 3 * * 2-6 app-scale app-west 30
 
 # apptest
 14 3 * * 2-6 app-scale app-test-1 5
 15 3 * * 2-6 app-scale app-test-2 5
 
 # crowdsourcing
-16 3 * * 2-6 app-scale cs 20
+16 3 * * 2-6 app-scale cs 10
 
 ###########
 # scale up
 ###########
 
 # app
-4 10 * * 1-5 app-scale app-east 100
-5 10 * * 1-5 app-scale app-west 100
+4 10 * * 1-5 app-scale app-east 70
+5 10 * * 1-5 app-scale app-west 70
 
 # apptest
-7 10 * * 1-5 app-scale app-test-1 20
-8 10 * * 1-5 app-scale app-test-2 20
+7 10 * * 1-5 app-scale app-test-1 10
+8 10 * * 1-5 app-scale app-test-2 10
 
 # crowdsourcing
-9 10 * * 1-5 app-scale cs 50
+9 10 * * 1-5 app-scale cs 30
