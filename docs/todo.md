@@ -13,13 +13,13 @@
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
 
-* SOC2 - `WIP`
+* SOC2 - `DONE!`
     * stop using my personal account on github (jrmsgit) and use a tapo one
     * replace all accesses/permissions from jrmsgit to jrmstp on github
     * enable MFA for jrmstp (github)
     * enable MFA for j@tp.o (gmail)
 
-* App encrypt secrets - `WIP`
+* App encrypt secrets - `WAIT`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
     * `WAIT` for dev team to do the private files migration
         * do we need to update the Buildpack for new private files location?
@@ -38,19 +38,25 @@
 
 [DEV-2785]: https://talkingpointsorg.atlassian.net/browse/DEV-2785
 
-* Vanta tests
+* Vanta tests - `WIP`
     * https://app.vanta.com/tests#logs-retained-for-twelve-months-config
     * https://app.vanta.com/tests#sqs-queues-monitored-and-alarmed-config-age
     * https://app.vanta.com/tests?tab=documents#ci-cd-implemented
+
+* `FIX` app-autobuild
+    * keep track of tags already in the build queue, to avoid, in example:
+        * 2.71.5 was dispatched as latest build was 2.71.3
+        * 2.71.4 was dispatched manually by Gabriel so autobuild didn't knew
+        * as 2.71.4 build was running and taking some time, 2.71.5 keeps being queued because latestBuild info keeps saying that it was 2.71.3 until 2.71.4 finish but still the same... 2.71.5 keeps being queued... etc...
+
+* `FIX` app-build
+    * do not dispatch build if one already in place for same version
+    * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)?
 
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
     * maybe use an script for Route53 editions which alerts about prod domains or similar
     * try to avoid manual changes (maybe some peer review?)
-
-* `FIX` app-build
-    * do not dispatch build if one already in place for same version
-    * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)?
 
 * uwscli auto-setup from main configuration
     * integrate with buildpack deploy scripts
