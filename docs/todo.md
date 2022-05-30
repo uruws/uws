@@ -28,13 +28,13 @@
 
 * tapoS3Dev bucket for App local devel
 
-* webhooks cluster - `WIP`
+* webhooks cluster - `DONE!`
     * separate user's web traffic from hooks/callbacks
     * /bandwidth*
     * /coconut_webhook
     * etc?
     * it was implemented on the workers cluster
-    * `MISS` migrate coconut_webhook [DEV-2785][DEV-2785]
+    * migrate coconut_webhook [DEV-2785][DEV-2785]
 
 [DEV-2785]: https://talkingpointsorg.atlassian.net/browse/DEV-2785
 
