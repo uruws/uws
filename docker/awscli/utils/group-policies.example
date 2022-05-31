@@ -1,0 +1,15 @@
+$ aws iam list-users
+
+
+$ aws iam list-groups-for-user --user-name nelson-tapo
+
+
+$ aws iam list-attached-group-policies --group-name admin
+
+
+$ aws iam detach-group-policy --group-name admin --policy-arn arn:aws:iam::aws:policy/IAMReadOnlyAccess
+
+
+$ aws iam attach-group-policy --group-name admin --policy-arn arn:aws:iam::aws:policy/IAMFullAccess
+
+$ aws iam attach-group-policy --group-name admin --policy-arn arn:aws:iam::789470191893:policy/UserMFA
