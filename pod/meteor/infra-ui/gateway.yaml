@@ -23,10 +23,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - ${INFRA_UI_HOST}.uws.talkingpts.org
+        - ${INFRA_UI_HOST}.talkingpts.org
       secretName: infra-ui-${INFRA_UI_ENV}-certificate
   rules:
-    - host: ${INFRA_UI_HOST}.uws.talkingpts.org
+    - host: ${INFRA_UI_HOST}.talkingpts.org
       http:
         paths:
           - pathType: Prefix
