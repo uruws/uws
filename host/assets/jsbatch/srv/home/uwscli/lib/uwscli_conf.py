@@ -189,7 +189,7 @@ app: dict[str, App] = {
 		groups = ['uwsapp_infra-ui'],
 	),
 	'infra-ui-test': App(True,
-		cluster = 'panoramix',
+		cluster = 'amy-test-2',
 		desc = 'Infra-UI testing',
 		pod = 'meteor/infra-ui',
 		deploy = AppDeploy('meteor-infra-ui'),
