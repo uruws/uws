@@ -47,6 +47,7 @@ class Test(unittest.TestCase):
 			'beta',
 			'cs',
 			'cs-test',
+			'infra-ui-prod',
 			'infra-ui-test',
 			'nlp-category',
 			'nlp-sentiment-twitter',
