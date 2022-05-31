@@ -6,6 +6,8 @@
       Kubernetes version 1.19 will be updated to the latest available platform
       version of Kubernetes version 1.20.
 
+* infra-ui-prod setup - `DONE!`
+
 * infra-api - `WIP`
     * devel and setup
     * building on [InfraApp][InfraApp] repository
