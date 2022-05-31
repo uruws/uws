@@ -178,6 +178,8 @@ app: dict[str, App] = {
 		desc = 'Infra-UI',
 		build = _buildpack('infra-ui/src', 'infra-ui', 'Infra-UI'),
 		groups = ['uwsapp_infra-ui'],
+		autobuild = True,
+		autobuild_deploy = ['infra-ui-test'],
 	),
 	'infra-ui-prod': App(True,
 		cluster = 'amybeta',

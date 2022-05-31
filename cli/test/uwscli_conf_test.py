@@ -70,6 +70,7 @@ class Test(unittest.TestCase):
 		t.assertListEqual(uwscli.autobuild_list(), [
 			'app',
 			'cs',
+			'infra-ui',
 		])
 
 	def test_app_build_group(t):
