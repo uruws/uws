@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
 exec aws iam create-policy \
-	--policy-name UserMFA \
-	--policy-document "file://${HOME}/config/iam/UserMFA.json"
+	--policy-name ${AWS_USER_MFA_POLICY} \
+	--policy-document "file://${HOME}/config/iam/${AWS_USER_MFA_POLICY_DOC}"
