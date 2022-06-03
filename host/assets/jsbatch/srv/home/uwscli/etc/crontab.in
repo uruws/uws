@@ -19,10 +19,12 @@ UWSCLI_LOG=off
 #############
 
 # app
+10 3 * * 2-6 app-scale worker 15
 11 3 * * 2-6 app-scale app-east 20
 12 3 * * 2-6 app-scale app-west 20
 
 # apptest
+13 3 * * 2-6 app-scale worker-test 5
 14 3 * * 2-6 app-scale app-test-1 5
 15 3 * * 2-6 app-scale app-test-2 5
 
@@ -34,10 +36,12 @@ UWSCLI_LOG=off
 ###########
 
 # app
+3 10 * * 1-5 app-scale worker 15
 4 10 * * 1-5 app-scale app-east 50
 5 10 * * 1-5 app-scale app-west 50
 
 # apptest
+6 10 * * 1-5 app-scale worker-test 5
 7 10 * * 1-5 app-scale app-test-1 10
 8 10 * * 1-5 app-scale app-test-2 10
 
