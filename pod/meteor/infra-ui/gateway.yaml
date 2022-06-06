@@ -17,16 +17,16 @@ metadata:
     cert-manager.io/issuer: acme-prod
     nginx.ingress.kubernetes.io/auth-tls-secret: ${INFRA_UI_CA}
     nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
-    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "${INFRA_UI_CA_VERIFY}"
     nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - ${INFRA_UI_HOST}.uws.talkingpts.org
+        - ${INFRA_UI_HOST}.talkingpts.org
       secretName: infra-ui-${INFRA_UI_ENV}-certificate
   rules:
-    - host: ${INFRA_UI_HOST}.uws.talkingpts.org
+    - host: ${INFRA_UI_HOST}.talkingpts.org
       http:
         paths:
           - pathType: Prefix
