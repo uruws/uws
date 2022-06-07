@@ -12,11 +12,15 @@ from email.policy import SMTP
 from email.utils import formatdate, make_msgid
 
 from io import StringIO
-from time import time_ns, gmtime
+from time import gmtime
+from time import localtime
+from time import time_ns
+from time import tzset
 from socket import gethostname
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
 MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
+SLEEP_TZ = os.getenv('ALERTS_TZ', 'UTC')
 
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
@@ -92,11 +96,15 @@ def _msgContent(c, s, m):
 			for f in unk:
 				c.write(f"  {f['label']}\n")
 
-def __gettime():
+def _gethour():
+	if SLEEP_TZ != 'UTC':
+		os.environ['TZ'] = SLEEP_TZ
+		tzset()
+		return int(localtime().tm_hour)
 	return int(gmtime().tm_hour)
 
 def _sleepingHours(h = None):
-	if h is None: h = __gettime()
+	if h is None: h = _gethour()
 	# from 1am to 10am (9hs per day)
 	if h >= 1 and h < 10:
 		return True
