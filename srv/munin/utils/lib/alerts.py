@@ -92,10 +92,13 @@ def _msgContent(c, s, m):
 			for f in unk:
 				c.write(f"  {f['label']}\n")
 
+def __gettime():
+	return int(gmtime().tm_hour)
+
 def _sleepingHours(h = None):
-	if h is None:
-		h = int(gmtime().tm_hour)
-	if h >= 1 and h < 11:
+	if h is None: h = __gettime()
+	# from 1am to 10am (9hs per day)
+	if h >= 1 and h < 10:
 		return True
 	return False
 
