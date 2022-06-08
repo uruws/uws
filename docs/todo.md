@@ -6,20 +6,12 @@
       Kubernetes version 1.19 will be updated to the latest available platform
       version of Kubernetes version 1.20.
 
-* infra-ui-prod setup - `DONE!`
-
 * infra-api - `WIP`
     * devel and setup
     * building on [InfraApp][InfraApp] repository
         * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
-
-* SOC2 - `DONE!`
-    * stop using my personal account on github (jrmsgit) and use a tapo one
-    * replace all accesses/permissions from jrmsgit to jrmstp on github
-    * enable MFA for jrmstp (github)
-    * enable MFA for j@tp.o (gmail)
 
 * App encrypt secrets - `WAIT`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
@@ -29,21 +21,6 @@
 [APP#910]: https://github.com/TalkingPts/App/pull/910
 
 * tapoS3Dev bucket for App local devel
-
-* webhooks cluster - `DONE!`
-    * separate user's web traffic from hooks/callbacks
-    * /bandwidth*
-    * /coconut_webhook
-    * etc?
-    * it was implemented on the workers cluster
-    * migrate coconut_webhook [DEV-2785][DEV-2785]
-
-[DEV-2785]: https://talkingpointsorg.atlassian.net/browse/DEV-2785
-
-* Vanta tests - `WIP`
-    * https://app.vanta.com/tests#logs-retained-for-twelve-months-config
-    * https://app.vanta.com/tests#sqs-queues-monitored-and-alarmed-config-age
-    * https://app.vanta.com/tests?tab=documents#ci-cd-implemented
 
 * `FIX` app-autobuild
     * keep track of tags already in the build queue, to avoid, in example:
@@ -141,25 +118,7 @@
             * gmail fetch
             * create forward rules to slack and others
 
-* cs runs on amybeta cluster: move it?
-    * make it the first k8s v1.21 version?
-
 * nlpsvc: separate apps namespaces (for graphs and cli status/logs)
-
-* munin
-    * add pod/test to mon deploys and check it from jsbatch munin cluster checks
-
-* configurable app-autoscale
-
-* configurable app-autobuild
-
-* check clusters k8s mon and ctl internal services from jsbatch/ops.uws
-
-* golang tools unittests and CI integration
-    * golib
-    * uwsbot
-    * uwsbot-stats
-    * api-job-stats
 
 * rstudio checks
     * http_loadtime IDE and Jupyter Notebook from jsbatch
@@ -205,13 +164,8 @@
 
 * munin
     * graph app number of active users/sessions
-        * set it up on prod
 
 * web deploy autoscale setup on custom metrics
-
-* web /bandwidthCallbackSms requests
-    * move to separate service?
-    * add bot check/graph
 
 * nginx
     * split cluster load over N instances instead of only 1
