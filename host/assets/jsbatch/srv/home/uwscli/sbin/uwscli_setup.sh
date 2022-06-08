@@ -98,6 +98,7 @@ chown -v uwscli:uws ~uwscli/bin/app-autobuild
 
 umask 0022
 
+rm -rf /etc/uws/cli/__pycache__
 rm -rf ~uwscli/lib/__pycache__
 
 python3 -m compileall ~uwscli/lib
@@ -110,5 +111,9 @@ find ~uwscli/vendor/ -type d -name __pycache__ -print0 |
 python3 -m compileall ~uwscli/vendor
 
 chown -R root:uwscli ~uwscli/vendor
+
+if test -d /etc/uws/cli/__pycache__; then
+	chown -R root:uwscli /etc/uws/cli/__pycache__
+fi
 
 exit 0
