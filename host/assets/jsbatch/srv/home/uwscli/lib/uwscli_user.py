@@ -12,9 +12,12 @@ class AppUser(object):
 	is_admin:    bool            = False
 	is_operator: bool            = False
 	keyid:       str             = ""
+	username:    str             = ""
 
 	def __post_init__(u):
 		if u.is_admin:
 			u.is_operator
+		if u.username == "" and u.name != "":
+			u.username = "%s@talkingpts.org" % u.name
 
 user: dict[str, AppUser] = {}
