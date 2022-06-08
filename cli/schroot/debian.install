@@ -12,4 +12,3 @@ awscli
 make
 git
 ssh-import-id
-uuid-runtime
