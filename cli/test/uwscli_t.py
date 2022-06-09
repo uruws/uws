@@ -176,6 +176,7 @@ def mock_users():
 	try:
 		uwscli_user.user = {
 			'tuser': uwscli_user.AppUser(5000,
+				name = 'tuser',
 				groups = ['tapp', 'tapp1'],
 				is_admin = True,
 				keyid = 't.key',

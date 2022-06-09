@@ -25,8 +25,25 @@ spec:
     - host: worker.uws.talkingpts.org
       http:
         paths:
+          # /bandwidthCallbackSMS
           - pathType: Prefix
             path: /(bandwidthCallbackSMS)$
+            backend:
+              service:
+                name: meteor-worker
+                port:
+                  number: 3000
+          # /coconut_webhook
+          - pathType: Prefix
+            path: /(coconut_webhook)$
+            backend:
+              service:
+                name: meteor-worker
+                port:
+                  number: 3000
+          # /twilio/smsSendCallback
+          - pathType: Prefix
+            path: /(twilio/smsSendCallback)$
             backend:
               service:
                 name: meteor-worker

@@ -29,10 +29,18 @@ def _setup():
 		return False
 	return True
 
-def _latestTag(src):
-	uwscli.debug('latestTag')
+def _uglyHackApplies(app: str, tag: str) -> bool:
+	if app == 'cs' and not tag.startswith('1.'):
+		uwscli.debug('ugly hack ignore:', app, 'tag', tag)
+		return True
+	return False
+
+def _latestTag(app: str, src: str) -> str:
+	uwscli.debug('latestTag:', app, src)
 	vmax = None
 	for t in uwscli.git_tag_list(workdir = src):
+		if _uglyHackApplies(app, t):
+			continue
 		try:
 			v = semver.VersionInfo.parse(t)
 		except ValueError as err:
@@ -45,15 +53,16 @@ def _latestTag(src):
 				vmax = v
 	return str(vmax)
 
-def _getStatus(app):
-	uwscli.debug('getStatus')
+def _getStatus(app: str) -> tuple[str, str]:
+	if app == 'cs': app = 'crowdsourcing'
+	uwscli.debug('getStatus:', app)
 	st    = None
 	ver   = None
 	f     = Path(_status_dir, f"{app}.status")
 	line  = f.read_text().strip()
 	items = line.split(':')
-	st    = items[0]
-	ver   = items[1]
+	st    = items[0].strip().upper()
+	ver   = items[1].strip()
 	return (st, ver)
 
 def _checkVersion(tag: str, ver: str) -> bool:
@@ -61,49 +70,55 @@ def _checkVersion(tag: str, ver: str) -> bool:
 	uwscli.debug('checkVersion')
 	t = semver.VersionInfo.parse(tag)
 	v = semver.VersionInfo.parse(ver)
-	return t > v
+	if t > v:
+		uwscli.log('tag', tag, 'is newer than latest build', ver)
+		return True
+	uwscli.debug('tag', tag, 'is older than or equal to the latest build', ver)
+	return False
 
-def _isBuildingOrDone(app, tag):
+def _isBuildingOrDone(app: str, tag: str) -> bool:
 	"""check if tag is in the build queue or done already"""
 	uwscli.debug(app, tag)
 	try:
 		st, ver = _getStatus(app)
-		not_done = _checkVersion(tag, ver)
-		if not_done:
-			uwscli.debug('not done:', app, tag)
-			return False
 	except FileNotFoundError:
-		uwscli.debug('no status:', app, tag)
+		uwscli.log('no status:', app, tag)
 		return False
+	not_done = _checkVersion(tag, ver)
+	if not_done:
+		uwscli.log('not done:', app, tag)
+		return False
+	if st == 'BUILD':
+		uwscli.log('building:', app, ver)
+		return True
 	ok = st != 'FAIL'
 	if ok:
-		uwscli.debug('already built app:', app, tag)
+		uwscli.debug('already built:', app, tag)
 	else:
-		uwscli.error('build for app:', app, ver, 'failed')
+		uwscli.error('[ERROR] build failed:', app, ver)
 	return True
 
-__done: str = '__done__'
-
-def _build(app: str) -> tuple[int, str]:
+def _build(app: str) -> int:
 	build = uwscli.app[app].build
-	uwscli.debug(build)
+	uwscli.debug(app, build)
 	try:
 		with uwscli.chdir(build.dir):
 			uwscli.debug('build.dir:', build.dir)
 			rc = uwscli.run('app-fetch.sh', build.src)
 			if rc != 0:
 				uwscli.error('[ERROR] app-fetch.sh failed, exit status:', rc)
-				return (rc, '')
-			tag = _latestTag(build.src)
+				return rc
+			tag = _latestTag(app, build.src)
 			if tag == 'None':
 				uwscli.error('[ERROR] could not get latest git tag')
-				return (ETAG, '')
+				return ETAG
 			if _isBuildingOrDone(app, tag):
-				return (0, __done)
-			return (app_build.run(app, tag), tag)
+				return 0
+			uwscli.log('dispatch autobuild:', app, tag)
+			return app_build.run(app, tag)
 	except SystemExit:
 		pass
-	return (EBUILD, '')
+	return EBUILD
 
 def _latestBuild(app: str) -> str:
 	uwscli.debug('latestBuild')
@@ -154,20 +169,28 @@ def main(argv = []):
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
 
-	flags.add_argument('app', metavar = 'app', choices = uwscli.autobuild_list(),
-		default = 'app', help = 'app name')
+	flags.add_argument('-d', '--deploy', action = 'store_true', default = False,
+		help = 'app deploy')
+
+	if '--deploy' in argv or '-d' in argv:
+		flags.add_argument('app', metavar = 'app',
+			help = 'app name')
+		flags.add_argument('tag', metavar = 'tag',
+			help = 'deploy app tag version')
+	else:
+		flags.add_argument('app', metavar = 'app',
+			choices = uwscli.autobuild_list(), help = 'app name')
 
 	args = flags.parse_args(argv)
 
 	if not _setup():
 		return ESETUP
 
-	rc, tag = _build(args.app)
-	if rc != 0:
-		return rc
+	if args.deploy:
+		app = args.app
+		if app == 'crowdsourcing':
+			app = 'cs'
+		uwscli.debug('deploy:', app, 'tag', args.tag)
+		return _deploy(app, args.tag)
 
-	if tag is __done:
-		return 0
-
-	# FIXME
-	return _deploy(args.app, tag)
+	return _build(args.app)

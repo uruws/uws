@@ -121,7 +121,7 @@ def user_check(username: str, build: str, pod: str, workdir: str, ops: str = '')
 		log.error('[ERROR] user load groups:', username)
 		return EGROUPS
 	if ops != '' and not user.is_operator:
-		log.error('[ERROR] unauth operation:', ops)
+		log.error('[ERROR] unauth user:', username, 'operation', ops)
 		return EOPS
 	st = EARGS
 	if build != '':

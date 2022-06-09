@@ -11,10 +11,12 @@ import sys
 sys.path.insert(0, '/srv/home/uwscli/lib')
 
 import uwscli
+import uwscli_log as log
+
 from uwscli_auth import user_check
 
 def main(argv = []):
-	uwscli.debug('run:', ' '.join(argv))
+	log.debug('run:', ' '.join(argv))
 	flags = ArgumentParser(description = __doc__)
 	flags.add_argument('-u', '--user', metavar = 'USER', required = True,
 		help = 'uws user name')
@@ -25,7 +27,7 @@ def main(argv = []):
 	flags.add_argument('-w', '--workdir', metavar = 'PATH',
 		help = 'check access to app workdir', default = '')
 	flags.add_argument('-o', '--ops', metavar = 'ACTION',
-		help = 'check operation access', default = '')
+		help = 'check operator access', default = '')
 	args = flags.parse_args(argv)
 	return user_check(
 		username = args.user,

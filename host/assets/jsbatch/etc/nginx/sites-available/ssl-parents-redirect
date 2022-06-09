@@ -1,0 +1,21 @@
+#
+# SSL parents redirect
+#
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	server_name parents.talkingpts.org;
+	server_tokens off;
+
+	root /srv/www/ssl;
+
+	ssl_certificate /srv/acme/cert/parents.talkingpts.org.crt;
+	ssl_certificate_key /srv/acme/key/parents.talkingpts.org.key;
+
+	include /srv/etc/nginx/ssl.conf;
+
+	location / {
+		return 301 https://families.talkingpts.org$request_uri;
+	}
+}

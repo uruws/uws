@@ -21,6 +21,7 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_users():
 			t.assertDictEqual(uwscli_user.user, {
 				'tuser': uwscli_user.AppUser(5000,
+					name = 'tuser',
 					groups = ['tapp', 'tapp1'],
 					is_admin = True,
 					keyid = 't.key',

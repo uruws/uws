@@ -5,7 +5,9 @@ Cmnd_Alias UWSCLI = /srv/uws/deploy/cli/app-build.sh,\
 	/srv/uws/deploy/cli/app-cmd.sh,\
 	/srv/uws/deploy/cli/app-ctl.sh,\
 	/srv/uws/deploy/cli/app-fetch.sh,\
+	/srv/uws/deploy/cli/app-autobuild-deploy.sh,\
 	/srv/uws/deploy/cli/buildpack.sh,\
+	/srv/uws/deploy/cli/uwspass.py,\
 	/srv/uws/deploy/cli/uwsnq.sh,\
 	/srv/uws/deploy/cli/uwsq.sh
 

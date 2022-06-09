@@ -97,16 +97,16 @@ spec:
           emptyDir: {}
         - name: tmpdir
           emptyDir: {}
-#~ ---
-#~ apiVersion: v1
-#~ kind: Service
-#~ metadata:
-  #~ name: meteor
-  #~ namespace: worker
-#~ spec:
-  #~ ports:
-    #~ - port: 3000
-      #~ targetPort: 3000
-      #~ protocol: TCP
-  #~ selector:
-    #~ app.kubernetes.io/name: meteor-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor
+  namespace: worker
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-worker

@@ -3,6 +3,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import os
+
 import unittest
 from unittest.mock import MagicMock, call
 
@@ -10,6 +12,8 @@ from contextlib import contextmanager
 from email.headerregistry import Address
 from email.message import EmailMessage
 from io import StringIO, BytesIO
+from time import localtime
+from time import tzset
 
 import alerts
 
@@ -124,7 +128,7 @@ class Test(unittest.TestCase):
 			7: True,
 			8: True,
 			9: True,
-			10: True,
+			10: False,
 			11: False,
 			12: False,
 			13: False,
@@ -140,6 +144,18 @@ class Test(unittest.TestCase):
 			23: False,
 			24: False,
 		})
+
+	def test_sleepTZ(t):
+		try:
+			alerts.SLEEP_TZ = 'America/Montevideo'
+			alerts._gethour()
+			h = localtime()
+			t.assertEqual(h.tm_zone, '-03')
+			t.assertEqual(h.tm_gmtoff, -10800)
+		finally:
+			alerts.SLEEP_TZ = 'UTC'
+			os.environ['TZ'] = 'UTC'
+			tzset()
 
 	def test_main_errors(t):
 		with mock(fileinput = ['invalid']):

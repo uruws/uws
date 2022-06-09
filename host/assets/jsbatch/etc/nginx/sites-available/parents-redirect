@@ -1,0 +1,21 @@
+#
+# parents redirect
+#
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name parents.talkingpts.org;
+	server_tokens off;
+
+	root /var/www/html;
+
+	location /.well-known/acme-challenge/ {
+		alias /srv/run/acme/challenge/;
+		try_files $uri =404;
+	}
+
+	location / {
+		return 301 https://families.talkingpts.org$request_uri;
+	}
+}

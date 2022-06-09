@@ -8,6 +8,9 @@ version=${4:?'version?'}
 
 version_tag=$(echo "${version}" | tr '/' '_')
 
+export UWSCLI_LOG=on
+export UWSCLI_DEBUG=off
+
 /srv/uws/deploy/cli/auth.py --user "${SUDO_USER}" --build "${app}"
 
 logs_dir=${HOME}/logs
@@ -47,6 +50,7 @@ if test "X${rc}" != 'X0'; then
 else
 	echo "OK:${version}" >${statusf}
 	/srv/uws/deploy/cli/app-clean-build.sh "${app}"
+	/srv/uws/deploy/cli/app-autobuild-deploy.sh "${app}" "${version}"
 fi
 
 exit ${rc}

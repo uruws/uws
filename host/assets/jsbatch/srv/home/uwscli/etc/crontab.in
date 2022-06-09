@@ -10,17 +10,18 @@ UWSCLI_LOG=off
 ############
 
 # app
-*/15 * * * * app-autobuild app
-*/15 * * * * app-autobuild cs
+*/15 * * * * UWSCLI_LOG=on app-autobuild app
+*/15 * * * * UWSCLI_LOG=on app-autobuild cs
+*/15 * * * * UWSCLI_LOG=on app-autobuild infra-ui
 
 #############
 # scale down
 #############
 
 # app
-10 3 * * 2-6 app-scale worker 60
-11 3 * * 2-6 app-scale app-east 50
-12 3 * * 2-6 app-scale app-west 50
+10 3 * * 2-6 app-scale worker 15
+11 3 * * 2-6 app-scale app-east 20
+12 3 * * 2-6 app-scale app-west 20
 
 # apptest
 13 3 * * 2-6 app-scale worker-test 5
@@ -28,21 +29,21 @@ UWSCLI_LOG=off
 15 3 * * 2-6 app-scale app-test-2 5
 
 # crowdsourcing
-16 3 * * 2-6 app-scale cs 20
+16 3 * * 2-6 app-scale cs 10
 
 ###########
 # scale up
 ###########
 
 # app
-3 10 * * 1-5 app-scale worker 95
-4 10 * * 1-5 app-scale app-east 100
-5 10 * * 1-5 app-scale app-west 100
+3 10 * * 1-5 app-scale worker 15
+4 10 * * 1-5 app-scale app-east 50
+5 10 * * 1-5 app-scale app-west 50
 
 # apptest
-6 10 * * 1-5 app-scale worker-test 20
-7 10 * * 1-5 app-scale app-test-1 20
-8 10 * * 1-5 app-scale app-test-2 20
+6 10 * * 1-5 app-scale worker-test 5
+7 10 * * 1-5 app-scale app-test-1 10
+8 10 * * 1-5 app-scale app-test-2 10
 
 # crowdsourcing
-9 10 * * 1-5 app-scale cs 50
+9 10 * * 1-5 app-scale cs 30

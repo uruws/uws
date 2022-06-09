@@ -23,4 +23,7 @@ aws s3api get-bucket-policy --output json --bucket "${bucket}"
 echo '*** versioning'
 aws s3api get-bucket-versioning --output json --bucket "${bucket}"
 
+echo '*** encryption'
+aws s3api get-bucket-encryption --output json --bucket "${bucket}"
+
 exit 0

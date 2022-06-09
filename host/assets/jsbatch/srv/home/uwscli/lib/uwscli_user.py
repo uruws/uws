@@ -12,6 +12,7 @@ class AppUser(object):
 	is_admin:    bool            = False
 	is_operator: bool            = False
 	keyid:       str             = ""
+	username:    str             = ""
 
 	def __post_init__(u):
 		if u.is_admin:

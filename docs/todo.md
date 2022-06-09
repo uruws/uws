@@ -8,46 +8,40 @@
 
 * infra-api - `WIP`
     * devel and setup
+    * building on [InfraApp][InfraApp] repository
+        * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
 
-* [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473) - SOC2 fixes/setup
-    * DEV-2475 - Unrestricted File Upload - `WIP`
-        * `NOTE` I think a better setup could be that App sends assets to S3 but
-          we serve does assests from a CDN created for that purpose. That way we
-          avoid some S3 cost and we only pay for CDN uploading.
-        * create script to set S3 policies so we restrict upload file types
-    * DEV-2478, DEV-2482 - 3rd party cookies - `DONE!`
-        * investigate if there's something we can do there at web server level
-    * DEV-2484 - HTTP Secure headers implementation - `DONE!`
-        * we had it on this TODO already as: nginx secure headers
-    * Changelog:
-        * https://github.com/TalkingPts/Infrastructure/pull/4
+[InfraApp]: https://github.com/TalkingPts/InfraApp
 
-* `FIX` app-autobuild calling deploy from buildpack.sh, using --deploy option
-    * From github.com:TalkingPts/App
-    * [new tag]             2.69.10    -> 2.69.10
-    * ,180cd0fbf93.2192493
-    * ,180cd0fbf97.2192498
-    * nothing to do for app: app-test-1 - ver: 2.69.9-bp32 - tag: 2.69.10
-    * nothing to do for app: app-test-2 - ver: 2.69.9-bp32 - tag: 2.69.10
-    * nothing to do for app: worker-test - ver: 2.69.9-bp32 - tag: 2.69.10
+* App encrypt secrets - `WAIT`
+    * git-crypt setup for private/secrets directory [App PR#910][APP#910]
+    * `WAIT` for dev team to do the private files migration
+        * do we need to update the Buildpack for new private files location?
 
-* `FIX` app-autobuild for CS needs to ignore tags not starting with 1.
+[APP#910]: https://github.com/TalkingPts/App/pull/910
 
-* nginx secure headers
-    * CSP
-        * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-        * once aws.testing is done try/deploy there
+* tapoS3Dev bucket for App local devel
 
-* AI-Backend (Angel) S3 bucket for DB dumps
+* `FIX` app-autobuild
+    * keep track of tags already in the build queue, to avoid, in example:
+        * 2.71.5 was dispatched as latest build was 2.71.3
+        * 2.71.4 was dispatched manually by Gabriel so autobuild didn't knew
+        * as 2.71.4 build was running and taking some time, 2.71.5 keeps being queued because latestBuild info keeps saying that it was 2.71.3 until 2.71.4 finish but still the same... 2.71.5 keeps being queued... etc...
+    * based from a discussion with Gabriel about how to "better" implement it
+        * autobuild deploys should only happend if we are deploying a newer version
+        * that's because now ANY build dispatchs auto deploys for configured apps
+        * we want the auto deploy functionallity from any kind of build
+        * but taking care of the deploy
+            * because it happens often that a build of an older sprint version is dispatched for a hotfix or whatever... we don't want to auto deploy those
+            * autobuilds will always deploy new tags, but we need to fix it for manual dispatch
+
+* `FIX` app-build
+    * do not dispatch build if one already in place for same version
 
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
     * maybe use an script for Route53 editions which alerts about prod domains or similar
     * try to avoid manual changes (maybe some peer review?)
-
-* `FIX` app-build
-    * do not dispatch build if one already in place for same version
-    * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)
 
 * uwscli auto-setup from main configuration
     * integrate with buildpack deploy scripts
@@ -124,25 +118,7 @@
             * gmail fetch
             * create forward rules to slack and others
 
-* cs runs on amybeta cluster: move it?
-    * make it the first k8s v1.21 version?
-
 * nlpsvc: separate apps namespaces (for graphs and cli status/logs)
-
-* munin
-    * add pod/test to mon deploys and check it from jsbatch munin cluster checks
-
-* configurable app-autoscale
-
-* configurable app-autobuild
-
-* check clusters k8s mon and ctl internal services from jsbatch/ops.uws
-
-* golang tools unittests and CI integration
-    * golib
-    * uwsbot
-    * uwsbot-stats
-    * api-job-stats
 
 * rstudio checks
     * http_loadtime IDE and Jupyter Notebook from jsbatch
@@ -188,13 +164,8 @@
 
 * munin
     * graph app number of active users/sessions
-        * set it up on prod
 
 * web deploy autoscale setup on custom metrics
-
-* web /bandwidthCallbackSms requests
-    * move to separate service?
-    * add bot check/graph
 
 * nginx
     * split cluster load over N instances instead of only 1

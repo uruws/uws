@@ -23,7 +23,11 @@ groupadd -g 3000 uws || true
 useradd -d /srv/home/uws -m -c 'uws' -s /bin/bash -g 3000 -u 3000 uws || true
 chmod -v 0750 /srv/home/uws
 
+# Allow uws user docker access.
 adduser uws docker
+
+# Make uws user an admin. Needed for autobuild deploys.
+adduser uws uwsadm
 
 install -v -d -o uws -g uws -m 0750 ~uws/.ssh
 install -v -C -o uws -g uws -m 0400 /usr/local/etc/ssh/id_ed25519 ~uws/.ssh/
@@ -60,6 +64,8 @@ install -v -d -o uws -g uwscli -m 0770 /run/uwscli/nq
 install -v -d -o uws -g uwscli -m 0770 /run/uwscli/build
 #install -v -d -o uws -g uwscli -m 0770 /run/uwscli/logs
 
+install -v -d -o uws -g uws -m 0750 /run/uwscli/auth
+
 # utils access
 
 install -v -d -m 0750 -o root -g uwscli ~uwscli
@@ -88,12 +94,13 @@ chown -v root:uwsops ~uwscli/bin/app-scale
 
 # internal utils
 
-chown -v uwscli:root ~uwscli/bin/app-autobuild
+chown -v uwscli:uws ~uwscli/bin/app-autobuild
 
 # python compile lib and vendor
 
 umask 0022
 
+rm -rf /etc/uws/cli/__pycache__
 rm -rf ~uwscli/lib/__pycache__
 
 python3 -m compileall ~uwscli/lib
@@ -106,5 +113,9 @@ find ~uwscli/vendor/ -type d -name __pycache__ -print0 |
 python3 -m compileall ~uwscli/vendor
 
 chown -R root:uwscli ~uwscli/vendor
+
+if test -d /etc/uws/cli/__pycache__; then
+	chown -R root:uwscli /etc/uws/cli/__pycache__
+fi
 
 exit 0

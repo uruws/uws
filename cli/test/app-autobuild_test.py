@@ -16,7 +16,7 @@ import app_build_test
 import uwscli
 import app_autobuild
 
-from uwscli_conf import App, AppDeploy
+from uwscli_conf import App, AppDeploy, AppBuild
 
 @contextmanager
 def mock():
@@ -66,6 +66,33 @@ def mock_deploy(build = '0.999.0', status = 0):
 		uwscli.app['testing'].autobuild_deploy = []
 		del uwscli.app['test-1']
 
+@contextmanager
+def mock_cs_app():
+	try:
+		uwscli.app['cs'] = App(True,
+			cluster = 'ktest',
+			desc = 'CS',
+			pod = 'test',
+			deploy = AppDeploy('crowdsourcing'),
+			build = AppBuild(dir = 'testing/cs', script = 'build.sh'),
+		)
+		with mock():
+			with uwscli_t.mock_system(status = 0):
+				with uwscli_t.mock_check_output(output = '0.9.999'):
+					yield
+	finally:
+		del uwscli.app['cs']
+
+@contextmanager
+def mock_main_deploy(status = 0):
+	try:
+		deploy_bup = app_autobuild._deploy
+		app_autobuild._deploy = MagicMock(return_value = status)
+		with uwscli_t.mock_mkdir():
+			yield
+	finally:
+		app_autobuild._deploy = deploy_bup
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -112,7 +139,6 @@ class Test(unittest.TestCase):
 		calls = [
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-fetch.sh .', timeout=600),
 			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-build.sh testing /srv/deploy/Testing build.sh 1.999.0', timeout=3600),
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 1.999.0-bp99', timeout=600),
 		]
 		with app_build_test.mock_run():
 			with uwscli_t.mock_check_output(output = '1.999.0'):
@@ -135,16 +161,16 @@ class Test(unittest.TestCase):
 
 	def test_latestTag(t):
 		with uwscli_t.mock_check_output(output = linesep.join(['0.0.0', '0.1.0'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), '0.1.0')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '0.1.0')
 		# check numerical order
 		with uwscli_t.mock_check_output(output = linesep.join(['2.64.8', '2.64.9', '2.64.10', '2.64.11'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), '2.64.11')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '2.64.11')
 
 	def test_latestTag_errors(t):
 		with uwscli_t.mock_check_output(output = linesep.join(['0.1.0', 'Testing', 't0', '0.0.0'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), '0.1.0')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '0.1.0')
 		with uwscli_t.mock_check_output(output = linesep.join(['Testing', 't0'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), 'None')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), 'None')
 
 	def test_getStatus(t):
 		with mock_status(st = 'OK'):
@@ -171,16 +197,20 @@ class Test(unittest.TestCase):
 		with mock_status(st = 'FAIL'):
 			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
+	def test_isBuildingOrDone_building(t):
+		with mock_status(st = 'BUILD'):
+			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+
 	def test_build(t):
 		with mock():
 			with uwscli_t.mock_system():
 				with uwscli_t.mock_check_output(output = '0.999.0'):
 					with app_build_test.mock_run():
-						t.assertEqual(app_autobuild._build('testing'), (0, '0.999.0'))
+						t.assertEqual(app_autobuild._build('testing'), 0)
 
 	def test_build_error(t):
 		with uwscli_t.mock_chdir(fail = True):
-			t.assertEqual(app_autobuild._build('testing'), (app_autobuild.EBUILD, ''))
+			t.assertEqual(app_autobuild._build('testing'), app_autobuild.EBUILD)
 
 	def test_latestBuild(t):
 		with uwscli_t.mock_list_images(['0.999.0', '0.0.999']):
@@ -233,6 +263,21 @@ class Test(unittest.TestCase):
 				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
 				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0-bp999', timeout=600)
 				app_autobuild._latestBuild.assert_called_once_with('test-1')
+
+	def test_main_deploy(t):
+		with mock():
+			with mock_deploy():
+				with uwscli_t.mock_list_images(['0.999.0']):
+					t.assertEqual(app_autobuild.main(['--deploy', 'testing', '0.999.0']), 0)
+
+	def test_build_cs_ugly_hack(t):
+		with mock_cs_app():
+			t.assertEqual(app_autobuild._build('cs'), app_autobuild.ETAG)
+
+	def test_deploy_cs_alias_name(t):
+		with mock_main_deploy():
+			t.assertEqual(app_autobuild.main(['--deploy', 'crowdsourcing', '0.999.0']), 0)
+			app_autobuild._deploy.assert_called_once_with('cs', '0.999.0')
 
 if __name__ == '__main__':
 	unittest.main()
