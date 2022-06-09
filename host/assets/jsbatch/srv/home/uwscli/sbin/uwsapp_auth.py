@@ -12,8 +12,6 @@ import json
 
 from argparse import ArgumentParser
 from os       import unlink
-from uuid     import uuid5
-from uuid     import NAMESPACE_DNS
 
 import uwscli
 
@@ -57,7 +55,7 @@ def main(argv: list[str] = []) -> int:
 	for user in uwscli.user_list():
 		username = user.username.strip()
 		if username == '': continue
-		uid: str = str(uuid5(NAMESPACE_DNS, username))
+		uid: str = uwscli.user_uuid(username)
 
 		# user dir to save password
 		rc = uwscli.system('/usr/bin/install -v -d -m 0750 -o uws -g uws /run/uwscli/auth/%s' % uid)

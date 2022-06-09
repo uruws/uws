@@ -3,16 +3,19 @@
 
 import sys
 
-from typing import Optional
-
+from typing     import Optional
 from contextlib import contextmanager
+
 from os import environ, getcwd, linesep
 from os import chdir as os_chdir
-from pathlib import Path
+
+from pathlib    import Path
 from subprocess import PIPE
 from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
 from subprocess import run as proc_run
+from uuid       import uuid5
+from uuid       import NAMESPACE_DNS
 
 from uwscli_auth import User, getuser, user_auth
 
@@ -122,8 +125,8 @@ def check_output(cmd: str, env: dict[str, str] = None) -> str:
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
 def _sudo(cmd: str, args: str, timeout = system_ttl) -> int:
-	return system(f"/usr/bin/sudo -H -n -u uws -- {cmddir}/{cmd} {args}",
-		timeout = timeout)
+	x = f"/usr/bin/sudo -H -n -u uws -- {cmddir}/{cmd} {args}"
+	return system(x.strip(), timeout = timeout)
 
 def ctl(args: str, timeout: int = system_ttl) -> int:
 	"""run internal app-ctl command"""
@@ -312,6 +315,17 @@ def user_list() -> list[AppUser]:
 			uwscli_user.user[n].username = "%s@talkingpts.org" % uwscli_user.user[n].name
 		l.append(uwscli_user.user[n])
 	return l
+
+def user_get(name: str) -> Optional[AppUser]:
+	user = uwscli_user.user.get(name, None)
+	if user is None:
+		return None
+	if user.username == "":
+		user.username = "%s@talkingpts.org" % user.name
+	return user
+
+def user_uuid(username: str) -> str:
+	return str(uuid5(NAMESPACE_DNS, username))
 
 def admin_list() -> list[str]:
 	l = []
