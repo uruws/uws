@@ -34,8 +34,8 @@ class Test(unittest.TestCase):
 
 	def test_main(t):
 		calls = [
-			call('/usr/bin/install -v -d -m 0750 -u uws -g uws /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e'),
-			call('/usr/bin/install -v -m 0640 -u uws -g uws /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json.new /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json'),
+			call('/usr/bin/install -v -d -m 0750 -o uws -g uws /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e'),
+			call('/usr/bin/install -v -m 0640 -o uws -g uws /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json.new /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json'),
 		]
 		with mock():
 			t.assertEqual(uwsapp_auth.main(), 0)

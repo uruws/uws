@@ -40,7 +40,7 @@ def _write_user(uid: str, data: dict[str, str]) -> int:
 	fn = '/run/uwscli/auth/%s/meta.json' % uid
 	newfn = '%s.new' % fn
 	_json_dump(newfn, data)
-	rc = uwscli.system('/usr/bin/install -v -m 0640 -u uws -g uws %s %s' % (newfn, fn))
+	rc = uwscli.system('/usr/bin/install -v -m 0640 -o uws -g uws %s %s' % (newfn, fn))
 	try:
 		unlink(newfn)
 	except FileNotFoundError:
@@ -60,7 +60,7 @@ def main(argv: list[str] = []) -> int:
 		uid: str = str(uuid5(NAMESPACE_DNS, username))
 
 		# user dir to save password
-		rc = uwscli.system('/usr/bin/install -v -d -m 0750 -u uws -g uws /run/uwscli/auth/%s' % uid)
+		rc = uwscli.system('/usr/bin/install -v -d -m 0750 -o uws -g uws /run/uwscli/auth/%s' % uid)
 		if rc != 0: return rc
 
 		# user info file
