@@ -320,6 +320,7 @@ def user_get(name: str) -> Optional[AppUser]:
 	user = uwscli_user.user.get(name, None)
 	if user is None:
 		return None
+	user.name = name
 	if user.username == "":
 		user.username = "%s@talkingpts.org" % user.name
 	return user

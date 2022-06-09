@@ -26,11 +26,14 @@ def main(argv):
 	args = flags.parse_args(argv)
 
 	user = uwscli.user_get(args.user.strip())
+	uwscli.debug('user:', user)
 	if user is None:
 		uwscli.error('invalid user:', args.user)
 		return 8
 
+	uwscli.debug('username:', user.username)
 	uid = uwscli.user_uuid(user.username)
+	uwscli.debug('uid:', uid)
 	fn = '/run/uwscli/auth/%s/password' % uid
 
 	pw = getpass(prompt = 'New Password:')
@@ -39,6 +42,7 @@ def main(argv):
 		uwscli.error('password do not match')
 		return 9
 	h = pbkdf2_hmac('sha256', pw.encode(), __salt, 100000).hex()
+	uwscli.debug('hash:', h)
 
 	with open(fn, 'w') as fh:
 		print(h, file = fh)
