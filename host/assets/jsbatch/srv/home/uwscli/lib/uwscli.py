@@ -198,9 +198,10 @@ def autobuild_deploy(n: str) -> list[str]:
 	"""get list of apps to deploy from an autobuild"""
 	return app[n].autobuild_deploy.copy()
 
-def build_list() -> list[str]:
+def build_list(user: User = None) -> list[str]:
 	"""return list of apps configured for build"""
-	return user_auth(_user, [n for n in app.keys() if app[n].build.dir != ''])
+	if user is None: user = _user
+	return user_auth(user, [n for n in app.keys() if app[n].build.dir != ''])
 
 def build_description() -> str:
 	"""format build apps description"""
@@ -221,9 +222,10 @@ def build_repo() -> list[dict[str, str]]:
 			})
 	return l
 
-def deploy_list() -> list[str]:
+def deploy_list(user: User = None) -> list[str]:
 	"""return list of apps configured for deploy"""
-	return user_auth(_user, [n for n in app.keys() if app[n].deploy.image != ''])
+	if user is None: user = _user
+	return user_auth(user, [n for n in app.keys() if app[n].deploy.image != ''])
 
 def deploy_description() -> str:
 	"""format deploy apps description"""

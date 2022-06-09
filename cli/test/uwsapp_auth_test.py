@@ -6,6 +6,7 @@
 from contextlib import contextmanager
 
 from unittest.mock import call
+from unittest.mock import MagicMock
 
 import unittest
 import uwscli_t
@@ -15,9 +16,14 @@ import uwsapp_auth # type: ignore
 
 @contextmanager
 def mock():
-	with uwscli_t.mock_users():
-		with uwscli_t.mock_system():
-			yield
+	jsd_bup = uwsapp_auth._json_dump
+	try:
+		with uwscli_t.mock_users():
+			with uwscli_t.mock_system():
+				uwsapp_auth._json_dump = MagicMock(return_value = None)
+				yield
+	finally:
+		uwsapp_auth._json_dump = jsd_bup
 
 class Test(unittest.TestCase):
 
@@ -27,11 +33,25 @@ class Test(unittest.TestCase):
 	def test_main(t):
 		calls = [
 			call('/usr/bin/install -v -d -m 0750 -u uws -g uws /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e'),
+			call('/usr/bin/install -v -m 0640 -u uws -g uws /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json.new /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json'),
 		]
 		with mock():
 			t.assertEqual(uwsapp_auth.main(), 0)
 			uwscli.system.assert_has_calls(calls)
 			t.assertEqual(uwscli.system.call_count, len(calls))
+			uwsapp_auth._json_dump.assert_called_once_with('/run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json.new', {
+				'uid': 'f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e',
+				'name': 'tuser',
+				'username': 'tuser@devel.uwscli.local',
+				'apps': {
+					'build': {
+						'testing': 'Testing',
+					},
+					'deploy': {
+						'testing': 'Testing',
+					},
+				},
+			})
 
 if __name__ == '__main__':
 	unittest.main()
