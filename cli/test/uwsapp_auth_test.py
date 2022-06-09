@@ -12,6 +12,7 @@ import unittest
 import uwscli_t
 
 import uwscli
+import uwscli_user
 import uwsapp_auth # type: ignore
 
 @contextmanager
@@ -19,6 +20,7 @@ def mock():
 	jsd_bup = uwsapp_auth._json_dump
 	try:
 		with uwscli_t.mock_users():
+			uwscli_user.user['tuser'].username = 'tuser@devel.uwscli.local'
 			with uwscli_t.mock_system():
 				uwsapp_auth._json_dump = MagicMock(return_value = None)
 				yield

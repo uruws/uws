@@ -17,7 +17,5 @@ class AppUser(object):
 	def __post_init__(u):
 		if u.is_admin:
 			u.is_operator
-		if u.username == "" and u.name != "":
-			u.username = "%s@talkingpts.org" % u.name
 
 user: dict[str, AppUser] = {}

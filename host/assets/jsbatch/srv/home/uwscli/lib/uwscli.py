@@ -308,6 +308,8 @@ def user_list() -> list[AppUser]:
 	l = []
 	for n in sorted(uwscli_user.user.keys()):
 		uwscli_user.user[n].name = n
+		if uwscli_user.user[n].username == "":
+			uwscli_user.user[n].username = "%s@talkingpts.org" % uwscli_user.user[n].name
 		l.append(uwscli_user.user[n])
 	return l
 

@@ -20,17 +20,15 @@ import uwscli
 from uwscli_auth import User
 from uwscli_user import AppUser
 
-def _apps_build(user: AppUser) -> dict[str, str]:
-	u = User(user.name)
+def _apps_build(user: User) -> dict[str, str]:
 	d = dict()
-	for app in uwscli.build_list(user = u):
+	for app in uwscli.build_list(user = user):
 		d[app] = uwscli.app[app].desc
 	return d
 
-def _apps_deploy(user: AppUser) -> dict[str, str]:
-	u = User(user.name)
+def _apps_deploy(user: User) -> dict[str, str]:
 	d = dict()
-	for app in uwscli.deploy_list(user = u):
+	for app in uwscli.deploy_list(user = user):
 		d[app] = uwscli.app[app].desc
 	return d
 
@@ -66,13 +64,14 @@ def main(argv: list[str] = []) -> int:
 		if rc != 0: return rc
 
 		# user info file
+		u = User(user.name)
 		d = {
 			'uid': uid,
 			'name': user.name,
 			'username': username,
 			'apps': {
-				'build': _apps_build(user),
-				'deploy': _apps_deploy(user),
+				'build': _apps_build(u),
+				'deploy': _apps_deploy(u),
 			},
 		}
 		rc = _write_user(uid, d)
