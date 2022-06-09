@@ -67,6 +67,8 @@ def main(argv: list[str] = []) -> int:
 			'uid': uid,
 			'name': user.name,
 			'username': username,
+			'is_operator': user.is_operator,
+			'is_admin': user.is_admin,
 			'apps': {
 				'build': _apps_build(u),
 				'deploy': _apps_deploy(u),
