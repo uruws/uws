@@ -63,6 +63,11 @@ def main(argv: list[str] = []) -> int:
 
 		# user info file
 		u = User(user.name)
+
+		if u.load_groups() != 0:
+			uwscli.error('could not load user groups:', username, user.name)
+			continue
+
 		d = {
 			'uid': uid,
 			'name': user.name,
