@@ -6,6 +6,7 @@ import json
 import os
 import sys
 
+from email.encoders import encode_base64
 from email.headerregistry import Address
 from email.message import EmailMessage
 from email.policy import SMTP
@@ -133,6 +134,7 @@ def report(stats):
 	except Exception as err:
 		print('ERROR:', err, file = sys.stderr)
 		return None
+	encode_base64(msg)
 	return msg
 
 def _open(fn, mode):
