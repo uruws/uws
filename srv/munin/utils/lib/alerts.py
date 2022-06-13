@@ -20,6 +20,7 @@ from socket import gethostname
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
 MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
+MAILTO_REPORT = Address('munin report', 'munin-report', 'uws.talkingpts.org')
 SLEEP_TZ = os.getenv('ALERTS_TZ', 'UTC')
 
 def _msgNew():
@@ -120,11 +121,30 @@ def parse(stats):
 		msg.set_content(c.getvalue())
 	return msg
 
+def report(stats):
+	msg = _msgNew()
+	msg['From'] = _msgFrom(stats)
+	msg['To'] = MAILTO_REPORT
+	msg['Subject'] = _msgSubject(stats)
+	try:
+		with StringIO() as c:
+			json.dump(stats, c)
+			msg.set_content(c.getvalue())
+	except Exception as err:
+		print('ERROR:', err, file = sys.stderr)
+		return None
+	return msg
+
 def _open(fn, mode):
 	return open(fn, mode)
 
-def nq(m):
+def nq(m, prefix = ''):
+	if m is None:
+		print('ERROR: nq no message', file = sys.stderr)
+		return 8
 	fn = f"{QDIR}/{time_ns()}.eml"
+	if prefix != '':
+		fn = f"{QDIR}/{prefix}-{time_ns()}.eml"
 	try:
 		with _open(fn, 'wb') as fh:
 			fh.write(m.as_bytes())
@@ -156,6 +176,9 @@ def main():
 			# ~ if _sleepingHours() and worst != 'CRITICAL':
 				# ~ # only CRITICAL messages during sysadmin sleeping hours
 				# ~ continue
+			st = nq(report(stats))
+			if st > rc:
+				rc = st
 			st = nq(parse(stats))
 			if st > rc:
 				rc = st

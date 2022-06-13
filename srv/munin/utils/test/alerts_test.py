@@ -59,11 +59,14 @@ def mock_sleepingHours(state = True):
 @contextmanager
 def mock_parse():
 	p_bup = alerts.parse
+	r_bup = alerts.report
 	try:
 		alerts.parse = MagicMock(return_value = 'mock_parse')
+		alerts.report = MagicMock(return_value = 'mock_report')
 		yield
 	finally:
 		alerts.parse = p_bup
+		alerts.report = r_bup
 
 @contextmanager
 def mock_open(fh = BytesIO()):
@@ -182,7 +185,11 @@ class Test(unittest.TestCase):
 				with mock_nq():
 					with mock_parse():
 						t.assertEqual(alerts.main(), 0)
-						alerts.nq.assert_called_once_with('mock_parse')
+						# ~ alerts.nq.assert_called_once_with('mock_parse')
+						alerts.nq.assert_has_calls([
+							call('mock_report'),
+							call('mock_parse'),
+						])
 
 	def test_main_nq_error(t):
 		with mock(fileinput = ['{"state_changed": "1", "worst": "CRITICAL"}']):
