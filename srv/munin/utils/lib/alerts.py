@@ -153,9 +153,9 @@ def main():
 			if not _stateChanged(stats) and worst == 'OK':
 				# do not send OK messages if no state changed
 				continue
-			if _sleepingHours() and worst != 'CRITICAL':
-				# only CRITICAL messages during sysadmin sleeping hours
-				continue
+			# ~ if _sleepingHours() and worst != 'CRITICAL':
+				# ~ # only CRITICAL messages during sysadmin sleeping hours
+				# ~ continue
 			st = nq(parse(stats))
 			if st > rc:
 				rc = st

@@ -168,9 +168,9 @@ class Test(unittest.TestCase):
 		with mock():
 			t.assertEqual(alerts.main(), 0)
 			alerts.fileinput.input.assert_called_once_with('-')
-		with mock(fileinput = ['{"state_changed": "1", "worst": "OK"}']):
-			with mock_sleepingHours():
-				t.assertEqual(alerts.main(), 0)
+		# ~ with mock(fileinput = ['{"state_changed": "1", "worst": "OK"}']):
+			# ~ with mock_sleepingHours():
+				# ~ t.assertEqual(alerts.main(), 0)
 
 	def test_no_state_changed(t):
 		with mock(fileinput = ['{"state_changed": "0", "worst": "OK"}']):
