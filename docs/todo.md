@@ -6,6 +6,11 @@
       Kubernetes version 1.19 will be updated to the latest available platform
       version of Kubernetes version 1.20.
 
+* Infrastructure deploy
+    * restore deploy of only signed commits
+    * we have to disable it so Aram is able to deploy changes
+    * we should re-enable it and authorize Aram's GPG key
+
 * infra-api - `WIP`
     * devel and setup
     * building on [InfraApp][InfraApp] repository
