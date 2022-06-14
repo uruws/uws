@@ -74,15 +74,24 @@ def mock_parse():
 		alerts.report = r_bup
 
 @contextmanager
-def mock_open(fh = BytesIO()):
+def mock_open():
 	_bup_open = alerts._open
 	def _open(fn, mode):
-		return fh
+		return BytesIO()
 	try:
 		alerts._open = MagicMock(side_effect = _open)
 		yield
 	finally:
 		alerts._open = _bup_open
+
+@contextmanager
+def mock_timestamp():
+	bup = alerts._timestamp
+	try:
+		alerts._timestamp = MagicMock(return_value = 123456)
+		yield
+	finally:
+		alerts._timestamp = bup
 
 class Test(unittest.TestCase):
 
@@ -436,6 +445,26 @@ UNKNOWN
 """
 		t.assertEqual(c.getvalue(), body)
 
+	def test_nq(t):
+		with mock_open():
+			t.assertEqual(alerts.nq(EmailMessage()), 0)
+			alerts._open.assert_called_once()
+
+	def test_nq_filename(t):
+		with mock_open():
+			with mock_timestamp():
+				t.assertEqual(alerts.nq(EmailMessage()), 0)
+				alerts._open.assert_called_once_with('/var/opt/munin-alert/123456.eml', 'wb')
+
+	def test_nq_filename_prefix(t):
+		with mock_open():
+			with mock_timestamp():
+				t.assertEqual(alerts.nq(EmailMessage(), prefix = 'testing'), 0)
+				alerts._open.assert_called_once_with('/var/opt/munin-alert/testing-123456.eml', 'wb')
+
+	def test_nq_error(t):
+		t.assertEqual(alerts.nq(EmailMessage()), 9)
+
 	def test_parse(t):
 		s = {
 			'group': 'test',
@@ -455,14 +484,6 @@ UNKNOWN
 		t.assertEqual(m.get_charset(), 'utf-8')
 		t.assertEqual(m.get_content_type(), 'text/plain')
 		t.assertEqual(m['Content-Transfer-Encoding'], '7bit')
-
-	def test_nq(t):
-		with mock_open():
-			t.assertEqual(alerts.nq(EmailMessage()), 0)
-			alerts._open.assert_called_once()
-
-	def test_nq_error(t):
-		t.assertEqual(alerts.nq(EmailMessage()), 9)
 
 	def test_report(t):
 		stats = {

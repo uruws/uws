@@ -141,13 +141,16 @@ def report(stats):
 def _open(fn, mode):
 	return open(fn, mode)
 
+def _timestamp():
+	return time_ns()
+
 def nq(m, prefix = ''):
 	if m is None:
 		print('ERROR: nq no message', file = sys.stderr)
 		return 8
-	fn = f"{QDIR}/{time_ns()}.eml"
+	fn = f"{QDIR}/{_timestamp()}.eml"
 	if prefix != '':
-		fn = f"{QDIR}/{prefix}-{time_ns()}.eml"
+		fn = f"{QDIR}/{prefix}-{_timestamp()}.eml"
 	try:
 		with _open(fn, 'wb') as fh:
 			fh.write(m.as_bytes())
