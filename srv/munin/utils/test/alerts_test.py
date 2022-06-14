@@ -43,7 +43,7 @@ def mock_nq(status = 0):
 	nq_bup = alerts.nq
 	try:
 		if isinstance(status, list):
-			def _nq_status(m):
+			def _nq_status(m, prefix = ''):
 				return status.pop(0)
 			alerts.nq = MagicMock(side_effect = _nq_status)
 		else:
@@ -201,7 +201,7 @@ class Test(unittest.TestCase):
 						t.assertEqual(alerts.main(), 0)
 						# ~ alerts.nq.assert_called_once_with('mock_parse')
 						alerts.nq.assert_has_calls([
-							call('mock_report'),
+							call('mock_report', prefix = 'report'),
 							call('mock_parse'),
 						])
 

@@ -182,7 +182,7 @@ def main():
 			# ~ if _sleepingHours() and worst != 'CRITICAL':
 				# ~ # only CRITICAL messages during sysadmin sleeping hours
 				# ~ continue
-			st = nq(report(stats))
+			st = nq(report(stats), prefix = 'report')
 			if st > rc:
 				rc = st
 			st = nq(parse(stats))
