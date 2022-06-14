@@ -12,7 +12,13 @@
     * we should re-enable it and authorize Aram's GPG key
 
 * infra-api - `WIP`
-    * devel and setup
+    * auth system - `DONE!`
+    * help pages
+    * make commands run using nq to avoid HTTP connections timeout
+        * run commands using a per user NQDIR
+        * schedule it and return its qid
+        * job status/log API endpoints
+    * testing deploy
     * building on [InfraApp][InfraApp] repository
         * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
 
