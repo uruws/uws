@@ -129,11 +129,12 @@ def report(stats):
 	msg['Subject'] = _msgSubject(stats)
 	try:
 		with StringIO() as c:
-			json.dump(stats, c)
+			json.dump(stats, c, indent = 2)
 			msg.set_content(c.getvalue())
 	except Exception as err:
 		print('ERROR:', err, file = sys.stderr)
 		return None
+	del msg['Content-Transfer-Encoding']
 	encode_base64(msg)
 	return msg
 

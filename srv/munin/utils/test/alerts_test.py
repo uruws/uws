@@ -440,6 +440,9 @@ UNKNOWN
 		m = alerts.parse(s)
 		t.assertEqual(m['From'], 'thost <munin-alert@thost>')
 		t.assertEqual(m['Subject'], 'OK: munin_plugin_t')
+		t.assertEqual(m.get_charset(), 'utf-8')
+		t.assertEqual(m.get_content_type(), 'text/plain')
+		t.assertEqual(m['Content-Transfer-Encoding'], '7bit')
 
 	def test_nq(t):
 		with mock_open():
@@ -448,6 +451,37 @@ UNKNOWN
 
 	def test_nq_error(t):
 		t.assertEqual(alerts.nq(EmailMessage()), 9)
+
+	def test_report(t):
+		stats = {
+			"ok": [{
+				"label": "ready",
+				"value": "6.00",
+				"extinfo": "",
+			}],
+			"foks": [{
+				"label": "ready",
+				"value": "6.00",
+				"extinfo": "",
+			}],
+			"warning": [],
+			"critical": [],
+			"unknown": [],
+			"recovered": "",
+			"state_changed": "1",
+			"worst": "OK",
+			"category": "api",
+			"title": "production api jobs :: production api parentNotifications.jobs",
+			"group": "t.o",
+			"host": "app.t.o",
+			"plugin": "parentNotifications_jobs",
+		}
+		m = alerts.report(stats)
+		t.assertEqual(m['From'], '"app.t.o" <munin-alert@app.t.o>')
+		t.assertEqual(m['Subject'], '[OK] production api parentNotifications.jobs')
+		t.assertEqual(m.get_charset(), 'utf-8')
+		t.assertEqual(m.get_content_type(), 'text/plain')
+		t.assertEqual(m['Content-Transfer-Encoding'], 'base64')
 
 if __name__ == '__main__':
 	unittest.main()
