@@ -1,4 +1,3 @@
 #!/bin/sh
 set -eu
-uwseks-cluster-setup
-exit 0
+exec uwseks-cluster-setup

@@ -1,7 +1,5 @@
 #!/bin/sh
 set -eu
-# eks
-docker rmi uws/eks || true
 # eks-2203
 docker build --rm -t uws/eks-2203 \
 	-f docker/eks/Dockerfile.2203 \
