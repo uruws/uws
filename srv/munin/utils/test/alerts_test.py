@@ -465,6 +465,9 @@ UNKNOWN
 	def test_nq_error(t):
 		t.assertEqual(alerts.nq(EmailMessage()), 9)
 
+	def test_nq_no_message(t):
+		t.assertEqual(alerts.nq(None), 8)
+
 	def test_parse(t):
 		s = {
 			'group': 'test',
