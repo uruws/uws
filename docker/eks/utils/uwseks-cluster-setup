@@ -26,7 +26,7 @@ uwseks create iamserviceaccount \
 ~/k8s/cert-manager/setup.sh
 ~/k8s/acme/setup.sh
 ~/k8s/mon/setup.sh
-~/k8s/ctl/setup.sh
+#~ ~/k8s/ctl/setup.sh
 ~/k8s/gateway/setup.sh
 
 exit 0
