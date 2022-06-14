@@ -519,5 +519,10 @@ UNKNOWN
 		t.assertEqual(m.get_content_type(), 'text/plain')
 		t.assertEqual(m['Content-Transfer-Encoding'], 'base64')
 
+	def test_report_error(t):
+		stats = {"testing": RuntimeError('testing')}
+		m = alerts.report(stats)
+		t.assertIsNone(m)
+
 if __name__ == '__main__':
 	unittest.main()
