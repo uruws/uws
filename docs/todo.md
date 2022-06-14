@@ -6,6 +6,11 @@
       Kubernetes version 1.19 will be updated to the latest available platform
       version of Kubernetes version 1.20.
 
+* workers k8s 1.21 version and nodes memory upgrade - `WIP`
+    * create and/or modify eks admin tools to support different kubernets versions
+    * create workers 1.21 cluster
+    * deploy workers 1.21
+
 * Infrastructure deploy
     * restore deploy of only signed commits
     * we have to disable it so Aram is able to deploy changes
