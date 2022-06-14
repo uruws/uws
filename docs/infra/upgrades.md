@@ -15,16 +15,19 @@
     * 2108: 1.19.6-20210722, 5.4.129
 * [docker/k8s][kubectl]
     * [1.22][kubectl-122]
-        * `2203`: 1.19.15/2021-11-10
+        * `2203`: 1.22.6/2022-03-09
     * [1.19][kubectl-119]
         * `2203`: 1.19.15/2021-11-10
         * 2109-2: 1.19.15/2021-11-10
         * 2109-1: 1.19.14/2021-10-12
         * 2109: 1.19.13/2021-09-02
 * [docker/eks][eksctl], [helm][helm]
-    * `2203`: eksctl 0.87.0, helm 3.8.1
-    * 2109-1: eksctl 0.76.0, helm 3.7.1
-    * 2109: eksctl 0.67.0, helm 3.7.0
+    * 1.22
+        * `2203`: eksctl 0.101.0, helm 3.9.0
+    * 1.19
+        * `2203`: eksctl 0.87.0, helm 3.8.1
+        * 2109-1: eksctl 0.76.0, helm 3.7.1
+        * 2109: eksctl 0.67.0, helm 3.7.0
 * [k8s/nginx-ingress][nginx-ingress]
     * 1.19
         * `2203`: upstream-get.sh 0.49.3
@@ -48,6 +51,7 @@
 [aws-ami]: https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html
 [kubectl]: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
 [kubectl-119]: https://amazon-eks.s3.us-west-2.amazonaws.com/?versions&prefix=1.19
+[kubectl-122]: https://amazon-eks.s3.us-west-2.amazonaws.com/?versions&prefix=1.22
 [eksctl]: https://github.com/weaveworks/eksctl/tags
 [helm]: https://github.com/helm/helm/tags
 [nginx-ingress]: https://github.com/kubernetes/ingress-nginx/releases
