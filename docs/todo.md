@@ -1,15 +1,12 @@
-* `URGENT` cluster stack
-    * k8s 1.20 (and 1.21) already available (we run 1.19)
-    * Amazon EKS has deprecated Kubernetes version 1.19 and this version will no
-      longer be supported as of June 30, 2022. As of June 30, 2022, you will no
-      longer be able to create new 1.19 clusters and all EKS clusters running
-      Kubernetes version 1.19 will be updated to the latest available platform
-      version of Kubernetes version 1.20.
+* `URGENT` cluster stack - `WIP`
+    * update tools to run kubernetes 1.22 (previous was 1.19) - `DONE!` [PR#9][PR#9]
+    * migrate clusters
 
-* workers k8s 1.21 version and nodes memory upgrade - `WIP`
+* workers k8s 1.22 version and nodes memory upgrade - `DONE!` [PR#9][PR#9]
     * create and/or modify eks admin tools to support different kubernets versions
-    * create workers 1.21 cluster
-    * deploy workers 1.21
+    * create workers 1.22 cluster (worker-2206)
+
+[PR#9]: https://github.com/TalkingPts/Infrastructure/pull/9
 
 * Infrastructure deploy
     * restore deploy of only signed commits
