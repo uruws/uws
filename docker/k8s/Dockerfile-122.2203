@@ -9,7 +9,10 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh gettext-base awscli python3
+RUN /root/bin/apt-install.sh gettext-base python3 python3-pip
+
+RUN pip3 install --upgrade awscli
+RUN aws --version
 
 RUN chgrp uws /usr/local/bin && chmod g+w /usr/local/bin
 

@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh less git vim
+RUN /root/bin/apt-install.sh less git
 
 USER ${UWS_UID}:${UWS_GID}
 WORKDIR /home/uws
