@@ -427,6 +427,7 @@ docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
 k8smon-publish: k8s
 	@./docker/ecr-login.sh us-east-1
 	@./cluster/ecr-push.sh us-east-1 uws/k8s-2203 uws:mon-k8s-$(MON_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/k8s-122-2203 uws:mon-k8s-122-$(MON_TAG)
 
 #
 # k8sctl
@@ -450,5 +451,5 @@ k8sctl-publish: k8sctl
 publish:
 	@$(MAKE) utils-publish
 	@$(MAKE) mon-publish
-	@$(MAKE) k8sctl-publish
+#~ 	@$(MAKE) k8sctl-publish
 	@$(MAKE) pod-publish

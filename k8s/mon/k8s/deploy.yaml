@@ -36,7 +36,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-        - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:mon-k8s-${VERSION}
+        - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:mon-${K8S_IMAGE}-${VERSION}
           imagePullPolicy: IfNotPresent
           name: k8s
           securityContext:
