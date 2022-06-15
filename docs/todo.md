@@ -10,6 +10,8 @@
 
 [PR#9]: https://github.com/TalkingPts/Infrastructure/pull/9
 
+* remove old aws credentials after all clusters upgrades are done
+
 * Infrastructure deploy
     * restore deploy of only signed commits
     * we have to disable it so Aram is able to deploy changes
