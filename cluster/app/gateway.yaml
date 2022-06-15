@@ -159,6 +159,22 @@ spec:
                 name: meteor-web
                 port:
                   number: 3000
+          # /coconut_webhook
+          - pathType: Prefix
+            path: /(coconut_webhook)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /twilio/smsSendCallback
+          - pathType: Prefix
+            path: /(twilio/smsSendCallback)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
           # /
           - pathType: Prefix
             path: /(.*)
