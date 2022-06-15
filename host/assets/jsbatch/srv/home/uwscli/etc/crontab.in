@@ -53,4 +53,5 @@ UWSCLI_LOG=off
 #####################
 
 # 220610: we are having workers restarting due to OOM kill
-27 */3 * * * app-restart worker
+# 220615: keep it disabled by default but ready to enable "on demand"
+###27 */3 * * * app-restart worker
