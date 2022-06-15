@@ -3,6 +3,8 @@
     * migrate clusters
         * amy-test-1 -> apptest-east
     * rotate aws credentials in the process
+    * create new clusters using spot nodegroups as suggested by AWS support people
+        * EKS ec2 "reserved instances" setup to help saving costs
 
 * workers k8s 1.22 version and nodes memory upgrade - `DONE!` [PR#9][PR#9]
     * create and/or modify eks admin tools to support different kubernets versions
@@ -79,7 +81,6 @@
     * Route53 app.t.o use geolocation inside US or latency setup
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
-    * EKS ec2 "reserved instances" setup to help saving costs
 
 * add bot to check we can send emails? (mandrill service)
 
