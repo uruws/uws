@@ -29,6 +29,8 @@
         * 2109-1: eksctl 0.76.0, helm 3.7.1
         * 2109: eksctl 0.67.0, helm 3.7.0
 * [k8s/nginx-ingress][nginx-ingress]
+    * 1.22
+        * `2203`: upstream-get.sh 1.2.1
     * 1.19
         * `2203`: upstream-get.sh 0.49.3
             * all clusters done
