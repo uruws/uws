@@ -119,8 +119,8 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnpl.report(cfg), 0)
 		calls = [
 			call('multigraph k8s_k8stest___200'),
-			call('a_latency.value', 0.0),
-			call('b_status.value', 1.0),
+			call('a_latency.value', '0.0'),
+			call('b_status.value', '1.0'),
 		]
 		mnpl._print.assert_has_calls(calls)
 		t.assertEqual(mnpl._print.call_count, len(calls))
@@ -132,8 +132,8 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnpl.report(cfg), 0)
 		calls = [
 			call('multigraph k8s_k8stest___200_no_auth'),
-			call('a_latency.value', 0.0),
-			call('b_status.value', 0.0),
+			call('a_latency.value', '0.0'),
+			call('b_status.value', '0.0'),
 		]
 		mnpl._print.assert_has_calls(calls)
 

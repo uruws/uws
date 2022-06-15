@@ -212,9 +212,18 @@ def report_host(h: HostConfig, cfg: Config) -> int:
 	if not cfg.auth:
 		gid += '_no_auth'
 	_print(f"multigraph k8s_{gid}")
-	status, latency = _report(h.host, cfg)
-	_print('a_latency.value', latency)
-	_print('b_status.value', status)
+	st = ''
+	lt = ''
+	try:
+		status, latency = _report(h.host, cfg)
+		st = str(status)
+		lt = str(latency)
+	except Exception as err:
+		error(err)
+		st = 'U'
+		lt = 'U'
+	_print('a_latency.value', lt)
+	_print('b_status.value', st)
 	return 0
 
 def report(cfg: Config) -> int:
