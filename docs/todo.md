@@ -1,6 +1,8 @@
 * `URGENT` cluster stack - `WIP`
     * update tools to run kubernetes 1.22 (previous was 1.19) - `DONE!` [PR#9][PR#9]
     * migrate clusters
+        * amy-test-1 -> apptest-east
+    * rotate aws credentials in the process
 
 * workers k8s 1.22 version and nodes memory upgrade - `DONE!` [PR#9][PR#9]
     * create and/or modify eks admin tools to support different kubernets versions
