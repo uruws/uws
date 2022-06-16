@@ -14,14 +14,14 @@ echo "i - START $(date -R)"
 echo "i - git checkout ${refname} ${oldrev} ${newrev}"
 
 # old way
-#~ git fetch --prune --prune-tags --tags
-#~ git checkout "${newrev}"
+#git fetch --prune --prune-tags --tags
+#git checkout "${newrev}"
 
 # verify signatures
-#~ git pull --verify-signatures --prune --no-rebase origin master
+git pull --verify-signatures --prune --no-rebase origin master
 
 # no verify
-git pull --prune --no-rebase origin master
+#git pull --prune --no-rebase origin master
 
 git status
 sleep 1
