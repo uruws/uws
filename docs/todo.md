@@ -6,11 +6,12 @@
     * create new clusters using spot nodegroups as suggested by AWS support people
         * EKS ec2 "reserved instances" setup to help saving costs
 
-* workers k8s 1.22 version and nodes memory upgrade - `DONE!` [PR#9][PR#9]
+* workers k8s 1.22 version and nodes memory upgrade - `DONE!` [PR#9][PR#9] [PR#10][PR#10]
     * create and/or modify eks admin tools to support different kubernets versions
     * create workers 1.22 cluster (worker-2206)
 
 [PR#9]: https://github.com/TalkingPts/Infrastructure/pull/9
+[PR#10]: https://github.com/TalkingPts/Infrastructure/pull/10
 
 * remove old aws credentials after all clusters upgrades are done
 
