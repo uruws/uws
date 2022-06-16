@@ -1,7 +1,7 @@
 FROM uws/k8s-122-2203
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220614"
+LABEL version="220615"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,8 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh less git
+# vim is needed for uwskube edit
+RUN /root/bin/apt-install.sh less git vim-tiny
 
 USER ${UWS_UID}:${UWS_GID}
 WORKDIR /home/uws
