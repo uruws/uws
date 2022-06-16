@@ -37,6 +37,7 @@ class Test(unittest.TestCase):
 			'amy-wrkr',
 			'amybeta',
 			'panoramix',
+			'worker-2206',
 		])
 		# app list
 		app_list = [
@@ -52,6 +53,7 @@ class Test(unittest.TestCase):
 			'nlp-category',
 			'nlp-sentiment-twitter',
 			'worker',
+			'worker-old',
 			'worker-test',
 		]
 		# deploy

@@ -1,12 +1,18 @@
 * `URGENT` cluster stack - `WIP`
     * update tools to run kubernetes 1.22 (previous was 1.19) - `DONE!` [PR#9][PR#9]
     * migrate clusters
+        * amy-test-1 -> apptest-east
+    * rotate aws credentials in the process
+    * create new clusters using spot nodegroups as suggested by AWS support people
+        * EKS ec2 "reserved instances" setup to help saving costs
 
 * workers k8s 1.22 version and nodes memory upgrade - `DONE!` [PR#9][PR#9]
     * create and/or modify eks admin tools to support different kubernets versions
     * create workers 1.22 cluster (worker-2206)
 
 [PR#9]: https://github.com/TalkingPts/Infrastructure/pull/9
+
+* remove old aws credentials after all clusters upgrades are done
 
 * Infrastructure deploy
     * restore deploy of only signed commits
@@ -75,7 +81,6 @@
     * Route53 app.t.o use geolocation inside US or latency setup
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
-    * EKS ec2 "reserved instances" setup to help saving costs
 
 * add bot to check we can send emails? (mandrill service)
 

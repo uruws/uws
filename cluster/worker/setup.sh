@@ -1,3 +1,5 @@
 #!/bin/sh
 set -eu
-exec uwseks-cluster-setup
+~/k8s/gateway/setup.sh
+~/k8s/mon/setup.sh
+exit 0
