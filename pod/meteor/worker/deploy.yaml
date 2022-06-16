@@ -71,14 +71,14 @@ spec:
             - name: SNOWFLAKE_SYNC_ENABLED
               value: "TRUE"
             - name: NODE_OPTIONS
-              value: "--max-old-space-size=3200"
+              value: "--max-old-space-size=${METEOR_WORKER_MEMORY}"
           resources:
             requests:
-              cpu: 800m
-              memory: 3200Mi
+              cpu: ${METEOR_WORKER_CPU}m
+              memory: ${METEOR_WORKER_MEMORY}Mi
             limits:
-              cpu: 800m
-              memory: 3200Mi
+              cpu: ${METEOR_WORKER_CPU}m
+              memory: ${METEOR_WORKER_MEMORY}Mi
           readinessProbe:
             exec:
               command:
