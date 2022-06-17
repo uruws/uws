@@ -10,7 +10,7 @@ if ! systemctl is-enabled "uwsapi-@${envname}.service"; then
 	systemctl start "uwsapi-@${envname}.service"
 fi
 
-export DOCKER_IMAGE='uws/api-2203'
+export DOCKER_IMAGE='uwsapp-2203'
 
 /uws/bin/service-restart.sh "uwsapi-@${envname}" \
 	/etc/systemd/system/uwsapi-@.service \
