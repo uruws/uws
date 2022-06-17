@@ -36,6 +36,7 @@ class Test(unittest.TestCase):
 			'amy-west',
 			'amy-wrkr',
 			'amybeta',
+			'apptest-east',
 			'panoramix',
 			'worker-2206',
 		])
