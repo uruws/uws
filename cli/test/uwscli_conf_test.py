@@ -31,8 +31,6 @@ class Test(unittest.TestCase):
 		# cluster
 		t.assertListEqual(sorted(uwscli.cluster.keys()), [
 			'amy-east',
-			'amy-test-1',
-			'amy-test-2',
 			'amy-west',
 			'amy-wrkr',
 			'amybeta',
@@ -44,9 +42,9 @@ class Test(unittest.TestCase):
 		# app list
 		app_list = [
 			'app-east',
-			'app-test-1',
-			'app-test-2',
 			'app-west',
+			'apptest-east',
+			'apptest-west',
 			'beta',
 			'cs',
 			'cs-test',
