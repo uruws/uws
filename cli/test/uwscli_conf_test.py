@@ -32,7 +32,6 @@ class Test(unittest.TestCase):
 		t.assertListEqual(sorted(uwscli.cluster.keys()), [
 			'amy-east',
 			'amy-west',
-			'amy-wrkr',
 			'amybeta',
 			'apptest-east',
 			'apptest-west',
@@ -52,7 +51,6 @@ class Test(unittest.TestCase):
 			'nlp-category',
 			'nlp-sentiment-twitter',
 			'worker',
-			'worker-old',
 			'worker-test',
 		]
 		# deploy
