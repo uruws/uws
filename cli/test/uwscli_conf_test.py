@@ -45,7 +45,6 @@ class Test(unittest.TestCase):
 			'app-west',
 			'apptest-east',
 			'apptest-west',
-			'beta',
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
@@ -63,7 +62,6 @@ class Test(unittest.TestCase):
 		# build
 		t.assertListEqual(uwscli.build_list(), [
 			'app',
-			'beta',
 			'cs',
 			'infra-ui',
 			'nlpsvc',
