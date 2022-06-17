@@ -41,7 +41,7 @@ all: bootstrap clamav uwsbot mailx crond munin munin-backend munin-node proftpd
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli uwsapi devel
+bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli devel
 
 #
 # base containers
@@ -155,23 +155,6 @@ uwscli-setup-schroot:
 	@echo '*** Buildpack'
 	@NQDIR=/run/uwscli/nq nq -c -- make -C /srv/deploy/Buildpack bootstrap
 	@NQDIR=/run/uwscli/nq nq -c -- make -C /srv/deploy/Buildpack prune
-
-#
-# uwsapi
-#
-
-.PHONY: uwsapi
-uwsapi: srv/uwsapi/build/uwsapi.bin
-	@./srv/uwsapi/build.sh
-
-srv/uwsapi/build/uwsapi.bin: docker/golang/build/uwsapi.bin
-	@mkdir -vp ./srv/uwsapi/build
-	@install -v -C docker/golang/build/uwsapi.bin ./srv/uwsapi/build/uwsapi.bin
-
-UWSAPI_DEPS != find go/cmd/uwsapi go/api go/wapp -type f -name '*.go'
-
-docker/golang/build/uwsapi.bin: $(UWSAPI_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/uwsapi.bin ./cmd/uwsapi
 
 #
 # uwsbot
