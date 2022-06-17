@@ -1,7 +1,8 @@
 #!/bin/sh
-set -eu
+##set -eu
+set -u
 
-umask 0027
+##umask 0027
 
 # systemd service
 ##install -v -C -o root -g root -m 0640 /srv/uws/deploy/srv/uwsapi/uwsapi-@.service \
@@ -16,5 +17,7 @@ rm -vrf /srv/uwscli/apid
 ##	/srv/uwscli/apid/start.sh
 ##install -v -C -o root -g uws -m 0750 /srv/uws/deploy/srv/uwsapi/stop.sh \
 ##	/srv/uwscli/apid/stop.sh
+
+docker rmi uws/api-2203
 
 exit 0
