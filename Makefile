@@ -34,7 +34,7 @@ upgrade:
 #
 
 .PHONY: all
-all: bootstrap clamav k8sctl uwsbot mailx crond munin munin-backend munin-node proftpd
+all: bootstrap clamav uwsbot mailx crond munin munin-backend munin-node proftpd
 
 #
 # bootstrap
@@ -384,18 +384,10 @@ eks: k8s
 #
 # k8s
 #
-K8SCTL_DEPS != find go/cmd/k8sctl go/k8s/ctl -type f -name '*.go'
 
 .PHONY: k8s
-k8s: k8smon docker/k8s/build/k8sctl.bin
+k8s: k8smon
 	@./docker/k8s/build.sh
-
-docker/k8s/build/k8sctl.bin: docker/golang/build/k8sctl.bin
-	@mkdir -vp ./docker/k8s/build
-	@install -v docker/golang/build/k8sctl.bin ./docker/k8s/build/k8sctl.bin
-
-docker/golang/build/k8sctl.bin: $(K8SCTL_DEPS)
-	@./docker/golang/cmd.sh build -o /go/build/cmd/k8sctl.bin ./cmd/k8sctl
 
 #
 # k8smon
@@ -430,20 +422,6 @@ k8smon-publish: k8s
 	@./cluster/ecr-push.sh us-east-1 uws/k8s-122-2203 uws:mon-k8s-122-$(MON_TAG)
 
 #
-# k8sctl
-#
-
-CTL_TAG != cat ./k8s/ctl/VERSION
-
-.PHONY: k8sctl
-k8sctl: eks
-
-.PHONY: k8sctl-publish
-k8sctl-publish: k8sctl
-	@./docker/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/eks-k8s-2203 uws:ctl-eks-$(CTL_TAG)
-
-#
 # publish
 #
 
@@ -451,5 +429,4 @@ k8sctl-publish: k8sctl
 publish:
 	@$(MAKE) utils-publish
 	@$(MAKE) mon-publish
-#~ 	@$(MAKE) k8sctl-publish
 	@$(MAKE) pod-publish

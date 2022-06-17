@@ -22,7 +22,10 @@
 [PR#9]: https://github.com/TalkingPts/Infrastructure/pull/9
 [PR#10]: https://github.com/TalkingPts/Infrastructure/pull/10
 
-* remove old aws credentials after all clusters upgrades are done
+* k8sctl: deprecate - `DONE!`
+    * stop building it, but keep code and deploy files around for now
+
+* remove old aws credentials once all cluster upgrades are finished
 
 * Infrastructure deploy
     * restore deploy of only signed commits
@@ -106,8 +109,6 @@
     'uws' repository and cannot be overwritten because the repository is immutable.
 
     Publish app version 2.64.8 failed
-
-* k8sctl: deprecate?
 
 * uwscli:
     * app-autobuild: nq build and deploy jobs
