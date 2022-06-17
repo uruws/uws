@@ -151,7 +151,7 @@ app: dict[str, App] = {
 		autobuild_deploy = ['cs-test'],
 	),
 	'cs-test': App(True,
-		cluster = 'amy-test-1',
+		cluster = 'apptest-east',
 		desc = 'Crowdsourcing test',
 		pod = 'meteor/cs',
 		deploy = AppDeploy('meteor-crowdsourcing'),
