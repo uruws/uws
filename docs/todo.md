@@ -3,11 +3,13 @@
     * migrate clusters
         * amy-test-1 and amy-test-2
             * apptest-east and apptest-west - `DONE!` [PR#11][PR#11]
+            * migrated worker-test, cs-test and infra-ui-test - `DONE!` [PR#12][PR#12]
     * rotate aws credentials in the process
     * create new clusters using spot nodegroups as suggested by AWS support people
         * EKS ec2 "reserved instances" setup to help saving costs
 
 [PR#11]: https://github.com/TalkingPts/Infrastructure/pull/11
+[PR#12]: https://github.com/TalkingPts/Infrastructure/pull/12
 
 * workers k8s 1.22 version and nodes memory upgrade - `DONE!` [PR#9][PR#9] [PR#10][PR#10]
     * create and/or modify eks admin tools to support different kubernets versions
