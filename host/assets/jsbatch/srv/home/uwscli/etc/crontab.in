@@ -47,11 +47,3 @@ UWSCLI_LOG=off
 
 # crowdsourcing
 9 10 * * 1-5 app-scale cs 30
-
-#####################
-# workers workaround
-#####################
-
-# 220610: we are having workers restarting due to OOM kill
-# 220615: keep it disabled by default but ready to enable "on demand"
-###27 */3 * * * app-restart worker
