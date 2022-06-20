@@ -1,39 +1,23 @@
 * `URGENT` cluster stack - `WIP`
-    * update tools to run kubernetes 1.22 (previous was 1.19) - `DONE!` [PR#9][PR#9]
     * migrate clusters
-        * amy-test-1 and amy-test-2
-            * apptest-east and apptest-west - `DONE!` [PR#11][PR#11]
-            * migrated worker-test, cs-test and infra-ui-test - `DONE!` [PR#12][PR#12]
-            * migrated apptest (staging.talkingpts.org) - `DONE!` [PR#13][PR#13]
-        * remove 1.19 amy-wrkr cluster - `DONE!` [PR#14][PR#14]
-    * rotate aws credentials in the process
-    * create new clusters using spot nodegroups as suggested by AWS support people
-        * EKS ec2 "reserved instances" setup to help saving costs
-
-[PR#11]: https://github.com/TalkingPts/Infrastructure/pull/11
-[PR#12]: https://github.com/TalkingPts/Infrastructure/pull/12
-[PR#13]: https://github.com/TalkingPts/Infrastructure/pull/13
-[PR#14]: https://github.com/TalkingPts/Infrastructure/pull/14
-
-* workers k8s 1.22 version and nodes memory upgrade - `DONE!` [PR#9][PR#9] [PR#10][PR#10]
-    * create and/or modify eks admin tools to support different kubernets versions
-    * create workers 1.22 cluster (worker-2206)
-
-[PR#9]: https://github.com/TalkingPts/Infrastructure/pull/9
-[PR#10]: https://github.com/TalkingPts/Infrastructure/pull/10
-
-* k8sctl: deprecate - `DONE!`
-    * stop building it, but keep code and deploy files around for now
+        * remove amy-test-1 and amy-test-2 1.19 clusters
+        * create panoramix-2206 1.22 cluster
+        * create app-east and app-west 1.22 clusters
+        * migrate
+            * amybeta and panoramix, both, to panoramix-2206
+            * amy-east and amy-west to app-east and app-west
 
 * remove old aws credentials once all cluster upgrades are finished
 
+* uwspop: devel, setup and deploy (staging and prod)
+    * POP3 proxy "alerts API"
+
 * Infrastructure deploy
-    * restore deploy of only signed commits
+    * restore deploy of only signed commits - `DONE!`
     * we have to disable it so Aram is able to deploy changes
     * we should re-enable it and authorize Aram's GPG key
 
 * infra-api - `WIP`
-    * auth system - `DONE!`
     * help pages
     * make commands run using nq to avoid HTTP connections timeout
         * run commands using a per user NQDIR
