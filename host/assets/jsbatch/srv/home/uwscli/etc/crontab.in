@@ -25,8 +25,8 @@ UWSCLI_LOG=off
 
 # apptest
 13 3 * * 2-6 app-scale worker-test 5
-14 3 * * 2-6 app-scale app-test-1 5
-15 3 * * 2-6 app-scale app-test-2 5
+14 3 * * 2-6 app-scale apptest-east 5
+15 3 * * 2-6 app-scale apptest-west 5
 
 # crowdsourcing
 16 3 * * 2-6 app-scale cs 10
@@ -42,8 +42,8 @@ UWSCLI_LOG=off
 
 # apptest
 6 10 * * 1-5 app-scale worker-test 5
-7 10 * * 1-5 app-scale app-test-1 10
-8 10 * * 1-5 app-scale app-test-2 10
+7 10 * * 1-5 app-scale apptest-east 10
+8 10 * * 1-5 app-scale apptest-west 10
 
 # crowdsourcing
 9 10 * * 1-5 app-scale cs 30
