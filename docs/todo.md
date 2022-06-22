@@ -1,13 +1,13 @@
 * `URGENT` cluster stack - `WIP`
     * migrate clusters
         * remove amy-test-1 and amy-test-2 1.19 clusters - `DONE!` [PR#15][PR#15]
-        * create panoramix-2206 1.22 cluster
+        * create panoramix-2206 1.22 cluster - `DONE!` [PR#16][PR#16]
+            * migrate amybeta and panoramix, both, to panoramix-2206
         * create app-east and app-west 1.22 clusters
-        * migrate
-            * amybeta and panoramix, both, to panoramix-2206
-            * amy-east and amy-west to app-east and app-west
+            * migrate amy-east and amy-west to app-east and app-west
 
 [PR#15]: https://github.com/TalkingPts/Infrastructure/pull/15
+[PR#16]: https://github.com/TalkingPts/Infrastructure/pull/16
 
 * remove old aws credentials once all cluster upgrades are finished
 
