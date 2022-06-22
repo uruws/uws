@@ -134,7 +134,7 @@ app: dict[str, App] = {
 		# ~ groups = ['uwsapp_beta'],
 	# ~ ),
 	'cs': App(True,
-		cluster = 'amybeta',
+		cluster = 'panoramix-2206',
 		desc = 'Crowdsourcing',
 		pod = 'meteor/cs',
 		build = _buildpack('cs/src', 'crowdsourcing', 'Crowdsourcing'),
@@ -182,7 +182,7 @@ app: dict[str, App] = {
 		autobuild_deploy = ['infra-ui-test'],
 	),
 	'infra-ui-prod': App(True,
-		cluster = 'amybeta',
+		cluster = 'panoramix-2206',
 		desc = 'Infra-UI production',
 		pod = 'meteor/infra-ui',
 		deploy = AppDeploy('meteor-infra-ui'),
@@ -202,11 +202,12 @@ class AppCluster(object):
 	region: str
 
 cluster: dict[str, AppCluster] = {
-	'amy-east':     AppCluster(region = 'us-east-1'),
-	'amy-west':     AppCluster(region = 'us-west-1'),
-	'amybeta':      AppCluster(region = 'us-east-2'),
-	'apptest-east': AppCluster(region = 'us-east-2'),
-	'apptest-west': AppCluster(region = 'us-west-2'),
-	'panoramix':    AppCluster(region = 'us-east-1'),
-	'worker-2206':  AppCluster(region = 'us-east-2'),
+	'amy-east':       AppCluster(region = 'us-east-1'),
+	'amy-west':       AppCluster(region = 'us-west-1'),
+	'amybeta':        AppCluster(region = 'us-east-2'),
+	'apptest-east':   AppCluster(region = 'us-east-2'),
+	'apptest-west':   AppCluster(region = 'us-west-2'),
+	'panoramix':      AppCluster(region = 'us-east-1'),
+	'panoramix-2206': AppCluster(region = 'us-east-1'),
+	'worker-2206':    AppCluster(region = 'us-east-2'),
 }
