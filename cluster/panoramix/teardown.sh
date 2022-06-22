@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
-uwskube delete -f ~/cluster/gateway.yaml
-exit 0
+~/ca/godaddyCerts/teardown.sh
+exec uwskube delete -f ~/cluster/gateway.yaml
