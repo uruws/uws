@@ -2,14 +2,18 @@
     * migrate clusters
         * remove amy-test-1 and amy-test-2 1.19 clusters - `DONE!` [PR#15][PR#15]
         * create panoramix-2206 1.22 cluster - `DONE!` [PR#16][PR#16]
-            * migrate amybeta and panoramix, both, to panoramix-2206
+            * migrate amybeta and panoramix, both, to panoramix-2206 - `DONE!` [PR#17][PR#17]
         * create app-east and app-west 1.22 clusters
             * migrate amy-east and amy-west to app-east and app-west
 
 [PR#15]: https://github.com/TalkingPts/Infrastructure/pull/15
 [PR#16]: https://github.com/TalkingPts/Infrastructure/pull/16
+[PR#17]: https://github.com/TalkingPts/Infrastructure/pull/17
 
 * remove old aws credentials once all cluster upgrades are finished
+
+* cleanup old 1.19 clusters and services from uwscli_conf and from any other config
+    * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
 
 * uwspop: devel, setup and deploy (staging and prod)
     * POP3 proxy "alerts API"
