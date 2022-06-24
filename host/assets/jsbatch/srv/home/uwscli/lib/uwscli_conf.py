@@ -126,7 +126,7 @@ app: dict[str, App] = {
 		groups = ['uwsapp_apptest'],
 	),
 	# ~ 'beta': App(True,
-		# ~ cluster = 'amybeta',
+		# ~ cluster = 'panoramix-2206',
 		# ~ desc = 'App beta',
 		# ~ pod = 'meteor/beta',
 		# ~ build = _buildpack('beta/src', 'beta'),
@@ -204,10 +204,8 @@ class AppCluster(object):
 cluster: dict[str, AppCluster] = {
 	'amy-east':       AppCluster(region = 'us-east-1'),
 	'amy-west':       AppCluster(region = 'us-west-1'),
-	'amybeta':        AppCluster(region = 'us-east-2'),
 	'apptest-east':   AppCluster(region = 'us-east-2'),
 	'apptest-west':   AppCluster(region = 'us-west-2'),
-	'panoramix':      AppCluster(region = 'us-east-1'),
 	'panoramix-2206': AppCluster(region = 'us-east-1'),
 	'worker-2206':    AppCluster(region = 'us-east-2'),
 }
