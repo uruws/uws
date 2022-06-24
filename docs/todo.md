@@ -126,7 +126,8 @@
     * wait some time between deploys on "multi cluster" apps
 
 * munin
-    * graph/check nodegroup status (alert when it's DEGRADED or not READY)
+    * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
+    * uwseks get nodegroup -n main -o json
 
 * munin pods_container (check phase)
     "status": {
