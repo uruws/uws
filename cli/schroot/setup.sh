@@ -11,7 +11,7 @@ fi
 version=$(cat ./cli/schroot/${profile}/VERSION)
 echo "*** ${profile}/chroot.${version}"
 
-surun='sudo'
+surun='sudo -n'
 schroot_src="${surun} schroot -c source:uwscli-${profile}-src"
 
 #
