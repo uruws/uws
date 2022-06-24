@@ -126,9 +126,7 @@
     * wait some time between deploys on "multi cluster" apps
 
 * munin
-    * graphs and limits/alerts about HTTP "error status ratio"
-        * aka: ratio between failed (!=200) vs ok (==200)status
-    * cluster cross check k8sctl service
+    * graph/check nodegroup status (alert when it's DEGRADED or not READY)
 
 * munin pods_container (check phase)
     "status": {
