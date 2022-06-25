@@ -100,6 +100,11 @@ class Test(unittest.TestCase):
 		t.assertEqual(alerts.MAILTO,
 			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
 
+	def test_alertComponent(t):
+		s = {'plugin': 'tpl', 'category': 'tctg'}
+		c = alerts._alertComponent(s)
+		t.assertEqual(c.strip(), 'component: tctg::tpl')
+
 	def test_msgNew(t):
 		m = alerts._msgNew()
 		t.assertEqual(m.get_charset(), 'utf-8')
@@ -229,6 +234,8 @@ NO_HOST :: NO_TITLE :: ERROR
 None
 state changed: False
 
+component: NO_CATEGORY::NO_PLUGIN
+
 """
 		t.assertEqual(c.getvalue(), body)
 
@@ -250,6 +257,8 @@ thost :: munin_plugin_t :: TESTING
 
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
+
+component: category::tplugin
 
 """
 		t.assertEqual(c.getvalue(), body)
@@ -292,6 +301,8 @@ thost :: munin_plugin_t :: ERROR
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
+component: category::tplugin
+
 OK
   testing: 0.99
 RECOVER
@@ -328,6 +339,8 @@ thost :: munin_plugin_t :: OK
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
+component: category::tplugin
+
 OK
   testing: 0.99
 """
@@ -355,6 +368,8 @@ thost :: munin_plugin_t :: OK
 
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
+
+component: category::tplugin
 
 RECOVER
   testing: 0.99
@@ -384,6 +399,8 @@ thost :: munin_plugin_t :: WARNING
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
+component: category::tplugin
+
 WARNING
   testing: 0.99
 """
@@ -412,6 +429,8 @@ thost :: munin_plugin_t :: CRITICAL
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
+component: category::tplugin
+
 CRITICAL
   testing: 0.99
 """
@@ -439,6 +458,8 @@ thost :: munin_plugin_t :: UNKNOWN
 
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
+
+component: category::tplugin
 
 UNKNOWN
   testing

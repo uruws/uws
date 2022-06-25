@@ -24,6 +24,11 @@ MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
 MAILTO_REPORT = Address('munin report', 'munin-report', 'uws.talkingpts.org')
 SLEEP_TZ = os.getenv('ALERTS_TZ', 'UTC')
 
+def _alertComponent(s):
+	plugin = s.get('plugin', 'NO_PLUGIN')
+	category = s.get('category', 'NO_CATEGORY')
+	return f"component: {category}::{plugin}\n"
+
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
 	m.set_charset('utf-8')
@@ -66,6 +71,8 @@ def _msgContent(c, s, m):
 	c.write('\n')
 	c.write(f"{m['Date']}\n")
 	c.write(f"state changed: {stch}\n")
+	c.write('\n')
+	c.write(_alertComponent(s))
 	c.write('\n')
 	kind = worst.lower()
 	if kind == 'ok' or kind == 'error':
