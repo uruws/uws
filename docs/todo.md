@@ -20,6 +20,13 @@
 * uwspop: devel, setup and deploy (staging and prod)
     * POP3 proxy "alerts API"
 
+* munin
+    * generate alerts component ID to send status page emails - `DONE!` [PR#19][PR#19]
+    * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
+    * uwseks get nodegroup -n main -o json
+
+[PR#19]: https://github.com/TalkingPts/Infrastructure/pull/19
+
 * Infrastructure deploy
     * restore deploy of only signed commits - `DONE!`
     * we have to disable it so Aram is able to deploy changes
@@ -126,10 +133,6 @@
 
 * app-autobuild deploy
     * wait some time between deploys on "multi cluster" apps
-
-* munin
-    * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
-    * uwseks get nodegroup -n main -o json
 
 * munin pods_container (check phase)
     "status": {
