@@ -17,10 +17,16 @@
 * cleanup old 1.19 clusters and services from uwscli_conf and from any other config
     * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
 
-* uwspop: devel, setup and deploy (staging and prod)
+* uwspop: devel, setup and deploy (staging and prod) - `DONE!`
     * POP3 proxy "alerts API"
+    * it's not going online (yet at least)
+    * we will try the status page emails first
 
-* munin
+* `SEC` nodejs Debian upgrade
+    * force containers rebuild
+    * we should also force services releases using the new upgraded version of nodejs
+
+* munin - `WIP`
     * generate alerts component ID to send status page emails - `DONE!` [PR#19][PR#19]
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
