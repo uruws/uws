@@ -1,26 +1,12 @@
 * `URGENT` cluster stack - `WIP`
     * migrate clusters
-        * remove amy-test-1 and amy-test-2 1.19 clusters - `DONE!` [PR#15][PR#15]
-        * create panoramix-2206 1.22 cluster - `DONE!` [PR#16][PR#16]
-            * migrate amybeta and panoramix, both, to panoramix-2206 - `DONE!` [PR#17][PR#17]
-        * remove amybeta and panoramix 1.19 - `DONE!` [PR#18][PR#18]
         * create app-east and app-west 1.22 clusters
             * migrate amy-east and amy-west to app-east and app-west
-
-[PR#15]: https://github.com/TalkingPts/Infrastructure/pull/15
-[PR#16]: https://github.com/TalkingPts/Infrastructure/pull/16
-[PR#17]: https://github.com/TalkingPts/Infrastructure/pull/17
-[PR#18]: https://github.com/TalkingPts/Infrastructure/pull/18
 
 * remove old aws credentials once all cluster upgrades are finished
 
 * cleanup old 1.19 clusters and services from uwscli_conf and from any other config
     * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
-
-* uwspop: devel, setup and deploy (staging and prod) - `DONE!`
-    * POP3 proxy "alerts API"
-    * it's not going online (yet at least)
-    * we will try the status page emails first
 
 * `SEC` nodejs Debian upgrade [DSA-5170-1][DSA-5170-1]
     * force containers rebuild
@@ -28,14 +14,13 @@
 
 [DSA-5170-1]: https://security-tracker.debian.org/tracker/DSA-5170-1
 
-* Amazon SES: setup for sending emails to status page
+* Status page email reports - `WIP`
+    * Amazon SES: setup for sending emails
+    * make munin alerts to create and send the reports
 
-* munin - `WIP`
-    * generate alerts component ID to send status page emails - `DONE!` [PR#19][PR#19]
+* munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
-
-[PR#19]: https://github.com/TalkingPts/Infrastructure/pull/19
 
 * Infrastructure deploy
     * restore deploy of only signed commits - `DONE!`
