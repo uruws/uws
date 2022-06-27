@@ -28,6 +28,8 @@
 
 [DSA-5170-1]: https://security-tracker.debian.org/tracker/DSA-5170-1
 
+* Amazon SES: setup for sending emails to status page
+
 * munin - `WIP`
     * generate alerts component ID to send status page emails - `DONE!` [PR#19][PR#19]
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
