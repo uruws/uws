@@ -22,9 +22,11 @@
     * it's not going online (yet at least)
     * we will try the status page emails first
 
-* `SEC` nodejs Debian upgrade
+* `SEC` nodejs Debian upgrade [DSA-5170-1][DSA-5170-1]
     * force containers rebuild
     * we should also force services releases using the new upgraded version of nodejs
+
+[DSA-5170-1]: https://security-tracker.debian.org/tracker/DSA-5170-1
 
 * munin - `WIP`
     * generate alerts component ID to send status page emails - `DONE!` [PR#19][PR#19]
