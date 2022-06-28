@@ -100,6 +100,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(alerts.QDIR, '/var/opt/munin-alert')
 		t.assertEqual(alerts.MAILTO,
 			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
+		t.assertEqual(alerts.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
 
 	def test_alertComponent(t):
 		s = {'plugin': 'tpl', 'category': 'tctg'}

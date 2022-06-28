@@ -12,17 +12,21 @@ from email.message import EmailMessage
 from email.policy import SMTP
 from email.utils import formatdate, make_msgid
 
-from io import StringIO
-from time import gmtime
-from time import localtime
-from time import time_ns
-from time import tzset
-from socket import gethostname
+from io      import StringIO
+from pathlib import Path
+from time    import gmtime
+from time    import localtime
+from time    import time_ns
+from time    import tzset
+from socket  import gethostname
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
 MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
 MAILTO_REPORT = Address('munin report', 'munin-report', 'uws.talkingpts.org')
 SLEEP_TZ = os.getenv('ALERTS_TZ', 'UTC')
+
+# statuspage
+SP_QDIR = Path(QDIR) / 'statuspage'
 
 def _alertComponent(s):
 	plugin = s.get('plugin', 'NO_PLUGIN')
