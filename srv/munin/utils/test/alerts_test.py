@@ -531,5 +531,9 @@ UNKNOWN
 		stats = {'worst': 'TEST'}
 		t.assertEqual(alerts.statuspage(stats), 1)
 
+	def test_statuspage_no_config(t):
+		stats = {'worst': 'OK'}
+		t.assertEqual(alerts.statuspage(stats), 2)
+
 if __name__ == '__main__':
 	unittest.main()
