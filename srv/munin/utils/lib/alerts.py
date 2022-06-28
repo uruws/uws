@@ -173,7 +173,8 @@ def statuspage(stats):
 	category = stats.get('category', 'NO_CATEGORY')
 	plugin = stats.get('plugin', 'NO_PLUGIN')
 	worst = stats.get('worst', 'ERROR')
-	stch = _stateChanged(stats)
+	if worst != 'OK' or worst != 'CRITICAL':
+		return None
 	cid = f"{group}::{category}::{plugin}"
 	if conf.sp.get(host, None) is not None:
 		p = Path(cid)
@@ -181,6 +182,7 @@ def statuspage(stats):
 			if p.match(key):
 				cfg = conf.sp[host].get(key)
 				continue
+	return None
 
 def main():
 	rc = 0
