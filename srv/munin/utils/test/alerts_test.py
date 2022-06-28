@@ -97,17 +97,21 @@ def mock_timestamp():
 @contextmanager
 def mock_statuspage():
 	bup = alerts.conf.sp.copy()
+	bup_sp = alerts._sp
 	try:
 		alerts.conf.sp = {
 			'thost': {
 				'tgrp::tctg::tpl': {},
+				'tgrp::tctg::taddr': {'component': 'testing@sp.comp'},
 			},
 		}
+		alerts._sp = MagicMock(return_value = None)
 		with mock_nq():
 			yield
 	finally:
 		alerts.conf.sp = None
 		alerts.conf.sp = bup.copy()
+		alerts._sp = bup_sp
 
 class Test(unittest.TestCase):
 
@@ -564,6 +568,19 @@ UNKNOWN
 				'worst': 'CRITICAL',
 			}
 			t.assertEqual(alerts.statuspage(stats), 2)
+
+	def test_statuspage(t):
+		with mock_statuspage():
+			stats = {
+				'host': 'thost',
+				'group': 'tgrp',
+				'category': 'tctg',
+				'plugin': 'taddr',
+				'worst': 'CRITICAL',
+			}
+			t.assertEqual(alerts.statuspage(stats), 0)
+			alerts._sp.assert_called_once_with('testing@sp.comp', 'CRITICAL')
+			alerts.nq.assert_called_once_with(None, qdir = '/var/opt/munin-alert/statuspage')
 
 if __name__ == '__main__':
 	unittest.main()
