@@ -47,3 +47,8 @@ UWSCLI_LOG=off
 
 # crowdsourcing
 9 10 * * 1-5 app-scale cs 30
+
+##############
+# workarounds
+##############
+17 */3 * * * app-restart infra-ui-prod
