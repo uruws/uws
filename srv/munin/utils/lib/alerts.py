@@ -70,7 +70,7 @@ def _msgContent(c, s, m):
 	category = s.get('category', 'NO_CATEGORY')
 	title = _getTitle(s)
 	stch = _stateChanged(s)
-	c.write(f"{group} :: {plugin} :: {category}\n")
+	c.write(f"{group} :: {category} :: {plugin}\n")
 	c.write(f"{host} :: {title} :: {worst}\n")
 	c.write('\n')
 	c.write(f"{m['Date']}\n")

@@ -231,7 +231,7 @@ class Test(unittest.TestCase):
 		c = StringIO()
 		m = EmailMessage()
 		alerts._msgContent(c, {}, m)
-		body = """NO_GROUP :: NO_PLUGIN :: NO_CATEGORY
+		body = """NO_GROUP :: NO_CATEGORY :: NO_PLUGIN
 NO_HOST :: NO_TITLE :: ERROR
 
 None
@@ -255,7 +255,7 @@ component: NO_CATEGORY::NO_PLUGIN
 			'title': 'munin_plugin_t',
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: TESTING
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -298,7 +298,7 @@ component: category::tplugin
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: ERROR
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -336,7 +336,7 @@ UNKNOWN
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: OK
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -366,7 +366,7 @@ OK
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: OK
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -396,7 +396,7 @@ RECOVER
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: WARNING
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -426,7 +426,7 @@ WARNING
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: CRITICAL
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -456,7 +456,7 @@ CRITICAL
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: UNKNOWN
 
 Thu, 23 Dec 2021 11:47:23 -0300
