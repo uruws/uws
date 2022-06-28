@@ -28,12 +28,6 @@ SLEEP_TZ = os.getenv('ALERTS_TZ', 'UTC')
 # statuspage
 SP_QDIR = Path(QDIR) / 'statuspage'
 
-def _alertComponent(host, group, category, plugin):
-	status = ''
-	if status != '':
-		status = f" {status}"
-	return f"component: {host}::{group}::{category}::{plugin}{status}\n"
-
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
 	m.set_charset('utf-8')
@@ -76,8 +70,6 @@ def _msgContent(c, s, m):
 	c.write('\n')
 	c.write(f"{m['Date']}\n")
 	c.write(f"state changed: {stch}\n")
-	c.write('\n')
-	c.write(_alertComponent(host, group, category, plugin))
 	c.write('\n')
 	kind = worst.lower()
 	if kind == 'ok' or kind == 'error':
