@@ -53,7 +53,7 @@ def qdir(d):
 	rc = 128
 	with _lockd(d):
 		rc = 0
-		for n in os.listdir(d):
+		for n in sorted(os.listdir(d)):
 			if n.endswith('.eml'):
 				fn = os.path.join(d, n)
 				st = messageFile(fn)
