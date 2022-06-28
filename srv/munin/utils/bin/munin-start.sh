@@ -15,6 +15,9 @@ chmod -v 0755 /var/log/munin
 mkdir -vp /var/opt/munin-alert
 chmod -v 1777 /var/opt/munin-alert
 
+mkdir -vp /var/opt/munin-alert/statuspage
+chmod -v 1777 /var/opt/munin-alert/statuspage
+
 if test -d /srv/etc/ca; then
 	install -v -d -m 0750 -o root -g munin /etc/opt/uws/ca
 	install -v -m 0640 -o root -g munin \
