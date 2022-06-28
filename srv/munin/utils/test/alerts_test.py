@@ -582,5 +582,26 @@ UNKNOWN
 			alerts._sp.assert_called_once_with('testing@sp.comp', 'CRITICAL')
 			alerts.nq.assert_called_once_with(None, qdir = '/var/opt/munin-alert/statuspage')
 
+	def test_statuspage_message_up(t):
+		m = alerts._sp('test@sp.comp', 'OK')
+		t.assertEqual(m['From'], str(alerts.MAILTO))
+		t.assertEqual(m['To'], 'test@sp.comp')
+		t.assertEqual(m['Subject'], 'UP')
+		t.assertEqual(m.get_content().strip(), '=)')
+
+	def test_statuspage_message_down(t):
+		m = alerts._sp('test@sp.comp', 'CRITICAL')
+		t.assertEqual(m['From'], str(alerts.MAILTO))
+		t.assertEqual(m['To'], 'test@sp.comp')
+		t.assertEqual(m['Subject'], 'DOWN')
+		t.assertEqual(m.get_content().strip(), '=(')
+
+	def test_statuspage_message_other(t):
+		m = alerts._sp('test@sp.comp', 'TESTING')
+		t.assertEqual(m['From'], str(alerts.MAILTO))
+		t.assertEqual(m['To'], 'test@sp.comp')
+		t.assertEqual(m['Subject'], 'DOWN')
+		t.assertEqual(m.get_content().strip(), '=(')
+
 if __name__ == '__main__':
 	unittest.main()

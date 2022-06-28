@@ -173,7 +173,7 @@ def nq(m, prefix = '', qdir = None):
 
 def _sp(mailto, worst):
 	msg = _msgNew()
-	msg['From'] = _msgFrom(stats)
+	msg['From'] = MAILTO
 	msg['To'] = mailto
 	if worst == 'OK':
 		msg['Subject'] = 'UP'
