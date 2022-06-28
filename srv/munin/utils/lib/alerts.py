@@ -190,8 +190,8 @@ def statuspage(stats):
 	category = stats.get('category', 'NO_CATEGORY')
 	plugin = stats.get('plugin', 'NO_PLUGIN')
 	worst = stats.get('worst', 'ERROR')
-	if worst != 'OK' or worst != 'CRITICAL':
-		return False
+	if worst != 'OK' and worst != 'CRITICAL':
+		return 1
 	cid = f"{group}::{category}::{plugin}"
 	if conf.sp.get(host, None) is not None:
 		p = Path(cid)
@@ -202,8 +202,8 @@ def statuspage(stats):
 				__, spaddr = formataddr(spaddr)
 				if spaddr != '':
 					nq(_sp(worst, spaddr), qdir = SP_QDIR.as_posix())
-					return True
-	return False
+					return 0
+	return 2
 
 def main():
 	rc = 0

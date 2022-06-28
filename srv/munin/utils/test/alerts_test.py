@@ -527,5 +527,9 @@ UNKNOWN
 		m = alerts.report(stats)
 		t.assertIsNone(m)
 
+	def test_statuspage_no_report(t):
+		stats = {'worst': 'TEST'}
+		t.assertEqual(alerts.statuspage(stats), 1)
+
 if __name__ == '__main__':
 	unittest.main()
