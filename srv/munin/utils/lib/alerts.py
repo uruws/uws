@@ -11,8 +11,8 @@ from email.headerregistry import Address
 from email.message        import EmailMessage
 from email.policy         import SMTP
 from email.utils          import formatdate
-from email.utils          import formataddr
 from email.utils          import make_msgid
+from email.utils          import parseaddr
 
 from io      import StringIO
 from pathlib import Path
@@ -199,9 +199,9 @@ def statuspage(stats):
 			if p.match(key):
 				cfg = conf.sp[host].get(key)
 				spaddr = cfg.get('component', '').strip()
-				__, spaddr = formataddr(spaddr)
-				if spaddr != '':
-					nq(_sp(worst, spaddr), qdir = SP_QDIR.as_posix())
+				__, mailto = parseaddr(spaddr)
+				if mailto != '':
+					nq(_sp(mailto, worst), qdir = SP_QDIR.as_posix())
 					return 0
 	return 2
 

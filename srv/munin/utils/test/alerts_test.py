@@ -94,6 +94,21 @@ def mock_timestamp():
 	finally:
 		alerts._timestamp = bup
 
+@contextmanager
+def mock_statuspage():
+	bup = alerts.conf.sp.copy()
+	try:
+		alerts.conf.sp = {
+			'thost': {
+				'tgrp::tctg::tpl': {},
+			},
+		}
+		with mock_nq():
+			yield
+	finally:
+		alerts.conf.sp = None
+		alerts.conf.sp = bup.copy()
+
 class Test(unittest.TestCase):
 
 	def test_globals(t):
@@ -534,6 +549,21 @@ UNKNOWN
 	def test_statuspage_no_config(t):
 		stats = {'worst': 'OK'}
 		t.assertEqual(alerts.statuspage(stats), 2)
+
+	def test_statuspage_host_no_match(t):
+		stats = {'host': 'thost', 'worst': 'CRITICAL'}
+		t.assertEqual(alerts.statuspage(stats), 2)
+
+	def test_statuspage_host_no_component_addr(t):
+		with mock_statuspage():
+			stats = {
+				'host': 'thost',
+				'group': 'tgrp',
+				'category': 'tctg',
+				'plugin': 'tpl',
+				'worst': 'CRITICAL',
+			}
+			t.assertEqual(alerts.statuspage(stats), 2)
 
 if __name__ == '__main__':
 	unittest.main()
