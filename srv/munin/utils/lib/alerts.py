@@ -20,6 +20,8 @@ from time    import time_ns
 from time    import tzset
 from socket  import gethostname
 
+import alerts_conf as conf
+
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
 MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
 MAILTO_REPORT = Address('munin report', 'munin-report', 'uws.talkingpts.org')
@@ -172,7 +174,13 @@ def statuspage(stats):
 	plugin = stats.get('plugin', 'NO_PLUGIN')
 	worst = stats.get('worst', 'ERROR')
 	stch = _stateChanged(stats)
-	cid = f"{host}::{group}::{category}::{plugin}"
+	cid = f"{group}::{category}::{plugin}"
+	if conf.sp.get(host, None) is not None:
+		p = Path(cid)
+		for key in conf.sp[host].keys():
+			if p.match(key):
+				cfg = conf.sp[host].get(key)
+				continue
 
 def main():
 	rc = 0
