@@ -173,6 +173,7 @@ def main():
 	# ~ fh = open('/home/uws/tmp/munin-run/alerts.out', 'w')
 	try:
 		for line in fileinput.input('-'):
+
 			line = line.strip()
 			# ~ print(line, file = fh)
 			try:
@@ -182,19 +183,28 @@ def main():
 				#       or log via syslog?
 				print('ERROR:', err, file = sys.stderr)
 				continue
+
 			worst = stats.get('worst', 'ERROR')
+
+			# do not send OK messages if no state changed
 			if not _stateChanged(stats) and worst == 'OK':
-				# do not send OK messages if no state changed
 				continue
-			st = nq(report(stats), prefix = 'report')
-			if st > rc:
-				rc = st
+
+			# send report email in json format
+			# ~ st = nq(report(stats), prefix = 'report')
+			# ~ if st > rc:
+				# ~ rc = st
+
+			# check/avoid sysadmin sleeping hours
 			# ~ if _sleepingHours() and worst != 'CRITICAL':
 				# ~ # only CRITICAL messages during sysadmin sleeping hours
 				# ~ continue
+
+			# send email alert using internal smtps
 			st = nq(parse(stats))
 			if st > rc:
 				rc = st
+
 	except KeyboardInterrupt:
 		# ~ fh.close()
 		return 1

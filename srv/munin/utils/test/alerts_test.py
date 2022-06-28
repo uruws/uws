@@ -42,12 +42,13 @@ def mock(fileinput = [], ctrl_c = False):
 def mock_nq(status = 0):
 	nq_bup = alerts.nq
 	try:
-		if isinstance(status, list):
-			def _nq_status(m, prefix = ''):
-				return status.pop(0)
-			alerts.nq = MagicMock(side_effect = _nq_status)
-		else:
-			alerts.nq = MagicMock(return_value = status)
+		# ~ if isinstance(status, list):
+			# ~ def _nq_status(m, prefix = ''):
+				# ~ return status.pop(0)
+			# ~ alerts.nq = MagicMock(side_effect = _nq_status)
+		# ~ else:
+			# ~ alerts.nq = MagicMock(return_value = status)
+		alerts.nq = MagicMock(return_value = status)
 		yield
 	finally:
 		alerts.nq = nq_bup
@@ -204,11 +205,11 @@ class Test(unittest.TestCase):
 				with mock_nq():
 					with mock_parse():
 						t.assertEqual(alerts.main(), 0)
-						# ~ alerts.nq.assert_called_once_with('mock_parse')
-						alerts.nq.assert_has_calls([
-							call('mock_report', prefix = 'report'),
-							call('mock_parse'),
-						])
+						alerts.nq.assert_called_once_with('mock_parse')
+						# ~ alerts.nq.assert_has_calls([
+							# ~ call('mock_report', prefix = 'report'),
+							# ~ call('mock_parse'),
+						# ~ ])
 
 	def test_main_nq_report_error(t):
 		with mock(fileinput = ['{"state_changed": "1", "worst": "CRITICAL"}']):
@@ -220,7 +221,8 @@ class Test(unittest.TestCase):
 	def test_main_nq_parse_error(t):
 		with mock(fileinput = ['{"state_changed": "1", "worst": "CRITICAL"}']):
 			with mock_sleepingHours(False):
-				with mock_nq(status = [0, 99]):
+				# ~ with mock_nq(status = [0, 99]):
+				with mock_nq(status = 99):
 					with mock_parse():
 						t.assertEqual(alerts.main(), 99)
 
