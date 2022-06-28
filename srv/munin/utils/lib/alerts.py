@@ -6,11 +6,13 @@ import json
 import os
 import sys
 
-from email.encoders import encode_base64
+from email.encoders       import encode_base64
 from email.headerregistry import Address
-from email.message import EmailMessage
-from email.policy import SMTP
-from email.utils import formatdate, make_msgid
+from email.message        import EmailMessage
+from email.policy         import SMTP
+from email.utils          import formatdate
+from email.utils          import formataddr
+from email.utils          import make_msgid
 
 from io      import StringIO
 from pathlib import Path
@@ -150,13 +152,15 @@ def _open(fn, mode):
 def _timestamp():
 	return time_ns()
 
-def nq(m, prefix = ''):
+def nq(m, prefix = '', qdir = None):
 	if m is None:
 		print('ERROR: nq no message', file = sys.stderr)
 		return 8
-	fn = f"{QDIR}/{_timestamp()}.eml"
+	if qdir is None:
+		qdir = QDIR
+	fn = f"{qdir}/{_timestamp()}.eml"
 	if prefix != '':
-		fn = f"{QDIR}/{prefix}-{_timestamp()}.eml"
+		fn = f"{qdir}/{prefix}-{_timestamp()}.eml"
 	try:
 		with _open(fn, 'wb') as fh:
 			fh.write(m.as_bytes())
@@ -167,6 +171,19 @@ def nq(m, prefix = ''):
 		print(fn)
 	return 0
 
+def _sp(mailto, worst):
+	msg = _msgNew()
+	msg['From'] = _msgFrom(stats)
+	msg['To'] = mailto
+	if worst == 'OK':
+		msg['Subject'] = 'UP'
+		body = '=)'
+	else:
+		msg['Subject'] = 'DOWN'
+		body = '=('
+	msg.set_content(body)
+	return msg
+
 def statuspage(stats):
 	host = stats.get('host', 'NO_HOST')
 	group = stats.get('group', 'NO_GROUP')
@@ -174,15 +191,19 @@ def statuspage(stats):
 	plugin = stats.get('plugin', 'NO_PLUGIN')
 	worst = stats.get('worst', 'ERROR')
 	if worst != 'OK' or worst != 'CRITICAL':
-		return None
+		return False
 	cid = f"{group}::{category}::{plugin}"
 	if conf.sp.get(host, None) is not None:
 		p = Path(cid)
 		for key in conf.sp[host].keys():
 			if p.match(key):
 				cfg = conf.sp[host].get(key)
-				continue
-	return None
+				spaddr = cfg.get('component', '').strip()
+				__, spaddr = formataddr(spaddr)
+				if spaddr != '':
+					nq(_sp(worst, spaddr), qdir = SP_QDIR.as_posix())
+					return True
+	return False
 
 def main():
 	rc = 0
