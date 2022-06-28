@@ -47,14 +47,19 @@ def messageFile(fn):
 			return 8
 	return message(msg)
 
-def qdir(d):
+def qdir(d, limit = 100):
 	"""search dir for .eml files and pass them to messageFile, remove the file
 	if properly sent"""
 	rc = 128
 	with _lockd(d):
 		rc = 0
+		idx = 0
 		for n in sorted(os.listdir(d)):
 			if n.endswith('.eml'):
+				idx += 1
+				if idx >= limit:
+					print(f"ERROR: sendmail limit ({limit}) reached:", idx, file = sys.stderr)
+					return 7
 				fn = os.path.join(d, n)
 				st = messageFile(fn)
 				if st == 0:
