@@ -103,9 +103,8 @@ class Test(unittest.TestCase):
 		t.assertEqual(alerts.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
 
 	def test_alertComponent(t):
-		s = {'plugin': 'tpl', 'category': 'tctg'}
-		c = alerts._alertComponent(s)
-		t.assertEqual(c.strip(), 'component: tctg::tpl')
+		c = alerts._alertComponent('tht', 'tgr', 'tct', 'tpl')
+		t.assertEqual(c.strip(), 'component: tht::tgr::tct::tpl')
 
 	def test_msgNew(t):
 		m = alerts._msgNew()
@@ -237,7 +236,7 @@ NO_HOST :: NO_TITLE :: ERROR
 None
 state changed: False
 
-component: NO_CATEGORY::NO_PLUGIN
+component: NO_HOST::NO_GROUP::NO_CATEGORY::NO_PLUGIN
 
 """
 		t.assertEqual(c.getvalue(), body)
@@ -261,7 +260,7 @@ thost :: munin_plugin_t :: TESTING
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
-component: category::tplugin
+component: thost::test::category::tplugin
 
 """
 		t.assertEqual(c.getvalue(), body)
@@ -304,7 +303,7 @@ thost :: munin_plugin_t :: ERROR
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
-component: category::tplugin
+component: thost::test::category::tplugin
 
 OK
   testing: 0.99
@@ -342,7 +341,7 @@ thost :: munin_plugin_t :: OK
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
-component: category::tplugin
+component: thost::test::category::tplugin
 
 OK
   testing: 0.99
@@ -372,7 +371,7 @@ thost :: munin_plugin_t :: OK
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
-component: category::tplugin
+component: thost::test::category::tplugin
 
 RECOVER
   testing: 0.99
@@ -402,7 +401,7 @@ thost :: munin_plugin_t :: WARNING
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
-component: category::tplugin
+component: thost::test::category::tplugin
 
 WARNING
   testing: 0.99
@@ -432,7 +431,7 @@ thost :: munin_plugin_t :: CRITICAL
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
-component: category::tplugin
+component: thost::test::category::tplugin
 
 CRITICAL
   testing: 0.99
@@ -462,7 +461,7 @@ thost :: munin_plugin_t :: UNKNOWN
 Thu, 23 Dec 2021 11:47:23 -0300
 state changed: False
 
-component: category::tplugin
+component: thost::test::category::tplugin
 
 UNKNOWN
   testing
