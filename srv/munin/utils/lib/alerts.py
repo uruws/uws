@@ -165,6 +165,15 @@ def nq(m, prefix = ''):
 		print(fn)
 	return 0
 
+def statuspage(stats):
+	host = stats.get('host', 'NO_HOST')
+	group = stats.get('group', 'NO_GROUP')
+	category = stats.get('category', 'NO_CATEGORY')
+	plugin = stats.get('plugin', 'NO_PLUGIN')
+	worst = stats.get('worst', 'ERROR')
+	stch = _stateChanged(stats)
+	cid = f"{host}::{group}::{category}::{plugin}"
+
 def main():
 	rc = 0
 	# ~ fh = open('/home/uws/tmp/munin-run/alerts.out', 'w')
@@ -201,6 +210,9 @@ def main():
 			st = nq(parse(stats))
 			if st > rc:
 				rc = st
+
+			# statuspage report using external smtps
+			statuspage(stats)
 
 	except KeyboardInterrupt:
 		# ~ fh.close()
