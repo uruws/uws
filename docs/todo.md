@@ -1,11 +1,11 @@
 * `URGENT` cluster stack - `WIP`
     * migrate clusters
         * create app-east and app-west 1.22 clusters - `DONE!` [PR#21][PR#21]
-            * migrate amy-east and amy-west to app-east and app-west
-        * migrate app-east and app-west services
+        * migrate app-east and app-west services - `DONE!` [PR#22][PR#22]
     * remove 1.19 amy-east and amy-west clusters
 
 [PR#21]: https://github.com/TalkingPts/Infrastructure/pull/21
+[PR#22]: https://github.com/TalkingPts/Infrastructure/pull/22
 
 * remove old aws credentials once all cluster upgrades are finished
 
