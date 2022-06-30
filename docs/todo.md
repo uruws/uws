@@ -1,4 +1,6 @@
-* rstudio: adrienne user setup
+* rstudio: adrienne user setup - `DONE!` [PR#24][PR#24]
+
+[PR#24]: https://github.com/TalkingPts/Infrastructure/pull/23
 
 * `URGENT` cluster stack - `DONE!`
     * migrate clusters
