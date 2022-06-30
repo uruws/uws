@@ -1,14 +1,17 @@
 ---
 rstudio_gid: 3000
 
-# 1667012400: 2022/10/29
-rstudio_user_expire: 1667012400
+# date -d 2023/01/30 '+%s'
+# 1675047600
+rstudio_user_expire: 1675047600
 
 rstudio_user:
   jrms: 3001
   rina: 3002
   # Kevin Fosnacht <kevinf@talkingpts.org>
   kevin: 3003
+  # Adrienne <adrienne@talkingpts.org>
+  adrienne: 3004
 
 rstudio_project_user:
   # Eric Chan <echan1@babson.edu>
