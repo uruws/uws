@@ -1,3 +1,5 @@
+* rstudio: adrienne user setup
+
 * `URGENT` cluster stack - `DONE!`
     * migrate clusters
         * create app-east and app-west 1.22 clusters - [PR#21][PR#21]
