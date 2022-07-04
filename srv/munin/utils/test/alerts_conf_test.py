@@ -17,6 +17,7 @@ class Test(unittest.TestCase):
 
 	def test_globals(t):
 		t.assertEqual(conf.QDIR, '/var/opt/munin-alert')
+		t.assertEqual(conf.DOMAIN, 'uws.talkingpts.org')
 		t.assertEqual(conf.MAILTO,
 			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
 		t.assertEqual(conf.MAILTO_REPORT,

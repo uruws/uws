@@ -11,10 +11,11 @@ from time import gmtime
 from time import localtime
 from time import tzset
 
-QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
+QDIR   = os.getenv('ALERTS_QDIR',   '/var/opt/munin-alert')
+DOMAIN = os.getenv('ALERTS_DOMAIN', 'uws.talkingpts.org')
 
-MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
-MAILTO_REPORT = Address('munin report', 'munin-report', 'uws.talkingpts.org')
+MAILTO =        Address('munin alert',  'munin-alert',  DOMAIN)
+MAILTO_REPORT = Address('munin report', 'munin-report', DOMAIN)
 
 # sleeping hours
 
@@ -36,7 +37,7 @@ def sleepingHours(h = None):
 
 # statuspage
 
-SP_QDIR = Path(QDIR) / 'statuspage'
-SP_MAILFROM = Address('munin statuspage', 'munin-statuspage', 'uws.talkingpts.org')
+SP_QDIR     = Path(QDIR) / 'statuspage'
+SP_MAILFROM = Address('munin statuspage', 'munin-statuspage', DOMAIN)
 
 sp = {}
