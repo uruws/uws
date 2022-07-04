@@ -102,8 +102,10 @@ def mock_statuspage():
 	try:
 		alerts.conf.sp = {
 			'thost': {
-				'tgrp::tctg::tpl': {},
-				'tgrp::tctg::taddr': {'component': 'testing@sp.comp'},
+				'tgrp': {
+					'tctg::tpl': {},
+					'tctg::taddr': {'component': 'testing@sp.comp'},
+				},
 			},
 		}
 		alerts._sp = MagicMock(return_value = None)

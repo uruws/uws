@@ -178,17 +178,18 @@ def statuspage(stats):
 	worst = stats.get('worst', 'ERROR')
 	if worst != 'OK' and worst != 'CRITICAL':
 		return 1
-	cid = f"{group}::{category}::{plugin}"
+	cid = f"{category}::{plugin}"
 	if conf.sp.get(host, None) is not None:
-		p = Path(cid)
-		for key in conf.sp[host].keys():
-			if p.match(key):
-				cfg = conf.sp[host].get(key)
-				spaddr = cfg.get('component', '').strip()
-				__, mailto = parseaddr(spaddr)
-				if mailto != '':
-					nq(_sp(mailto, worst), qdir = conf.SP_QDIR.as_posix())
-					return 0
+		if conf.sp[host].get(group, None) is not None:
+			p = Path(cid)
+			for key in conf.sp[host][group].keys():
+				if p.match(key):
+					cfg = conf.sp[host][group].get(key)
+					spaddr = cfg.get('component', '').strip()
+					__, mailto = parseaddr(spaddr)
+					if mailto != '':
+						nq(_sp(mailto, worst), qdir = conf.SP_QDIR.as_posix())
+						return 0
 	return 2
 
 # main
