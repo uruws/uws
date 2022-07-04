@@ -18,12 +18,16 @@ class Test(unittest.TestCase):
 	def test_globals(t):
 		t.assertEqual(conf.QDIR, '/var/opt/munin-alert')
 		t.assertEqual(conf.DOMAIN, 'uws.talkingpts.org')
+
 		t.assertEqual(conf.MAILTO,
 			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
 		t.assertEqual(conf.MAILTO_REPORT,
 			Address('munin report', 'munin-report', 'uws.talkingpts.org'))
+
 		t.assertEqual(conf.SLEEP_TZ, 'UTC')
+
 		t.assertEqual(conf.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
+		t.assertEqual(conf.SP_CONF.as_posix(), '/etc/uws/munin/alerts_conf.json')
 		t.assertEqual(conf.SP_MAILFROM,
 			Address('munin statuspage', 'munin-statuspage', 'uws.talkingpts.org'))
 

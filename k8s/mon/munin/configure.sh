@@ -28,4 +28,10 @@ crond=${HOME}/secret/munin/cron.d
 uwskube delete secret munin-crond -n mon || true
 uwskube create secret generic munin-crond -n mon --from-file="${crond}"
 
+# munin-deploy-conf
+deploy_confd=${HOME}/secret/munin/conf
+uwskube delete secret munin-deploy-confd -n mon || true
+uwskube create secret generic munin-deploy-confd -n mon \
+	--from-file="${deploy_confd}"
+
 exit 0

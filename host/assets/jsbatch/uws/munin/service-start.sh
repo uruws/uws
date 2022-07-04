@@ -2,6 +2,7 @@
 set -eu
 CA=/srv/uws/deploy/secret/ca/uws/smtps/211006
 CROND=/srv/uws/deploy/secret/eks/files/munin/cron.d
+CONFD=/srv/uws/deploy/secret/eks/files/munin/conf
 
 HOSTIP=$(/uws/docker-hostip.sh)
 
@@ -16,4 +17,5 @@ exec /usr/bin/docker run --rm -u root \
 	-v /srv/etc/munin:/srv/etc/munin \
 	-v ${CA}/client:/srv/etc/ca:ro \
 	-v ${CROND}:/srv/etc/cron.d:ro \
+	-v ${CONFD}:/etc/uws/munin:ro \
 	uws/munin-2203

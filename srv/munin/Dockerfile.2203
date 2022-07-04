@@ -44,6 +44,10 @@ VOLUME /var/log/munin
 
 RUN /root/bin/apt-install.sh ssl-cert
 
+# munin-deploy-conf
+RUN install -v -d -o root -g munin -m 0750 /etc/uws \
+	&& install -v -d -o root -g munin -m 0750 /etc/uws/munin
+
 RUN adduser uws munin \
 	&& adduser uws ssl-cert
 
