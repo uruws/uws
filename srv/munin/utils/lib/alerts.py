@@ -29,9 +29,6 @@ MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
 MAILTO_REPORT = Address('munin report', 'munin-report', 'uws.talkingpts.org')
 SLEEP_TZ = os.getenv('ALERTS_TZ', 'UTC')
 
-# statuspage
-SP_QDIR = Path(QDIR) / 'statuspage'
-
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
 	m.set_charset('utf-8')
@@ -120,7 +117,10 @@ def _sleepingHours(h = None):
 		return True
 	return False
 
+# parse
+
 def parse(stats):
+	"""Send formatted alert stats info via internal email"""
 	msg = _msgNew()
 	msg['From'] = _msgFrom(stats)
 	msg['To'] = MAILTO
@@ -130,7 +130,10 @@ def parse(stats):
 		msg.set_content(c.getvalue())
 	return msg
 
+# report
+
 def report(stats):
+	"""Send alert stats json content via internal email"""
 	msg = _msgNew()
 	msg['From'] = _msgFrom(stats)
 	msg['To'] = MAILTO_REPORT
@@ -145,6 +148,8 @@ def report(stats):
 	del msg['Content-Transfer-Encoding']
 	encode_base64(msg)
 	return msg
+
+# nq
 
 def _open(fn, mode):
 	return open(fn, mode)
@@ -171,6 +176,10 @@ def nq(m, prefix = '', qdir = None):
 		print(fn)
 	return 0
 
+# statuspage
+
+SP_QDIR = Path(QDIR) / 'statuspage'
+
 def _sp(mailto, worst):
 	msg = _msgNew()
 	msg['From'] = MAILTO
@@ -185,6 +194,7 @@ def _sp(mailto, worst):
 	return msg
 
 def statuspage(stats):
+	"""Send statuspage.io component alerts via SES mailx"""
 	host = stats.get('host', 'NO_HOST')
 	group = stats.get('group', 'NO_GROUP')
 	category = stats.get('category', 'NO_CATEGORY')
@@ -204,6 +214,8 @@ def statuspage(stats):
 					nq(_sp(mailto, worst), qdir = SP_QDIR.as_posix())
 					return 0
 	return 2
+
+# main
 
 def main():
 	rc = 0
