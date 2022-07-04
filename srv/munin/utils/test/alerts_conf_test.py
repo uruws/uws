@@ -23,6 +23,8 @@ class Test(unittest.TestCase):
 			Address('munin report', 'munin-report', 'uws.talkingpts.org'))
 		t.assertEqual(conf.SLEEP_TZ, 'UTC')
 		t.assertEqual(conf.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
+		t.assertEqual(conf.SP_MAILFROM,
+			Address('munin statuspage', 'munin-statuspage', 'uws.talkingpts.org'))
 
 	def test_sleepingHours(t):
 		conf.sleepingHours()

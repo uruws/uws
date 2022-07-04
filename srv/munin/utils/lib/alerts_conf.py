@@ -37,5 +37,6 @@ def sleepingHours(h = None):
 # statuspage
 
 SP_QDIR = Path(QDIR) / 'statuspage'
+SP_MAILFROM = Address('munin statuspage', 'munin-statuspage', 'uws.talkingpts.org')
 
 sp = {}
