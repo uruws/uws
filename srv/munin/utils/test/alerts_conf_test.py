@@ -6,7 +6,10 @@
 import os
 import unittest
 
+from email.headerregistry import Address
+
 from time import localtime
+from time import tzset
 
 import alerts_conf as conf
 
@@ -18,7 +21,7 @@ class Test(unittest.TestCase):
 			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
 		t.assertEqual(conf.MAILTO_REPORT,
 			Address('munin report', 'munin-report', 'uws.talkingpts.org'))
-		t.assertEqual(conf.SLEEP_TZ, 'lalala')
+		t.assertEqual(conf.SLEEP_TZ, 'UTC')
 		t.assertEqual(conf.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
 
 	def test_sleepingHours(t):
@@ -65,3 +68,6 @@ class Test(unittest.TestCase):
 			conf.SLEEP_TZ = 'UTC'
 			os.environ['TZ'] = 'UTC'
 			tzset()
+
+if __name__ == '__main__':
+	unittest.main()

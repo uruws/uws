@@ -17,7 +17,6 @@ from email.utils          import parseaddr
 from io      import StringIO
 from pathlib import Path
 from time    import time_ns
-from time    import tzset
 from socket  import gethostname
 
 import alerts_conf as conf

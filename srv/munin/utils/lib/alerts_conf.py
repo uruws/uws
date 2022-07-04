@@ -9,6 +9,7 @@ from pathlib import Path
 
 from time import gmtime
 from time import localtime
+from time import tzset
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
 
