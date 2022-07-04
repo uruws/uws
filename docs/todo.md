@@ -1,4 +1,8 @@
-* `URGENT` cluster stack - `DONE!`
+* rstudio: adrienne user setup - `DONE!` [PR#24][PR#24]
+
+[PR#24]: https://github.com/TalkingPts/Infrastructure/pull/23
+
+* cluster stack - `DONE!`
     * migrate clusters
         * create app-east and app-west 1.22 clusters - [PR#21][PR#21]
         * migrate app-east and app-west services - [PR#22][PR#22]
@@ -18,6 +22,18 @@
     * we should also force services releases using the new upgraded version of nodejs
 
 [DSA-5170-1]: https://security-tracker.debian.org/tracker/DSA-5170-1
+
+* `SEC` linux several vulns [DSA-5173-1][DSA-5173-1]
+    * some of them are cgroups (docker/kubernetes) related
+        * so we should run un upgrade on ALL servers/systems
+            * jsbatch
+            * rstudio
+            * k8s nodes
+    * that will also fix some gnupg vulns [DSA-5174-1][DSA-5174-1]
+        * infra secrets are managed with git-crypt, which uses gnupg
+
+[DSA-5173-1]: https://security-tracker.debian.org/tracker/DSA-5173-1
+[DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
 
 * Status page email reports - `WIP`
     * Amazon SES: setup for sending emails

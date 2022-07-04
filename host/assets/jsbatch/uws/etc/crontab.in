@@ -5,8 +5,6 @@ HOME=/home/uws
 
 # m h  dom mon dow   command
 
-@reboot /uws/bin/uwscli-rundir.sh
-
 # uwscli logs
 11 6 * * * /uws/bin/uwscli-logs.sh
 
