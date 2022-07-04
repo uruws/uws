@@ -10,20 +10,27 @@ from email.parser import BytesParser
 
 from smtplib import SMTP_SSL
 
-SMTPS_SERVER = os.getenv('UWS_SMTPS', '127.0.0.1')
-SMTPS_PORT = os.getenv('UWS_SMTPS_PORT', 465)
+SMTPS_SERVER  = os.getenv('UWS_SMTPS',         '127.0.0.1')
+SMTPS_PORT    = os.getenv('UWS_SMTPS_PORT',    465)
 SMTPS_TIMEOUT = os.getenv('UWS_SMTPS_TIMEOUT', 7)
-SMTPS_CERT = os.getenv('UWS_SMTPS_CERT', '/etc/ssl/certs/ssl-cert-snakeoil.pem')
-SMTPS_KEY = os.getenv('UWS_SMTPS_KEY', '/etc/ssl/private/ssl-cert-snakeoil.key')
+SMTPS_CERT    = os.getenv('UWS_SMTPS_CERT',    '/etc/ssl/certs/ssl-cert-snakeoil.pem')
+SMTPS_KEY     = os.getenv('UWS_SMTPS_KEY',     '/etc/ssl/private/ssl-cert-snakeoil.key')
+SMTPS_USER    = os.getenv('UWS_SMTPS_USER',    '')
+SMTPS_PASSWD  = os.getenv('UWS_SMTPS_PASSWD',  '')
 
 def _smtpServer():
-	return SMTP_SSL(
+	s = SMTP_SSL(
 		host = SMTPS_SERVER,
 		port = SMTPS_PORT,
 		timeout = SMTPS_TIMEOUT,
 		certfile = SMTPS_CERT,
 		keyfile = SMTPS_KEY,
 	)
+	user = SMTPS_USER.strip()
+	passwd = SMTPS_PASSWD.strip()
+	if user != '' and passwd != '':
+		s.login(user, passwd)
+	return s
 
 def message(m):
 	"""send an email message"""
