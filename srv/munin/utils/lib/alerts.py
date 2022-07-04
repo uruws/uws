@@ -219,17 +219,16 @@ def statuspage(stats):
 
 def main():
 	rc = 0
-	# ~ fh = open('/home/uws/tmp/munin-run/alerts.out', 'w')
 	try:
 		for line in fileinput.input('-'):
 
 			line = line.strip()
-			# ~ print(line, file = fh)
 			try:
 				stats = json.loads(line)
 			except Exception as err:
 				# TODO: nq [ERROR] message
 				#       or log via syslog?
+				#       or even better via SES mailx?
 				print('ERROR:', err, file = sys.stderr)
 				continue
 
@@ -258,7 +257,5 @@ def main():
 			# ~ statuspage(stats)
 
 	except KeyboardInterrupt:
-		# ~ fh.close()
 		return 1
-	# ~ fh.close()
 	return rc
