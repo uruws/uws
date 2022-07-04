@@ -32,11 +32,10 @@ def _smtpServer():
 		s.login(user, passwd)
 	return s
 
-def message(m):
+def _message(mx, m):
 	"""send an email message"""
 	try:
-		with _smtpServer() as s:
-			s.send_message(m)
+		mx.send_message(m)
 	except Exception as err:
 		print('ERROR: smtps', SMTPS_SERVER, err, file = sys.stderr)
 		return 9
@@ -44,7 +43,7 @@ def message(m):
 
 _eml = BytesParser(policy = policy.default)
 
-def messageFile(fn):
+def _messageFile(mx, fn):
 	"""parse email message from file and try to send it"""
 	with open(fn, 'rb') as fh:
 		try:
@@ -52,31 +51,32 @@ def messageFile(fn):
 		except Exception as err:
 			print('ERROR:', err, file = sys.stderr)
 			return 8
-	return message(msg)
+	return _message(mx, msg)
 
 def qdir(d, limit = 100):
 	"""search dir for .eml files and pass them to messageFile, remove the file
 	if properly sent"""
 	rc = 128
 	with _lockd(d):
-		rc = 0
-		idx = 0
-		for n in sorted(os.listdir(d)):
-			if n.endswith('.eml'):
-				idx += 1
-				if idx >= limit:
-					print(f"ERROR: sendmail limit ({limit}) reached:", idx, file = sys.stderr)
-					return 7
-				fn = os.path.join(d, n)
-				st = messageFile(fn)
-				if st == 0:
-					try:
-						os.unlink(fn)
-					except Exception as err:
-						print('ERROR:', err, file = sys.stderr)
-						rc = 7
-				elif st > rc:
-					rc = st
+		with _smtpServer() as mx:
+			rc = 0
+			idx = 0
+			for n in sorted(os.listdir(d)):
+				if n.endswith('.eml'):
+					idx += 1
+					if idx >= limit:
+						print(f"ERROR: sendmail limit ({limit}) reached:", idx, file = sys.stderr)
+						return 7
+					fn = os.path.join(d, n)
+					st = _messageFile(mx, fn)
+					if st == 0:
+						try:
+							os.unlink(fn)
+						except Exception as err:
+							print('ERROR:', err, file = sys.stderr)
+							rc = 7
+					elif st > rc:
+						rc = st
 	return rc
 
 @contextmanager
