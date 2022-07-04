@@ -140,8 +140,8 @@ spec:
           configMap:
             name: munin-confd
         - name: munin-crond
-          configMap:
-            name: munin-crond
+          secret:
+            secretName: munin-crond
         - name: smtps-ca
           secret:
             secretName: smtps-ca

@@ -25,7 +25,7 @@ uwskube create configmap munin-confd -n mon \
 
 # munin-crond
 crond=${HOME}/secret/munin/cron.d
-uwskube delete configmap munin-crond -n mon || true
-uwskube create configmap munin-crond -n mon --from-file="${crond}"
+uwskube delete secret munin-crond -n mon || true
+uwskube create secret generic munin-crond -n mon --from-file="${crond}"
 
 exit 0
