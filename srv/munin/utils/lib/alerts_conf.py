@@ -3,8 +3,14 @@
 
 import os
 
+from pathlib import Path
+
 from time import gmtime
 from time import localtime
+
+QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
+
+# sleeping hours
 
 SLEEP_TZ = os.getenv('ALERTS_TZ', 'UTC')
 
@@ -23,4 +29,7 @@ def sleepingHours(h = None):
 	return False
 
 # statuspage
+
+SP_QDIR = Path(QDIR) / 'statuspage'
+
 sp = {}

@@ -117,10 +117,8 @@ def mock_statuspage():
 class Test(unittest.TestCase):
 
 	def test_globals(t):
-		t.assertEqual(alerts.QDIR, '/var/opt/munin-alert')
 		t.assertEqual(alerts.MAILTO,
 			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
-		t.assertEqual(alerts.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
 
 	def test_msgNew(t):
 		m = alerts._msgNew()

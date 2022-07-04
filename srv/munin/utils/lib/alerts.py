@@ -22,7 +22,6 @@ from socket  import gethostname
 
 import alerts_conf as conf
 
-QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
 MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
 MAILTO_REPORT = Address('munin report', 'munin-report', 'uws.talkingpts.org')
 
@@ -145,7 +144,7 @@ def nq(m, prefix = '', qdir = None):
 		print('ERROR: nq no message', file = sys.stderr)
 		return 8
 	if qdir is None:
-		qdir = QDIR
+		qdir = conf.QDIR
 	fn = f"{qdir}/{_timestamp()}.eml"
 	if prefix != '':
 		fn = f"{qdir}/{prefix}-{_timestamp()}.eml"
@@ -160,8 +159,6 @@ def nq(m, prefix = '', qdir = None):
 	return 0
 
 # statuspage
-
-SP_QDIR = Path(QDIR) / 'statuspage'
 
 def _sp(mailto, worst):
 	msg = _msgNew()
@@ -194,7 +191,7 @@ def statuspage(stats):
 				spaddr = cfg.get('component', '').strip()
 				__, mailto = parseaddr(spaddr)
 				if mailto != '':
-					nq(_sp(mailto, worst), qdir = SP_QDIR.as_posix())
+					nq(_sp(mailto, worst), qdir = conf.SP_QDIR.as_posix())
 					return 0
 	return 2
 

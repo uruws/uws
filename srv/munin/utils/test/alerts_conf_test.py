@@ -12,6 +12,12 @@ import alerts_conf as conf
 
 class Test(unittest.TestCase):
 
+	def test_globals(t):
+		t.assertEqual(conf.QDIR, '/var/opt/munin-alert')
+		# ~ t.assertEqual(conf.MAILTO,
+			# ~ Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
+		t.assertEqual(conf.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
+
 	def test_sleepingHours(t):
 		conf.sleepingHours()
 		check = dict()
