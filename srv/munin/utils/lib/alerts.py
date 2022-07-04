@@ -22,9 +22,6 @@ from socket  import gethostname
 
 import alerts_conf as conf
 
-MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
-MAILTO_REPORT = Address('munin report', 'munin-report', 'uws.talkingpts.org')
-
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
 	m.set_charset('utf-8')
@@ -105,7 +102,7 @@ def parse(stats):
 	"""Send formatted alert stats info via internal email"""
 	msg = _msgNew()
 	msg['From'] = _msgFrom(stats)
-	msg['To'] = MAILTO
+	msg['To'] = conf.MAILTO
 	msg['Subject'] = _msgSubject(stats)
 	with StringIO() as c:
 		_msgContent(c, stats, msg)
@@ -118,7 +115,7 @@ def report(stats):
 	"""Send alert stats json content via internal email"""
 	msg = _msgNew()
 	msg['From'] = _msgFrom(stats)
-	msg['To'] = MAILTO_REPORT
+	msg['To'] = conf.MAILTO_REPORT
 	msg['Subject'] = _msgSubject(stats)
 	try:
 		with StringIO() as c:
@@ -162,7 +159,7 @@ def nq(m, prefix = '', qdir = None):
 
 def _sp(mailto, worst):
 	msg = _msgNew()
-	msg['From'] = MAILTO
+	msg['From'] = conf.MAILTO
 	msg['To'] = mailto
 	if worst == 'OK':
 		msg['Subject'] = 'UP'

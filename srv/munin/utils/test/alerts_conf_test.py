@@ -14,8 +14,11 @@ class Test(unittest.TestCase):
 
 	def test_globals(t):
 		t.assertEqual(conf.QDIR, '/var/opt/munin-alert')
-		# ~ t.assertEqual(conf.MAILTO,
-			# ~ Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
+		t.assertEqual(conf.MAILTO,
+			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
+		t.assertEqual(conf.MAILTO_REPORT,
+			Address('munin report', 'munin-report', 'uws.talkingpts.org'))
+		t.assertEqual(conf.SLEEP_TZ, 'lalala')
 		t.assertEqual(conf.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
 
 	def test_sleepingHours(t):

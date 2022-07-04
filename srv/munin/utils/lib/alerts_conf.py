@@ -3,12 +3,17 @@
 
 import os
 
+from email.headerregistry import Address
+
 from pathlib import Path
 
 from time import gmtime
 from time import localtime
 
 QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
+
+MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
+MAILTO_REPORT = Address('munin report', 'munin-report', 'uws.talkingpts.org')
 
 # sleeping hours
 

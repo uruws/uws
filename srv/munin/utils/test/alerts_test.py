@@ -116,10 +116,6 @@ def mock_statuspage():
 
 class Test(unittest.TestCase):
 
-	def test_globals(t):
-		t.assertEqual(alerts.MAILTO,
-			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
-
 	def test_msgNew(t):
 		m = alerts._msgNew()
 		t.assertEqual(m.get_charset(), 'utf-8')
@@ -538,21 +534,21 @@ UNKNOWN
 
 	def test_statuspage_message_up(t):
 		m = alerts._sp('test@sp.comp', 'OK')
-		t.assertEqual(m['From'], str(alerts.MAILTO))
+		t.assertEqual(m['From'], str(conf.MAILTO))
 		t.assertEqual(m['To'], 'test@sp.comp')
 		t.assertEqual(m['Subject'], 'UP')
 		t.assertEqual(m.get_content().strip(), '=)')
 
 	def test_statuspage_message_down(t):
 		m = alerts._sp('test@sp.comp', 'CRITICAL')
-		t.assertEqual(m['From'], str(alerts.MAILTO))
+		t.assertEqual(m['From'], str(conf.MAILTO))
 		t.assertEqual(m['To'], 'test@sp.comp')
 		t.assertEqual(m['Subject'], 'DOWN')
 		t.assertEqual(m.get_content().strip(), '=(')
 
 	def test_statuspage_message_other(t):
 		m = alerts._sp('test@sp.comp', 'TESTING')
-		t.assertEqual(m['From'], str(alerts.MAILTO))
+		t.assertEqual(m['From'], str(conf.MAILTO))
 		t.assertEqual(m['To'], 'test@sp.comp')
 		t.assertEqual(m['Subject'], 'DOWN')
 		t.assertEqual(m.get_content().strip(), '=(')
