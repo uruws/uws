@@ -43,6 +43,12 @@ fi
 chown -v root:munin /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
 chmod -v 0640 /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
 
+# /etc/uws/conf
+if test -d /etc/uws/conf; then
+	install -v -o root -g munin \
+		/etc/uws/conf/alerts_conf.json /etc/uws/munin/alerts_conf.json
+fi
+
 ###/opt/munin/bin/k8s-setup.py
 
 /etc/init.d/munin start

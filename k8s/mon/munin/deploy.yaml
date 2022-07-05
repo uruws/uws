@@ -55,7 +55,7 @@ spec:
               mountPath: "/srv/etc/cron.d"
               readOnly: true
             - name: munin-deploy-conf
-              mountPath: "/etc/uws/munin"
+              mountPath: "/etc/uws/conf"
               readOnly: true
             - name: smtps-ca
               mountPath: "/srv/etc/ca"
