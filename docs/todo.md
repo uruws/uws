@@ -1,6 +1,6 @@
 * rstudio: adrienne user setup - `DONE!` [PR#24][PR#24]
 
-[PR#24]: https://github.com/TalkingPts/Infrastructure/pull/23
+[PR#24]: https://github.com/TalkingPts/Infrastructure/pull/24
 
 * cluster stack - `DONE!`
     * migrate clusters
@@ -35,9 +35,11 @@
 [DSA-5173-1]: https://security-tracker.debian.org/tracker/DSA-5173-1
 [DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
 
-* Status page email reports - `WIP`
+* Status page email reports - `WIP` [PR#25][PR#25]
     * Amazon SES: setup for sending emails
     * make munin alerts to create and send the reports
+
+[PR#25]: https://github.com/TalkingPts/Infrastructure/pull/25
 
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
