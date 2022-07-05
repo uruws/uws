@@ -1,6 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import json
 import os
 
 from email.headerregistry import Address
@@ -47,3 +48,5 @@ def sp_load():
 	if SP_CONF.is_file():
 		with SP_CONF.open() as fh:
 			sp.update(json.load(fh))
+			return True
+	return False

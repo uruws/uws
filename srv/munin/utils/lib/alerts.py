@@ -171,6 +171,7 @@ def _sp(mailto, worst):
 
 def statuspage(stats):
 	"""Send statuspage.io component alerts via SES mailx"""
+	conf.sp_load()
 	host = stats.get('host', 'NO_HOST')
 	group = stats.get('group', 'NO_GROUP')
 	category = stats.get('category', 'NO_CATEGORY')

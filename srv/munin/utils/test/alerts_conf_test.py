@@ -8,6 +8,8 @@ import unittest
 
 from email.headerregistry import Address
 
+from pathlib import Path
+
 from time import localtime
 from time import tzset
 
@@ -75,6 +77,19 @@ class Test(unittest.TestCase):
 			conf.SLEEP_TZ = 'UTC'
 			os.environ['TZ'] = 'UTC'
 			tzset()
+
+	def test_sp_load(t):
+		t.assertFalse(conf.sp_load())
+		t.assertEqual(len(conf.sp), 0)
+
+	def test_sp_load_file(t):
+		try:
+			bup_sp_conf = conf.SP_CONF
+			conf.SP_CONF = Path('/home/uws/utils/testdata/alerts_conf.json')
+			t.assertTrue(conf.sp_load())
+		finally:
+			conf.SP_CONF = bup_sp_conf
+			conf.sp.clear()
 
 if __name__ == '__main__':
 	unittest.main()
