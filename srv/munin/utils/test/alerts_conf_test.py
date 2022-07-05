@@ -91,5 +91,14 @@ class Test(unittest.TestCase):
 			conf.SP_CONF = bup_sp_conf
 			conf.sp.clear()
 
+	def test_sp_load_conf(t):
+		try:
+			bup_sp_conf = conf.SP_CONF
+			conf.SP_CONF = Path('/home/uws/secret/conf/alerts_conf.json')
+			t.assertTrue(conf.sp_load())
+		finally:
+			conf.SP_CONF = bup_sp_conf
+			conf.sp.clear()
+
 if __name__ == '__main__':
 	unittest.main()
