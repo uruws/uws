@@ -211,9 +211,10 @@ def main():
 				continue
 
 			worst = stats.get('worst', 'ERROR')
+			stch  = _stateChanged(stats)
 
 			# do not send OK messages if no state changed
-			if not _stateChanged(stats) and worst == 'OK':
+			if not stch and worst == 'OK':
 				continue
 
 			# send report email in json format
@@ -232,7 +233,8 @@ def main():
 				rc = st
 
 			# statuspage report using external smtps
-			statuspage(stats)
+			if stch:
+				statuspage(stats)
 
 	except KeyboardInterrupt:
 		return 1
