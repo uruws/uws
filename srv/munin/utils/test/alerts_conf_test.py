@@ -106,7 +106,7 @@ class Test(unittest.TestCase):
 
 	def __check_sp_conf(t):
 		# mailcc
-		t.assertListEqual(sorted(conf.sp['_']['mailcc']), [
+		t.assertListEqual(sorted(conf.sp['_']['sp_mailcc']), [
 			'jeremias@talkingpts.org',
 			# slack munin-statuspage channel
 			'munin-statuspage-aaaag3givhvyeizw7lcl4plunm@talkingpoints.slack.com',
