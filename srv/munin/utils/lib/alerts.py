@@ -232,7 +232,7 @@ def main():
 				rc = st
 
 			# statuspage report using external smtps
-			# ~ statuspage(stats)
+			statuspage(stats)
 
 	except KeyboardInterrupt:
 		return 1
