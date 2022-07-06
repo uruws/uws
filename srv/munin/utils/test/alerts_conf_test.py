@@ -108,6 +108,8 @@ class Test(unittest.TestCase):
 		# mailcc
 		t.assertListEqual(sorted(conf.sp['_']['mailcc']), [
 			'jeremias@talkingpts.org',
+			# slack munin-statuspage channel
+			'munin-statuspage-aaaag3givhvyeizw7lcl4plunm@talkingpoints.slack.com',
 		])
 
 if __name__ == '__main__':
