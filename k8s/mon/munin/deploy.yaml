@@ -54,7 +54,7 @@ spec:
             - name: munin-crond
               mountPath: "/srv/etc/cron.d"
               readOnly: true
-            - name: munin-deploy-conf
+            - name: munin-deploy-confd
               mountPath: "/etc/uws/conf"
               readOnly: true
             - name: smtps-ca
@@ -145,9 +145,9 @@ spec:
         - name: munin-crond
           secret:
             secretName: munin-crond
-        - name: munin-deploy-conf
+        - name: munin-deploy-confd
           secret:
-            secretName: munin-deploy-conf
+            secretName: munin-deploy-confd
         - name: smtps-ca
           secret:
             secretName: smtps-ca
