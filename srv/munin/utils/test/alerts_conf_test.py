@@ -105,7 +105,9 @@ class Test(unittest.TestCase):
 			conf.sp.clear()
 
 	def __check_sp_conf(t):
-		# mailcc
+		# sp_domain
+		t.assertEqual(conf.sp['_']['sp_domain'], 'notifications.statuspage.io')
+		# sp_mailcc
 		t.assertListEqual(sorted(conf.sp['_']['sp_mailcc']), [
 			'jeremias@talkingpts.org',
 			# slack munin-statuspage channel
