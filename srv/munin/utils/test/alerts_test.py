@@ -101,6 +101,7 @@ def mock_statuspage():
 	bup_sp = alerts._sp
 	try:
 		alerts.conf.sp = {
+			'_': {},
 			'thost': {
 				'tgrp': {
 					'tctg::tpl': {},

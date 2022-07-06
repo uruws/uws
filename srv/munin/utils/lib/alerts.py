@@ -12,7 +12,6 @@ from email.message        import EmailMessage
 from email.policy         import SMTP
 from email.utils          import formatdate
 from email.utils          import make_msgid
-from email.utils          import parseaddr
 
 from io      import StringIO
 from pathlib import Path
@@ -172,6 +171,13 @@ def _sp(mailto, worst):
 	msg.set_content(body)
 	return msg
 
+def _spmailto(host, group, category, plugin, comp):
+	if comp == '':
+		return ''
+	domain = conf.sp['_'].get('sp_domain', 'localhost')
+	addr = Address(f"{host}::{group}::{category}::{plugin}", comp, domain)
+	return str(addr)
+
 def statuspage(stats):
 	"""Send statuspage.io component alerts via SES mailx"""
 	conf.sp_load()
@@ -189,8 +195,8 @@ def statuspage(stats):
 			for key in conf.sp[host][group].keys():
 				if p.match(key):
 					cfg = conf.sp[host][group].get(key)
-					spaddr = cfg.get('component', '').strip()
-					__, mailto = parseaddr(spaddr)
+					comp = cfg.get('component', '').strip()
+					mailto = _spmailto(host, group, category, plugin, comp)
 					if mailto != '':
 						nq(_sp(mailto, worst), qdir = conf.SP_QDIR.as_posix())
 						return 0
