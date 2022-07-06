@@ -160,6 +160,9 @@ def _sp(mailto, worst):
 	msg = _msgNew()
 	msg['From'] = conf.SP_MAILFROM
 	msg['To'] = mailto
+	mailcc = conf.sp['_'].get('mailcc', [])
+	if len(mailcc) > 0:
+		msg['Cc'] = ','.join(mailcc)
 	if worst == 'OK':
 		msg['Subject'] = 'UP'
 		body = '=)'

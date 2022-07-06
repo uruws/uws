@@ -78,9 +78,12 @@ class Test(unittest.TestCase):
 			os.environ['TZ'] = 'UTC'
 			tzset()
 
+	def test_sp(t):
+		t.assertDictEqual(conf.sp, {'_': {}})
+
 	def test_sp_load(t):
 		t.assertFalse(conf.sp_load())
-		t.assertEqual(len(conf.sp), 0)
+		t.assertEqual(len(conf.sp), 1)
 
 	def test_sp_load_file(t):
 		try:
@@ -96,9 +99,16 @@ class Test(unittest.TestCase):
 			bup_sp_conf = conf.SP_CONF
 			conf.SP_CONF = Path('/home/uws/secret/conf/alerts_conf.json')
 			t.assertTrue(conf.sp_load())
+			t.__check_sp_conf()
 		finally:
 			conf.SP_CONF = bup_sp_conf
 			conf.sp.clear()
+
+	def __check_sp_conf(t):
+		# mailcc
+		t.assertListEqual(sorted(conf.sp['_']['mailcc']), [
+			'jeremias@talkingpts.org',
+		])
 
 if __name__ == '__main__':
 	unittest.main()
