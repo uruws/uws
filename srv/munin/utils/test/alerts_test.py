@@ -101,11 +101,13 @@ def mock_statuspage():
 	bup_sp = alerts._sp
 	try:
 		alerts.conf.sp = {
-			'_': {},
+			'_': {
+				'sp_domain': 'sp.comp',
+			},
 			'thost': {
 				'tgrp': {
 					'tctg::tpl': {},
-					'tctg::taddr': {'component': 'testing@sp.comp'},
+					'tctg::taddr': {'component': 'testing'},
 				},
 			},
 		}
@@ -532,7 +534,8 @@ UNKNOWN
 				'worst': 'CRITICAL',
 			}
 			t.assertEqual(alerts.statuspage(stats), 0)
-			alerts._sp.assert_called_once_with('testing@sp.comp', 'CRITICAL')
+			alerts._sp.assert_called_once_with(
+				'"thost::tgrp::tctg::taddr" <testing@sp.comp>', 'CRITICAL')
 			alerts.nq.assert_called_once_with(None, qdir = '/var/opt/munin-alert/statuspage')
 
 	def test_statuspage_message_up(t):
