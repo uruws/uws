@@ -1,16 +1,8 @@
-* rstudio: adrienne user setup - `DONE!` [PR#24][PR#24]
+* Status page email reports - `WIP`
+    * Amazon SES: setup for sending emails [PR#25][PR#25]
+    * make munin alerts to create and send the reports
 
-[PR#24]: https://github.com/TalkingPts/Infrastructure/pull/24
-
-* cluster stack - `DONE!`
-    * migrate clusters
-        * create app-east and app-west 1.22 clusters - [PR#21][PR#21]
-        * migrate app-east and app-west services - [PR#22][PR#22]
-    * remove 1.19 amy-east and amy-west clusters - [PR#23][PR#23]
-
-[PR#21]: https://github.com/TalkingPts/Infrastructure/pull/21
-[PR#22]: https://github.com/TalkingPts/Infrastructure/pull/22
-[PR#23]: https://github.com/TalkingPts/Infrastructure/pull/23
+[PR#25]: https://github.com/TalkingPts/Infrastructure/pull/25
 
 * remove old aws credentials once all cluster upgrades are finished
 
@@ -35,20 +27,9 @@
 [DSA-5173-1]: https://security-tracker.debian.org/tracker/DSA-5173-1
 [DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
 
-* Status page email reports - `WIP` [PR#25][PR#25]
-    * Amazon SES: setup for sending emails
-    * make munin alerts to create and send the reports
-
-[PR#25]: https://github.com/TalkingPts/Infrastructure/pull/25
-
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
-
-* Infrastructure deploy
-    * restore deploy of only signed commits - `DONE!`
-    * we have to disable it so Aram is able to deploy changes
-    * we should re-enable it and authorize Aram's GPG key
 
 * infra-api - `WIP`
     * help pages
