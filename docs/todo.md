@@ -1,4 +1,4 @@
-* Status page email reports - `WIP`
+* Status page email reports - `DONE!`
     * Amazon SES: setup for sending emails [PR#25][PR#25]
     * make munin alerts to create and send the reports [PR#26][PR#26]
     * setup components [PR#27][PR#27]
