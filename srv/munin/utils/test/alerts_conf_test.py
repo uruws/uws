@@ -109,7 +109,6 @@ class Test(unittest.TestCase):
 		t.assertEqual(conf.sp['_']['sp_domain'], 'notifications.statuspage.io')
 		# sp_mailcc
 		t.assertListEqual(sorted(conf.sp['_']['sp_mailcc']), [
-			'jeremias@talkingpts.org',
 			# slack munin-statuspage channel
 			'munin-statuspage-aaaag3givhvyeizw7lcl4plunm@talkingpoints.slack.com',
 		])
