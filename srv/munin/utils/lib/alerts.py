@@ -155,9 +155,9 @@ def nq(m, prefix = '', qdir = None):
 
 # statuspage
 
-def _sp(mailto, worst):
+def _sp(mailfrom, mailto, worst):
 	msg = _msgNew()
-	msg['From'] = conf.SP_MAILFROM
+	msg['From'] = mailfrom
 	msg['To'] = mailto
 	mailcc = conf.sp['_'].get('sp_mailcc', [])
 	if len(mailcc) > 0:
@@ -171,11 +171,13 @@ def _sp(mailto, worst):
 	msg.set_content(body)
 	return msg
 
-def _spmailto(host, group, category, plugin, comp):
-	if comp == '':
-		return ''
+def _spmailto(cdesc, comp):
 	domain = conf.sp['_'].get('sp_domain', 'localhost')
-	addr = Address(f"{host}::{group}::{category}::{plugin}", comp, domain)
+	addr = Address(cdesc, comp, domain)
+	return str(addr)
+
+def _spmailfrom(host, category, plugin):
+	addr = Address(f"{host} :: {category} :: {plugin}", 'munin-statuspage', conf.DOMAIN)
 	return str(addr)
 
 def statuspage(stats):
@@ -196,10 +198,12 @@ def statuspage(stats):
 				if p.match(key):
 					cfg = conf.sp[host][group].get(key)
 					comp = cfg.get('component', '').strip()
-					mailto = _spmailto(host, group, category, plugin, comp)
-					if mailto != '':
-						nq(_sp(mailto, worst), qdir = conf.SP_QDIR.as_posix())
-						return 0
+					if comp == '':
+						continue
+					cdesc = cfg.get('component_description', '').strip()
+					mailto = _spmailto(cdesc, comp)
+					mailfrom = _spmailfrom(host, category, plugin)
+					return nq(_sp(mailfrom, mailto, worst), qdir = conf.SP_QDIR.as_posix())
 	return 2
 
 # main

@@ -98,6 +98,7 @@ def mock_timestamp():
 @contextmanager
 def mock_statuspage():
 	bup = alerts.conf.sp.copy()
+	bup_domain = alerts.conf.DOMAIN
 	bup_sp = alerts._sp
 	try:
 		alerts.conf.sp = {
@@ -107,16 +108,21 @@ def mock_statuspage():
 			'thost': {
 				'tgrp': {
 					'tctg::tpl': {},
-					'tctg::taddr': {'component': 'testing'},
+					'tctg::taddr': {
+						'component_description': 'testing group -> desc',
+						'component': 'testing',
+					},
 				},
 			},
 		}
+		alerts.conf.DOMAIN = 'uws.test'
 		alerts._sp = MagicMock(return_value = None)
 		with mock_nq():
 			yield
 	finally:
 		alerts.conf.sp = None
 		alerts.conf.sp = bup.copy()
+		alerts.conf.DOMAIN = bup_domain
 		alerts._sp = bup_sp
 
 class Test(unittest.TestCase):
@@ -535,27 +541,28 @@ UNKNOWN
 			}
 			t.assertEqual(alerts.statuspage(stats), 0)
 			alerts._sp.assert_called_once_with(
-				'"thost::tgrp::tctg::taddr" <testing@sp.comp>', 'CRITICAL')
+				'"thost :: tctg :: taddr" <munin-statuspage@uws.test>',
+				'"testing group -> desc" <testing@sp.comp>', 'CRITICAL')
 			alerts.nq.assert_called_once_with(None, qdir = '/var/opt/munin-alert/statuspage')
 
 	def test_statuspage_message_up(t):
-		m = alerts._sp('test@sp.comp', 'OK')
-		t.assertEqual(m['From'], str(conf.SP_MAILFROM))
-		t.assertEqual(m['To'], 'test@sp.comp')
+		m = alerts._sp('test@munin.check', 'test@sp.comp', 'OK')
+		t.assertEqual(m['From'],    'test@munin.check')
+		t.assertEqual(m['To'],      'test@sp.comp')
 		t.assertEqual(m['Subject'], 'UP')
 		t.assertEqual(m.get_content().strip(), '=)')
 
 	def test_statuspage_message_down(t):
-		m = alerts._sp('test@sp.comp', 'CRITICAL')
-		t.assertEqual(m['From'], str(conf.SP_MAILFROM))
-		t.assertEqual(m['To'], 'test@sp.comp')
+		m = alerts._sp('test@munin.check', 'test@sp.comp', 'CRITICAL')
+		t.assertEqual(m['From'],    'test@munin.check')
+		t.assertEqual(m['To'],      'test@sp.comp')
 		t.assertEqual(m['Subject'], 'DOWN')
 		t.assertEqual(m.get_content().strip(), '=(')
 
 	def test_statuspage_message_other(t):
-		m = alerts._sp('test@sp.comp', 'TESTING')
-		t.assertEqual(m['From'], str(conf.SP_MAILFROM))
-		t.assertEqual(m['To'], 'test@sp.comp')
+		m = alerts._sp('test@munin.check', 'test@sp.comp', 'TESTING')
+		t.assertEqual(m['From'],    'test@munin.check')
+		t.assertEqual(m['To'],      'test@sp.comp')
 		t.assertEqual(m['Subject'], 'DOWN')
 		t.assertEqual(m.get_content().strip(), '=(')
 

@@ -16,9 +16,8 @@
     * force containers rebuild
     * we should also force services releases using the new upgraded version of nodejs
 
-[BP35]: https://github.com/TalkingPts/Buildpack/compare/bp34...bp35
-
 [DSA-5170-1]: https://security-tracker.debian.org/tracker/DSA-5170-1
+[BP35]: https://github.com/TalkingPts/Buildpack/compare/bp34...bp35
 
 * `SEC` linux several vulns [DSA-5173-1][DSA-5173-1]
     * some of them are cgroups (docker/kubernetes) related

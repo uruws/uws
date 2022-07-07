@@ -40,7 +40,6 @@ def sleepingHours(h = None):
 
 SP_QDIR     = Path(QDIR) / 'statuspage'
 SP_CONF     = Path('/etc/uws/munin/alerts_conf.json')
-SP_MAILFROM = Address('munin statuspage', 'munin-statuspage', DOMAIN)
 
 sp = {'_': {}}
 

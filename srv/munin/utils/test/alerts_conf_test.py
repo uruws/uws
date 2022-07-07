@@ -30,8 +30,6 @@ class Test(unittest.TestCase):
 
 		t.assertEqual(conf.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
 		t.assertEqual(conf.SP_CONF.as_posix(), '/etc/uws/munin/alerts_conf.json')
-		t.assertEqual(conf.SP_MAILFROM,
-			Address('munin statuspage', 'munin-statuspage', 'uws.talkingpts.org'))
 
 	def test_sleepingHours(t):
 		conf.sleepingHours()
