@@ -27,6 +27,7 @@ export DOCKER_IMAGE='uws/munin-2203'
 /uws/bin/service-restart.sh uws-munin \
 	/uws/munin/service-start.sh \
 	/srv/etc/munin \
-	/etc/munin/plugin-conf.d/mongodb
+	/etc/munin/plugin-conf.d/mongodb \
+	/srv/uws/deploy/secret/eks/files/munin
 
 exit 0
