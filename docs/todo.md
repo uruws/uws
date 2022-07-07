@@ -2,10 +2,12 @@
     * Amazon SES: setup for sending emails [PR#25][PR#25]
     * make munin alerts to create and send the reports [PR#26][PR#26]
     * setup components [PR#27][PR#27]
+    * improve messages info [PR#28][PR#28]
 
 [PR#25]: https://github.com/TalkingPts/Infrastructure/pull/25
 [PR#26]: https://github.com/TalkingPts/Infrastructure/pull/26
 [PR#27]: https://github.com/TalkingPts/Infrastructure/pull/27
+[PR#28]: https://github.com/TalkingPts/Infrastructure/pull/28
 
 * remove old aws credentials once all cluster upgrades are finished
 
