@@ -96,14 +96,17 @@ def mock_timestamp():
 		alerts._timestamp = bup
 
 @contextmanager
-def mock_statuspage():
+def mock_statuspage(mock_sp = True):
 	bup = alerts.conf.sp.copy()
 	bup_domain = alerts.conf.DOMAIN
-	bup_sp = alerts._sp
+	if mock_sp:
+		bup_sp = alerts._sp
 	try:
-		alerts.conf.sp = {
+		alerts.conf.sp.clear()
+		alerts.conf.sp.update({
 			'_': {
 				'sp_domain': 'sp.comp',
+				'sp_mailcc': ['mailcc1@sp.comp', 'mailcc2@sp.comp'],
 			},
 			'thost': {
 				'tgrp': {
@@ -114,16 +117,18 @@ def mock_statuspage():
 					},
 				},
 			},
-		}
+		})
 		alerts.conf.DOMAIN = 'uws.test'
-		alerts._sp = MagicMock(return_value = None)
+		if mock_sp:
+			alerts._sp = MagicMock(return_value = None)
 		with mock_nq():
 			yield
 	finally:
-		alerts.conf.sp = None
-		alerts.conf.sp = bup.copy()
+		alerts.conf.sp.clear()
+		alerts.conf.sp.update(bup.copy())
 		alerts.conf.DOMAIN = bup_domain
-		alerts._sp = bup_sp
+		if mock_sp:
+			alerts._sp = bup_sp
 
 class Test(unittest.TestCase):
 
@@ -565,6 +570,11 @@ UNKNOWN
 		t.assertEqual(m['To'],      'test@sp.comp')
 		t.assertEqual(m['Subject'], 'DOWN')
 		t.assertEqual(m.get_content().strip(), '=(')
+
+	def test_statuspage_message_cc(t):
+		with mock_statuspage(mock_sp = False):
+			m = alerts._sp('test@munin.check', 'test@sp.comp', 'OK')
+			t.assertEqual(m['Cc'], 'mailcc1@sp.comp, mailcc2@sp.comp')
 
 if __name__ == '__main__':
 	unittest.main()
