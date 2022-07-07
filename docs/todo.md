@@ -12,9 +12,11 @@
 * cleanup old 1.19 clusters and services from uwscli_conf and from any other config
     * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
 
-* `SEC` nodejs Debian upgrade [DSA-5170-1][DSA-5170-1]
+* `SEC` nodejs Debian upgrade [DSA-5170-1][DSA-5170-1] - `DONE!` [BP35][BP35]
     * force containers rebuild
     * we should also force services releases using the new upgraded version of nodejs
+
+[BP35]: https://github.com/TalkingPts/Buildpack/compare/bp34...bp35
 
 [DSA-5170-1]: https://security-tracker.debian.org/tracker/DSA-5170-1
 
