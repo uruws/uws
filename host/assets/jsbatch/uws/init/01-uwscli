@@ -142,6 +142,8 @@ adduser ramiro    uwsapp_nlp
 # infraui
 addgroup uwsapp_infra-ui || true
 
+adduser gabriel uwsapp_infra-ui
+
 # install crontab
 
 crontab -u uwscli ~uwscli/etc/crontab.in
