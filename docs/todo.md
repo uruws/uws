@@ -28,6 +28,10 @@
 [DSA-5173-1]: https://security-tracker.debian.org/tracker/DSA-5173-1
 [DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
 
+* infra-ui
+    * Gabriel access to test and prod envs
+    * Remove Mauro accesses (all/any of them, not just infra-ui relates)
+
 * remove old aws credentials once all cluster upgrades are finished
 
 * cleanup old 1.19 clusters and services from uwscli_conf and from any other config
