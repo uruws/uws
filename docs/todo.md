@@ -9,11 +9,6 @@
 [PR#27]: https://github.com/TalkingPts/Infrastructure/pull/27
 [PR#28]: https://github.com/TalkingPts/Infrastructure/pull/28
 
-* remove old aws credentials once all cluster upgrades are finished
-
-* cleanup old 1.19 clusters and services from uwscli_conf and from any other config
-    * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
-
 * `SEC` nodejs Debian upgrade [DSA-5170-1][DSA-5170-1] - `DONE!` [BP35][BP35]
     * force containers rebuild
     * we should also force services releases using the new upgraded version of nodejs
@@ -33,6 +28,11 @@
 [DSA-5173-1]: https://security-tracker.debian.org/tracker/DSA-5173-1
 [DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
 
+* remove old aws credentials once all cluster upgrades are finished
+
+* cleanup old 1.19 clusters and services from uwscli_conf and from any other config
+    * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
+
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
@@ -49,6 +49,9 @@
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
 
+* Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME)
+    * parse/load the json file at build/test time too to validate syntax
+
 * App encrypt secrets - `WAIT`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
     * `WAIT` for dev team to do the private files migration
@@ -57,6 +60,9 @@
 [APP#910]: https://github.com/TalkingPts/App/pull/910
 
 * tapoS3Dev bucket for App local devel
+
+* apply awscli/utils/s3-app-bucket*.sh to production App bucket (stagingmms)
+    * it was applied to staging environment, but not yet on prod
 
 * create a monitoring from App logs for Bandwidth message-failed like the one that follows.
 
