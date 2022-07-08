@@ -29,7 +29,7 @@
 [DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
 
 * infra-ui
-    * Gabriel access to test and prod envs
+    * Gabriel access to test and prod envs - `DONE!`
     * Remove Mauro accesses (all/any of them, not just infra-ui relates)
 
 * remove old aws credentials once all cluster upgrades are finished
