@@ -1,3 +1,5 @@
+* cleanup old jrmsgit settings: previous Jeremias' github profile - `DONE!`
+
 * Status page email reports - `DONE!`
     * Amazon SES: setup for sending emails [PR#25][PR#25]
     * make munin alerts to create and send the reports [PR#26][PR#26]

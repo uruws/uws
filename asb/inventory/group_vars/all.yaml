@@ -22,7 +22,7 @@ postconf_smtps_server: no
 uws_users_homedir: /srv/home
 
 uws_authorized_key:
-  - jrmsgit
+  - jrmstp
 
 uwsca_smtps: smtps/211006
 uwsca_smtps_client: 08082dca-8d77-5c81-9a44-94642089b3b1
