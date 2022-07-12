@@ -19,16 +19,5 @@ server {
 	error_log /var/log/nginx/opstest_error.log;
 
 	include /srv/etc/nginx/opstest-verify-client.conf;
-
-	location /api/ {
-		include /srv/etc/nginx/uws-cache.conf;
-		proxy_pass http://127.0.0.1:5610/api/;
-		include /etc/nginx/proxy_params;
-	}
-
-	location /web/ {
-		include /srv/etc/nginx/uws-cache.conf;
-		proxy_pass http://127.0.0.1:5510/web/;
-		include /etc/nginx/proxy_params;
-	}
+	include /etc/nginx/snippets/uwsapp-test.conf;
 }
