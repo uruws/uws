@@ -1,27 +1,11 @@
-* cleanup old jrmsgit settings: previous Jeremias' github profile - `DONE!`
+* App offline static error page [DEV-3088][DEV-3088]
 
-* Status page email reports - `DONE!`
-    * Amazon SES: setup for sending emails [PR#25][PR#25]
-    * make munin alerts to create and send the reports [PR#26][PR#26]
-    * setup components [PR#27][PR#27]
-    * improve messages info [PR#28][PR#28]
-
-[PR#25]: https://github.com/TalkingPts/Infrastructure/pull/25
-[PR#26]: https://github.com/TalkingPts/Infrastructure/pull/26
-[PR#27]: https://github.com/TalkingPts/Infrastructure/pull/27
-[PR#28]: https://github.com/TalkingPts/Infrastructure/pull/28
-
-* `SEC` nodejs Debian upgrade [DSA-5170-1][DSA-5170-1] - `DONE!` [BP35][BP35]
-    * force containers rebuild
-    * we should also force services releases using the new upgraded version of nodejs
-
-[DSA-5170-1]: https://security-tracker.debian.org/tracker/DSA-5170-1
-[BP35]: https://github.com/TalkingPts/Buildpack/compare/bp34...bp35
+[DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 
 * `SEC` linux several vulns [DSA-5173-1][DSA-5173-1]
     * some of them are cgroups (docker/kubernetes) related
         * so we should run un upgrade on ALL servers/systems
-            * jsbatch
+            * jsbatch - `DONE!`
             * rstudio
             * k8s nodes
     * that will also fix some gnupg vulns [DSA-5174-1][DSA-5174-1]
@@ -31,7 +15,6 @@
 [DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
 
 * infra-ui
-    * Gabriel access to test and prod envs - `DONE!`
     * Remove Mauro accesses (all/any of them, not just infra-ui relates)
 
 * remove old aws credentials once all cluster upgrades are finished
