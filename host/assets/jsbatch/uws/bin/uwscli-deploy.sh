@@ -7,15 +7,17 @@ date -R | tee "${logfn}"
 ./cli/schroot/setup.sh prod 2>&1 | tee -a "${logfn}"
 date -R | tee -a "${logfn}"
 
-if ! systemctl is-enabled uwscli-@prod.service; then
-	systemctl enable uwscli-@prod.service 2>&1 | tee -a "${logfn}"
-	systemctl start uwscli-@prod.service 2>&1 | tee -a "${logfn}"
+surun='sudo -n'
+
+if ! ${surun} systemctl is-enabled uwscli-@prod.service; then
+	${surun} systemctl enable uwscli-@prod.service 2>&1 | tee -a "${logfn}"
+	${surun} systemctl start uwscli-@prod.service 2>&1 | tee -a "${logfn}"
 	exit 0
 fi
 
 export DOCKER_IMAGE='uws/cli-2203'
 
-/uws/bin/service-restart.sh uwscli-@prod \
+${surun} /uws/bin/service-restart.sh uwscli-@prod \
 	/etc/systemd/system/uwscli-@.service \
 	/srv/uwscli/prod/secret \
 	/srv/uwscli/schroot/start.sh \
