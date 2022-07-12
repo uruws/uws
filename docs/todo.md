@@ -52,8 +52,10 @@
     * testing deploy
     * building on [InfraApp][InfraApp] repository
         * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
+    * prod schroot env [PR#29][PR#29]
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
+[PR#29]: https://github.com/TalkingPts/Infrastructure/pull/29
 
 * Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME)
     * parse/load the json file at build/test time too to validate syntax
