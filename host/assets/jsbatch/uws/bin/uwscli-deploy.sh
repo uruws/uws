@@ -10,6 +10,7 @@ date -R | tee -a "${logfn}"
 if ! systemctl is-enabled uwscli-@prod.service; then
 	systemctl enable uwscli-@prod.service 2>&1 | tee -a "${logfn}"
 	systemctl start uwscli-@prod.service 2>&1 | tee -a "${logfn}"
+	exit 0
 fi
 
 export DOCKER_IMAGE='uws/cli-2203'
