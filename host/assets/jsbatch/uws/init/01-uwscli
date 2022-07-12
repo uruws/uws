@@ -15,6 +15,11 @@ fi
 
 /uws/bin/uwscli-rundir.sh
 
+# deploy script
+
+chown -v root:uws /uws/bin/uwscli-deploy.sh
+chmod -v 0750 /uws/bin/uwscli-deploy.sh
+
 # utils access
 
 chmod -v 0750 ~uwscli
