@@ -18,6 +18,7 @@ tmpfs           /var/tmp        tmpfs   defaults        0       0
 /srv/uwscli/test/user	/home				none	rw,bind		0 0
 /srv/uwscli/test/docker	/var/lib/docker		none	rw,bind		0 0
 
+/srv/uwscli/test/logs	/srv/home/uws/logs	none	ro,bind		0 0
 /srv/uwscli/test/home	/srv/home/uwscli	none	ro,bind		0 0
 /srv/uwscli/test/utils	/srv/uws/deploy		none	ro,bind		0 0
 /srv/uwscli/test/secret	/usr/local/etc		none	ro,bind		0 0

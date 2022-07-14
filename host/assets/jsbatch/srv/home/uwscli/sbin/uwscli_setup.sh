@@ -29,6 +29,10 @@ adduser uws docker
 # Make uws user an admin. Needed for autobuild deploys.
 adduser uws uwsadm
 
+# uws logs dir
+install -v -d -o uws -g uws -m 0750 ~uws/logs
+
+# uws SSH setup
 install -v -d -o uws -g uws -m 0750 ~uws/.ssh
 install -v -C -o uws -g uws -m 0400 /usr/local/etc/ssh/id_ed25519 ~uws/.ssh/
 install -v -C -o uws -g uws -m 0440 /usr/local/etc/ssh/id_ed25519.pub ~uws/.ssh/
