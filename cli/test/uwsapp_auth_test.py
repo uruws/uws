@@ -45,7 +45,7 @@ class Test(unittest.TestCase):
 				'uid': 'f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e',
 				'name': 'tuser',
 				'username': 'tuser@devel.uwscli.local',
-				'is_operator': False,
+				'is_operator': True,
 				'is_admin': True,
 				'apps': {
 					'build': {

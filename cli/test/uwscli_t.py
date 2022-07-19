@@ -179,6 +179,7 @@ def mock_users():
 				name = 'tuser',
 				groups = ['tapp', 'tapp1'],
 				is_admin = True,
+				is_operator = True,
 				keyid = 't.key',
 			),
 		}

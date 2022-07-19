@@ -54,14 +54,14 @@ def main(argv: list[str] = []) -> int:
 		for user in user_list:
 			# remove
 			if user.remove:
-				user_remove.append(user)
+				user_remove.append(user.name)
 				continue
 			# admins
 			if user.is_admin:
-				admin_list.append(user)
+				admin_list.append(user.name)
 			# operators
 			if user.is_operator:
-				operator_list.append(user)
+				operator_list.append(user.name)
 			# setup
 			_run('uwscli_user.sh', [conf.homedir, str(user.uid), user.name])
 			# groups
