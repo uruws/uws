@@ -26,6 +26,7 @@ class Test(unittest.TestCase):
 					is_admin = True,
 					is_operator = True,
 					keyid = 't.key',
+					remove = False,
 				)
 			})
 

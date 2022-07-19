@@ -186,3 +186,9 @@ def mock_users():
 		yield
 	finally:
 		uwscli_user.user = _bup.copy()
+
+@contextmanager
+def mock_users_remove():
+	with mock_users():
+		uwscli_user.user['tuser'].remove = True
+		yield

@@ -79,6 +79,10 @@ def main(argv: list[str] = []) -> int:
 		# uwsapp users auth
 		_run('uwsapp_auth.py')
 
+		# user remove
+		for name in user_remove:
+			_run('uwscli_user_remove.sh', [name])
+
 		# buildpack
 		_run('buildpack_setup.sh', ['/srv/deploy/Buildpack', uwscli.buildpack_repo()])
 		for app in uwscli.build_repo():
