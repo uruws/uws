@@ -23,8 +23,12 @@
 
 [b454e36]: https://github.com/TalkingPts/Infrastructure/commit/b454e361afa797358a34dd3fbfb6f0e35caf04aa
 
-* infra-ui
+* infra-ui - `DONE!`
     * Remove Mauro accesses (all/any of them, not just infra-ui relates)
+
+* `FIX` infra-ui config: JIRA_TOKEN='mauro'
+    * and the JIRA_TOKEN too as I guess it's from Mauro's account
+    * asked Gabriel but no reply yet
 
 * remove old aws credentials once all cluster upgrades are finished
 
