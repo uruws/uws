@@ -23,8 +23,6 @@ class Test(unittest.TestCase):
 		calls = [
 			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_app.sh app testing', env = _env),
-			call('/srv/home/uwscli/sbin/uwscli_admin.sh', env = _env),
-			call('/srv/home/uwscli/sbin/uwscli_operator.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwsapp_auth.py', env = _env),
 			call('/srv/home/uwscli/sbin/buildpack_setup.sh /srv/deploy/Buildpack git@github.com:TalkingPts/Buildpack.git', env = _env),
 			call('/srv/home/uwscli/sbin/app_repo.sh testing.git /srv/deploy/Testing', env = _env),
@@ -65,8 +63,6 @@ class Test(unittest.TestCase):
 		calls = [
 			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_app.sh app testing', env = _env),
-			call('/srv/home/uwscli/sbin/uwscli_admin.sh', env = _env),
-			call('/srv/home/uwscli/sbin/uwscli_operator.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwsapp_auth.py', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_user_remove.sh tuser', env = _env),
 			call('/srv/home/uwscli/sbin/buildpack_setup.sh /srv/deploy/Buildpack git@github.com:TalkingPts/Buildpack.git', env = _env),

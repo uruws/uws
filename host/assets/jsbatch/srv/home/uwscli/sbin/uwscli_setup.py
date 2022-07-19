@@ -72,9 +72,13 @@ def main(argv: list[str] = []) -> int:
 			if user.keyid != '':
 				_run('uwscli_user_authkeys.sh', [conf.homedir, user.name, user.keyid])
 
-		# admin and operator
-		_run('uwscli_admin.sh', admin_list)
-		_run('uwscli_operator.sh', operator_list)
+		# admin
+		if len(admin_list) > 0:
+			_run('uwscli_admin.sh', admin_list)
+
+		# operator
+		if len(operator_list) > 0:
+			_run('uwscli_operator.sh', operator_list)
 
 		# uwsapp users auth
 		_run('uwsapp_auth.py')
