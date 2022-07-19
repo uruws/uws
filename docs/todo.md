@@ -8,13 +8,20 @@
     * some of them are cgroups (docker/kubernetes) related
         * so we should run un upgrade on ALL servers/systems
             * jsbatch - `DONE!`
-            * rstudio
+            * rstudio - `DONE!`
             * k8s nodes
     * that will also fix some gnupg vulns [DSA-5174-1][DSA-5174-1]
         * infra secrets are managed with git-crypt, which uses gnupg
 
 [DSA-5173-1]: https://security-tracker.debian.org/tracker/DSA-5173-1
 [DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
+
+* uwscli users management - `DONE!` [b454e36][b454e36]
+    * configurable users to be removed
+    * admins and operators need to be explicitly set
+        * admins can no longer do ops stuff if they are not operators too
+
+[b454e36]: https://github.com/TalkingPts/Infrastructure/commit/b454e361afa797358a34dd3fbfb6f0e35caf04aa
 
 * infra-ui
     * Remove Mauro accesses (all/any of them, not just infra-ui relates)
