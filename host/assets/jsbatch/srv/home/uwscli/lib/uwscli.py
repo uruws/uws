@@ -328,16 +328,16 @@ def user_get(name: str) -> Optional[AppUser]:
 def user_uuid(username: str) -> str:
 	return str(uuid5(NAMESPACE_DNS, username))
 
-def admin_list() -> list[str]:
-	l = []
-	for u in user_list():
-		if u.is_admin:
-			l.append(u.name)
-	return l
+# ~ def admin_list() -> list[str]:
+	# ~ l = []
+	# ~ for u in user_list():
+		# ~ if u.is_admin:
+			# ~ l.append(u.name)
+	# ~ return l
 
-def operator_list() -> list[str]:
-	l = []
-	for u in user_list():
-		if u.is_admin or u.is_operator:
-			l.append(u.name)
-	return l
+# ~ def operator_list() -> list[str]:
+	# ~ l = []
+	# ~ for u in user_list():
+		# ~ if u.is_admin or u.is_operator:
+			# ~ l.append(u.name)
+	# ~ return l

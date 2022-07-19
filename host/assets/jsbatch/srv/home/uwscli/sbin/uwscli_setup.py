@@ -46,7 +46,23 @@ def main(argv: list[str] = []) -> int:
 		_run('uwscli_app.sh', uwscli.app_groups())
 
 		# user
-		for user in uwscli.user_list():
+		user_list = uwscli.user_list()
+		user_remove = []
+		admin_list = []
+		operator_list = []
+
+		for user in user_list:
+			# remove
+			if user.remove:
+				user_remove.append(user)
+				continue
+			# admins
+			if user.is_admin:
+				admin_list.append(user)
+			# operators
+			if user.is_operator:
+				operator_list.append(user)
+			# setup
 			_run('uwscli_user.sh', [conf.homedir, str(user.uid), user.name])
 			# groups
 			args = [user.name]
@@ -57,8 +73,8 @@ def main(argv: list[str] = []) -> int:
 				_run('uwscli_user_authkeys.sh', [conf.homedir, user.name, user.keyid])
 
 		# admin and operator
-		_run('uwscli_admin.sh', uwscli.admin_list())
-		_run('uwscli_operator.sh', uwscli.operator_list())
+		_run('uwscli_admin.sh', admin_list)
+		_run('uwscli_operator.sh', operator_list)
 
 		# uwsapp users auth
 		_run('uwsapp_auth.py')

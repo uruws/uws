@@ -38,7 +38,6 @@ class User(object):
 			u.is_operator = True
 		# admin
 		if u.groups.get(conf.admin_group) is True:
-			u.is_operator = True
 			u.is_admin = True
 		# root
 		elif u.name == 'root':
