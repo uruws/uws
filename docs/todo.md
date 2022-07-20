@@ -1,6 +1,6 @@
 * CA rotate ops/220823
 
-* App offline static error page [DEV-3088][DEV-3088]
+* `WAIT` App offline static error page [DEV-3088][DEV-3088]
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 
@@ -15,16 +15,6 @@
 
 [DSA-5173-1]: https://security-tracker.debian.org/tracker/DSA-5173-1
 [DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
-
-* uwscli users management - `DONE!` [b454e36][b454e36]
-    * configurable users to be removed
-    * admins and operators need to be explicitly set
-        * admins can no longer do ops stuff if they are not operators too
-
-[b454e36]: https://github.com/TalkingPts/Infrastructure/commit/b454e361afa797358a34dd3fbfb6f0e35caf04aa
-
-* infra-ui - `DONE!`
-    * Remove Mauro accesses (all/any of them, not just infra-ui relates)
 
 * `FIX` infra-ui config: JIRA_TOKEN='mauro'
     * and the JIRA_TOKEN too as I guess it's from Mauro's account
