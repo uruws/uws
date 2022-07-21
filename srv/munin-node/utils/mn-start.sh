@@ -18,9 +18,16 @@ if test -d /srv/etc/sec/munin-node/plugin-conf.d; then
 	cp -vr /srv/etc/sec/munin-node/plugin-conf.d /etc/munin
 fi
 
+# from /etc/init.d/munin-node
+mkdir -p /run/munin /var/log/munin
+chown munin:root /run/munin
+chown munin:adm /var/log/munin
+chmod 0755 /run/munin
+chmod 0755 /var/log/munin
+
 # do prepare
-/etc/init.d/munin-node start
-/etc/init.d/munin-node stop
+#~ /etc/init.d/munin-node start
+#~ /etc/init.d/munin-node stop
 
 # log to stderr
 rm -vf /var/log/munin/munin-node.log
