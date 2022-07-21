@@ -33,7 +33,7 @@
     * uwscli old credentials removed
     * uwsasb created a new one and old credentials removed
 
-* cleanup old 1.19 clusters and services from uwscli_conf and from any other config
+* cleanup old 1.19 clusters and services from uwscli_conf and from any other config - `DONE!`
     * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
 
 * munin
