@@ -4,6 +4,11 @@
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 
+* tune worker parentNotifications limits - `DONE!`
+
+* set fixed k8smon pods resources and limits - `DONE!`
+    * try to avoid pods being migrated over nodes during deploys
+
 * `SEC` linux several vulns [DSA-5173-1][DSA-5173-1]
     * some of them are cgroups (docker/kubernetes) related
         * so we should run un upgrade on ALL servers/systems
