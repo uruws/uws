@@ -70,11 +70,11 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 100m
-              memory: 200Mi
+              cpu: 400m
+              memory: 1700Mi
             limits:
-              cpu: 100m
-              memory: 200Mi
+              cpu: 400m
+              memory: 1700Mi
           command:
             - /usr/local/bin/k8smon
           livenessProbe:
