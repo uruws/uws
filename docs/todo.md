@@ -25,7 +25,13 @@
     * and the JIRA_TOKEN too as I guess it's from Mauro's account
     * asked Gabriel but no reply yet
 
-* remove old aws credentials once all cluster upgrades are finished
+* remove old aws credentials once all cluster upgrades are finished - `DONE!`
+    * amybeta user removed
+    * amy old credentials removed
+    * panoramix old credentials removed
+    * uwsadm created a new one and old credentials removed
+    * uwscli old credentials removed
+    * uwsasb created a new one and old credentials removed
 
 * cleanup old 1.19 clusters and services from uwscli_conf and from any other config
     * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
