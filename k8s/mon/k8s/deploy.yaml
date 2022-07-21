@@ -68,11 +68,13 @@ spec:
             - name: cluster-auth
               mountPath: "/home/uwsrun/.kube/eksctl/clusters"
               readOnly: true
-          #~ resources:
-            #~ requests:
-              #~ memory: 100Mi
-            #~ limits:
-              #~ memory: 100Mi
+          resources:
+            requests:
+              cpu: 10m
+              memory: 50Mi
+            limits:
+              cpu: 10m
+              memory: 50Mi
           command:
             - /usr/local/bin/k8smon
           livenessProbe:

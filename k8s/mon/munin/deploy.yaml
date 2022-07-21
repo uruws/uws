@@ -67,6 +67,7 @@ spec:
               cpu: 20m
               memory: 100Mi
             limits:
+              cpu: 20m
               memory: 100Mi
           readinessProbe:
             exec:
