@@ -39,6 +39,7 @@
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
+    * check that munin-node container/service is running via k8smon "proxy"
 
 * infra-api - `WIP`
     * help pages
