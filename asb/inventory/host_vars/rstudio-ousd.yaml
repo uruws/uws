@@ -37,3 +37,6 @@ rstudio_project:
   aps:
     gid: 4003
     name: APS
+  tpsint:
+    gid: 4004
+    name: TPS_Internal
