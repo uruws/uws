@@ -8,7 +8,9 @@
     * and the JIRA_TOKEN too as I guess it's from Mauro's account
     * asked Gabriel but no reply yet
 
-* rstudio: re-implement project folders permissions from Rina's request
+* rstudio: TPS Internal project from Rina's request [PR#30][PR#30] - `DONE!`
+
+[PR#30]: https://github.com/TalkingPts/Infrastructure/pull/30
 
 * tune worker parentNotifications limits - `DONE!`
 
