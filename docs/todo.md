@@ -4,26 +4,28 @@
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 
+* `FIX` infra-ui config: JIRA_TOKEN='mauro'
+    * and the JIRA_TOKEN too as I guess it's from Mauro's account
+    * asked Gabriel but no reply yet
+
+* rstudio: re-implement project folders permissions from Rina's request
+
 * tune worker parentNotifications limits - `DONE!`
 
 * set fixed k8smon pods resources and limits - `DONE!`
     * try to avoid pods being migrated over nodes during deploys
 
-* `SEC` linux several vulns [DSA-5173-1][DSA-5173-1]
+* `SEC` linux several vulns [DSA-5173-1][DSA-5173-1] - `DONE!`
     * some of them are cgroups (docker/kubernetes) related
         * so we should run un upgrade on ALL servers/systems
-            * jsbatch - `DONE!`
-            * rstudio - `DONE!`
+            * jsbatch
+            * rstudio
             * k8s nodes
     * that will also fix some gnupg vulns [DSA-5174-1][DSA-5174-1]
         * infra secrets are managed with git-crypt, which uses gnupg
 
 [DSA-5173-1]: https://security-tracker.debian.org/tracker/DSA-5173-1
 [DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
-
-* `FIX` infra-ui config: JIRA_TOKEN='mauro'
-    * and the JIRA_TOKEN too as I guess it's from Mauro's account
-    * asked Gabriel but no reply yet
 
 * remove old aws credentials once all cluster upgrades are finished - `DONE!`
     * amybeta user removed
