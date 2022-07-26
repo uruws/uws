@@ -8,45 +8,7 @@
     * and the JIRA_TOKEN too as I guess it's from Mauro's account
     * asked Gabriel but no reply yet
 
-* internal status page new components: meteor - `DONE!`
-    * cs
-    * worker
-    * app east & west
-
-* rstudio: TPS Internal project from Rina's request [PR#30][PR#30] - `DONE!`
-
-[PR#30]: https://github.com/TalkingPts/Infrastructure/pull/30
-
-* tune worker parentNotifications limits - `DONE!`
-
-* set fixed k8smon pods resources and limits - `DONE!`
-    * try to avoid pods being migrated over nodes during deploys
-
-* `SEC` linux several vulns [DSA-5173-1][DSA-5173-1] - `DONE!`
-    * some of them are cgroups (docker/kubernetes) related
-        * so we should run un upgrade on ALL servers/systems
-            * jsbatch
-            * rstudio
-            * k8s nodes
-    * that will also fix some gnupg vulns [DSA-5174-1][DSA-5174-1]
-        * infra secrets are managed with git-crypt, which uses gnupg
-
-[DSA-5173-1]: https://security-tracker.debian.org/tracker/DSA-5173-1
-[DSA-5174-1]: https://security-tracker.debian.org/tracker/DSA-5174-1
-
-* remove old aws credentials once all cluster upgrades are finished - `DONE!`
-    * amybeta user removed
-    * amy old credentials removed
-    * panoramix old credentials removed
-    * uwsadm created a new one and old credentials removed
-    * uwscli old credentials removed
-    * uwsasb created a new one and old credentials removed
-
-* cleanup old 1.19 clusters and services from uwscli_conf and from any other config - `DONE!`
-    * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
-
 * Research Team
-    * install git - `DONE!`
     * Beatriz user profile
     * re-implement jupyter notebook setups
         * setup one web interface per user vs the "global" one we currently have
@@ -62,13 +24,10 @@
         * run commands using a per user NQDIR
         * schedule it and return its qid
         * job status/log API endpoints
-    * testing deploy
     * building on [InfraApp][InfraApp] repository
         * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
-    * prod schroot env [PR#29][PR#29]
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
-[PR#29]: https://github.com/TalkingPts/Infrastructure/pull/29
 
 * Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME)
     * parse/load the json file at build/test time too to validate syntax
