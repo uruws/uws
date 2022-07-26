@@ -45,6 +45,12 @@
 * cleanup old 1.19 clusters and services from uwscli_conf and from any other config - `DONE!`
     * also remove 1.19 specific implementation files/configs (ie: k8s/autoscaler/1.19)
 
+* Research Team
+    * install git - `DONE!`
+    * Beatriz user profile
+    * re-implement jupyter notebook setups
+        * setup one web interface per user vs the "global" one we currently have
+
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json

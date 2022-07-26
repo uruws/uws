@@ -4,6 +4,7 @@
   apt:
     pkg:
       - gnupg
+      - git
   tags:
     - apt
     - rstudio-apt
