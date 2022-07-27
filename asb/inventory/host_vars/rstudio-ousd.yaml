@@ -12,6 +12,8 @@ rstudio_user:
   kevin: 3003
   # Adrienne <adrienne@talkingpts.org>
   adrienne: 3004
+  # Beatriz Cabrera <beatriz@talkingpts.org>
+  beatriz: 3005
 
 rstudio_project_user:
   # Eric Chan <echan1@babson.edu>
