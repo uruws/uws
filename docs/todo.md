@@ -1,8 +1,10 @@
 * CA rotate ops/220823
 
-* `WAIT` App offline static error page [DEV-3088][DEV-3088]
+* `WAIT` App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212]
+    * created github repo [OfflinePage](https://github.com/TalkingPts/OfflinePage)
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
+[DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
 
 * `FIX` infra-ui config: JIRA_TOKEN='mauro'
     * and the JIRA_TOKEN too as I guess it's from Mauro's account
