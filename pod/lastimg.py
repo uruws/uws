@@ -12,7 +12,6 @@ def main(argv = []):
 	if image == '':
 		print('[ERROR]: no image name provided', file = sys.stderr)
 		return 9
-	print(image)
 	profile = environ.get('AWS_PROFILE', 'NO_AWS_PROFILE')
 	region = environ.get('AWS_REGION', 'NO_AWS_REGION')
 	cmd = f"aws ecr list-images --profile {profile} --region {region} --repository-name uws --output json"
