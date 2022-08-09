@@ -7,5 +7,6 @@ bucket=${1:?'bucket name?'}
 . "${HOME}/config/s3/${bucket}.env"
 
 exec aws s3api put-bucket-versioning \
+	--region "${UWSBUCKET_REGION}" \
 	--bucket "${bucket}" \
 	--versioning-configuration Status=Enabled
