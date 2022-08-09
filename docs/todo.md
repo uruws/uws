@@ -1,9 +1,10 @@
 * CA rotate ops/220823
 
-* `WAIT` App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212]
+* App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212] - `WIP`
     * created github repo [OfflinePage](https://github.com/TalkingPts/OfflinePage)
     * lighttpd docker image
     * k8s setup and deploy [PR#31][PR#31]
+    * create uwsasset-ld056eud S3 bucket
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 [DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
