@@ -3,9 +3,11 @@
 * `WAIT` App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212]
     * created github repo [OfflinePage](https://github.com/TalkingPts/OfflinePage)
     * lighttpd docker image
+    * k8s setup and deploy [PR#31][PR#31]
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 [DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
+[PR#31]: https://github.com/TalkingPts/Infrastructure/pull/31
 
 * `FIX` infra-ui config: JIRA_TOKEN='mauro'
     * and the JIRA_TOKEN too as I guess it's from Mauro's account
