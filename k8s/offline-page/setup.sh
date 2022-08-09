@@ -1,16 +1,11 @@
 #!/bin/sh
 set -eu
 
-APP_NAMESPACE=${1:?'namespace?'}
-export APP_NAMESPACE
-
-INGRESS_NAME=${2:?'ingress?'}
+INGRESS_NAME=${1:?'ingress?'}
 export INGRESS_NAME
 
-envsubst <~/k8s/offline-page/setup.yaml | uwskube apply -f -
+envsubst <~/k8s/offline-page/patch.yaml >/tmp/offline-page.patch-${INGRESS_NAME}
+uwskube patch ingress "${INGRESS_NAME}" --patch-file=/tmp/offline-page.patch-${INGRESS_NAME}
 
-envsubst <~/k8s/offline-page/patch.yaml >/tmp/offline-page.patch-${APP_NAMESPACE}
-uwskube patch ingress "${INGRESS_NAME}" --patch-file=/tmp/offline-page.patch-${APP_NAMESPACE}
-
-rm -f /tmp/offline-page.patch-${APP_NAMESPACE}
+rm -f /tmp/offline-page.patch-${INGRESS_NAME}
 exit 0

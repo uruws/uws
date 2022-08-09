@@ -4,5 +4,5 @@ kind: Ingress
 metadata:
   name: ${INGRESS_NAME}
   annotations:
-    nginx.ingress.kubernetes.io/default-backend: "offline-page-${APP_NAMESPACE}"
+    nginx.ingress.kubernetes.io/default-backend: "offline-page"
     nginx.ingress.kubernetes.io/custom-http-errors: "500,502,503,504"
