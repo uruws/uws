@@ -2,7 +2,7 @@
 set -eu
 ns=${1:?'app namespace?'}
 opts=${2:-'all'}
-uwskube get ${opts} -n "${ns}" | grep -vF offline-page
+uwskube get ${opts} -n "${ns}"
 echo
 echo 'DEPLOY ENV'
 ~/pod/meteor/getcfg.sh "${ns}"
