@@ -5,6 +5,7 @@
     * lighttpd docker image
     * k8s setup and deploy [PR#31][PR#31]
         * do NOT use S3, sync to jsbatch public.uws site instead
+        * configured for staging sites already: app, cs and infra-ui-test
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 [DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
