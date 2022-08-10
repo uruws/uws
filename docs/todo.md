@@ -4,7 +4,7 @@
     * created github repo [OfflinePage](https://github.com/TalkingPts/OfflinePage)
     * lighttpd docker image
     * k8s setup and deploy [PR#31][PR#31]
-    * create uwsasset-ld056eud S3 bucket
+        * do NOT use S3, sync to jsbatch public.uws site instead
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 [DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
