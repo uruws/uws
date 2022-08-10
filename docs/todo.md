@@ -16,7 +16,6 @@
     * asked Gabriel but no reply yet
 
 * Research Team
-    * Beatriz user profile - `DONE!`
     * re-implement jupyter notebook setups
         * setup one web interface per user vs the "global" one we currently have
 
