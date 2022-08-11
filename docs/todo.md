@@ -35,7 +35,7 @@
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
 
-* Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME)
+* Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME) - `DONE!`
     * parse/load the json file at build/test time too to validate syntax
 
 * App encrypt secrets - `WAIT`
