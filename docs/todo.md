@@ -1,6 +1,6 @@
 * CA rotate ops/220823
 
-* App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212] - `WIP`
+* App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212] - `DONE!`
     * created github repo [OfflinePage](https://github.com/TalkingPts/OfflinePage)
     * lighttpd docker image
     * k8s setup and deploy [PR#31][PR#31]
@@ -38,9 +38,9 @@
 * Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME) - `DONE!`
     * parse/load the json file at build/test time too to validate syntax
 
-* App encrypt secrets - `WAIT`
+* App encrypt secrets - `WIP`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
-    * `WAIT` for dev team to do the private files migration
+    * `WIP` for dev team to do the private files migration
         * do we need to update the Buildpack for new private files location?
 
 [APP#910]: https://github.com/TalkingPts/App/pull/910
