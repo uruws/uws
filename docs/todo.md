@@ -1,6 +1,8 @@
 * CA rotate ops/220823
 
-* uwscli app-top command - `WIP`
+* uwscli app-top command - `DONE!`
+
+* meteor deploy app.env per cluster - `WIP`
 
 * App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212] - `DONE!`
     * created github repo [OfflinePage](https://github.com/TalkingPts/OfflinePage)
