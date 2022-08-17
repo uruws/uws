@@ -21,6 +21,8 @@ fi
 clusterenv=${HOME}/secret/meteor/app/${APP_ENV}-${UWS_CLUSTER}.env
 echo "cluster.env: ${clusterenv}"
 
+uwskube delete secret -n worker meteor-cluster-env || true
+
 uwskube create secret generic -n worker meteor-cluster-env \
 	--from-file="meteor-app.env=${clusterenv}"
 
