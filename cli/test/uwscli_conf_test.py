@@ -36,7 +36,6 @@ class Test(unittest.TestCase):
 			'apptest-west',
 			'panoramix-2206',
 			'worker-2206',
-			'worker-2208',
 		])
 		# app list
 		app_list = [
@@ -51,7 +50,6 @@ class Test(unittest.TestCase):
 			'nlp-category',
 			'nlp-sentiment-twitter',
 			'worker',
-			'worker-big',
 			'worker-test',
 		]
 		# deploy
