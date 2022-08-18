@@ -19,7 +19,6 @@ UWSCLI_LOG=off
 #############
 
 # app
-10 3 * * 2-6 app-scale worker 15
 11 3 * * 2-6 app-scale app-east 20
 12 3 * * 2-6 app-scale app-west 20
 
@@ -36,7 +35,6 @@ UWSCLI_LOG=off
 ###########
 
 # app
-3 10 * * 1-5 app-scale worker 15
 4 10 * * 1-5 app-scale app-east 50
 5 10 * * 1-5 app-scale app-west 50
 
@@ -47,3 +45,11 @@ UWSCLI_LOG=off
 
 # crowdsourcing
 9 10 * * 1-5 app-scale cs 30
+
+##########
+# workers
+##########
+# down during the day
+10 12 * * 1-5 app-scale worker 15
+# up during night
+3 22 * * 0-4 app-scale worker 50
