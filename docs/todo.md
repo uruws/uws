@@ -15,6 +15,13 @@
 [DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
 [PR#31]: https://github.com/TalkingPts/Infrastructure/pull/31
 
+* `R&D` meteor and/or linux container memory dump/analyzer
+
+* `FIX` worker.uws domain:
+    * we should use a main subdomain like: callbacks.t.o so we can use Goddady's cert
+    * or we could buy a new cert for worker.uws and avoid having to re-configure 3rd party services
+    * the problem is that we can't use lets encrypt service in a "split cluster" setup as we have for the web service and want for the workers too
+
 * `FIX` infra-ui config: JIRA_TOKEN='mauro'
     * and the JIRA_TOKEN too as I guess it's from Mauro's account
     * asked Gabriel but no reply yet
