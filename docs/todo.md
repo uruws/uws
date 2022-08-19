@@ -18,7 +18,7 @@
 * Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME) - `DONE!`
     * parse/load the json file at build/test time too to validate syntax
 
-* Remove Beatriz from Reasearch Team setup (rstudio and jupyter)
+* Remove Beatriz from Reasearch Team setup (rstudio and jupyter) - `DONE!`
 
 * `FIX` worker.uws domain:
     * we should use a main subdomain like: callbacks.t.o so we can use Goddady's cert
