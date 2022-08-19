@@ -3,3 +3,4 @@
 - import_tasks: rstudio-server.yaml
 - import_tasks: rstudio-user.yaml
 - import_tasks: rstudio-project.yaml
+- import_tasks: rstudio-project-user.yaml
