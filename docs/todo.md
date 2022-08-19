@@ -15,7 +15,8 @@
 [DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
 [PR#31]: https://github.com/TalkingPts/Infrastructure/pull/31
 
-* `R&D` meteor and/or linux container memory dump/analyzer
+* Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME) - `DONE!`
+    * parse/load the json file at build/test time too to validate syntax
 
 * `FIX` worker.uws domain:
     * we should use a main subdomain like: callbacks.t.o so we can use Goddady's cert
@@ -46,15 +47,18 @@
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
 
-* Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME) - `DONE!`
-    * parse/load the json file at build/test time too to validate syntax
-
 * App encrypt secrets - `WIP`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
     * `WIP` for dev team to do the private files migration
         * do we need to update the Buildpack for new private files location?
 
 [APP#910]: https://github.com/TalkingPts/App/pull/910
+
+* implement [node inspector][node-inspector] setup using the SSH approach
+    * the idea is to have a way to dispatch "debugging containers" which could be inspected using chrome dev tools or similar, using the SSH tunneling setup as it seems to be the more secure for our infra
+    * the SSH service should be only enabled when we dispatch the debug containers, using a random public port ideally and setting a random password for the uws user inside the container (show that password in the container init steps or similar) so we can share that info (port and password) "securely" as it's generated every time the container starts
+
+[node-inspector]: https://nodejs.org/en/docs/guides/debugging-getting-started/
 
 * tapoS3Dev bucket for App local devel
 
