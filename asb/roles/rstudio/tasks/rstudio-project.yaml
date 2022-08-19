@@ -1,6 +1,4 @@
-#
-# rstudio project users/groups
-#
+---
 - name: project users group
   become: yes
   group:

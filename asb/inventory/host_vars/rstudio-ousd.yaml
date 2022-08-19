@@ -12,6 +12,8 @@ rstudio_user:
   kevin: 3003
   # Adrienne <adrienne@talkingpts.org>
   adrienne: 3004
+
+rstudio_user_remove:
   # Beatriz Cabrera <beatriz@talkingpts.org>
   beatriz: 3005
 
