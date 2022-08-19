@@ -49,7 +49,9 @@ UWSCLI_LOG=off
 ##########
 # workers
 ##########
-# down during the day
+
+# up during Uruguay night
+3 4 * * 1-5 app-scale worker 50
+
+# down during Uruguay day
 10 12 * * 1-5 app-scale worker 15
-# up during night
-3 22 * * 0-4 app-scale worker 50
