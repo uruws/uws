@@ -1,6 +1,4 @@
-#
-# rstudio project users/groups
-#
+---
 - name: project users group
   become: yes
   group:
@@ -84,60 +82,5 @@
     owner: root
     group: root
     mode: '0755'
-  tags:
-    - rstudio-project
-
-- name: project user
-  become: yes
-  user:
-    state: present
-    name: "{{ item }}"
-    uid: "{{ rstudio_project_user[item].uid }}"
-    append: no
-    comment: "{{ item }}"
-    create_home: yes
-    group: ruser
-    groups: "{{ rstudio_project_user[item].groups }}"
-    home: "{{ uws_users_homedir }}/user/{{ item }}"
-    shell: /bin/bash
-    expires: "{{ rstudio_user_expire }}"
-  loop: "{{ rstudio_project_user | list }}"
-  tags:
-    - rstudio-project
-
-- name: project user homedir
-  become: yes
-  file:
-    state: directory
-    path: "{{ uws_users_homedir }}/user/{{ item }}"
-    owner: "{{ item }}"
-    group: ruser
-    mode: '0750'
-  loop: "{{ rstudio_project_user | list }}"
-  tags:
-    - rstudio-project
-
-- name: project users symlink
-  become: yes
-  file:
-    state: link
-    src: "{{ uws_users_homedir }}/project"
-    dest: "{{ uws_users_homedir }}/user/{{ item }}/project"
-    force: yes
-    owner: root
-    group: root
-  loop: "{{ rstudio_project_user | list }}"
-  tags:
-    - rstudio-project
-
-- name: project users umask
-  become: yes
-  lineinfile:
-    path: "{{ uws_users_homedir }}/user/{{ item }}/.profile"
-    backup: yes
-    state: present
-    regexp: '^umask'
-    line: 'umask 0002'
-  loop: "{{ rstudio_project_user | list }}"
   tags:
     - rstudio-project

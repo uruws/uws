@@ -1,0 +1,62 @@
+---
+- name: user's group
+  become: yes
+  group:
+    name: rstudio
+    state: present
+    gid: "{{ rstudio_gid }}"
+  tags:
+    - users
+
+- name: user remove
+  become: yes
+  user:
+    state: absent
+    force: no
+    remove: yes
+    name: "{{ item.name }}"
+  loop: "{{ rstudio_user_remove | dict2items(key_name='name', value_name='uid') }}"
+  tags:
+    - users
+
+- name: user
+  become: yes
+  user:
+    state: present
+    name: "{{ item.name }}"
+    uid: "{{ item.uid }}"
+    append: no
+    comment: "{{ item.name }}"
+    create_home: yes
+    group: rstudio
+    home: "{{ uws_users_homedir }}/{{ item.name }}"
+    shell: /bin/bash
+    expires: "{{ rstudio_user_expire }}"
+  loop: "{{ rstudio_user | dict2items(key_name='name', value_name='uid') }}"
+  tags:
+    - users
+
+- name: user home dir
+  become: yes
+  file:
+    state: directory
+    path: "{{ uws_users_homedir }}/{{ item.name }}"
+    owner: "{{ item.name }}"
+    group: rstudio
+    mode: '0750'
+  loop: "{{ rstudio_user | dict2items(key_name='name', value_name='uid') }}"
+  tags:
+    - users
+
+- name: user umask
+  become: yes
+  lineinfile:
+    path: "{{ uws_users_homedir }}/{{ item }}/.profile"
+    backup: yes
+    state: present
+    regexp: '^umask'
+    line: 'umask 0002'
+  loop: "{{ rstudio_user | list }}"
+  tags:
+    - users
+    - rstudio
