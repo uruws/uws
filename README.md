@@ -6,6 +6,7 @@ Uruworks sysadmin tools for Talking Points infrastructure.
 * [CLI](./docs/devops.md) devops tools.
 * [Heroku](./docs/heroku.md) contingency plan.
 * Infra
+	* [Deploy](./docs/deploy.md)
 	* [Upgrades](./docs/infra/upgrades.md)
 * Network topology
 	* [App](./docs/topology/app.png)
