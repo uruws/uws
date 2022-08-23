@@ -1,7 +1,7 @@
 * CA rotate ops/210823
 
 * App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212]
-    * apply on production environment
+    * apply on production environment - `DONE!`
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 [DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
