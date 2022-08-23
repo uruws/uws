@@ -1,24 +1,10 @@
-* CA rotate ops/220823
+* CA rotate ops/210823
 
-* uwscli app-top command - `DONE!`
-
-* meteor worker deploy app.env per cluster - `DONE!`
-
-* App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212] - `DONE!`
-    * created github repo [OfflinePage](https://github.com/TalkingPts/OfflinePage)
-    * lighttpd docker image
-    * k8s setup and deploy [PR#31][PR#31]
-        * do NOT use S3, sync to jsbatch public.uws site instead
-        * configured for staging sites already: app, cs and infra-ui-test
+* App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212]
+    * apply on production environment
 
 [DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
 [DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
-[PR#31]: https://github.com/TalkingPts/Infrastructure/pull/31
-
-* Buildpack: load METEOR_SETTINGS from a json file (UWS_METEOR_SETTINGS_FILENAME) - `DONE!`
-    * parse/load the json file at build/test time too to validate syntax
-
-* Remove Beatriz from Reasearch Team setup (rstudio and jupyter) - `DONE!`
 
 * `FIX` worker.uws domain:
     * we should use a main subdomain like: callbacks.t.o so we can use Goddady's cert
