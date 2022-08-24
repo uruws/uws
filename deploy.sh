@@ -7,7 +7,7 @@ fi
 deploy_run='TRUE'
 check_run='TRUE'
 tail_run='TRUE'
-for arg in $@; do
+for arg in "$@"; do
 	case ${arg} in
 		--no-test|-T)
 			check_run='FALSE'
