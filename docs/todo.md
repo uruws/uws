@@ -19,6 +19,10 @@
     * re-implement jupyter notebook setups
         * setup one web interface per user vs the "global" one we currently have
 
+* Vanta SOC2: implement AWS [GuardDuty][GuardDuty]
+
+[GuardDuty]: https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html
+
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
