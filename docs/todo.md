@@ -1,3 +1,8 @@
+* [Upgrades][Upgrades] round 2209
+    * previous one was 2203
+
+[Upgrades]: ./infra/upgrades.md
+
 * CA rotate ops/210823
 
 * App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212]
