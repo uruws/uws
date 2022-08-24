@@ -50,8 +50,11 @@ UWSCLI_LOG=off
 # workers
 ##########
 
-# up during night
-3 2 * * 1-5 app-scale worker 40
+# adjusted to cleverSynch run times
+# https://ops.uws.talkingpts.org/munin/t.o/app.t.o/apijob_production/cleverSynch_jobs.html
 
-# down during Uruguay day
-3 8 * * 1-5 app-scale worker 15
+# scale up during the night
+3 3 * * 1-5 app-scale worker 40
+
+# scale down during the day
+3 10 * * 1-5 app-scale worker 15
