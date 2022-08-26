@@ -37,8 +37,12 @@ fi
 if test "X${deploy_run}" = 'XTRUE'; then
 	git push
 	git push deploy
+	ssh_cmd="ssh -a -C -n -x"
+	if which timeout >/dev/null; then
+		ssh_cmd="timeout -k1830 1800 ${ssh_cmd}"
+	fi
 	if test "X${tail_run}" = 'XTRUE'; then
-		exec ssh -a -C -n -x -l uws "${servername}" tail -f /var/tmp/uws-deploy.log
+		exec ${ssh_cmd} -l uws "${servername}" tail -f /var/tmp/uws-deploy.log
 	fi
 fi
 exit 0
