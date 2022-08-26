@@ -74,10 +74,10 @@ spec:
           resources:
             requests:
               cpu: 800m
-              memory: 1600Mi
+              memory: 3200Mi
             limits:
               cpu: 800m
-              memory: 1600Mi
+              memory: 3200Mi
           readinessProbe:
             exec:
               command:
