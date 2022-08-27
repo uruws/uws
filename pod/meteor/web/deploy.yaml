@@ -67,17 +67,17 @@ spec:
             - name: DISABLE_JOBS
               value: "TRUE"
             - name: NODE_OPTIONS
-              value: "--max-old-space-size=1600"
+              value: "--max-old-space-size=${METEOR_WEB_MEMORY}"
           envFrom:
             - secretRef:
                 name: meteor-deploy-env
           resources:
             requests:
-              cpu: 800m
-              memory: 3200Mi
+              cpu: ${METEOR_WEB_CPU}m
+              memory: ${METEOR_WEB_MEMORY}Mi
             limits:
-              cpu: 800m
-              memory: 3200Mi
+              cpu: ${METEOR_WEB_CPU}m
+              memory: ${METEOR_WEB_MEMORY}Mi
           readinessProbe:
             exec:
               command:
