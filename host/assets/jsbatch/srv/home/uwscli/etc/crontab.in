@@ -72,7 +72,7 @@ UWSCLI_LOG=off
 # https://ops.uws.talkingpts.org/munin/t.o/app.t.o/apijob_production/cleverSynch_jobs.html
 
 # scale up during the night
-3 3 * * 1-5 app-scale worker 40
+3 3 * * 1-5 app-scale worker 30
 
 # scale down during the day
 3 10 * * 1-5 app-scale worker 15
