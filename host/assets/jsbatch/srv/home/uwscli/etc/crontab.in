@@ -19,16 +19,14 @@ UWSCLI_LOG=off
 #############
 
 # app
-11 22 * * 1-5 app-scale app-east 80
-11 22 * * 1-5 app-scale app-west 80
-11 23 * * 1-5 app-scale app-east 60
-11 23 * * 1-5 app-scale app-west 60
-11 0  * * 2-6 app-scale app-east 40
-11 0  * * 2-6 app-scale app-west 40
-11 1  * * 2-6 app-scale app-east 20
-11 1  * * 2-6 app-scale app-west 20
-11 2  * * 2-6 app-scale app-east 10
-11 2  * * 2-6 app-scale app-west 10
+11 23 * * 1-5 app-scale app-east 80
+11 23 * * 1-5 app-scale app-west 80
+11 0  * * 2-6 app-scale app-east 60
+11 0  * * 2-6 app-scale app-west 60
+11 1  * * 2-6 app-scale app-east 40
+11 1  * * 2-6 app-scale app-west 40
+11 2  * * 2-6 app-scale app-east 20
+11 2  * * 2-6 app-scale app-west 20
 
 # apptest
 13 3 * * 2-6 app-scale worker-test 2
@@ -43,8 +41,6 @@ UWSCLI_LOG=off
 ###########
 
 # app
-5 9  * * 1-5 app-scale app-east 30
-5 9  * * 1-5 app-scale app-west 30
 5 10 * * 1-5 app-scale app-east 45
 5 10 * * 1-5 app-scale app-west 45
 5 11 * * 1-5 app-scale app-east 60
