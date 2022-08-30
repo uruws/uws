@@ -1,3 +1,5 @@
+* munin: MongoDB slow queries
+
 * [Upgrades][Upgrades] round 2209
     * previous one was 2203
 
