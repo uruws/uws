@@ -9,12 +9,6 @@
 
 * CA rotate ops/210823
 
-* App offline static error page [DEV-3088][DEV-3088], [DEV-3212][DEV-3212]
-    * apply on production environment - `DONE!`
-
-[DEV-3088]: https://talkingpointsorg.atlassian.net/browse/DEV-3088
-[DEV-3212]: https://talkingpointsorg.atlassian.net/browse/DEV-3212
-
 * `FIX` worker.uws domain:
     * we should use a main subdomain like: callbacks.t.o so we can use Goddady's cert
     * or we could buy a new cert for worker.uws and avoid having to re-configure 3rd party services
@@ -123,7 +117,10 @@
     Publish app version 2.64.8 failed
 
 * uwscli:
-    * app-autobuild: nq build and deploy jobs
+    * app-build
+        * keep a "queued list"
+        * only build tag not in "already done list" nor in the "queued list" either
+        * to avoid all the duplicate build jobs
     * cli/buildpack.sh: should manage the log and email report if any fail
     * cli/app-build.sh: should do the same
     * `FIX` app-autobuild: when jsbatch is restarted autobuild of last tag fails
