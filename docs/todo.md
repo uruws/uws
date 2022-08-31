@@ -117,6 +117,10 @@
     Publish app version 2.64.8 failed
 
 * uwscli:
+    * `FIX` non-operator users should not be able to app-restart either
+        * app-restart reloads the deploy config, so it can modify the live environment
+        * as only operators are allowed to modify the live env: deploy, rollin
+        * makes sense also that only them can restart
     * app-build
         * keep a "queued list"
         * only build tag not in "already done list" nor in the "queued list" either
