@@ -15,6 +15,10 @@ import uwscli_user
 
 __salt = b'K0mP2LvwSIPnCI_hyqmEaeRN4_hHiQ1PC_ohAf1J6Eh3FAhD'
 
+def _save(fn, h): # pragma: no cover
+	with open(fn, 'w') as fh:
+		print(h, file = fh)
+
 def main(argv):
 	uwscli.debug('start')
 
@@ -37,17 +41,15 @@ def main(argv):
 	fn = '/run/uwscli/auth/%s/password' % uid
 
 	pw = getpass(prompt = 'New Password:')
-	pw2 = getpass(prompt = 'Repeat new Password:')
+	pw2 = getpass(prompt = 'Repeat New Password:')
 	if pw != pw2:
-		uwscli.error('password do not match')
+		uwscli.error('Password do not match!')
 		return 9
 	h = pbkdf2_hmac('sha256', pw.encode(), __salt, 100000).hex()
 	uwscli.debug('hash:', h)
 
-	with open(fn, 'w') as fh:
-		print(h, file = fh)
-
+	_save(fn, h)
 	return 0
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no cover
 	sys.exit(main(sys.argv[1:]))
