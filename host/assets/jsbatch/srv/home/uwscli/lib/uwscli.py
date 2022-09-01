@@ -328,16 +328,29 @@ def user_get(name: str) -> Optional[AppUser]:
 def user_uuid(username: str) -> str:
 	return str(uuid5(NAMESPACE_DNS, username))
 
-# ~ def admin_list() -> list[str]:
-	# ~ l = []
-	# ~ for u in user_list():
-		# ~ if u.is_admin:
-			# ~ l.append(u.name)
-	# ~ return l
+_user_command_exclude = {
+	'app-autobuild': True,
+	'app-build':     True,
+}
 
-# ~ def operator_list() -> list[str]:
-	# ~ l = []
-	# ~ for u in user_list():
-		# ~ if u.is_admin or u.is_operator:
-			# ~ l.append(u.name)
-	# ~ return l
+_user_command_operator = {
+	'app-deploy':  True,
+	'app-restart': True,
+	'app-rollin':  True,
+	'app-scale':   True,
+}
+
+def user_commands(user: AppUser) -> list[str]:
+	l: list[str] = []
+	st, out = gso('/bin/ls /srv/home/uwscli/bin/app-*')
+	if st == 0:
+		for p in out.splitlines():
+			cmd = p.strip().replace('/srv/home/uwscli/bin/', '')
+			if _user_command_exclude.get(cmd, False):
+				continue
+			if _user_command_operator.get(cmd, False):
+				if user.is_operator:
+					l.append(cmd)
+			else:
+				l.append(cmd)
+	return l

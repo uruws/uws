@@ -81,9 +81,11 @@ def main(argv: list[str] = []) -> int:
 
 		# user apps
 		d = {
-			'uid':    uid,
-			'build':  _apps_build(u),
-			'deploy': _apps_deploy(u),
+			'uid':           uid,
+			'build_command': 'app-build',
+			'commands':      uwscli.user_commands(user),
+			'build':         _apps_build(u),
+			'deploy':        _apps_deploy(u),
 		}
 		rc = _install(uid, 'apps', d)
 		if rc != 0: return rc
