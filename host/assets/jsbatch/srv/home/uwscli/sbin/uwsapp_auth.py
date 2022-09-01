@@ -57,6 +57,11 @@ def main(argv: list[str] = []) -> int:
 		if username == '': continue
 		uid: str = uwscli.user_uuid(username)
 
+		# user remove
+		if user.remove:
+			uwscli.system('/usr/bin/rm -rf /run/uwscli/auth/%s' % uid)
+			continue
+
 		# user dir to save password
 		rc = uwscli.system('/usr/bin/install -v -d -m 0750 -o uws -g uws /run/uwscli/auth/%s' % uid)
 		if rc != 0: return rc
