@@ -93,6 +93,7 @@ chown -vR uws:uws /srv/uws/deploy/secret/eks/kube/cluster
 # operator utils
 
 chown -v root:uwsops ~uwscli/bin/app-deploy
+chown -v root:uwsops ~uwscli/bin/app-restart
 chown -v root:uwsops ~uwscli/bin/app-rollin
 chown -v root:uwsops ~uwscli/bin/app-scale
 

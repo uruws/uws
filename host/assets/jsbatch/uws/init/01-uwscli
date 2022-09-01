@@ -45,6 +45,7 @@ adduser uws uwscli
 addgroup uwsops || true
 
 chown -v root:uwsops ~uwscli/bin/app-deploy
+chown -v root:uwsops ~uwscli/bin/app-restart
 chown -v root:uwsops ~uwscli/bin/app-rollin
 chown -v root:uwsops ~uwscli/bin/app-scale
 
