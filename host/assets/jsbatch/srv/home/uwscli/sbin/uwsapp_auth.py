@@ -34,8 +34,8 @@ def _json_dump(fn: str, data: dict[str, str]):
 	with open(fn, 'w') as fh: # pragma: no cover
 		json.dump(data, fh)
 
-def _write_user(uid: str, data: dict[str, str]) -> int:
-	fn = '/run/uwscli/auth/%s/meta.json' % uid
+def _install(uid: str, name: str, data: dict[str, str]) -> int:
+	fn = '/run/uwscli/auth/%s/%s.json' % (uid, name)
 	newfn = '%s.new' % fn
 	_json_dump(newfn, data)
 	rc = uwscli.system('/usr/bin/install -v -m 0640 -o uws -g uws %s %s' % (newfn, fn))
@@ -64,22 +64,28 @@ def main(argv: list[str] = []) -> int:
 		# user info file
 		u = User(user.name)
 
-		if u.load_groups() != 0:
+		if u.load_groups() != 0: # pragma: no cover
 			uwscli.error('could not load user groups:', username, user.name)
 			continue
 
+		# user metadata
 		d = {
-			'uid': uid,
-			'name': user.name,
-			'username': username,
+			'uid':         uid,
+			'name':        user.name,
+			'username':    username,
 			'is_operator': user.is_operator,
-			'is_admin': user.is_admin,
-			'apps': {
-				'build': _apps_build(u),
-				'deploy': _apps_deploy(u),
-			},
+			'is_admin':    user.is_admin,
 		}
-		rc = _write_user(uid, d)
+		rc = _install(uid, 'meta', d)
+		if rc != 0: return rc
+
+		# user apps
+		d = {
+			'uid':    uid,
+			'build':  _apps_build(u),
+			'deploy': _apps_deploy(u),
+		}
+		rc = _install(uid, 'apps', d)
 		if rc != 0: return rc
 
 	return 0

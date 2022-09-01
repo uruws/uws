@@ -36,26 +36,12 @@ class Test(unittest.TestCase):
 		calls = [
 			call('/usr/bin/install -v -d -m 0750 -o uws -g uws /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e'),
 			call('/usr/bin/install -v -m 0640 -o uws -g uws /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json.new /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json'),
+			call('/usr/bin/install -v -m 0640 -o uws -g uws /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/apps.json.new /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/apps.json'),
 		]
 		with mock():
 			t.assertEqual(uwsapp_auth.main(), 0)
 			uwscli.system.assert_has_calls(calls)
 			t.assertEqual(uwscli.system.call_count, len(calls))
-			uwsapp_auth._json_dump.assert_called_once_with('/run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e/meta.json.new', {
-				'uid': 'f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e',
-				'name': 'tuser',
-				'username': 'tuser@devel.uwscli.local',
-				'is_operator': True,
-				'is_admin': True,
-				'apps': {
-					'build': {
-						'testing': 'Testing',
-					},
-					'deploy': {
-						'testing': 'Testing',
-					},
-				},
-			})
 
 if __name__ == '__main__':
 	unittest.main()
