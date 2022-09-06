@@ -27,7 +27,7 @@ def _apps_build(user: User) -> dict[str, str]:
 def _apps_deploy(user: User) -> dict[str, str]:
 	d = dict()
 	for app in uwscli.deploy_list(user = user):
-		d[app] = uwscli.app[app].desc
+		d[app] = uwscli.app[app].info()
 	return d
 
 def _json_dump(fn: str, data: dict[str, str]):

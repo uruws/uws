@@ -43,5 +43,15 @@ class Test(unittest.TestCase):
 			uwscli.system.assert_has_calls(calls)
 			t.assertEqual(uwscli.system.call_count, len(calls))
 
+	def test_user_remove(t):
+		calls = [
+			call('/usr/bin/rm -rf /run/uwscli/auth/f78d7d8e-b8cb-5613-95d2-eb1d440a6b0e'),
+		]
+		with mock():
+			uwscli_user.user['tuser'].remove = True
+			t.assertEqual(uwsapp_auth.main(), 0)
+			uwscli.system.assert_has_calls(calls)
+			t.assertEqual(uwscli.system.call_count, len(calls))
+
 if __name__ == '__main__':
 	unittest.main()

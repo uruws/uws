@@ -75,6 +75,13 @@ class App(object):
 		if len(self.groups) == 0:
 			self.groups = ['nogroup']
 
+	def info(self) -> dict[str, str]:
+		return {
+			'desc':    self.desc.strip(),
+			'cluster': self.cluster.strip(),
+			'pod':     self.pod.strip(),
+		}
+
 app: dict[str, App] = {
 	'app': App(False,
 		desc = 'App web and workers',
