@@ -1,3 +1,5 @@
+* `URGENT` move worker-2206 cluster to us-east-1 region to check/reduce MongoDB traffic costs
+
 * forensics setup
 
 * munin: MongoDB slow queries
