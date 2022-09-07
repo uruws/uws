@@ -1,5 +1,7 @@
 * `URGENT` move worker-2206 cluster to us-east-1 region to check/reduce MongoDB traffic costs
 
+* Add 504 Gateway Timeout to the list of errors for offline page to be shown
+
 * forensics setup
 
 * munin: MongoDB slow queries
