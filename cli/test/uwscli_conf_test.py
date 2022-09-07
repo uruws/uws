@@ -35,7 +35,6 @@ class Test(unittest.TestCase):
 			'apptest-east',
 			'apptest-west',
 			'panoramix-2206',
-			'worker-2206',
 			'worker-2209',
 		])
 		# app list

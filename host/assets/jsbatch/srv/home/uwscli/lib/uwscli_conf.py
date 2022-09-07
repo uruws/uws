@@ -214,6 +214,5 @@ cluster: dict[str, AppCluster] = {
 	'apptest-east':   AppCluster(region = 'us-east-2'),
 	'apptest-west':   AppCluster(region = 'us-west-2'),
 	'panoramix-2206': AppCluster(region = 'us-east-1'),
-	'worker-2206':    AppCluster(region = 'us-east-2'),
 	'worker-2209':    AppCluster(region = 'us-east-1'),
 }

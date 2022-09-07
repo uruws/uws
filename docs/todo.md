@@ -1,4 +1,7 @@
-* `URGENT` move worker-2206 cluster to us-east-1 region to check/reduce MongoDB traffic costs
+* move worker-2206 cluster to us-east-1 region to check/reduce MongoDB traffic costs - `DONE!`
+    * create worker-2209
+    * workers migrate
+    * worker-2206 decommission
 
 * Add 504 Gateway Timeout to the list of errors for offline page to be shown
 
