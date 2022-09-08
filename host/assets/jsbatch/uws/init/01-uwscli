@@ -121,6 +121,7 @@ addgroup uwsapp_app || true
 adduser antonio uwsapp_app
 adduser gabriel uwsapp_app
 adduser nelson  uwsapp_app
+adduser ramiro  uwsapp_app
 
 # apptest
 addgroup uwsapp_apptest || true
