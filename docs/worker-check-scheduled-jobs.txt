@@ -1,0 +1,16 @@
+https://talkingpoints.slack.com/archives/C01PCPR6Q75/p1662746271972509?thread_ts=1662743011.244029&cid=C01PCPR6Q75
+
+Antonio
+  Tengo una query con la que se encuentran todos los messages de distritos para mas de x institutions (puse 18 para ver 2 ejemplos reales ahora) que estan scheduleados para salir en un futuro.
+Si se proyecta para solo obtener la scheduledDate , con esa scheduledDate ya tenemos la hora UTC en la que saldrian los mensajes y se podria escalar de antemano.
+Podriamos ver si queremos incluir casos de borde tipo schedulean para dentro de 20 minutos pero despues capaz cancelan, etc.
+La query:
+{districtRootId: {$exists: true}, isScheduled: true, ‘to.institutions.18’: {$exists: true}, canceled: false}
+
+￼
+
+https://talkingpoints.slack.com/archives/C01PCPR6Q75/p1662746308312449?thread_ts=1662743011.244029&cid=C01PCPR6Q75
+
+Antonio
+  (no olvidarse de proyectar porque son documentos pesados):
+{_id: 1, scheduledDate: 1, to: 1, canceled: 1}

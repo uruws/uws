@@ -3,6 +3,16 @@
     * workers migrate
     * worker-2206 decommission
 
+* app-autoscale
+    * implement auto scaler based on custom metrics
+        * web: scale based on web traffic/requests per minute
+            * more or less, nowadays, 10 containers to serve 1000 rpm
+            * [DB query](./worker-check-scheduled-jobs.txt)
+        * workers:
+            * cleverSynch could/should be another metric as it needs to finish before 10hs UTC
+            * messages.jobs ready?
+            * one metric could be based on checking scheduled district jobs to scale up before it starts, instead of reacting to an alert
+
 * separate web and api clusters
     * /api/* web traffic should be served from a different cluster
         * could be workers as we do for bandwidthCallback
