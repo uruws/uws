@@ -51,8 +51,8 @@ UWSCLI_LOG=off
 5 12 * * 1-5 app-scale app-west 75
 5 16 * * 1-5 app-scale app-east 90
 5 16 * * 1-5 app-scale app-west 90
-5 18 * * 1-5 app-scale app-east 100
-5 18 * * 1-5 app-scale app-west 100
+5 18 * * 1-5 app-scale app-east 105
+5 18 * * 1-5 app-scale app-west 105
 5 19 * * 1-5 app-scale app-east 120
 5 19 * * 1-5 app-scale app-west 120
 
