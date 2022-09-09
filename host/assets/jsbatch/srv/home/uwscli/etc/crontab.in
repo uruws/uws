@@ -1,4 +1,4 @@
-PATH=/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin
+PATH=/usr/bin:/bin:/srv/home/uwscli/bin:/usr/local/bin
 MAILTO=root
 USER=uwscli
 UWSCLI_LOG=off
