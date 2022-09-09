@@ -49,12 +49,12 @@ UWSCLI_LOG=off
 5 11 * * 1-5 app-scale app-west 60
 5 12 * * 1-5 app-scale app-east 75
 5 12 * * 1-5 app-scale app-west 75
-5 16 * * 1-5 app-scale app-east 90
-5 16 * * 1-5 app-scale app-west 90
-5 18 * * 1-5 app-scale app-east 105
-5 18 * * 1-5 app-scale app-west 105
-5 19 * * 1-5 app-scale app-east 120
-5 19 * * 1-5 app-scale app-west 120
+5 14 * * 1-5 app-scale app-east 90
+5 14 * * 1-5 app-scale app-west 90
+5 16 * * 1-5 app-scale app-east 105
+5 16 * * 1-5 app-scale app-west 105
+5 18 * * 1-5 app-scale app-east 120
+5 18 * * 1-5 app-scale app-west 120
 
 # apptest
 6 10 * * 1-5 app-scale worker-test 2
