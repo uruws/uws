@@ -127,6 +127,7 @@ adduser ramiro  uwsapp_app
 addgroup uwsapp_apptest || true
 
 adduser gabriel uwsapp_apptest
+adduser ramiro  uwsapp_apptest
 
 # beta
 addgroup uwsapp_beta || true
