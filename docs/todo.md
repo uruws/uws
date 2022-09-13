@@ -1,4 +1,9 @@
-* `FIX` panoramix-2206 munin storage failing - `WIP`
+* move worker-2206 cluster to us-east-1 region to check/reduce MongoDB traffic costs - `DONE!`
+    * create worker-2209
+    * workers migrate
+    * worker-2206 decommission
+
+* `FIX` panoramix-2206 munin storage failing
     * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions
     * basically, the cluster is configured to run in zones us-east-1b and 1c, but all the nodes are now running from 1c and we are not being able to dispatch new nodes in 1b zone, which is where ebs volumes were created (automatically by kubernetes)
 
@@ -6,11 +11,12 @@
     * for archiving/history and backup purposes
     * also to have some data available in case of the cluster being down
         * even if it will be old data, could be useful still
-
-* move worker-2206 cluster to us-east-1 region to check/reduce MongoDB traffic costs - `DONE!`
-    * create worker-2209
-    * workers migrate
-    * worker-2206 decommission
+    * graph for nodes region/zones
+    * nodes types
+        * pass INSTANCE_TYPES env var to munin-node and keep them in the graph
+    * graphs for PVs/PVCs?
+        * available storage
+        * region/zones
 
 * app-autoscale
     * implement auto scaler based on custom metrics
