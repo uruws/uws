@@ -34,9 +34,9 @@ install -v -d -o uws -g uws -m 0750 ~uws/logs
 
 # uws SSH setup
 install -v -d -o uws -g uws -m 0750 ~uws/.ssh
-install -v -C -o uws -g uws -m 0400 /usr/local/etc/ssh/id_ed25519 ~uws/.ssh/
+install -v -C -o uws -g uws -m 0400 /usr/local/etc/ssh/id_ed25519     ~uws/.ssh/
 install -v -C -o uws -g uws -m 0440 /usr/local/etc/ssh/id_ed25519.pub ~uws/.ssh/
-install -v -C -o uws -g uws -m 0440 /usr/local/etc/ssh/config ~uws/.ssh/
+install -v -C -o uws -g uws -m 0440 /usr/local/etc/ssh/config         ~uws/.ssh/
 
 # uwscli
 groupadd -g 3100 uwscli || true
@@ -100,6 +100,13 @@ chown -v root:uwsops ~uwscli/bin/app-scale
 # internal utils
 
 chown -v uwscli:uws ~uwscli/bin/app-autobuild
+
+# api auth ssh
+
+install -v -d -o uws -g uws -m 0750 /run/uwscli/auth/ssh
+install -v -C -o uws -g uws -m 0400 /usr/local/etc/ssh/id_ed25519     /run/uwscli/auth/ssh/
+install -v -C -o uws -g uws -m 0440 /usr/local/etc/ssh/id_ed25519.pub /run/uwscli/auth/ssh/
+install -v -C -o uws -g uws -m 0440 /usr/local/etc/ssh/config         /run/uwscli/auth/ssh/
 
 # python compile lib and vendor
 
