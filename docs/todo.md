@@ -3,6 +3,12 @@
     * workers migrate
     * worker-2206 decommission
 
+* tapoS3Dev bucket for App local devel - `DONE!`
+    * tapodev-DiAthaEw
+
+* CDN EL7V8UVYGEFN1	tapotest-7hw39x4r s3 bucket CDN	d3ilh35g4a273c.cloudfront.net
+    * keep? remove?
+
 * `FIX` panoramix-2206 munin storage failing
     * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions
     * basically, the cluster is configured to run in zones us-east-1b and 1c, but all the nodes are now running from 1c and we are not being able to dispatch new nodes in 1b zone, which is where ebs volumes were created (automatically by kubernetes)
@@ -95,8 +101,6 @@
     * the SSH service should be only enabled when we dispatch the debug containers, using a random public port ideally and setting a random password for the uws user inside the container (show that password in the container init steps or similar) so we can share that info (port and password) "securely" as it's generated every time the container starts
 
 [node-inspector]: https://nodejs.org/en/docs/guides/debugging-getting-started/
-
-* tapoS3Dev bucket for App local devel
 
 * apply awscli/utils/s3-app-bucket*.sh to production App bucket (stagingmms)
     * it was applied to staging environment, but not yet on prod
