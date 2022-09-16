@@ -4,10 +4,15 @@
     * worker-2206 decommission
 
 * tapoS3Dev bucket for App local devel - `DONE!`
-    * tapodev-DiAthaEw
+    * tapodev-25gg7bg0
 
-* CDN EL7V8UVYGEFN1	tapotest-7hw39x4r s3 bucket CDN	d3ilh35g4a273c.cloudfront.net
-    * keep? remove?
+* CDN EL7V8UVYGEFN1	tapotest-7hw39x4r s3 bucket CDN	d3ilh35g4a273c.cloudfront.net - `DONE!`
+
+* CDN E1AOQ154HHV4KH tapodev-25gg7bg0 s3 bucket CDN d2avfu1nocdvhb.cloudfront.net - `DONE!`
+
+* Create coconut s3 user and policies for tapotest-7hw39x4r and tapodev-25gg7bg0
+
+* move app-east cluster from us-east-2 to us-east-1
 
 * `FIX` panoramix-2206 munin storage failing
     * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions
