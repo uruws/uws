@@ -10,7 +10,7 @@
 
 * CDN E1AOQ154HHV4KH tapodev-25gg7bg0 s3 bucket CDN d2avfu1nocdvhb.cloudfront.net - `DONE!`
 
-* Create coconut s3 user and policies for tapotest-7hw39x4r and tapodev-25gg7bg0
+* Create coconut s3 user and policies for tapotest-7hw39x4r and tapodev-25gg7bg0 - `DONE!`
 
 * move app-east cluster from us-east-2 to us-east-1
 
