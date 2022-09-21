@@ -10,7 +10,17 @@
 
 * CDN E1AOQ154HHV4KH tapodev-25gg7bg0 s3 bucket CDN d2avfu1nocdvhb.cloudfront.net - `DONE!`
 
-* Create coconut s3 user and policies for tapotest-7hw39x4r and tapodev-25gg7bg0 - `DONE!`
+* CDN ECPF4JUUI0UST tapolive-jtctkyf4 s3 bucket CDN d3mprzajshnkud.cloudfront.net - `DONE!`
+
+* `SECURITY` We have to remove the "force TLS" policy from S3 buckets as Coconut is *broken* and uploads files over http *always*, even is configured with the "secure" flag. Gabriel reported the bug to Coconut people, but who knows... - `DONE!`
+
+* App METEOR_CDN for staging
+
+* offline-page munin check/alert [DEV-4159][DEV-4159]
+
+[DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
+
+* App METEOR_CDN for prod
 
 * move app-east cluster from us-east-2 to us-east-1
 
