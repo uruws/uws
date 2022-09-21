@@ -9,7 +9,7 @@
 
 * CDN ECPF4JUUI0UST tapolive-jtctkyf4 s3 bucket CDN d3mprzajshnkud.cloudfront.net - `DONE!`
 
-* `SECURITY` We had to remove the "force TLS" policy from S3 buckets - `DONE!`
+* `BROKEN` We had to remove the "force TLS" policy from S3 buckets - `DONE!`
     * Coconut is *broken* and uploads files over http *always*, even is configured with the "secure" flag. Gabriel reported the bug to Coconut people, but who knows...
 
 * archive previous App S3 bucket stagingmms - `DONE!`
@@ -32,6 +32,10 @@
         * secret/eks/files/munin/conf/alerts_conf.json
 
 * move app-east cluster from us-east-2 to us-east-1
+
+* `SEC` `WAIT` App security changes
+    * Remove old/previous Amazon credentials (from Aram's user)
+    * Remove private/settings.json from the repo
 
 * `FIX` panoramix-2206 munin storage failing
     * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions
