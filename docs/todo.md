@@ -3,16 +3,17 @@
     * workers migrate
     * worker-2206 decommission
 
-* tapoS3Dev bucket for App local devel - `DONE!`
-    * tapodev-25gg7bg0
-
 * CDN EL7V8UVYGEFN1	tapotest-7hw39x4r s3 bucket CDN	d3ilh35g4a273c.cloudfront.net - `DONE!`
 
 * CDN E1AOQ154HHV4KH tapodev-25gg7bg0 s3 bucket CDN d2avfu1nocdvhb.cloudfront.net - `DONE!`
 
 * CDN ECPF4JUUI0UST tapolive-jtctkyf4 s3 bucket CDN d3mprzajshnkud.cloudfront.net - `DONE!`
 
-* `SECURITY` We have to remove the "force TLS" policy from S3 buckets as Coconut is *broken* and uploads files over http *always*, even is configured with the "secure" flag. Gabriel reported the bug to Coconut people, but who knows... - `DONE!`
+* `SECURITY` We have to remove the "force TLS" policy from S3 buckets - `DONE!`
+    * Coconut is *broken* and uploads files over http *always*, even is configured with the "secure" flag. Gabriel reported the bug to Coconut people, but who knows...
+
+* archive previous App S3 bucket stagingmms - `DONE!`
+    * set it up as a "read-only" bucket for legaly purposes, maybe in 10 years we can delete it
 
 * App METEOR_CDN for staging
 
