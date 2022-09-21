@@ -9,7 +9,7 @@
 
 * CDN ECPF4JUUI0UST tapolive-jtctkyf4 s3 bucket CDN d3mprzajshnkud.cloudfront.net - `DONE!`
 
-* `SECURITY` We have to remove the "force TLS" policy from S3 buckets - `DONE!`
+* `SECURITY` We had to remove the "force TLS" policy from S3 buckets - `DONE!`
     * Coconut is *broken* and uploads files over http *always*, even is configured with the "secure" flag. Gabriel reported the bug to Coconut people, but who knows...
 
 * archive previous App S3 bucket stagingmms - `DONE!`
