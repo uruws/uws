@@ -13,7 +13,7 @@
     * Coconut is *broken* and uploads files over http *always*, even is configured with the "secure" flag. Gabriel reported the bug to Coconut people, but who knows...
 
 * archive previous App S3 bucket stagingmms - `DONE!`
-    * set it up as a "read-only" bucket for legaly purposes, maybe in 10 years we can delete it
+    * set it up as a "read-only" bucket for legacy purposes, maybe in 10 years we can delete it
 
 * App METEOR_CDN for staging
 
