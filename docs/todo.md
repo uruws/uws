@@ -22,6 +22,14 @@
 
 * App METEOR_CDN for prod
 
+* Infrastructure CI: check-secret
+    * check/parse config files from secret directory
+        * like parsing secret/eks/files/meteor/*/*.json for syntax errors
+        * secret/eks/files/meteor/*/*.env shellcheck and/or similar
+        * secret/cli/schroot/*/local_conf.py syntax/unittest/expected values
+        * secret/aws.config/s3/*.env and secret/aws.config/s3/*.json
+        * secret/eks/files/munin/conf/alerts_conf.json
+
 * move app-east cluster from us-east-2 to us-east-1
 
 * `FIX` panoramix-2206 munin storage failing
