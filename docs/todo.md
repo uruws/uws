@@ -15,13 +15,17 @@
 * archive previous App S3 bucket stagingmms - `DONE!`
     * set it up as a "read-only" bucket for legacy purposes, maybe in 10 years we can delete it
 
-* App METEOR_CDN for staging
+* move app-east cluster from us-east-2 to us-east-1 to reduce MongoDB traffic costs - `DONE!`
+    * created app-east-2209 cluster
+    * remove app-east cluster
+
+* App meteor CDN_URL for staging - `DONE!`
 
 * offline-page munin check/alert [DEV-4159][DEV-4159]
 
 [DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
 
-* App METEOR_CDN for prod
+* App meteor CDN_URL for prod
 
 * Infrastructure CI: check-secret
     * check/parse config files from secret directory
@@ -30,8 +34,6 @@
         * secret/cli/schroot/*/local_conf.py syntax/unittest/expected values
         * secret/aws.config/s3/*.env and secret/aws.config/s3/*.json
         * secret/eks/files/munin/conf/alerts_conf.json
-
-* move app-east cluster from us-east-2 to us-east-1
 
 * `SEC` `WAIT` App security changes
     * Remove old/previous Amazon credentials (from Aram's user)
