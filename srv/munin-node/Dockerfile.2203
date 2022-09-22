@@ -49,6 +49,9 @@ COPY --chown=root:uws ./plugins/lib /uws/lib/plugins
 RUN chmod -v 0750 /uws/bin/mnpl.sh \
 	/uws/bin/offlinepage.py
 
+COPY --chown=root:uws ./plugin-conf.d/uws /etc/munin/plugin-conf.d/uws
+RUN chmod -v 0640 /etc/munin/plugin-conf.d/uws
+
 USER root:uws
 WORKDIR /root
 
