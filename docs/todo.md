@@ -39,6 +39,12 @@
     * Remove old/previous Amazon credentials (from Aram's user) - `DONE!!!!!!!!!`
     * Remove private/settings.json from the repo
 
+* `FIX` Meteor CDN_URL is *only* used for some .js and .css assets/files
+    * but the rest of the assets like, in example, the images in the login page do not go via the CDN
+        * https://staging.talkingpts.org/img/login_image.png
+    * meaning: HTML URLs are now relative, like /img/
+        * we should add the CDN domain there and serve assets through it
+
 * `FIX` panoramix-2206 munin storage failing
     * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions
     * basically, the cluster is configured to run in zones us-east-1b and 1c, but all the nodes are now running from 1c and we are not being able to dispatch new nodes in 1b zone, which is where ebs volumes were created (automatically by kubernetes)
