@@ -21,11 +21,11 @@
 
 * App meteor CDN_URL for staging - `DONE!`
 
+* App meteor CDN_URL for prod - `DONE!`
+
 * offline-page munin check/alert [DEV-4159][DEV-4159]
 
 [DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
-
-* App meteor CDN_URL for prod
 
 * Infrastructure CI: check-secret
     * check/parse config files from secret directory
