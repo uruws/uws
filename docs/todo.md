@@ -36,7 +36,7 @@
         * secret/eks/files/munin/conf/alerts_conf.json
 
 * `SEC` `WAIT` App security changes
-    * Remove old/previous Amazon credentials (from Aram's user)
+    * Remove old/previous Amazon credentials (from Aram's user) - `DONE!!!!!!!!!`
     * Remove private/settings.json from the repo
 
 * `FIX` panoramix-2206 munin storage failing
