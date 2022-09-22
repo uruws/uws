@@ -15,13 +15,17 @@
 * archive previous App S3 bucket stagingmms - `DONE!`
     * set it up as a "read-only" bucket for legacy purposes, maybe in 10 years we can delete it
 
-* App METEOR_CDN for staging
+* move app-east cluster from us-east-2 to us-east-1 to reduce MongoDB traffic costs - `DONE!`
+    * created app-east-2209 cluster
+    * remove app-east cluster
+
+* App meteor CDN_URL for staging - `DONE!`
 
 * offline-page munin check/alert [DEV-4159][DEV-4159]
 
 [DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
 
-* App METEOR_CDN for prod
+* App meteor CDN_URL for prod
 
 * Infrastructure CI: check-secret
     * check/parse config files from secret directory
@@ -31,11 +35,15 @@
         * secret/aws.config/s3/*.env and secret/aws.config/s3/*.json
         * secret/eks/files/munin/conf/alerts_conf.json
 
-* move app-east cluster from us-east-2 to us-east-1
-
 * `SEC` `WAIT` App security changes
-    * Remove old/previous Amazon credentials (from Aram's user)
+    * Remove old/previous Amazon credentials (from Aram's user) - `DONE!!!!!!!!!`
     * Remove private/settings.json from the repo
+
+* `FIX` Meteor CDN_URL is *only* used for some .js and .css assets/files
+    * but the rest of the assets like, in example, the images in the login page do not go via the CDN
+        * https://staging.talkingpts.org/img/login_image.png
+    * meaning: HTML URLs are now relative, like /img/
+        * we should add the CDN domain there and serve assets through it
 
 * `FIX` panoramix-2206 munin storage failing
     * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions

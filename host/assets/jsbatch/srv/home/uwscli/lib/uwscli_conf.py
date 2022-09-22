@@ -91,7 +91,7 @@ app: dict[str, App] = {
 		groups = ['uwsapp_app'],
 	),
 	'app-east': App(True,
-		cluster = 'app-east',
+		cluster = 'app-east-2209',
 		desc = 'App web, east cluster',
 		pod = 'meteor/web',
 		deploy = AppDeploy('meteor-app'),
@@ -209,7 +209,7 @@ class AppCluster(object):
 	region: str
 
 cluster: dict[str, AppCluster] = {
-	'app-east':       AppCluster(region = 'us-east-2'),
+	'app-east-2209':  AppCluster(region = 'us-east-1'),
 	'app-west':       AppCluster(region = 'us-west-2'),
 	'apptest-east':   AppCluster(region = 'us-east-2'),
 	'apptest-west':   AppCluster(region = 'us-west-2'),
