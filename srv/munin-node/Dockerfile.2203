@@ -42,12 +42,12 @@ RUN chmod -v 0750 /uws/bin/api-job-stats
 
 RUN install -v -d -o root -g uws -m 0750 /uws/etc/ca /uws/lib
 
-COPY --chown=root:uws ./plugins/bin/offlinepage.py /uws/bin/offlinepage.py
+COPY --chown=root:uws ./plugins/bin/offlinepage.sh /uws/bin/offlinepage.sh
 COPY --chown=root:uws ./plugins/bin/mnpl.sh /uws/bin/mnpl.sh
 COPY --chown=root:uws ./plugins/lib /uws/lib/plugins
 
 RUN chmod -v 0750 /uws/bin/mnpl.sh \
-	/uws/bin/offlinepage.py
+	/uws/bin/offlinepage.sh
 
 COPY --chown=root:uws ./plugin-conf.d/uws /etc/munin/plugin-conf.d/uws
 RUN chmod -v 0640 /etc/munin/plugin-conf.d/uws
