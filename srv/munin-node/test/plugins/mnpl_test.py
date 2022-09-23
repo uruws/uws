@@ -13,6 +13,7 @@ from unittest.mock import call
 from contextlib import contextmanager
 
 import mnpl_t
+import mnpl_utils
 import mnpl
 
 @contextmanager
@@ -34,26 +35,6 @@ class Test(unittest.TestCase):
 
 	def tearDown(t):
 		mnpl_t.teardown()
-
-	def test_log_disabled(t):
-		t.assertFalse(mnpl._log)
-		mnpl.log('testing', '...')
-		t.assertEqual(mnpl_t.log_string(), '')
-
-	def test_log_enabled(t):
-		mnpl._log = True
-		mnpl.log('testing', '...')
-		t.assertEqual(mnpl_t.log_string(), 'testing ...')
-
-	def test_error_log(t):
-		mnpl.error('testing', '...')
-		t.assertEqual(mnpl_t.log_string(), '[E] testing ...')
-
-	def test_cleanfn(t):
-		t.assertEqual(mnpl.cleanfn('k8s-test'), 'k8s_test')
-
-	def test_print(t):
-		mnpl_t.bup_print('testing', '...')
 
 	def test_clusters(t):
 		t.assertEqual(mnpl._clusters_fn, Path('/uws/etc/cluster.json'))
@@ -99,8 +80,8 @@ class Test(unittest.TestCase):
 			call('b_status.max 1'),
 			call('b_status.critical 1:'),
 		]
-		mnpl._print.assert_has_calls(calls)
-		t.assertEqual(mnpl._print.call_count, len(calls))
+		mnpl_utils.println.assert_has_calls(calls)
+		t.assertEqual(mnpl_utils.println.call_count, len(calls))
 
 	def test_config_no_auth(t):
 		cfg = mnpl.Config(auth = False)
@@ -108,7 +89,7 @@ class Test(unittest.TestCase):
 		calls = [
 			call('graph_title k8s k8stest / (no auth)'),
 		]
-		mnpl._print.assert_has_calls(calls)
+		mnpl_utils.println.assert_has_calls(calls)
 
 	def test_report(t):
 		resp = MagicMock()
@@ -122,8 +103,8 @@ class Test(unittest.TestCase):
 			call('a_latency.value', '0.0'),
 			call('b_status.value', '1.0'),
 		]
-		mnpl._print.assert_has_calls(calls)
-		t.assertEqual(mnpl._print.call_count, len(calls))
+		mnpl_utils.println.assert_has_calls(calls)
+		t.assertEqual(mnpl_utils.println.call_count, len(calls))
 
 	def test_report_no_auth(t):
 		mnpl.urlopen.return_value = MagicMock()
@@ -135,7 +116,7 @@ class Test(unittest.TestCase):
 			call('a_latency.value', '0.0'),
 			call('b_status.value', '0.0'),
 		]
-		mnpl._print.assert_has_calls(calls)
+		mnpl_utils.println.assert_has_calls(calls)
 
 	def test_report_error(t):
 		def _error(*args, **kwargs):
