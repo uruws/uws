@@ -29,7 +29,7 @@ def mock_main():
 		mnpl.report = _bup_report
 
 @contextmanager
-def mock_report(fail = False):
+def mock_report_host(fail = False):
 	def _fail(*args, **kwargs):
 		raise Exception('mock_report_error')
 	_bup_report = mnpl._report
@@ -162,7 +162,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnpl._report('k8stest', cfg), (1.0, 0.0))
 
 	def test_report_host(t):
-		with mock_report():
+		with mock_report_host():
 			mnpl.report_host(mnpl.HostConfig(
 				name = 'test',
 				host = 'htest',
@@ -174,7 +174,7 @@ class Test(unittest.TestCase):
 			mnpl_utils.println.assert_has_calls(calls)
 
 	def test_report_host_error(t):
-		with mock_report(fail = True):
+		with mock_report_host(fail = True):
 			mnpl.report_host(mnpl.HostConfig(
 				name = 'test',
 				host = 'htest',
