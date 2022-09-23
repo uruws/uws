@@ -21,9 +21,10 @@
 
 * App meteor CDN_URL for staging - `DONE!`
 
-* offline-page munin check/alert [DEV-4159][DEV-4159]
+* offline-page munin check/alert [DEV-4159][DEV-4159] [PR#33][PR#33]
 
 [DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
+[PR#33]: https://github.com/TalkingPts/Infrastructure/pull/33
 
 * App meteor CDN_URL for prod
 
