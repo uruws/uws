@@ -28,6 +28,20 @@ def mock_main():
 		mnpl.config = _bup_config
 		mnpl.report = _bup_report
 
+@contextmanager
+def mock_report(fail = False):
+	def _fail(*args, **kwargs):
+		raise Exception('mock_report_error')
+	_bup_report = mnpl._report
+	try:
+		if fail:
+			mnpl._report = MagicMock(side_effect = _fail)
+		else:
+			mnpl._report = MagicMock(return_value = (0.0, 1.0))
+		yield
+	finally:
+		mnpl._report = _bup_report
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -146,6 +160,18 @@ class Test(unittest.TestCase):
 		mnpl.urlopen.side_effect = _error
 		cfg = mnpl.Config(auth = False, status = 404)
 		t.assertEqual(mnpl._report('k8stest', cfg), (1.0, 0.0))
+
+	def test_report_host_error(t):
+		with mock_report(fail = True):
+			mnpl.report_host(mnpl.HostConfig(
+				name = 'test',
+				host = 'htest',
+			), mnpl.Config())
+			calls = [
+				call('a_latency.value', 'U'),
+				call('b_status.value', 'U'),
+			]
+			mnpl_utils.println.assert_has_calls(calls)
 
 	def test_main_config(t):
 		with mock_main():
