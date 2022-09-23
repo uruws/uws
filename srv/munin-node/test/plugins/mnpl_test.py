@@ -161,6 +161,18 @@ class Test(unittest.TestCase):
 		cfg = mnpl.Config(auth = False, status = 404)
 		t.assertEqual(mnpl._report('k8stest', cfg), (1.0, 0.0))
 
+	def test_report_host(t):
+		with mock_report():
+			mnpl.report_host(mnpl.HostConfig(
+				name = 'test',
+				host = 'htest',
+			), mnpl.Config())
+			calls = [
+				call('a_latency.value', '1.0'),
+				call('b_status.value', '0.0'),
+			]
+			mnpl_utils.println.assert_has_calls(calls)
+
 	def test_report_host_error(t):
 		with mock_report(fail = True):
 			mnpl.report_host(mnpl.HostConfig(
