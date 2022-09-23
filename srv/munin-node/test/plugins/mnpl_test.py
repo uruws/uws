@@ -84,10 +84,32 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))
 
 	def test_config_no_auth(t):
-		cfg = mnpl.Config(auth = False)
+		cfg = mnpl.Config(
+			auth = False,
+		)
 		t.assertEqual(mnpl.config(cfg), 0)
 		calls = [
 			call('graph_title k8s k8stest / (no auth)'),
+		]
+		mnpl_utils.println.assert_has_calls(calls)
+
+	def test_config_title(t):
+		cfg = mnpl.Config(
+			title = 'testing title',
+		)
+		t.assertEqual(mnpl.config(cfg), 0)
+		calls = [
+			call('graph_title k8s k8stest testing title'),
+		]
+		mnpl_utils.println.assert_has_calls(calls)
+
+	def test_config_category(t):
+		cfg = mnpl.Config(
+			category = 'testing category',
+		)
+		t.assertEqual(mnpl.config(cfg), 0)
+		calls = [
+			call('graph_category', 'testing category'),
 		]
 		mnpl_utils.println.assert_has_calls(calls)
 
