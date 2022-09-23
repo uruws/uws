@@ -45,6 +45,11 @@
     * meaning: HTML URLs are now relative, like /img/
         * we should add the CDN domain there and serve assets through it
 
+* `SEC` `FIX` Firebase content is discoverable:
+    * https://firebasestorage.googleapis.com/v0/b/talkingpnts.appspot.com/o/
+    * working in an unrelated issue with Gabriel we found out that ^
+    * we should use a CDN for that too, and avoid this issue and also improve performance and costs
+
 * `FIX` panoramix-2206 munin storage failing
     * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions
     * basically, the cluster is configured to run in zones us-east-1b and 1c, but all the nodes are now running from 1c and we are not being able to dispatch new nodes in 1b zone, which is where ebs volumes were created (automatically by kubernetes)
