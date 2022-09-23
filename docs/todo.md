@@ -44,6 +44,8 @@
         * https://staging.talkingpts.org/img/login_image.png
     * meaning: HTML URLs are now relative, like /img/
         * we should add the CDN domain there and serve assets through it
+    * be careful about *critical* assets, like maybe meteor_runtime_config.js
+        * meteor itself serves .js assets via de CDN_URL, but excludes the meteor_runtime_config.js, I don't know the reason, but I think that it's a good idea to keep this kind of assets out of the CDN
 
 * `SEC` `FIX` Firebase content is discoverable:
     * https://firebasestorage.googleapis.com/v0/b/talkingpnts.appspot.com/o/
