@@ -1,6 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from contextlib    import contextmanager
 from unittest.mock import MagicMock
 
 from io      import StringIO
@@ -38,3 +39,20 @@ def teardown():
 def log_string() -> str:
 	mnpl_utils._out.seek(0, 0)
 	return mnpl_utils._out.read().strip()
+
+def http_response_mock(code = 200):
+	r = MagicMock()
+	r.code = code
+	r.getcode = MagicMock(return_value = code)
+	return r
+
+@contextmanager
+def mock_utils_GET(resp = None):
+	bup = mnpl_utils.GET
+	if resp is None:
+		resp = http_response_mock()
+	try:
+		mnpl_utils.GET = MagicMock(return_value = resp)
+		yield resp
+	finally:
+		mnpl_utils.GET = bup

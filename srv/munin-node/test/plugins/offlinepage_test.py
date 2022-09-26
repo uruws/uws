@@ -44,5 +44,16 @@ class Test(unittest.TestCase):
 		mnpl_utils.println.assert_has_calls(calls)
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))
 
+	def test_main_report(t):
+		with mnpl_t.mock_utils_GET():
+			t.assertEqual(offlinepage.main([]), 0)
+		calls = [
+			call('a_running.value U'),
+			call('b_offline.value U'),
+			call('c_error.value U'),
+		]
+		mnpl_utils.println.assert_has_calls(calls)
+		t.assertEqual(mnpl_utils.println.call_count, len(calls))
+
 if __name__ == '__main__':
 	unittest.main()
