@@ -56,14 +56,21 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))
 
 	def test_main_report_timeout_error(t):
-		with mnpl_t.mock_utils_GET():
+		with mnpl_t.mock_utils_GET(timeout_error = True):
 			bup = offlinepage._timeout
 			try:
 				offlinepage._timeout = 'testing'
-				t.assertEqual(offlinepage.main([]), 0)
+				t.assertEqual(offlinepage.main([]), 1)
 			finally:
 				offlinepage._timeout = bup
 			mnpl_utils.GET.assert_called_once_with('http://localhost', timeout = 7, auth = True)
+		calls = [
+			call('a_running.value U'),
+			call('b_offline.value U'),
+			call('c_error.value U'),
+		]
+		mnpl_utils.println.assert_has_calls(calls)
+		t.assertEqual(mnpl_utils.println.call_count, len(calls))
 
 if __name__ == '__main__':
 	unittest.main()

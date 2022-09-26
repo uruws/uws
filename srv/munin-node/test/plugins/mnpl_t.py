@@ -4,8 +4,9 @@
 from contextlib    import contextmanager
 from unittest.mock import MagicMock
 
-from io      import StringIO
-from pathlib import Path
+from io           import StringIO
+from pathlib      import Path
+from urllib.error import URLError
 
 import mnpl_utils
 import mnpl
@@ -47,12 +48,17 @@ def http_response_mock(code = 200):
 	return r
 
 @contextmanager
-def mock_utils_GET(resp = None):
+def mock_utils_GET(resp = None, timeout_error = False):
 	bup = mnpl_utils.GET
 	if resp is None:
 		resp = http_response_mock()
+	def _timeout_error(*args, **kwargs):
+		raise URLError('mock_utils_GET_timeout_error')
 	try:
-		mnpl_utils.GET = MagicMock(return_value = resp)
+		if timeout_error:
+			mnpl_utils.GET = MagicMock(side_effect = _timeout_error)
+		else:
+			mnpl_utils.GET = MagicMock(return_value = resp)
 		yield resp
 	finally:
 		mnpl_utils.GET = bup

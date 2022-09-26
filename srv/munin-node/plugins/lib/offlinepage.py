@@ -3,7 +3,9 @@
 
 import sys
 
-from os import getenv
+from http         import HTTPStatus
+from os           import getenv
+from urllib.error import URLError
 
 import mnpl_utils as utils
 
@@ -38,9 +40,21 @@ def config() -> int:
 def report() -> int:
 	try:
 		ttl = int(_timeout)
-	except ValueError:
+	except ValueError as err:
+		utils.error(err)
 		ttl = 7
-	resp = utils.GET(_target, timeout = ttl, auth = _auth)
+	try:
+		resp = utils.GET(_target, timeout = ttl, auth = _auth)
+	except URLError as err:
+		utils.error(err)
+		utils.println('a_running.value U')
+		utils.println('b_offline.value U')
+		utils.println('c_error.value U')
+		return 1
+	if resp.getcode() != HTTPStatus.OK:
+		utils.println('a_running.value 3.0')
+		utils.println('b_offline.value 3.0')
+		utils.println('c_error.value 0.0')
 	utils.println('a_running.value U')
 	utils.println('b_offline.value U')
 	utils.println('c_error.value U')
