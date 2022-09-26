@@ -48,10 +48,10 @@ def http_response_mock(code = 200):
 	return r
 
 @contextmanager
-def mock_utils_GET(resp = None, timeout_error = False):
+def mock_utils_GET(resp = None, timeout_error = False, code = 200):
 	bup = mnpl_utils.GET
 	if resp is None:
-		resp = http_response_mock()
+		resp = http_response_mock(code = code)
 	def _timeout_error(*args, **kwargs):
 		raise URLError('mock_utils_GET_timeout_error')
 	try:
