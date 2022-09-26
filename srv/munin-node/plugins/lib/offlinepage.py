@@ -52,13 +52,13 @@ def report() -> int:
 		utils.println('c_error.value U')
 		return 1
 	if resp.getcode() != HTTPStatus.OK:
-		utils.println('a_running.value 3.0')
-		utils.println('b_offline.value 3.0')
+		utils.println('a_running.value 2.0')
+		utils.println('b_offline.value 2.0')
 		utils.println('c_error.value 0.0')
 		return 0
 	utils.println('a_running.value U')
 	utils.println('b_offline.value U')
-	utils.println('c_error.value U')
+	utils.println('c_error.value 3.0')
 	return 0
 
 def main(argv: list[str]) -> int:

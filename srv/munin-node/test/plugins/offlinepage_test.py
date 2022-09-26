@@ -50,7 +50,7 @@ class Test(unittest.TestCase):
 		calls = [
 			call('a_running.value U'),
 			call('b_offline.value U'),
-			call('c_error.value U'),
+			call('c_error.value 3.0'),
 		]
 		mnpl_utils.println.assert_has_calls(calls)
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))
@@ -76,8 +76,8 @@ class Test(unittest.TestCase):
 		with mnpl_t.mock_utils_GET(code = 599):
 			t.assertEqual(offlinepage.main([]), 0)
 		calls = [
-			call('a_running.value 3.0'),
-			call('b_offline.value 3.0'),
+			call('a_running.value 2.0'),
+			call('b_offline.value 2.0'),
 			call('c_error.value 0.0'),
 		]
 		mnpl_utils.println.assert_has_calls(calls)
