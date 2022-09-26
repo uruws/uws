@@ -16,6 +16,7 @@ from urllib.request import Request
 from urllib.request import urlopen
 
 from typing import Optional
+from typing import Union
 
 import mnpl_utils as utils
 
