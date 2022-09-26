@@ -58,8 +58,8 @@ class HostConfig(object):
 #
 
 def GET(cluster: str, cfg: Config) -> HTTPResponse:
-	h = f"{cluster}.{cfg.domain}"
-	return utils.GET(h, cfg.path, timeout = cfg.timeout, auth = cfg.auth)
+	url = f"https://{cluster}.{cfg.domain}{cfg.path}"
+	return utils.GET(url, timeout = cfg.timeout, auth = cfg.auth)
 
 #
 # main

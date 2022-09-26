@@ -18,9 +18,6 @@ class Test(unittest.TestCase):
 	def tearDown(t):
 		mnpl_t.teardown()
 
-	def test_main(t):
-		t.assertEqual(offlinepage.main([]), 0)
-
 	def test_main_config(t):
 		t.assertEqual(offlinepage.main(['config']), 0)
 		calls = [

@@ -7,11 +7,13 @@ from os import getenv
 
 import mnpl_utils as utils
 
-_category: str = getenv('category', 'network').strip()
-_app:      str = getenv('app',      'app').strip()
-_target:   str = getenv('target',   'http://localhost').strip()
+_category: str  = getenv('category', 'network').strip()
+_app:      str  = getenv('app',      'app').strip()
+_auth:     bool = getenv('auth',     'on').strip() == 'on'
+_timeout:  str  = getenv('timeout',  '7').strip()
+_target:   str  = getenv('target',   'http://localhost').strip()
 
-def config(t: str) -> int:
+def config() -> int:
 	utils.println('graph_title offline page', _target)
 	utils.println('graph_args --base 1000 -l 0')
 	utils.println('graph_category', _category)
@@ -33,7 +35,12 @@ def config(t: str) -> int:
 	utils.println('c_error.critical 1')
 	return 0
 
-def report(t: str) -> int:
+def report() -> int:
+	try:
+		ttl = int(_timeout)
+	except ValueError:
+		ttl = 7
+	resp = utils.GET(_target, timeout = ttl, auth = _auth)
 	utils.println('a_running.value U')
 	utils.println('b_offline.value U')
 	utils.println('c_error.value U')
@@ -44,10 +51,9 @@ def main(argv: list[str]) -> int:
 		action = argv[0]
 	except IndexError:
 		action = 'report'
-	t = _target.strip()
 	if action == 'config':
-		return config(t)
-	return report(t)
+		return config()
+	return report()
 
 if __name__ == '__main__': # pragma: no cover
 	sys.exit(main(sys.argv[1:]))

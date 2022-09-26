@@ -92,10 +92,7 @@ def _tls_context(auth: bool) -> Optional[SSLContext]:
 # http helpers
 #
 
-def GET(hostname: str, path: str, timeout: int = 7, auth: bool = True) -> HTTPResponse:
+def GET(url: str, timeout: int = 7, auth: bool = True) -> HTTPResponse:
 	ctx = _tls_context(auth)
-	req = Request(
-		f"https://{hostname}{path}",
-		method = 'GET',
-	)
+	req = Request(url, method = 'GET')
 	return urlopen(req, timeout = timeout, context = ctx)
