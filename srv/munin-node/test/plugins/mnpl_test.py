@@ -56,16 +56,16 @@ class Test(unittest.TestCase):
 			{'host': 'k8stest', 'name': 'k8stest'},
 		])
 
-	def test_getpw(t):
-		t.assertEqual(mnpl._getpw(), 'pwd')
-		mnpl._tls_cert = 'test-id'
-		t.assertEqual(mnpl._getpw(), '')
+	def test_tls_getpw(t):
+		t.assertEqual(mnpl_utils._tls_getpw(), 'pwd')
+		mnpl_utils._tls_cert = 'test-id'
+		t.assertEqual(mnpl_utils._tls_getpw(), '')
 
 	def test_tls_context_auth(t):
-		mnpl._tls_cert = mnpl_t.bup_tls_cert
-		mnpl._tls_conf = mnpl_t.bup_tls_conf
-		ctx = mnpl._context(True)
-		t.assertIs(mnpl._ctx_auth, ctx)
+		mnpl_utils._tls_cert = mnpl_t.bup_tls_cert
+		mnpl_utils._tls_conf = mnpl_t.bup_tls_conf
+		ctx = mnpl_utils._tls_context(True)
+		t.assertIs(mnpl_utils._ctx_auth, ctx)
 
 	def test_GET(t):
 		t.assertIsNone(mnpl.GET('k8stest', mnpl.Config(auth = False)))
@@ -130,8 +130,8 @@ class Test(unittest.TestCase):
 	def test_report(t):
 		resp = MagicMock()
 		resp.getcode = MagicMock(return_value = 200)
-		mnpl.urlopen.return_value = resp
-		mnpl._ctx_auth = MagicMock()
+		mnpl_utils.urlopen.return_value = resp
+		mnpl_utils._ctx_auth = MagicMock()
 		cfg = mnpl.Config()
 		t.assertEqual(mnpl.report(cfg), 0)
 		calls = [
@@ -143,8 +143,8 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))
 
 	def test_report_no_auth(t):
-		mnpl.urlopen.return_value = MagicMock()
-		mnpl._ctx_auth = MagicMock()
+		mnpl_utils.urlopen.return_value = MagicMock()
+		mnpl_utils._ctx_auth = MagicMock()
 		cfg = mnpl.Config(auth = False)
 		t.assertEqual(mnpl.report(cfg), 0)
 		calls = [
@@ -157,7 +157,7 @@ class Test(unittest.TestCase):
 	def test_report_error(t):
 		def _error(*args, **kwargs):
 			raise HTTPError('testing', 404, 'mock_error', {}, None)
-		mnpl.urlopen.side_effect = _error
+		mnpl_utils.urlopen.side_effect = _error
 		cfg = mnpl.Config(auth = False, status = 404)
 		t.assertEqual(mnpl._report('k8stest', cfg), (1.0, 0.0))
 

@@ -2,20 +2,15 @@
 # See LICENSE file.
 
 import json
-import ssl
 
 from dataclasses import dataclass
 from os          import getenv
 from pathlib     import Path
-from ssl         import SSLContext
 from time        import time
 
-from http.client    import HTTPResponse
-from urllib.error   import HTTPError
-from urllib.request import Request
-from urllib.request import urlopen
+from http.client  import HTTPResponse
+from urllib.error import HTTPError
 
-from typing import Optional
 from typing import Union
 
 import mnpl_utils as utils
@@ -33,48 +28,6 @@ def clusters() -> list[dict[str, str]]:
 	with open(_clusters_fn, 'r') as fh:
 		k = [d for d in json.load(fh) if d]
 	return k
-
-#
-# tls setup
-#
-
-_tls_cert:    str  = getenv('UWS_TLS_CERT', '12a549fb-96a3-5131-aa15-9bc30cc7d99d')
-_tls_conf:    Path = Path(getenv('UWS_TLS_CONF', '/uws/etc/ca/ops/client.pw'))
-_tls_certdir: Path = Path(getenv('UWS_TLS_CERTDIR', '/uws/etc/ca/client'))
-
-_ctx:      Optional[SSLContext] = None
-_ctx_auth: Optional[SSLContext] = None
-
-def _getpw() -> str:
-	pw: str  = ''
-	with open(_tls_conf, 'r') as fh:
-		for line in fh.readlines():
-			field = line.strip().split(':')
-			try:
-				if field[0] == _tls_cert:
-					return field[1]
-			except IndexError:
-				pass
-	return pw
-
-def _context(auth: bool) -> Optional[SSLContext]:
-	global _ctx
-	if _ctx is None:
-		_ctx = ssl.create_default_context()
-	global _ctx_auth
-	if auth and _ctx_auth is None:
-		certfn: Path = _tls_certdir.joinpath(f"{_tls_cert}.pem")
-		keyfn:  Path = _tls_certdir.joinpath(f"{_tls_cert}-key.pem")
-		pw:     str  = _getpw()
-		_ctx_auth = ssl.create_default_context()
-		_ctx_auth.load_cert_chain(
-			certfile = certfn,
-			keyfile  = keyfn,
-			password = pw,
-		)
-	if auth:
-		return _ctx_auth
-	return _ctx
 
 #
 # plugin config
@@ -104,16 +57,9 @@ class HostConfig(object):
 # http helpers
 #
 
-def _open(cluster: str, method: str, cfg: Config) -> HTTPResponse:
-	ctx = _context(cfg.auth)
-	req = Request(
-		f"https://{cluster}.{cfg.domain}{cfg.path}",
-		method = method,
-	)
-	return urlopen(req, timeout = cfg.timeout, context = ctx)
-
 def GET(cluster: str, cfg: Config) -> HTTPResponse:
-	return _open(cluster, 'GET', cfg)
+	h = f"{cluster}.{cfg.domain}"
+	return utils.GET(h, cfg.path, timeout = cfg.timeout, auth = cfg.auth)
 
 #
 # main
