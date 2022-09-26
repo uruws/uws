@@ -29,37 +29,29 @@ class Test(unittest.TestCase):
 			call('a_running.colour COLOUR0'),
 			call('a_running.draw AREA'),
 			call('a_running.min 0'),
+			call('a_running.max 5'),
 			call('a_running.critical 1'),
 			call('b_offline.label offline'),
 			call('b_offline.colour COLOUR1'),
 			call('b_offline.draw AREA'),
 			call('b_offline.min 0'),
+			call('b_offline.max 5'),
 			call('b_offline.critical 1'),
 			call('c_error.label error'),
 			call('c_error.colour COLOUR2'),
 			call('c_error.draw AREA'),
 			call('c_error.min 0'),
+			call('c_error.max 5'),
 			call('c_error.critical 1'),
 			call('d_size.label size'),
 			call('d_size.colour COLOUR3'),
 			call('d_size.draw AREA'),
 			call('d_size.min 0'),
+			call('d_size.max 5'),
 			call('d_size.critical 1'),
 		]
 		mnpl_utils.println.assert_has_calls(calls)
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))
-
-	# ~ def test_main_report(t):
-		# ~ with mnpl_t.mock_utils_GET():
-			# ~ t.assertEqual(offlinepage.main([]), 0)
-		# ~ calls = [
-			# ~ call('a_running.value U'),
-			# ~ call('b_offline.value U'),
-			# ~ call('c_error.value 3.0'),
-			# ~ call('d_size.value U'),
-		# ~ ]
-		# ~ mnpl_utils.println.assert_has_calls(calls)
-		# ~ t.assertEqual(mnpl_utils.println.call_count, len(calls))
 
 	def test_main_report_timeout_error(t):
 		with mnpl_t.mock_utils_GET(timeout_error = True):
@@ -83,22 +75,62 @@ class Test(unittest.TestCase):
 		with mnpl_t.mock_utils_GET(code = 599):
 			t.assertEqual(offlinepage.main([]), 0)
 		calls = [
-			call('a_running.value 2.0'),
-			call('b_offline.value 2.0'),
+			call('a_running.value 3.0'),
+			call('b_offline.value 3.0'),
 			call('c_error.value 0.0'),
-			call('d_size.value 2.0'),
+			call('d_size.value 3.0'),
 		]
 		mnpl_utils.println.assert_has_calls(calls)
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))
 
 	def test_main_report_size_error(t):
-		with mnpl_t.mock_utils_GET():
+		with mnpl_t.mock_utils_GET(body = '\n'):
 			t.assertEqual(offlinepage.main([]), 0)
 		calls = [
-			call('a_running.value 2.0'),
-			call('b_offline.value 2.0'),
-			call('c_error.value 2.0'),
+			call('a_running.value 3.0'),
+			call('b_offline.value 3.0'),
+			call('c_error.value 3.0'),
 			call('d_size.value 0.0'),
+		]
+		mnpl_utils.println.assert_has_calls(calls)
+		t.assertEqual(mnpl_utils.println.call_count, len(calls))
+
+	def test_main_report(t):
+		bup_size_min = offlinepage._size_min
+		bup_app_check = offlinepage._app_check
+		try:
+			offlinepage._size_min = 7
+			offlinepage._app_check = 'testing'
+			with mnpl_t.mock_utils_GET(body = 'testing\n'):
+				t.assertEqual(offlinepage.main([]), 0)
+		finally:
+			offlinepage._size_min = bup_size_min
+			offlinepage._app_check = bup_app_check
+		calls = [
+			call('a_running.value', '3.0'),
+			call('b_offline.value', '3.0'),
+			call('c_error.value 3.0'),
+			call('d_size.value 3.0'),
+		]
+		mnpl_utils.println.assert_has_calls(calls)
+		t.assertEqual(mnpl_utils.println.call_count, len(calls))
+
+	def test_main_report_offline(t):
+		bup_size_min = offlinepage._size_min
+		bup_offline_check = offlinepage._offline_check
+		try:
+			offlinepage._size_min = 7
+			offlinepage._offline_check = 'testing'
+			with mnpl_t.mock_utils_GET(body = 'testing\n'):
+				t.assertEqual(offlinepage.main([]), 0)
+		finally:
+			offlinepage._size_min = bup_size_min
+			offlinepage._offline_check = bup_offline_check
+		calls = [
+			call('a_running.value', '0.0'),
+			call('b_offline.value', '0.0'),
+			call('c_error.value 3.0'),
+			call('d_size.value 3.0'),
 		]
 		mnpl_utils.println.assert_has_calls(calls)
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))

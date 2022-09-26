@@ -45,16 +45,19 @@ def http_response_mock(code = 200, body = ''):
 	r = MagicMock()
 	r.code = code
 	r.getcode = MagicMock(return_value = code)
-	def _read(*args, **kwargs):
-		return body.encode()
-	r.read = MagicMock(side_effect = _read)
+	# ~ def _read(*args, **kwargs):
+		# ~ return body.encode()
+	# ~ r.read = MagicMock(side_effect = _read)
+	def _readlines(*args, **kwargs):
+		return body.encode().splitlines()
+	r.readlines = MagicMock(side_effect = _readlines)
 	return r
 
 @contextmanager
-def mock_utils_GET(resp = None, timeout_error = False, code = 200):
+def mock_utils_GET(resp = None, timeout_error = False, code = 200, body = ''):
 	bup = mnpl_utils.GET
 	if resp is None:
-		resp = http_response_mock(code = code)
+		resp = http_response_mock(code = code, body = body)
 	def _timeout_error(*args, **kwargs):
 		raise URLError('mock_utils_GET_timeout_error')
 	try:

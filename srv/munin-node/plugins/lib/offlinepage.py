@@ -16,30 +16,41 @@ _timeout:  str  = getenv('timeout',  '7').strip()
 _target:   str  = getenv('target',   'http://localhost').strip()
 _size_min: str  = getenv('size_min', '1500').strip()
 
+_app_check:     str = getenv('app_check',     'meteor_runtime_config.js').strip()
+_offline_check: str = getenv('offline_check', 'OFFLINEPAGEDEADBEEFCHECK').strip()
+
 def config() -> int:
 	utils.println('graph_title offline page', _target)
 	utils.println('graph_args --base 1000 -l 0')
 	utils.println('graph_category', _category)
 	utils.println('graph_vlabel', _app)
+
 	utils.println('a_running.label running')
 	utils.println('a_running.colour COLOUR0')
 	utils.println('a_running.draw AREA')
 	utils.println('a_running.min 0')
+	utils.println('a_running.max 5')
 	utils.println('a_running.critical 1')
+
 	utils.println('b_offline.label offline')
 	utils.println('b_offline.colour COLOUR1')
 	utils.println('b_offline.draw AREA')
 	utils.println('b_offline.min 0')
+	utils.println('b_offline.max 5')
 	utils.println('b_offline.critical 1')
+
 	utils.println('c_error.label error')
 	utils.println('c_error.colour COLOUR2')
 	utils.println('c_error.draw AREA')
 	utils.println('c_error.min 0')
+	utils.println('c_error.max 5')
 	utils.println('c_error.critical 1')
+
 	utils.println('d_size.label size')
 	utils.println('d_size.colour COLOUR3')
 	utils.println('d_size.draw AREA')
 	utils.println('d_size.min 0')
+	utils.println('d_size.max 5')
 	utils.println('d_size.critical 1')
 	return 0
 
@@ -61,23 +72,34 @@ def report() -> int:
 		utils.println('d_size.value U')
 		return 1
 	if resp.getcode() != HTTPStatus.OK:
-		utils.println('a_running.value 2.0')
-		utils.println('b_offline.value 2.0')
+		utils.println('a_running.value 3.0')
+		utils.println('b_offline.value 3.0')
 		utils.println('c_error.value 0.0')
-		utils.println('d_size.value 2.0')
+		utils.println('d_size.value 3.0')
 		return 0
-	body = resp.read()
-	blen = len(body)
+	offline_check = _offline_check.encode()
+	app_check = _app_check.encode()
+	running = '0.0'
+	offline = '3.0'
+	blen = 0
+	for line in resp.readlines():
+		blen += len(line) + 1
+		# offline check
+		if line.find(offline_check) >= 0:
+			offline = '0.0'
+		# app check
+		if line.find(app_check) >= 0:
+			running = '3.0'
 	if blen <= size_min:
-		utils.println('a_running.value 2.0')
-		utils.println('b_offline.value 2.0')
-		utils.println('c_error.value 2.0')
+		utils.println('a_running.value 3.0')
+		utils.println('b_offline.value 3.0')
+		utils.println('c_error.value 3.0')
 		utils.println('d_size.value 0.0')
 		return 0
-	utils.println('a_running.value U')
-	utils.println('b_offline.value U')
+	utils.println('a_running.value', running)
+	utils.println('b_offline.value', offline)
 	utils.println('c_error.value 3.0')
-	utils.println('d_size.value U')
+	utils.println('d_size.value 3.0')
 	return 0
 
 def main(argv: list[str]) -> int:
