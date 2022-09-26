@@ -41,10 +41,13 @@ def log_string() -> str:
 	mnpl_utils._out.seek(0, 0)
 	return mnpl_utils._out.read().strip()
 
-def http_response_mock(code = 200):
+def http_response_mock(code = 200, body = ''):
 	r = MagicMock()
 	r.code = code
 	r.getcode = MagicMock(return_value = code)
+	def _read(*args, **kwargs):
+		return body.encode()
+	r.read = MagicMock(side_effect = _read)
 	return r
 
 @contextmanager

@@ -14,6 +14,7 @@ _app:      str  = getenv('app',      'app').strip()
 _auth:     bool = getenv('auth',     'on').strip() == 'on'
 _timeout:  str  = getenv('timeout',  '7').strip()
 _target:   str  = getenv('target',   'http://localhost').strip()
+_size_min: str  = getenv('size_min', '1500').strip()
 
 def config() -> int:
 	utils.println('graph_title offline page', _target)
@@ -35,14 +36,21 @@ def config() -> int:
 	utils.println('c_error.draw AREA')
 	utils.println('c_error.min 0')
 	utils.println('c_error.critical 1')
+	utils.println('d_size.label size')
+	utils.println('d_size.colour COLOUR3')
+	utils.println('d_size.draw AREA')
+	utils.println('d_size.min 0')
+	utils.println('d_size.critical 1')
 	return 0
 
 def report() -> int:
 	try:
 		ttl = int(_timeout)
+		size_min = int(_size_min)
 	except ValueError as err:
 		utils.error(err)
 		ttl = 7
+		size_min = 1500
 	try:
 		resp = utils.GET(_target, timeout = ttl, auth = _auth)
 	except URLError as err:
@@ -50,15 +58,26 @@ def report() -> int:
 		utils.println('a_running.value U')
 		utils.println('b_offline.value U')
 		utils.println('c_error.value U')
+		utils.println('d_size.value U')
 		return 1
 	if resp.getcode() != HTTPStatus.OK:
 		utils.println('a_running.value 2.0')
 		utils.println('b_offline.value 2.0')
 		utils.println('c_error.value 0.0')
+		utils.println('d_size.value 2.0')
+		return 0
+	body = resp.read()
+	blen = len(body)
+	if blen <= size_min:
+		utils.println('a_running.value 2.0')
+		utils.println('b_offline.value 2.0')
+		utils.println('c_error.value 2.0')
+		utils.println('d_size.value 0.0')
 		return 0
 	utils.println('a_running.value U')
 	utils.println('b_offline.value U')
 	utils.println('c_error.value 3.0')
+	utils.println('d_size.value U')
 	return 0
 
 def main(argv: list[str]) -> int:
