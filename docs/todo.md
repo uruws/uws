@@ -41,7 +41,14 @@
 
 ---
 
-* offline-page munin check/alert [DEV-4159][DEV-4159]
+* Remove CDN_URL from App prod and staging: - `DONE!`
+    * we have some issues with the CDN setup
+    * web clients from east region were having problems with loading CDN assets (like the meteor_js_resource)
+    * it's quite weird because only clients from east region were havin problems, west clients worked fine, it was even tested and confirmed using VPNs by the Ninja Squad
+
+---
+
+* offline-page munin check/alert [DEV-4159][DEV-4159] - `WIP`
 
 [DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
 
