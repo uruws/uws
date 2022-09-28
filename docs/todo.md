@@ -3,30 +3,57 @@
     * workers migrate
     * worker-2206 decommission
 
+---
+
 * CDN EL7V8UVYGEFN1	tapotest-7hw39x4r s3 bucket CDN	d3ilh35g4a273c.cloudfront.net - `DONE!`
+
+---
 
 * CDN E1AOQ154HHV4KH tapodev-25gg7bg0 s3 bucket CDN d2avfu1nocdvhb.cloudfront.net - `DONE!`
 
+---
+
 * CDN ECPF4JUUI0UST tapolive-jtctkyf4 s3 bucket CDN d3mprzajshnkud.cloudfront.net - `DONE!`
+
+---
 
 * `BROKEN` We had to remove the "force TLS" policy from S3 buckets - `DONE!`
     * Coconut is *broken* and it uploads the files over http *always*, even if it is configured with the "secure" flag. Gabriel reported the bug to Coconut people, but who knows...
 
+---
+
 * archive previous App S3 bucket stagingmms - `DONE!`
     * set it up as a "read-only" bucket for legacy purposes, maybe in 10 years we can delete it
+
+---
 
 * move app-east cluster from us-east-2 to us-east-1 to reduce MongoDB traffic costs - `DONE!`
     * created app-east-2209 cluster
     * remove app-east cluster
 
+---
+
 * App meteor CDN_URL for staging - `DONE!`
 
-* offline-page munin check/alert [DEV-4159][DEV-4159] [PR#33][PR#33]
+---
+
+* App meteor CDN_URL for prod - `DONE!`
+
+---
+
+* Remove CDN_URL from App prod and staging: - `DONE!`
+    * we have some issues with the CDN setup
+    * web clients from east region were having problems with loading CDN assets (like the meteor_js_resource)
+    * it's quite weird because only clients from east region were havin problems, west clients worked fine, it was even tested and confirmed using VPNs by the Ninja Squad
+
+---
+
+* offline-page munin check/alert [DEV-4159][DEV-4159] - `WIP`
 
 [DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
 [PR#33]: https://github.com/TalkingPts/Infrastructure/pull/33
 
-* App meteor CDN_URL for prod
+---
 
 * Infrastructure CI: check-secret
     * check/parse config files from secret directory
@@ -36,19 +63,36 @@
         * secret/aws.config/s3/*.env and secret/aws.config/s3/*.json
         * secret/eks/files/munin/conf/alerts_conf.json
 
+---
+
 * `SEC` `WAIT` App security changes
     * Remove old/previous Amazon credentials (from Aram's user) - `DONE!!!!!!!!!`
     * Remove private/settings.json from the repo
+
+---
 
 * `FIX` Meteor CDN_URL is *only* used for some .js and .css assets/files
     * but the rest of the assets like, in example, the images in the login page do not go via the CDN
         * https://staging.talkingpts.org/img/login_image.png
     * meaning: HTML URLs are now relative, like /img/
         * we should add the CDN domain there and serve assets through it
+    * be careful about *critical* assets, like maybe meteor_runtime_config.js
+        * meteor itself serves .js assets via de CDN_URL, but excludes the meteor_runtime_config.js, I don't know the reason, but I think that it's a good idea to keep this kind of assets out of the CDN
+
+---
+
+* `SEC` `FIX` Firebase content is discoverable:
+    * https://firebasestorage.googleapis.com/v0/b/talkingpnts.appspot.com/o/
+    * working in an unrelated issue with Gabriel we found out that ^
+    * we should use a CDN for that too, and avoid this issue and also improve performance and costs
+
+---
 
 * `FIX` panoramix-2206 munin storage failing
     * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions
     * basically, the cluster is configured to run in zones us-east-1b and 1c, but all the nodes are now running from 1c and we are not being able to dispatch new nodes in 1b zone, which is where ebs volumes were created (automatically by kubernetes)
+
+---
 
 * munin cluster's storage archive/sync to jsbatch or similar
     * for archiving/history and backup purposes
@@ -61,6 +105,8 @@
         * available storage
         * region/zones
 
+---
+
 * app-autoscale
     * implement auto scaler based on custom metrics
         * web: scale based on web traffic/requests per minute
@@ -71,6 +117,8 @@
             * messages.jobs ready?
             * one metric could be based on checking scheduled district jobs to scale up before it starts, instead of reacting to an alert
 
+---
+
 * separate web and api clusters
     * /api/* web traffic should be served from a different cluster
         * could be workers as we do for bandwidthCallback
@@ -80,40 +128,62 @@
     * as api calls are more than 50% of the traffic based on munin graphs
     * or, even better, two east+west clusters for each: web and api
 
+---
+
 * Add 504 Gateway Timeout to the list of errors for offline page to be shown
+
+---
 
 * forensics setup
 
+---
+
 * munin: MongoDB slow queries
+
+---
 
 * [Upgrades][Upgrades] round 2209
     * previous one was 2203
 
 [Upgrades]: ./infra/upgrades.md
 
+---
+
 * CA rotate ops/210823
+
+---
 
 * `FIX` worker.uws domain:
     * we should use a main subdomain like: callbacks.t.o so we can use Goddady's cert
     * or we could buy a new cert for worker.uws and avoid having to re-configure 3rd party services
     * the problem is that we can't use lets encrypt service in a "split cluster" setup as we have for the web service and want for the workers too
 
+---
+
 * `FIX` infra-ui config: JIRA_TOKEN='mauro'
     * and the JIRA_TOKEN too as I guess it's from Mauro's account
     * asked Gabriel but no reply yet
+
+---
 
 * Research Team
     * re-implement jupyter notebook setups
         * setup one web interface per user vs the "global" one we currently have
 
+---
+
 * Vanta SOC2: implement AWS [GuardDuty][GuardDuty]
 
 [GuardDuty]: https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html
+
+---
 
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
     * check that munin-node container/service is running via k8smon "proxy"
+
+---
 
 * infra-api - `WIP`
     * help pages
@@ -126,6 +196,8 @@
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
 
+---
+
 * App encrypt secrets - `WIP`
     * git-crypt setup for private/secrets directory [App PR#910][APP#910]
     * `WIP` for dev team to do the private files migration
@@ -133,14 +205,20 @@
 
 [APP#910]: https://github.com/TalkingPts/App/pull/910
 
+---
+
 * implement [node inspector][node-inspector] setup using the SSH approach
     * the idea is to have a way to dispatch "debugging containers" which could be inspected using chrome dev tools or similar, using the SSH tunneling setup as it seems to be the more secure for our infra
     * the SSH service should be only enabled when we dispatch the debug containers, using a random public port ideally and setting a random password for the uws user inside the container (show that password in the container init steps or similar) so we can share that info (port and password) "securely" as it's generated every time the container starts
 
 [node-inspector]: https://nodejs.org/en/docs/guides/debugging-getting-started/
 
+---
+
 * apply awscli/utils/s3-app-bucket*.sh to production App bucket (stagingmms)
     * it was applied to staging environment, but not yet on prod
+
+---
 
 * create a monitoring from App logs for Bandwidth message-failed like the one that follows.
 
@@ -150,6 +228,8 @@
     [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059727236Z     type: 'message-failed',
     [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059731996Z     to: '+12408057329',
     [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059736966Z     description: '050003BA0303006F0077 Carrier error 503',
+
+---
 
 * `FIX` app-autobuild
     * keep track of tags already in the build queue, to avoid, in example:
@@ -164,18 +244,28 @@
             * because it happens often that a build of an older sprint version is dispatched for a hotfix or whatever... we don't want to auto deploy those
             * autobuilds will always deploy new tags, but we need to fix it for manual dispatch
 
+---
+
 * `FIX` app-build
     * do not dispatch build if one already in place for same version
+
+---
 
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
     * maybe use an script for Route53 editions which alerts about prod domains or similar
     * try to avoid manual changes (maybe some peer review?)
 
+---
+
 * uwscli auto-setup from main configuration
     * integrate with buildpack deploy scripts
 
+---
+
 * munin: scan cluster ingress domains and add them to the checks (munin-node-clusters)
+
+---
 
 * aws support meeting
     * setup CDN mainly to help saving network transfer costs
@@ -183,9 +273,15 @@
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
 
+---
+
 * add bot to check we can send emails? (mandrill service)
 
+---
+
 * `CLEAN` /srv/deploy/analysis.git setup for (old) iss72 deploy
+
+---
 
 * `FIX` buildpack:
     * use tag version from command line for publishing the image
@@ -197,6 +293,8 @@
     'uws' repository and cannot be overwritten because the repository is immutable.
 
     Publish app version 2.64.8 failed
+
+---
 
 * uwscli:
     * `FIX` non-operator users should not be able to app-restart either
@@ -218,17 +316,29 @@
     * app-deploy:
         * list available builds using semver sort order
 
+---
+
 * uwsq: clean failed jobs
 
+---
+
 * `SEC` mongodb credentials rotation schedule
+
+---
 
 * `SEC` aws auth credentials rotation schedule
     * uwsadm and friends "access keys"
 
+---
+
 * mongodb analyzer?
+
+---
 
 * app-autobuild deploy
     * wait some time between deploys on "multi cluster" apps
+
+---
 
 * munin pods_container (check phase)
     "status": {
@@ -238,6 +348,8 @@
         "startTime": "2022-02-09T03:24:23Z"
     }
 
+---
+
 * munin alerts to slack
     * setup/devel bot
     * remove setup munin limit mail alerts
@@ -246,11 +358,17 @@
             * gmail fetch
             * create forward rules to slack and others
 
+---
+
 * nlpsvc: separate apps namespaces (for graphs and cli status/logs)
+
+---
 
 * rstudio checks
     * http_loadtime IDE and Jupyter Notebook from jsbatch
     * vm local munin setup (ansible role)
+
+---
 
 * ansible roles
     * monit
@@ -259,7 +377,11 @@
     * fail2ban
     * munin
 
+---
+
 * non-prod sites robots.txt to disallow all crawlers?
+
+---
 
 * WAF setup
     * implement fail2ban for kubernets/aws?
@@ -267,13 +389,21 @@
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
 
+---
+
 * infra docs for internal presentation
+
+---
 
 * `FIX` k8smon: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
 
+---
+
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
+
+---
 
 * uwscli wish list
     * cleanup old images in ECR
@@ -283,20 +413,30 @@
     * control deploy replicas
     * show web proxy logs
 
+---
+
 * cache web assets
     * use separate domain for static assets
     * test meteor appcache
 
+---
+
 * block web access by geoip?
     * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#use-geoip
 
+---
+
 * munin
     * graph app number of active users/sessions
+
+---
 
 * nginx
     * split cluster load over N instances instead of only 1
     * run them in their own node group?
     * or tune mem and cpu resources to make them run in a "dedicated" node?
+
+---
 
 * improve web deploys
     * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.
