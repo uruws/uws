@@ -82,14 +82,15 @@ def report() -> int:
 	running = '0.0'
 	offline = '3.0'
 	blen = 0
-	for line in resp.readlines():
-		blen += len(line) + 1
-		# offline check
-		if line.find(offline_check) >= 0:
-			offline = '0.0'
-		# app check
-		if line.find(app_check) >= 0:
-			running = '3.0'
+	with resp:
+		for line in resp.readlines():
+			blen += len(line) + 1
+			# offline check
+			if line.find(offline_check) >= 0:
+				offline = '0.0'
+			# app check
+			if line.find(app_check) >= 0:
+				running = '3.0'
 	if blen <= size_min:
 		utils.println('a_running.value 3.0')
 		utils.println('b_offline.value 3.0')
