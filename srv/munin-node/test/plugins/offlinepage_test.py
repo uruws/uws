@@ -101,8 +101,11 @@ class Test(unittest.TestCase):
 		try:
 			offlinepage._size_min = 7
 			offlinepage._app_check = 'testing'
-			with mnpl_t.mock_utils_GET(body = 'testing\n'):
+			with mnpl_t.mock_utils_GET(body = 'testing\n') as resp:
 				t.assertEqual(offlinepage.main([]), 0)
+				resp.__enter__.assert_called_once()
+				resp.readlines.assert_called_once()
+				resp.__exit__.assert_called_once()
 		finally:
 			offlinepage._size_min = bup_size_min
 			offlinepage._app_check = bup_app_check
