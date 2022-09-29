@@ -1,50 +1,8 @@
-* move worker-2206 cluster to us-east-1 region to check/reduce MongoDB traffic costs - `DONE!`
-    * create worker-2209
-    * workers migrate
-    * worker-2206 decommission
+* Delete App meteor CDN_URL for staging - `DONE!`
 
 ---
 
-* CDN EL7V8UVYGEFN1	tapotest-7hw39x4r s3 bucket CDN	d3ilh35g4a273c.cloudfront.net - `DONE!`
-
----
-
-* CDN E1AOQ154HHV4KH tapodev-25gg7bg0 s3 bucket CDN d2avfu1nocdvhb.cloudfront.net - `DONE!`
-
----
-
-* CDN ECPF4JUUI0UST tapolive-jtctkyf4 s3 bucket CDN d3mprzajshnkud.cloudfront.net - `DONE!`
-
----
-
-* `BROKEN` We had to remove the "force TLS" policy from S3 buckets - `DONE!`
-    * Coconut is *broken* and it uploads the files over http *always*, even if it is configured with the "secure" flag. Gabriel reported the bug to Coconut people, but who knows...
-
----
-
-* archive previous App S3 bucket stagingmms - `DONE!`
-    * set it up as a "read-only" bucket for legacy purposes, maybe in 10 years we can delete it
-
----
-
-* move app-east cluster from us-east-2 to us-east-1 to reduce MongoDB traffic costs - `DONE!`
-    * created app-east-2209 cluster
-    * remove app-east cluster
-
----
-
-* App meteor CDN_URL for staging - `DONE!`
-
----
-
-* App meteor CDN_URL for prod - `DONE!`
-
----
-
-* Remove CDN_URL from App prod and staging: - `DONE!`
-    * we have some issues with the CDN setup
-    * web clients from east region were having problems with loading CDN assets (like the meteor_js_resource)
-    * it's quite weird because only clients from east region were havin problems, west clients worked fine, it was even tested and confirmed using VPNs by the Ninja Squad
+* Delete App meteor CDN_URL for prod - `DONE!`
 
 ---
 
