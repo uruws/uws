@@ -30,28 +30,28 @@ def config() -> int:
 	utils.println('a_running.draw AREA')
 	utils.println('a_running.min 0')
 	utils.println('a_running.max 5')
-	utils.println('a_running.critical 1')
+	utils.println('a_running.critical 1:5')
 
 	utils.println('b_offline.label offline')
 	utils.println('b_offline.colour COLOUR1')
 	utils.println('b_offline.draw AREA')
 	utils.println('b_offline.min 0')
 	utils.println('b_offline.max 5')
-	utils.println('b_offline.critical 1')
+	utils.println('b_offline.critical 1:5')
 
 	utils.println('c_error.label error')
 	utils.println('c_error.colour COLOUR2')
 	utils.println('c_error.draw AREA')
 	utils.println('c_error.min 0')
 	utils.println('c_error.max 5')
-	utils.println('c_error.critical 1')
+	utils.println('c_error.critical 1:5')
 
 	utils.println('d_size.label size')
 	utils.println('d_size.colour COLOUR3')
 	utils.println('d_size.draw AREA')
 	utils.println('d_size.min 0')
 	utils.println('d_size.max 5')
-	utils.println('d_size.critical 1')
+	utils.println('d_size.critical 1:5')
 	return 0
 
 def report() -> int:
