@@ -15,4 +15,5 @@ ssh-import-id
 monit
 cron
 logrotate
+rsyslogd
 fish
