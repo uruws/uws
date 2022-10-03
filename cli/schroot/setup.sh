@@ -108,7 +108,7 @@ if test 'Xtrue' = "X${debian_install}"; then
 	${schroot_src} -d /root -u root -- apt-get -q update -yy
 
 	echo ${debpkg} | xargs ${schroot_src} -d /root -u root -- \
-		apt-get -q install -yy --purge --no-install-recommends
+		/srv/home/uwscli/sbin/apt-install.sh
 
 	echo 'es_US.UTF-8 UTF-8' |
 		${schroot_src} -d /root -u root -- tee /etc/locale.gen

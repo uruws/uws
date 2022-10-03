@@ -30,7 +30,7 @@ schroot_src="doas schroot -c source:${prof}-devel"
 ${schroot_src} -d /root -u root -- apt-get -q update -yy
 
 echo ${debpkg} | xargs ${schroot_src} -d /root -u root -- \
-	apt-get -q install -yy --purge --no-install-recommends
+	/srv/home/uwscli/sbin/apt-install.sh
 
 echo 'permit nopass keepenv setenv { PATH } :uws as root' |
 	${schroot_src} -d /root -u root -- tee /etc/doas.conf
