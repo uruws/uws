@@ -30,28 +30,28 @@ def config() -> int:
 	utils.println('a_running.draw AREASTACK')
 	utils.println('a_running.min 0')
 	utils.println('a_running.max 5')
-	utils.println('a_running.critical 1:5')
+	utils.println('a_running.critical 2:4')
 
 	utils.println('b_offline.label offline')
 	utils.println('b_offline.colour COLOUR1')
 	utils.println('b_offline.draw AREASTACK')
 	utils.println('b_offline.min 0')
 	utils.println('b_offline.max 5')
-	utils.println('b_offline.critical 1:5')
+	utils.println('b_offline.critical 2:4')
 
 	utils.println('c_error.label error')
 	utils.println('c_error.colour COLOUR2')
 	utils.println('c_error.draw AREASTACK')
 	utils.println('c_error.min 0')
 	utils.println('c_error.max 5')
-	utils.println('c_error.critical 1:5')
+	utils.println('c_error.critical 2:4')
 
 	utils.println('d_size.label size')
 	utils.println('d_size.colour COLOUR3')
 	utils.println('d_size.draw AREASTACK')
 	utils.println('d_size.min 0')
 	utils.println('d_size.max 5')
-	utils.println('d_size.critical 1:5')
+	utils.println('d_size.critical 2:4')
 	return 0
 
 def report() -> int:
@@ -74,12 +74,12 @@ def report() -> int:
 	if resp.getcode() != HTTPStatus.OK:
 		utils.println('a_running.value 3.0')
 		utils.println('b_offline.value 3.0')
-		utils.println('c_error.value 0.0')
+		utils.println('c_error.value 1.0')
 		utils.println('d_size.value 3.0')
 		return 0
 	offline_check = _offline_check.encode()
 	app_check = _app_check.encode()
-	running = '0.0'
+	running = '1.0'
 	offline = '3.0'
 	blen = 0
 	with resp:
@@ -87,7 +87,7 @@ def report() -> int:
 			blen += len(line) + 1
 			# offline check
 			if line.find(offline_check) >= 0:
-				offline = '0.0'
+				offline = '1.0'
 			# app check
 			if line.find(app_check) >= 0:
 				running = '3.0'
@@ -95,7 +95,7 @@ def report() -> int:
 		utils.println('a_running.value 3.0')
 		utils.println('b_offline.value 3.0')
 		utils.println('c_error.value 3.0')
-		utils.println('d_size.value 0.0')
+		utils.println('d_size.value 1.0')
 		return 0
 	utils.println('a_running.value', running)
 	utils.println('b_offline.value', offline)

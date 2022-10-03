@@ -30,25 +30,25 @@ class Test(unittest.TestCase):
 			call('a_running.draw AREASTACK'),
 			call('a_running.min 0'),
 			call('a_running.max 5'),
-			call('a_running.critical 1:5'),
+			call('a_running.critical 2:4'),
 			call('b_offline.label offline'),
 			call('b_offline.colour COLOUR1'),
 			call('b_offline.draw AREASTACK'),
 			call('b_offline.min 0'),
 			call('b_offline.max 5'),
-			call('b_offline.critical 1:5'),
+			call('b_offline.critical 2:4'),
 			call('c_error.label error'),
 			call('c_error.colour COLOUR2'),
 			call('c_error.draw AREASTACK'),
 			call('c_error.min 0'),
 			call('c_error.max 5'),
-			call('c_error.critical 1:5'),
+			call('c_error.critical 2:4'),
 			call('d_size.label size'),
 			call('d_size.colour COLOUR3'),
 			call('d_size.draw AREASTACK'),
 			call('d_size.min 0'),
 			call('d_size.max 5'),
-			call('d_size.critical 1:5'),
+			call('d_size.critical 2:4'),
 		]
 		mnpl_utils.println.assert_has_calls(calls)
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))
@@ -77,7 +77,7 @@ class Test(unittest.TestCase):
 		calls = [
 			call('a_running.value 3.0'),
 			call('b_offline.value 3.0'),
-			call('c_error.value 0.0'),
+			call('c_error.value 1.0'),
 			call('d_size.value 3.0'),
 		]
 		mnpl_utils.println.assert_has_calls(calls)
@@ -90,7 +90,7 @@ class Test(unittest.TestCase):
 			call('a_running.value 3.0'),
 			call('b_offline.value 3.0'),
 			call('c_error.value 3.0'),
-			call('d_size.value 0.0'),
+			call('d_size.value 1.0'),
 		]
 		mnpl_utils.println.assert_has_calls(calls)
 		t.assertEqual(mnpl_utils.println.call_count, len(calls))
@@ -130,8 +130,8 @@ class Test(unittest.TestCase):
 			offlinepage._size_min = bup_size_min
 			offlinepage._offline_check = bup_offline_check
 		calls = [
-			call('a_running.value', '0.0'),
-			call('b_offline.value', '0.0'),
+			call('a_running.value', '1.0'),
+			call('b_offline.value', '1.0'),
 			call('c_error.value 3.0'),
 			call('d_size.value 3.0'),
 		]
