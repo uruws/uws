@@ -6,10 +6,16 @@
 
 ---
 
-* offline-page munin check/alert [DEV-4159][DEV-4159] - `WIP`
+* offline-page munin check/alert [DEV-4159][DEV-4159] [PR#33][PR#33] - `DONE!`
 
 [DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
 [PR#33]: https://github.com/TalkingPts/Infrastructure/pull/33
+
+---
+
+* uwscli: schroot cron, msmtp and monit setup [PR#34][PR#34] - `WIP`
+
+[PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
 
 ---
 
