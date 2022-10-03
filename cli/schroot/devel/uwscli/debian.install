@@ -11,5 +11,5 @@ awscli
 monit
 cron
 logrotate
-rsyslogd
+rsyslog
 fish
