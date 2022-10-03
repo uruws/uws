@@ -27,7 +27,7 @@ mkdir -vp ${kubedir}
 
 kubecfg=${kubedir}/${uws_cluster}
 if test -s "${kubecfg}"; then
-	chmod -v 0600 "${kubecfg}"
+	chmod 0600 "${kubecfg}"
 fi
 
 cluster=${PWD}/cluster/${uws_cluster}
