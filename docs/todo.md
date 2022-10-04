@@ -19,6 +19,13 @@
 
 ---
 
+* munin: check nightly SIS sync's [DEV-4288][DEV-4288]
+    * add it to statuspage alerts too
+
+[DEV-4288]: https://talkingpointsorg.atlassian.net/browse/DEV-4288
+
+---
+
 * Infrastructure CI: check-secret
     * check/parse config files from secret directory
         * like parsing secret/eks/files/meteor/*/*.json for syntax errors
