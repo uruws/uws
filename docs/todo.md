@@ -13,6 +13,11 @@
 
 ---
 
+* rstudio: fix acme certs renewal - `DONE!`
+	* nginx wasn't reloading new certs
+
+---
+
 * uwscli: schroot cron, msmtp and monit setup [PR#34][PR#34] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
