@@ -25,13 +25,13 @@ spec:
           imagePullPolicy: IfNotPresent
           name: offline-page
           ports:
-            - containerPort: 80
+            - containerPort: 8008
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-          volumeMounts:
-            - name: rundir
-              mountPath: "/run"
+          env:
+            - name: UWS_DEBUG
+              value: "off"
           resources:
             requests:
               cpu: 10m
@@ -43,13 +43,10 @@ spec:
             exec:
               command:
                 - cat
-                - /usr/local/etc/lighttpd.conf
+                - /uws/offlinepage/index.html
             initialDelaySeconds: 5
             periodSeconds: 15
             timeoutSeconds: 3
-      volumes:
-        - name: rundir
-          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -58,7 +55,7 @@ metadata:
 spec:
   ports:
     - port: 8000
-      targetPort: 80
+      targetPort: 8008
       protocol: TCP
   selector:
     app.kubernetes.io/name: offline-page
