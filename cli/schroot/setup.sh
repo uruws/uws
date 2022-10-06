@@ -85,6 +85,7 @@ ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/build
 ${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/build/golang
 ${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/deploy
 ${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/logs
+${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/syslog
 
 #
 # symlink latest chroot

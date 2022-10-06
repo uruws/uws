@@ -5,13 +5,8 @@ set -eu
 # rsyslogd
 #
 
-install -v /srv/home/uwscli/etc/rsyslog.conf /etc/
-install -v /srv/home/uwscli/etc/rsyslog.d/uws.conf /etc/rsyslog.d/
-
-# monit workaround
-touch /var/log/syslog
-chown -v root:adm /var/log/syslog
-chmod -v 0640     /var/log/syslog
+install -v -m 0644 /srv/home/uwscli/etc/rsyslog.conf /etc/
+install -v -m 0644 /srv/home/uwscli/etc/rsyslog.d/uws.conf /etc/rsyslog.d/
 
 /etc/init.d/rsyslog start
 sleep 1

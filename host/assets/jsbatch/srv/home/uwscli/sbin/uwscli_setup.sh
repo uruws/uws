@@ -64,7 +64,6 @@ install -v -d -o uws  -g uwscli -m 0770 /run/uwscli/nq
 install -v -d -o uws  -g uwscli -m 0770 /run/uwscli/build
 
 install -v -d -o uws -g uws -m 0750 /run/uwscli/auth
-install -v -d -o uws -g uws -m 0750 /run/uwscli/syslog
 
 # utils access
 

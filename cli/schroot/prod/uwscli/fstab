@@ -18,6 +18,7 @@ tmpfs           /var/tmp        tmpfs   defaults        0       0
 /srv/uwscli/prod/user	/home				none	rw,bind		0 0
 /srv/uwscli/prod/docker	/var/lib/docker		none	rw,bind		0 0
 /srv/uwscli/prod/logs	/srv/home/uws/logs	none	rw,bind		0 0
+/srv/uwscli/prod/syslog	/var/log			none	rw,bind		0 0
 
 /srv/uwscli/prod/home	/srv/home/uwscli	none	ro,bind		0 0
 /srv/uwscli/prod/utils	/srv/uws/deploy		none	ro,bind		0 0
