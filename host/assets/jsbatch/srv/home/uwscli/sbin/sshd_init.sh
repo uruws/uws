@@ -28,5 +28,10 @@ install -v -C -o root -g root -m 0640 \
 	/usr/local/etc/sshd/uwscli.conf \
 	/etc/ssh/sshd_config.d/uwscli.conf
 
+# monit workaround
+touch /etc/ssh/ssh_host_dsa_key
+chown -v root:root /etc/ssh/ssh_host_dsa_key
+chmod -v 0600      /etc/ssh/ssh_host_dsa_key
+
 /etc/init.d/ssh start
 exit 0
