@@ -8,6 +8,8 @@ install -v /srv/home/uwscli/etc/rsyslog.d/uws.conf /etc/rsyslog.d/
 
 # monit workaround
 touch /var/log/syslog
+chown -v root:adm /var/log/syslog
+chmod -v 0640     /var/log/syslog
 
 /etc/init.d/rsyslog start
 sleep 1
