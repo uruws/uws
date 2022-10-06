@@ -54,8 +54,6 @@ if ! test -d /srv/uwscli/${profile}/chroot.${version}; then
 		http://deb.debian.org/debian/
 fi
 
-cksum | ${surun} tee ${curfn}
-
 #
 # schroot configure
 #
@@ -115,6 +113,8 @@ if test 'Xtrue' = "X${debian_install}"; then
 
 	${schroot_src} -d /root -u root -- locale-gen
 fi
+
+cksum | ${surun} tee ${curfn}
 
 #
 # sync utils
