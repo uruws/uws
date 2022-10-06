@@ -23,6 +23,10 @@ sleep 1
 
 # sshd
 
+# monit workaround
+touch /etc/ssh/ssh_host_dsa_key
+chmod -v 0640 /etc/ssh/ssh_host_dsa_key
+
 /srv/home/uwscli/sbin/sshd_init.sh
 sleep 1
 
