@@ -71,12 +71,9 @@ def report() -> int:
 		utils.println('c_error.value U')
 		utils.println('d_size.value U')
 		return 1
+	error = '3.0'
 	if resp.getcode() != HTTPStatus.OK:
-		utils.println('a_running.value 3.0')
-		utils.println('b_offline.value 3.0')
-		utils.println('c_error.value 1.0')
-		utils.println('d_size.value 3.0')
-		return 0
+		error = '1.0'
 	offline_check = _offline_check.encode()
 	app_check = _app_check.encode()
 	running = '1.0'
@@ -91,16 +88,13 @@ def report() -> int:
 			# app check
 			if line.find(app_check) >= 0:
 				running = '3.0'
+	size = '3.0'
 	if blen <= size_min:
-		utils.println('a_running.value 3.0')
-		utils.println('b_offline.value 3.0')
-		utils.println('c_error.value 3.0')
-		utils.println('d_size.value 1.0')
-		return 0
+		size = '1.0'
 	utils.println('a_running.value', running)
 	utils.println('b_offline.value', offline)
-	utils.println('c_error.value 3.0')
-	utils.println('d_size.value 3.0')
+	utils.println('c_error.value', error)
+	utils.println('d_size.value', size)
 	return 0
 
 def main(argv: list[str]) -> int:

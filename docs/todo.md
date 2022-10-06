@@ -28,6 +28,11 @@
 
 ---
 
+* munin: offline-page check - `DONE!`
+    * improve checking for status codes because we will get the original error code now
+
+---
+
 * uwscli: schroot cron, msmtp and monit setup [PR#34][PR#34] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
