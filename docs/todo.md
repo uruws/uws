@@ -18,6 +18,16 @@
 
 ---
 
+* offline-page improvements [Changelog][OP221006-1] - `DONE!`
+    * send the original status code that generated the error
+    * send html responses to requests for \*.html or paths with no extension (ie: /login)
+    * any other request sends a text/plain response
+    * generate a log of failed services requests
+
+[OP221006-1]: https://github.com/TalkingPts/OfflinePage/compare/220928...221006-1
+
+---
+
 * uwscli: schroot cron, msmtp and monit setup [PR#34][PR#34] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
