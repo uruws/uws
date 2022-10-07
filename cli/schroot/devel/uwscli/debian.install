@@ -12,4 +12,7 @@ monit
 cron
 logrotate
 rsyslog
+ssl-cert
+msmtp-mta
+bsd-mailx
 fish
