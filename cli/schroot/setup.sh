@@ -72,6 +72,19 @@ ${surun} cp -va /etc/schroot/uwscli-${profile}/fstab.setup \
 	/etc/schroot/uwscli-${profile}-src/fstab
 
 #
+# helper scripts
+#
+
+${surun} install -v -d -o root -g uws -m 0750 /srv/uwscli/schroot
+
+${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/start.sh \
+	/srv/uwscli/schroot/start.sh
+${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/stop.sh \
+	/srv/uwscli/schroot/stop.sh
+${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/make.sh \
+	/srv/uwscli/schroot/make.sh
+
+#
 # env setup
 #
 
