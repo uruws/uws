@@ -9,7 +9,6 @@ export UWSCLI_PROFILE
 #
 # rsyslogd
 #
-
 install -v -m 0644 /srv/home/uwscli/etc/rsyslog.conf /etc/
 install -v -m 0644 /srv/home/uwscli/etc/rsyslog.d/uws.conf /etc/rsyslog.d/
 
