@@ -7,6 +7,11 @@ UWSCLI_PROFILE="${profile}"
 export UWSCLI_PROFILE
 
 #
+# host setup
+#
+echo "uwscli-${profile}" >/etc/hostname
+
+#
 # rsyslogd
 #
 install -v -m 0644 /srv/home/uwscli/etc/rsyslog.conf /etc/
