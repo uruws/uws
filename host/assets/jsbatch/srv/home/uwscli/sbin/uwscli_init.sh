@@ -22,25 +22,11 @@ ln -svf /etc/monit/conf-available/rsyslog /etc/monit/conf-enabled
 /etc/init.d/rsyslog start
 
 #
-# msmtp
+# init services
 #
 /srv/home/uwscli/sbin/msmtp_init.sh
-
-#
-# docker
-#
-echo 'export DOCKER_RAMDISK=true' >/etc/default/docker
-ln -svf /srv/home/uwscli/etc/monit/conf/docker /etc/monit/conf-enabled
-/etc/init.d/docker start
-
-#
-# cron
-#
+/srv/home/uwscli/sbin/docker_init.sh
 /srv/home/uwscli/sbin/cron_init.sh
-
-#
-# sshd
-#
 /srv/home/uwscli/sbin/sshd_init.sh
 
 #
