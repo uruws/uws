@@ -13,6 +13,11 @@ ln -svf /etc/monit/conf-available/rsyslog /etc/monit/conf-enabled
 /etc/init.d/rsyslog start
 
 #
+# msmtp
+#
+/srv/home/uwscli/sbin/msmtp_init.sh
+
+#
 # docker
 #
 echo 'export DOCKER_RAMDISK=true' >/etc/default/docker
