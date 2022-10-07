@@ -20,5 +20,5 @@ trap cleanup INT
 schroot -c uwscli-${profile} -n ${sess} -b
 
 set +e
-${schroot_sess} -- /srv/home/uwscli/sbin/uwscli_init.sh
+${schroot_sess} -- /srv/home/uwscli/sbin/uwscli_init.sh "${profile}"
 exit 0

@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
 
+profile=${1:?'uwscli profile?'}
+
+UWSCLI_PROFILE="${profile}"
+export UWSCLI_PROFILE
+
 #
 # rsyslogd
 #
