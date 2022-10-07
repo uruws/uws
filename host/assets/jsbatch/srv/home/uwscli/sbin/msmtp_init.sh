@@ -11,5 +11,5 @@ echo 'set mta=/usr/bin/msmtp'           >>/etc/mail.rc
 
 install -v -m 0644 /srv/home/uwscli/etc/msmtprc /etc/msmtprc
 
-/etc/init.d/msmtp start
+#/etc/init.d/msmtpd start
 exit 0
