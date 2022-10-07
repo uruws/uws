@@ -3,6 +3,8 @@ set -eu
 
 profile=${1:?'profile?'}
 
+CA_SMTPS='smtps/211006'
+
 if ! test -s ./cli/schroot/${profile}/VERSION; then
 	echo "invalid profile: ${profile}" >&2
 	exit 1
@@ -134,6 +136,9 @@ cksum | ${surun} tee ${curfn}
 # sync utils
 #
 
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca/smtps
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca/smtps/client
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/docker
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/eks
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/secret
@@ -147,6 +152,14 @@ ${rsync} --exclude=__pycache__ \
 
 echo '*** sync: secret'
 ${rsync} ./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
+
+echo '*** sync: CA smtps'
+${rsync} ./secret/ca/uws/${CA_SMTPS}/rootCA.pem \
+	./secret/ca/uws/${CA_SMTPS}/rootCA-crl.pem \
+	/srv/uwscli/${profile}/ca/smtps/
+${rsync} ./secret/ca/uws/${CA_SMTPS}/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
+	./secret/ca/uws/${CA_SMTPS}/client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
+	/srv/uwscli/${profile}/ca/smtps/client/
 
 echo '*** sync: Makefile'
 ${rsync} \
