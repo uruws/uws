@@ -9,20 +9,17 @@ install -v -m 0644 /srv/home/uwscli/etc/rsyslog.conf /etc/
 install -v -m 0644 /srv/home/uwscli/etc/rsyslog.d/uws.conf /etc/rsyslog.d/
 
 /etc/init.d/rsyslog start
-sleep 1
 
 #
 # docker
 #
 echo 'export DOCKER_RAMDISK=true' >/etc/default/docker
 /etc/init.d/docker start
-sleep 1
 
 #
 # sshd
 #
 /srv/home/uwscli/sbin/sshd_init.sh
-sleep 1
 
 #
 # make setup
