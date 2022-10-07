@@ -33,5 +33,8 @@ touch /etc/ssh/ssh_host_dsa_key
 chown -v root:root /etc/ssh/ssh_host_dsa_key
 chmod -v 0600      /etc/ssh/ssh_host_dsa_key
 
+# monit
+ln -svf /etc/monit/conf-available/openssh-server /etc/monit/conf-enabled
+
 /etc/init.d/ssh start
 exit 0

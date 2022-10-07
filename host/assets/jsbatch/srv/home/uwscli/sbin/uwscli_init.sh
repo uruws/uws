@@ -8,13 +8,21 @@ set -eu
 install -v -m 0644 /srv/home/uwscli/etc/rsyslog.conf /etc/
 install -v -m 0644 /srv/home/uwscli/etc/rsyslog.d/uws.conf /etc/rsyslog.d/
 
+ln -svf /etc/monit/conf-available/rsyslog /etc/monit/conf-enabled
+
 /etc/init.d/rsyslog start
 
 #
 # docker
 #
 echo 'export DOCKER_RAMDISK=true' >/etc/default/docker
+ln -svf /srv/home/uwscli/etc/monit/conf/docker /etc/monit/conf-enabled
 /etc/init.d/docker start
+
+#
+# cron
+#
+/srv/home/uwscli/sbin/cron_init.sh
 
 #
 # sshd
