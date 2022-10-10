@@ -7,9 +7,12 @@ UWSCLI_PROFILE="${profile}"
 export UWSCLI_PROFILE
 
 #
-# host setup
+# hosts setup
 #
-echo "uwscli-${profile}" >/etc/hostname
+echo "127.0.0.1 uwscli-${profile} localhost" >/etc/hosts.new
+grep -F ip6 /etc/hosts >>/etc/hosts.new
+cat /etc/hosts.new >/etc/hosts
+rm -vf /etc/hosts.new
 
 #
 # rsyslogd
