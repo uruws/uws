@@ -22,10 +22,10 @@ install -v -o root -g msmtp -m 0640 /srv/etc/ca/smtps/rootCA-crl.pem \
 	/usr/local/ca/smtps/
 
 install -v -o root -g msmtp -m 0640 \
-	/srv/etc/ca/uws/${CA_SMTPS}/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
+	/srv/etc/ca/smtps/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
 	/usr/local/ca/smtps/client/
 install -v -o root -g msmtp -m 0640 \
-	/srv/etc/ca/uws/${CA_SMTPS}/client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
+	/srv/etc/ca/smtps/client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
 	/usr/local/ca/smtps/client/
 
 #/etc/init.d/msmtpd start
