@@ -30,7 +30,7 @@ ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/unde
 debian_install='false'
 
 cksum() (
-	sha256sum ./cli/schroot/debian.distro ./cli/schroot/debian.install
+	sha256sum ./cli/schroot/setup.sh ./cli/schroot/debian.distro ./cli/schroot/debian.install
 )
 
 LAST='NONE'
@@ -55,6 +55,12 @@ if ! test -d /srv/uwscli/${profile}/chroot.${version}; then
 		"${debdist}" /srv/uwscli/${profile}/chroot.${version} \
 		http://deb.debian.org/debian/
 fi
+
+#
+# OS setup
+#
+
+echo "uwscli-${profile}" | ${surun} tee /srv/uwscli/${profile}/chroot.${version}/etc/hostname
 
 #
 # schroot configure
@@ -136,9 +142,10 @@ cksum | ${surun} tee ${curfn}
 # sync utils
 #
 
-${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca
-${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca/smtps
-${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca/smtps/client
+${surun} install -v -d -m 0755 /srv/uwscli/${profile}/ca
+${surun} install -v -d -m 0750 /srv/uwscli/${profile}/ca/smtps
+${surun} install -v -d -m 0750 /srv/uwscli/${profile}/ca/smtps/client
+
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/docker
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/eks
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/secret
