@@ -27,6 +27,9 @@ ln -svf /etc/monit/conf-available/rsyslog /etc/monit/conf-enabled
 #
 # init services
 #
+
+install -v -d -o root -g root  -m 0755 /usr/local/ca
+
 /srv/home/uwscli/sbin/msmtp_init.sh
 /srv/home/uwscli/sbin/docker_init.sh
 /srv/home/uwscli/sbin/cron_init.sh

@@ -142,10 +142,9 @@ cksum | ${surun} tee ${curfn}
 # sync utils
 #
 
-${surun} install -v -d -m 0755 /srv/uwscli/${profile}/ca
-${surun} install -v -d -m 0750 /srv/uwscli/${profile}/ca/smtps
-${surun} install -v -d -m 0750 /srv/uwscli/${profile}/ca/smtps/client
-
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca/smtps
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca/smtps/client
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/docker
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/eks
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/secret
