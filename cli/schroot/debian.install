@@ -11,6 +11,7 @@ openssh-client
 awscli
 make
 git
+gettext-base
 ssh-import-id
 monit
 cron

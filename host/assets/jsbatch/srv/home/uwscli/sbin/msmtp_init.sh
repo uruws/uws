@@ -11,7 +11,12 @@ echo "${profile}.cli.uws.talkingpts.org" >/etc/mailname
 echo 'set mta=/usr/bin/msmtp'           >>/etc/mail.rc
 
 install -v -m 0644 /srv/home/uwscli/etc/aliases /etc/aliases
-install -v -m 0644 /srv/home/uwscli/etc/msmtprc /etc/msmtprc
+
+#~ export UWSCLI_PROFILE
+tmpfn=$(mktemp /tmp/msmtp_init.XXXXXXXXXXXXXXXX)
+envsubst </srv/home/uwscli/etc/msmtprc.in >${tmpfn}
+install -v -m 0644 "${tmpfn}" /etc/msmtprc
+rm -f "${tmpfn}"
 
 install -v -d -o root -g msmtp -m 0750 /usr/local/ca/smtps
 install -v -d -o root -g msmtp -m 0750 /usr/local/ca/smtps/client

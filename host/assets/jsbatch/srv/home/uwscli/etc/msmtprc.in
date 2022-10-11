@@ -16,8 +16,9 @@ tls_crl_file /usr/local/ca/smtps/rootCA-crl.pem
 tls_cert_file /usr/local/ca/smtps/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem
 tls_key_file /usr/local/ca/smtps/client/08082dca-8d77-5c81-9a44-94642089b3b1.key
 
-from mailx@uws.talkingpts.org
-domain uws.talkingpts.org
+from %U@cli${UWSCLI_PROFILE}.uws.talkingpts.org
+domain cli${UWSCLI_PROFILE}.uws.talkingpts.org
+set_from_header on
 
 aliases /etc/aliases
 

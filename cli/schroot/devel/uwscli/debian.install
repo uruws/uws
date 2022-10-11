@@ -8,6 +8,7 @@ sudo
 docker.io
 nq
 awscli
+gettext-base
 monit
 cron
 logrotate
