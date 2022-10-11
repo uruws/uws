@@ -45,8 +45,6 @@ class Test(unittest.TestCase):
 			'apptest-west',
 			'cs',
 			'cs-test',
-			'infra-ui-prod',
-			'infra-ui-test',
 			'nlp-category',
 			'nlp-sentiment-twitter',
 			'worker',
@@ -60,14 +58,12 @@ class Test(unittest.TestCase):
 		t.assertListEqual(uwscli.build_list(), [
 			'app',
 			'cs',
-			'infra-ui',
 			'nlpsvc',
 		])
 		# autobuild
 		t.assertListEqual(uwscli.autobuild_list(), [
 			'app',
 			'cs',
-			'infra-ui',
 		])
 
 	def test_app_build_group(t):
