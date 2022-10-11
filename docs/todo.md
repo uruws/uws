@@ -1,42 +1,3 @@
-* Delete App meteor CDN_URL for staging - `DONE!`
-
----
-
-* Delete App meteor CDN_URL for prod - `DONE!`
-
----
-
-* offline-page munin check/alert [DEV-4159][DEV-4159] [PR#33][PR#33] - `DONE!`
-
-[DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
-[PR#33]: https://github.com/TalkingPts/Infrastructure/pull/33
-
----
-
-* rstudio: fix acme certs renewal - `DONE!`
-	* nginx wasn't reloading new certs
-
----
-
-* offline-page improvements [Changelog][OP221006-1] - `DONE!`
-    * send the original status code that generated the error
-    * send html responses to requests for \*.html or paths with no extension (ie: /login)
-    * any other request sends a text/plain response
-    * generate a log of failed services requests
-
-[OP221006-1]: https://github.com/TalkingPts/OfflinePage/compare/220928...221006-1
-
----
-
-* munin: offline-page check - `DONE!`
-    * improve checking for status codes because we will get the original error code now
-
----
-
-* Add 504 Gateway Timeout to the list of errors for offline page to be shown - `DONE!`
-
----
-
 * uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
@@ -62,7 +23,6 @@
 ---
 
 * `SEC` `WAIT` App security changes
-    * Remove old/previous Amazon credentials (from Aram's user) - `DONE!!!!!!!!!`
     * Remove private/settings.json from the repo
 
 ---
