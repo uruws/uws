@@ -33,6 +33,10 @@
 
 ---
 
+* Add 504 Gateway Timeout to the list of errors for offline page to be shown - `DONE!`
+
+---
+
 * uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
@@ -119,10 +123,6 @@
     * and serve the rest of the web traffic for only one cluster
     * as api calls are more than 50% of the traffic based on munin graphs
     * or, even better, two east+west clusters for each: web and api
-
----
-
-* Add 504 Gateway Timeout to the list of errors for offline page to be shown
 
 ---
 
