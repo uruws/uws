@@ -39,7 +39,8 @@ groupadd -g 3100 uwscli || true
 useradd -d /srv/home/uwscli -M -c 'uwscli' -s /bin/bash -g 3100 -u 3100 uwscli || true
 chmod -v 0750 /srv/home/uwscli
 
-adduser uws uwscli
+adduser uws    uwscli
+adduser uwscli uws
 
 install -v -C -o root -g uwscli -m 0640 \
 	~uwscli/etc/user.bash_profile ~uwscli/.bash_profile
