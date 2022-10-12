@@ -24,6 +24,7 @@ tmpfs           /var/tmp        tmpfs   defaults        0       0
 /srv/uwscli/test/home	/srv/home/uwscli	none	ro,bind		0 0
 /srv/uwscli/test/utils	/srv/uws/deploy		none	ro,bind		0 0
 /srv/uwscli/test/secret	/usr/local/etc		none	ro,bind		0 0
+/srv/uwscli/test/uws	/uws				none	ro,bind		0 0
 
 /srv/uwscli/test/build/golang	/srv/uws/deploy/docker/golang/build		none rw,bind 0 0
 

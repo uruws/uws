@@ -149,6 +149,8 @@ ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/dock
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/eks
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/secret
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/tmp
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/uws
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/uws/bin
 
 rsync="${surun} rsync -xrltDp --delete-before"
 
@@ -212,6 +214,12 @@ ${rsync} \
 echo '*** sync: go'
 ${rsync} \
 	./go/ /srv/uwscli/${profile}/utils/go/
+
+# uws utils
+
+${surun} install -v -C -o root -g 3000 -m 0750 \
+	./host/assets/jsbatch/uws/bin/uwscli-logs.sh \
+	/srv/uwscli/${profile}/uws/bin/uwscli-logs.sh
 
 # host/cluster utils
 
