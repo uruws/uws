@@ -1,8 +1,7 @@
 PATH=/usr/bin:/bin:/usr/local/bin
 MAILTO=root
 USER=uws
-HOME=/srv/home/uws
-UWSCLI_LOG=off
+HOME=/home/uws
 
 # m h  dom mon dow   command
 
