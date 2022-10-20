@@ -16,7 +16,7 @@
 
 ---
 
-* GoDaddy cert is only configured on staging
+* `URGENT` GoDaddy cert is only configured on staging
     * we have to set it up on prod clusters
 
 ---
@@ -41,6 +41,18 @@
     * send alert to status page
 
 [worker-errors]: https://worker-2209.uws.talkingpts.org/munin/uws/worker-2209/web_request_worker_uws_talkingpts_org/errors_per_minute.html
+
+---
+
+* `PRIO` separate web and api clusters
+    * /api/* web traffic should be served from a different cluster
+        * could be workers as we do for bandwidthCallback
+        * or, even better, a new/separate cluster for api calls
+    * we could use the current setup (east and west) for the api cluster
+    * and serve the rest of the web traffic for only one cluster
+    * as api calls are more than 50% of the traffic based on munin graphs
+    * or, even better, two east+west clusters for each: web and api
+
 ---
 
 * Infrastructure CI: check-secret
@@ -103,17 +115,6 @@
             * cleverSynch could/should be another metric as it needs to finish before 10hs UTC
             * messages.jobs ready?
             * one metric could be based on checking scheduled district jobs to scale up before it starts, instead of reacting to an alert
-
----
-
-* separate web and api clusters
-    * /api/* web traffic should be served from a different cluster
-        * could be workers as we do for bandwidthCallback
-        * or, even better, a new/separate cluster for api calls
-    * we could use the current setup (east and west) for the api cluster
-    * and serve the rest of the web traffic for only one cluster
-    * as api calls are more than 50% of the traffic based on munin graphs
-    * or, even better, two east+west clusters for each: web and api
 
 ---
 
