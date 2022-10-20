@@ -16,6 +16,11 @@
 
 ---
 
+* GoDaddy cert is only configured on staging
+    * we have to set it up on prod clusters
+
+---
+
 * uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
