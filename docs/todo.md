@@ -12,6 +12,10 @@
 
 ---
 
+* worker fix number of replicas: 30 - `DONE!`
+
+---
+
 * uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
@@ -24,6 +28,14 @@
 
 [DEV-4288]: https://talkingpointsorg.atlassian.net/browse/DEV-4288
 
+---
+
+* munin: alert about workers callback http errors [worker-errors][worker-errors]
+    * warning at 3 errors per minute
+    * critical at 5 errors per minute
+    * send alert to status page
+
+[worker-errors]: https://worker-2209.uws.talkingpts.org/munin/uws/worker-2209/web_request_worker_uws_talkingpts_org/errors_per_minute.html
 ---
 
 * Infrastructure CI: check-secret
