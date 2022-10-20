@@ -1,3 +1,17 @@
+* GoDaddy wild card talkingpts.org cert renewal - `DONE!`
+    * We generated new cert file from scratch and securely saved them under secrets sections in this repo
+
+---
+
+* App encrypt secrets - `WANTDO`
+    * git-crypt setup for private/secrets directory [App PR#910][APP#910]
+    * `WIP` for dev team to do the private files migration
+        * do we need to update the Buildpack for new private files location?
+
+[APP#910]: https://github.com/TalkingPts/App/pull/910
+
+---
+
 * uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
@@ -147,15 +161,6 @@
         * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
-
----
-
-* App encrypt secrets - `WIP`
-    * git-crypt setup for private/secrets directory [App PR#910][APP#910]
-    * `WIP` for dev team to do the private files migration
-        * do we need to update the Buildpack for new private files location?
-
-[APP#910]: https://github.com/TalkingPts/App/pull/910
 
 ---
 
