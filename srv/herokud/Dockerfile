@@ -29,4 +29,10 @@ ENV HOME /home/uws
 RUN mkdir -vp ~/.cache/heroku
 RUN heroku version
 
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
 ENTRYPOINT exec /usr/local/bin/entrypoint.sh
