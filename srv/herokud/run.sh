@@ -1,6 +1,7 @@
 #!/bin/sh
 set -eu
 CA=smtps/211006
+chmod 0600 /srv/uws/deploy/secret/herokud/user/fetchmailrc
 exec docker run --rm --name herokud \
 	--hostname herokud.uws.local \
 	--read-only \
