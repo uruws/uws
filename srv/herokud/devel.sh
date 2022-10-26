@@ -11,8 +11,10 @@ exec docker run -it --rm --name uws-herokud-devel \
 	--workdir /home/uws \
 	--entrypoint /usr/local/bin/uws-login.sh \
 	-v "${PWD}/secret/ca/uws/${CA}:/srv/etc/ca:ro" \
+	-v "${PWD}/secret/herokud/user:/home/uws/etc:ro" \
 	-v "${PWD}/tmp:/home/uws/tmp" \
 	--tmpfs /home/uws/.cache/heroku \
+	--tmpfs /home/uws/.local \
 	--tmpfs /run \
 	--tmpfs /tmp \
 	uws/herokud

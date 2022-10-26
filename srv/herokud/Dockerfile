@@ -18,6 +18,8 @@ RUN echo 'deb https://cli-assets.heroku.com/apt ./' >/etc/apt/sources.list.d/her
 	&& rm -vf heroku.key \
 	&& /root/bin/apt-install.sh heroku
 
+RUN /root/bin/apt-install.sh fetchmail
+
 COPY ./files/etc/cron.d/uws /etc/cron.d/uws
 
 USER uws:uws
@@ -26,7 +28,9 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-RUN mkdir -vp ~/.cache/heroku
+RUN install -v -d -m 0750 -o uws -g uws ~/.cache \
+	&& install -v -d -m 0777 -o uws -g uws ~/.cache/heroku \
+	&& install -v -d -m 0777 -o uws -g uws ~/.local
 RUN heroku version
 
 USER root:root
