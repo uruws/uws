@@ -19,16 +19,16 @@ UWSCLI_LOG=off
 #############
 
 # app
-11 22 * * 1-5 app-scale app-east 140
-11 22 * * 1-5 app-scale app-west 140
-11 23 * * 1-5 app-scale app-east 120
-11 23 * * 1-5 app-scale app-west 120
-11 0  * * 2-6 app-scale app-east 80
-11 0  * * 2-6 app-scale app-west 80
-11 1  * * 2-6 app-scale app-east 50
-11 1  * * 2-6 app-scale app-west 50
-11 2  * * 2-6 app-scale app-east 20
-11 2  * * 2-6 app-scale app-west 20
+###11 22 * * 1-5 app-scale app-east 140
+###11 22 * * 1-5 app-scale app-west 140
+###11 23 * * 1-5 app-scale app-east 120
+###11 23 * * 1-5 app-scale app-west 120
+###11 0  * * 2-6 app-scale app-east 80
+###11 0  * * 2-6 app-scale app-west 80
+###11 1  * * 2-6 app-scale app-east 50
+###11 1  * * 2-6 app-scale app-west 50
+###11 2  * * 2-6 app-scale app-east 20
+###11 2  * * 2-6 app-scale app-west 20
 
 # apptest
 13 3 * * 2-6 app-scale worker-test 2
@@ -43,18 +43,18 @@ UWSCLI_LOG=off
 ###########
 
 # app
-5 10 * * 1-5 app-scale app-east 45
-5 10 * * 1-5 app-scale app-west 45
-5 11 * * 1-5 app-scale app-east 60
-5 11 * * 1-5 app-scale app-west 60
-5 12 * * 1-5 app-scale app-east 75
-5 12 * * 1-5 app-scale app-west 75
-5 14 * * 1-5 app-scale app-east 120
-5 14 * * 1-5 app-scale app-west 120
-5 16 * * 1-5 app-scale app-east 140
-5 16 * * 1-5 app-scale app-west 140
-5 18 * * 1-5 app-scale app-east 160
-5 18 * * 1-5 app-scale app-west 160
+###5 10 * * 1-5 app-scale app-east 45
+###5 10 * * 1-5 app-scale app-west 45
+###5 11 * * 1-5 app-scale app-east 60
+###5 11 * * 1-5 app-scale app-west 60
+###5 12 * * 1-5 app-scale app-east 75
+###5 12 * * 1-5 app-scale app-west 75
+###5 14 * * 1-5 app-scale app-east 120
+###5 14 * * 1-5 app-scale app-west 120
+###5 16 * * 1-5 app-scale app-east 140
+###5 16 * * 1-5 app-scale app-west 140
+###5 18 * * 1-5 app-scale app-east 160
+###5 18 * * 1-5 app-scale app-west 160
 
 # apptest
 6 10 * * 1-5 app-scale worker-test 2
@@ -78,4 +78,4 @@ UWSCLI_LOG=off
 #3 10 * * 1-5 app-scale worker 15
 
 # fixed number of workers
-3 3 * * 1-5 app-scale worker 30
+###3 3 * * 1-5 app-scale worker 30
