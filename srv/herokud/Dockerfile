@@ -1,0 +1,32 @@
+FROM uws/crond-2203
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="221025"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh apt-transport-https gnupg
+
+# https://github.com/heroku/cli/blob/master/install-ubuntu.sh
+RUN echo 'deb https://cli-assets.heroku.com/apt ./' >/etc/apt/sources.list.d/heroku.list \
+	&& wget -O heroku.key https://cli-assets.heroku.com/apt/release.key \
+	&& apt-key add heroku.key \
+	&& rm -vf heroku.key \
+	&& /root/bin/apt-install.sh heroku
+
+COPY ./files/etc/cron.d/uws /etc/cron.d/uws
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+RUN mkdir -vp ~/.cache/heroku
+RUN heroku version
+
+ENTRYPOINT exec /usr/local/bin/entrypoint.sh

@@ -34,14 +34,14 @@ upgrade:
 #
 
 .PHONY: all
-all: bootstrap clamav uwsbot mailx crond munin munin-backend munin-node proftpd
+all: bootstrap clamav uwsbot mailx munin munin-backend munin-node proftpd
 
 #
 # bootstrap
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli devel
+bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli devel crond herokud
 
 #
 # base containers
@@ -259,6 +259,10 @@ srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 .PHONY: heroku
 heroku:
 	@./docker/heroku/build.sh
+
+.PHONY: herokud
+herokud:
+	@./srv/herokud/build.sh
 
 #
 # app-stats
