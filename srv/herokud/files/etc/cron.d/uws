@@ -1,3 +1,5 @@
+USER=root
+HOME=/root
 MAILTO=root
 
 @reboot	root echo 'herokud started'
