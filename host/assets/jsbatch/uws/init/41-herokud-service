@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 
+chmod -v 0600 /srv/uws/deploy/secret/herokud/user/fetchmailrc
+
 if ! systemctl is-enabled herokud.service; then
 	systemctl enable herokud.service
 	systemctl start herokud
