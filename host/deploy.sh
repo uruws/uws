@@ -41,7 +41,7 @@ fi
 
 # clean host setup files and sync new ones
 
-SSH='ssh -i ~/.ssh/uws-host.pem -l admin'
+SSH="ssh -i ${PWD}/secret/aws.host/uws-host.pem -l admin"
 
 if test "X${FQDN}" = 'Xlocal'; then
 	echo "i - local deploy ${HOST}"
