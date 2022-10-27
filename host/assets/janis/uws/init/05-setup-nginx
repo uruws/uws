@@ -19,7 +19,6 @@ chmod -v 0644 /var/www/html/index.html
 
 rm -vf /etc/nginx/sites-enabled/*
 
-install -v /etc/nginx/sites-available/main /etc/nginx/sites-enabled
 install -v /etc/nginx/sites-available/janis /etc/nginx/sites-enabled
 
 mkdir -vp /srv/etc/ssl
