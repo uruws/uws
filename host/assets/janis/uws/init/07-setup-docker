@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+uws='sudo -u uws'
+
+# grant uws users access
+
+adduser uws docker
+
+# restart docker service as iptables rules were reloaded before
+
+if test 'Xtrue' = "X$(cat /etc/iptables.uws-reload 2>/dev/null)"; then
+	echo 'i - firewall rules changed, restart docker service'
+	systemctl restart docker
+fi
+
+exit 0

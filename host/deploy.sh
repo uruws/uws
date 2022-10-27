@@ -32,9 +32,21 @@ SHAR='shar --compactor=xz --no-timestamp --no-i18n --quiet'
 ASSETS_SRC=${PWD}/host/assets/${HOST}
 ASSETS=${TMP}/assets
 
+# host assets
 rsync -ax "${ASSETS_SRC}/" "${ASSETS}/"
 
-afn="${TMP}/99zzzuws_assets.sh"
+TOOLS="${ASSETS}/srv/uws/deploy"
+install -d "${TOOLS}"
+
+# deploy tools: docker
+install -d "${TOOLS}/docker"
+rsync -ax "${PWD}/docker/base/" "${TOOLS}/docker/base/"
+
+# deploy tools: acme
+install -d "${TOOLS}/srv/acme"
+rsync -ax "${PWD}/srv/acme/" "${TOOLS}/srv/acme/"
+
+afn="${CLOUDD}/99zzzuws_assets.sh"
 if test -d ${ASSETS}; then
 	oldwd=${PWD}
 	cd  ${ASSETS}
@@ -66,5 +78,5 @@ else
 	${SSH} ${FQDN} 'sudo chmod -v 0755 /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh && nq -c sudo /etc/cloud/cloud.cfg.d/99zzzuws_deploy.sh'
 fi
 
-rm -rf ${TMP}
+#rm -rf ${TMP}
 exit 0
