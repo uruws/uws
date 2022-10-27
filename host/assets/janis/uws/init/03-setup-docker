@@ -8,9 +8,9 @@ adduser uws docker
 
 # build base image
 
-pushd /srv/uws/deploy
+cd /srv/uws/deploy
 ${uws} ./docker/base/build.sh
-popd
+cd -
 
 # restart docker service as iptables rules were reloaded before
 

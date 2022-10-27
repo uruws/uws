@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
 
-pushd /srv/uws/deploy
+cd /srv/uws/deploy
 ./srv/acme/build.sh
-popd
+cd -
 
 DIRS='/srv/acme/cert /srv/acme/key /srv/acme/req'
 RUN_DIRS='/srv/run/acme/challenge /srv/run/acme/tmp'
