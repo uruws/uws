@@ -5,7 +5,6 @@ uws='sudo -n -u uws'
 
 cd /srv/uws/deploy
 chmod -v 0750 ./srv/acme/build.sh
-chown -v uws:uws ./srv/acme/build.sh
 ${uws} ./srv/acme/build.sh
 cd -
 

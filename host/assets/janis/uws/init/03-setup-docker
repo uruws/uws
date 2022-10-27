@@ -10,7 +10,6 @@ adduser uws docker
 
 cd /srv/uws/deploy
 chmod -v 0750 ./docker/base/build.sh
-chown -v uws:uws ./docker/base/build.sh
 ${uws} ./docker/base/build.sh
 cd -
 
