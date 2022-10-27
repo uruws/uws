@@ -6,6 +6,12 @@ uws='sudo -u uws'
 
 adduser uws docker
 
+# build base image
+
+pushd /srv/uws/deploy
+${uws} ./docker/base/build.sh
+popd
+
 # restart docker service as iptables rules were reloaded before
 
 if test 'Xtrue' = "X$(cat /etc/iptables.uws-reload 2>/dev/null)"; then
