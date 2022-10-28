@@ -8,14 +8,8 @@ chmod -v 0750 /srv/cache/nginx/uws
 chown -v www-data:www-data /srv/cache/nginx
 chmod -v 0750 /srv/cache/nginx
 
-mkdir -vp /srv/www/public
-chown -v uws:www-data /srv/www/public
-chmod -v 0750 /srv/www/public
-
-chown -v uws:www-data /srv/www
-chmod -v 0750 /srv/www
-
-chmod -v 0644 /var/www/html/index.html
+chown -vR root:www-data /var/www
+chmod -v 0640 /var/www/html/index.html
 
 rm -vf /etc/nginx/sites-enabled/*
 
