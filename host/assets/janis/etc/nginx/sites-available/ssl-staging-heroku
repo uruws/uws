@@ -1,0 +1,22 @@
+#
+# staging-heroku SSL internal domain
+#
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	server_name staging-heroku.uws.talkingpts.org;
+	server_tokens off;
+
+	root /var/www/html;
+
+	ssl_certificate /srv/acme/cert/staging-heroku.uws.talkingpts.org.crt;
+	ssl_certificate_key /srv/acme/key/staging-heroku.uws.talkingpts.org.key;
+
+	include /srv/etc/nginx/ssl.conf;
+
+	location /public/ {
+		alias /srv/www/public/;
+		try_files $uri =404;
+	}
+}

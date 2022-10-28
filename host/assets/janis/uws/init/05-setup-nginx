@@ -21,11 +21,14 @@ if ! test -s ${dhparam}; then
 	openssl dhparam -out ${dhparam} 4096
 fi
 
-if test -s /srv/acme/cert/uws.talkingpts.org.crt; then
-	install -v /etc/nginx/sites-available/ssl-main /etc/nginx/sites-enabled
-fi
 if test -s /srv/acme/cert/janis.uws.talkingpts.org.crt; then
 	install -v /etc/nginx/sites-available/ssl-janis /etc/nginx/sites-enabled
+fi
+
+# staging-heroku
+install -v /etc/nginx/sites-available/staging-heroku /etc/nginx/sites-enabled
+if test -s /srv/acme/cert/staging-heroku.uws.talkingpts.org.crt; then
+	install -v /etc/nginx/sites-available/ssl-staging-heroku /etc/nginx/sites-enabled
 fi
 
 exit 0
