@@ -1,6 +1,15 @@
 #
 # staging-heroku SSL internal domain
 #
+
+upstream tapostagingapi {
+	server janisapi-upstream.uws.talkingpts.org:443;
+}
+
+upstream tapostagingweb {
+	server janisweb-upstream.uws.talkingpts.org:443;
+}
+
 server {
 	listen 443 ssl;
 	listen [::]:443 ssl;
@@ -15,8 +24,11 @@ server {
 
 	include /srv/etc/nginx/ssl.conf;
 
-	location /public/ {
-		alias /srv/www/public/;
-		try_files $uri =404;
+	location /api/ {
+		proxy_pass https://tapostagingapi;
+	}
+
+	location / {
+		proxy_pass https://tapostagingweb;
 	}
 }
