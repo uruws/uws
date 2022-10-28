@@ -35,7 +35,7 @@ ENV USER root
 ENV HOME /root
 
 COPY --chown=uws:uws ./utils/*.sh /usr/local/bin/
-RUN chmod -v 0550 /usr/local/bin/*.sh
+RUN chmod -v 0555 /usr/local/bin/*.sh
 
 USER uws:uws
 WORKDIR /home/uws
