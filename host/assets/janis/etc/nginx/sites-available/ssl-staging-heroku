@@ -27,12 +27,14 @@ server {
 	location /api/ {
 		include /etc/nginx/proxy_params;
 		proxy_set_header Host janisapi-upstream.uws.talkingpts.org;
+		proxy_ssl_name janisapi-upstream.uws.talkingpts.org;
 		proxy_pass https://tapostagingapi;
 	}
 
 	location / {
 		include /etc/nginx/proxy_params;
 		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
+		proxy_ssl_name janisweb-upstream.uws.talkingpts.org;
 		proxy_pass https://tapostagingweb;
 	}
 }
