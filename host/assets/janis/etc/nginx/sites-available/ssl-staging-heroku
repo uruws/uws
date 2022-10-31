@@ -5,12 +5,15 @@
 # Heroku docs:
 #https://help.heroku.com/YTWRHLVH/how-do-i-make-my-nginx-proxy-connect-to-a-heroku-app-behind-heroku-ssl
 
+# SNI
+proxy_ssl_server_name on;
+
 upstream tapostagingapi {
-	server janisapi-upstream.uws.talkingpts.org;
+	server janisapi-upstream.uws.talkingpts.org:443;
 }
 
 upstream tapostagingweb {
-	server janisweb-upstream.uws.talkingpts.org;
+	server janisweb-upstream.uws.talkingpts.org:443;
 }
 
 server {
@@ -28,16 +31,20 @@ server {
 	include /srv/etc/nginx/ssl.conf;
 
 	location /api/ {
-		include /etc/nginx/proxy_params;
-		proxy_set_header Host janisapi-upstream.uws.talkingpts.org;
+		set $upstream tapostagingapi;
+		proxy_pass https://$upstream;
 		proxy_ssl_name janisapi-upstream.uws.talkingpts.org;
-		proxy_pass https://tapostagingapi;
+		proxy_set_header x-forwarded-host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header Host janisapi-upstream.uws.talkingpts.org;
 	}
 
 	location / {
-		include /etc/nginx/proxy_params;
-		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
+		set $upstream tapostagingweb;
+		proxy_pass https://$upstream;
 		proxy_ssl_name janisweb-upstream.uws.talkingpts.org;
-		proxy_pass https://tapostagingweb;
+		proxy_set_header x-forwarded-host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
 	}
 }
