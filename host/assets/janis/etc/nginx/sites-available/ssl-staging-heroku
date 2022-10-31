@@ -3,11 +3,11 @@
 #
 
 upstream tapostagingapi {
-	server janisapi-upstream.uws.talkingpts.org:443;
+	server janisapi-upstream.uws.talkingpts.org;
 }
 
 upstream tapostagingweb {
-	server janisweb-upstream.uws.talkingpts.org:443;
+	server janisweb-upstream.uws.talkingpts.org;
 }
 
 server {
@@ -25,10 +25,14 @@ server {
 	include /srv/etc/nginx/ssl.conf;
 
 	location /api/ {
+		include /etc/nginx/proxy_params;
+		proxy_set_header Host janisapi-upstream.uws.talkingpts.org;
 		proxy_pass https://tapostagingapi;
 	}
 
 	location / {
+		include /etc/nginx/proxy_params;
+		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
 		proxy_pass https://tapostagingweb;
 	}
 }
