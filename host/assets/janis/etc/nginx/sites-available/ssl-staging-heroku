@@ -2,6 +2,9 @@
 # staging-heroku SSL internal domain
 #
 
+# Heroku docs:
+#https://help.heroku.com/YTWRHLVH/how-do-i-make-my-nginx-proxy-connect-to-a-heroku-app-behind-heroku-ssl
+
 upstream tapostagingapi {
 	server janisapi-upstream.uws.talkingpts.org;
 }
