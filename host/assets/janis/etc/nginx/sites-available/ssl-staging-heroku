@@ -59,7 +59,7 @@ server {
 		proxy_set_header x-forwarded-host $host;
 		proxy_set_header X-Real-IP $remote_addr;
 		proxy_set_header Host $upstream_domain;
-		proxy_redirect https://$server_name/websocket https://$upstream_domain/websocket
+		proxy_redirect https://$server_name/websocket https://$upstream_domain/websocket;
 	}
 
 	location /socket.io/ {
