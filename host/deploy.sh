@@ -46,6 +46,12 @@ rsync -ax "${PWD}/docker/base/" "${TOOLS}/docker/base/"
 install -d "${TOOLS}/srv/acme"
 rsync -ax "${PWD}/srv/acme/" "${TOOLS}/srv/acme/"
 
+# host tools
+tools_sync=${PWD}/host/assets/${HOST}-sync.sh
+if test -x "${tools_sync}"; then
+	/bin/sh -eu "${tools_sync}" "${TOOLS}"
+fi
+
 afn="${CLOUDD}/99zzzuws_assets.sh"
 if test -d ${ASSETS}; then
 	oldwd=${PWD}

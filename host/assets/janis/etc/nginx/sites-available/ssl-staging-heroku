@@ -30,8 +30,8 @@ server {
 
 	root /var/www/html;
 
-	ssl_certificate /srv/acme/cert/staging-heroku.uws.talkingpts.org.crt;
-	ssl_certificate_key /srv/acme/key/staging-heroku.uws.talkingpts.org.key;
+	ssl_certificate /srv/uws/deploy/secret/ca/godaddyCerts/bundled_all.crt;
+	ssl_certificate_key /srv/uws/deploy/secret/ca/godaddyCerts/server.key;
 
 	include /srv/etc/nginx/ssl.conf;
 
