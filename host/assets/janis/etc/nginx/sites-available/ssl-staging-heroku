@@ -35,6 +35,8 @@ server {
 
 	include /srv/etc/nginx/ssl.conf;
 
+	# api
+
 	location /api/ {
 		set $upstream tapostagingapi;
 		proxy_pass https://$upstream;
@@ -43,6 +45,8 @@ server {
 		proxy_set_header X-Real-IP $remote_addr;
 		proxy_set_header Host janisapi-upstream.uws.talkingpts.org;
 	}
+
+	# websocket
 
 	location /websocket {
 		set $upstream tapostagingweb;
@@ -55,6 +59,39 @@ server {
 		proxy_set_header X-Real-IP $remote_addr;
 		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
 	}
+
+	# cache files
+
+	location /img/ {
+		root /srv/cache/nginx/data;
+		error_page 404 = @fetch;
+	}
+
+	location /scripts/ {
+		root /srv/cache/nginx/data;
+		error_page 404 = @fetch;
+	}
+
+	location /webfonts/ {
+		root /srv/cache/nginx/data;
+		error_page 404 = @fetch;
+	}
+
+	location @fetch {
+		internal;
+		set $upstream tapostagingweb;
+		proxy_pass https://$upstream;
+		proxy_ssl_name janisweb-upstream.uws.talkingpts.org;
+		proxy_set_header x-forwarded-host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
+		proxy_store on;
+		proxy_store_access user:rw group:rw all:r;
+		proxy_temp_path /srv/cache/nginx/temp;
+		alias /srv/cache/nginx/data;
+	}
+
+	# web
 
 	location / {
 		set $upstream tapostagingweb;
