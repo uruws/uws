@@ -39,11 +39,8 @@ server {
 
 	location /api/ {
 		set $upstream tapostagingapi;
-		proxy_pass https://$upstream;
-		proxy_ssl_name janisapi-upstream.uws.talkingpts.org;
-		proxy_set_header x-forwarded-host $host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header Host janisapi-upstream.uws.talkingpts.org;
+		set $upstream_domain janisapi-upstream.uws.talkingpts.org;
+		include /srv/etc/nginx/heroku-proxy.conf;
 	}
 
 	# websocket
@@ -51,26 +48,15 @@ server {
 	location /websocket {
 		set $upstream tapostagingweb;
 		set $upstream_domain janisweb-upstream.uws.talkingpts.org;
-		proxy_pass https://$upstream;
-		proxy_http_version 1.1;
-		proxy_set_header Upgrade $http_upgrade;
-		proxy_set_header Connection $connection_upgrade;
-		proxy_ssl_name $upstream_domain;
-		proxy_set_header x-forwarded-host $host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header Host $upstream_domain;
+		include /srv/etc/nginx/heroku-proxy.conf;
+		include /srv/etc/nginx/heroku-proxy-websocket.conf;
 	}
 
 	location /socket.io/ {
 		set $upstream tapostagingweb;
-		proxy_pass https://$upstream;
-		proxy_http_version 1.1;
-		proxy_set_header Upgrade $http_upgrade;
-		proxy_set_header Connection $connection_upgrade;
-		proxy_ssl_name janisweb-upstream.uws.talkingpts.org;
-		proxy_set_header x-forwarded-host $host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
+		set $upstream_domain janisweb-upstream.uws.talkingpts.org;
+		include /srv/etc/nginx/heroku-proxy.conf;
+		include /srv/etc/nginx/heroku-proxy-websocket.conf;
 	}
 
 	# cache files
@@ -93,13 +79,10 @@ server {
 	location @fetch {
 		internal;
 		set $upstream tapostagingweb;
-		proxy_pass https://$upstream;
-		proxy_ssl_name janisweb-upstream.uws.talkingpts.org;
-		proxy_set_header x-forwarded-host $host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
+		set $upstream_domain janisweb-upstream.uws.talkingpts.org;
+		include /srv/etc/nginx/heroku-proxy.conf;
 		proxy_store on;
-		proxy_store_access user:rw group:rw all:r;
+		proxy_store_access user:rw group:r all:r;
 		proxy_temp_path /srv/cache/nginx/temp;
 		proxy_cache_valid 3m;
 		root /srv/cache/nginx/data;
@@ -109,10 +92,7 @@ server {
 
 	location / {
 		set $upstream tapostagingweb;
-		proxy_pass https://$upstream;
-		proxy_ssl_name janisweb-upstream.uws.talkingpts.org;
-		proxy_set_header x-forwarded-host $host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
+		set $upstream_domain janisweb-upstream.uws.talkingpts.org;
+		include /srv/etc/nginx/heroku-proxy.conf;
 	}
 }
