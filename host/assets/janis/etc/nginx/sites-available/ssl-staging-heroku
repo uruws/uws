@@ -88,7 +88,7 @@ server {
 		proxy_store on;
 		proxy_store_access user:rw group:rw all:r;
 		proxy_temp_path /srv/cache/nginx/temp;
-		alias /srv/cache/nginx/data;
+		root /srv/cache/nginx/data;
 	}
 
 	# web
