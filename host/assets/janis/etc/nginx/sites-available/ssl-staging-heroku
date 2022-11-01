@@ -88,6 +88,7 @@ server {
 		proxy_store on;
 		proxy_store_access user:rw group:rw all:r;
 		proxy_temp_path /srv/cache/nginx/temp;
+		proxy_cache_valid 1h;
 		root /srv/cache/nginx/data;
 	}
 
