@@ -62,7 +62,7 @@ server {
 
 	# cache files
 
-	location /img/ {
+	location ~* \.(png|jpg)
 		root /srv/cache/nginx/data;
 		error_page 404 = @fetch;
 	}
