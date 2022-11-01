@@ -60,6 +60,18 @@ server {
 		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
 	}
 
+	location /socket.io/ {
+		set $upstream tapostagingweb;
+		proxy_pass https://$upstream;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection $connection_upgrade;
+		proxy_ssl_name janisweb-upstream.uws.talkingpts.org;
+		proxy_set_header x-forwarded-host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header Host janisweb-upstream.uws.talkingpts.org;
+	}
+
 	# cache files
 
 	location ~* \.(png|jpg) {
