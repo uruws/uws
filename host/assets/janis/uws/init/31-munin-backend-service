@@ -1,7 +1,9 @@
 #!/bin/sh
 set -eu
 
-sudo -n -u uws -D /srv/uws/deploy make munin-backend
+cd /srv/uws/deploy
+sudo -n -u uws make munin-backend
+cd -
 
 if ! systemctl is-enabled uws-munin-backend.service; then
 	systemctl enable uws-munin-backend.service
