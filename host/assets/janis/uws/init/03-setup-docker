@@ -2,9 +2,10 @@
 set -eu
 uws='sudo -u uws'
 
-# grant uws users access
+# grant users access
 
-adduser uws docker
+adduser uws    docker
+adduser uwsrun docker
 
 # build base image
 
