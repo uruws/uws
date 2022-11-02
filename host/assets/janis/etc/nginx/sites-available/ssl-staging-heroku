@@ -40,6 +40,8 @@ server {
 	location /api/ {
 		set $upstream tapostagingapi;
 		set $upstream_domain tapostagingapi.herokuapp.com;
+		proxy_send_timeout 60s;
+		proxy_read_timeout 60s;
 		include /srv/etc/nginx/heroku-proxy.conf;
 	}
 
@@ -80,6 +82,8 @@ server {
 		internal;
 		set $upstream tapostagingweb;
 		set $upstream_domain tapostagingweb.herokuapp.com;
+		proxy_send_timeout 60s;
+		proxy_read_timeout 60s;
 		include /srv/etc/nginx/heroku-proxy.conf;
 		proxy_store on;
 		proxy_store_access user:rw group:r all:r;
@@ -93,6 +97,8 @@ server {
 	location / {
 		set $upstream tapostagingweb;
 		set $upstream_domain tapostagingweb.herokuapp.com;
+		proxy_send_timeout 60s;
+		proxy_read_timeout 60s;
 		include /srv/etc/nginx/heroku-proxy.conf;
 	}
 }
