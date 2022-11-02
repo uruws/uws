@@ -38,6 +38,9 @@ rsync -ax "${ASSETS_SRC}/" "${ASSETS}/"
 TOOLS="${ASSETS}/srv/uws/deploy"
 install -d "${TOOLS}"
 
+# deploy tools: Makefile
+rsync -ax "${PWD}/Makefile" "${TOOLS}/"
+
 # deploy tools: docker
 install -d "${TOOLS}/docker"
 rsync -ax "${PWD}/docker/base/" "${TOOLS}/docker/base/"
