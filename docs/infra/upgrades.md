@@ -100,7 +100,7 @@
 * docker/golang
     * `2211`: base-2211
         * build.sh: Dockerfile.2211
-        * ./upgrades.py -t uws/golang -F 2203 -T 2211
+        * ./upgrades.py -t uws/golang
     * 2203: base-2203
         * build.sh: Dockerfile.2203
         * check.sh: golang-2203

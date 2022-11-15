@@ -8,6 +8,9 @@ from subprocess import check_output
 
 __doc__ = "uws upgrades helper"
 
+FROM_VERSION = '2203'
+TO_VERSION   = '2211'
+
 # utils
 
 def git_ls(repo: str, pattern: str = '*') -> list[str]:
@@ -45,9 +48,9 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 def main(argv: list[str]) -> int:
 	flags = ArgumentParser(description = __doc__)
 
-	flags.add_argument('-F', '--from-version', metavar = 'version', default = '',
+	flags.add_argument('-F', '--from-version', metavar = FROM_VERSION, default = FROM_VERSION,
 		help = 'upgrade from version')
-	flags.add_argument('-T', '--to-version', metavar = 'version', default = '',
+	flags.add_argument('-T', '--to-version', metavar = TO_VERSION, default = TO_VERSION,
 		help = 'upgrade to version')
 
 	flags.add_argument('-t', '--tag', metavar = 'tag', default = '',
