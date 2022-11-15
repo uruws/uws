@@ -23,12 +23,6 @@ distclean: clean
 prune:
 	@docker system prune -f
 
-.PHONY: upgrade
-upgrade:
-	@./docker/awscli/build.sh --pull
-	@./docker/base/build.sh --pull
-	@./docker/base-testing/build.sh
-
 #
 # all
 #
