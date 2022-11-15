@@ -79,12 +79,14 @@
 ## Container
 
 * [docker/base][debian-container]
-    * `2203-1`: Debian 11.3 (bullseye-20220328-slim)
+    * `2211`: Debian 11.5 (bullseye-20221114-slim)
+    * 2203-1: Debian 11.3 (bullseye-20220328-slim)
         * zlib security upgrade CVE-2018-25032
     * 2203: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 10 (buster) -> 11 (bullseye)
 * docker/base-testing
-    * `2203-1`: zlib security upgrade CVE-2018-25032
+    * `2211`: base-2211, Debian bookworm
+    * 2203-1: zlib security upgrade CVE-2018-25032
     * 2203: base-2203, Debian bookworm
     * 2109: Debian bullseye -> bookworm
 * pod/base
