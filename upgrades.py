@@ -3,6 +3,7 @@
 import sys
 
 from argparse   import ArgumentParser
+from pathlib    import Path
 from subprocess import CalledProcessError
 from subprocess import check_output
 
@@ -23,15 +24,27 @@ def git_grep(repo: str, pattern: str, args: str = '-Fl') -> list[str]:
 		timeout = 15, shell = True, text = True)
 	return sorted(out.splitlines())
 
+def date_version() -> str:
+	out = check_output(f"/usr/bin/date '+%y%m%d'",
+		timeout = 15, shell = True, text = True)
+	return out.splitlines()[0].strip()
+
 def replace(filename: str, src: str, dst: str):
 	check_output(f"/usr/bin/sed -i 's#{src}#{dst}#g' {filename}",
 		timeout = 15, shell = True, text = True)
 
+def replace_docker_version(filename: str, version: str):
+	check_output(f"/usr/bin/sed -i 's#^LABEL version=\".*#LABEL version=\"{version}\"#' {filename}", timeout = 15, shell = True, text = True)
+
+def copyfn(src: str, dst: str):
+	check_output(f"/usr/bin/cp -va {src} {dst}",
+		timeout = 15, shell = True, text = True)
+
 # commands
 
-def fslist(args):
-	for fn in git_ls(args.repo, '*Dockerfile*'):
-		print('%s/%s' % (args.repo, fn))
+def fslist(repo):
+	for fn in git_ls(repo, '*Dockerfile*'):
+		print(Path(repo, fn))
 
 def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 	src = '%s-%s' % (tag, vfrom)
@@ -42,6 +55,26 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 		print(fn)
 		replace(fn, src, dst)
 	return 0
+
+def check(repo, vfrom, vto):
+	for fn in git_ls(repo, '*Dockerfile.%s' % vfrom):
+		dstfn = Path(repo, fn.replace(vfrom, vto, 1))
+		if dstfn.exists():
+			continue
+		print(Path(repo, fn))
+
+def upgrade_docker(repo, vfrom, vto, tag):
+	for fn in git_ls(repo, '*Dockerfile.%s' % vfrom):
+		srcfn = Path(repo, fn)
+		dstfn = Path(repo, fn.replace(vfrom, vto, 1))
+		if dstfn.exists():
+			continue
+		print(srcfn)
+		copyfn(srcfn, dstfn)
+		srctag = '%s-%s' % (tag, vfrom)
+		dsttag = '%s-%s' % (tag, vto)
+		replace(dstfn, srctag, dsttag)
+		replace_docker_version(dstfn, date_version())
 
 # main
 
@@ -59,22 +92,23 @@ def main(argv: list[str]) -> int:
 	flags.add_argument('-C', '--check', action = 'store_true', default = False,
 		help = 'check upgrades')
 
+	flags.add_argument('-U', '--upgrade', action = 'store_true', default = False,
+		help = 'upgrade dockerfiles')
+
 	flags.add_argument('repo', metavar = 'repo', default = '.',
 		help = 'repo path', nargs = '?')
 
 	args = flags.parse_args(argv)
 
 	try:
-		if args.tag != '':
-			if args.from_version == '':
-				print('no --from-version', file = sys.stderr)
-				return 1
-			if args.to_version == '':
-				print('no --to-version', file = sys.stderr)
-				return 2
+		if args.check is True:
+			return check(args.repo, args.from_version, args.to_version)
+		elif args.upgrade is True:
+			return upgrade_docker(args.repo, args.from_version, args.to_version, args.tag)
+		elif args.tag != '':
 			return upgrade_from_to(args.repo, args.tag, args.from_version, args.to_version)
 		else:
-			fslist(args)
+			fslist(args.repo)
 	except CalledProcessError as err:
 		print(err, file = sys.stderr)
 		return err.returncode
