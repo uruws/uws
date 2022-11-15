@@ -56,18 +56,21 @@ def main(argv: list[str]) -> int:
 	flags.add_argument('-t', '--tag', metavar = 'tag', default = '',
 		help = 'docker tag')
 
+	flags.add_argument('-C', '--check', action = 'store_true', default = False,
+		help = 'check upgrades')
+
 	flags.add_argument('repo', metavar = 'repo', default = '.',
 		help = 'repo path', nargs = '?')
 
 	args = flags.parse_args(argv)
 
 	try:
-		if args.from_version != '':
+		if args.tag != '':
+			if args.from_version == '':
+				print('no --from-version', file = sys.stderr)
+				return 1
 			if args.to_version == '':
 				print('no --to-version', file = sys.stderr)
-				return 1
-			if args.tag == '':
-				print('no --tag', file = sys.stderr)
 				return 2
 			return upgrade_from_to(args.repo, args.tag, args.from_version, args.to_version)
 		else:
