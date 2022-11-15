@@ -23,7 +23,7 @@ def main(argv: list[str]) -> int:
 
 	try:
 		for fn in git_ls(args.repo, '*Dockerfile*'):
-			print(fn)
+			print('%s/%s' % (args.repo, fn))
 	except CalledProcessError as err:
 		print(err, file = sys.stderr)
 		return err.returncode
