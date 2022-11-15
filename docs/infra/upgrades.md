@@ -109,7 +109,9 @@
         * docs.sh: golang-2203
     * 2109: base-2109
 * docker/python
-    * `2203`: base-2203
+    * `2211`: base-2211
+        * ./upgrades.py -U docker/python
+    * 2203: base-2203
     * 2109: base-2109
 * [docker/awscli][awscli]
     * `2203`: amazon/aws-cli:2.4.26
