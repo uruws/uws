@@ -126,7 +126,10 @@
     * 2203: base-testing
     * 2109: base-testing
 * srv/acme
-    * `2203`: base-2203
+    * `2211`: base-2211
+        * ./upgrades.py -U srv/acme -t uws/acme
+        * ./upgrades.py -t uws/acme
+    * 2203: base-2203
     * 2109: base-2109
 * docker/mkcert
     * `2203`: base-2203
