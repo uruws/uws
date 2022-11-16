@@ -74,10 +74,11 @@ def fslist(repo):
 def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 	src = '%s-%s' % (tag, vfrom)
 	dst = '%s-%s' % (tag, vto)
-	for fn in git_grep(repo, src):
-		if fn.endswith(BUILD_SCRIPT):
+	for fpath in git_grep(repo, src):
+		fn = Path(fpath).stem.strip()
+		if fn == BUILD_SCRIPT:
 			continue
-		elif Path(fn).stem.startswith('Dockerfile'):
+		elif fn.startswith('Dockerfile') and not fn.endswith('.devel'):
 			continue
 		print(fn)
 		replace(fn, src, dst)
