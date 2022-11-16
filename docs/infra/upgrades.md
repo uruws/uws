@@ -115,7 +115,10 @@
     * 2203: base-2203
     * 2109: base-2109
 * [docker/awscli][awscli]
-    * `2203`: amazon/aws-cli:2.4.26
+    * `2211`: amazon/aws-cli:2.8.12
+        * build.sh: Dockerfile.2211
+        * ./upgrades.py -t uws/awscli
+    * 2203: amazon/aws-cli:2.4.26
     * 2109: amazon/aws-cli
 * docker/clamav
     * `2203`: base-testing
