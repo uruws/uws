@@ -75,7 +75,9 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 	src = '%s-%s' % (tag, vfrom)
 	dst = '%s-%s' % (tag, vto)
 	for fn in git_grep(repo, src):
-		if fn.endswith('build.sh'):
+		if fn.endswith(BUILD_SCRIPT):
+			continue
+		elif Path(fn).stem.startswith('Dockerfile'):
 			continue
 		print(fn)
 		replace(fn, src, dst)
