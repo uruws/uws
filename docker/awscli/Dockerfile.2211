@@ -1,7 +1,7 @@
-FROM amazon/aws-cli:2.4.26
+FROM amazon/aws-cli:2.8.12
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220513"
+LABEL version="221116"
 
 USER root:root
 WORKDIR /root
