@@ -28,7 +28,7 @@
 * docker/golang
     * `2211`: base-2211
         * build.sh: Dockerfile.2211
-        * ./upgrades.py -t uws/golang
+        * ./docker/upgrades.py -t uws/golang
     * 2203: base-2203
         * build.sh: Dockerfile.2203
         * check.sh: golang-2203
@@ -38,14 +38,14 @@
     * 2109: base-2109
 * docker/python
     * `2211`: base-2211
-        * ./upgrades.py -U docker/python -t uws/python
-        * ./upgrades.py -t uws/python
+        * ./docker/upgrades.py -U docker/python -t uws/python
+        * ./docker/upgrades.py -t uws/python
     * 2203: base-2203
     * 2109: base-2109
 * [docker/awscli][awscli]
     * `2211`: amazon/aws-cli:2.8.12
         * build.sh: Dockerfile.2211
-        * ./upgrades.py -t uws/awscli
+        * ./docker/upgrades.py -t uws/awscli
     * 2203: amazon/aws-cli:2.4.26
     * 2109: amazon/aws-cli
 * docker/clamav
@@ -55,19 +55,19 @@
     * 2109: base-testing
 * srv/acme
     * `2211`: base-2211
-        * ./upgrades.py -U srv/acme -t uws/acme
-        * ./upgrades.py -t uws/acme
+        * ./docker/upgrades.py -U srv/acme -t uws/acme
+        * ./docker/upgrades.py -t uws/acme
     * 2203: base-2203
     * 2109: base-2109
 * docker/mkcert
     * `2211`: base-2211
-        * ./upgrades.py -U docker/mkcert -t uws/mkcert
-        * ./upgrades.py -t uws/mkcert
+        * ./docker/upgrades.py -U docker/mkcert -t uws/mkcert
+        * ./docker/upgrades.py -t uws/mkcert
     * 2203: base-2203
 * docker/mailx
     * `2211`: base-2211
-        * ./upgrades.py -U docker/mailx -t uws/mailx
-        * ./upgrades.py -t uws/mailx
+        * ./docker/upgrades.py -U docker/mailx -t uws/mailx
+        * ./docker/upgrades.py -t uws/mailx
     * 2203: base-2203
         * devel.sh: mailx-2203
     * 2109: base-2109
