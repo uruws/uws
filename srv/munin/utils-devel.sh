@@ -13,6 +13,6 @@ docker run -it --rm --name uws-munin-devel \
 	-v ${PWD}/srv/munin/utils:/home/uws/utils:ro \
 	-v ${SECRET}:/home/uws/secret:ro \
 	-v ${TMPDIR}:/home/uws/tmp \
-	uws/python-2203
+	uws/python-2211
 
 exit 0

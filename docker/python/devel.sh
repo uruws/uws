@@ -7,4 +7,4 @@ exec docker run -it --rm --name uws-python-devel \
 	--read-only \
 	-v ${TMPDIR}:/home/uws/tmp \
 	-v ${PWD}/python:/opt/uws:ro \
-	uws/python-2203
+	uws/python-2211

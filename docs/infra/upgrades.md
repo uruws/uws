@@ -76,7 +76,7 @@
 
 [debian-os]: https://www.debian.org/releases/
 
-## Container
+## Docker
 
 * [docker/base][debian-container]
     * `2211`: Debian 11.5 (bullseye-20221114-slim)
@@ -110,7 +110,8 @@
     * 2109: base-2109
 * docker/python
     * `2211`: base-2211
-        * ./upgrades.py -U docker/python
+        * ./upgrades.py -U docker/python -t uws/python
+        * ./upgrades.py -t uws/python
     * 2203: base-2203
     * 2109: base-2109
 * [docker/awscli][awscli]
