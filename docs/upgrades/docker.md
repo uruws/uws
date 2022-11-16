@@ -111,14 +111,16 @@
     * `2211`: base-2211
         * ./docker/upgrades.py -U docker/asb -t uws/ansible
         * ./docker/upgrades.py -t uws/ansible
-        * Dockerfile.devel FROM and version
     * 2203: base-2203
     * 2109: base-2109
 
 ---
 
 * docker/k8s
-    * `2203`: base-2203
+    * `2211`: base-2211
+        * ./docker/upgrades.py -U docker/k8s/122 -t uws/k8s-122
+        * ./docker/upgrades.py -t uws/k8s-122
+    * 2203: base-2203
     * 2109: base-2109
 
 ---
