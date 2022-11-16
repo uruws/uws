@@ -76,19 +76,6 @@
 
 [debian-os]: https://www.debian.org/releases/
 
-## Docker
-
-* docker/k8s
-    * `2203`: base-2203
-    * 2109: base-2109
-* docker/k8s:devel
-    * `2203`: k8s-2203
-* docker/eks
-    * `2203`: k8s-2203
-    * 2109: k8s
-* docker/eks:devel
-    * `2203`: eks-2203
-
 ## App
 
 ### MonitoringBots
