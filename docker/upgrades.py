@@ -84,14 +84,14 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 	return 0
 
 def check(repo, vfrom, vto):
-	for fn in git_ls(repo, '*Dockerfile.%s' % vfrom):
+	for fn in git_ls(repo, '*Dockerfile*.%s' % vfrom):
 		dstfn = Path(repo, fn.replace(vfrom, vto, 1))
 		if dstfn.exists():
 			continue
 		print(Path(repo, fn))
 
 def upgrade_docker(repo, vfrom, vto, tag, srctag):
-	for fn in git_ls(repo, '*Dockerfile.%s' % vfrom):
+	for fn in git_ls(repo, '*Dockerfile*.%s' % vfrom):
 		srcfn = Path(repo, fn)
 		dstfn = Path(repo, fn.replace(vfrom, vto, 1))
 		if dstfn.exists():
