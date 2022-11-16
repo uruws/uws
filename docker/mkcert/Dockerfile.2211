@@ -1,0 +1,37 @@
+FROM uws/base-2211
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="221116"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+ENV GOPATH /root/go
+
+RUN /root/bin/apt-install.sh golang git \
+	&& go get github.com/uruws/mkcert \
+	&& /root/bin/apt-autoremove.sh golang git \
+	&& install -v -m 0755 /root/go/bin/mkcert /usr/local/bin/mkcert \
+	&& rm -rf /root/go
+
+RUN /root/bin/apt-install.sh uuid-runtime
+
+RUN chgrp -v uws /usr/local/bin \
+	&& chmod -v g+w /usr/local/bin
+
+VOLUME /home/uws/ca
+
+USER uws:uws
+WORKDIR /home/uws/ca
+
+ENV USER uws
+ENV HOME /home/uws
+ENV CAROOT /home/uws/ca
+ENV TRUST_STORES system
+
+COPY --chown=uws:uws ./utils /usr/local/bin
+
+CMD exec mkcert

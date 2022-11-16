@@ -132,7 +132,10 @@
     * 2203: base-2203
     * 2109: base-2109
 * docker/mkcert
-    * `2203`: base-2203
+    * `2211`: base-2211
+        * ./upgrades.py -U docker/mkcert -t uws/mkcert
+        * ./upgrades.py -t uws/mkcert
+    * 2203: base-2203
 * docker/mailx
     * `2203`: base-2203
         * devel.sh: mailx-2203
