@@ -128,7 +128,7 @@
 
 * docker/eks
     * `2211`: base-2211
-        * ./docker/upgrades.py -U docker/eks/122 -t uws/eks-122 -b uws/k8s-122
+        * ./docker/upgrades.py -U docker/eks/122 -t uws/eks-122 -s uws/k8s-122
         * ./docker/upgrades.py -t uws/eks-122
         * ./docker/upgrades.py -t 'uws/${EKS_IMAGE}'
     * 2203: k8s-2203
@@ -137,7 +137,10 @@
 ---
 
 * docker/uwsbot
-    * `2203`: base-2203
+    * `2211`: base-2211
+        * ./docker/upgrades.py -U docker/uwsbot -t uws/uwsbot
+        * ./docker/upgrades.py -t uws/uwsbot
+    * 2203: base-2203
         * devel.sh: golang-2203
     * 2109: base-2109
 

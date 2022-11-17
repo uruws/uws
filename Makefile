@@ -159,6 +159,9 @@ UWS_BOT_DEPS != find go/bot go/cmd/uwsbot* go/env go/config go/log -type f -name
 
 .PHONY: uwsbot
 uwsbot: docker/uwsbot/build/uwsbot.bin docker/uwsbot/build/uwsbot-stats.bin docker/uwsbot/build/uwsbot.docs
+	@rm -vfr ./docker/uwsbot/build/env/bot
+	@mkdir -vp ./docker/uwsbot/build/env/bot/bot
+	@install -C -v -m 644 ./go/etc/env/bot/* ./docker/uwsbot/build/env/bot/bot
 	@./docker/uwsbot/build.sh
 
 docker/uwsbot/build/uwsbot.bin: docker/golang/build/uwsbot.bin
