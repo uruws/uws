@@ -126,19 +126,13 @@
 
 ---
 
-* docker/k8s:devel
-    * `2203`: k8s-2203
-
----
-
 * docker/eks
-    * `2203`: k8s-2203
+    * `2211`: base-2211
+        * ./docker/upgrades.py -U docker/eks/122 -t uws/eks-122
+        * ./docker/upgrades.py -t uws/eks-122
+        * ./docker/upgrades.py -t 'uws/${EKS_IMAGE}'
+    * 2203: k8s-2203
     * 2109: k8s
-
----
-
-* docker/eks:devel
-    * `2203`: eks-2203
 
 ---
 
