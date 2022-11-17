@@ -82,6 +82,8 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 			continue
 		print(fpath)
 		replace(fpath, src, dst)
+		if fn == 'Dockerfile.devel':
+			replace_docker_version(fpath, date_version())
 	return 0
 
 def check(repo, vfrom, vto):
