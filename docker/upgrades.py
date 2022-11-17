@@ -23,7 +23,7 @@ def git_ls(repo: str, pattern: str = '*') -> list[str]:
 	return sorted(out.splitlines())
 
 def git_grep(repo: str, pattern: str, args: str = '-Fl') -> list[str]:
-	out = check_output(f"/usr/bin/git -C {repo} grep {args} {pattern}",
+	out = check_output(f"/usr/bin/git -C {repo} grep {args} '{pattern}'",
 		timeout = 15, shell = True, text = True)
 	return sorted(out.splitlines())
 
@@ -80,8 +80,8 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 			continue
 		elif fn.startswith('Dockerfile') and not fn.endswith('.devel'):
 			continue
-		print(fn)
-		replace(fn, src, dst)
+		print(fpath)
+		replace(fpath, src, dst)
 	return 0
 
 def check(repo, vfrom, vto):
