@@ -117,7 +117,7 @@
 ---
 
 * docker/k8s
-    * `2211`: base-2211
+    * `2211`: k8s-122-2211
         * ./docker/upgrades.py -U docker/k8s/122 -t uws/k8s-122
         * ./docker/upgrades.py -t uws/k8s-122
         * ./docker/upgrades.py -t 'uws/${K8S_IMAGE}'
@@ -147,7 +147,10 @@
 ---
 
 * docker/uwscli
-    * `2203`: python-2203
+    * `2211`: python-2211
+        * ./docker/upgrades.py -U docker/uwscli -t uws/cli -s uws/python
+        * ./docker/upgrades.py -t uws/cli
+    * 2203: python-2203
     * 2109: python-2109
 
 ---
