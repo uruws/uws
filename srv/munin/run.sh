@@ -7,4 +7,4 @@ exec docker run -it --rm --name uws-munin \
 	-v ${DATA}/var/lib:/var/lib/munin \
 	-v ${DATA}/cache/www:/var/cache/munin/www \
 	-v ${DATA}/var/log:/var/log/munin \
-	-u root uws/munin-2203
+	-u root uws/munin-2211
