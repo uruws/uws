@@ -194,7 +194,7 @@
 ---
 
 * srv/munin-backend
-    * `2211`: base-2211
+    * `2211`: munin-2211
         * ./docker/upgrades.py -U srv/munin-backend -t uws/munin-backend -s uws/munin
         * ./docker/upgrades.py -t uws/munin-backend
     * 2203: munin-2203
@@ -204,7 +204,10 @@
 ---
 
 * srv/munin-node
-    * `2203`: base-2203, munin-contrib 438e31f
+    * `2211`: base-2211
+        * ./docker/upgrades.py -U srv/munin-node -t uws/munin-node
+        * ./docker/upgrades.py -t uws/munin-node
+    * 2203: base-2203, munin-contrib 438e31f
         * check.sh, utils-devel.sh: python-2203
         * devel.sh, docker-compose.yml: munin-node-2203
         * host/assets/jsbatch/uws/init/35-munin-node-service: munin-node-2203
