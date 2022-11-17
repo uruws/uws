@@ -146,6 +146,11 @@
 
 ---
 
+* docker/heroku
+    * `2211`: Dockerfile
+
+---
+
 * docker/uwscli
     * `2211`: python-2211
         * ./docker/upgrades.py -U docker/uwscli -t uws/cli -s uws/python
