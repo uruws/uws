@@ -194,7 +194,10 @@
 ---
 
 * srv/munin-backend
-    * `2203`: munin-2203
+    * `2211`: base-2211
+        * ./docker/upgrades.py -U srv/munin-backend -t uws/munin-backend -s uws/munin
+        * ./docker/upgrades.py -t uws/munin-backend
+    * 2203: munin-2203
         * backend-service-start.sh: munin-backend-2203
     * 2109: munin
 
