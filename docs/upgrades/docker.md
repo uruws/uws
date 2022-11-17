@@ -170,7 +170,10 @@
 ---
 
 * srv/crond
-    * `2203`: mailx-2203
+    * `2211`: mailx-2211
+        * ./docker/upgrades.py -U srv/crond -t uws/crond -s uws/mailx
+        * ./docker/upgrades.py -t uws/crond
+    * 2203: mailx-2203
         * devel.sh: crond-2203
         * run.sh: crond-2203
     * 2109: mailx-2109
