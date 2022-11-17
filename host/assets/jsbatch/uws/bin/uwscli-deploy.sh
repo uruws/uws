@@ -15,7 +15,7 @@ if ! ${surun} systemctl is-enabled uwscli-@prod.service; then
 	exit 0
 fi
 
-export DOCKER_IMAGE='uws/cli-2203'
+export DOCKER_IMAGE='uws/cli-2211'
 
 ${surun} /uws/bin/service-restart.sh uwscli-@prod \
 	/etc/systemd/system/uwscli-@.service \
