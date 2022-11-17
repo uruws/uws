@@ -212,28 +212,3 @@
         * devel.sh, docker-compose.yml: munin-node-2203
         * host/assets/jsbatch/uws/init/35-munin-node-service: munin-node-2203
     * 2109: base-2109, munin-contrib 22ba051
-
----
-
-* Makefile/utils-publish
-    * `2203`: acme-2203
-
----
-
-* Makefile/k8smon-publish
-    * `2203`: k8s-2203
-
----
-
-* Makefile/mon-publish
-    * `2203`: munin-2203, munin-backend-2203, munin-node-2203
-
----
-
-* Makefile/k8sctl-publish
-    * `2203`: eks-k8s-2203
-
----
-
-* Makefile/pod-publish
-    * `2203`: pod:test

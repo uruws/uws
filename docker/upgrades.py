@@ -65,6 +65,12 @@ def build_script(repo: str, dstdir: str, tag: str, vfrom: str, vto: str):
 	print(fn)
 	return 0
 
+def writefile(name: str, data: str):
+	fn = Path(name)
+	with fn.open('w') as fh:
+		fh.write(data)
+	print(fn)
+
 # commands
 
 def fslist(repo):
@@ -84,6 +90,8 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 		replace(fpath, src, dst)
 		if fn == 'Dockerfile.devel':
 			replace_docker_version(fpath, date_version())
+		elif repo == 'srv/munin':
+			writefile('./k8s/mon/munin/VERSION', '%s\n' % date_version())
 	return 0
 
 def check(repo, vfrom, vto):
