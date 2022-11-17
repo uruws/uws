@@ -161,7 +161,10 @@
 ---
 
 * srv/proftpd
-    * `2203`: base-2203
+    * `2211`: base-2211
+        * ./docker/upgrades.py -U srv/proftpd -t uws/proftpd
+        * ./docker/upgrades.py -t uws/proftpd
+    * 2203: base-2203
     * 2109: base-2109
 
 ---
