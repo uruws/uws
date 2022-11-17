@@ -120,6 +120,7 @@
     * `2211`: base-2211
         * ./docker/upgrades.py -U docker/k8s/122 -t uws/k8s-122
         * ./docker/upgrades.py -t uws/k8s-122
+        * ./docker/upgrades.py -t 'uws/${K8S_IMAGE}'
     * 2203: base-2203
     * 2109: base-2109
 

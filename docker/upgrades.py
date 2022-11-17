@@ -7,7 +7,7 @@ from pathlib    import Path
 from subprocess import CalledProcessError
 from subprocess import check_output
 
-__doc__ = "uws upgrades helper"
+__doc__ = 'uws upgrades helper'
 
 FROM_VERSION   = '2203'
 TO_VERSION     = '2211'
@@ -75,7 +75,7 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 	src = '%s-%s' % (tag, vfrom)
 	dst = '%s-%s' % (tag, vto)
 	for fpath in git_grep(repo, src):
-		fn = Path(fpath).stem.strip()
+		fn = Path(fpath).name.strip()
 		if fn == BUILD_SCRIPT:
 			continue
 		elif fn.startswith('Dockerfile') and not fn.endswith('.devel'):
