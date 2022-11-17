@@ -212,3 +212,10 @@
         * devel.sh, docker-compose.yml: munin-node-2203
         * host/assets/jsbatch/uws/init/35-munin-node-service: munin-node-2203
     * 2109: base-2109, munin-contrib 22ba051
+
+---
+
+* srv/herokud
+    * `2211`: crond-2211
+        * ./docker/upgrades.py -U srv/herokud -t uws/herokud -s uws/crond
+        * ./docker/upgrades.py -t uws/herokud
