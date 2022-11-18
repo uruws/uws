@@ -11,12 +11,12 @@ eksenv=${PWD}/eks/env/${cluster}.env
 secret=${PWD}/secret/eks/files
 sshdir=${secret}/ssh/${cluster}
 
-rm -vrf ${admin_dir}
-rm -vrf ${client_dir}
-rm -vrf ${cluster_dir}
-rm -vrf ${kubedir}
-rm -vrf ${sshdir}
+git rm -r ${admin_dir}
+git rm -r ${client_dir}
+git rm -r ${cluster_dir}
+git rm -r ${kubedir}
+git rm -r ${sshdir}
 
-rm -vf ${eksenv}
+git rm -r ${eksenv}
 
 exit 0
