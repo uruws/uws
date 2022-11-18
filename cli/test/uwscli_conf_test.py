@@ -30,7 +30,6 @@ class Test(unittest.TestCase):
 	def test_prod_settings(t):
 		# cluster
 		t.assertListEqual(sorted(uwscli.cluster.keys()), [
-			'app-west',
 			'apptest-east',
 			'apptest-west',
 			'panoramix-2206',
@@ -38,7 +37,6 @@ class Test(unittest.TestCase):
 		])
 		# app list
 		app_list = [
-			'app-west',
 			'apptest-east',
 			'apptest-west',
 			'cs',
