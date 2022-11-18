@@ -50,20 +50,20 @@ install -d "${TOOLS}/srv/acme"
 rsync -ax "${PWD}/srv/acme/" "${TOOLS}/srv/acme/"
 
 # deploy tools: munin
-install -d "${TOOLS}/srv/munin"
-rsync -ax "${PWD}/srv/munin/" "${TOOLS}/srv/munin/"
+##install -d "${TOOLS}/srv/munin"
+##rsync -ax "${PWD}/srv/munin/" "${TOOLS}/srv/munin/"
 
 # deploy tools: munin-backend
-install -d "${TOOLS}/srv/munin-backend"
-rsync -ax "${PWD}/srv/munin-backend/" "${TOOLS}/srv/munin-backend/"
+##install -d "${TOOLS}/srv/munin-backend"
+##rsync -ax "${PWD}/srv/munin-backend/" "${TOOLS}/srv/munin-backend/"
 
 # deploy tools: CA smtps
-install -d "${TOOLS}/secret/ca/uws/smtps/211006"
-rsync -ax "${PWD}/secret/ca/uws/smtps/211006/" "${TOOLS}/secret/ca/uws/smtps/211006/"
+##install -d "${TOOLS}/secret/ca/uws/smtps/211006"
+##rsync -ax "${PWD}/secret/ca/uws/smtps/211006/" "${TOOLS}/secret/ca/uws/smtps/211006/"
 
 # deploy tools: secret munin
-install -d "${TOOLS}/secret/eks/files/munin"
-rsync -ax "${PWD}/secret/eks/files/munin/" "${TOOLS}/secret/eks/files/munin/"
+##install -d "${TOOLS}/secret/eks/files/munin"
+##rsync -ax "${PWD}/secret/eks/files/munin/" "${TOOLS}/secret/eks/files/munin/"
 
 # host tools
 tools_sync=${PWD}/host/assets/${HOST}-sync.sh
