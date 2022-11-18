@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
 
+#
+# DISABLED!!!
+#
+exit 0
+
 install -v -d -o root -g uws -m 0750 /srv/etc/munin
 install -v -d -o root -g uws -m 0751 /srv/munin
 install -v -d -o root -g uws -m 0751 /uws/munin

@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
 
+#
+# DISABLED!!!
+#
+exit 0
+
 cd /srv/uws/deploy
 sudo -n -u uws make munin-backend
 cd -
