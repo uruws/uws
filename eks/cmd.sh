@@ -2,4 +2,5 @@
 set -eu
 cluster=${1:?'cluster?'}
 shift
-exec ./docker/eks/admin.sh ${cluster} --client "$@"
+export UWSEKSCMD='true'
+exec ./docker/eks/admin.sh "${cluster}" --client "$@"
