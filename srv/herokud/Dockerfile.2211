@@ -20,6 +20,9 @@ RUN echo 'deb https://cli-assets.heroku.com/apt ./' >/etc/apt/sources.list.d/her
 
 RUN /root/bin/apt-install.sh fetchmail
 
+# /usr/lib/apt/apt.systemd.daily: 320: cannot create /var/lib/apt//daily_lock: Read-only file system
+RUN rm -vf /etc/cron.daily/apt-compat
+
 COPY ./files/etc/cron.d/uws /etc/cron.d/uws
 
 USER uws:uws
