@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
-VERSION='1.4.0'
-wget -O - \
-	https://github.com/kubernetes/ingress-nginx/raw/controller-v${VERSION}/deploy/static/provider/aws/deploy.yaml |
-	grep -vF '#GENERATED FOR K8S' >upstream-deploy.yaml
-exit 0
+VERSION='1.5.1'
+BASE=https://github.com/kubernetes/ingress-nginx/raw
+FPATH=deploy/static/provider/aws/deploy.yaml
+exec wget -O ./k8s/nginx-ingress/upstream-deploy.yaml \
+	"${BASE}/controller-v${VERSION}/${FPATH}"
