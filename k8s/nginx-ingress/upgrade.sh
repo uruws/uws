@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
-uwskube delete -f ~/k8s/nginx-ingress/setup-jobs.yaml --wait=true
-uwskube apply -f ~/k8s/nginx-ingress/setup.yaml --wait=true
-uwskube apply -f ~/k8s/nginx-ingress/setup-jobs.yaml --wait=true
+~/k8s/nginx-ingress/deploy.py --setup-jobs | uwskube delete --wait=true -f -
+~/k8s/nginx-ingress/deploy.py --setup      | uwskube apply  --wait=true -f -
+~/k8s/nginx-ingress/deploy.py --setup-jobs | uwskube apply  --wait=true -f -
 ~/k8s/nginx-ingress/deploy.sh
 exit 0

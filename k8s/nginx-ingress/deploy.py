@@ -8,7 +8,8 @@ from pathlib  import Path
 
 __doc__ = 'k8s nginx ingress deploy helper'
 
-UPSTREAM = './k8s/nginx-ingress/upstream-deploy.yaml'
+K8S_VERSION = '1.22'
+UPSTREAM    = f"./k8s/nginx-ingress/{K8S_VERSION}/upstream-deploy.yaml"
 
 def _setup(docs):
 	for d in docs:

@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube apply -f ~/k8s/nginx-ingress/${K8S_VERSION}/setup.yaml
-uwskube apply -f ~/k8s/nginx-ingress/${K8S_VERSION}/setup-jobs.yaml
+~/k8s/nginx-ingress/deploy.py --setup      | uwskube apply -f -
+~/k8s/nginx-ingress/deploy.py --setup-jobs | uwskube apply -f -
 exec ~/k8s/nginx-ingress/deploy.sh
