@@ -17,13 +17,13 @@ def _setup(docs):
 			continue
 		elif d['kind'] == 'Job':
 			continue
-		print('---')
+		print('---', file = sys.stdout)
 		yaml.dump(d, sys.stdout)
 
 def _setup_jobs(docs):
 	for d in docs:
 		if d['kind'] == 'Job':
-			print('---')
+			print('---', file = sys.stdout)
 			yaml.dump(d, sys.stdout)
 
 def _deploy(f, args):
@@ -38,7 +38,7 @@ def _deploy(f, args):
 				if d['kind'] == 'Deployment':
 					if args.replicas > 0:
 						d['spec']['replicas'] = args.replicas
-					print('---')
+					print('---', file = sys.stdout)
 					yaml.dump(d, sys.stdout)
 					break
 	return 0
