@@ -1,0 +1,185 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: heroku-staging
+spec:
+  type: ExternalName
+  externalName: tapostaging.herokuapp.com
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: heroku-staging
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/issuer: acme-prod
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: balanced
+    nginx.ingress.kubernetes.io/session-cookie-name: SARMIENTOSID
+    nginx.ingress.kubernetes.io/session-cookie-path: /
+    nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "43200"
+    nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+spec:
+  ingressClassName: heroku-proxy
+  tls:
+    - hosts:
+        - sarmiento.uws.talkingpts.org
+      secretName: sarmiento-certificate
+  defaultBackend:
+    service:
+      name: heroku-staging
+      port:
+        number: 443
+  rules:
+    - host: ${APP_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # /register
+          - pathType: Prefix
+            path: /(register)$
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /_oauth/google
+          - pathType: Prefix
+            path: /(_oauth/google)$
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /_oauth/clever
+          - pathType: Prefix
+            path: /(_oauth/clever)$
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /_oauth/
+          - pathType: Prefix
+            path: /(_oauth/.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /login
+          - pathType: Prefix
+            path: /(login)$
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /img/
+          - pathType: Prefix
+            path: /(img/.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /webfonts/
+          - pathType: Prefix
+            path: /(webfonts/.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /sockjs/
+          - pathType: Prefix
+            path: /(sockjs/.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /socket.io/
+          - pathType: Prefix
+            path: /(socket\.io/.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /teachers/
+          - pathType: Prefix
+            path: /(teachers/.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /teachers
+          - pathType: Prefix
+            path: /(teachers)$
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /api/parents/
+          - pathType: Prefix
+            path: /(api/parents/.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /api/teachers/
+          - pathType: Prefix
+            path: /(api/teachers/.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /api/
+          - pathType: Prefix
+            path: /(api/.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /bandwidthCallbackSMS
+          - pathType: Prefix
+            path: /(bandwidthCallbackSMS)$
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /coconut_webhook
+          - pathType: Prefix
+            path: /(coconut_webhook)$
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /twilio/smsSendCallback
+          - pathType: Prefix
+            path: /(twilio/smsSendCallback)$
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
+          # /
+          - pathType: Prefix
+            path: /(.*)
+            backend:
+              service:
+                name: heroku-staging
+                port:
+                  number: 443
