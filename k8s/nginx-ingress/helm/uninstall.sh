@@ -5,6 +5,6 @@ profile=${1:?'profile?'}
 
 helm uninstall --wait \
 	--namespace "ingress-${profile}" \
-	"nginx-${profile}"
+	"${profile}"
 
 exec uwskube delete namespace "ingress-${profile}"

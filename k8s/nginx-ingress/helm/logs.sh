@@ -3,5 +3,5 @@ set -eu
 profile=${1:?'profile?'}
 shift
 exec uwskube -n "ingress-${profile}" logs \
-	-l "app=nginx-${profile}-nginx-ingress" \
+	-l "app=${profile}-nginx-ingress" \
 	--ignore-errors "$@"

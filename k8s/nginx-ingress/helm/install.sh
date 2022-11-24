@@ -10,4 +10,4 @@ exec helm install \
 	--values "./k8s/nginx-ingress/profile/${profile}.yaml" \
 	--create-namespace --namespace "ingress-${profile}" \
 	--wait --wait-for-jobs --timeout 5m0s \
-	"nginx-${profile}" nginx-stable/nginx-ingress
+	"${profile}" nginx-stable/nginx-ingress
