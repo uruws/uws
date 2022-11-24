@@ -43,7 +43,7 @@ spec:
       port:
         number: 443
   rules:
-    - host: ${APP_HOSTNAME}.talkingpts.org
+    - host: sarmiento.uws.talkingpts.org
       http:
         paths:
           # /register
