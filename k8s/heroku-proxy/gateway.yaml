@@ -37,11 +37,6 @@ spec:
     - hosts:
         - sarmiento.uws.talkingpts.org
       secretName: sarmiento-certificate
-  defaultBackend:
-    service:
-      name: heroku-staging
-      port:
-        number: 443
   rules:
     - host: sarmiento.uws.talkingpts.org
       http:
