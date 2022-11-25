@@ -2,6 +2,10 @@
 
 ---
 
+* move helm installation and setup from docker/eks to docker/k8s to make it independent from the provider
+
+---
+
 * uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
@@ -399,7 +403,3 @@
     * some ideas:
         * use more than one ingress (maybe in sep namespaces)
         * use different nodegroups for "core" services like nginx and the "main" nodegroup to run our services (web, workers, etc...), using node affinity annotations.
-
----
-
-* move helm installation and setup from docker/eks to docker/k8s to make it independent from the provider
