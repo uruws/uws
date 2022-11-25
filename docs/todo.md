@@ -1,29 +1,4 @@
-* 2211 docker upgrades [PR#36][PR#36]
-
-[PR#36]: https://github.com/TalkingPts/Infrastructure/pull/36
-
----
-
-* GoDaddy wild card talkingpts.org cert renewal - `DONE!`
-    * We generated new cert file from scratch and securely saved them under secrets sections in this repo
-
----
-
-* App encrypt secrets - `WONTDO`
-    * git-crypt setup for private/secrets directory [App PR#910][APP#910]
-    * `WIP` for dev team to do the private files migration
-        * do we need to update the Buildpack for new private files location?
-
-[APP#910]: https://github.com/TalkingPts/App/pull/910
-
----
-
-* worker fix number of replicas: 30 - `DONE!`
-
----
-
-* `URGENT` GoDaddy cert is only configured on staging
-    * we have to set it up on prod clusters
+* Research Team: remove Rina's user from rstudio server - `DONE!`
 
 ---
 
