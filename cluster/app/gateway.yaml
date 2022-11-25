@@ -22,7 +22,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    #~ cert-manager.io/issuer: acme-prod
+    cert-manager.io/issuer: acme-prod
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/affinity-mode: balanced
     nginx.ingress.kubernetes.io/session-cookie-name: ${COOKIE_NAME}
@@ -37,7 +37,8 @@ spec:
   tls:
     - hosts:
         - ${APP_HOSTNAME}.talkingpts.org
-      secretName: tapo-wild-certificate
+      #~ secretName: tapo-wild-certificate
+      secretName: sarmiento-certificate
   defaultBackend:
     service:
       name: meteor-web
