@@ -1,8 +1,9 @@
 #!/bin/sh
 set -eu
+
 ns=${1:?'app namespace?'}
 appver=${2:?'app version?'}
-envf=$(mktemp -p /tmp meteor-deploy-${ns}-env.XXXXXXXX)
+envf=$(mktemp -p /tmp deploy-meteor-${ns}-env.XXXXXXXX)
 
 uwskube delete configmap deploy-meteor-env -n "${ns}" || true
 

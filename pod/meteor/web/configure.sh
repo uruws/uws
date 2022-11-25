@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-NS=${METEOR_NAMESPACE:-web}
+NS=${APP_NAMESPACE:-web}
 
 appenv=${HOME}/secret/meteor/app/${APP_ENV}.env
 echo "app.env: ${appenv}"
