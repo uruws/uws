@@ -2,6 +2,14 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: meteor-api
+spec:
+  type: ExternalName
+  externalName: meteor.api.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: meteor-web
 spec:
   type: ExternalName
@@ -39,6 +47,30 @@ spec:
     - host: ${APP_HOSTNAME}.talkingpts.org
       http:
         paths:
+          # /api/parents/
+          - pathType: Prefix
+            path: /(api/parents/.*)
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /api/teachers/
+          - pathType: Prefix
+            path: /(api/teachers/.*)
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /api/
+          - pathType: Prefix
+            path: /(api/.*)
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
           # /register
           - pathType: Prefix
             path: /(register)$
@@ -122,30 +154,6 @@ spec:
           # /teachers
           - pathType: Prefix
             path: /(teachers)$
-            backend:
-              service:
-                name: meteor-web
-                port:
-                  number: 3000
-          # /api/parents/
-          - pathType: Prefix
-            path: /(api/parents/.*)
-            backend:
-              service:
-                name: meteor-web
-                port:
-                  number: 3000
-          # /api/teachers/
-          - pathType: Prefix
-            path: /(api/teachers/.*)
-            backend:
-              service:
-                name: meteor-web
-                port:
-                  number: 3000
-          # /api/
-          - pathType: Prefix
-            path: /(api/.*)
             backend:
               service:
                 name: meteor-web
