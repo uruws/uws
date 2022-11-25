@@ -1,20 +1,22 @@
 #!/bin/sh
 set -eu
 
+NS=${METEOR_NAMESPACE:-web}
+
 appenv=${HOME}/secret/meteor/app/${APP_ENV}.env
 echo "app.env: ${appenv}"
 
 appset=${HOME}/secret/meteor/app/${APP_ENV}-settings.json
 echo "app-settings.json: ${appset}"
 
-uwskube delete secret -n web meteor-app-env || true
+uwskube delete secret -n "${NS}" meteor-app-env || true
 
 if test -s "${appset}"; then
-	uwskube create secret generic -n web meteor-app-env \
+	uwskube create secret generic -n "${NS}" meteor-app-env \
 		--from-file="app.env=${appenv}" \
 		--from-file="app-settings.json=${appset}"
 else
-	uwskube create secret generic -n web meteor-app-env \
+	uwskube create secret generic -n "${NS}" meteor-app-env \
 		--from-file="app.env=${appenv}"
 fi
 

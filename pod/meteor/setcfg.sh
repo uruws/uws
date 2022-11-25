@@ -19,8 +19,19 @@ if test "X${ns}" = 'Xweb'; then
 	if test "X${APP_ENV}" = 'Xstaging'; then
 		echo "STAGING_APP_VERSION=${appver}" >>${envf}
 	fi
-	uwskube delete secret -n web meteor-deploy-env || true
-	uwskube create secret generic -n web meteor-deploy-env --from-env-file="${envf}"
+	uwskube delete secret -n "${ns}" meteor-deploy-env || true
+	uwskube create secret generic -n "${ns}" meteor-deploy-env --from-env-file="${envf}"
+	rm -vf ${envf}
+fi
+
+if test "X${ns}" = 'Xapi'; then
+	envf=$(mktemp -p /tmp meteor-deploy-api-env.XXXXXXXX)
+	echo "UWS_APP_ENV=${APP_ENV}" >${envf}
+	if test "X${APP_ENV}" = 'Xstaging'; then
+		echo "STAGING_APP_VERSION=${appver}" >>${envf}
+	fi
+	uwskube delete secret -n "${ns}" meteor-deploy-env || true
+	uwskube create secret generic -n "${ns}" meteor-deploy-env --from-env-file="${envf}"
 	rm -vf ${envf}
 fi
 
