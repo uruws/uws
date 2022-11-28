@@ -22,6 +22,9 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
+#
+# kubectl
+#
 # https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
 # https://amazon-eks.s3.us-west-2.amazonaws.com/?versions&prefix=1.22
 
@@ -36,6 +39,20 @@ RUN wget ${KUBE_URL}/bin/linux/amd64/kubectl \
 
 RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 	&& install -v -d -m 0750 /home/uws/.kube/cache
+
+#
+# kubeshark
+#
+# https://docs.kubeshark.co/en/install
+
+ENV KSHARK_VERSION 37.0
+ENV KSHARK_REPO https://github.com/kubeshark/kubeshark
+
+RUN wget -q ${KSHARK_REPO}/releases/download/${KSHARK_VERSION}/kubeshark_linux_amd64 \
+	&& wget -q ${KSHARK_REPO}/releases/download/${KSHARK_VERSION}/kubeshark_linux_amd64.sha256 \
+	&& sha256sum -c kubeshark_linux_amd64.sha256 \
+	&& install -v -m 0755 kubeshark_linux_amd64 /usr/local/bin/kubeshark \
+	&& rm -vf kubeshark_linux_amd64.sha256 kubeshark_linux_amd64
 
 USER root:root
 WORKDIR /root
