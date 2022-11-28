@@ -1,3 +1,0 @@
-#!/bin/sh
-set -eu
-exec ~/k8s/nginx-ingress/helm/logs.sh heroku-proxy "$@"
