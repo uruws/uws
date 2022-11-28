@@ -41,6 +41,24 @@ RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 	&& install -v -d -m 0750 /home/uws/.kube/cache
 
 #
+# helm
+#
+# https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+# https://github.com/helm/helm/tags
+
+ENV HELM_VERSION 3.10.2
+
+RUN wget -q -O helm.tgz https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+	&& tar -vxzf helm.tgz \
+	&& install -v -m 0755 linux-amd64/helm /usr/local/bin/helm.real \
+	&& rm -rvf helm.tgz linux-amd64 \
+	&& helm.real version
+
+COPY --chown=uws:uws ./utils/helm-wrapper.sh /home/uws/helm-wrapper.sh
+RUN install -v -m 0755 helm-wrapper.sh /usr/local/bin/helm \
+	&& rm -vf helm-wrapper.sh
+
+#
 # kubeshark
 #
 # https://docs.kubeshark.co/en/install
