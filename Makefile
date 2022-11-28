@@ -242,6 +242,10 @@ MUNIN_NODE_DEPS += srv/munin-node/build/api-job-stats.bin
 
 .PHONY: munin-node
 munin-node: $(MUNIN_NODE_DEPS)
+	@mkdir -vp ./srv/munin-node/build
+	@install -C -v -m 644 ./go/etc/env/bot/stats ./srv/munin-node/build/uwsbot-stats.env
+	@install -C -v -m 644 ./go/etc/munin/plugin-conf.d/uwsbot \
+		./srv/munin-node/build/uwsbot-plugin.conf
 	@./srv/munin-node/build.sh
 
 srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
