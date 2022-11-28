@@ -3,7 +3,7 @@ set -eu
 
 nss=${1:?'namespaces?'}
 
-envsubst '${CLUSTER_HOST}' <~/k8s/kubeshark/gateway.yaml | uwskube apply -f -
+envsubst '${CLUSTER_HOST}' <~/k8s/mon/kubeshark/gateway.yaml | uwskube apply -f -
 
 #~/k8s/mon/k8s/configure.sh
 
