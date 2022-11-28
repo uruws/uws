@@ -71,7 +71,7 @@ spec:
             - ${UWS_CLUSTER}
             - tap
             - -n
-            - api,web
+            - ${KUBESHARK_NAMESPACES}
       volumes:
         - name: aws-auth
           secret:
