@@ -229,6 +229,8 @@ munin-all: munin munin-backend munin-node
 
 .PHONY: munin
 munin:
+	@mkdir -vp ./srv/munin/build
+	@install -v -m 0644 -C ./python/lib/sendmail.py ./srv/munin/build/sendmail.py
 	@./srv/munin/build.sh
 
 .PHONY: munin-backend
