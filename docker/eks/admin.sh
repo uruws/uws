@@ -72,6 +72,7 @@ exec docker run ${docker_args} \
 	-p 127.0.0.1:0:9090 \
 	-p 127.0.0.1:0:9091 \
 	-p 127.0.0.1:0:9093 \
+	-p 127.0.0.1:0:8899 \
 	-e PYTHONPATH=/home/uws/lib \
 	-v "${utils}:/home/uws/bin:ro" \
 	-v "${ekslib}:/home/uws/lib:ro" \

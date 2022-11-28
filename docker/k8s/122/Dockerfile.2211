@@ -72,6 +72,9 @@ RUN wget -q ${KSHARK_REPO}/releases/download/${KSHARK_VERSION}/kubeshark_linux_a
 	&& install -v -m 0755 kubeshark_linux_amd64 /usr/local/bin/kubeshark \
 	&& rm -vf kubeshark_linux_amd64.sha256 kubeshark_linux_amd64
 
+RUN install -v -d -m 0750 /home/uws/.kubeshark
+COPY --chown=uws:uws ./config/kubeshark.yaml /home/uws/.kubeshark/config.yaml
+
 USER root:root
 WORKDIR /root
 
