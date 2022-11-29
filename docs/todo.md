@@ -2,6 +2,12 @@
 
 ---
 
+* kubeshark implementation - [PR#39][PR#39] `DONE!`
+
+[PR#39]: https://github.com/TalkingPts/Infrastructure/pull/39
+
+---
+
 * move helm installation and setup from docker/eks to docker/k8s to make it independent from the provider
 
 ---
