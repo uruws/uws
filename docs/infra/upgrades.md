@@ -110,6 +110,13 @@
 * Makefile/publish
     * `2203`: nlpsvc-2203, sentiment-twitter-2203
 
+### OfflinePage
+
+* Dockerfile
+    * `2211`: base-2211
+* docker/devel/Dockerfile
+    * `2211`: golang-2211
+
 ### Buildpack
 
 * Changelog
