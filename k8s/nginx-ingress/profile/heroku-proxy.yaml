@@ -1,7 +1,0 @@
-controller:
-  setAsDefaultIngress: false
-  ingressClass: heroku-proxy
-  replicaCount: 1
-  watchNamespace: heroku-proxy
-  config:
-    name: ingress-nginx-heroku-proxy
