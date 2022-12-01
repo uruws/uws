@@ -76,7 +76,7 @@ public class SeleniumTest  {
 			try {
 				//navigate to the home page
 				flood.start_transaction("navigate login");
-				driver.get(uws_uri);
+				driver.get("https://" + uws_domain + "/");
 				flood.passed_transaction(driver,"navigate login");
 				Thread.sleep(uws_sleep_test);
 
