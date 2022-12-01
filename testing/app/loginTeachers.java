@@ -54,7 +54,7 @@ public class loginTeachers  {
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 
 		//Use an implicit wait for all object identification
-		driver.manage().timeouts().implicitlyWait(uws_driver_wait, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
 		/* Create a new instance of the Flood IO agent */
 		FloodSump flood = new FloodSump();
