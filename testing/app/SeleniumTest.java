@@ -32,9 +32,7 @@ import java.util.Random;
 public class SeleniumTest  {
 
 	static int    uws_driver_wait = 30;   // Seconds
-	static int    uws_sleep_init  = 8000; // Milliseconds
-	static int    uws_sleep_test  = 1000;
-	static int    uws_sleep       = 3000;
+	static int    uws_sleep       = 5000; // Milliseconds
 	static String uws_domain      = "sarmiento.uws.talkingpts.org";
 	static int    uws_iter        = 100;
 
@@ -51,11 +49,6 @@ public class SeleniumTest  {
 
 	public static void main(String[] args) throws Exception {
 
-		// Initial sleep
-		Thread.sleep(uws_sleep_init);
-
-		int iterations = 0;
-
 		/* Create a new instance of the html unit driver
 		Notice that the remainder of the code relies on the interface,
 		not the implementation. */
@@ -71,48 +64,60 @@ public class SeleniumTest  {
 		/* Inform Flood IO the test has started */
 		flood.started();
 
+		int iterations = 0;
+
 		/* It's up to you to control test duration / iterations programatically. */
 		while( iterations < uws_iter ) {
 			try {
+
 				//navigate to the home page
 				flood.start_transaction("navigate login");
 				driver.get("https://" + uws_domain + "/");
 				flood.passed_transaction(driver,"navigate login");
-				Thread.sleep(uws_sleep_test);
+				Thread.sleep(uws_sleep);
 
 				//click on Accessories link
 				flood.start_transaction("login demo");
 				js.executeScript("Meteor.loginWithPassword('demo@lausd.org','123456');");
 				driver.get("https://" + uws_domain + "/schools/");
 				flood.passed_transaction(driver, "login demo");
-				Thread.sleep(uws_sleep_test);
+				Thread.sleep(uws_sleep);
 
 				//click on Add to Cart link for the Beanie product
 				flood.start_transaction("teacher mode");
 				driver.get("https://" + uws_domain + "/teachers/");
 				flood.passed_transaction(driver, "teacher mode");
-				Thread.sleep(uws_sleep_test);
+				Thread.sleep(uws_sleep);
 
 				//click on View Cart
 				flood.start_transaction("logout");
 				js.executeScript("Meteor.logout();");
 				flood.passed_transaction(driver, "logout");
+				Thread.sleep(uws_sleep);
 
-				/* Good idea to introduce some form of pacing / think time into your scripts */
+				// Wait...
 				Thread.sleep(uws_sleep);
 			} catch (WebDriverException e) {
+
 				String[] lines = e.getMessage().split("\\r?\\n");
 				System.err.println("Webdriver exception: " + lines[0]);
 				flood.failed_transaction(driver);
+
 			} catch(InterruptedException e) {
+
 				Thread.currentThread().interrupt();
 				String[] lines = e.getMessage().split("\\r?\\n");
 				System.err.println("Browser terminated early: " + lines[0]);
+
 			} catch(Exception e) {
+
 				String[] lines = e.getMessage().split("\\r?\\n");
 				System.err.println("Other exception: " + lines[0]);
+
 			} finally {
+
 				iterations++;
+
 			}
 		}
 
