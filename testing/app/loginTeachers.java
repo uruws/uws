@@ -68,17 +68,16 @@ public class loginTeachers  {
 		while( iterations < uws_iter ) {
 			try {
 
-				//navigate to the home page
 				flood.start_transaction("navigate login");
 				driver.get("https://" + uws_domain + "/");
 				flood.passed_transaction(driver,"navigate login");
-				Thread.sleep(3000);
+				Thread.sleep(8000);
 
 				flood.start_transaction("login demo");
 				js.executeScript("Meteor.loginWithPassword('demo@lausd.org','123456');");
 				driver.get("https://" + uws_domain + "/schools/");
 				flood.passed_transaction(driver, "login demo");
-				Thread.sleep(5000);
+				Thread.sleep(8000);
 
 				flood.start_transaction("teacher mode");
 				driver.get("https://" + uws_domain + "/teachers/");
@@ -88,10 +87,7 @@ public class loginTeachers  {
 				flood.start_transaction("logout");
 				js.executeScript("Meteor.logout();");
 				flood.passed_transaction(driver, "logout");
-				Thread.sleep(3000);
-
-				// Wait...
-				Thread.sleep(5000);
+				Thread.sleep(8000);
 
 			} catch (WebDriverException e) {
 
