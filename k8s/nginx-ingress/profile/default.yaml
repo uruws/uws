@@ -1,0 +1,4 @@
+controller:
+  setAsDefaultIngress: true
+  watchNamespace: default
+  replicaCount: 1
