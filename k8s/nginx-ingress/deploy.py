@@ -36,8 +36,14 @@ def _deploy(f, args):
 		else:
 			for d in docs:
 				if d['kind'] == 'Deployment':
+					# replicas
 					if args.replicas > 0:
 						d['spec']['replicas'] = args.replicas
+					# resources
+					d['template']['spec']['containers']['resources']['requests']['cpu'] = '%dm' % args.cpu
+					d['template']['spec']['containers']['resources']['requests']['mem'] = '%dMi' % args.mem
+					d['template']['spec']['containers']['resources']['limits']['cpu'] = '%dm' % args.cpu
+					d['template']['spec']['containers']['resources']['limits']['mem'] = '%dMi' % args.mem
 					print('---', file = sys.stdout)
 					yaml.dump(d, sys.stdout)
 					break
@@ -50,6 +56,10 @@ def main(argv):
 		help = 'upstream yaml definition file')
 	flags.add_argument('-r', '--replicas', metavar = 'int', default = 0,
 		help = 'nginx controller replicas', type = int)
+	flags.add_argument('-c', '--cpu', metavar = 'int', default = 100,
+		help = 'nginx controller cpu limit', type = int)
+	flags.add_argument('-m', '--mem', metavar = 'int', default = 90,
+		help = 'nginx controller memory limit', type = int)
 
 	flags.add_argument('-D', '--deploy', action = 'store_true', default = False,
 		help = 'ingress deploy')
