@@ -31,10 +31,9 @@ import java.util.Random;
 
 public class SeleniumTest  {
 
-	static int    uws_driver_wait = 30;   // Seconds
-	static int    uws_sleep       = 5000; // Milliseconds
+	static int    uws_driver_wait = 30; // Seconds
+	static int    uws_sleep       = 60000 * 15; // Milliseconds (15min)
 	static String uws_domain      = "sarmiento.uws.talkingpts.org";
-	static int    uws_iter        = 100;
 
 	public static void takeSnapShot(WebDriver webdriver,String fileWithPath) throws Exception{
 		//Convert web driver object to TakeScreenshot
@@ -64,58 +63,36 @@ public class SeleniumTest  {
 		/* Inform Flood IO the test has started */
 		flood.started();
 
-		int iterations = 0;
+		try {
+			flood.start_transaction("login");
+			js.executeScript("Meteor.loginWithPassword('demo@lausd.org','123456');");
+			driver.get("https://" + uws_domain + "/schools/");
+			flood.passed_transaction(driver, "login demo");
 
-		/* It's up to you to control test duration / iterations programatically. */
-		while( iterations < uws_iter ) {
-			try {
+			// Wait...
+			Thread.sleep(uws_sleep);
 
-				//navigate to the home page
-				flood.start_transaction("navigate login");
-				driver.get("https://" + uws_domain + "/");
-				flood.passed_transaction(driver,"navigate login");
-				Thread.sleep(uws_sleep);
+			flood.start_transaction("logout");
+			js.executeScript("Meteor.logout();");
+			flood.passed_transaction(driver, "logout");
 
-				flood.start_transaction("login demo");
-				js.executeScript("Meteor.loginWithPassword('demo@lausd.org','123456');");
-				driver.get("https://" + uws_domain + "/schools/");
-				flood.passed_transaction(driver, "login demo");
-				Thread.sleep(uws_sleep);
+		} catch (WebDriverException e) {
 
-				flood.start_transaction("teacher mode");
-				driver.get("https://" + uws_domain + "/teachers/");
-				flood.passed_transaction(driver, "teacher mode");
-				Thread.sleep(uws_sleep);
+			String[] lines = e.getMessage().split("\\r?\\n");
+			System.err.println("Webdriver exception: " + lines[0]);
+			flood.failed_transaction(driver);
 
-				flood.start_transaction("logout");
-				js.executeScript("Meteor.logout();");
-				flood.passed_transaction(driver, "logout");
-				Thread.sleep(uws_sleep);
+		} catch(InterruptedException e) {
 
-				// Wait...
-				Thread.sleep(uws_sleep);
-			} catch (WebDriverException e) {
+			Thread.currentThread().interrupt();
+			String[] lines = e.getMessage().split("\\r?\\n");
+			System.err.println("Browser terminated early: " + lines[0]);
 
-				String[] lines = e.getMessage().split("\\r?\\n");
-				System.err.println("Webdriver exception: " + lines[0]);
-				flood.failed_transaction(driver);
+		} catch(Exception e) {
 
-			} catch(InterruptedException e) {
+			String[] lines = e.getMessage().split("\\r?\\n");
+			System.err.println("Other exception: " + lines[0]);
 
-				Thread.currentThread().interrupt();
-				String[] lines = e.getMessage().split("\\r?\\n");
-				System.err.println("Browser terminated early: " + lines[0]);
-
-			} catch(Exception e) {
-
-				String[] lines = e.getMessage().split("\\r?\\n");
-				System.err.println("Other exception: " + lines[0]);
-
-			} finally {
-
-				iterations++;
-
-			}
 		}
 
 		driver.quit();
