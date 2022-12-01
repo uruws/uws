@@ -31,10 +31,8 @@ import java.util.Random;
 
 public class loginTeachers  {
 
-	static int    uws_driver_wait = 30;   // Seconds
-	static int    uws_sleep       = 6000; // Milliseconds
-	static String uws_domain      = "sarmiento.uws.talkingpts.org";
-	static int    uws_iter        = 100;
+	static String uws_domain = "sarmiento.uws.talkingpts.org";
+	static int    uws_iter   = 100;
 
 	public static void takeSnapShot(WebDriver webdriver,String fileWithPath) throws Exception{
 		//Convert web driver object to TakeScreenshot
@@ -74,26 +72,26 @@ public class loginTeachers  {
 				flood.start_transaction("navigate login");
 				driver.get("https://" + uws_domain + "/");
 				flood.passed_transaction(driver,"navigate login");
-				Thread.sleep(uws_sleep);
+				Thread.sleep(3000);
 
 				flood.start_transaction("login demo");
 				js.executeScript("Meteor.loginWithPassword('demo@lausd.org','123456');");
 				driver.get("https://" + uws_domain + "/schools/");
 				flood.passed_transaction(driver, "login demo");
-				Thread.sleep(uws_sleep);
+				Thread.sleep(5000);
 
 				flood.start_transaction("teacher mode");
 				driver.get("https://" + uws_domain + "/teachers/");
 				flood.passed_transaction(driver, "teacher mode");
-				Thread.sleep(uws_sleep);
+				Thread.sleep(8000);
 
 				flood.start_transaction("logout");
 				js.executeScript("Meteor.logout();");
 				flood.passed_transaction(driver, "logout");
-				Thread.sleep(uws_sleep);
+				Thread.sleep(3000);
 
 				// Wait...
-				Thread.sleep(uws_sleep);
+				Thread.sleep(5000);
 
 			} catch (WebDriverException e) {
 
