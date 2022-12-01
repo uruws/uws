@@ -29,10 +29,10 @@ import java.io.File;
 import java.util.List;
 import java.util.Random;
 
-public class SeleniumTest  {
+public class loginTeachers  {
 
 	static int    uws_driver_wait = 30;   // Seconds
-	static int    uws_sleep       = 5000; // Milliseconds
+	static int    uws_sleep       = 6000; // Milliseconds
 	static String uws_domain      = "sarmiento.uws.talkingpts.org";
 	static int    uws_iter        = 100;
 
@@ -94,6 +94,7 @@ public class SeleniumTest  {
 
 				// Wait...
 				Thread.sleep(uws_sleep);
+
 			} catch (WebDriverException e) {
 
 				String[] lines = e.getMessage().split("\\r?\\n");

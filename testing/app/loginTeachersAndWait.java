@@ -29,7 +29,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Random;
 
-public class SeleniumTest  {
+public class loginTeachersAndWait  {
 
 	static int    uws_driver_wait = 30; // Seconds
 	static int    uws_sleep       = 60000 * 15; // Milliseconds (15min)
