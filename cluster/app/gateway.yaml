@@ -32,8 +32,14 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
     nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: "0"
     nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "3"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    # https://loft.sh/blog/kubernetes-nginx-ingress-10-useful-configuration-options/
+    #~ nginx.ingress.kubernetes.io/limit-rps: "5"
+    #~ nginx.ingress.kubernetes.io/limit-rpm: "300"
+    #~ nginx.ingress.kubernetes.io/limit-connections: "10"
+    #~ nginx.ingress.kubernetes.io/proxy-body-size: 8m
 spec:
   ingressClassName: nginx
   tls:
