@@ -40,10 +40,9 @@ def _deploy(f, args):
 					if args.replicas > 0:
 						d['spec']['replicas'] = args.replicas
 					# resources
-					d['template']['spec']['containers']['resources']['requests']['cpu'] = '%dm' % args.cpu
-					d['template']['spec']['containers']['resources']['requests']['mem'] = '%dMi' % args.mem
-					d['template']['spec']['containers']['resources']['limits']['cpu'] = '%dm' % args.cpu
-					d['template']['spec']['containers']['resources']['limits']['mem'] = '%dMi' % args.mem
+					d['spec']['template']['spec']['containers'][0]['resources']['requests']['cpu'] = '%dm' % args.cpu
+					d['spec']['template']['spec']['containers'][0]['resources']['requests']['memory'] = '%dMi' % args.mem
+					d['spec']['template']['spec']['containers'][0]['resources']['limits'] = {'cpu': '%dm' % args.cpu, 'memory': '%dMi' % args.mem}
 					print('---', file = sys.stdout)
 					yaml.dump(d, sys.stdout)
 					break
