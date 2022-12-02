@@ -30,6 +30,8 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
     nginx.ingress.kubernetes.io/session-cookie-max-age: "43200"
     nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
+    nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout"
+    #~ nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout http_500 http_502"
     nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: "0"
     nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "3"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
