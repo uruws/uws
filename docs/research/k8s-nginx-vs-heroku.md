@@ -6,6 +6,8 @@ Using [selenium tests](./../../testing/app) ran with [flood.io](https://app.floo
 
 # Heroku
 
+Dynos with 1G of RAM still use swapping, which kubernetes _does not_. Some reports of __max__ memory used for 1G dynos are around __1.7G__.
+
 * [loginTeachersHeroku 3][loginTeachersHeroku 3]
 	* 1 dyno: mem 1024
 	* no errors reported by flood
