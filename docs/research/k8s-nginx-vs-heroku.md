@@ -48,6 +48,14 @@ https://app.flood.io/projects/121440/flood/2IV5dltx3IVUsLiq8ckVN20WTZB/grid/GpNf
 [loginTeachers92 73]:
 https://app.flood.io/projects/121440/flood/2IN3ViQiOy7Fb26d578uMZ5YI0a/grid/5TIl7NU5YvbBcdbupv8iHQ/timeline/2022-12-02T19:11:00.000Z/2022-12-02T19:26:15.000Z/notes
 
+## ingress-nginx balancer
+
+https://github.com/kubernetes/ingress-nginx/tree/main/rootfs/etc/nginx/lua
+
+The ingress-nginx implementation for kubernetes uses a "custom balancer" written in Lua to avoid having to restart nginx server/controller each time a new container/IP is added to the cluster.
+
+That changes the default nginx balancer behavior and setup.
+
 ## References
 
 * https://dev.to/bzon/nginx-ingress-load-balancing-and-retry-1008
