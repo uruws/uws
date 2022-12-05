@@ -8,7 +8,8 @@ Using [selenium tests](./../../testing/app) ran with [flood.io](https://app.floo
 
 * [loginTeachersHeroku 3][loginTeachersHeroku 3]
 	* 1 dyno: mem 1024
-	* no errors reported by flood but we can see some 5xx and mem issues reported by heroku
+	* no errors reported by flood
+	* but we can see some 5xx and mem issues reported by heroku
 	* response times around 11s
 	* it seems that heroku router's keeps a "connections pool" or similar, waiting for the dyno(s) to be ready for the next request.
 
@@ -17,6 +18,7 @@ Using [selenium tests](./../../testing/app) ran with [flood.io](https://app.floo
 
 * [loginTeachersHeroku 5][loginTeachersHeroku 5]
 	* 2 dynos: mem 1024
+	* no errors reported by flood
 	* still some 5xx and mem issues reported on heroku's metrics graphs
 	* response times around 6s
 	* using two dynos drops down response times to half, so it makes sense with the "connections pool" theory
