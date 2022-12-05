@@ -45,6 +45,7 @@ class Test(unittest.TestCase):
 			'cs-test',
 			'infra-ui-prod',
 			'infra-ui-test',
+			'meteor-vanilla',
 			'nlp-category',
 			'nlp-sentiment-twitter',
 			'worker',
@@ -59,6 +60,7 @@ class Test(unittest.TestCase):
 			'app',
 			'cs',
 			'infra-ui',
+			'meteor-vanilla',
 			'nlpsvc',
 		])
 		# autobuild
@@ -66,6 +68,7 @@ class Test(unittest.TestCase):
 			'app',
 			'cs',
 			'infra-ui',
+			'meteor-vanilla',
 		])
 
 	def test_app_build_group(t):
