@@ -8,7 +8,13 @@
 
 ---
 
-* move helm installation and setup from docker/eks to docker/k8s to make it independent from the provider
+* move helm installation and setup from docker/eks to docker/k8s to make it independent from the provider - `DONE!`
+
+---
+
+* Deprecate janis server - `DONE!`
+    * we used it for the "heroku split proxy" setup but it was discarded
+    * it was to complex to add almost any advantage
 
 ---
 
