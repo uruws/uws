@@ -30,14 +30,14 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
     nginx.ingress.kubernetes.io/session-cookie-max-age: "43200"
     nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
-    nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout"
-    #~ nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout http_500 http_502"
+    ### https://dev.to/bzon/nginx-ingress-load-balancing-and-retry-1008
+    nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout http_502 http_503 http_504"
     nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: "0"
     nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "3"
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-    # https://loft.sh/blog/kubernetes-nginx-ingress-10-useful-configuration-options/
+    ### https://loft.sh/blog/kubernetes-nginx-ingress-10-useful-configuration-options/
     #~ nginx.ingress.kubernetes.io/limit-rps: "5"
     #~ nginx.ingress.kubernetes.io/limit-rpm: "300"
     #~ nginx.ingress.kubernetes.io/limit-connections: "10"
