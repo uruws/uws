@@ -51,3 +51,5 @@ https://app.flood.io/projects/121440/flood/2IN3ViQiOy7Fb26d578uMZ5YI0a/grid/5TIl
 ## References
 
 * https://dev.to/bzon/nginx-ingress-load-balancing-and-retry-1008
+* https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md
+* https://nginx.org/en/docs/http/ngx_http_proxy_module.html
