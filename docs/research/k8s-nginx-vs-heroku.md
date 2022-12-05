@@ -2,7 +2,7 @@
 
 Comparison between aws k8s nginx setup with heroku's.
 
-Using [selenium tests](./testing/app) ran using [flood.io](https://app.flood.io) platform.
+Using [selenium tests](./../../testing/app) ran with [flood.io](https://app.flood.io) platform.
 
 # Heroku
 
@@ -23,3 +23,16 @@ Using [selenium tests](./testing/app) ran using [flood.io](https://app.flood.io)
 
 [loginTeachersHeroku 5]:
 https://app.flood.io/projects/121440/flood/2IV5dltx3IVUsLiq8ckVN20WTZB/grid/GpNfcJfV3OPoTSwtyXYxeQ/timeline/2022-12-05T15:27:30.000Z/2022-12-05T15:42:15.000Z
+
+# k8s nginx
+
+* [loginTeachers92 73][loginTeachers92 73]
+	* 1 container: mem 2048
+	* 125 rpm errors reported by flood: mostly 502s
+	* connection timeout and connection refused errors observed in nginx logs during tests
+	* the container was OOMKilled once during tests
+		* that triggrers most of 502s as no container is available during restart
+	* response times around 6s
+
+[loginTeachers92 73]:
+https://app.flood.io/projects/121440/flood/2IN3ViQiOy7Fb26d578uMZ5YI0a/grid/5TIl7NU5YvbBcdbupv8iHQ/timeline/2022-12-02T19:11:00.000Z/2022-12-02T19:26:15.000Z/notes
