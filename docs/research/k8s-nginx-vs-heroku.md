@@ -4,6 +4,13 @@ Comparison between aws k8s nginx setup with heroku's.
 
 Using [selenium tests](./../../testing/app) ran with [flood.io](https://app.flood.io) platform.
 
+Tests using two ec2 m5.2xlarge instances, from San Pablo region (sa-east-1).
+
+Test config:
+	* 25 users per node (50 total)
+	* during 15 minutes
+	* users ramp up 5 minutes
+
 # Heroku
 
 Dynos with 1G of RAM still use swapping, which kubernetes _does not_. Some reports of __max__ memory used for 1G dynos are around __1.7G__.
