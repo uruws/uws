@@ -29,7 +29,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Random;
 
-public class meteorVanillaHeroku  {
+public class meteorVanilla  {
 
   public static void takeSnapShot(WebDriver webdriver, String fileWithPath) throws Exception{
     //Convert web driver object to TakeScreenshot
