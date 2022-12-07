@@ -82,6 +82,14 @@ spec:
                 name: meteor-api
                 port:
                   number: 3000
+          # /websocket
+          - pathType: Prefix
+            path: /(websocket)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
           # /register
           - pathType: Prefix
             path: /(register)$
