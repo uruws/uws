@@ -18,6 +18,18 @@
 
 ---
 
+* separate web and api clusters - `DONE!`
+    * it is implemented for aws already, we wont do it on heroku infra
+    * /api/* web traffic should be served from a different cluster
+        * could be workers as we do for bandwidthCallback
+        * or, even better, a new/separate cluster for api calls
+    * we could use the current setup (east and west) for the api cluster
+    * and serve the rest of the web traffic for only one cluster
+    * as api calls are more than 50% of the traffic based on munin graphs
+    * or, even better, two east+west clusters for each: web and api
+
+---
+
 * uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
@@ -47,17 +59,6 @@
     * send alert to status page
 
 [worker-errors]: https://worker-2209.uws.talkingpts.org/munin/uws/worker-2209/web_request_worker_uws_talkingpts_org/errors_per_minute.html
-
----
-
-* `PRIO` separate web and api clusters
-    * /api/* web traffic should be served from a different cluster
-        * could be workers as we do for bandwidthCallback
-        * or, even better, a new/separate cluster for api calls
-    * we could use the current setup (east and west) for the api cluster
-    * and serve the rest of the web traffic for only one cluster
-    * as api calls are more than 50% of the traffic based on munin graphs
-    * or, even better, two east+west clusters for each: web and api
 
 ---
 
