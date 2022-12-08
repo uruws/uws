@@ -32,6 +32,15 @@
 
 ---
 
+* munin: check that App response headers include the "security headers" we need for SOC2
+    * https://staging.t.o/login
+        * Content-Security-Policy
+        * Cross-Origin-Resource-Policy
+        * Access-Control-Allow-Origin
+        * Referrer-Policy
+
+---
+
 * munin: alert about workers callback http errors [worker-errors][worker-errors]
     * warning at 3 errors per minute
     * critical at 5 errors per minute
