@@ -37,6 +37,13 @@
 
 ---
 
+* split /websocket App container
+    * so we can serve the websockets from dedicated containers
+    * /api/ for the api calls
+    * and the web containers for the rest (which mostly goes to the CDN)
+
+---
+
 * munin: check nightly SIS sync's [DEV-4288][DEV-4288]
     * add it to statuspage alerts too
 
