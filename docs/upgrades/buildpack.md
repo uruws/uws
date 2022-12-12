@@ -5,6 +5,7 @@
 
 * docker/base
     * `2211`: Debian 11.5 (bullseye-20221205-slim)
+        * uws/docker/upgrades.py -t uws/buildpack:base
     * 2203-1: Debian 11.3 (bullseye-20220328-slim)
         * zlib security upgrade CVE-2018-25032
     * 2203: Debian 11.2 (bullseye-20220316-slim)
@@ -30,18 +31,25 @@
     * 2203: meteor-2203
         * build.sh: Dockerfile.2203
 * deploy
-    * `2203`: Dockerfile buildpack:base-2203
-* cs
-    * `2203`: meteor:2.2-2203
-        * build.sh: Dockerfile.2203
-    * 2109: meteor-2.2
+    * `2211`: Dockerfile buildpack:base-2211
+    * 2203: Dockerfile buildpack:base-2203
 * app
-    * `2203`: meteor-1.10.2-2203
+    * `2211`: meteor-2211
+    * 2203: meteor-1.10.2-2203
         * build.sh: ${app}/Dockerfile.2203
     * 2109: meteor-1.10.2-2109
 * beta
-    * `2203`: meteor-1.10.2-2203
+    * `2211`: meteor-2211
+    * 2203: meteor-1.10.2-2203
     * 2109: meteor-1.10.2-2109
-* infra-ui
-    * `2203`: meteor-2203
+* cs
+    * `2211`: meteor-2211
+    * 2203: meteor:2.2-2203
         * build.sh: Dockerfile.2203
+    * 2109: meteor-2.2
+* infra-ui
+    * `2211`: meteor-2211
+    * 2203: meteor-2203
+        * build.sh: Dockerfile.2203
+* meteor-vanilla
+    * `2211`: meteor-2211
