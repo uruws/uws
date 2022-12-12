@@ -30,7 +30,7 @@
 
 ---
 
-* uwscli: build only 2.y.z App repository tags
+* uwscli: build only 2.y.z App repository tags - `DONE!`
     * it happens sometimes that a wrong tag is added to App repo like 8.y.z so it breaks the "versions logic", as this new wrong tag will be always grater than a valid 2.y.z tag
 
 ---
