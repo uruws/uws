@@ -10,32 +10,27 @@
     * 2203: Debian 11.2 (bullseye-20220316-slim)
     * 2109: Debian 10 (buster) -> 11 (bullseye)
 * docker/devel
-    * `2203`: python-2203
+    * `2211`:
+        * uws/docker/upgrades.py -U docker/devel -t uws/buildpack:devel -s uws/python
+        * uws/docker/upgrades.py -t uws/buildpack:devel
+    * 2203: python-2203
         * build.sh: Dockerfile.2203
-* deploy
-    * `2203`: Dockerfile buildpack:base-2203
 * docker/meteor
-    * `2203`: base-2203, meteor release 2.7.1
+    * `2211`:
+        * uws/docker/upgrades.py -U docker/meteor -t uws/meteor -s uws/buildpack:base
+        * uws/docker/upgrades.py -t uws/meteor
+    * 2203: base-2203, meteor release 2.7.1
         * build.sh: Dockerfile.2203
         * check/star/.meteor/release: METEOR@2.7.1
         * devel.sh: meteor-2203
 * docker/meteor-devel
-    * `2203`: meteor-2203
+    * `2211`:
+        * uws/docker/upgrades.py -U docker/meteor-devel -t uws/meteor:devel -s uws/meteor
+        * uws/docker/upgrades.py -t uws/meteor:devel
+    * 2203: meteor-2203
         * build.sh: Dockerfile.2203
-* docker/meteor-1.10.2
-    * `2203`: base-2203
-        * devel.sh: meteor:1.10.2-2203
-        * check/build.sh: Dockerfile.2203
-    * 2109: base-2109
-* docker/meteor-2.2
-    * `2203`: base-2203
-        * devel.sh: meteor:2.2-2203
-        * check/build.sh: Dockerfile.2203
-    * 2109: base-2109
-* docker/meteor-2.6
-    * `2203`: base-2203
-        * devel.sh: meteor:2.6-2203
-        * check/build.sh: Dockerfile.2203
+* deploy
+    * `2203`: Dockerfile buildpack:base-2203
 * cs
     * `2203`: meteor:2.2-2203
         * build.sh: Dockerfile.2203
