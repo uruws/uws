@@ -220,6 +220,16 @@ app: dict[str, App] = {
 		deploy = AppDeploy('meteor-infra-ui'),
 		groups = ['uwsapp_infra-ui'],
 	),
+	'meteor-vanilla': App(True,
+		cluster = 'apptest-east',
+		desc = 'Meteor Vanilla',
+		pod = 'meteor/vanilla',
+		build = _buildpack('meteor-vanilla/src', 'meteor-vanilla', 'MeteorVanilla'),
+		deploy = AppDeploy('meteor-vanilla'),
+		groups = ['uwsapp_meteor-vanilla'],
+		autobuild = True,
+		autobuild_deploy = ['meteor-vanilla'],
+	),
 }
 
 @dataclass
