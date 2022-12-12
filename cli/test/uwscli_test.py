@@ -227,7 +227,7 @@ class Test(unittest.TestCase):
 	def test_list_images(t):
 		with uwscli_t.mock_check_output():
 			t.assertEqual(uwscli.list_images('testing', region = 't-1'), ['mock_output'])
-			uwscli.check_output.assert_called_once_with("aws ecr list-images --output text --repository-name uws --region t-1 | grep -F 'test' | awk '{ print $3 }' | sed 's/^test-//' | sort -n")
+			uwscli.check_output.assert_called_once_with("aws ecr list-images --output text --repository-name uws --region t-1 | grep -F 'test' | awk '{ print $3 }' | sed 's/^test-//' | sort -V")
 
 	def test_list_images_error(t):
 		with uwscli_t.mock_check_output(fail = True):
