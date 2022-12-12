@@ -29,9 +29,14 @@ def _setup():
 		return False
 	return True
 
-def _uglyHackApplies(app: str, tag: str) -> bool:
+def _ignoreTag(app: str, tag: str) -> bool:
+	# CS: build 1.x tags only
 	if app == 'cs' and not tag.startswith('1.'):
-		uwscli.debug('ugly hack ignore:', app, 'tag', tag)
+		uwscli.debug('tag ignore:', app, 'tag', tag)
+		return True
+	# App: build 2.x tags only
+	elif app == 'app' and not tag.startswith('2.'):
+		uwscli.debug('tag ignore:', app, 'tag', tag)
 		return True
 	return False
 
@@ -39,7 +44,7 @@ def _latestTag(app: str, src: str) -> str:
 	uwscli.debug('latestTag:', app, src)
 	vmax = None
 	for t in uwscli.git_tag_list(workdir = src):
-		if _uglyHackApplies(app, t):
+		if _ignoreTag(app, t):
 			continue
 		try:
 			v = semver.VersionInfo.parse(t)
