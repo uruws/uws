@@ -1,5 +1,4 @@
 #!/bin/sh
-set -u
+set -eu
 helm uninstall --namespace ingress-nginx ingress-nginx
-uwskube delete namespace ingress-nginx
-exit 0
+exec uwskube delete namespace ingress-nginx
