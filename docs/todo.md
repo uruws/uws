@@ -30,6 +30,11 @@
 
 ---
 
+* uwscli: build only 2.y.z App repository tags - `DONE!`
+    * it happens sometimes that a wrong tag is added to App repo like 8.y.z so it breaks the "versions logic", as this new wrong tag will be always grater than a valid 2.y.z tag
+
+---
+
 * uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34

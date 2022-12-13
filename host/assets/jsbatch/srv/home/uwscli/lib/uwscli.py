@@ -252,7 +252,7 @@ def list_images(appname: str, region: str = '') -> list[str]:
 	cmd += " | grep -F '%s'" % app[appname].deploy.image
 	cmd += " | awk '{ print $3 }'"
 	cmd += " | sed 's/^%s//'" % app[appname].deploy.filter
-	cmd += " | sort -n"
+	cmd += " | sort -V"
 	try:
 		out = check_output(cmd)
 		return out.splitlines()

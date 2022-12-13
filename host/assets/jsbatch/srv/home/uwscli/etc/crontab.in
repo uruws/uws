@@ -13,6 +13,7 @@ UWSCLI_LOG=off
 */15 * * * * UWSCLI_LOG=on app-autobuild app
 */15 * * * * UWSCLI_LOG=on app-autobuild cs
 */15 * * * * UWSCLI_LOG=on app-autobuild infra-ui
+*/15 * * * * UWSCLI_LOG=on app-autobuild meteor-vanilla
 
 #############
 # scale down
@@ -63,6 +64,9 @@ UWSCLI_LOG=off
 
 # crowdsourcing
 9 10 * * 1-5 app-scale cs 30
+
+# meteor-vanilla
+9 10 * * 1-5 app-scale meteor-vanilla 1
 
 ##########
 # workers

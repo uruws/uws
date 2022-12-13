@@ -172,6 +172,12 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output(output = linesep.join(['Testing', 't0'])):
 			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), 'None')
 
+	def test_latestTagIgnore(t):
+		t.assertTrue(app_autobuild._ignoreTag('cs', '0.0'))
+		t.assertFalse(app_autobuild._ignoreTag('cs', '1.0'))
+		t.assertTrue(app_autobuild._ignoreTag('app', '8.0'))
+		t.assertFalse(app_autobuild._ignoreTag('app', '2.0'))
+
 	def test_getStatus(t):
 		with mock_status(st = 'OK'):
 			st, ver = app_autobuild._getStatus('testing')

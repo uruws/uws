@@ -88,8 +88,10 @@ app: dict[str, App] = {
 		build = _buildpack('app/src', 'app', 'App'),
 		autobuild = True,
 		autobuild_deploy = [
-			'apitest-east', 'apitest-west',
-			'apptest-east', 'apptest-west',
+			# ~ 'apitest-east', 'apitest-west',
+			# ~ 'apptest-east', 'apptest-west',
+			'apitest-west',
+			'apptest-west',
 			'worker-test',
 		],
 		groups = ['uwsapp_app'],
