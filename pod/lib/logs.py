@@ -13,7 +13,7 @@ def _system(cmd):
 
 def main(argv = []):
 	flags = ArgumentParser(description = 'get pod logs')
-	flags.add_argument('-c', '--container', metavar = 'name',
+	flags.add_argument('-c', '--container', metavar = 'name', default = '',
 		help = 'pod container')
 	flags.add_argument('-n', '--namespace', metavar = 'ns', required = True,
 		help = 'pod namespace')
@@ -49,10 +49,17 @@ def main(argv = []):
 	cmd += ' --prefix=true --ignore-errors'
 	if args.max > 0:
 		cmd += " --max-log-requests=%d" % args.max
+
+	# label selector
 	if args.label == '':
 		cmd += " -l '*'"
 	else:
 		cmd += " -l %s" % args.label
+
+	# pod container
+	if args.container != '':
+		cmd += " -c %s" % args.container
+
 	return _system(cmd)
 
 if __name__ == '__main__': # pragma no cover
