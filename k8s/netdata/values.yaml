@@ -21,4 +21,4 @@ sd:
   child:
     configmap:
       from:
-        value: ./k8s/netdata/child.yaml
+        file: ./k8s/netdata/child.yaml
