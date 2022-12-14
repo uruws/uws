@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec uwskube get all -n netdata
+exec uwskube get all,pvc -n netdata
