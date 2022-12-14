@@ -13,6 +13,8 @@ def _system(cmd):
 
 def main(argv = []):
 	flags = ArgumentParser(description = 'get pod logs')
+	flags.add_argument('-c', '--container', metavar = 'name',
+		help = 'pod container')
 	flags.add_argument('-n', '--namespace', metavar = 'ns', required = True,
 		help = 'pod namespace')
 	flags.add_argument('-T', '--no-timestamps', action = 'store_true',
