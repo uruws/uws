@@ -18,10 +18,10 @@ echo "i - git checkout ${refname} ${oldrev} ${newrev}"
 #git checkout "${newrev}"
 
 # verify signatures
-git pull --verify-signatures --prune --no-rebase origin master
+#git pull --verify-signatures --prune --no-rebase origin master
 
 # no verify
-#git pull --prune --no-rebase origin master
+git pull --prune --no-rebase origin master
 
 git status
 sleep 1
