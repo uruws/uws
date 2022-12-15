@@ -31,11 +31,11 @@ def _setup():
 
 def _ignoreTag(app: str, tag: str) -> bool:
 	# CS: build 1.x tags only
-	if app == 'cs' and not tag.startswith('1.'):
+	if app.startswith('cs') and not tag.startswith('1.'):
 		uwscli.debug('tag ignore:', app, 'tag', tag)
 		return True
 	# App: build 2.x tags only
-	elif app == 'app' and not tag.startswith('2.'):
+	elif app.startswith('app') and not tag.startswith('2.'):
 		uwscli.debug('tag ignore:', app, 'tag', tag)
 		return True
 	return False
@@ -56,6 +56,8 @@ def _latestTag(app: str, src: str) -> str:
 		else:
 			if v > vmax:
 				vmax = v
+	if vmax is None:
+		return ''
 	return str(vmax)
 
 def _getStatus(app: str) -> tuple[str, str]:
@@ -114,7 +116,7 @@ def _build(app: str) -> int:
 				uwscli.error('[ERROR] app-fetch.sh failed, exit status:', rc)
 				return rc
 			tag = _latestTag(app, build.src)
-			if tag == 'None':
+			if tag == '':
 				uwscli.error('[ERROR] could not get latest git tag')
 				return ETAG
 			if _isBuildingOrDone(app, tag):
@@ -134,11 +136,15 @@ def _latestBuild(app: str) -> str:
 		except ValueError as err:
 			uwscli.debug('latest build semver error:', err)
 			continue
+		if _ignoreTag(app, str(v)):
+			continue
 		if l is None:
 			l = v
 		else:
 			if v > l:
 				l = v
+	if l is None:
+		return ''
 	return str(l)
 
 def _deploy(app: str, tag: str) -> int:
