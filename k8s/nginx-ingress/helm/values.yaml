@@ -1,8 +1,21 @@
 ---
 controller:
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 11
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
   metrics:
     enabled: true
     service:
       annotations:
         prometheus.io/port: "10254"
         prometheus.io/scrape: "true"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 90Mi
+    limits:
+      cpu: 100m
+      memory: 90Mi
