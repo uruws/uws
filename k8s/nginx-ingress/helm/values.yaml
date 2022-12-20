@@ -1,10 +1,10 @@
 ---
 controller:
   autoscaling:
-    enabled: true
-    minReplicas: 3
-    maxReplicas: 11
-    targetCPUUtilizationPercentage: 50
+    enabled: false
+    #~ minReplicas: 3
+    #~ maxReplicas: 11
+    #~ targetCPUUtilizationPercentage: 50
     #~ targetMemoryUtilizationPercentage: 50
   metrics:
     enabled: true
@@ -24,3 +24,5 @@ controller:
     annotations:
       service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
       service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+  minAvailable: 1
+  replicaCount: 3
