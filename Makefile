@@ -297,7 +297,7 @@ deploy:
 #
 
 .PHONY: check
-check: check-docker check-golang check-cli check-k8s check-eks check-munin check-munin-node check-asb
+check: check-docker check-golang check-cli check-k8s check-eks check-munin check-munin-node check-asb check-awscli
 
 .PHONY: check-docker
 check-docker:
@@ -338,6 +338,10 @@ check-asb:
 	@./docker/asb/check.sh ./test/run/shellcheck.sh
 	@echo '***** asb/test/run/lint.sh'
 	@./docker/asb/check.sh ./test/run/lint.sh
+
+.PHONY: check-awscli
+check-awscli:
+	@./docker/awscli/check.sh
 
 #
 # uws CA

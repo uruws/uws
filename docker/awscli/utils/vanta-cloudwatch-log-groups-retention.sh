@@ -2,8 +2,7 @@
 set -eu
 
 lg_list() (
-	local region=$1
-	cloudwatch-log-groups.sh "${region}" | awk '{ print $4 }'
+	cloudwatch-log-groups.sh "${1}" | awk '{ print $4 }'
 )
 
 for region in ${VANTA_REGIONS}; do
