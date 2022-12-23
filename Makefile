@@ -281,6 +281,14 @@ docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/app-stats.bin ./cmd/app-stats
 
 #
+# chatbot
+#
+
+.PHONY: chatbot
+chatbot:
+	@./srv/chatbot/build.sh
+
+#
 # deploy
 #
 
