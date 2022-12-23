@@ -292,6 +292,13 @@ docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 chatbot:
 	@./srv/chatbot/build.sh
 
+CHATBOT_TAG != cat ./pod/webapp/chatbot/VERSION
+
+.PHONY: chatbot-publish
+chatbot-publish:
+	@./docker/ecr-login.sh us-east-1
+	@./cluster/ecr-push.sh us-east-1 uws/chatbot-2211 uws:chatbot-$(CHATBOT_TAG)
+
 #
 # deploy
 #
@@ -436,3 +443,4 @@ publish:
 	@$(MAKE) utils-publish
 	@$(MAKE) mon-publish
 	@$(MAKE) pod-publish
+	@$(MAKE) chatbot-publish
