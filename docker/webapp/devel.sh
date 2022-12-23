@@ -4,7 +4,7 @@ set -eu
 webapp=${1:?'webapp name?'}
 
 webapp_src="${PWD}/srv/${webapp}/src"
-webapp_env="${PWD}/srv/${webapp}/${webapp}.env"
+webapp_env="${PWD}/secret/webapp/${webapp}.env"
 
 if ! test -d "${webapp_src}"; then
 	echo "${webapp}: invalid webapp" >&2
