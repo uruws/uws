@@ -22,8 +22,9 @@ exec docker run -it --rm --read-only \
 	-v "${tmpdir}:/home/uws/tmp" \
 	-v "${PWD}/docker/webapp/utils:/usr/local/bin:ro" \
 	-v "${webapp_src}:/opt/uws/${webapp}:ro" \
-	--workdir /home/uws \
+	--workdir "/opt/uws/${webapp}" \
 	-u uws \
 	-e USER=uws \
 	-e HOME=/home/uws \
+	--tmpfs /tmp \
 	"uws/${webapp}-2211"
