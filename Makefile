@@ -36,7 +36,7 @@ all: bootstrap clamav uwsbot munin munin-backend munin-node proftpd
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli devel mailx crond herokud
+bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli devel mailx crond herokud webapp
 
 #
 # base containers
@@ -131,6 +131,10 @@ ansible:
 .PHONY: kali
 kali:
 	@./srv/kali/build.sh
+
+.PHONY: webapp
+webapp:
+	@./docker/webapp/build.sh
 
 #
 # uwscli
