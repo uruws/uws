@@ -20,6 +20,7 @@ exec docker run -it --rm --read-only \
 	--entrypoint /usr/local/bin/devel-entrypoint.sh \
 	--env-file "${webapp_env}" \
 	-v "${tmpdir}:/home/uws/tmp" \
+	-v "${PWD}/docker/webapp/utils:/usr/local/bin:ro" \
 	--workdir /home/uws \
 	-u uws \
 	-e USER=uws \

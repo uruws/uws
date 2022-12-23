@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh python3-venv python3-bottle
+RUN /root/bin/apt-install.sh python3-venv python3-bottle uwsgi-core uwsgi-plugin-python3
 
 RUN install -v -d -m 0750 -o uws -g uwsops /opt/uws
 
@@ -22,6 +22,7 @@ ENV USER uws
 ENV HOME /home/uws
 
 RUN python3 -m venv --system-site-packages --symlinks /opt/uws/venv
+RUN /opt/uws/venv/bin/pip install -U pip
 
 USER root:root
 WORKDIR /root
@@ -37,5 +38,7 @@ WORKDIR /home/uwsops
 
 ENV USER uwsops
 ENV HOME /home/uwsops
+ENV UWS_WEBAPP_WORKERS 1
+ENV UWS_WEBAPP_PORT 2741
 
 ENTRYPOINT exec /usr/local/bin/entrypoint.sh
