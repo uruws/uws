@@ -12,10 +12,10 @@ exec uwsgi \
 	--thunder-lock \
 	--need-plugin           python3 \
 	--max-apps              1 \
-	--reload-mercy          60 \
-	--worker-reload-mercy   30 \
+	--reload-mercy          30 \
+	--worker-reload-mercy   10 \
 	--max-requests          5000 \
-	--min-worker-lifetime   60 \
+	--min-worker-lifetime   180 \
 	--max-worker-lifetime   28800 \
 	--evil-reload-on-rss    1024 \
 	--module                "${UWS_WEBAPP}_wsgi:application" \

@@ -3,7 +3,7 @@ set -eu
 
 webapp=${1:?'webapp name?'}
 
-webapp_src="${PWD}/srv/${webapp}"
+webapp_src="${PWD}/srv/${webapp}/src"
 webapp_env="${PWD}/srv/${webapp}/${webapp}.env"
 
 if ! test -d "${webapp_src}"; then
@@ -21,6 +21,7 @@ exec docker run -it --rm --read-only \
 	--env-file "${webapp_env}" \
 	-v "${tmpdir}:/home/uws/tmp" \
 	-v "${PWD}/docker/webapp/utils:/usr/local/bin:ro" \
+	-v "${webapp_src}:/opt/uws/${webapp}:ro" \
 	--workdir /home/uws \
 	-u uws \
 	-e USER=uws \
