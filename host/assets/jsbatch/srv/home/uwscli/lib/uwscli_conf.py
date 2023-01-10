@@ -206,7 +206,7 @@ app: dict[str, App] = {
 		build = _buildpack('infra-ui/src', 'infra-ui', 'Infra-UI'),
 		groups = ['uwsapp_infra-ui'],
 		autobuild = True,
-		autobuild_deploy = ['infra-ui-test'],
+		# ~ autobuild_deploy = ['infra-ui-test'],
 	),
 	'infra-ui-prod': App(True,
 		cluster = 'panoramix-2206',
