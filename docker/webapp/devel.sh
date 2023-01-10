@@ -19,6 +19,7 @@ exec docker run -it --rm --read-only \
 	--hostname "${webapp}-devel.uws.local" \
 	--entrypoint /usr/local/bin/devel-entrypoint.sh \
 	--env-file "${webapp_env}" \
+	-p 127.0.0.1:0:2741 \
 	-v "${tmpdir}:/home/uws/tmp" \
 	-v "${PWD}/docker/webapp/utils:/usr/local/bin:ro" \
 	-v "${webapp_src}:/opt/uws/${webapp}:ro" \
