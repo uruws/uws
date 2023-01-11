@@ -292,7 +292,7 @@ docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 chatbot:
 	@./srv/chatbot/build.sh
 
-CHATBOT_TAG != cat ./pod/webapp/chatbot/VERSION
+CHATBOT_TAG != cat ./srv/chatbot/VERSION
 
 .PHONY: chatbot-publish
 chatbot-publish:

@@ -14,12 +14,14 @@ fi
 tmpdir="${PWD}/tmp/${webapp}"
 install -v -d -m 0750 "${tmpdir}"
 
+webapp_port=${WEBAPP_PORT:-0}
+
 exec docker run -it --rm --read-only \
 	--name "uws-${webapp}-devel" \
 	--hostname "${webapp}-devel.uws.local" \
 	--entrypoint /usr/local/bin/devel-entrypoint.sh \
 	--env-file "${webapp_env}" \
-	-p 127.0.0.1:0:2741 \
+	-p "127.0.0.1:${webapp_port}:2741" \
 	-v "${tmpdir}:/home/uws/tmp" \
 	-v "${PWD}/docker/webapp/utils:/usr/local/bin:ro" \
 	-v "${webapp_src}:/opt/uws/${webapp}:ro" \
