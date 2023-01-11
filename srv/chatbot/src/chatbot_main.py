@@ -8,7 +8,11 @@ import os
 from slack_bolt                import App
 from slack_bolt.adapter.bottle import SlackRequestHandler
 
-bot = App()
+bot = App(
+	name = 'chatbot',
+	token = os.getenv('SLACK_BOT_TOKEN'),
+	signing_secret = os.getenv('SLACK_SIGNING_SECRET'),
+)
 
 @bot.middleware
 def log_request(logger, body, next):
