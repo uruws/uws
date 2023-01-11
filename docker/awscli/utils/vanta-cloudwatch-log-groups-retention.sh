@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 
+PATH=${PATH}:${HOME}/bin
+
 lg_list() (
 	cloudwatch-log-groups.sh "${1}" | awk '{ print $4 }'
 )
