@@ -167,6 +167,9 @@ class Test(unittest.TestCase):
 		finally:
 			del uwscli.app['testing1']
 
+	def test_app_groups(t):
+		t.assertListEqual(uwscli.app_groups(), ['app', 'testing'])
+
 	def test_app_autobuild(t):
 		t.assertEqual(uwscli.autobuild_list(), [])
 		uwscli.app['testing'].autobuild = True
