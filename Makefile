@@ -140,17 +140,6 @@ kali:
 uwscli:
 	@./docker/uwscli/build.sh
 
-.PHONY: uwscli-setup-schroot
-uwscli-setup-schroot:
-	@$(MAKE) base
-	@$(MAKE) golang
-	@$(MAKE) k8s
-	@$(MAKE) prune
-	@docker images
-	@echo '*** Buildpack'
-	@NQDIR=/run/uwscli/nq nq -c -- make -C /srv/deploy/Buildpack bootstrap
-	@NQDIR=/run/uwscli/nq nq -c -- make -C /srv/deploy/Buildpack prune
-
 #
 # uwsbot
 #

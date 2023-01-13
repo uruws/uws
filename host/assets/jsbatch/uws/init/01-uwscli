@@ -161,15 +161,10 @@ crontab -u uwscli ~uwscli/etc/crontab.in
 
 # remove old users
 
-deluser --remove-home alejandro || true
+#~ deluser --remove-home alejandro || true
 
-# uwscli setup
-
-# env dirs
-install -v -d -o root -g uws -m 0750 /srv/uwscli
-install -v -d -o root -g uws -m 0770 /srv/uwscli/logs
-
-# systemd service
+# deprecate uwscli schroot setup
 rm -vf /etc/systemd/system/uwscli-@.service
+rm -vf /srv/home/uwscli/sbin/*_init.sh
 
 exit 0
