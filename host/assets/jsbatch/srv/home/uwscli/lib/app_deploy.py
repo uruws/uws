@@ -14,6 +14,11 @@ def deploy(app: str, version: str) -> int:
 		uwscli.app[app].pod, version)
 	return uwscli.ctl(args)
 
+def wait(app: str) -> int:
+	args = "%s %s wait" % (uwscli.app[app].cluster,
+		uwscli.app[app].pod)
+	return uwscli.ctl(args)
+
 def main(argv: list[str] = []) -> int:
 	epilog = uwscli.deploy_description()
 	epilog += '\nif no app version is provided a list of available builds will be shown'
@@ -22,6 +27,8 @@ def main(argv: list[str] = []) -> int:
 		description = __doc__, epilog = epilog)
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
+	flags.add_argument('-w', '--wait', action = 'store_true',
+		default = False, help = 'wait for deployment to finish')
 	flags.add_argument('app', metavar = 'app', choices = uwscli.deploy_list(),
 		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z-bpV', nargs = '?',
@@ -34,6 +41,8 @@ def main(argv: list[str] = []) -> int:
 		if rc != 0:
 			uwscli.error("enqueue of %s deploy job failed!" % args.app)
 			return rc
+		if args.wait:
+			return wait(args.app)
 	else:
 		images = uwscli.list_images(args.app)
 		if len(images) > 0:

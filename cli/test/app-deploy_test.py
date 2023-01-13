@@ -53,5 +53,16 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_system(status = 99):
 				t.assertEqual(app_deploy.main(['testing', '0.999']), 99)
 
+	def test_wait(t):
+		with uwscli_t.mock_system():
+			with uwscli_t.mock_list_images(['0.999']):
+				t.assertEqual(app_deploy.wait('testing'), 0)
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test wait', timeout = uwscli.system_ttl)
+
+	def test_main_wait(t):
+		with uwscli_t.mock_system():
+			with uwscli_t.mock_list_images(['0.999']):
+				t.assertEqual(app_deploy.main(['--wait', 'testing', '0.999']), 0)
+
 if __name__ == '__main__':
 	unittest.main()
