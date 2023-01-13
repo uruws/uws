@@ -19,8 +19,6 @@ import uwscli_conf
 import uwscli_auth
 import uwscli_version
 
-from uwscli_user import AppUser
-
 _PATH = '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'
 
 class Test(unittest.TestCase):
@@ -295,18 +293,6 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output():
 			t.assertListEqual(uwscli.git_tag_list(workdir = 'src/test'), ['mock_output'])
 			uwscli.check_output.assert_called_once_with('git -C src/test tag --list')
-
-	# app users
-
-	def test_user_get(t):
-		with uwscli_t.mock_users():
-			u = uwscli.user_get('tuser')
-			t.assertIsInstance(u, AppUser)
-			t.assertEqual(u.uid, 5000)
-			t.assertEqual(u.name, 'tuser')
-
-	def test_user_get_not_found(t):
-		t.assertIsNone(uwscli.user_get('testing'))
 
 if __name__ == '__main__':
 	unittest.main()
