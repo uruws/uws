@@ -35,6 +35,13 @@
 
 ---
 
+* munin: sendmail errors
+    * uws@jsbatch:/srv/munin/var/alert/statuspage
+    * check sendmail.log for errors
+    * list queded .eml files
+
+---
+
 * split /websocket App container
     * so we can serve the websockets from dedicated containers
     * /api/ for the api calls
