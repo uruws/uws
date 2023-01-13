@@ -13,7 +13,7 @@ import uwscli
 import uwscli_auth
 import uwscli_conf
 import uwscli_user
-import local_conf
+import local_conf # type: ignore
 
 class Test(unittest.TestCase):
 
