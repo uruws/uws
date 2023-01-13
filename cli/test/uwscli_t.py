@@ -11,7 +11,6 @@ import uwscli
 import uwscli_log
 import uwscli_conf
 import uwscli_auth
-import uwscli_user
 
 def _testingApp() -> dict[str, uwscli_conf.App]:
 	return {
@@ -169,26 +168,3 @@ def mock_uwscli_deploy(status = 0):
 		yield
 	finally:
 		uwscli.uwscli_deploy = _bup
-
-@contextmanager
-def mock_users():
-	_bup = uwscli_user.user.copy()
-	try:
-		uwscli_user.user = {
-			'tuser': uwscli_user.AppUser(5000,
-				name = 'tuser',
-				groups = ['tapp', 'tapp1'],
-				is_admin = True,
-				is_operator = True,
-				keyid = 't.key',
-			),
-		}
-		yield
-	finally:
-		uwscli_user.user = _bup.copy()
-
-@contextmanager
-def mock_users_remove():
-	with mock_users():
-		uwscli_user.user['tuser'].remove = True
-		yield

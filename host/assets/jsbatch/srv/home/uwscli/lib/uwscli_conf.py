@@ -18,12 +18,6 @@ docker_storage_min: int = 10*1024*1024 # 10G
 admin_group:    str = getenv('UWSCLI_ADMIN_GROUP',    'uwsadm')
 operator_group: str = getenv('UWSCLI_OPERATOR_GROUP', 'uwsops')
 
-def _ghrepo(n: str) -> str:
-	return f"git@github.com:TalkingPts/{n}.git"
-
-def buildpack_repo() -> str:
-	return _ghrepo('Buildpack')
-
 @dataclass
 class AppBuild(object):
 	dir:    str
@@ -32,12 +26,8 @@ class AppBuild(object):
 	src:    str = '.'
 	target: str = 'None'
 	clean:  str = ''
-	repo:   str = ''
 
-def _buildpack(src: str, target: str, repo: str = '') -> AppBuild:
-	_uri = ''
-	if repo != '':
-		_uri = _ghrepo(repo)
+def _buildpack(src: str, target: str) -> AppBuild:
 	return AppBuild(
 		'/srv/deploy/Buildpack',
 		'build.py',
@@ -45,7 +35,6 @@ def _buildpack(src: str, target: str, repo: str = '') -> AppBuild:
 		src = src,
 		target = target,
 		clean = target,
-		repo = _uri,
 	)
 
 Buildpack = _buildpack
@@ -75,17 +64,10 @@ class App(object):
 		if len(self.groups) == 0:
 			self.groups = ['nogroup']
 
-	def info(self) -> dict[str, str]:
-		return {
-			'desc':    self.desc.strip(),
-			'cluster': self.cluster.strip(),
-			'pod':     self.pod.strip(),
-		}
-
 app: dict[str, App] = {
 	'app': App(False,
 		desc = 'App web and workers',
-		build = _buildpack('app/src', 'app', 'App'),
+		build = _buildpack('app/src', 'app'),
 		autobuild = True,
 		autobuild_deploy = [
 			# ~ 'apitest-east', 'apitest-west',
@@ -164,7 +146,7 @@ app: dict[str, App] = {
 		cluster = 'panoramix-2206',
 		desc = 'Crowdsourcing',
 		pod = 'meteor/cs',
-		build = _buildpack('cs/src', 'crowdsourcing', 'Crowdsourcing'),
+		build = _buildpack('cs/src', 'crowdsourcing'),
 		deploy = AppDeploy('meteor-crowdsourcing'),
 		groups = ['uwsapp_crowdsourcing', 'uwsapp_cs'],
 		autobuild = True,
@@ -183,7 +165,6 @@ app: dict[str, App] = {
 			'/srv/deploy/NLPService',
 			'build.sh',
 			clean = 'nlpsvc',
-			repo = _ghrepo('NLPService'),
 		),
 		groups = ['uwsapp_nlpsvc', 'uwsapp_nlp'],
 	),
@@ -203,7 +184,7 @@ app: dict[str, App] = {
 	),
 	'infra-ui': App(False,
 		desc = 'Infra-UI',
-		build = _buildpack('infra-ui/src', 'infra-ui', 'Infra-UI'),
+		build = _buildpack('infra-ui/src', 'infra-ui'),
 		groups = ['uwsapp_infra-ui'],
 		autobuild = True,
 		# ~ autobuild_deploy = ['infra-ui-test'],
@@ -226,7 +207,7 @@ app: dict[str, App] = {
 		cluster = 'apptest-east',
 		desc = 'Meteor Vanilla',
 		pod = 'meteor/vanilla',
-		build = _buildpack('meteor-vanilla/src', 'meteor-vanilla', 'MeteorVanilla'),
+		build = _buildpack('meteor-vanilla/src', 'meteor-vanilla'),
 		deploy = AppDeploy('meteor-vanilla'),
 		groups = ['uwsapp_meteor-vanilla'],
 		autobuild = True,

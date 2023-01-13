@@ -35,10 +35,10 @@
 
 ---
 
-* uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
-
-[PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
-[PR#35]: https://github.com/TalkingPts/Infrastructure/pull/35
+* munin: sendmail errors
+    * uws@jsbatch:/srv/munin/var/alert/statuspage
+    * check sendmail.log for errors
+    * list queded .eml files
 
 ---
 
@@ -78,7 +78,6 @@
     * check/parse config files from secret directory
         * like parsing secret/eks/files/meteor/*/*.json for syntax errors
         * secret/eks/files/meteor/*/*.env shellcheck and/or similar
-        * secret/cli/schroot/*/local_conf.py syntax/unittest/expected values
         * secret/aws.config/s3/*.env and secret/aws.config/s3/*.json
         * secret/eks/files/munin/conf/alerts_conf.json
 

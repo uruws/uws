@@ -5,11 +5,7 @@ umask 0027
 
 # sudoers
 
-sudoers=/etc/sudoers.d/99-uwscli
-if test -s ${sudoers}; then
-	chmod -v 0640 ${sudoers}
-	chown -v root:root ${sudoers}
-fi
+install -v -C -m 0640 -o root -g root ~uwscli/etc/sudoers.d/99-uwscli /etc/sudoers.d/99-uwscli
 
 # run dirs
 
@@ -161,25 +157,12 @@ crontab -u uwscli ~uwscli/etc/crontab.in
 
 # remove old users
 
-deluser --remove-home alejandro || true
+#~ deluser --remove-home alejandro || true
 
-# uwscli setup
-
-# env dirs
-install -v -d -o root -g uws -m 0750 /srv/uwscli
-install -v -d -o root -g uws -m 0750 /srv/uwscli/schroot
-install -v -d -o root -g uws -m 0770 /srv/uwscli/logs
-
-# helper scripts
-install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/start.sh \
-	/srv/uwscli/schroot/start.sh
-install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/stop.sh \
-	/srv/uwscli/schroot/stop.sh
-install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/make.sh \
-	/srv/uwscli/schroot/make.sh
-
-# systemd service
-install -v -C -o root -g root -m 0640 /srv/uws/deploy/cli/schroot/uwscli-@.service \
-	/etc/systemd/system/uwscli-@.service
+# deprecate uwscli schroot setup
+rm -vf /etc/systemd/system/uwscli-@.service
+rm -vf /srv/home/uwscli/sbin/*_init.sh
+rm -vf /uws/bin/uwscli-deploy.sh
+rm -vf /srv/home/uwscli/bin/uwspass
 
 exit 0

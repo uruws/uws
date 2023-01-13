@@ -17,8 +17,7 @@ import uwscli_t
 import uwscli
 import uwscli_conf
 import uwscli_auth
-
-from uwscli_user import AppUser
+import uwscli_version
 
 _PATH = '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'
 
@@ -62,6 +61,9 @@ class Test(unittest.TestCase):
 		t.assertListEqual(uwscli._libs, [
 			'semver-2.13.0',
 		])
+
+	def test_version(t):
+		t.assertEqual(uwscli.version(), f"uwscli version {uwscli_version.VERSION}")
 
 	def test_chdir(t):
 		cwd = '/home/uws'
@@ -163,10 +165,19 @@ class Test(unittest.TestCase):
 		finally:
 			del uwscli.app['testing1']
 
+	def test_app_groups(t):
+		t.assertListEqual(uwscli.app_groups(), ['app', 'testing'])
+
 	def test_app_autobuild(t):
 		t.assertEqual(uwscli.autobuild_list(), [])
 		uwscli.app['testing'].autobuild = True
 		t.assertEqual(uwscli.autobuild_list(), ['testing'])
+
+	def test_app_autobuild_description(t):
+		t.assertEqual(uwscli.autobuild_description().strip(), 'available apps:')
+		uwscli.app['testing'].autobuild = True
+		t.assertEqual(uwscli.autobuild_description().replace('\n', '_N_'),
+			'available apps:_N_  testing - Testing_N_')
 
 	def test_app_autobuild_deploy(t):
 		t.assertListEqual(uwscli.app['testing'].autobuild_deploy, [])
@@ -182,15 +193,6 @@ class Test(unittest.TestCase):
 
 	def test_build_desc(t):
 		t.assertEqual(uwscli.build_description(), 'available apps:\n  testing - Testing\n')
-
-	def test_build_repo(t):
-		uwscli.app['testing'].build.repo = 'testing.git'
-		uwscli.app['testing'].build.src = 'app/src'
-		t.assertEqual(uwscli.build_repo(), [{
-			'app': 'testing',
-			'uri': 'testing.git',
-			'workdir': '/srv/deploy/Testing/app/src',
-		}])
 
 	def test_deploy_list(t):
 		t.assertEqual(uwscli.deploy_list(), ['testing'])
@@ -282,18 +284,6 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output():
 			t.assertListEqual(uwscli.git_tag_list(workdir = 'src/test'), ['mock_output'])
 			uwscli.check_output.assert_called_once_with('git -C src/test tag --list')
-
-	# app users
-
-	def test_user_get(t):
-		with uwscli_t.mock_users():
-			u = uwscli.user_get('tuser')
-			t.assertIsInstance(u, AppUser)
-			t.assertEqual(u.uid, 5000)
-			t.assertEqual(u.name, 'tuser')
-
-	def test_user_get_not_found(t):
-		t.assertIsNone(uwscli.user_get('testing'))
 
 if __name__ == '__main__':
 	unittest.main()

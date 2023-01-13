@@ -28,7 +28,6 @@ environ.update(_env)
 
 from uwscli_conf import app, cluster, bindir, cmddir
 from uwscli_conf import docker_storage, docker_storage_min
-from uwscli_conf import buildpack_repo
 
 def _local_conf(cfgdir: str = '/etc/uws/cli'):
 	if Path(cfgdir).is_dir():
@@ -210,21 +209,6 @@ def build_description() -> str:
 	"""format build apps description"""
 	return __desc(build_list())
 
-def build_repo() -> list[dict[str, str]]:
-	"""return list of app build repositories"""
-	l = []
-	for n in build_list():
-		if app[n].build.repo != '':
-			workdir = Path(app[n].build.dir)
-			if app[n].build.src != '.':
-				workdir = workdir.joinpath(app[n].build.src)
-			l.append({
-				"app": n,
-				"uri": app[n].build.repo,
-				"workdir": workdir.as_posix(),
-			})
-	return l
-
 def deploy_list(user: User = None) -> list[str]:
 	"""return list of apps configured for deploy"""
 	if user is None: user = _user
@@ -299,58 +283,3 @@ def git_tag_list(workdir: str = '.') -> list[str]:
 	if workdir != '.':
 		args += f" -C {workdir}"
 	return check_output(f"git{args} tag --list").strip().split(sep = linesep)
-
-#
-# app users
-#
-
-import uwscli_user
-from   uwscli_user import AppUser
-
-def user_list() -> list[AppUser]:
-	l = []
-	for n in sorted(uwscli_user.user.keys()):
-		uwscli_user.user[n].name = n
-		if uwscli_user.user[n].username == "":
-			uwscli_user.user[n].username = "%s@talkingpts.org" % uwscli_user.user[n].name
-		l.append(uwscli_user.user[n])
-	return l
-
-def user_get(name: str) -> Optional[AppUser]:
-	user = uwscli_user.user.get(name, None)
-	if user is None:
-		return None
-	user.name = name
-	if user.username == "":
-		user.username = "%s@talkingpts.org" % user.name
-	return user
-
-def user_uuid(username: str) -> str:
-	return str(uuid5(NAMESPACE_DNS, username))
-
-_user_command_exclude = {
-	'app-autobuild': True,
-	'app-build':     True,
-}
-
-_user_command_operator = {
-	'app-deploy':  True,
-	'app-restart': True,
-	'app-rollin':  True,
-	'app-scale':   True,
-}
-
-def user_commands(user: AppUser) -> list[str]:
-	l: list[str] = []
-	st, out = gso('/bin/ls /srv/home/uwscli/bin/app-*')
-	if st == 0:
-		for p in out.splitlines():
-			cmd = p.strip().replace('/srv/home/uwscli/bin/', '')
-			if _user_command_exclude.get(cmd, False):
-				continue
-			if _user_command_operator.get(cmd, False):
-				if user.is_operator:
-					l.append(cmd)
-			else:
-				l.append(cmd)
-	return l

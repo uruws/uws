@@ -41,7 +41,7 @@ if test -s /srv/acme/cert/public.uws.talkingpts.org.crt; then
 fi
 chmod -v 0644 /srv/www/public/index.html
 
-# uwsapi-test
+# opstest
 if test -s /srv/acme/cert/opstest.uws.talkingpts.org.crt; then
 	${install_cmd} /etc/nginx/sites-available/ssl-opstest /etc/nginx/sites-enabled
 fi

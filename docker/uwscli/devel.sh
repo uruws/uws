@@ -9,12 +9,12 @@ mkdir -vp ${CLI_HOME}/vendor/semver-2.13.0/.pytest_cache
 
 exec docker run -it --rm --name uwscli-devel \
 	--hostname clidev.uws.local \
-	-e PYTHONPATH=/srv/home/uwscli/lib:/srv/home/uwscli/sbin:/srv/home/uwscli/vendor/semver-2.13.0 \
-	-v ${CLI_HOME}/sbin:/srv/home/uwscli/sbin:ro \
+	-e PYTHONPATH=/srv/home/uwscli/lib:/srv/home/uwscli/vendor/semver-2.13.0 \
 	-v ${CLI_HOME}/bin:/srv/home/uwscli/bin:ro \
 	-v ${CLI_HOME}/etc:/srv/home/uwscli/etc:ro \
 	-v ${CLI_HOME}/lib:/srv/home/uwscli/lib:ro \
 	-v ${CLI_HOME}/vendor:/srv/home/uwscli/vendor:rw \
+	-v ${PWD}/secret/cli:/srv/uws/deploy/secret/cli:ro \
 	-v ${PWD}/cli:/srv/uws/deploy/cli:ro \
 	-v ${PWD}/cli/test:/home/uws/test:ro \
 	-v ${PWD}/cli/testdata:/home/uws/testdata:ro \
