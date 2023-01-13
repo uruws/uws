@@ -170,7 +170,6 @@ install -v -d -o root -g uws -m 0750 /srv/uwscli
 install -v -d -o root -g uws -m 0770 /srv/uwscli/logs
 
 # systemd service
-install -v -C -o root -g root -m 0640 /srv/uws/deploy/cli/schroot/uwscli-@.service \
-	/etc/systemd/system/uwscli-@.service
+rm -vf /etc/systemd/system/uwscli-@.service
 
 exit 0
