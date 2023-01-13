@@ -175,6 +175,12 @@ class Test(unittest.TestCase):
 		uwscli.app['testing'].autobuild = True
 		t.assertEqual(uwscli.autobuild_list(), ['testing'])
 
+	def test_app_autobuild_description(t):
+		t.assertEqual(uwscli.autobuild_description().strip(), 'available apps:')
+		uwscli.app['testing'].autobuild = True
+		t.assertEqual(uwscli.autobuild_description().replace('\n', '_N_'),
+			'available apps:_N_  testing - Testing_N_')
+
 	def test_app_autobuild_deploy(t):
 		t.assertListEqual(uwscli.app['testing'].autobuild_deploy, [])
 		t.assertListEqual(uwscli.autobuild_deploy('testing'), [])
