@@ -5,11 +5,7 @@ umask 0027
 
 # sudoers
 
-sudoers=/etc/sudoers.d/99-uwscli
-if test -s ${sudoers}; then
-	chmod -v 0640 ${sudoers}
-	chown -v root:root ${sudoers}
-fi
+install -v -C -m 0640 -o root -g root ~uwscli/etc/sudoers.d/99-uwscli /etc/sudoers.d/99-uwscli
 
 # run dirs
 
@@ -167,5 +163,6 @@ crontab -u uwscli ~uwscli/etc/crontab.in
 rm -vf /etc/systemd/system/uwscli-@.service
 rm -vf /srv/home/uwscli/sbin/*_init.sh
 rm -vf /uws/bin/uwscli-deploy.sh
+rm -vf /srv/home/uwscli/bin/uwspass
 
 exit 0
