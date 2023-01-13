@@ -17,6 +17,7 @@ import uwscli_t
 import uwscli
 import uwscli_conf
 import uwscli_auth
+import uwscli_version
 
 from uwscli_user import AppUser
 
@@ -62,6 +63,9 @@ class Test(unittest.TestCase):
 		t.assertListEqual(uwscli._libs, [
 			'semver-2.13.0',
 		])
+
+	def test_version(t):
+		t.assertEqual(uwscli.version(), f"uwscli version {uwscli_version.VERSION}")
 
 	def test_chdir(t):
 		cwd = '/home/uws'
