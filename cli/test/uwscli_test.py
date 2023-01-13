@@ -194,15 +194,6 @@ class Test(unittest.TestCase):
 	def test_build_desc(t):
 		t.assertEqual(uwscli.build_description(), 'available apps:\n  testing - Testing\n')
 
-	def test_build_repo(t):
-		uwscli.app['testing'].build.repo = 'testing.git'
-		uwscli.app['testing'].build.src = 'app/src'
-		t.assertEqual(uwscli.build_repo(), [{
-			'app': 'testing',
-			'uri': 'testing.git',
-			'workdir': '/srv/deploy/Testing/app/src',
-		}])
-
 	def test_deploy_list(t):
 		t.assertEqual(uwscli.deploy_list(), ['testing'])
 

@@ -28,7 +28,6 @@ environ.update(_env)
 
 from uwscli_conf import app, cluster, bindir, cmddir
 from uwscli_conf import docker_storage, docker_storage_min
-from uwscli_conf import buildpack_repo
 
 def _local_conf(cfgdir: str = '/etc/uws/cli'):
 	if Path(cfgdir).is_dir():
@@ -209,21 +208,6 @@ def build_list(user: User = None) -> list[str]:
 def build_description() -> str:
 	"""format build apps description"""
 	return __desc(build_list())
-
-def build_repo() -> list[dict[str, str]]:
-	"""return list of app build repositories"""
-	l = []
-	for n in build_list():
-		if app[n].build.repo != '':
-			workdir = Path(app[n].build.dir)
-			if app[n].build.src != '.':
-				workdir = workdir.joinpath(app[n].build.src)
-			l.append({
-				"app": n,
-				"uri": app[n].build.repo,
-				"workdir": workdir.as_posix(),
-			})
-	return l
 
 def deploy_list(user: User = None) -> list[str]:
 	"""return list of apps configured for deploy"""
