@@ -28,14 +28,14 @@ handler = SlackRequestHandler(bot)
 
 @bottle.post('/slack/events')
 def slack_events():
+	try:
+		# FIXME: validate Slack request
+		d = dict(bottle.request.json)
+		c = d.get('challenge', '')
+		return c.strip()
+	except Exception as err:
+		logging.error(err)
 	return handler.handle(bottle.request, bottle.response)
-
-@bottle.post('/')
-def index():
-	# FIXME: validate Slack request
-	d = dict(bottle.request.json)
-	c = d.get('challenge', '')
-	return c.strip()
 
 if __name__ == '__main__':
 	logging.basicConfig(level = logging.DEBUG)
