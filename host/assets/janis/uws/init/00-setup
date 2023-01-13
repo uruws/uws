@@ -11,7 +11,10 @@ chmod -v 0750 /srv/uws
 
 chmod -v 0750 ~admin
 chmod -v 0750 ~uws
-chmod -v 0750 ~uwsrun
+
+chown -v uws:uws /uws
+chown -R uws:uws /srv/uws
 
 systemctl daemon-reload
+
 exit 0

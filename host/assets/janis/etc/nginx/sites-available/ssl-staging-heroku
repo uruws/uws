@@ -1,0 +1,104 @@
+#
+# staging-heroku SSL internal domain
+#
+
+# Heroku docs:
+#https://help.heroku.com/YTWRHLVH/how-do-i-make-my-nginx-proxy-connect-to-a-heroku-app-behind-heroku-ssl
+
+# SNI
+proxy_ssl_server_name on;
+
+upstream tapostagingapi {
+	server tapostagingapi.herokuapp.com:443;
+}
+
+upstream tapostagingweb {
+	server tapostagingweb.herokuapp.com:443;
+}
+
+map $http_upgrade $connection_upgrade {
+	default upgrade;
+	'' close;
+}
+
+server {
+	listen 443 ssl http2;
+	listen [::]:443 ssl http2;
+
+	server_name staging.talkingpts.org;
+	server_tokens off;
+
+	root /var/www/html;
+
+	ssl_certificate /srv/uws/deploy/secret/ca/godaddyCerts/bundled_all.crt;
+	ssl_certificate_key /srv/uws/deploy/secret/ca/godaddyCerts/server.key;
+
+	include /srv/etc/nginx/ssl.conf;
+
+	# api
+
+	location /api/ {
+		set $upstream tapostagingapi;
+		set $upstream_domain tapostagingapi.herokuapp.com;
+		proxy_send_timeout 60s;
+		proxy_read_timeout 60s;
+		include /srv/etc/nginx/heroku-proxy.conf;
+	}
+
+	# websocket
+
+	location /websocket {
+		set $upstream tapostagingweb;
+		set $upstream_domain tapostagingweb.herokuapp.com;
+		include /srv/etc/nginx/heroku-proxy.conf;
+		include /srv/etc/nginx/heroku-proxy-websocket.conf;
+	}
+
+	location /socket.io/ {
+		set $upstream tapostagingweb;
+		set $upstream_domain tapostagingweb.herokuapp.com;
+		include /srv/etc/nginx/heroku-proxy.conf;
+		include /srv/etc/nginx/heroku-proxy-websocket.conf;
+	}
+
+	# cache files
+
+	location ~* \.(png|jpg) {
+		root /srv/cache/nginx/data;
+		error_page 404 = @fetch;
+	}
+
+	location /scripts/ {
+		root /srv/cache/nginx/data;
+		error_page 404 = @fetch;
+	}
+
+	location /webfonts/ {
+		root /srv/cache/nginx/data;
+		error_page 404 = @fetch;
+	}
+
+	location @fetch {
+		internal;
+		set $upstream tapostagingweb;
+		set $upstream_domain tapostagingweb.herokuapp.com;
+		proxy_send_timeout 60s;
+		proxy_read_timeout 60s;
+		include /srv/etc/nginx/heroku-proxy.conf;
+		proxy_store on;
+		proxy_store_access user:rw group:r all:r;
+		proxy_temp_path /srv/cache/nginx/temp;
+		proxy_cache_valid 3m;
+		root /srv/cache/nginx/data;
+	}
+
+	# web
+
+	location / {
+		set $upstream tapostagingweb;
+		set $upstream_domain tapostagingweb.herokuapp.com;
+		proxy_send_timeout 60s;
+		proxy_read_timeout 60s;
+		include /srv/etc/nginx/heroku-proxy.conf;
+	}
+}

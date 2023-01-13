@@ -12,4 +12,4 @@ exec docker run --rm --network none --name uws-golang-cmd \
 	-v ${BUILD_TMP}:/tmp \
 	-v ${BUILD_CMD}:/go/build/cmd \
 	-e CGO_ENABLED=0 \
-	uws/golang-2203 "$@"
+	uws/golang-2211 "$@"

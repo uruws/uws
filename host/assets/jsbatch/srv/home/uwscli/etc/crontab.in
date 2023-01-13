@@ -12,6 +12,8 @@ UWSCLI_LOG=off
 # app
 ###*/15 * * * * UWSCLI_LOG=on app-autobuild app
 ###*/15 * * * * UWSCLI_LOG=on app-autobuild cs
+###*/15 * * * * UWSCLI_LOG=on app-autobuild infra-ui
+*/15 * * * * UWSCLI_LOG=on app-autobuild meteor-vanilla
 
 #############
 # scale down
@@ -63,15 +65,21 @@ UWSCLI_LOG=off
 # crowdsourcing
 ###9 10 * * 1-5 app-scale cs 30
 
+# meteor-vanilla
+9 10 * * 1-5 app-scale meteor-vanilla 1
+
 ##########
 # workers
 ##########
 
 # adjusted to cleverSynch run times
 # https://ops.uws.talkingpts.org/munin/t.o/app.t.o/apijob_production/cleverSynch_jobs.html
-
+#
 # scale up during the night
-###3 3 * * 1-5 app-scale worker 30
-
+#3 3 * * 1-5 app-scale worker 30
+#
 # scale down during the day
-###3 10 * * 1-5 app-scale worker 15
+#3 10 * * 1-5 app-scale worker 15
+
+# fixed number of workers
+###3 3 * * 1-5 app-scale worker 30

@@ -1,11 +1,23 @@
 #!/bin/sh
 set -eu
 
+#
+# DISABLED!!!
+#
+exit 0
+
+cd /srv/uws/deploy
+sudo -n -u uws make munin-backend
+cd -
+
 if ! systemctl is-enabled uws-munin-backend.service; then
 	systemctl enable uws-munin-backend.service
 	systemctl start uws-munin-backend
 fi
 
-/uws/bin/service-restart.sh uws-munin-backend
+export DOCKER_IMAGE='uws/munin-backend-2211'
+
+/uws/bin/service-restart.sh uws-munin-backend /uws/munin \
+	/etc/systemd/system/uws-munin-backend.service /srv/etc/munin
 
 exit 0

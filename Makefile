@@ -12,6 +12,7 @@ clean:
 distclean: clean
 	@rm -rvf ./docker/golang/build ./docker/golang/tmp
 	@rm -rvf ./docker/k8s/build
+	@rm -rvf ./docker/k8s/*/build
 	@rm -rvf ./docker/uwsbot/build
 	@rm -rvf ./eks/lib/__pycache__
 	@rm -rvf ./srv/crond/build
@@ -23,25 +24,19 @@ distclean: clean
 prune:
 	@docker system prune -f
 
-.PHONY: upgrade
-upgrade:
-	@./docker/awscli/build.sh --pull
-	@./docker/base/build.sh --pull
-	@./docker/base-testing/build.sh
-
 #
 # all
 #
 
 .PHONY: all
-all: bootstrap clamav uwsbot mailx crond munin munin-backend munin-node proftpd
+all: bootstrap clamav uwsbot munin munin-backend munin-node proftpd
 
 #
 # bootstrap
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli devel
+bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli devel mailx crond herokud
 
 #
 # base containers
@@ -91,7 +86,7 @@ utils: acme
 .PHONY: utils-publish
 utils-publish: utils
 	@./docker/ecr-login.sh sa-east-1
-	@./cluster/ecr-push.sh sa-east-1 uws/acme-2203 uwsops:acme
+	@./cluster/ecr-push.sh sa-east-1 uws/acme-2211 uwsops:acme
 
 .PHONY: awscli
 awscli:
@@ -164,6 +159,9 @@ UWS_BOT_DEPS != find go/bot go/cmd/uwsbot* go/env go/config go/log -type f -name
 
 .PHONY: uwsbot
 uwsbot: docker/uwsbot/build/uwsbot.bin docker/uwsbot/build/uwsbot-stats.bin docker/uwsbot/build/uwsbot.docs
+	@rm -vfr ./docker/uwsbot/build/env/bot
+	@mkdir -vp ./docker/uwsbot/build/env/bot/bot
+	@install -C -v -m 644 ./go/etc/env/bot/* ./docker/uwsbot/build/env/bot/bot
 	@./docker/uwsbot/build.sh
 
 docker/uwsbot/build/uwsbot.bin: docker/golang/build/uwsbot.bin
@@ -231,6 +229,8 @@ munin-all: munin munin-backend munin-node
 
 .PHONY: munin
 munin:
+	@mkdir -vp ./srv/munin/build
+	@install -v -m 0644 -C ./python/lib/sendmail.py ./srv/munin/build/sendmail.py
 	@./srv/munin/build.sh
 
 .PHONY: munin-backend
@@ -242,6 +242,10 @@ MUNIN_NODE_DEPS += srv/munin-node/build/api-job-stats.bin
 
 .PHONY: munin-node
 munin-node: $(MUNIN_NODE_DEPS)
+	@mkdir -vp ./srv/munin-node/build
+	@install -C -v -m 644 ./go/etc/env/bot/stats ./srv/munin-node/build/uwsbot-stats.env
+	@install -C -v -m 644 ./go/etc/munin/plugin-conf.d/uwsbot \
+		./srv/munin-node/build/uwsbot-plugin.conf
 	@./srv/munin-node/build.sh
 
 srv/munin-node/build/uwsbot-stats.bin: docker/golang/build/uwsbot-stats.bin
@@ -259,6 +263,10 @@ srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 .PHONY: heroku
 heroku:
 	@./docker/heroku/build.sh
+
+.PHONY: herokud
+herokud:
+	@./srv/herokud/build.sh
 
 #
 # app-stats
@@ -289,7 +297,7 @@ deploy:
 #
 
 .PHONY: check
-check: check-docker check-golang check-cli check-k8s check-eks check-munin check-munin-node check-asb
+check: check-docker check-golang check-cli check-k8s check-eks check-munin check-munin-node check-asb check-awscli
 
 .PHONY: check-docker
 check-docker:
@@ -330,6 +338,10 @@ check-asb:
 	@./docker/asb/check.sh ./test/run/shellcheck.sh
 	@echo '***** asb/test/run/lint.sh'
 	@./docker/asb/check.sh ./test/run/lint.sh
+
+.PHONY: check-awscli
+check-awscli:
+	@./docker/awscli/check.sh
 
 #
 # uws CA
@@ -382,9 +394,9 @@ MON_MUNIN_TAG != cat ./k8s/mon/munin/VERSION
 .PHONY: mon-publish
 mon-publish: awscli munin munin-backend munin-node
 	@$(MAKE) k8smon-publish
-	@./cluster/ecr-push.sh us-east-1 uws/munin-2203 uws:munin-$(MON_MUNIN_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/munin-backend-2203 uws:munin-web-$(MON_MUNIN_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/munin-node-2203 uws:munin-node-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-2211 uws:munin-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-backend-2211 uws:munin-web-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-node-2211 uws:munin-node-$(MON_MUNIN_TAG)
 
 K8SMON_DEPS != find go/cmd/k8smon go/k8s/mon -type f -name '*.go'
 
@@ -401,8 +413,7 @@ docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
 .PHONY: k8smon-publish
 k8smon-publish: k8s
 	@./docker/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/k8s-2203 uws:mon-k8s-$(MON_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/k8s-122-2203 uws:mon-k8s-122-$(MON_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/k8s-122-2211 uws:mon-k8s-122-$(MON_TAG)
 
 #
 # publish

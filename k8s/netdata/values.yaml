@@ -1,0 +1,24 @@
+---
+parent:
+  claiming:
+    enabled: false
+  database:
+    volumesize: 4Gi
+
+child:
+  claiming:
+    enabled: false
+  configs:
+    netdata:
+      data: |
+        [global]
+          memory mode = ram
+          history = 3600
+        [health]
+          enabled = no
+
+sd:
+  child:
+    configmap:
+      from:
+        file: ./k8s/netdata/child.yaml

@@ -1,41 +1,51 @@
-* Delete App meteor CDN_URL for staging - `DONE!`
+* Research Team: remove Rina's user from rstudio server - `DONE!`
 
 ---
 
-* Delete App meteor CDN_URL for prod - `DONE!`
+* kubeshark implementation - [PR#39][PR#39] `DONE!`
+
+[PR#39]: https://github.com/TalkingPts/Infrastructure/pull/39
 
 ---
 
-* offline-page munin check/alert [DEV-4159][DEV-4159] [PR#33][PR#33] - `DONE!`
-
-[DEV-4159]: https://talkingpointsorg.atlassian.net/browse/DEV-4159
-[PR#33]: https://github.com/TalkingPts/Infrastructure/pull/33
+* move helm installation and setup from docker/eks to docker/k8s to make it independent from the provider - `DONE!`
 
 ---
 
-* rstudio: fix acme certs renewal - `DONE!`
-	* nginx wasn't reloading new certs
+* Deprecate janis server - `DONE!`
+    * we used it for the "heroku split proxy" setup but it was discarded
+    * it was to complex to add almost any advantage
 
 ---
 
-* offline-page improvements [Changelog][OP221006-1] - `DONE!`
-    * send the original status code that generated the error
-    * send html responses to requests for \*.html or paths with no extension (ie: /login)
-    * any other request sends a text/plain response
-    * generate a log of failed services requests
-
-[OP221006-1]: https://github.com/TalkingPts/OfflinePage/compare/220928...221006-1
-
----
-
-* munin: offline-page check - `DONE!`
-    * improve checking for status codes because we will get the original error code now
+* separate web and api clusters - `DONE!`
+    * it is implemented for aws already, we wont do it on heroku infra
+    * /api/* web traffic should be served from a different cluster
+        * could be workers as we do for bandwidthCallback
+        * or, even better, a new/separate cluster for api calls
+    * we could use the current setup (east and west) for the api cluster
+    * and serve the rest of the web traffic for only one cluster
+    * as api calls are more than 50% of the traffic based on munin graphs
+    * or, even better, two east+west clusters for each: web and api
 
 ---
 
-* uwscli: schroot cron, msmtp and monit setup [PR#34][PR#34] - `WIP`
+* uwscli: build only 2.y.z App repository tags - `DONE!`
+    * it happens sometimes that a wrong tag is added to App repo like 8.y.z so it breaks the "versions logic", as this new wrong tag will be always grater than a valid 2.y.z tag
+
+---
+
+* uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
 
 [PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
+[PR#35]: https://github.com/TalkingPts/Infrastructure/pull/35
+
+---
+
+* split /websocket App container
+    * so we can serve the websockets from dedicated containers
+    * /api/ for the api calls
+    * and the web containers for the rest (which mostly goes to the CDN)
 
 ---
 
@@ -43,6 +53,24 @@
     * add it to statuspage alerts too
 
 [DEV-4288]: https://talkingpointsorg.atlassian.net/browse/DEV-4288
+
+---
+
+* munin: check that App response headers include the "security headers" we need for SOC2
+    * https://staging.t.o/login
+        * Content-Security-Policy
+        * Cross-Origin-Resource-Policy
+        * Access-Control-Allow-Origin
+        * Referrer-Policy
+
+---
+
+* munin: alert about workers callback http errors [worker-errors][worker-errors]
+    * warning at 3 errors per minute
+    * critical at 5 errors per minute
+    * send alert to status page
+
+[worker-errors]: https://worker-2209.uws.talkingpts.org/munin/uws/worker-2209/web_request_worker_uws_talkingpts_org/errors_per_minute.html
 
 ---
 
@@ -57,7 +85,6 @@
 ---
 
 * `SEC` `WAIT` App security changes
-    * Remove old/previous Amazon credentials (from Aram's user) - `DONE!!!!!!!!!`
     * Remove private/settings.json from the repo
 
 ---
@@ -107,21 +134,6 @@
             * cleverSynch could/should be another metric as it needs to finish before 10hs UTC
             * messages.jobs ready?
             * one metric could be based on checking scheduled district jobs to scale up before it starts, instead of reacting to an alert
-
----
-
-* separate web and api clusters
-    * /api/* web traffic should be served from a different cluster
-        * could be workers as we do for bandwidthCallback
-        * or, even better, a new/separate cluster for api calls
-    * we could use the current setup (east and west) for the api cluster
-    * and serve the rest of the web traffic for only one cluster
-    * as api calls are more than 50% of the traffic based on munin graphs
-    * or, even better, two east+west clusters for each: web and api
-
----
-
-* Add 504 Gateway Timeout to the list of errors for offline page to be shown
 
 ---
 
@@ -186,15 +198,6 @@
         * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
 
 [InfraApp]: https://github.com/TalkingPts/InfraApp
-
----
-
-* App encrypt secrets - `WIP`
-    * git-crypt setup for private/secrets directory [App PR#910][APP#910]
-    * `WIP` for dev team to do the private files migration
-        * do we need to update the Buildpack for new private files location?
-
-[APP#910]: https://github.com/TalkingPts/App/pull/910
 
 ---
 

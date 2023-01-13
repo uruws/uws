@@ -1,4 +1,4 @@
-FROM uws/k8s-122-2203
+FROM uws/k8s-122-2211
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="220614"
