@@ -23,8 +23,7 @@ class Test(unittest.TestCase):
 		calls = [
 			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_app.sh app testing', env = _env),
-			call('/srv/home/uwscli/sbin/uwscli_admin.sh', env = _env),
-			call('/srv/home/uwscli/sbin/uwscli_operator.sh', env = _env),
+			call('/srv/home/uwscli/sbin/uwsapp_auth.py', env = _env),
 			call('/srv/home/uwscli/sbin/buildpack_setup.sh /srv/deploy/Buildpack git@github.com:TalkingPts/Buildpack.git', env = _env),
 			call('/srv/home/uwscli/sbin/app_repo.sh testing.git /srv/deploy/Testing', env = _env),
 		]
@@ -51,9 +50,24 @@ class Test(unittest.TestCase):
 			call('/srv/home/uwscli/sbin/uwscli_user_authkeys.sh /home tuser t.key', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_admin.sh tuser', env = _env),
 			call('/srv/home/uwscli/sbin/uwscli_operator.sh tuser', env = _env),
+			call('/srv/home/uwscli/sbin/uwsapp_auth.py', env = _env),
 			call('/srv/home/uwscli/sbin/buildpack_setup.sh /srv/deploy/Buildpack git@github.com:TalkingPts/Buildpack.git', env = _env),
 		]
 		with uwscli_t.mock_users():
+			with uwscli_t.mock_system():
+				t.assertEqual(uwscli_setup.main(), 0)
+				uwscli.system.assert_has_calls(calls)
+				t.assertEqual(uwscli.system.call_count, len(calls))
+
+	def test_users_remove(t):
+		calls = [
+			call('/srv/home/uwscli/sbin/uwscli_setup.sh', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_app.sh app testing', env = _env),
+			call('/srv/home/uwscli/sbin/uwsapp_auth.py', env = _env),
+			call('/srv/home/uwscli/sbin/uwscli_user_remove.sh tuser', env = _env),
+			call('/srv/home/uwscli/sbin/buildpack_setup.sh /srv/deploy/Buildpack git@github.com:TalkingPts/Buildpack.git', env = _env),
+		]
+		with uwscli_t.mock_users_remove():
 			with uwscli_t.mock_system():
 				t.assertEqual(uwscli_setup.main(), 0)
 				uwscli.system.assert_has_calls(calls)

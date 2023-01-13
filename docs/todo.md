@@ -1,68 +1,281 @@
-* `URGENT` cluster stack
-    * k8s 1.20 (and 1.21) already available (we run 1.19)
-    * Amazon EKS has deprecated Kubernetes version 1.19 and this version will no
-      longer be supported as of June 30, 2022. As of June 30, 2022, you will no
-      longer be able to create new 1.19 clusters and all EKS clusters running
-      Kubernetes version 1.19 will be updated to the latest available platform
-      version of Kubernetes version 1.20.
+* Research Team: remove Rina's user from rstudio server - `DONE!`
+
+---
+
+* kubeshark implementation - [PR#39][PR#39] `DONE!`
+
+[PR#39]: https://github.com/TalkingPts/Infrastructure/pull/39
+
+---
+
+* move helm installation and setup from docker/eks to docker/k8s to make it independent from the provider - `DONE!`
+
+---
+
+* Deprecate janis server - `DONE!`
+    * we used it for the "heroku split proxy" setup but it was discarded
+    * it was to complex to add almost any advantage
+
+---
+
+* separate web and api clusters - `DONE!`
+    * it is implemented for aws already, we wont do it on heroku infra
+    * /api/* web traffic should be served from a different cluster
+        * could be workers as we do for bandwidthCallback
+        * or, even better, a new/separate cluster for api calls
+    * we could use the current setup (east and west) for the api cluster
+    * and serve the rest of the web traffic for only one cluster
+    * as api calls are more than 50% of the traffic based on munin graphs
+    * or, even better, two east+west clusters for each: web and api
+
+---
+
+* uwscli: build only 2.y.z App repository tags - `DONE!`
+    * it happens sometimes that a wrong tag is added to App repo like 8.y.z so it breaks the "versions logic", as this new wrong tag will be always grater than a valid 2.y.z tag
+
+---
+
+* uwscli: schroot rsyslog, cron, msmtp and monit setup [PR#34][PR#34] [PR#35][PR#35] - `WIP`
+
+[PR#34]: https://github.com/TalkingPts/Infrastructure/pull/34
+[PR#35]: https://github.com/TalkingPts/Infrastructure/pull/35
+
+---
+
+* split /websocket App container
+    * so we can serve the websockets from dedicated containers
+    * /api/ for the api calls
+    * and the web containers for the rest (which mostly goes to the CDN)
+
+---
+
+* munin: check nightly SIS sync's [DEV-4288][DEV-4288]
+    * add it to statuspage alerts too
+
+[DEV-4288]: https://talkingpointsorg.atlassian.net/browse/DEV-4288
+
+---
+
+* munin: check that App response headers include the "security headers" we need for SOC2
+    * https://staging.t.o/login
+        * Content-Security-Policy
+        * Cross-Origin-Resource-Policy
+        * Access-Control-Allow-Origin
+        * Referrer-Policy
+
+---
+
+* munin: alert about workers callback http errors [worker-errors][worker-errors]
+    * warning at 3 errors per minute
+    * critical at 5 errors per minute
+    * send alert to status page
+
+[worker-errors]: https://worker-2209.uws.talkingpts.org/munin/uws/worker-2209/web_request_worker_uws_talkingpts_org/errors_per_minute.html
+
+---
+
+* Infrastructure CI: check-secret
+    * check/parse config files from secret directory
+        * like parsing secret/eks/files/meteor/*/*.json for syntax errors
+        * secret/eks/files/meteor/*/*.env shellcheck and/or similar
+        * secret/cli/schroot/*/local_conf.py syntax/unittest/expected values
+        * secret/aws.config/s3/*.env and secret/aws.config/s3/*.json
+        * secret/eks/files/munin/conf/alerts_conf.json
+
+---
+
+* `SEC` `WAIT` App security changes
+    * Remove private/settings.json from the repo
+
+---
+
+* `FIX` Meteor CDN_URL is *only* used for some .js and .css assets/files
+    * but the rest of the assets like, in example, the images in the login page do not go via the CDN
+        * https://staging.talkingpts.org/img/login_image.png
+    * meaning: HTML URLs are now relative, like /img/
+        * we should add the CDN domain there and serve assets through it
+    * be careful about *critical* assets, like maybe meteor_runtime_config.js
+        * meteor itself serves .js assets via de CDN_URL, but excludes the meteor_runtime_config.js, I don't know the reason, but I think that it's a good idea to keep this kind of assets out of the CDN
+
+---
+
+* `SEC` `FIX` Firebase content is discoverable:
+    * https://firebasestorage.googleapis.com/v0/b/talkingpnts.appspot.com/o/
+    * working in an unrelated issue with Gabriel we found out that ^
+    * we should use a CDN for that too, and avoid this issue and also improve performance and costs
+
+---
+
+* `FIX` panoramix-2206 munin storage failing
+    * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions
+    * basically, the cluster is configured to run in zones us-east-1b and 1c, but all the nodes are now running from 1c and we are not being able to dispatch new nodes in 1b zone, which is where ebs volumes were created (automatically by kubernetes)
+
+---
+
+* munin cluster's storage archive/sync to jsbatch or similar
+    * for archiving/history and backup purposes
+    * also to have some data available in case of the cluster being down
+        * even if it will be old data, could be useful still
+    * graph for nodes region/zones
+    * nodes types
+        * pass INSTANCE_TYPES env var to munin-node and keep them in the graph
+    * graphs for PVs/PVCs?
+        * available storage
+        * region/zones
+
+---
+
+* app-autoscale
+    * implement auto scaler based on custom metrics
+        * web: scale based on web traffic/requests per minute
+            * more or less, nowadays, 10 containers to serve 1000 rpm
+            * [DB query](./worker-check-scheduled-jobs.txt)
+        * workers:
+            * cleverSynch could/should be another metric as it needs to finish before 10hs UTC
+            * messages.jobs ready?
+            * one metric could be based on checking scheduled district jobs to scale up before it starts, instead of reacting to an alert
+
+---
+
+* forensics setup
+
+---
+
+* munin: MongoDB slow queries
+
+---
+
+* [Upgrades][Upgrades] round 2209
+    * previous one was 2203
+
+[Upgrades]: ./infra/upgrades.md
+
+---
+
+* CA rotate ops/210823
+
+---
+
+* `FIX` worker.uws domain:
+    * we should use a main subdomain like: callbacks.t.o so we can use Goddady's cert
+    * or we could buy a new cert for worker.uws and avoid having to re-configure 3rd party services
+    * the problem is that we can't use lets encrypt service in a "split cluster" setup as we have for the web service and want for the workers too
+
+---
+
+* `FIX` infra-ui config: JIRA_TOKEN='mauro'
+    * and the JIRA_TOKEN too as I guess it's from Mauro's account
+    * asked Gabriel but no reply yet
+
+---
+
+* Research Team
+    * re-implement jupyter notebook setups
+        * setup one web interface per user vs the "global" one we currently have
+
+---
+
+* Vanta SOC2: implement AWS [GuardDuty][GuardDuty]
+
+[GuardDuty]: https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html
+
+---
+
+* munin
+    * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
+    * uwseks get nodegroup -n main -o json
+    * check that munin-node container/service is running via k8smon "proxy"
+
+---
 
 * infra-api - `WIP`
-    * devel and setup
+    * help pages
+    * make commands run using nq to avoid HTTP connections timeout
+        * run commands using a per user NQDIR
+        * schedule it and return its qid
+        * job status/log API endpoints
+    * building on [InfraApp][InfraApp] repository
+        * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
 
-* [DEV-2473](https://talkingpointsorg.atlassian.net/browse/DEV-2473): SOC2 fixes/setup - `DONE!` [PR#4][PR#4] [PR#5][PR#5]
-    * DEV-2475 - Unrestricted File Upload
-        * `NOTE` I think a better setup could be that App sends assets to S3 but
-          we serve does assests from a CDN created for that purpose. That way we
-          avoid some S3 cost and we only pay for CDN uploading.
-        * create script to set S3 policies so we restrict upload file types
-        * implement BucketAV to scan uploaded files for viruses
-    * DEV-2478, DEV-2482 - 3rd party cookies
-        * investigate if there's something we can do there at web server level
-    * DEV-2484 - HTTP Secure headers implementation
-        * we had it on this TODO already as: nginx secure headers
+[InfraApp]: https://github.com/TalkingPts/InfraApp
 
-[PR#4]: https://github.com/TalkingPts/Infrastructure/pull/4
-[PR#5]: https://github.com/TalkingPts/Infrastructure/pull/5
+---
 
-* `FIX` app-autobuild calling deploy from buildpack.sh, using --deploy option `DONE!` [PR#6][PR#6]
-    * From github.com:TalkingPts/App
-    * [new tag]             2.69.10    -> 2.69.10
-    * ,180cd0fbf93.2192493
-    * ,180cd0fbf97.2192498
-    * nothing to do for app: app-test-1 - ver: 2.69.9-bp32 - tag: 2.69.10
-    * nothing to do for app: app-test-2 - ver: 2.69.9-bp32 - tag: 2.69.10
-    * nothing to do for app: worker-test - ver: 2.69.9-bp32 - tag: 2.69.10
+* implement [node inspector][node-inspector] setup using the SSH approach
+    * the idea is to have a way to dispatch "debugging containers" which could be inspected using chrome dev tools or similar, using the SSH tunneling setup as it seems to be the more secure for our infra
+    * the SSH service should be only enabled when we dispatch the debug containers, using a random public port ideally and setting a random password for the uws user inside the container (show that password in the container init steps or similar) so we can share that info (port and password) "securely" as it's generated every time the container starts
 
-[PR#6]: https://github.com/TalkingPts/Infrastructure/pull/6
+[node-inspector]: https://nodejs.org/en/docs/guides/debugging-getting-started/
 
-* `FIX` app-autobuild for CS needs to ignore tags not starting with 1. `DONE!` [PR#7][PR#7]
+---
 
-[PR#7]: https://github.com/TalkingPts/Infrastructure/pull/7
+* apply awscli/utils/s3-app-bucket*.sh to production App bucket (stagingmms)
+    * it was applied to staging environment, but not yet on prod
+
+---
+
+* create a monitoring from App logs for Bandwidth message-failed like the one that follows.
+
+    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059667535Z Bandwidth sms callback [
+    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059715316Z   {
+    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059722316Z     time: '2022-06-14T18:38:45.798Z',
+    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059727236Z     type: 'message-failed',
+    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059731996Z     to: '+12408057329',
+    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059736966Z     description: '050003BA0303006F0077 Carrier error 503',
+
+---
+
+* `FIX` app-autobuild
+    * keep track of tags already in the build queue, to avoid, in example:
+        * 2.71.5 was dispatched as latest build was 2.71.3
+        * 2.71.4 was dispatched manually by Gabriel so autobuild didn't knew
+        * as 2.71.4 build was running and taking some time, 2.71.5 keeps being queued because latestBuild info keeps saying that it was 2.71.3 until 2.71.4 finish but still the same... 2.71.5 keeps being queued... etc...
+    * based from a discussion with Gabriel about how to "better" implement it
+        * autobuild deploys should only happend if we are deploying a newer version
+        * that's because now ANY build dispatchs auto deploys for configured apps
+        * we want the auto deploy functionallity from any kind of build
+        * but taking care of the deploy
+            * because it happens often that a build of an older sprint version is dispatched for a hotfix or whatever... we don't want to auto deploy those
+            * autobuilds will always deploy new tags, but we need to fix it for manual dispatch
+
+---
+
+* `FIX` app-build
+    * do not dispatch build if one already in place for same version
+
+---
 
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
     * maybe use an script for Route53 editions which alerts about prod domains or similar
     * try to avoid manual changes (maybe some peer review?)
 
-* `FIX` app-build
-    * do not dispatch build if one already in place for same version
-    * avoid the build cleanup on each run, schedule it to run once a day or similar (per app)?
+---
 
 * uwscli auto-setup from main configuration
     * integrate with buildpack deploy scripts
 
+---
+
 * munin: scan cluster ingress domains and add them to the checks (munin-node-clusters)
+
+---
 
 * aws support meeting
     * setup CDN mainly to help saving network transfer costs
     * Route53 app.t.o use geolocation inside US or latency setup
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
-    * EKS ec2 "reserved instances" setup to help saving costs
+
+---
 
 * add bot to check we can send emails? (mandrill service)
 
+---
+
 * `CLEAN` /srv/deploy/analysis.git setup for (old) iss72 deploy
+
+---
 
 * `FIX` buildpack:
     * use tag version from command line for publishing the image
@@ -75,10 +288,17 @@
 
     Publish app version 2.64.8 failed
 
-* k8sctl: deprecate?
+---
 
 * uwscli:
-    * app-autobuild: nq build and deploy jobs
+    * `FIX` non-operator users should not be able to app-restart either
+        * app-restart reloads the deploy config, so it can modify the live environment
+        * as only operators are allowed to modify the live env: deploy, rollin
+        * makes sense also that only them can restart
+    * app-build
+        * keep a "queued list"
+        * only build tag not in "already done list" nor in the "queued list" either
+        * to avoid all the duplicate build jobs
     * cli/buildpack.sh: should manage the log and email report if any fail
     * cli/app-build.sh: should do the same
     * `FIX` app-autobuild: when jsbatch is restarted autobuild of last tag fails
@@ -90,22 +310,29 @@
     * app-deploy:
         * list available builds using semver sort order
 
+---
+
 * uwsq: clean failed jobs
 
+---
+
 * `SEC` mongodb credentials rotation schedule
+
+---
 
 * `SEC` aws auth credentials rotation schedule
     * uwsadm and friends "access keys"
 
+---
+
 * mongodb analyzer?
+
+---
 
 * app-autobuild deploy
     * wait some time between deploys on "multi cluster" apps
 
-* munin
-    * graphs and limits/alerts about HTTP "error status ratio"
-        * aka: ratio between failed (!=200) vs ok (==200)status
-    * cluster cross check k8sctl service
+---
 
 * munin pods_container (check phase)
     "status": {
@@ -115,6 +342,8 @@
         "startTime": "2022-02-09T03:24:23Z"
     }
 
+---
+
 * munin alerts to slack
     * setup/devel bot
     * remove setup munin limit mail alerts
@@ -123,29 +352,17 @@
             * gmail fetch
             * create forward rules to slack and others
 
-* cs runs on amybeta cluster: move it?
-    * make it the first k8s v1.21 version?
+---
 
 * nlpsvc: separate apps namespaces (for graphs and cli status/logs)
 
-* munin
-    * add pod/test to mon deploys and check it from jsbatch munin cluster checks
-
-* configurable app-autoscale
-
-* configurable app-autobuild
-
-* check clusters k8s mon and ctl internal services from jsbatch/ops.uws
-
-* golang tools unittests and CI integration
-    * golib
-    * uwsbot
-    * uwsbot-stats
-    * api-job-stats
+---
 
 * rstudio checks
     * http_loadtime IDE and Jupyter Notebook from jsbatch
     * vm local munin setup (ansible role)
+
+---
 
 * ansible roles
     * monit
@@ -154,7 +371,11 @@
     * fail2ban
     * munin
 
+---
+
 * non-prod sites robots.txt to disallow all crawlers?
+
+---
 
 * WAF setup
     * implement fail2ban for kubernets/aws?
@@ -162,13 +383,21 @@
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
         * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
 
+---
+
 * infra docs for internal presentation
+
+---
 
 * `FIX` k8smon: munin-alerts volume setup
     * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
 
+---
+
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
+
+---
 
 * uwscli wish list
     * cleanup old images in ECR
@@ -178,27 +407,30 @@
     * control deploy replicas
     * show web proxy logs
 
+---
+
 * cache web assets
     * use separate domain for static assets
     * test meteor appcache
 
+---
+
 * block web access by geoip?
     * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#use-geoip
 
+---
+
 * munin
     * graph app number of active users/sessions
-        * set it up on prod
 
-* web deploy autoscale setup on custom metrics
-
-* web /bandwidthCallbackSms requests
-    * move to separate service?
-    * add bot check/graph
+---
 
 * nginx
     * split cluster load over N instances instead of only 1
     * run them in their own node group?
     * or tune mem and cpu resources to make them run in a "dedicated" node?
+
+---
 
 * improve web deploys
     * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.

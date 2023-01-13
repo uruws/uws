@@ -51,6 +51,12 @@ spec:
             - name: munin-confd
               mountPath: "/srv/etc/munin/munin-conf.d"
               readOnly: true
+            - name: munin-crond
+              mountPath: "/srv/etc/cron.d"
+              readOnly: true
+            - name: munin-deploy-confd
+              mountPath: "/etc/uws/conf"
+              readOnly: true
             - name: smtps-ca
               mountPath: "/srv/etc/ca"
               readOnly: true
@@ -58,10 +64,11 @@ spec:
               mountPath: "/var/opt/munin-alert"
           resources:
             requests:
-              cpu: 20m
-              memory: 100Mi
+              cpu: 400m
+              memory: 1700Mi
             limits:
-              memory: 100Mi
+              cpu: 400m
+              memory: 1700Mi
           readinessProbe:
             exec:
               command:
@@ -97,10 +104,11 @@ spec:
               mountPath: "/var/lock"
           resources:
             requests:
-              cpu: 20m
-              memory: 100Mi
+              cpu: 400m
+              memory: 1700Mi
             limits:
-              memory: 100Mi
+              cpu: 400m
+              memory: 1700Mi
           readinessProbe:
             exec:
               command:
@@ -136,6 +144,12 @@ spec:
         - name: munin-confd
           configMap:
             name: munin-confd
+        - name: munin-crond
+          secret:
+            secretName: munin-crond
+        - name: munin-deploy-confd
+          secret:
+            secretName: munin-deploy-confd
         - name: smtps-ca
           secret:
             secretName: smtps-ca

@@ -6,15 +6,19 @@
 import sys
 import unittest
 
-from os import environ, getcwd, linesep
-from pathlib import Path
-from shutil import rmtree
+from os         import environ
+from os         import getcwd
+from os         import linesep
+from pathlib    import Path
+from shutil     import rmtree
 from subprocess import CalledProcessError
 
 import uwscli_t
 import uwscli
 import uwscli_conf
 import uwscli_auth
+
+from uwscli_user import AppUser
 
 _PATH = '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'
 
@@ -223,7 +227,7 @@ class Test(unittest.TestCase):
 	def test_list_images(t):
 		with uwscli_t.mock_check_output():
 			t.assertEqual(uwscli.list_images('testing', region = 't-1'), ['mock_output'])
-			uwscli.check_output.assert_called_once_with("aws ecr list-images --output text --repository-name uws --region t-1 | grep -F 'test' | awk '{ print $3 }' | sed 's/^test-//' | sort -n")
+			uwscli.check_output.assert_called_once_with("aws ecr list-images --output text --repository-name uws --region t-1 | grep -F 'test' | awk '{ print $3 }' | sed 's/^test-//' | sort -V")
 
 	def test_list_images_error(t):
 		with uwscli_t.mock_check_output(fail = True):
@@ -278,6 +282,18 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_check_output():
 			t.assertListEqual(uwscli.git_tag_list(workdir = 'src/test'), ['mock_output'])
 			uwscli.check_output.assert_called_once_with('git -C src/test tag --list')
+
+	# app users
+
+	def test_user_get(t):
+		with uwscli_t.mock_users():
+			u = uwscli.user_get('tuser')
+			t.assertIsInstance(u, AppUser)
+			t.assertEqual(u.uid, 5000)
+			t.assertEqual(u.name, 'tuser')
+
+	def test_user_get_not_found(t):
+		t.assertIsNone(uwscli.user_get('testing'))
 
 if __name__ == '__main__':
 	unittest.main()

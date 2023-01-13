@@ -25,8 +25,7 @@ uwseks create iamserviceaccount \
 ~/k8s/nginx-ingress/setup.sh
 ~/k8s/cert-manager/setup.sh
 ~/k8s/acme/setup.sh
-~/k8s/mon/setup.sh
-~/k8s/ctl/setup.sh
-~/k8s/gateway/setup.sh
+
+~/k8s/nginx-ingress/status.sh
 
 exit 0

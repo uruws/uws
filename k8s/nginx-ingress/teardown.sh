@@ -5,7 +5,4 @@ if test -s ~/cluster/nginx/config.yaml; then
 else
 	uwskube delete -f ~/k8s/nginx-ingress/config.yaml
 fi
-uwskube delete -f ~/k8s/nginx-ingress/deploy.yaml
-uwskube delete -f ~/k8s/nginx-ingress/setup-jobs.yaml
-uwskube delete -f ~/k8s/nginx-ingress/setup.yaml
-exit 0
+exec ~/k8s/nginx-ingress/helm/uninstall.sh

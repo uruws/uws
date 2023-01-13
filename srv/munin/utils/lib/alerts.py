@@ -6,17 +6,19 @@ import json
 import os
 import sys
 
+from email.encoders       import encode_base64
 from email.headerregistry import Address
-from email.message import EmailMessage
-from email.policy import SMTP
-from email.utils import formatdate, make_msgid
+from email.message        import EmailMessage
+from email.policy         import SMTP
+from email.utils          import formatdate
+from email.utils          import make_msgid
 
-from io import StringIO
-from time import time_ns, gmtime
-from socket import gethostname
+from io      import StringIO
+from pathlib import Path
+from time    import time_ns
+from socket  import gethostname
 
-QDIR = os.getenv('ALERTS_QDIR', '/var/opt/munin-alert')
-MAILTO = Address('munin alert', 'munin-alert', 'uws.talkingpts.org')
+import alerts_conf as conf
 
 def _msgNew():
 	m = EmailMessage(policy = SMTP)
@@ -55,7 +57,7 @@ def _msgContent(c, s, m):
 	category = s.get('category', 'NO_CATEGORY')
 	title = _getTitle(s)
 	stch = _stateChanged(s)
-	c.write(f"{group} :: {plugin} :: {category}\n")
+	c.write(f"{group} :: {category} :: {plugin}\n")
 	c.write(f"{host} :: {title} :: {worst}\n")
 	c.write('\n')
 	c.write(f"{m['Date']}\n")
@@ -92,28 +94,55 @@ def _msgContent(c, s, m):
 			for f in unk:
 				c.write(f"  {f['label']}\n")
 
-def _sleepingHours(h = None):
-	if h is None:
-		h = int(gmtime().tm_hour)
-	if h >= 1 and h < 11:
-		return True
-	return False
+# parse
 
 def parse(stats):
+	"""Send formatted alert stats info via internal email"""
 	msg = _msgNew()
 	msg['From'] = _msgFrom(stats)
-	msg['To'] = MAILTO
+	msg['To'] = conf.MAILTO
 	msg['Subject'] = _msgSubject(stats)
 	with StringIO() as c:
 		_msgContent(c, stats, msg)
 		msg.set_content(c.getvalue())
 	return msg
 
+# report
+
+def report(stats):
+	"""Send alert stats json content via internal email"""
+	msg = _msgNew()
+	msg['From'] = _msgFrom(stats)
+	msg['To'] = conf.MAILTO_REPORT
+	msg['Subject'] = _msgSubject(stats)
+	try:
+		with StringIO() as c:
+			json.dump(stats, c, indent = 2)
+			msg.set_content(c.getvalue())
+	except Exception as err:
+		print('ERROR:', err, file = sys.stderr)
+		return None
+	del msg['Content-Transfer-Encoding']
+	encode_base64(msg)
+	return msg
+
+# nq
+
 def _open(fn, mode):
 	return open(fn, mode)
 
-def nq(m):
-	fn = f"{QDIR}/{time_ns()}.eml"
+def _timestamp():
+	return time_ns()
+
+def nq(m, prefix = '', qdir = None):
+	if m is None:
+		print('ERROR: nq no message', file = sys.stderr)
+		return 8
+	if qdir is None:
+		qdir = conf.QDIR
+	fn = f"{qdir}/{_timestamp()}.eml"
+	if prefix != '':
+		fn = f"{qdir}/{prefix}-{_timestamp()}.eml"
 	try:
 		with _open(fn, 'wb') as fh:
 			fh.write(m.as_bytes())
@@ -124,32 +153,102 @@ def nq(m):
 		print(fn)
 	return 0
 
+# statuspage
+
+def _sp(mailfrom, mailto, worst):
+	msg = _msgNew()
+	msg['From'] = mailfrom
+	msg['To'] = mailto
+	mailcc = conf.sp['_'].get('sp_mailcc', [])
+	if len(mailcc) > 0:
+		msg['Cc'] = ','.join(mailcc)
+	if worst == 'OK':
+		msg['Subject'] = 'UP'
+		body = '=)'
+	else:
+		msg['Subject'] = 'DOWN'
+		body = '=('
+	msg.set_content(body)
+	return msg
+
+def _spmailto(cdesc, comp):
+	domain = conf.sp['_'].get('sp_domain', 'localhost')
+	addr = Address(cdesc, comp, domain)
+	return str(addr)
+
+def _spmailfrom(host, category, plugin):
+	addr = Address(f"{host} :: {category} :: {plugin}", 'munin-statuspage', conf.DOMAIN)
+	return str(addr)
+
+def statuspage(stats):
+	"""Send statuspage.io component alerts via SES mailx"""
+	conf.sp_load()
+	host = stats.get('host', 'NO_HOST')
+	group = stats.get('group', 'NO_GROUP')
+	category = stats.get('category', 'NO_CATEGORY')
+	plugin = stats.get('plugin', 'NO_PLUGIN')
+	worst = stats.get('worst', 'ERROR')
+	if worst != 'OK' and worst != 'CRITICAL':
+		return 1
+	cid = f"{category}::{plugin}"
+	if conf.sp.get(host, None) is not None:
+		if conf.sp[host].get(group, None) is not None:
+			p = Path(cid)
+			for key in conf.sp[host][group].keys():
+				if p.match(key):
+					cfg = conf.sp[host][group].get(key)
+					comp = cfg.get('component', '').strip()
+					if comp == '':
+						continue
+					cdesc = cfg.get('component_description', '').strip()
+					mailto = _spmailto(cdesc, comp)
+					mailfrom = _spmailfrom(host, category, plugin)
+					return nq(_sp(mailfrom, mailto, worst), qdir = conf.SP_QDIR.as_posix())
+	return 2
+
+# main
+
 def main():
 	rc = 0
-	# ~ fh = open('/home/uws/tmp/munin-run/alerts.out', 'w')
 	try:
 		for line in fileinput.input('-'):
+
 			line = line.strip()
-			# ~ print(line, file = fh)
 			try:
 				stats = json.loads(line)
 			except Exception as err:
 				# TODO: nq [ERROR] message
 				#       or log via syslog?
+				#       or even better via SES mailx?
 				print('ERROR:', err, file = sys.stderr)
 				continue
+
 			worst = stats.get('worst', 'ERROR')
-			if not _stateChanged(stats) and worst == 'OK':
-				# do not send OK messages if no state changed
+			stch  = _stateChanged(stats)
+
+			# do not send OK messages if no state changed
+			if not stch and worst == 'OK':
 				continue
-			if _sleepingHours() and worst != 'CRITICAL':
-				# only CRITICAL messages during sysadmin sleeping hours
-				continue
+
+			# send report email in json format
+			# ~ st = nq(report(stats), prefix = 'report')
+			# ~ if st > rc:
+				# ~ rc = st
+
+			# check/avoid sysadmin sleeping hours
+			# ~ if _sleepingHours() and worst != 'CRITICAL':
+				# ~ # only CRITICAL messages during sysadmin sleeping hours
+				# ~ continue
+
+			# send email alert using internal smtps
 			st = nq(parse(stats))
 			if st > rc:
 				rc = st
+
+			# statuspage report using external smtps
+			if stch:
+				statuspage(stats)
+
 	except KeyboardInterrupt:
-		# ~ fh.close()
 		return 1
-	# ~ fh.close()
 	return rc

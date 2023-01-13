@@ -30,24 +30,22 @@ class Test(unittest.TestCase):
 	def test_prod_settings(t):
 		# cluster
 		t.assertListEqual(sorted(uwscli.cluster.keys()), [
-			'amy-east',
-			'amy-test-1',
-			'amy-test-2',
-			'amy-west',
-			'amy-wrkr',
-			'amybeta',
-			'panoramix',
+			'apptest-east',
+			'apptest-west',
+			'panoramix-2206',
+			'worker-2209',
 		])
 		# app list
 		app_list = [
-			'app-east',
-			'app-test-1',
-			'app-test-2',
-			'app-west',
-			'beta',
+			'apitest-east',
+			'apitest-west',
+			'apptest-east',
+			'apptest-west',
 			'cs',
 			'cs-test',
+			'infra-ui-prod',
 			'infra-ui-test',
+			'meteor-vanilla',
 			'nlp-category',
 			'nlp-sentiment-twitter',
 			'worker',
@@ -60,15 +58,17 @@ class Test(unittest.TestCase):
 		# build
 		t.assertListEqual(uwscli.build_list(), [
 			'app',
-			'beta',
 			'cs',
 			'infra-ui',
+			'meteor-vanilla',
 			'nlpsvc',
 		])
 		# autobuild
 		t.assertListEqual(uwscli.autobuild_list(), [
 			'app',
 			'cs',
+			'infra-ui',
+			'meteor-vanilla',
 		])
 
 	def test_app_build_group(t):

@@ -1,14 +1,24 @@
 ---
-rstudio_gid: 3000
+# date -d 2023/01/30 '+%s'
+# 1675047600
+rstudio_user_expire: 1675047600
 
-# 1667012400: 2022/10/29
-rstudio_user_expire: 1667012400
+rstudio_gid: 3000
 
 rstudio_user:
   jrms: 3001
-  rina: 3002
   # Kevin Fosnacht <kevinf@talkingpts.org>
   kevin: 3003
+  # Adrienne <adrienne@talkingpts.org>
+  adrienne: 3004
+
+rstudio_user_remove:
+  # Rina Park
+  rina: 3002
+  # Beatriz Cabrera <beatriz@talkingpts.org>
+  beatriz: 3005
+
+rstudio_project_user_gid: 4000
 
 rstudio_project_user:
   # Eric Chan <echan1@babson.edu>
@@ -16,13 +26,14 @@ rstudio_project_user:
     uid: 4001
     groups:
       - ousd
+      - tps
   # Supriya Sarda <ssarda1@babson.eu>
   ssarda:
     uid: 4002
     groups:
       - ousd
 
-rstudio_project_user_gid: 4000
+rstudio_project_user_remove: {}
 
 rstudio_project:
   ousd:
@@ -34,3 +45,6 @@ rstudio_project:
   aps:
     gid: 4003
     name: APS
+  tpsint:
+    gid: 4004
+    name: TPS_Internal

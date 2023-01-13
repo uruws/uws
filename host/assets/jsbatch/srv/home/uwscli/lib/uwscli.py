@@ -3,16 +3,19 @@
 
 import sys
 
-from typing import Optional
-
+from typing     import Optional
 from contextlib import contextmanager
+
 from os import environ, getcwd, linesep
 from os import chdir as os_chdir
-from pathlib import Path
+
+from pathlib    import Path
 from subprocess import PIPE
 from subprocess import getstatusoutput, CalledProcessError
 from subprocess import check_output as proc_check_output
 from subprocess import run as proc_run
+from uuid       import uuid5
+from uuid       import NAMESPACE_DNS
 
 from uwscli_auth import User, getuser, user_auth
 
@@ -122,8 +125,8 @@ def check_output(cmd: str, env: dict[str, str] = None) -> str:
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
 def _sudo(cmd: str, args: str, timeout = system_ttl) -> int:
-	return system(f"/usr/bin/sudo -H -n -u uws -- {cmddir}/{cmd} {args}",
-		timeout = timeout)
+	x = f"/usr/bin/sudo -H -n -u uws -- {cmddir}/{cmd} {args}"
+	return system(x.strip(), timeout = timeout)
 
 def ctl(args: str, timeout: int = system_ttl) -> int:
 	"""run internal app-ctl command"""
@@ -198,9 +201,10 @@ def autobuild_deploy(n: str) -> list[str]:
 	"""get list of apps to deploy from an autobuild"""
 	return app[n].autobuild_deploy.copy()
 
-def build_list() -> list[str]:
+def build_list(user: User = None) -> list[str]:
 	"""return list of apps configured for build"""
-	return user_auth(_user, [n for n in app.keys() if app[n].build.dir != ''])
+	if user is None: user = _user
+	return user_auth(user, [n for n in app.keys() if app[n].build.dir != ''])
 
 def build_description() -> str:
 	"""format build apps description"""
@@ -221,9 +225,10 @@ def build_repo() -> list[dict[str, str]]:
 			})
 	return l
 
-def deploy_list() -> list[str]:
+def deploy_list(user: User = None) -> list[str]:
 	"""return list of apps configured for deploy"""
-	return user_auth(_user, [n for n in app.keys() if app[n].deploy.image != ''])
+	if user is None: user = _user
+	return user_auth(user, [n for n in app.keys() if app[n].deploy.image != ''])
 
 def deploy_description() -> str:
 	"""format deploy apps description"""
@@ -247,7 +252,7 @@ def list_images(appname: str, region: str = '') -> list[str]:
 	cmd += " | grep -F '%s'" % app[appname].deploy.image
 	cmd += " | awk '{ print $3 }'"
 	cmd += " | sed 's/^%s//'" % app[appname].deploy.filter
-	cmd += " | sort -n"
+	cmd += " | sort -V"
 	try:
 		out = check_output(cmd)
 		return out.splitlines()
@@ -306,19 +311,46 @@ def user_list() -> list[AppUser]:
 	l = []
 	for n in sorted(uwscli_user.user.keys()):
 		uwscli_user.user[n].name = n
+		if uwscli_user.user[n].username == "":
+			uwscli_user.user[n].username = "%s@talkingpts.org" % uwscli_user.user[n].name
 		l.append(uwscli_user.user[n])
 	return l
 
-def admin_list() -> list[str]:
-	l = []
-	for u in user_list():
-		if u.is_admin:
-			l.append(u.name)
-	return l
+def user_get(name: str) -> Optional[AppUser]:
+	user = uwscli_user.user.get(name, None)
+	if user is None:
+		return None
+	user.name = name
+	if user.username == "":
+		user.username = "%s@talkingpts.org" % user.name
+	return user
 
-def operator_list() -> list[str]:
-	l = []
-	for u in user_list():
-		if u.is_admin or u.is_operator:
-			l.append(u.name)
+def user_uuid(username: str) -> str:
+	return str(uuid5(NAMESPACE_DNS, username))
+
+_user_command_exclude = {
+	'app-autobuild': True,
+	'app-build':     True,
+}
+
+_user_command_operator = {
+	'app-deploy':  True,
+	'app-restart': True,
+	'app-rollin':  True,
+	'app-scale':   True,
+}
+
+def user_commands(user: AppUser) -> list[str]:
+	l: list[str] = []
+	st, out = gso('/bin/ls /srv/home/uwscli/bin/app-*')
+	if st == 0:
+		for p in out.splitlines():
+			cmd = p.strip().replace('/srv/home/uwscli/bin/', '')
+			if _user_command_exclude.get(cmd, False):
+				continue
+			if _user_command_operator.get(cmd, False):
+				if user.is_operator:
+					l.append(cmd)
+			else:
+				l.append(cmd)
 	return l

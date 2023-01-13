@@ -10,26 +10,32 @@ from email.parser import BytesParser
 
 from smtplib import SMTP_SSL
 
-SMTPS_SERVER = os.getenv('UWS_SMTPS', '127.0.0.1')
-SMTPS_PORT = os.getenv('UWS_SMTPS_PORT', 465)
-SMTPS_TIMEOUT = os.getenv('UWS_SMTPS_TIMEOUT', 7)
-SMTPS_CERT = os.getenv('UWS_SMTPS_CERT', '/etc/ssl/certs/ssl-cert-snakeoil.pem')
-SMTPS_KEY = os.getenv('UWS_SMTPS_KEY', '/etc/ssl/private/ssl-cert-snakeoil.key')
+SMTPS_SERVER  = os.getenv('UWS_SMTPS',         '127.0.0.1')
+SMTPS_PORT    = os.getenv('UWS_SMTPS_PORT',    '465')
+SMTPS_TIMEOUT = os.getenv('UWS_SMTPS_TIMEOUT', '7')
+SMTPS_CERT    = os.getenv('UWS_SMTPS_CERT',    '/etc/ssl/certs/ssl-cert-snakeoil.pem')
+SMTPS_KEY     = os.getenv('UWS_SMTPS_KEY',     '/etc/ssl/private/ssl-cert-snakeoil.key')
+SMTPS_USER    = os.getenv('UWS_SMTPS_USER',    '')
+SMTPS_PASSWD  = os.getenv('UWS_SMTPS_PASSWD',  '')
 
 def _smtpServer():
-	return SMTP_SSL(
+	s = SMTP_SSL(
 		host = SMTPS_SERVER,
 		port = SMTPS_PORT,
-		timeout = SMTPS_TIMEOUT,
+		timeout = int(SMTPS_TIMEOUT),
 		certfile = SMTPS_CERT,
 		keyfile = SMTPS_KEY,
 	)
+	user = SMTPS_USER.strip()
+	passwd = SMTPS_PASSWD.strip()
+	if user != '' and passwd != '':
+		s.login(user, passwd)
+	return s
 
-def message(m):
+def _message(mx, m):
 	"""send an email message"""
 	try:
-		with _smtpServer() as s:
-			s.send_message(m)
+		mx.send_message(m)
 	except Exception as err:
 		print('ERROR: smtps', SMTPS_SERVER, err, file = sys.stderr)
 		return 9
@@ -37,7 +43,7 @@ def message(m):
 
 _eml = BytesParser(policy = policy.default)
 
-def messageFile(fn):
+def _messageFile(mx, fn):
 	"""parse email message from file and try to send it"""
 	with open(fn, 'rb') as fh:
 		try:
@@ -45,26 +51,32 @@ def messageFile(fn):
 		except Exception as err:
 			print('ERROR:', err, file = sys.stderr)
 			return 8
-	return message(msg)
+	return _message(mx, msg)
 
-def qdir(d):
+def qdir(d, limit = 100):
 	"""search dir for .eml files and pass them to messageFile, remove the file
 	if properly sent"""
 	rc = 128
 	with _lockd(d):
-		rc = 0
-		for n in os.listdir(d):
-			if n.endswith('.eml'):
-				fn = os.path.join(d, n)
-				st = messageFile(fn)
-				if st == 0:
-					try:
-						os.unlink(fn)
-					except Exception as err:
-						print('ERROR:', err, file = sys.stderr)
-						rc = 7
-				elif st > rc:
-					rc = st
+		with _smtpServer() as mx:
+			rc = 0
+			idx = 0
+			for n in sorted(os.listdir(d)):
+				if n.endswith('.eml'):
+					idx += 1
+					if idx >= limit:
+						print(f"ERROR: sendmail limit ({limit}) reached:", idx, file = sys.stderr)
+						return 7
+					fn = os.path.join(d, n)
+					st = _messageFile(mx, fn)
+					if st == 0:
+						try:
+							os.unlink(fn)
+						except Exception as err:
+							print('ERROR:', err, file = sys.stderr)
+							rc = 7
+					elif st > rc:
+						rc = st
 	return rc
 
 @contextmanager

@@ -12,7 +12,8 @@ if ! test -r ${list}; then
 	exit 1
 fi
 
-flag=/srv/run/acme/tmp/done.$(date '+%Y%m')
+cksum=$(md5sum ${list} | cut -d ' ' -f 1)
+flag=/srv/run/acme/tmp/done-${cksum}.$(date '+%Y%m')
 if test -s ${flag}; then
 	echo "i - ${flag} found, not running again."
 	exit 0

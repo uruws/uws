@@ -2,4 +2,5 @@ root@uws.talkingpts.org	jeremias@uws.talkingpts.org
 uws@uws.talkingpts.org	jeremias@uws.talkingpts.org
 uwsrun@uws.talkingpts.org	jeremias@uws.talkingpts.org
 uwscli@uws.talkingpts.org	jeremias@uws.talkingpts.org
-munin-alert@uws.talkingpts.org	jeremias@uws.talkingpts.org,jrms.cel@uws.talkingpts.org,dev_ops_vo548nvb@uws.talkingpts.org
+munin-alert@uws.talkingpts.org	jeremias@uws.talkingpts.org,dev_ops_vo548nvb@uws.talkingpts.org
+munin-report@uws.talkingpts.org	jeremias@uws.talkingpts.org

@@ -1,7 +1,7 @@
 FROM uws/base-2203
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220316"
+LABEL version="220721"
 
 USER root:root
 WORKDIR /root
@@ -44,8 +44,13 @@ VOLUME /var/log/munin
 
 RUN /root/bin/apt-install.sh ssl-cert
 
+# munin-deploy-conf
+RUN install -v -d -o root -g munin -m 0750 /etc/uws \
+	&& install -v -d -o root -g munin -m 0750 /etc/uws/munin
+
 RUN adduser uws munin \
-	&& adduser uws ssl-cert
+	&& adduser uws ssl-cert \
+	&& adduser munin ssl-cert
 
 COPY ./files/etc/cron.d/uws /etc/cron.d/uws
 

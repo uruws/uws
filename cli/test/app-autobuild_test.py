@@ -78,10 +78,20 @@ def mock_cs_app():
 		)
 		with mock():
 			with uwscli_t.mock_system(status = 0):
-				with uwscli_t.mock_check_output(output = '5.1.0'):
+				with uwscli_t.mock_check_output(output = '0.9.999'):
 					yield
 	finally:
 		del uwscli.app['cs']
+
+@contextmanager
+def mock_main_deploy(status = 0):
+	try:
+		deploy_bup = app_autobuild._deploy
+		app_autobuild._deploy = MagicMock(return_value = status)
+		with uwscli_t.mock_mkdir():
+			yield
+	finally:
+		app_autobuild._deploy = deploy_bup
 
 class Test(unittest.TestCase):
 
@@ -151,16 +161,25 @@ class Test(unittest.TestCase):
 
 	def test_latestTag(t):
 		with uwscli_t.mock_check_output(output = linesep.join(['0.0.0', '0.1.0'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), '0.1.0')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '0.1.0')
 		# check numerical order
 		with uwscli_t.mock_check_output(output = linesep.join(['2.64.8', '2.64.9', '2.64.10', '2.64.11'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), '2.64.11')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '2.64.11')
+		# check ignore tag
+		with uwscli_t.mock_check_output(output = linesep.join(['0.0.0', '0.1.0'])):
+			t.assertEqual(app_autobuild._latestTag('app', 'src/test'), '')
 
 	def test_latestTag_errors(t):
 		with uwscli_t.mock_check_output(output = linesep.join(['0.1.0', 'Testing', 't0', '0.0.0'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), '0.1.0')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '0.1.0')
 		with uwscli_t.mock_check_output(output = linesep.join(['Testing', 't0'])):
-			t.assertEqual(app_autobuild._latestTag('src/test'), 'None')
+			t.assertEqual(app_autobuild._latestTag('test', 'src/test'), '')
+
+	def test_latestTagIgnore(t):
+		t.assertTrue(app_autobuild._ignoreTag('cs', '0.0'))
+		t.assertFalse(app_autobuild._ignoreTag('cs', '1.0'))
+		t.assertTrue(app_autobuild._ignoreTag('app', '8.0'))
+		t.assertFalse(app_autobuild._ignoreTag('app', '2.0'))
 
 	def test_getStatus(t):
 		with mock_status(st = 'OK'):
@@ -187,6 +206,10 @@ class Test(unittest.TestCase):
 		with mock_status(st = 'FAIL'):
 			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
+	def test_isBuildingOrDone_building(t):
+		with mock_status(st = 'BUILD'):
+			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+
 	def test_build(t):
 		with mock():
 			with uwscli_t.mock_system():
@@ -204,12 +227,15 @@ class Test(unittest.TestCase):
 		# check buildpack builds
 		with uwscli_t.mock_list_images(['2.64.9-bp21', '2.64.10-bp21', '2.64.11-bp21']):
 			t.assertEqual(app_autobuild._latestBuild('testing'), '2.64.11-bp21')
+		# check ignore version
+		with uwscli_t.mock_list_images(['0.64.9-bp21', '2.64.10-bp21', '8.64.11-bp21']):
+			t.assertEqual(app_autobuild._latestBuild('app'), '2.64.10-bp21')
 
 	def test_latestBuild_error(t):
 		with uwscli_t.mock_list_images([]):
-			t.assertEqual(app_autobuild._latestBuild('testing'), 'None')
+			t.assertEqual(app_autobuild._latestBuild('testing'), '')
 		with uwscli_t.mock_list_images(['220208']):
-			t.assertEqual(app_autobuild._latestBuild('testing'), 'None')
+			t.assertEqual(app_autobuild._latestBuild('testing'), '')
 
 	def test_deploy(t):
 		with mock_deploy():
@@ -258,7 +284,12 @@ class Test(unittest.TestCase):
 
 	def test_build_cs_ugly_hack(t):
 		with mock_cs_app():
-			t.assertEqual(app_autobuild._build('cs'), 0)
+			t.assertEqual(app_autobuild._build('cs'), app_autobuild.ETAG)
+
+	def test_deploy_cs_alias_name(t):
+		with mock_main_deploy():
+			t.assertEqual(app_autobuild.main(['--deploy', 'crowdsourcing', '0.999.0']), 0)
+			app_autobuild._deploy.assert_called_once_with('cs', '0.999.0')
 
 if __name__ == '__main__':
 	unittest.main()

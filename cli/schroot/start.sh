@@ -19,9 +19,6 @@ trap cleanup INT
 
 schroot -c uwscli-${profile} -n ${sess} -b
 
-${schroot_sess} -- /etc/init.d/docker start
-sleep 1
-
 set +e
-${schroot_sess} -- /srv/home/uwscli/sbin/uwscli_init.sh
+${schroot_sess} -- /srv/home/uwscli/sbin/uwscli_init.sh "${profile}"
 exit 0

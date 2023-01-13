@@ -1,0 +1,23 @@
+#
+# SSL uwsapi-test
+#
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	server_name opstest.uws.talkingpts.org;
+	server_tokens off;
+
+	root /srv/www/ssl;
+
+	ssl_certificate /srv/acme/cert/opstest.uws.talkingpts.org.crt;
+	ssl_certificate_key /srv/acme/key/opstest.uws.talkingpts.org.key;
+
+	include /srv/etc/nginx/ssl.conf;
+
+	access_log /var/log/nginx/opstest_access.log ssluser;
+	error_log /var/log/nginx/opstest_error.log;
+
+	include /srv/etc/nginx/opstest-verify-client.conf;
+	include /etc/nginx/snippets/uwsapp-test.conf;
+}

@@ -15,6 +15,11 @@ fi
 
 /uws/bin/uwscli-rundir.sh
 
+# deploy script
+
+chown -v root:uws /uws/bin/uwscli-deploy.sh
+chmod -v 0750 /uws/bin/uwscli-deploy.sh
+
 # utils access
 
 chmod -v 0750 ~uwscli
@@ -40,12 +45,13 @@ adduser uws uwscli
 addgroup uwsops || true
 
 chown -v root:uwsops ~uwscli/bin/app-deploy
+chown -v root:uwsops ~uwscli/bin/app-restart
 chown -v root:uwsops ~uwscli/bin/app-rollin
 chown -v root:uwsops ~uwscli/bin/app-scale
 
 # internal utils
 
-chown -v uwscli:root ~uwscli/bin/app-autobuild
+chown -v uwscli:uws ~uwscli/bin/app-autobuild
 
 # python compile lib and vendor
 
@@ -88,11 +94,17 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
 
 addgroup uwsadm || true
 
+# Make uws user an admin. Needed for autobuild deploys.
+adduser uws uwsadm
+
 adduser uwscli   uwsadm
 adduser aram     uwsadm
 adduser jeremias uwsadm
 
 # operator users
+
+# Make uws user an operator. Needed for autobuild deploys.
+adduser uws uwsops
 
 adduser uwscli    uwsops
 adduser aram      uwsops
@@ -109,11 +121,13 @@ addgroup uwsapp_app || true
 adduser antonio uwsapp_app
 adduser gabriel uwsapp_app
 adduser nelson  uwsapp_app
+adduser ramiro  uwsapp_app
 
 # apptest
 addgroup uwsapp_apptest || true
 
 adduser gabriel uwsapp_apptest
+adduser ramiro  uwsapp_apptest
 
 # beta
 addgroup uwsapp_beta || true
@@ -139,6 +153,8 @@ adduser ramiro    uwsapp_nlp
 # infraui
 addgroup uwsapp_infra-ui || true
 
+adduser gabriel uwsapp_infra-ui
+
 # install crontab
 
 crontab -u uwscli ~uwscli/etc/crontab.in
@@ -151,16 +167,7 @@ deluser --remove-home alejandro || true
 
 # env dirs
 install -v -d -o root -g uws -m 0750 /srv/uwscli
-install -v -d -o root -g uws -m 0750 /srv/uwscli/schroot
 install -v -d -o root -g uws -m 0770 /srv/uwscli/logs
-
-# helper scripts
-install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/start.sh \
-	/srv/uwscli/schroot/start.sh
-install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/stop.sh \
-	/srv/uwscli/schroot/stop.sh
-install -v -C -o root -g uws -m 0750 /srv/uws/deploy/cli/schroot/make.sh \
-	/srv/uwscli/schroot/make.sh
 
 # systemd service
 install -v -C -o root -g root -m 0640 /srv/uws/deploy/cli/schroot/uwscli-@.service \

@@ -1,9 +1,11 @@
 bash
+init-system-helpers
 less
 ca-certificates
 locales
 python3
 sudo
+screen
 docker.io
 nq
 openssh-server
@@ -11,4 +13,13 @@ openssh-client
 awscli
 make
 git
+gettext-base
 ssh-import-id
+monit
+cron
+logrotate
+rsyslog
+ssl-cert
+msmtp-mta
+bsd-mailx
+fish

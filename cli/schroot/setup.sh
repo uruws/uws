@@ -3,6 +3,8 @@ set -eu
 
 profile=${1:?'profile?'}
 
+CA_SMTPS='smtps/211006'
+
 if ! test -s ./cli/schroot/${profile}/VERSION; then
 	echo "invalid profile: ${profile}" >&2
 	exit 1
@@ -11,7 +13,7 @@ fi
 version=$(cat ./cli/schroot/${profile}/VERSION)
 echo "*** ${profile}/chroot.${version}"
 
-surun='sudo'
+surun='sudo -n'
 schroot_src="${surun} schroot -c source:uwscli-${profile}-src"
 
 #
@@ -28,7 +30,7 @@ ${surun} install -v -d -o root -g root -m 0750 /srv/uwscli/${profile}/union/unde
 debian_install='false'
 
 cksum() (
-	sha256sum ./cli/schroot/debian.distro ./cli/schroot/debian.install
+	sha256sum ./cli/schroot/setup.sh ./cli/schroot/debian.distro ./cli/schroot/debian.install
 )
 
 LAST='NONE'
@@ -54,7 +56,11 @@ if ! test -d /srv/uwscli/${profile}/chroot.${version}; then
 		http://deb.debian.org/debian/
 fi
 
-cksum | ${surun} tee ${curfn}
+#
+# OS setup
+#
+
+echo "uwscli-${profile}" | ${surun} tee /srv/uwscli/${profile}/chroot.${version}/etc/hostname
 
 #
 # schroot configure
@@ -74,6 +80,19 @@ ${surun} cp -va /etc/schroot/uwscli-${profile}/fstab.setup \
 	/etc/schroot/uwscli-${profile}-src/fstab
 
 #
+# helper scripts
+#
+
+${surun} install -v -d -o root -g uws -m 0750 /srv/uwscli/schroot
+
+${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/start.sh \
+	/srv/uwscli/schroot/start.sh
+${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/stop.sh \
+	/srv/uwscli/schroot/stop.sh
+${surun} install -v -C -o root -g uws -m 0750 ./cli/schroot/make.sh \
+	/srv/uwscli/schroot/make.sh
+
+#
 # env setup
 #
 
@@ -86,6 +105,8 @@ ${surun} install -v -d -o root -g root -m 0710 /srv/uwscli/${profile}/docker
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/build
 ${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/build/golang
 ${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/deploy
+${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/logs
+${surun} install -v -d -o 3000 -g 3000 -m 0750 /srv/uwscli/${profile}/syslog
 
 #
 # symlink latest chroot
@@ -107,7 +128,7 @@ if test 'Xtrue' = "X${debian_install}"; then
 	${schroot_src} -d /root -u root -- apt-get -q update -yy
 
 	echo ${debpkg} | xargs ${schroot_src} -d /root -u root -- \
-		apt-get -q install -yy --purge --no-install-recommends
+		/srv/home/uwscli/sbin/apt-install.sh
 
 	echo 'es_US.UTF-8 UTF-8' |
 		${schroot_src} -d /root -u root -- tee /etc/locale.gen
@@ -115,14 +136,21 @@ if test 'Xtrue' = "X${debian_install}"; then
 	${schroot_src} -d /root -u root -- locale-gen
 fi
 
+cksum | ${surun} tee ${curfn}
+
 #
 # sync utils
 #
 
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca/smtps
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/ca/smtps/client
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/docker
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/eks
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/secret
 ${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/utils/tmp
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/uws
+${surun} install -v -d -o root -g 3000 -m 0750 /srv/uwscli/${profile}/uws/bin
 
 rsync="${surun} rsync -xrltDp --delete-before"
 
@@ -132,6 +160,14 @@ ${rsync} --exclude=__pycache__ \
 
 echo '*** sync: secret'
 ${rsync} ./secret/cli/schroot/${profile}/ /srv/uwscli/${profile}/secret/
+
+echo '*** sync: CA smtps'
+${rsync} ./secret/ca/uws/${CA_SMTPS}/rootCA.pem \
+	./secret/ca/uws/${CA_SMTPS}/rootCA-crl.pem \
+	/srv/uwscli/${profile}/ca/smtps/
+${rsync} ./secret/ca/uws/${CA_SMTPS}/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
+	./secret/ca/uws/${CA_SMTPS}/client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
+	/srv/uwscli/${profile}/ca/smtps/client/
 
 echo '*** sync: Makefile'
 ${rsync} \
@@ -178,6 +214,12 @@ ${rsync} \
 echo '*** sync: go'
 ${rsync} \
 	./go/ /srv/uwscli/${profile}/utils/go/
+
+# uws utils
+
+${surun} install -v -C -o root -g 3000 -m 0750 \
+	./host/assets/jsbatch/uws/bin/uwscli-logs.sh \
+	/srv/uwscli/${profile}/uws/bin/uwscli-logs.sh
 
 # host/cluster utils
 

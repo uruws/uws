@@ -24,14 +24,16 @@ def main(argv = []):
 	logs_args = "%s %s logs" % (uwscli.app[args.app].cluster,
 		uwscli.app[args.app].pod)
 
+	cmd = 'app-cmd.sh'
 	ttl = uwscli.system_ttl
 	if args.follow:
+		cmd = 'app-cli.sh'
+		ttl = 3600
 		logs_args += ' -f'
-		ttl = None
 
 	if args.tail != 10:
 		logs_args += " --tail=%d" % args.tail
 	if args.max > 0:
 		logs_args += " --max=%d" % args.max
 
-	return uwscli.run('app-cli.sh', logs_args, timeout = ttl)
+	return uwscli.run(cmd, logs_args, timeout = ttl)

@@ -36,7 +36,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-        - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:mon-k8s-${VERSION}
+        - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:mon-${K8S_IMAGE}-${VERSION}
           imagePullPolicy: IfNotPresent
           name: k8s
           securityContext:
@@ -68,11 +68,13 @@ spec:
             - name: cluster-auth
               mountPath: "/home/uwsrun/.kube/eksctl/clusters"
               readOnly: true
-          #~ resources:
-            #~ requests:
-              #~ memory: 100Mi
-            #~ limits:
-              #~ memory: 100Mi
+          resources:
+            requests:
+              cpu: 400m
+              memory: 1700Mi
+            limits:
+              cpu: 400m
+              memory: 1700Mi
           command:
             - /usr/local/bin/k8smon
           livenessProbe:

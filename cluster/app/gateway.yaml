@@ -1,0 +1,212 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-api
+spec:
+  type: ExternalName
+  externalName: meteor.api.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-web
+spec:
+  type: ExternalName
+  externalName: meteor.web.svc.cluster.local
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-gateway
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/issuer: acme-prod
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/session-cookie-name: ${COOKIE_NAME}
+    nginx.ingress.kubernetes.io/session-cookie-path: /
+    nginx.ingress.kubernetes.io/session-cookie-samesite: Strict
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "43200"
+    nginx.ingress.kubernetes.io/session-cookie-change-on-failure: "true"
+    ### https://dev.to/bzon/nginx-ingress-load-balancing-and-retry-1008
+    nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout http_502 http_503 http_504"
+    nginx.ingress.kubernetes.io/proxy-next-upstream-timeout: "0"
+    nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "3"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    ### https://loft.sh/blog/kubernetes-nginx-ingress-10-useful-configuration-options/
+    #~ nginx.ingress.kubernetes.io/limit-rps: "5"
+    #~ nginx.ingress.kubernetes.io/limit-rpm: "300"
+    #~ nginx.ingress.kubernetes.io/limit-connections: "10"
+    #~ nginx.ingress.kubernetes.io/proxy-body-size: 8m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ${APP_HOSTNAME}.talkingpts.org
+      #~ secretName: tapo-wild-certificate
+      secretName: sarmiento-certificate
+  defaultBackend:
+    service:
+      name: meteor-web
+      port:
+        number: 3000
+  rules:
+    - host: ${APP_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # /api/parents/
+          - pathType: Prefix
+            path: /(api/parents/.*)
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /api/teachers/
+          - pathType: Prefix
+            path: /(api/teachers/.*)
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /api/
+          - pathType: Prefix
+            path: /(api/.*)
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /websocket
+          - pathType: Prefix
+            path: /(websocket)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /register
+          - pathType: Prefix
+            path: /(register)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /_oauth/google
+          - pathType: Prefix
+            path: /(_oauth/google)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /_oauth/clever
+          - pathType: Prefix
+            path: /(_oauth/clever)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /_oauth/
+          - pathType: Prefix
+            path: /(_oauth/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /login
+          - pathType: Prefix
+            path: /(login)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /img/
+          - pathType: Prefix
+            path: /(img/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /webfonts/
+          - pathType: Prefix
+            path: /(webfonts/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /sockjs/
+          - pathType: Prefix
+            path: /(sockjs/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /socket.io/
+          - pathType: Prefix
+            path: /(socket\.io/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /teachers/
+          - pathType: Prefix
+            path: /(teachers/.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /teachers
+          - pathType: Prefix
+            path: /(teachers)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /bandwidthCallbackSMS
+          - pathType: Prefix
+            path: /(bandwidthCallbackSMS)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /coconut_webhook
+          - pathType: Prefix
+            path: /(coconut_webhook)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /twilio/smsSendCallback
+          - pathType: Prefix
+            path: /(twilio/smsSendCallback)$
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+          # /
+          - pathType: Prefix
+            path: /(.*)
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000

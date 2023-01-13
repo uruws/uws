@@ -1,0 +1,40 @@
+#!/bin/sh
+set -eux
+
+uws='sudo -n -u uws'
+
+cd /srv/uws/deploy
+chmod -v 0750 ./srv/acme/build.sh
+${uws} ./srv/acme/build.sh
+cd -
+
+DIRS='/srv/acme/cert /srv/acme/key /srv/acme/req'
+RUN_DIRS='/srv/run/acme/challenge /srv/run/acme/tmp'
+WWW_DIRS='/srv/run/acme/challenge'
+
+mkdir -vp ${DIRS} ${RUN_DIRS}
+chown -v uws:uws ${DIRS} ${RUN_DIRS}
+chmod -v 0750 ${DIRS} ${RUN_DIRS}
+
+chown -v uws:www-data ${WWW_DIRS}
+chmod -v 0750 ${WWW_DIRS}
+
+export ACME_HOME=/srv/acme
+export ACME_RUN=/srv/run/acme
+
+acme=/srv/uws/deploy/srv/acme/cmd.sh
+
+if ! test -s ${ACME_HOME}/key/account.key; then
+	echo 'i - keygen account'
+	${acme} keygen.sh account
+fi
+
+chown -v uws:uws /uws/acme-*.sh
+chmod -v 0750 /uws/acme-*.sh
+
+chown -v uws:uws /uws/acme-certs.list
+chmod -v 0640 /uws/acme-certs.list
+
+${uws} /uws/acme-certs.sh
+
+exit 0

@@ -11,10 +11,12 @@ import sys
 sys.path.insert(0, '/srv/home/uwscli/lib')
 
 import uwscli
+import uwscli_log as log
+
 from uwscli_auth import user_check
 
 def main(argv = []):
-	uwscli.debug('run:', ' '.join(argv))
+	log.debug('run:', ' '.join(argv))
 	flags = ArgumentParser(description = __doc__)
 	flags.add_argument('-u', '--user', metavar = 'USER', required = True,
 		help = 'uws user name')

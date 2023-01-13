@@ -30,7 +30,7 @@ spec:
             - /opt/app/categoryService.py
           env:
             - name: DEBUG_ENABLE
-              value: "0"
+              value: "1"
           envFrom:
             - secretRef:
                 name: nlpsvc-env

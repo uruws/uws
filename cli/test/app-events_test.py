@@ -27,14 +27,14 @@ class Test(unittest.TestCase):
 	def test_main(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(app_events.main(['testing']), 0)
-			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-cli.sh ktest test events',
+			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-cmd.sh ktest test events',
 				timeout = uwscli.system_ttl)
 
-	def test_main_flags(t):
+	def test_main_watch(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(app_events.main(['testing', '-w']), 0)
 			uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-cli.sh ktest test events -w',
-				timeout = None)
+				timeout = 3600)
 
 if __name__ == '__main__':
 	unittest.main()

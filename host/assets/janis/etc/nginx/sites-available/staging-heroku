@@ -1,0 +1,42 @@
+#
+# staging-heroku HTTP server
+#
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name staging-heroku.uws.talkingpts.org;
+	server_tokens off;
+
+	root /var/www/html;
+
+	location /.well-known/acme-challenge/ {
+		alias /srv/run/acme/challenge/;
+		try_files $uri =404;
+	}
+
+	location / {
+		return 301 https://staging-heroku.uws.talkingpts.org$request_uri;
+	}
+}
+#
+# redirect to HTTPS domain
+#
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name staging.talkingpts.org;
+	server_tokens off;
+
+	root /var/www/html;
+
+	location /.well-known/acme-challenge/ {
+		alias /srv/run/acme/challenge/;
+		try_files $uri =404;
+	}
+
+	location / {
+		return 301 https://staging.talkingpts.org$request_uri;
+	}
+}

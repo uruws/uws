@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 set -u
 
 echo 'WARNING: deleting mon namespace will destroy storage devices!!!'

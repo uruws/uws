@@ -8,7 +8,7 @@ if ! systemctl is-enabled uws-munin-backend.service; then
 	systemctl start uws-munin-backend
 fi
 
-export DOCKER_IMAGE='uws/munin-backend-2203'
+export DOCKER_IMAGE='uws/munin-backend-2211'
 
 /uws/bin/service-restart.sh uws-munin-backend /uws/munin \
 	/etc/systemd/system/uws-munin-backend.service /srv/etc/munin

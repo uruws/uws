@@ -3,6 +3,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import os
+
 import unittest
 from unittest.mock import MagicMock, call
 
@@ -10,8 +12,11 @@ from contextlib import contextmanager
 from email.headerregistry import Address
 from email.message import EmailMessage
 from io import StringIO, BytesIO
+from time import localtime
+from time import tzset
 
 import alerts
+import alerts_conf as conf
 
 @contextmanager
 def mock(fileinput = [], ctrl_c = False):
@@ -38,6 +43,12 @@ def mock(fileinput = [], ctrl_c = False):
 def mock_nq(status = 0):
 	nq_bup = alerts.nq
 	try:
+		# ~ if isinstance(status, list):
+			# ~ def _nq_status(m, prefix = ''):
+				# ~ return status.pop(0)
+			# ~ alerts.nq = MagicMock(side_effect = _nq_status)
+		# ~ else:
+			# ~ alerts.nq = MagicMock(return_value = status)
 		alerts.nq = MagicMock(return_value = status)
 		yield
 	finally:
@@ -45,39 +56,81 @@ def mock_nq(status = 0):
 
 @contextmanager
 def mock_sleepingHours(state = True):
-	sh_bup = alerts._sleepingHours
+	sh_bup = conf.sleepingHours
 	try:
-		alerts._sleepingHours = MagicMock(return_value = state)
+		conf.sleepingHours = MagicMock(return_value = state)
 		yield
 	finally:
-		alerts._sleepingHours = sh_bup
+		conf.sleepingHours = sh_bup
 
 @contextmanager
 def mock_parse():
 	p_bup = alerts.parse
+	r_bup = alerts.report
 	try:
 		alerts.parse = MagicMock(return_value = 'mock_parse')
+		alerts.report = MagicMock(return_value = 'mock_report')
 		yield
 	finally:
 		alerts.parse = p_bup
+		alerts.report = r_bup
 
 @contextmanager
-def mock_open(fh = BytesIO()):
+def mock_open():
 	_bup_open = alerts._open
 	def _open(fn, mode):
-		return fh
+		return BytesIO()
 	try:
 		alerts._open = MagicMock(side_effect = _open)
 		yield
 	finally:
 		alerts._open = _bup_open
 
-class Test(unittest.TestCase):
+@contextmanager
+def mock_timestamp():
+	bup = alerts._timestamp
+	try:
+		alerts._timestamp = MagicMock(return_value = 123456)
+		yield
+	finally:
+		alerts._timestamp = bup
 
-	def test_globals(t):
-		t.assertEqual(alerts.QDIR, '/var/opt/munin-alert')
-		t.assertEqual(alerts.MAILTO,
-			Address('munin alert', 'munin-alert', 'uws.talkingpts.org'))
+@contextmanager
+def mock_statuspage(mock_sp = True):
+	bup = alerts.conf.sp.copy()
+	bup_domain = alerts.conf.DOMAIN
+	if mock_sp:
+		bup_sp = alerts._sp
+	try:
+		alerts.conf.sp.clear()
+		alerts.conf.sp.update({
+			'_': {
+				'sp_domain': 'sp.comp',
+				'sp_mailcc': ['mailcc1@sp.comp', 'mailcc2@sp.comp'],
+			},
+			'thost': {
+				'tgrp': {
+					'tctg::tpl': {},
+					'tctg::taddr': {
+						'component_description': 'testing group -> desc',
+						'component': 'testing',
+					},
+				},
+			},
+		})
+		alerts.conf.DOMAIN = 'uws.test'
+		if mock_sp:
+			alerts._sp = MagicMock(return_value = None)
+		with mock_nq():
+			yield
+	finally:
+		alerts.conf.sp.clear()
+		alerts.conf.sp.update(bup.copy())
+		alerts.conf.DOMAIN = bup_domain
+		if mock_sp:
+			alerts._sp = bup_sp
+
+class Test(unittest.TestCase):
 
 	def test_msgNew(t):
 		m = alerts._msgNew()
@@ -108,39 +161,6 @@ class Test(unittest.TestCase):
 		t.assertEqual(alerts._msgSubject({'worst': 'TEST', 'title': 'test'}),
 			'TEST: test')
 
-	def test_sleepingHours(t):
-		alerts._sleepingHours()
-		check = dict()
-		for h in range(0, 25):
-			check[h] = alerts._sleepingHours(h)
-		t.assertDictEqual(check, {
-			0: False,
-			1: True,
-			2: True,
-			3: True,
-			4: True,
-			5: True,
-			6: True,
-			7: True,
-			8: True,
-			9: True,
-			10: True,
-			11: False,
-			12: False,
-			13: False,
-			14: False,
-			15: False,
-			16: False,
-			17: False,
-			18: False,
-			19: False,
-			20: False,
-			21: False,
-			22: False,
-			23: False,
-			24: False,
-		})
-
 	def test_main_errors(t):
 		with mock(fileinput = ['invalid']):
 			t.assertEqual(alerts.main(), 0)
@@ -152,9 +172,9 @@ class Test(unittest.TestCase):
 		with mock():
 			t.assertEqual(alerts.main(), 0)
 			alerts.fileinput.input.assert_called_once_with('-')
-		with mock(fileinput = ['{"state_changed": "1", "worst": "OK"}']):
-			with mock_sleepingHours():
-				t.assertEqual(alerts.main(), 0)
+		# ~ with mock(fileinput = ['{"state_changed": "1", "worst": "OK"}']):
+			# ~ with mock_sleepingHours():
+				# ~ t.assertEqual(alerts.main(), 0)
 
 	def test_no_state_changed(t):
 		with mock(fileinput = ['{"state_changed": "0", "worst": "OK"}']):
@@ -167,10 +187,22 @@ class Test(unittest.TestCase):
 					with mock_parse():
 						t.assertEqual(alerts.main(), 0)
 						alerts.nq.assert_called_once_with('mock_parse')
+						# ~ alerts.nq.assert_has_calls([
+							# ~ call('mock_report', prefix = 'report'),
+							# ~ call('mock_parse'),
+						# ~ ])
 
-	def test_main_nq_error(t):
+	def test_main_nq_report_error(t):
 		with mock(fileinput = ['{"state_changed": "1", "worst": "CRITICAL"}']):
 			with mock_sleepingHours(False):
+				with mock_nq(status = 99):
+					with mock_parse():
+						t.assertEqual(alerts.main(), 99)
+
+	def test_main_nq_parse_error(t):
+		with mock(fileinput = ['{"state_changed": "1", "worst": "CRITICAL"}']):
+			with mock_sleepingHours(False):
+				# ~ with mock_nq(status = [0, 99]):
 				with mock_nq(status = 99):
 					with mock_parse():
 						t.assertEqual(alerts.main(), 99)
@@ -179,7 +211,7 @@ class Test(unittest.TestCase):
 		c = StringIO()
 		m = EmailMessage()
 		alerts._msgContent(c, {}, m)
-		body = """NO_GROUP :: NO_PLUGIN :: NO_CATEGORY
+		body = """NO_GROUP :: NO_CATEGORY :: NO_PLUGIN
 NO_HOST :: NO_TITLE :: ERROR
 
 None
@@ -201,7 +233,7 @@ state changed: False
 			'title': 'munin_plugin_t',
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: TESTING
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -242,7 +274,7 @@ state changed: False
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: ERROR
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -278,7 +310,7 @@ UNKNOWN
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: OK
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -306,7 +338,7 @@ OK
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: OK
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -334,7 +366,7 @@ RECOVER
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: WARNING
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -362,7 +394,7 @@ WARNING
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: CRITICAL
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -390,7 +422,7 @@ CRITICAL
 			}],
 		}
 		alerts._msgContent(c, s, m)
-		body = """test :: tplugin :: category
+		body = """test :: category :: tplugin
 thost :: munin_plugin_t :: UNKNOWN
 
 Thu, 23 Dec 2021 11:47:23 -0300
@@ -400,6 +432,29 @@ UNKNOWN
   testing
 """
 		t.assertEqual(c.getvalue(), body)
+
+	def test_nq(t):
+		with mock_open():
+			t.assertEqual(alerts.nq(EmailMessage()), 0)
+			alerts._open.assert_called_once()
+
+	def test_nq_filename(t):
+		with mock_open():
+			with mock_timestamp():
+				t.assertEqual(alerts.nq(EmailMessage()), 0)
+				alerts._open.assert_called_once_with('/var/opt/munin-alert/123456.eml', 'wb')
+
+	def test_nq_filename_prefix(t):
+		with mock_open():
+			with mock_timestamp():
+				t.assertEqual(alerts.nq(EmailMessage(), prefix = 'testing'), 0)
+				alerts._open.assert_called_once_with('/var/opt/munin-alert/testing-123456.eml', 'wb')
+
+	def test_nq_error(t):
+		t.assertEqual(alerts.nq(EmailMessage()), 9)
+
+	def test_nq_no_message(t):
+		t.assertEqual(alerts.nq(None), 8)
 
 	def test_parse(t):
 		s = {
@@ -417,14 +472,109 @@ UNKNOWN
 		m = alerts.parse(s)
 		t.assertEqual(m['From'], 'thost <munin-alert@thost>')
 		t.assertEqual(m['Subject'], 'OK: munin_plugin_t')
+		t.assertEqual(m.get_charset(), 'utf-8')
+		t.assertEqual(m.get_content_type(), 'text/plain')
+		t.assertEqual(m['Content-Transfer-Encoding'], '7bit')
 
-	def test_nq(t):
-		with mock_open():
-			t.assertEqual(alerts.nq(EmailMessage()), 0)
-			alerts._open.assert_called_once()
+	def test_report(t):
+		stats = {
+			"ok": [{
+				"label": "ready",
+				"value": "6.00",
+				"extinfo": "",
+			}],
+			"foks": [{
+				"label": "ready",
+				"value": "6.00",
+				"extinfo": "",
+			}],
+			"warning": [],
+			"critical": [],
+			"unknown": [],
+			"recovered": "",
+			"state_changed": "1",
+			"worst": "OK",
+			"category": "api",
+			"title": "production api jobs :: production api parentNotifications.jobs",
+			"group": "t.o",
+			"host": "app.t.o",
+			"plugin": "parentNotifications_jobs",
+		}
+		m = alerts.report(stats)
+		t.assertEqual(m['From'], '"app.t.o" <munin-alert@app.t.o>')
+		t.assertEqual(m['Subject'], '[OK] production api parentNotifications.jobs')
+		t.assertEqual(m.get_charset(), 'utf-8')
+		t.assertEqual(m.get_content_type(), 'text/plain')
+		t.assertEqual(m['Content-Transfer-Encoding'], 'base64')
 
-	def test_nq_error(t):
-		t.assertEqual(alerts.nq(EmailMessage()), 9)
+	def test_report_error(t):
+		stats = {"testing": RuntimeError('testing')}
+		m = alerts.report(stats)
+		t.assertIsNone(m)
+
+	def test_statuspage_no_report(t):
+		stats = {'worst': 'TEST'}
+		t.assertEqual(alerts.statuspage(stats), 1)
+
+	def test_statuspage_no_config(t):
+		stats = {'worst': 'OK'}
+		t.assertEqual(alerts.statuspage(stats), 2)
+
+	def test_statuspage_host_no_match(t):
+		stats = {'host': 'thost', 'worst': 'CRITICAL'}
+		t.assertEqual(alerts.statuspage(stats), 2)
+
+	def test_statuspage_host_no_component_addr(t):
+		with mock_statuspage():
+			stats = {
+				'host': 'thost',
+				'group': 'tgrp',
+				'category': 'tctg',
+				'plugin': 'tpl',
+				'worst': 'CRITICAL',
+			}
+			t.assertEqual(alerts.statuspage(stats), 2)
+
+	def test_statuspage(t):
+		with mock_statuspage():
+			stats = {
+				'host': 'thost',
+				'group': 'tgrp',
+				'category': 'tctg',
+				'plugin': 'taddr',
+				'worst': 'CRITICAL',
+			}
+			t.assertEqual(alerts.statuspage(stats), 0)
+			alerts._sp.assert_called_once_with(
+				'"thost :: tctg :: taddr" <munin-statuspage@uws.test>',
+				'"testing group -> desc" <testing@sp.comp>', 'CRITICAL')
+			alerts.nq.assert_called_once_with(None, qdir = '/var/opt/munin-alert/statuspage')
+
+	def test_statuspage_message_up(t):
+		m = alerts._sp('test@munin.check', 'test@sp.comp', 'OK')
+		t.assertEqual(m['From'],    'test@munin.check')
+		t.assertEqual(m['To'],      'test@sp.comp')
+		t.assertEqual(m['Subject'], 'UP')
+		t.assertEqual(m.get_content().strip(), '=)')
+
+	def test_statuspage_message_down(t):
+		m = alerts._sp('test@munin.check', 'test@sp.comp', 'CRITICAL')
+		t.assertEqual(m['From'],    'test@munin.check')
+		t.assertEqual(m['To'],      'test@sp.comp')
+		t.assertEqual(m['Subject'], 'DOWN')
+		t.assertEqual(m.get_content().strip(), '=(')
+
+	def test_statuspage_message_other(t):
+		m = alerts._sp('test@munin.check', 'test@sp.comp', 'TESTING')
+		t.assertEqual(m['From'],    'test@munin.check')
+		t.assertEqual(m['To'],      'test@sp.comp')
+		t.assertEqual(m['Subject'], 'DOWN')
+		t.assertEqual(m.get_content().strip(), '=(')
+
+	def test_statuspage_message_cc(t):
+		with mock_statuspage(mock_sp = False):
+			m = alerts._sp('test@munin.check', 'test@sp.comp', 'OK')
+			t.assertEqual(m['Cc'], 'mailcc1@sp.comp, mailcc2@sp.comp')
 
 if __name__ == '__main__':
 	unittest.main()

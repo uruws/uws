@@ -16,4 +16,7 @@ ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
 rm -vf /etc/munin/plugins/api*
 ln -svf /uws/bin/api-job-stats /etc/munin/plugins/api_job_stats
 
+rm -vf /etc/munin/plugins/uws_*
+ln -svf /uws/bin/offlinepage.sh /etc/munin/plugins/uws_offlinepage_app
+
 exit 0

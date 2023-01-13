@@ -12,4 +12,4 @@ exec docker run -it --rm --name uws-crond-devel \
 	-v ${CA}:/srv/etc/ca:ro \
 	-v ${PWD}/tmp:/home/uws/tmp \
 	--workdir /home/uws \
-	uws/crond-2203
+	uws/crond-2211

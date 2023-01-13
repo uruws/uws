@@ -1,4 +1,5 @@
 bash
+init-system-helpers
 less
 doas
 ca-certificates
@@ -8,3 +9,12 @@ sudo
 docker.io
 nq
 awscli
+gettext-base
+monit
+cron
+logrotate
+rsyslog
+ssl-cert
+msmtp-mta
+bsd-mailx
+fish

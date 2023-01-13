@@ -38,7 +38,6 @@ class User(object):
 			u.is_operator = True
 		# admin
 		if u.groups.get(conf.admin_group) is True:
-			u.is_operator = True
 			u.is_admin = True
 		# root
 		elif u.name == 'root':
@@ -121,7 +120,7 @@ def user_check(username: str, build: str, pod: str, workdir: str, ops: str = '')
 		log.error('[ERROR] user load groups:', username)
 		return EGROUPS
 	if ops != '' and not user.is_operator:
-		log.error('[ERROR] unauth operation:', ops)
+		log.error('[ERROR] unauth user:', username, 'operation', ops)
 		return EOPS
 	st = EARGS
 	if build != '':

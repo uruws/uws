@@ -33,4 +33,4 @@ exec docker run --rm ${docker_args} \
 	-v ${kubedir}:/home/uws/.kube/eksctl/clusters:ro \
 	-v ${kube_cache}/:/home/uws/.kube/cache \
 	--env-file ${eksenv} \
-	uws/k8s-2203 "$@"
+	uws/${K8S_IMAGE}-2211 "$@"

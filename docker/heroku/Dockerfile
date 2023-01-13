@@ -1,7 +1,7 @@
 FROM uws/base-testing
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.4.7"
+LABEL version="221117"
 
 USER root:root
 WORKDIR /root
@@ -35,7 +35,7 @@ ENV USER root
 ENV HOME /root
 
 COPY --chown=uws:uws ./utils/*.sh /usr/local/bin/
-RUN chmod -v 0550 /usr/local/bin/*.sh
+RUN chmod -v 0555 /usr/local/bin/*.sh
 
 USER uws:uws
 WORKDIR /home/uws

@@ -21,7 +21,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: meteor
-  replicas: 3
+  replicas: ${INFRA_UI_REPLICAS}
   revisionHistoryLimit: 2
   strategy:
     type: RollingUpdate
@@ -53,14 +53,14 @@ spec:
             - name: PORT
               value: "3000"
             - name: NODE_OPTIONS
-              value: "--max-old-space-size=1600"
+              value: "--max-old-space-size=3200"
           resources:
             requests:
-              cpu: 400m
-              memory: 1600Mi
+              cpu: 800m
+              memory: 3200Mi
             limits:
-              cpu: 400m
-              memory: 1600Mi
+              cpu: 800m
+              memory: 3200Mi
           readinessProbe:
             exec:
               command:

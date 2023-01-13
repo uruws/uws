@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
-uwskube delete -f ~/pod/meteor/infra-ui/gateway.yaml || true
+set -u
+envsubst <${HOME}/pod/meteor/infra-ui/gateway.yaml | uwskube delete -f -
 uwskube delete secret -n infra-ui-${INFRA_UI_ENV} appenv || true
 exec uwskube delete namespace infra-ui-${INFRA_UI_ENV}

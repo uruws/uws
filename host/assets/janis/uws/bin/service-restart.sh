@@ -4,7 +4,7 @@ set -eu
 SERVICE=${1:?'service name?'}
 
 shift
-CHECK="/uws/bin/service-restart.sh /etc/systemd/system/${SERVICE}.service $@"
+CHECK="/uws/bin/service-restart.sh /etc/systemd/system/${SERVICE}.service $*"
 
 BASEDIR=/srv/run/uws-service-restart
 mkdir -vp ${BASEDIR}
@@ -15,7 +15,10 @@ if ! test -s ${lastfn}; then
 fi
 LAST="$(cat ${lastfn})"
 
-dockerimg=$(echo ${SERVICE} | sed 's#uws-#uws/#')
+dockerimg=${DOCKER_IMAGE:-'NOSET'}
+if test "X${dockerimg}" = 'XNOSET'; then
+	dockerimg=$(echo ${SERVICE} | sed 's#uws-#uws/#')
+fi
 dockerfn=${BASEDIR}/${SERVICE}.docker-image
 (docker image inspect -f '{{.Id}}' ${dockerimg} >${dockerfn} 2>&1) || true
 
