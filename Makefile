@@ -18,7 +18,6 @@ distclean: clean
 	@rm -rvf ./srv/crond/build
 	@rm -rvf ./srv/munin/build
 	@rm -rvf ./srv/munin-node/build
-	@rm -rvf ./srv/uwsapi/build
 
 .PHONY: prune
 prune:

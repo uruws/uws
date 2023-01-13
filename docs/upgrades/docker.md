@@ -160,11 +160,6 @@
 
 ---
 
-* srv/uwsapi
-    * `2203`: base-2203
-
----
-
 * srv/proftpd
     * `2211`: base-2211
         * ./docker/upgrades.py -U srv/proftpd -t uws/proftpd
