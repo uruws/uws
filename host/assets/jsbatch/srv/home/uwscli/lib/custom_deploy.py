@@ -29,6 +29,17 @@ class Config(object):
 			raise RuntimeError(f"invalid app env: {c.app_name} {c.app_env}")
 		return True
 
+def rollback(app: str) -> int:
+	uwscli.debug('rollback:', app)
+	args = "%s %s rollback" % (uwscli.app[app].cluster,
+		uwscli.app[app].pod)
+	return uwscli.ctl(args)
+
+def _do_rollback(l: list[CustomDeploy]):
+	for d in l:
+		uwscli.log('*** app-rollback', d.app)
+		rollback(d.app)
+
 def main(argv: list[str], cfg: Config) -> int:
 	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
 
@@ -47,6 +58,17 @@ def main(argv: list[str], cfg: Config) -> int:
 		uwscli.error(err)
 		return 9
 
+	# rollback list
+	rbl: list[CustomDeploy] = []
+
 	uwscli.debug('custom deploy:', cfg.deploy)
+	for d in cfg.deploy:
+		uwscli.log('*** app-deploy', d.app)
+		cmd = f"{uwscli.bindir}/app-deploy --wait --rollback {d.app} {args.version}"
+		rc = uwscli.system(cmd)
+		if rc != 0:
+			_do_rollback(rbl)
+			return rc
+		rbl.append(d)
 
 	return 0

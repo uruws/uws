@@ -4,6 +4,7 @@
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
+import custom_deploy
 
 def deploy(app: str, version: str) -> int:
 	uwscli.debug('deploy:', app, version)
@@ -17,12 +18,6 @@ def deploy(app: str, version: str) -> int:
 def wait(app: str) -> int:
 	uwscli.debug('wait:', app)
 	args = "%s %s wait" % (uwscli.app[app].cluster,
-		uwscli.app[app].pod)
-	return uwscli.ctl(args)
-
-def rollback(app: str) -> int:
-	uwscli.debug('rollback:', app)
-	args = "%s %s rollback" % (uwscli.app[app].cluster,
 		uwscli.app[app].pod)
 	return uwscli.ctl(args)
 
@@ -60,7 +55,7 @@ def main(argv: list[str] = []) -> int:
 			# rollback if failed
 			if rc != 0 and args.rollback:
 				uwscli.log('deploy failed, trying to rollback...')
-				st = rollback(args.app)
+				st = custom_deploy.rollback(args.app)
 				if st != 0:
 					uwscli.error('deploy rollback failed:', st)
 			return rc
