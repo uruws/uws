@@ -40,9 +40,7 @@ class Test(unittest.TestCase):
 		# app list
 		app_list = [
 			'apitest-east',
-			'apitest-west',
 			'apptest-east',
-			'apptest-west',
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
@@ -91,8 +89,8 @@ class Test(unittest.TestCase):
 			],
 			'staging': [
 				CustomDeploy('worker-test'),
-				CustomDeploy('apitest-west'),
-				CustomDeploy('apptest-west'),
+				CustomDeploy('apitest-east'),
+				CustomDeploy('apptest-east'),
 			],
 		})
 
