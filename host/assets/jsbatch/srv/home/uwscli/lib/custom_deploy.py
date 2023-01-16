@@ -27,8 +27,6 @@ class Config(object):
 		return True
 
 def main(argv: list[str], cfg: Config) -> int:
-	cfg.check()
-
 	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
 
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
@@ -37,5 +35,11 @@ def main(argv: list[str], cfg: Config) -> int:
 		version = uwscli.version())
 
 	args = flags.parse_args(argv)
+
+	try:
+		cfg.check()
+	except RuntimeError as err:
+		uwscli.error(err)
+		return 9
 
 	return 0
