@@ -45,6 +45,11 @@ chown -v root:uwsops ~uwscli/bin/app-restart
 chown -v root:uwsops ~uwscli/bin/app-rollin
 chown -v root:uwsops ~uwscli/bin/app-scale
 
+# operator custom utils
+
+chown -v root:uwsops ~uwscli/bin/staging-tapo-*
+chown -v root:uwsops ~uwscli/bin/tapo-*
+
 # internal utils
 
 chown -v uwscli:uws ~uwscli/bin/app-autobuild
