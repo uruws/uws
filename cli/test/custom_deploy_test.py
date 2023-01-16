@@ -21,5 +21,22 @@ class Test(unittest.TestCase):
 		t.assertTrue(c.check())
 		t.assertEqual(c.fn, 'testing_app')
 
+	def test_config_check_error(t):
+		# fn
+		with t.assertRaises(RuntimeError):
+			c = _newcfg()
+			c.fn = ''
+			c.check()
+		# app_name
+		with t.assertRaises(RuntimeError):
+			c = _newcfg()
+			c.app_name = ''
+			c.check()
+		# app_env
+		with t.assertRaises(RuntimeError):
+			c = _newcfg()
+			c.app_env = ''
+			c.check()
+
 if __name__ == '__main__':
 	unittest.main()
