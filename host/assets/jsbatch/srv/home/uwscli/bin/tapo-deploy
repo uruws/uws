@@ -8,11 +8,11 @@ sys.path.insert(0, '/srv/home/uwscli/lib')
 
 import custom_deploy
 
-__doc__ = 'tapo staging custom deploy'
+__doc__ = 'tapo custom deploy'
 
 cfg = custom_deploy.Config(
 	app_name = 'app',
-	app_env  = 'staging',
+	app_env  = 'prod',
 )
 
 if __name__ == '__main__':

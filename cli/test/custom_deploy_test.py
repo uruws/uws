@@ -9,7 +9,7 @@ import uwscli_t
 import custom_deploy
 
 def _newcfg():
-	return custom_deploy.Config('testing_app', app_name = 'testing', app_env = 'test')
+	return custom_deploy.Config(app_name = 'testing', app_env = 'test')
 
 class Test(unittest.TestCase):
 
@@ -19,14 +19,10 @@ class Test(unittest.TestCase):
 	def test_config(t):
 		c = _newcfg()
 		t.assertTrue(c.check())
-		t.assertEqual(c.fn, 'testing_app')
+		t.assertEqual(c.app_name, 'testing')
+		t.assertEqual(c.app_env, 'test')
 
 	def test_config_check_error(t):
-		# fn
-		with t.assertRaises(RuntimeError):
-			c = _newcfg()
-			c.fn = ''
-			c.check()
 		# app_name
 		with t.assertRaises(RuntimeError):
 			c = _newcfg()
