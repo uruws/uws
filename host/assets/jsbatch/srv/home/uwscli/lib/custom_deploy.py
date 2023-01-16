@@ -28,27 +28,29 @@ class Config(object):
 		if c.app_env == '':
 			raise RuntimeError('custom_deploy.Config: empty app_env')
 		if not c.app_name in uwscli.deploy_list():
-			raise RuntimeError('invalid app:', c.app_name)
+			raise RuntimeError(f"invalid app: {c.app_name}")
 		c.deploy = uwscli.custom_deploy(c.app_name, c.app_env)
 		if not c.deploy:
-			raise RuntimeError('invalid app env:', c.app_name, c.app_env)
+			raise RuntimeError(f"invalid app env: {c.app_name} {c.app_env}")
 		return True
 
 def main(argv: list[str], cfg: Config) -> int:
-	try:
-		cfg.check()
-	except RuntimeError as err:
-		uwscli.error(err)
-		return 9
-
 	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
 
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = epilog)
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
+	flags.add_argument('version', metavar = 'X.Y.Z',
+		default = '', help = 'deploy version')
 
 	args = flags.parse_args(argv)
+
+	try:
+		cfg.check()
+	except RuntimeError as err:
+		uwscli.error(err)
+		return 9
 
 	uwscli.debug('custom deploy:', cfg.deploy)
 

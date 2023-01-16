@@ -50,12 +50,12 @@ class Test(unittest.TestCase):
 
 	def test_main(t):
 		c = _newcfg()
-		t.assertEqual(custom_deploy.main([], c), 0)
+		t.assertEqual(custom_deploy.main(['0.0.999'], c), 0)
 
 	def test_main_config_check_error(t):
 		c = _newcfg()
 		c.app_env = ''
-		t.assertEqual(custom_deploy.main([], c), 9)
+		t.assertEqual(custom_deploy.main(['0.0.999'], c), 9)
 
 if __name__ == '__main__':
 	unittest.main()
