@@ -223,7 +223,7 @@ from uwscli_conf import CustomDeploy
 def custom_deploy(appname: str, env: str, user: User = None) -> list[CustomDeploy]:
 	"""return app custom deploy configuration"""
 	if user is None: user = _user
-	if not appname in deploy_list(user = user):
+	if not appname in app_list():
 		return []
 	return app[appname].custom_deploy.get(env, [])
 
