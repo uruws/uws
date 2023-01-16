@@ -83,6 +83,18 @@ app: dict[str, App] = {
 			'worker-test',
 		],
 		groups = ['uwsapp_app'],
+		custom_deploy = {
+			'prod': [
+				CustomDeploy('worker'),
+				CustomDeploy('api-east'),
+				CustomDeploy('app-east'),
+			],
+			'staging': [
+				CustomDeploy('worker-test'),
+				CustomDeploy('apitest-west'),
+				CustomDeploy('apptest-west'),
+			],
+		},
 	),
 	# ~ 'app-east': App(True,
 		# ~ cluster = 'app-east-2209',
