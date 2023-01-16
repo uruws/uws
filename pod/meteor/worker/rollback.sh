@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/rollback.sh worker deployment/meteor
+exec ~/pod/lib/rollback.sh worker meteor/worker

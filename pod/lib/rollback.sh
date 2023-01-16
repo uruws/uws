@@ -1,5 +1,14 @@
 #!/bin/sh
 set -eu
-namespace=${1:?'namespace?'}
-object=${2:?'object?'}
-exec uwskube rollout undo -n "${namespace}" "${object}"
+ns=${1:?'namespace?'}
+pod=${2:?'pod?'}
+
+envf=$(mktemp -p /tmp "pod-${ns}-rollback.XXXXXXXX")
+~/pod/lib/rollback-getcfg.sh "${ns}" >${envf}
+cat ${envf}
+
+# shellcheck disable=SC1090
+. ${envf}
+rm -f ${envf}
+
+exec "~/pod/${pod}/deploy.sh" "${APP_VERSION}"
