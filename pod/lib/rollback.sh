@@ -11,4 +11,4 @@ cat ${envf}
 . ${envf}
 rm -f ${envf}
 
-exec "~/pod/${pod}/deploy.sh" "${APP_VERSION}"
+exec "${HOME}/pod/${pod}/deploy.sh" "${APP_VERSION}"
