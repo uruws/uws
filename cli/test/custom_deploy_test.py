@@ -38,5 +38,9 @@ class Test(unittest.TestCase):
 			c.app_env = ''
 			c.check()
 
+	def test_main(t):
+		c = _newcfg()
+		t.assertEqual(custom_deploy.main([], c), 0)
+
 if __name__ == '__main__':
 	unittest.main()

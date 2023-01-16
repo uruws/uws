@@ -19,4 +19,4 @@ cfg = custom_deploy.Config(
 if __name__ == '__main__':
 	sys.stdout.reconfigure(line_buffering = False)
 	sys.stderr.reconfigure(line_buffering = False)
-	sys.exit(custom_deploy.main(cfg))
+	sys.exit(custom_deploy.main(sys.argv[1:], cfg))

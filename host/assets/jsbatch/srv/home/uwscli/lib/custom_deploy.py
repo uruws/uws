@@ -5,6 +5,8 @@ from argparse import ArgumentParser
 from argparse import RawDescriptionHelpFormatter
 from pathlib  import Path
 
+import uwscli
+
 class Config(object):
 	fn:       str = ''
 	app_name: str = ''
@@ -24,7 +26,7 @@ class Config(object):
 			raise RuntimeError('custom_deploy.Config: empty app_env')
 		return True
 
-def main(cfg: Config) -> int:
+def main(argv: list[str], cfg: Config) -> int:
 	cfg.check()
 
 	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
