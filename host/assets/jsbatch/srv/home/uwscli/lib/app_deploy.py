@@ -15,7 +15,14 @@ def deploy(app: str, version: str) -> int:
 	return uwscli.ctl(args)
 
 def wait(app: str) -> int:
+	uwscli.debug('wait:', app)
 	args = "%s %s wait" % (uwscli.app[app].cluster,
+		uwscli.app[app].pod)
+	return uwscli.ctl(args)
+
+def rollback(app: str) -> int:
+	uwscli.debug('rollback:', app)
+	args = "%s %s rollback" % (uwscli.app[app].cluster,
 		uwscli.app[app].pod)
 	return uwscli.ctl(args)
 
@@ -29,6 +36,8 @@ def main(argv: list[str] = []) -> int:
 		version = uwscli.version())
 	flags.add_argument('-w', '--wait', action = 'store_true',
 		default = False, help = 'wait for deployment to finish')
+	flags.add_argument('-r', '--rollback', action = 'store_true',
+		default = False, help = 'rollback to previous deployment if failed (implies --wait)')
 	flags.add_argument('app', metavar = 'app', choices = uwscli.deploy_list(),
 		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z-bpV', nargs = '?',
@@ -36,13 +45,25 @@ def main(argv: list[str] = []) -> int:
 
 	args = flags.parse_args(argv)
 
+	# --rollback implies --wait
+	if args.rollback:
+		args.wait = True
+
 	if args.version != '':
 		rc = deploy(args.app, args.version)
 		if rc != 0:
 			uwscli.error("enqueue of %s deploy job failed!" % args.app)
 			return rc
+		# wait
 		if args.wait:
-			return wait(args.app)
+			rc = wait(args.app)
+			# rollback if failed
+			if rc != 0 and args.rollback:
+				uwscli.log('deploy failed, trying to rollback...')
+				st = rollback(args.app)
+				if st != 0:
+					uwscli.error('deploy rollback failed:', st)
+			return rc
 	else:
 		images = uwscli.list_images(args.app)
 		if len(images) > 0:
