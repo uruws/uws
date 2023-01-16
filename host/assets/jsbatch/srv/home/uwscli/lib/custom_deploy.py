@@ -7,10 +7,13 @@ from pathlib  import Path
 
 import uwscli
 
+from uwscli_conf import CustomDeploy
+
 class Config(object):
-	fn:       str = ''
-	app_name: str = ''
-	app_env:  str = ''
+	fn:       str                = ''
+	app_name: str                = ''
+	app_env:  str                = ''
+	deploy:   list[CustomDeploy] = []
 
 	def __init__(c, fn: str, app_name: str, app_env: str):
 		c.fn = Path(fn.strip()).stem
@@ -26,6 +29,9 @@ class Config(object):
 			raise RuntimeError('custom_deploy.Config: empty app_env')
 		if not c.app_name in uwscli.deploy_list():
 			raise RuntimeError('invalid app:', c.app_name)
+		c.deploy = uwscli.custom_deploy(c.app_name, c.app_env)
+		if not c.deploy:
+			raise RuntimeError('invalid app env:', c.app_name, c.app_env)
 		return True
 
 def main(argv: list[str], cfg: Config) -> int:
@@ -43,5 +49,7 @@ def main(argv: list[str], cfg: Config) -> int:
 	except RuntimeError as err:
 		uwscli.error(err)
 		return 9
+
+	uwscli.debug('custom deploy:', cfg.deploy)
 
 	return 0

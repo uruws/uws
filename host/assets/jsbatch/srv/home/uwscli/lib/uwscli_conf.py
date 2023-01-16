@@ -49,6 +49,11 @@ class AppDeploy(object):
 			self.filter = "%s-" % self.image
 
 @dataclass
+class CustomDeploy(object):
+	app:  str
+	wait: str = '5m'
+
+@dataclass
 class App(object):
 	app:              bool
 	cluster:          str       = 'None'
@@ -59,6 +64,7 @@ class App(object):
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
 	groups:           list[str] = field(default_factory = list)
+	custom_deploy:    dict[str, list[CustomDeploy]] = field(default_factory = dict)
 
 	def __post_init__(self):
 		if len(self.groups) == 0:

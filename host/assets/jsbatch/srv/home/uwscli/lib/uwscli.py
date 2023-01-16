@@ -218,6 +218,15 @@ def deploy_description() -> str:
 	"""format deploy apps description"""
 	return __desc(deploy_list())
 
+from uwscli_conf import CustomDeploy
+
+def custom_deploy(appname: str, env: str, user: User = None) -> list[CustomDeploy]:
+	"""return app custom deploy configuration"""
+	if user is None: user = _user
+	if not appname in deploy_list(user = user):
+		return []
+	return app[appname].custom_deploy.get(env, [])
+
 #
 # aws utils
 #

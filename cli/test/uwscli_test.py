@@ -200,6 +200,9 @@ class Test(unittest.TestCase):
 	def test_deploy_desc(t):
 		t.assertEqual(uwscli.deploy_description(), 'available apps:\n  testing - Testing\n')
 
+	def test_custom_deploy(t):
+		t.assertEqual(uwscli.custom_deploy('testing', 'test'), ['testing'])
+
 	def test_ctl(t):
 		with uwscli_t.mock_system():
 			t.assertEqual(uwscli.ctl('testing'), 0)

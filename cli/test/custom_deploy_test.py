@@ -42,6 +42,11 @@ class Test(unittest.TestCase):
 			c = _newcfg()
 			c.app_name = 'invalid_app_name'
 			c.check()
+		# app_env: invalid
+		with t.assertRaises(RuntimeError):
+			c = _newcfg()
+			c.app_env = 'invalid_app_env'
+			c.check()
 
 	def test_main(t):
 		c = _newcfg()
