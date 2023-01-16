@@ -24,6 +24,8 @@ class Config(object):
 			raise RuntimeError('custom_deploy.Config: empty app_name')
 		if c.app_env == '':
 			raise RuntimeError('custom_deploy.Config: empty app_env')
+		if not c.app_name in uwscli.deploy_list():
+			raise RuntimeError('invalid app:', c.app_name)
 		return True
 
 def main(argv: list[str], cfg: Config) -> int:

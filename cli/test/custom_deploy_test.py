@@ -9,7 +9,7 @@ import uwscli_t
 import custom_deploy
 
 def _newcfg():
-	return custom_deploy.Config('testing_app', app_name = 'tapp', app_env = 'tenv')
+	return custom_deploy.Config('testing_app', app_name = 'testing', app_env = 'test')
 
 class Test(unittest.TestCase):
 
@@ -36,6 +36,11 @@ class Test(unittest.TestCase):
 		with t.assertRaises(RuntimeError):
 			c = _newcfg()
 			c.app_env = ''
+			c.check()
+		# app_name: invalid
+		with t.assertRaises(RuntimeError):
+			c = _newcfg()
+			c.app_name = 'invalid_app_name'
 			c.check()
 
 	def test_main(t):
