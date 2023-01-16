@@ -12,8 +12,8 @@ class Config(object):
 
 	def __init__(c, fn: str, app_name: str, app_env: str):
 		c.fn = Path(fn.strip()).stem
-		c.app_name = app_name
-		c.app_env = app_env
+		c.app_name = app_name.strip()
+		c.app_env = app_env.strip()
 
 	def check(c):
 		if c.fn == '':
@@ -22,6 +22,7 @@ class Config(object):
 			raise RuntimeError('custom_deploy.Config: empty app_name')
 		if c.app_env == '':
 			raise RuntimeError('custom_deploy.Config: empty app_env')
+		return True
 
 def main(cfg: Config) -> int:
 	cfg.check()
