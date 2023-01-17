@@ -49,6 +49,11 @@ class AppDeploy(object):
 			self.filter = "%s-" % self.image
 
 @dataclass
+class CustomDeploy(object):
+	app:  str
+	wait: str = '5m'
+
+@dataclass
 class App(object):
 	app:              bool
 	cluster:          str       = 'None'
@@ -59,6 +64,7 @@ class App(object):
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
 	groups:           list[str] = field(default_factory = list)
+	custom_deploy:    dict[str, list[CustomDeploy]] = field(default_factory = dict)
 
 	def __post_init__(self):
 		if len(self.groups) == 0:
@@ -70,13 +76,23 @@ app: dict[str, App] = {
 		build = _buildpack('app/src', 'app'),
 		autobuild = True,
 		autobuild_deploy = [
-			# ~ 'apitest-east', 'apitest-west',
-			# ~ 'apptest-east', 'apptest-west',
-			'apitest-west',
-			'apptest-west',
 			'worker-test',
+			'apitest-east',
+			'apptest-east',
 		],
 		groups = ['uwsapp_app'],
+		custom_deploy = {
+			'production': [
+				CustomDeploy('worker'),
+				CustomDeploy('api-east'),
+				CustomDeploy('app-east'),
+			],
+			'staging': [
+				CustomDeploy('worker-test'),
+				CustomDeploy('apitest-east'),
+				CustomDeploy('apptest-east'),
+			],
+		},
 	),
 	# ~ 'app-east': App(True,
 		# ~ cluster = 'app-east-2209',
@@ -94,42 +110,28 @@ app: dict[str, App] = {
 	# ~ ),
 	'worker': App(True,
 		cluster = 'worker-2209',
-		desc = 'App worker large nodes',
+		desc = 'App worker cluster',
 		pod = 'meteor/worker',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_app'],
 	),
 	'apitest-east': App(True,
 		cluster = 'apptest-east',
-		desc = 'App api, test cluster (east)',
-		pod = 'meteor/api',
-		deploy = AppDeploy('meteor-app'),
-		groups = ['uwsapp_apptest'],
-	),
-	'apitest-west': App(True,
-		cluster = 'apptest-west',
-		desc = 'App api, test cluster (west)',
+		desc = 'App api, test cluster',
 		pod = 'meteor/api',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_apptest'],
 	),
 	'apptest-east': App(True,
 		cluster = 'apptest-east',
-		desc = 'App web, test cluster (east)',
-		pod = 'meteor/web',
-		deploy = AppDeploy('meteor-app'),
-		groups = ['uwsapp_apptest'],
-	),
-	'apptest-west': App(True,
-		cluster = 'apptest-west',
-		desc = 'App web, test cluster (west)',
+		desc = 'App web, test cluster',
 		pod = 'meteor/web',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_apptest'],
 	),
 	'worker-test': App(True,
 		cluster = 'apptest-east',
-		desc = 'App worker test',
+		desc = 'App worker, test cluster',
 		pod = 'meteor/worker',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_apptest'],

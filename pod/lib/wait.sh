@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
 namespace=${1:?'namespace?'}
-condition=${2:?'condition?'}
-object=${3:?'object?'}
-timeout=${4:-5m}
-exec uwskube wait --for "condition=${condition}" --timeout "${timeout}" -n "${namespace}" "${object}"
+object=${2:?'object?'}
+timeout=${3:-10m}
+exec uwskube rollout status --timeout "${timeout}" -n "${namespace}" -w "${object}"

@@ -10,9 +10,9 @@ UWSCLI_LOG=off
 ############
 
 # app
-###*/15 * * * * UWSCLI_LOG=on app-autobuild app
-###*/15 * * * * UWSCLI_LOG=on app-autobuild cs
-###*/15 * * * * UWSCLI_LOG=on app-autobuild infra-ui
+*/15 * * * * UWSCLI_LOG=on app-autobuild app
+*/15 * * * * UWSCLI_LOG=on app-autobuild cs
+*/15 * * * * UWSCLI_LOG=on app-autobuild infra-ui
 */15 * * * * UWSCLI_LOG=on app-autobuild meteor-vanilla
 
 #############
@@ -32,12 +32,12 @@ UWSCLI_LOG=off
 ###11 2  * * 2-6 app-scale app-west 20
 
 # apptest
-###13 3 * * 2-6 app-scale worker-test 2
-###14 3 * * 2-6 app-scale apptest-east 3
-###15 3 * * 2-6 app-scale apptest-west 3
+13 3 * * 2-6 app-scale worker-test 2
+14 3 * * 2-6 app-scale apptest-east 3
+15 3 * * 2-6 app-scale apitest-east 3
 
 # crowdsourcing
-###16 3 * * 2-6 app-scale cs 10
+16 3 * * 2-6 app-scale cs 10
 
 ###########
 # scale up
@@ -58,12 +58,12 @@ UWSCLI_LOG=off
 ###5 18 * * 1-5 app-scale app-west 160
 
 # apptest
-###6 10 * * 1-5 app-scale worker-test 2
-###7 10 * * 1-5 app-scale apptest-east 3
-###8 10 * * 1-5 app-scale apptest-west 3
+6 10 * * 1-5 app-scale worker-test 2
+7 10 * * 1-5 app-scale apptest-east 3
+8 10 * * 1-5 app-scale apitest-east 3
 
 # crowdsourcing
-###9 10 * * 1-5 app-scale cs 30
+9 10 * * 1-5 app-scale cs 30
 
 # meteor-vanilla
 9 10 * * 1-5 app-scale meteor-vanilla 1
@@ -82,4 +82,4 @@ UWSCLI_LOG=off
 #3 10 * * 1-5 app-scale worker 15
 
 # fixed number of workers
-###3 3 * * 1-5 app-scale worker 30
+3 3 * * 1-5 app-scale worker 30

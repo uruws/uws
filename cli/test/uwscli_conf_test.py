@@ -10,6 +10,8 @@ import uwscli
 import uwscli_conf
 import uwscli_auth
 
+from uwscli_conf import CustomDeploy
+
 class Test(unittest.TestCase):
 
 	@classmethod
@@ -38,9 +40,7 @@ class Test(unittest.TestCase):
 		# app list
 		app_list = [
 			'apitest-east',
-			'apitest-west',
 			'apptest-east',
-			'apptest-west',
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
@@ -79,6 +79,20 @@ class Test(unittest.TestCase):
 					if g == "uwsapp_%s" % appname:
 						group_ok = True
 				t.assertTrue(group_ok, appname)
+
+	def test_custom_deploy(t):
+		t.assertDictEqual(uwscli.app['app'].custom_deploy, {
+			'production': [
+				CustomDeploy('worker'),
+				CustomDeploy('api-east'),
+				CustomDeploy('app-east'),
+			],
+			'staging': [
+				CustomDeploy('worker-test'),
+				CustomDeploy('apitest-east'),
+				CustomDeploy('apptest-east'),
+			],
+		})
 
 if __name__ == '__main__':
 	unittest.main()

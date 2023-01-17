@@ -19,6 +19,8 @@ import uwscli_conf
 import uwscli_auth
 import uwscli_version
 
+from uwscli_conf import CustomDeploy
+
 _PATH = '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'
 
 class Test(unittest.TestCase):
@@ -199,6 +201,12 @@ class Test(unittest.TestCase):
 
 	def test_deploy_desc(t):
 		t.assertEqual(uwscli.deploy_description(), 'available apps:\n  testing - Testing\n')
+
+	def test_custom_deploy(t):
+		t.assertEqual(uwscli.custom_deploy('testing', 'test'), [CustomDeploy('testing')])
+
+	def test_custom_deploy_invalid_app(t):
+		t.assertEqual(uwscli.custom_deploy('invalid', 'test'), [])
 
 	def test_ctl(t):
 		with uwscli_t.mock_system():

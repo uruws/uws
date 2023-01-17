@@ -12,6 +12,8 @@ import uwscli_log
 import uwscli_conf
 import uwscli_auth
 
+from uwscli_conf import CustomDeploy
+
 def _testingApp() -> dict[str, uwscli_conf.App]:
 	return {
 		'testing': uwscli_conf.App(True,
@@ -21,6 +23,9 @@ def _testingApp() -> dict[str, uwscli_conf.App]:
 			build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh', clean = 'testing'),
 			deploy = uwscli_conf.AppDeploy('test'),
 			groups = ['app', 'testing'],
+			custom_deploy = {
+				'test': [CustomDeploy('testing')],
+			}
 		),
 	}
 

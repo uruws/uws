@@ -4,6 +4,7 @@
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 import uwscli
+import custom_deploy
 
 def deploy(app: str, version: str) -> int:
 	uwscli.debug('deploy:', app, version)
@@ -15,6 +16,7 @@ def deploy(app: str, version: str) -> int:
 	return uwscli.ctl(args)
 
 def wait(app: str) -> int:
+	uwscli.debug('wait:', app)
 	args = "%s %s wait" % (uwscli.app[app].cluster,
 		uwscli.app[app].pod)
 	return uwscli.ctl(args)
@@ -29,6 +31,8 @@ def main(argv: list[str] = []) -> int:
 		version = uwscli.version())
 	flags.add_argument('-w', '--wait', action = 'store_true',
 		default = False, help = 'wait for deployment to finish')
+	flags.add_argument('-r', '--rollback', action = 'store_true',
+		default = False, help = 'rollback to previous deployment if failed (implies --wait)')
 	flags.add_argument('app', metavar = 'app', choices = uwscli.deploy_list(),
 		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z-bpV', nargs = '?',
@@ -36,20 +40,25 @@ def main(argv: list[str] = []) -> int:
 
 	args = flags.parse_args(argv)
 
-	if args.version != '':
-		rc = deploy(args.app, args.version)
-		if rc != 0:
-			uwscli.error("enqueue of %s deploy job failed!" % args.app)
-			return rc
-		if args.wait:
-			return wait(args.app)
-	else:
-		images = uwscli.list_images(args.app)
-		if len(images) > 0:
-			uwscli.log('available', args.app, 'builds:')
-			for n in images:
-				uwscli.log(' ', n)
-		else:
-			uwscli.log('no available builds for', args.app)
+	if args.version == '':
+		return custom_deploy.show_builds(args.app)
 
-	return 0
+	# --rollback implies --wait
+	if args.rollback:
+		args.wait = True
+
+	rc = deploy(args.app, args.version)
+	if rc != 0:
+		uwscli.error("enqueue of %s deploy job failed!" % args.app)
+		return rc
+	# wait
+	if args.wait:
+		rc = wait(args.app)
+		# rollback if failed
+		if rc != 0 and args.rollback:
+			uwscli.log('deploy failed, trying to rollback...')
+			st = custom_deploy.rollback(args.app)
+			if st != 0:
+				uwscli.error('deploy rollback failed:', st)
+
+	return rc
