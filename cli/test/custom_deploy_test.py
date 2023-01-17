@@ -2,6 +2,8 @@
 
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
+from contextlib    import contextmanager
+from unittest.mock import MagicMock
 
 import unittest
 import uwscli_t
@@ -10,6 +12,15 @@ import uwscli
 import custom_deploy
 
 from uwscli_conf import CustomDeploy
+
+@contextmanager
+def mock_build_list(build_list = ['testing']):
+	bup = uwscli.build_list
+	try:
+		uwscli.build_list = MagicMock(return_value = build_list)
+		yield
+	finally:
+		uwscli.build_list = bup
 
 def _newcfg():
 	return custom_deploy.Config(app_name = 'testing', app_env = 'test')
@@ -46,6 +57,12 @@ class Test(unittest.TestCase):
 			c = _newcfg()
 			c.app_env = 'invalid_app_env'
 			c.check()
+
+	def test_config_check_build_list(t):
+		with mock_build_list():
+			c = _newcfg()
+			c.check()
+			uwscli.build_list.assert_called_once_with()
 
 	def test_rollback(t):
 		with uwscli_t.mock_system():
