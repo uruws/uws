@@ -40,6 +40,17 @@ def _do_rollback(l: list[CustomDeploy]):
 		uwscli.log('*** app-rollback', d.app)
 		rollback(d.app)
 
+
+def show_builds(app: str) -> int:
+	images = uwscli.list_images(app)
+	if len(images) > 0:
+		uwscli.log('available', app, 'builds:')
+		for n in images:
+			uwscli.log(' ', n)
+	else:
+		uwscli.log('no builds available for', app)
+	return 0
+
 def main(argv: list[str], cfg: Config) -> int:
 	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
 

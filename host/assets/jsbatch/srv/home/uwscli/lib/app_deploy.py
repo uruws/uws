@@ -40,32 +40,25 @@ def main(argv: list[str] = []) -> int:
 
 	args = flags.parse_args(argv)
 
+	if args.version == '':
+		return custom_deploy.show_builds(args.app)
+
 	# --rollback implies --wait
 	if args.rollback:
 		args.wait = True
 
-	if args.version != '':
-		rc = deploy(args.app, args.version)
-		if rc != 0:
-			uwscli.error("enqueue of %s deploy job failed!" % args.app)
-			return rc
-		# wait
-		if args.wait:
-			rc = wait(args.app)
-			# rollback if failed
-			if rc != 0 and args.rollback:
-				uwscli.log('deploy failed, trying to rollback...')
-				st = custom_deploy.rollback(args.app)
-				if st != 0:
-					uwscli.error('deploy rollback failed:', st)
-			return rc
-	else:
-		images = uwscli.list_images(args.app)
-		if len(images) > 0:
-			uwscli.log('available', args.app, 'builds:')
-			for n in images:
-				uwscli.log(' ', n)
-		else:
-			uwscli.log('no builds available for', args.app)
+	rc = deploy(args.app, args.version)
+	if rc != 0:
+		uwscli.error("enqueue of %s deploy job failed!" % args.app)
+		return rc
+	# wait
+	if args.wait:
+		rc = wait(args.app)
+		# rollback if failed
+		if rc != 0 and args.rollback:
+			uwscli.log('deploy failed, trying to rollback...')
+			st = custom_deploy.rollback(args.app)
+			if st != 0:
+				uwscli.error('deploy rollback failed:', st)
 
-	return 0
+	return rc
