@@ -56,7 +56,7 @@ class Test(unittest.TestCase):
 	def test_main(t):
 		with uwscli_t.mock_list_images():
 			t.assertEqual(app_deploy.main(['testing']), 0)
-			t.assertEqual(uwscli_t.out().strip(), 'no available builds for testing')
+			t.assertEqual(uwscli_t.out().strip(), 'no builds available for testing')
 		with uwscli_t.mock_list_images(['img-1']):
 			t.assertEqual(app_deploy.main(['testing']), 0)
 			t.assertEqual(uwscli_t.out().strip(), 'available testing builds:\n  img-1')

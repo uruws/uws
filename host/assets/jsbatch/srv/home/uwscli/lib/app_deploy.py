@@ -66,6 +66,6 @@ def main(argv: list[str] = []) -> int:
 			for n in images:
 				uwscli.log(' ', n)
 		else:
-			uwscli.log('no available builds for', args.app)
+			uwscli.log('no builds available for', args.app)
 
 	return 0
