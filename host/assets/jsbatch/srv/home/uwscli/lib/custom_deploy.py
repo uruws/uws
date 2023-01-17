@@ -40,7 +40,6 @@ def _do_rollback(l: list[CustomDeploy]):
 		uwscli.log('*** app-rollback', d.app)
 		rollback(d.app)
 
-
 def show_builds(app: str) -> int:
 	images = uwscli.list_images(app)
 	if len(images) > 0:
@@ -53,6 +52,7 @@ def show_builds(app: str) -> int:
 
 def main(argv: list[str], cfg: Config) -> int:
 	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
+	epilog += '\nif no deploy version is provided show list of available builds'
 
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = epilog)
