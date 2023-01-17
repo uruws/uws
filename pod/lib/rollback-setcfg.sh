@@ -11,6 +11,8 @@ envf=$(mktemp -p /tmp "pod-${ns}-deploy-rollback.XXXXXXXX")
 echo "export AWS_REGION='${AWS_REGION}'" >${envf}
 echo "export APP_VERSION='${version}'" >>${envf}
 
+cat "${envf}"
+
 uwskube create configmap pod-deploy-rollback -n "${ns}" --from-file="deploy-rollback=${envf}"
 rm -f ${envf}
 
