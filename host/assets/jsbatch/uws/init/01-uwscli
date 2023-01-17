@@ -42,8 +42,8 @@ chown -v root:uwsops ~uwscli/bin/app-scale
 
 # operator custom utils
 
-chown -v root:uwsops ~uwscli/bin/staging-tapo-*
-chown -v root:uwsops ~uwscli/bin/tapo-*
+chown -v root:uwsops ~uwscli/bin/production-*
+chown -v root:uwsops ~uwscli/bin/staging-*
 
 # internal utils
 
