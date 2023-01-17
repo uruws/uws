@@ -78,11 +78,12 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_system():
 			c = _newcfg()
 			t.assertEqual(custom_deploy.main(['0.0.999'], c), 0)
+			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy --wait --rollback testing 0.0.999')
 
 	def test_main_config_check_error(t):
 		c = _newcfg()
 		c.app_env = ''
-		t.assertEqual(custom_deploy.main(['0.0.999'], c), 9)
+		t.assertEqual(custom_deploy.main(['0.0.999'], c), 10)
 
 	def test_main_error(t):
 		with uwscli_t.mock_system(status = 99):
@@ -92,6 +93,17 @@ class Test(unittest.TestCase):
 	def test_main_show_builds(t):
 		c = _newcfg()
 		t.assertEqual(custom_deploy.main([], c), 0)
+
+	def test_status(t):
+		with uwscli_t.mock_system():
+			c = _newcfg()
+			t.assertEqual(custom_deploy.status([], c), 0)
+			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-status testing')
+
+	def test_status_config_check_error(t):
+		c = _newcfg()
+		c.app_name = ''
+		t.assertEqual(custom_deploy.status([], c), 11)
 
 if __name__ == '__main__':
 	unittest.main()

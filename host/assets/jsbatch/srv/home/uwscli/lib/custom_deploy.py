@@ -67,7 +67,7 @@ def main(argv: list[str], cfg: Config) -> int:
 		cfg.check()
 	except RuntimeError as err:
 		uwscli.error(err)
-		return 9
+		return 10
 
 	if args.version == '':
 		n = cfg.deploy[0].app
@@ -85,5 +85,28 @@ def main(argv: list[str], cfg: Config) -> int:
 			_do_rollback(rbl)
 			return rc
 		rbl.append(d)
+
+	return 0
+
+def status(argv: list[str], cfg: Config) -> int:
+	epilog = f"show {cfg.app_name} custom deploy for {cfg.app_env} environment status"
+
+	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
+		description = __doc__, epilog = epilog)
+	flags.add_argument('-V', '--version', action = 'version',
+		version = uwscli.version())
+
+	args = flags.parse_args(argv)
+
+	try:
+		cfg.check()
+	except RuntimeError as err:
+		uwscli.error(err)
+		return 11
+
+	for d in cfg.deploy:
+		uwscli.log('*** app-status', d.app)
+		cmd = f"{uwscli.bindir}/app-status {d.app}"
+		uwscli.system(cmd)
 
 	return 0
