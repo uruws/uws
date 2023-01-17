@@ -72,5 +72,9 @@ class Test(unittest.TestCase):
 			c = _newcfg()
 			t.assertEqual(custom_deploy.main(['0.0.999'], c), 99)
 
+	def test_main_show_builds(t):
+		c = _newcfg()
+		t.assertEqual(custom_deploy.main([], c), 0)
+
 if __name__ == '__main__':
 	unittest.main()

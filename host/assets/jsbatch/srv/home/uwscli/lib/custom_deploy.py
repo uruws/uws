@@ -58,7 +58,7 @@ def main(argv: list[str], cfg: Config) -> int:
 		description = __doc__, epilog = epilog)
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
-	flags.add_argument('version', metavar = 'X.Y.Z',
+	flags.add_argument('version', metavar = 'X.Y.Z', nargs = '?',
 		default = '', help = 'deploy version')
 
 	args = flags.parse_args(argv)
@@ -68,6 +68,10 @@ def main(argv: list[str], cfg: Config) -> int:
 	except RuntimeError as err:
 		uwscli.error(err)
 		return 9
+
+	if args.version == '':
+		n = cfg.deploy[0].app
+		return show_builds(n)
 
 	# rollback list
 	rbl: list[CustomDeploy] = []
