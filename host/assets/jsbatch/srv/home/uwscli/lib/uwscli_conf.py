@@ -82,7 +82,7 @@ app: dict[str, App] = {
 		],
 		groups = ['uwsapp_app'],
 		custom_deploy = {
-			'prod': [
+			'production': [
 				CustomDeploy('worker'),
 				CustomDeploy('api-east'),
 				CustomDeploy('app-east'),
