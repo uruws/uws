@@ -76,11 +76,9 @@ app: dict[str, App] = {
 		build = _buildpack('app/src', 'app'),
 		autobuild = True,
 		autobuild_deploy = [
-			# ~ 'apitest-east', 'apitest-west',
-			# ~ 'apptest-east', 'apptest-west',
-			'apitest-west',
-			'apptest-west',
 			'worker-test',
+			'apitest-east',
+			'apptest-east',
 		],
 		groups = ['uwsapp_app'],
 		custom_deploy = {
