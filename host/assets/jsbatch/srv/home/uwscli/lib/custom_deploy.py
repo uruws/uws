@@ -48,28 +48,10 @@ def show_builds(app: str) -> int:
 			uwscli.log(' ', n)
 	else:
 		uwscli.log('no builds available for', app)
-	return 0
+	return 3
 
-def main(argv: list[str], cfg: Config) -> int:
-	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
-	epilog += '\nif no deploy version is provided show list of available builds'
-
-	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
-		description = __doc__, epilog = epilog)
-	flags.add_argument('-V', '--version', action = 'version',
-		version = uwscli.version())
-	flags.add_argument('version', metavar = 'X.Y.Z', nargs = '?',
-		default = '', help = 'deploy version')
-
-	args = flags.parse_args(argv)
-
-	try:
-		cfg.check()
-	except RuntimeError as err:
-		uwscli.error(err)
-		return 10
-
-	if args.version == '':
+def deploy(version: str, cfg: Config) -> int:
+	if version == '':
 		n = cfg.deploy[0].app
 		return show_builds(n)
 
@@ -79,7 +61,7 @@ def main(argv: list[str], cfg: Config) -> int:
 	uwscli.debug('custom deploy:', cfg.deploy)
 	for d in cfg.deploy:
 		uwscli.log('*** app-deploy', d.app)
-		cmd = f"{uwscli.bindir}/app-deploy --wait --rollback {d.app} {args.version}"
+		cmd = f"{uwscli.bindir}/app-deploy --wait --rollback {d.app} {version}"
 		rc = uwscli.system(cmd)
 		if rc != 0:
 			_do_rollback(rbl)
@@ -88,13 +70,37 @@ def main(argv: list[str], cfg: Config) -> int:
 
 	return 0
 
-def status(argv: list[str], cfg: Config) -> int:
-	epilog = f"show {cfg.app_name} custom deploy for {cfg.app_env} environment status"
+def action_run(name: str, cfg: Config) -> int:
+	for d in cfg.deploy:
+		uwscli.log(f"*** app-{name}", d.app)
+		cmd = f"{uwscli.bindir}/app-{name} {d.app}"
+		uwscli.system(cmd)
+	return 0
+
+def main(argv: list[str], cfg: Config) -> int:
+	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
+
+	commands = ['deploy', 'status']
+	action = 'command'
+
+	if 'deploy' in argv:
+		action = 'deploy'
+		epilog += '\nif no deploy version is provided show list of available builds'
+	else:
+		epilog += '\n\navailable command:\n'
+		for c in commands:
+			epilog += f"  {c}\n"
 
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = epilog)
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
+	flags.add_argument('action', metavar = action, default = 'status',
+		help = 'command action', choices = commands.copy())
+
+	if action == 'deploy':
+		flags.add_argument('version', metavar = 'X.Y.Z', nargs = '?',
+			default = '', help = 'deploy version')
 
 	args = flags.parse_args(argv)
 
@@ -102,11 +108,13 @@ def status(argv: list[str], cfg: Config) -> int:
 		cfg.check()
 	except RuntimeError as err:
 		uwscli.error(err)
-		return 11
+		return 10
 
-	for d in cfg.deploy:
-		uwscli.log('*** app-status', d.app)
-		cmd = f"{uwscli.bindir}/app-status {d.app}"
-		uwscli.system(cmd)
+	if args.action == 'deploy':
+		return deploy(args.version, cfg)
+	else:
+		if args.action in commands:
+			return action_run(args.action.strip(), cfg)
 
-	return 0
+	uwscli.error('[ERROR] invalid action:', args.action)
+	return 9

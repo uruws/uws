@@ -164,5 +164,7 @@ rm -vf /etc/systemd/system/uwscli-@.service
 rm -vf /srv/home/uwscli/sbin/*_init.sh
 rm -vf /uws/bin/uwscli-deploy.sh
 rm -vf /srv/home/uwscli/bin/uwspass
+rm -vf /srv/home/uwscli/bin/production-tapo-*
+rm -vf /srv/home/uwscli/bin/staging-tapo-*
 
 exit 0
