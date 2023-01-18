@@ -15,6 +15,7 @@ grep -E '^METEOR_SETTINGS=' "${APP}.env.new" |
 
 rm -vf "${APP}.env.new"
 
+# shellcheck disable=SC1090
 source "${APP}-settings.env"
 rm -vf "${APP}-settings.env"
 
