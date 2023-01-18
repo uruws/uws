@@ -111,5 +111,11 @@ class Test(unittest.TestCase):
 			t.assertEqual(custom_deploy.main(['status'], c), 0)
 			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-status testing')
 
+	def test_restart(t):
+		with uwscli_t.mock_system():
+			c = _newcfg()
+			t.assertEqual(custom_deploy.main(['restart'], c), 0)
+			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-restart testing')
+
 if __name__ == '__main__':
 	unittest.main()
