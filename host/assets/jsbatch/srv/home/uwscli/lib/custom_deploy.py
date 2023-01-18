@@ -80,7 +80,7 @@ def action_run(name: str, cfg: Config) -> int:
 def main(argv: list[str], cfg: Config, commands_check: list[str] = []) -> int:
 	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
 
-	action_commands = ['deploy', 'status', 'restart']
+	action_commands = ['deploy', 'restart', 'status']
 	action = 'command'
 
 	if 'deploy' in argv:
