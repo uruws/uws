@@ -77,10 +77,10 @@ def action_run(name: str, cfg: Config) -> int:
 		uwscli.system(cmd)
 	return 0
 
-def main(argv: list[str], cfg: Config) -> int:
+def main(argv: list[str], cfg: Config, commands_check: list[str] = []) -> int:
 	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
 
-	commands = ['deploy', 'status']
+	action_commands = ['deploy', 'status']
 	action = 'command'
 
 	if 'deploy' in argv:
@@ -88,7 +88,7 @@ def main(argv: list[str], cfg: Config) -> int:
 		epilog += '\nif no deploy version is provided show list of available builds'
 	else:
 		epilog += '\n\navailable command:\n'
-		for c in commands:
+		for c in action_commands:
 			epilog += f"  {c}\n"
 
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
@@ -96,7 +96,7 @@ def main(argv: list[str], cfg: Config) -> int:
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
 	flags.add_argument('action', metavar = action, default = 'status',
-		help = 'command action', choices = commands.copy())
+		help = 'command action', choices = action_commands.copy())
 
 	if action == 'deploy':
 		flags.add_argument('version', metavar = 'X.Y.Z', nargs = '?',
@@ -113,7 +113,9 @@ def main(argv: list[str], cfg: Config) -> int:
 	if args.action == 'deploy':
 		return deploy(args.version, cfg)
 	else:
-		if args.action in commands:
+		if len(commands_check) == 0:
+			commands_check.extend(action_commands)
+		if args.action in commands_check:
 			return action_run(args.action.strip(), cfg)
 
 	uwscli.error('[ERROR] invalid action:', args.action)

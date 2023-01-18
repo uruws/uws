@@ -85,6 +85,10 @@ class Test(unittest.TestCase):
 		c.app_env = ''
 		t.assertEqual(custom_deploy.main(['deploy', '0.0.999'], c), 10)
 
+	def test_main_invalid_action(t):
+		c = _newcfg()
+		t.assertEqual(custom_deploy.main(['status'], c, commands_check = ['testing']), 9)
+
 	def test_main_show_builds(t):
 		with uwscli_t.mock_check_output():
 			c = _newcfg()
