@@ -77,33 +77,45 @@ class Test(unittest.TestCase):
 	def test_main(t):
 		with uwscli_t.mock_system():
 			c = _newcfg()
-			t.assertEqual(custom_deploy.main(['0.0.999'], c), 0)
+			t.assertEqual(custom_deploy.main(['deploy', '0.0.999'], c), 0)
 			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-deploy --wait --rollback testing 0.0.999')
 
 	def test_main_config_check_error(t):
 		c = _newcfg()
 		c.app_env = ''
-		t.assertEqual(custom_deploy.main(['0.0.999'], c), 10)
+		t.assertEqual(custom_deploy.main(['deploy', '0.0.999'], c), 10)
 
-	def test_main_error(t):
-		with uwscli_t.mock_system(status = 99):
-			c = _newcfg()
-			t.assertEqual(custom_deploy.main(['0.0.999'], c), 99)
+	def test_main_invalid_action(t):
+		c = _newcfg()
+		t.assertEqual(custom_deploy.main(['status'], c, commands_check = ['testing']), 9)
 
 	def test_main_show_builds(t):
-		c = _newcfg()
-		t.assertEqual(custom_deploy.main([], c), 0)
+		with uwscli_t.mock_check_output():
+			c = _newcfg()
+			t.assertEqual(custom_deploy.main(['deploy'], c), 3)
+
+	def test_main_show_builds_empty(t):
+		with uwscli_t.mock_list_images():
+			c = _newcfg()
+			t.assertEqual(custom_deploy.main(['deploy'], c), 3)
+
+	def test_deploy_error(t):
+		with uwscli_t.mock_check_output():
+			with uwscli_t.mock_system(status = 99):
+				c = _newcfg()
+				t.assertEqual(custom_deploy.main(['deploy', '0.0.999'], c), 99)
 
 	def test_status(t):
 		with uwscli_t.mock_system():
 			c = _newcfg()
-			t.assertEqual(custom_deploy.status([], c), 0)
+			t.assertEqual(custom_deploy.main(['status'], c), 0)
 			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-status testing')
 
-	def test_status_config_check_error(t):
-		c = _newcfg()
-		c.app_name = ''
-		t.assertEqual(custom_deploy.status([], c), 11)
+	def test_restart(t):
+		with uwscli_t.mock_system():
+			c = _newcfg()
+			t.assertEqual(custom_deploy.main(['restart'], c), 0)
+			uwscli.system.assert_called_once_with('/srv/home/uwscli/bin/app-restart testing')
 
 if __name__ == '__main__':
 	unittest.main()
