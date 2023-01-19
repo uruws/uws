@@ -1,11 +1,9 @@
 #!/bin/sh
 set -eu
-envf=/srv/uws/deploy/secret/heroku.env
 CA=smtps/211006
 exec docker run --rm --name herokud \
 	--hostname herokud.uws.local \
 	--read-only \
-	--env-file "${envf}" \
 	-v "/srv/uws/deploy/secret/ca/uws/${CA}:/srv/etc/ca:ro" \
 	-v "/srv/uws/deploy/secret/herokud/user:/home/uws/etc:ro" \
 	--tmpfs /home/uws/.cache/heroku \
