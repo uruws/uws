@@ -2,11 +2,11 @@
 set -eu
 
 for d in /srv/uws/deploy/tmp/*/htmlcov; do
-	app=$(basename $(dirname $d))
-	rm -rf /srv/www/ssl/htmlcov/${app}
-	if test -d /srv/uws/deploy/tmp/${app}/htmlcov; then
-		cp -r /srv/uws/deploy/tmp/${app}/htmlcov /srv/www/ssl/htmlcov/${app}
-		chown -R root:www-data /srv/www/ssl/htmlcov/${app}
+	app=$(basename "$(dirname "$d")")
+	rm -rf "/srv/www/ssl/htmlcov/${app}"
+	if test -d "/srv/uws/deploy/tmp/${app}/htmlcov"; then
+		cp -r "/srv/uws/deploy/tmp/${app}/htmlcov" "/srv/www/ssl/htmlcov/${app}"
+		chown -R root:www-data "/srv/www/ssl/htmlcov/${app}"
 		echo "/srv/www/ssl/htmlcov/${app} done!"
 	fi
 done
@@ -14,11 +14,11 @@ done
 # vendor tests
 
 for d in /srv/uws/deploy/tmp/*/htmlcov_vendor; do
-	app=$(basename $(dirname $d))
-	rm -rf /srv/www/ssl/htmlcov/${app}_vendor
-	if test -d /srv/uws/deploy/tmp/${app}/htmlcov_vendor; then
-		cp -r /srv/uws/deploy/tmp/${app}/htmlcov_vendor /srv/www/ssl/htmlcov/${app}_vendor
-		chown -R root:www-data /srv/www/ssl/htmlcov/${app}_vendor
+	app=$(basename "$(dirname "$d")")
+	rm -rf "/srv/www/ssl/htmlcov/${app}_vendor"
+	if test -d "/srv/uws/deploy/tmp/${app}/htmlcov_vendor"; then
+		cp -r "/srv/uws/deploy/tmp/${app}/htmlcov_vendor" "/srv/www/ssl/htmlcov/${app}_vendor"
+		chown -R root:www-data "/srv/www/ssl/htmlcov/${app}_vendor"
 		echo "/srv/www/ssl/htmlcov/${app}_vendor done!"
 	fi
 done

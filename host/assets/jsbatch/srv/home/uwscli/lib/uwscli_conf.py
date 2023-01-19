@@ -198,13 +198,6 @@ app: dict[str, App] = {
 		deploy = AppDeploy('meteor-infra-ui'),
 		groups = ['uwsapp_infra-ui'],
 	),
-	'infra-ui-test': App(True,
-		cluster = 'apptest-west',
-		desc = 'Infra-UI testing',
-		pod = 'meteor/infra-ui',
-		deploy = AppDeploy('meteor-infra-ui'),
-		groups = ['uwsapp_infra-ui'],
-	),
 	'meteor-vanilla': App(True,
 		cluster = 'apptest-east',
 		desc = 'Meteor Vanilla',
@@ -222,10 +215,7 @@ class AppCluster(object):
 	region: str
 
 cluster: dict[str, AppCluster] = {
-	# ~ 'app-east-2209':  AppCluster(region = 'us-east-1'),
-	# ~ 'app-west':       AppCluster(region = 'us-west-2'),
 	'apptest-east':   AppCluster(region = 'us-east-2'),
-	'apptest-west':   AppCluster(region = 'us-west-2'),
 	'panoramix-2206': AppCluster(region = 'us-east-1'),
 	'worker-2209':    AppCluster(region = 'us-east-1'),
 }

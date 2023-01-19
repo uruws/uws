@@ -33,7 +33,6 @@ class Test(unittest.TestCase):
 		# cluster
 		t.assertListEqual(sorted(uwscli.cluster.keys()), [
 			'apptest-east',
-			'apptest-west',
 			'panoramix-2206',
 			'worker-2209',
 		])
@@ -44,7 +43,6 @@ class Test(unittest.TestCase):
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
-			'infra-ui-test',
 			'meteor-vanilla',
 			'nlp-category',
 			'nlp-sentiment-twitter',
