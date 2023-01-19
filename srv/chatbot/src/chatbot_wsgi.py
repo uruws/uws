@@ -3,4 +3,4 @@
 
 import chatbot_main
 
-application = chatbot_main.bot
+application = chatbot_main.getapp()

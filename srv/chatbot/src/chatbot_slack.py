@@ -27,8 +27,16 @@ def event_app_home_opened(body):
 def event_message(body):
 	logging.debug('message: %s', body)
 
-if __name__ == '__main__':
-	if os.getenv('UWS_WEBAPP_DEBUG', 'off') == 'on':
-		logging.basicConfig(level = logging.DEBUG)
-	logging.debug('start')
-	SocketModeHandler(app, os.getenv('SLACK_APP_TOKEN')).start()
+smh = SocketModeHandler(app, os.getenv('SLACK_APP_TOKEN'))
+
+def connect():
+	smh.connect()
+
+def is_healthy() -> bool:
+	if smh.client is None:
+		logging.error('no socket mode handler client')
+		return False
+	if not smh.client.is_connected():
+		logging.error('socket mode handler client not connected')
+		return False
+	return True
