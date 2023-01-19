@@ -287,6 +287,10 @@ chatbot-publish:
 	@./docker/ecr-login.sh us-east-1
 	@./cluster/ecr-push.sh us-east-1 uws/chatbot-2211 uws:chatbot-$(CHATBOT_TAG)
 
+.PHONY: chatbot-check
+chatbot-check:
+	@./docker/webapp/check.sh chatbot
+
 #
 # deploy
 #
