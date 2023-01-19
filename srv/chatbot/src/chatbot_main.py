@@ -18,14 +18,15 @@ def start():
 		logging.basicConfig(level = logging.DEBUG)
 	logging.debug('slack connect')
 	chatbot_slack.connect()
+	chatbot_slack.msg('connected')
 
 def getapp():
 	start()
 	return bottle.app
 
 if __name__ == '__main__':
-	logging.debug('main')
-	listen_port = int(os.getenv('UWS_WEBAPP_PORT', '2741'))
 	start()
+	logging.debug('started')
+	listen_port = int(os.getenv('UWS_WEBAPP_PORT', '2741'))
 	logging.debug('bottle run')
 	bottle.run(host = '0.0.0.0', port = listen_port, reloader = True, debug = True)

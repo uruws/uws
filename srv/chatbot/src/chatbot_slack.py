@@ -13,6 +13,8 @@ app = App(
 	token = os.getenv('SLACK_BOT_TOKEN'),
 )
 
+# events
+
 @app.event('app_mention')
 def event_app_mention(event, say):
 	logging.debug('app_mention: %s', event)
@@ -27,6 +29,8 @@ def event_app_home_opened(body):
 def event_message(body):
 	logging.debug('message: %s', body)
 
+# socket mode handler
+
 smh = SocketModeHandler(app, os.getenv('SLACK_APP_TOKEN'))
 
 def connect():
@@ -40,3 +44,12 @@ def is_healthy() -> bool:
 		logging.error('socket mode handler client not connected')
 		return False
 	return True
+
+# utils
+
+channel_id: str = os.getenv('UWS_CHATBOT_CHANNEL_ID', '')
+
+def msg(text: str):
+	logging.debug('send message: %s', channel_id)
+	res = app.client.chat_postMessage(channel = channel_id, text = text)
+	logging.info(res)
