@@ -1,7 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import bottle
+import bottle # type: ignore
 import logging
 import os
 
