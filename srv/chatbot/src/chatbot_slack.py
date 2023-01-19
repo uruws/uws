@@ -13,16 +13,22 @@ app = App(
 	token = os.getenv('SLACK_BOT_TOKEN'),
 )
 
-@app.event("app_mention")
+@app.event('app_mention')
 def event_app_mention(event, say):
+	logging.debug('app_mention: %s', event)
 	user_id = event['user']
 	say(f"Hello <@{user_id}>!!")
 
-@app.event("app_home_opened")
-def event_app_home_opened(body, logger):
-	logger.debug(body)
+@app.event('app_home_opened')
+def event_app_home_opened(body):
+	logging.debug('app_home_opened: %s', body)
+
+@app.event('message')
+def event_message(body):
+	logging.debug('message: %s', body)
 
 if __name__ == '__main__':
-	logging.basicConfig(level = logging.DEBUG)
+	if os.getenv('UWS_WEBAPP_DEBUG', 'off') == 'on':
+		logging.basicConfig(level = logging.DEBUG)
 	logging.debug('start')
 	SocketModeHandler(app, os.getenv('SLACK_APP_TOKEN')).start()
