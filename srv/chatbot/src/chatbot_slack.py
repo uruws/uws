@@ -43,7 +43,7 @@ def event_message(body, say):
 	thread_ts = event.get('thread_ts', None)
 	if thread_ts is not None:
 		logging.debug('message reply: %s', thread_ts)
-		say(text = "Sorry, I'am not that clever.", thread_ts = thread_ts)
+		say("Sorry, I'm not that clever.", thread_ts = thread_ts)
 	else:
 		logging.info('message ignored')
 

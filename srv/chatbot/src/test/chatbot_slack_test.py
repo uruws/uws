@@ -12,8 +12,11 @@ import chatbot_slack
 class MockSlack(object):
 
 	def __init__(s):
+		s.thread_ts = '1674248319.693579'
 		s.event = {
-			'user': 'UTEST',
+			'text':      '<@UBOT> testing',
+			'thread_ts': s.thread_ts,
+			'user':      'UTEST',
 		}
 		s.body = {
 			'event': s.event,
@@ -67,13 +70,25 @@ class TestEvents(unittest.TestCase):
 
 	def test_event_app_mention(t):
 		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
-		t.slack.say.assert_called_once_with('Hello <@UTEST>!!')
+		t.slack.say.assert_called_once_with(
+			'<@UTEST>: testing', thread_ts = t.slack.thread_ts,
+		)
+
+	def test_event_app_mention_empty(t):
+		t.slack.event['text'] = ''
+		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
+		t.slack.say.assert_called_once_with(
+			'<@UTEST>: what do you mean?', thread_ts = t.slack.thread_ts,
+		)
 
 	def test_event_app_home_opened(t):
 		chatbot_slack.event_app_home_opened(t.slack.body)
 
 	def test_event_message(t):
-		chatbot_slack.event_message(t.slack.body)
+		chatbot_slack.event_message(t.slack.body, t.slack.say)
+		t.slack.say.assert_called_once_with(
+			"Sorry, I'm not that clever.", thread_ts = t.slack.thread_ts,
+		)
 
 class TestSocketMode(unittest.TestCase):
 
