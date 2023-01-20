@@ -79,5 +79,16 @@ class TestSocketMode(unittest.TestCase):
 		chatbot_slack.connect()
 		t.app.smh.connect.assert_called_once_with()
 
+	def test_is_healthy(t):
+		t.assertTrue(chatbot_slack.is_healthy())
+
+	def test_is_healthy_no_client(t):
+		t.app.smh.client = None
+		t.assertFalse(chatbot_slack.is_healthy())
+
+	def test_is_healthy_not_connected(t):
+		t.app.smh.client.is_connected = MagicMock(return_value = False)
+		t.assertFalse(chatbot_slack.is_healthy())
+
 if __name__ == '__main__':
 	unittest.main()
