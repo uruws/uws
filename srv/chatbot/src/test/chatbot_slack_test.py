@@ -9,6 +9,10 @@ import unittest
 
 import chatbot_slack
 
+#
+# mock
+#
+
 class MockSlack(object):
 
 	def __init__(s):
@@ -59,6 +63,10 @@ def mock_app_teardown(app):
 	chatbot_slack.channel_id = app._bup_channel_id
 	app._destroy()
 
+#
+# events
+#
+
 class TestEvents(unittest.TestCase):
 
 	def setUp(t):
@@ -95,6 +103,10 @@ class TestEvents(unittest.TestCase):
 		chatbot_slack.event_message(t.slack.body, t.slack.say)
 		t.slack.say.assert_not_called()
 
+#
+# socket mode handler
+#
+
 class TestSocketMode(unittest.TestCase):
 
 	def setUp(t):
@@ -118,6 +130,10 @@ class TestSocketMode(unittest.TestCase):
 	def test_is_healthy_not_connected(t):
 		t.app.smh.client.is_connected = MagicMock(return_value = False)
 		t.assertFalse(chatbot_slack.is_healthy())
+
+#
+# utils
+#
 
 class TestUtils(unittest.TestCase):
 
