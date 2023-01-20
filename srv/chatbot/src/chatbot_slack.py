@@ -21,10 +21,13 @@ app = App(
 def event_app_mention(event, say):
 	logging.debug('app_mention: %s', event)
 	user_id = event['user']
-	text = ' '.join(event.get('text', '').split(' ')[1:])
+	text = ' '.join(event.get('text', '').split(' ')[1:]).strip()
 	thread_ts = event.get('thread_ts', None) or event['ts']
 	logging.debug('app_mention reply: %s', thread_ts)
-	say(f"<@{user_id}>: {text}", thread_ts = thread_ts)
+	if text == '':
+		say(f"<@{user_id}>: what do you mean?", thread_ts = thread_ts)
+	else:
+		say(f"<@{user_id}>: {text}", thread_ts = thread_ts)
 
 @app.event('app_home_opened')
 def event_app_home_opened(body):
