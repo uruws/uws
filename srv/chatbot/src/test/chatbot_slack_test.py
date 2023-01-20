@@ -44,13 +44,13 @@ class MockApp(object):
 	def mock_client_response(a, *args, **kwargs):
 		return a.client_response
 
-def mock_app_setup() -> MockApp:
+def mock_app_setup():
 	chatbot_slack.app = MockApp()
 	chatbot_slack.smh = chatbot_slack.app.smh
 	chatbot_slack.channel_id = 'CTESTING'
 	return chatbot_slack.app
 
-def mock_app_teardown(app: MockApp):
+def mock_app_teardown(app):
 	chatbot_slack.app = app._bup_app
 	chatbot_slack.smh = app._bup_smh
 	chatbot_slack.channel_id = app._bup_channel_id

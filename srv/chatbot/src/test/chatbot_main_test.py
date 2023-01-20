@@ -9,7 +9,7 @@ from unittest.mock import MagicMock
 import unittest
 import chatbot_slack_test
 
-import bottle
+import bottle # type: ignore
 import chatbot_main
 
 @contextmanager
