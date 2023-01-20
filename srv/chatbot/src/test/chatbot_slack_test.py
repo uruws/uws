@@ -41,5 +41,8 @@ class Test(unittest.TestCase):
 	def test_event_app_home_opened(t):
 		chatbot_slack.event_app_home_opened(t.slack.body)
 
+	def test_event_message(t):
+		chatbot_slack.event_message(t.slack.body)
+
 if __name__ == '__main__':
 	unittest.main()
