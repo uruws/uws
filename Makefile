@@ -280,16 +280,16 @@ docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 chatbot:
 	@./srv/chatbot/build.sh
 
+.PHONY: chatbot-check
+chatbot-check: webapp chatbot
+	@./docker/webapp/check.sh chatbot
+
 CHATBOT_TAG != cat ./srv/chatbot/VERSION
 
 .PHONY: chatbot-publish
-chatbot-publish:
+chatbot-publish: chatbot-check
 	@./docker/ecr-login.sh us-east-1
 	@./cluster/ecr-push.sh us-east-1 uws/chatbot-2211 uws:chatbot-$(CHATBOT_TAG)
-
-.PHONY: chatbot-check
-chatbot-check:
-	@./docker/webapp/check.sh chatbot
 
 #
 # deploy
