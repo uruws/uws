@@ -13,7 +13,9 @@ app = App(
 	token = os.getenv('SLACK_BOT_TOKEN'),
 )
 
+#
 # events
+#
 
 @app.event('app_mention')
 def event_app_mention(event, say):
@@ -29,7 +31,9 @@ def event_app_home_opened(body):
 def event_message(body):
 	logging.debug('message: %s', body)
 
+#
 # socket mode handler
+#
 
 smh = SocketModeHandler(app, os.getenv('SLACK_APP_TOKEN'))
 
@@ -45,7 +49,9 @@ def is_healthy() -> bool:
 		return False
 	return True
 
+#
 # utils
+#
 
 channel_id: str = os.getenv('UWS_CHATBOT_CHANNEL_ID', '')
 
