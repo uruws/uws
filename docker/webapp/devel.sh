@@ -5,9 +5,15 @@ webapp=${1:?'webapp name?'}
 
 webapp_src="${PWD}/srv/${webapp}/src"
 webapp_env="${PWD}/secret/webapp/${webapp}.env"
+webapp_confd="${PWD}/secret/webapp/${webapp}"
 
 if ! test -d "${webapp_src}"; then
 	echo "${webapp}: invalid webapp" >&2
+	exit 9
+fi
+
+if ! test -d "${webapp_confd}"; then
+	echo "${webapp_confd}: webapp conf dir not found" >&2
 	exit 9
 fi
 
@@ -22,9 +28,10 @@ exec docker run -it --rm --read-only \
 	--entrypoint /usr/local/bin/devel-entrypoint.sh \
 	--env-file "${webapp_env}" \
 	-p "127.0.0.1:${webapp_port}:2741" \
-	-v "${tmpdir}:/home/uws/tmp" \
 	-v "${PWD}/docker/webapp/utils:/usr/local/bin:ro" \
 	-v "${webapp_src}:/opt/uws/${webapp}:ro" \
+	-v "${webapp_confd}:/etc/opt/uws/${webapp}:ro" \
+	-v "${tmpdir}:/home/uws/tmp" \
 	--workdir "/opt/uws/${webapp}" \
 	-u uws \
 	-e USER=uws \

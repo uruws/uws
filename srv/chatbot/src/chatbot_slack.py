@@ -9,6 +9,8 @@ import os
 from slack_bolt                     import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
+import chatbot_conf
+
 app = App(
 	token = os.getenv('SLACK_BOT_TOKEN'),
 )

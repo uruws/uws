@@ -30,6 +30,8 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
+RUN install -v -d -m 0750 -o uws -g uwsops /etc/opt/uws
+
 COPY --chown=root:uwsops ./utils /usr/local/bin
 RUN chmod -v 0750 /usr/local/bin/*.sh
 
