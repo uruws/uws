@@ -28,11 +28,12 @@ class MockSlack(object):
 class MockApp(object):
 
 	def __init__(a):
-		a._bup_app = chatbot_slack.app
-		a._bup_smh = chatbot_slack.smh
-		a.smh         = MagicMock()
-		a.smh.client  = MagicMock()
+		a._bup_app        = chatbot_slack.app
+		a._bup_smh        = chatbot_slack.smh
+		a.smh             = MagicMock()
+		a.smh.client      = MagicMock()
 		a._bup_channel_id = chatbot_slack.channel_id
+		a.client          = MagicMock()
 
 	def _destroy(a):
 		a._bup_app = None
@@ -105,6 +106,10 @@ class TestUtils(unittest.TestCase):
 	def test_channel_id(t):
 		t.assertEqual(t.app._bup_channel_id, 'C02U5ADHPCJ')
 		t.assertEqual(chatbot_slack.channel_id, 'CTESTING')
+
+	def test_msg(t):
+		chatbot_slack.msg('testing')
+		t.app.client.chat_postMessage.assert_called_once_with(channel = 'CTESTING', text = 'testing')
 
 if __name__ == '__main__':
 	unittest.main()
