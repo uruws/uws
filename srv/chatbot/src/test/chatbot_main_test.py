@@ -21,6 +21,15 @@ def mock_start():
 	finally:
 		chatbot_main.start = bup
 
+@contextmanager
+def mock_bottle():
+	bup = chatbot_main.bottle
+	try:
+		chatbot_main.bottle = MagicMock()
+		yield
+	finally:
+		chatbot_main.bottle = bup
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -40,6 +49,16 @@ class Test(unittest.TestCase):
 		with mock_start():
 			app = chatbot_main.getapp()
 			t.assertIs(app, bottle.app)
+			chatbot_main.start.assert_called_once_with()
+
+	def test_main(t):
+		with mock_start():
+			with mock_bottle():
+				chatbot_main.main()
+				chatbot_main.start.assert_called_once_with()
+				chatbot_main.bottle.run.assert_called_once_with(
+					host = '0.0.0.0', port = 2741, reloader = True, debug = True,
+				)
 
 if __name__ == '__main__':
 	unittest.main()
