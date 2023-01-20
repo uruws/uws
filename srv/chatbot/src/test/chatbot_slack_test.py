@@ -15,6 +15,9 @@ class MockSlack(object):
 		s.event = {
 			'user': 'UTEST',
 		}
+		s.body = {
+			'event': s.event,
+		}
 		s.say = MagicMock()
 
 	def _destroy(s):
@@ -34,6 +37,9 @@ class Test(unittest.TestCase):
 	def test_event_app_mention(t):
 		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
 		t.slack.say.assert_called_once_with('Hello <@UTEST>!!')
+
+	def test_event_app_home_opened(t):
+		chatbot_slack.event_app_home_opened(t.slack.body)
 
 if __name__ == '__main__':
 	unittest.main()
