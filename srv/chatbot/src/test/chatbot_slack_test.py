@@ -33,11 +33,16 @@ class MockApp(object):
 		a.smh             = MagicMock()
 		a.smh.client      = MagicMock()
 		a._bup_channel_id = chatbot_slack.channel_id
-		a.client          = MagicMock()
+		a.client                  = MagicMock()
+		a.client_response         = {'mock': 'client_response'}
+		a.client.chat_postMessage = MagicMock(side_effect = a.mock_client_response)
 
 	def _destroy(a):
 		a._bup_app = None
 		a._bup_smh = None
+
+	def mock_client_response(a, *args, **kwargs):
+		return a.client_response
 
 def mock_app_setup() -> MockApp:
 	chatbot_slack.app = MockApp()

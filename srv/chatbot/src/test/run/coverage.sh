@@ -4,7 +4,7 @@ set -eu
 webapp=${UWS_WEBAPP}
 webapp_dir="/opt/uws/${webapp}"
 
-PYTHONPATH=${webapp_dir}
+PYTHONPATH=${webapp_dir}:${webapp_dir}/test
 export PYTHONPATH
 
 cd ${HOME}/tmp

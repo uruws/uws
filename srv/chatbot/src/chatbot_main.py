@@ -24,9 +24,12 @@ def getapp():
 	start()
 	return bottle.app
 
-if __name__ == '__main__':
+def main():
 	start()
 	logging.debug('started')
 	listen_port = int(os.getenv('UWS_WEBAPP_PORT', '2741'))
 	logging.debug('bottle run')
 	bottle.run(host = '0.0.0.0', port = listen_port, reloader = True, debug = True)
+
+if __name__ == '__main__': # pragma: no cover
+	main()
