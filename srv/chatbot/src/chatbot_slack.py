@@ -17,6 +17,13 @@ app = App(
 # events
 #
 
+@app.event('app_home_opened')
+def event_app_home_opened(body):
+	logging.debug('app_home_opened: %s', body)
+
+# https://api.slack.com/events/message
+# https://github.com/slackapi/bolt-python/blob/main/examples/message_events.py
+
 @app.event('app_mention')
 def event_app_mention(event, say):
 	logging.debug('app_mention: %s', event)
@@ -28,13 +35,6 @@ def event_app_mention(event, say):
 		say(f"<@{user_id}>: what do you mean?", thread_ts = thread_ts)
 	else:
 		say(f"<@{user_id}>: {text}", thread_ts = thread_ts)
-
-@app.event('app_home_opened')
-def event_app_home_opened(body):
-	logging.debug('app_home_opened: %s', body)
-
-# https://api.slack.com/events/message
-# https://github.com/slackapi/bolt-python/blob/main/examples/message_events.py
 
 @app.event('message')
 def event_message(body, say):

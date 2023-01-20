@@ -68,6 +68,9 @@ class TestEvents(unittest.TestCase):
 		t.slack._destroy()
 		t.slack = None
 
+	def test_event_app_home_opened(t):
+		chatbot_slack.event_app_home_opened(t.slack.body)
+
 	def test_event_app_mention(t):
 		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
 		t.slack.say.assert_called_once_with(
@@ -81,14 +84,16 @@ class TestEvents(unittest.TestCase):
 			'<@UTEST>: what do you mean?', thread_ts = t.slack.thread_ts,
 		)
 
-	def test_event_app_home_opened(t):
-		chatbot_slack.event_app_home_opened(t.slack.body)
-
 	def test_event_message(t):
 		chatbot_slack.event_message(t.slack.body, t.slack.say)
 		t.slack.say.assert_called_once_with(
 			"Sorry, I'm not that clever.", thread_ts = t.slack.thread_ts,
 		)
+
+	def test_event_message_ignore(t):
+		t.slack.event['thread_ts'] = None
+		chatbot_slack.event_message(t.slack.body, t.slack.say)
+		t.slack.say.assert_not_called()
 
 class TestSocketMode(unittest.TestCase):
 
