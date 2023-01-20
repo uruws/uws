@@ -30,7 +30,7 @@ def mock_bottle():
 	finally:
 		chatbot_main.bottle = bup
 
-class Test(unittest.TestCase):
+class TestMain(unittest.TestCase):
 
 	def setUp(t):
 		t.app = chatbot_slack_test.mock_app_setup()
@@ -59,6 +59,24 @@ class Test(unittest.TestCase):
 				chatbot_main.bottle.run.assert_called_once_with(
 					host = '0.0.0.0', port = 2741, reloader = True, debug = True,
 				)
+
+class TestViews(unittest.TestCase):
+
+	def setUp(t):
+		t.app = chatbot_slack_test.mock_app_setup()
+
+	def tearDown(t):
+		chatbot_slack_test.mock_app_teardown(t.app)
+		t.app = None
+
+	def test_healthz(t):
+		t.assertEqual(chatbot_main.healthz(), 'OK')
+
+	def test_healthz_error(t):
+		t.app.smh.client.is_connected = MagicMock(return_value = False)
+		with t.assertRaises(RuntimeError) as err:
+			chatbot_main.healthz()
+		t.assertEqual(str(err.exception), 'slack chatbot not healthy')
 
 if __name__ == '__main__':
 	unittest.main()

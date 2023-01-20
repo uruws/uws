@@ -7,11 +7,19 @@ import os
 
 import chatbot_slack
 
+#
+# views
+#
+
 @bottle.post('/healthz')
 def healthz():
 	if chatbot_slack.is_healthy():
 		return 'OK'
 	raise RuntimeError('slack chatbot not healthy')
+
+#
+# main
+#
 
 def start():
 	if os.getenv('UWS_WEBAPP_DEBUG', 'off') == 'on':
