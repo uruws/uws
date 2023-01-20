@@ -32,6 +32,7 @@ class MockApp(object):
 		a._bup_smh = chatbot_slack.smh
 		a.smh         = MagicMock()
 		a.smh.client  = MagicMock()
+		a._bup_channel_id = chatbot_slack.channel_id
 
 	def _destroy(a):
 		a._bup_app = None
@@ -40,11 +41,13 @@ class MockApp(object):
 def mock_app_setup() -> MockApp:
 	chatbot_slack.app = MockApp()
 	chatbot_slack.smh = chatbot_slack.app.smh
+	chatbot_slack.channel_id = 'CTESTING'
 	return chatbot_slack.app
 
 def mock_app_teardown(app: MockApp):
 	chatbot_slack.app = app._bup_app
 	chatbot_slack.smh = app._bup_smh
+	chatbot_slack.channel_id = app._bup_channel_id
 	app._destroy()
 
 class TestEvents(unittest.TestCase):
@@ -89,6 +92,19 @@ class TestSocketMode(unittest.TestCase):
 	def test_is_healthy_not_connected(t):
 		t.app.smh.client.is_connected = MagicMock(return_value = False)
 		t.assertFalse(chatbot_slack.is_healthy())
+
+class TestUtils(unittest.TestCase):
+
+	def setUp(t):
+		t.app = mock_app_setup()
+
+	def tearDown(t):
+		mock_app_teardown(t.app)
+		t.app = None
+
+	def test_channel_id(t):
+		t.assertEqual(t.app._bup_channel_id, 'C02U5ADHPCJ')
+		t.assertEqual(chatbot_slack.channel_id, 'CTESTING')
 
 if __name__ == '__main__':
 	unittest.main()
