@@ -33,6 +33,7 @@ class Test(unittest.TestCase):
 
 	def test_event_app_mention(t):
 		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
+		t.slack.say.assert_called_once_with('Hello <@UTEST>!!')
 
 if __name__ == '__main__':
 	unittest.main()
