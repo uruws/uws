@@ -3,7 +3,6 @@
 
 import bottle # type: ignore
 import logging
-import os
 import sys
 
 from pathlib import Path
@@ -15,6 +14,7 @@ if conf.exists() and conf.is_file() and not conf.is_symlink():
 	sys.path.insert(0, conf.parent.as_posix())
 	import chatbot_conf # type: ignore
 
+import chatbot
 import chatbot_slack
 
 #
@@ -32,10 +32,9 @@ def healthz():
 #
 
 def start():
-	if os.getenv('UWS_WEBAPP_DEBUG', 'off') == 'on':
-		logging.basicConfig(level = logging.DEBUG)
-	logging.debug('slack connect')
+	logging.debug('start')
 	chatbot_slack.connect()
+	logging.debug('slack connected')
 	chatbot_slack.msg('connected')
 
 def getapp():
@@ -44,10 +43,15 @@ def getapp():
 
 def main():
 	start()
-	logging.debug('started')
-	listen_port = int(os.getenv('UWS_WEBAPP_PORT', '2741'))
 	logging.debug('bottle run')
-	bottle.run(host = '0.0.0.0', port = listen_port, reloader = True, debug = True)
+	bottle.run(
+		host     = '0.0.0.0',
+		port     = chatbot.webapp_port,
+		reloader = True,
+		debug    = True,
+	)
 
 if __name__ == '__main__': # pragma: no cover
+	if chatbot.debug:
+		logging.basicConfig(level = logging.DEBUG)
 	main()

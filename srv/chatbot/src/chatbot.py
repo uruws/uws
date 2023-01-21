@@ -3,12 +3,23 @@
 
 import logging
 
+from os         import getenv
 from pathlib    import Path
 from subprocess import getstatusoutput
 
-libexec     = Path('/opt/uws/chatbot/libexec')
-uwscli_cmd  = 'uwscli.sh'
-uwscli_host = 'localhost'
+#
+# config
+#
+
+debug:       bool = getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
+libexec:     Path = Path('/opt/uws/chatbot/libexec')
+uwscli_cmd:  str  = 'uwscli.sh'
+uwscli_host: str  = 'localhost'
+webapp_port: int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
+
+#
+# utils
+#
 
 def uwscli(user: str, cmd: str) -> tuple[int, str]:
 	logging.debug('uwscli: %s %s', user, cmd)

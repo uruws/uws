@@ -11,6 +11,10 @@ from pathlib import Path
 
 import chatbot
 
+#
+# mock
+#
+
 class MockChatbot(object):
 
 	def __init__(b):
@@ -33,12 +37,20 @@ def mock_teardown(cb):
 	chatbot.getstatusoutput = cb._bup_getstatusoutput
 	cb._destroy()
 
+#
+# config
+#
+
 class TestConfig(unittest.TestCase):
 
 	def test_defaults(t):
 		t.assertEqual(chatbot.libexec,     Path('/opt/uws/chatbot/libexec'))
 		t.assertEqual(chatbot.uwscli_cmd,  'uwscli.sh')
 		t.assertEqual(chatbot.uwscli_host, 'localhost')
+
+#
+# utils
+#
 
 class TestUtils(unittest.TestCase):
 
