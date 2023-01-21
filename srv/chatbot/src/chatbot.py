@@ -7,7 +7,7 @@ from pathlib    import Path
 from subprocess import getstatusoutput
 
 libexec     = Path('/opt/uws/chatbot/libexec')
-uwscli_cmd  = Path('uwscli.sh')
+uwscli_cmd  = 'uwscli.sh'
 uwscli_host = 'localhost'
 
 def uwscli(user: str, cmd: str) -> tuple[int, str]:

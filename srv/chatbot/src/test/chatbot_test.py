@@ -7,6 +7,8 @@ from unittest.mock import MagicMock
 
 import unittest
 
+from pathlib import Path
+
 import chatbot
 
 class MockChatbot(object):
@@ -31,7 +33,14 @@ def mock_teardown(cb):
 	chatbot.getstatusoutput = cb._bup_getstatusoutput
 	cb._destroy()
 
-class Test(unittest.TestCase):
+class TestConfig(unittest.TestCase):
+
+	def test_defaults(t):
+		t.assertEqual(chatbot.libexec,     Path('/opt/uws/chatbot/libexec'))
+		t.assertEqual(chatbot.uwscli_cmd,  'uwscli.sh')
+		t.assertEqual(chatbot.uwscli_host, 'localhost')
+
+class TestUtils(unittest.TestCase):
 
 	def setUp(t):
 		t.cb = mock_setup()
