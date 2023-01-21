@@ -44,7 +44,7 @@ class Test(unittest.TestCase):
 		st, out = chatbot.uwscli('UTEST', 'testing')
 		t.assertEqual(out, 'mock getstatusoutput')
 		t.assertEqual(st, 0)
-		t.cb.getstatusoutput.assert_called_once_with('/opt/uws/chatbot/libexec/uwscli.sh UTEST testing')
+		t.cb.getstatusoutput.assert_called_once_with('/opt/uws/chatbot/libexec/uwscli.sh localhost UTEST testing')
 
 if __name__ == '__main__':
 	unittest.main()
