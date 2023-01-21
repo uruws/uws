@@ -1,21 +1,16 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from dataclasses import dataclass
+import logging
 
-@dataclass
-class User(object):
-	pass
+from pathlib    import Path
+from subprocess import getstatusoutput
 
-@dataclass
-class Result(object):
-	user: User
+libexec = Path('/opt/uws/chatbot/libexec')
+uwscli_cmd = Path('uwscli.sh')
 
-@dataclass
-class Command(object):
-	pass
-
-def uwscli(cmd: Command, user: User) -> Result:
-	return Result(
-		user = user,
-	)
+def uwscli(user: str, cmd: str) -> tuple[int, str]:
+	logging.debug('uwscli: %s %s', user, cmd)
+	xcmd = f"{libexec}/{uwscli_cmd} {user} {cmd}"
+	logging.debug('uwscli exec: %s', xcmd)
+	return getstatusoutput(xcmd)

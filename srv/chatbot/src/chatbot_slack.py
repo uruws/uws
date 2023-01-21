@@ -9,7 +9,7 @@ import os
 from slack_bolt                     import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
-import chatbot_conf
+import chatbot
 
 app = App(
 	token = os.getenv('SLACK_BOT_TOKEN'),
@@ -37,6 +37,10 @@ def event_app_mention(event, say):
 		say(f"<@{user_id}>: what do you mean?", thread_ts = thread_ts)
 	else:
 		say(f"<@{user_id}>: {text}", thread_ts = thread_ts)
+		st, out = chatbot.uwscli(user_id, text)
+		if st != 0:
+			logging.error('uwscli command failed: %s', text)
+			logging.debug('%s', out)
 
 @app.event('message')
 def event_message(body, say):
