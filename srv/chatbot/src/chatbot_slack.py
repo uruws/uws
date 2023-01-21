@@ -36,11 +36,13 @@ def event_app_mention(event, say):
 	if text == '':
 		say(f"<@{user_id}>: what do you mean?", thread_ts = thread_ts)
 	else:
-		st, out = chatbot.uwscli(user_id, text)
-		if st != 0:
-			logging.error('uwscli command failed: %s', text)
+		st = ''
+		rc, out = chatbot.uwscli(user_id, text)
+		if rc != 0:
+			st = '[ERROR] '
+			logging.error('uwscli command failed (%d): %s', rc, text)
 			logging.debug('%s', out)
-		say(f"<@{user_id}>: {text}\n```\n{out}\n```", thread_ts = thread_ts)
+		say(f"<@{user_id}>: {st}{text}\n```\n{out}\n```", thread_ts = thread_ts)
 
 @app.event('message')
 def event_message(body, say):
@@ -51,11 +53,13 @@ def event_message(body, say):
 	thread_ts = event.get('thread_ts', None)
 	if thread_ts is not None:
 		logging.debug('message reply: %s', thread_ts)
-		st, out = chatbot.uwscli(user_id, text)
-		if st != 0:
-			logging.error('uwscli command failed: %s', text)
+		st = ''
+		rc, out = chatbot.uwscli(user_id, text)
+		if rc != 0:
+			st = '[ERROR] '
+			logging.error('uwscli command failed (%d): %s', rc, text)
 			logging.debug('%s', out)
-		say(f"{text}\n```\n{out}\n```", thread_ts = thread_ts)
+		say(f"{st}{text}\n```\n{out}\n```", thread_ts = thread_ts)
 	else:
 		logging.info('message ignored')
 
