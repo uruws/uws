@@ -8,6 +8,7 @@ from unittest.mock import MagicMock
 import unittest
 
 import chatbot_slack
+import chatbot_test
 
 #
 # mock
@@ -71,10 +72,13 @@ class TestEvents(unittest.TestCase):
 
 	def setUp(t):
 		t.slack = MockSlack()
+		t.cb = chatbot_test.mock_setup()
 
 	def tearDown(t):
 		t.slack._destroy()
 		t.slack = None
+		chatbot_test.mock_teardown(t.cb)
+		t.cb = None
 
 	def test_event_app_home_opened(t):
 		chatbot_slack.event_app_home_opened(t.slack.body)
@@ -82,7 +86,14 @@ class TestEvents(unittest.TestCase):
 	def test_event_app_mention(t):
 		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
 		t.slack.say.assert_called_once_with(
-			'<@UTEST>: testing', thread_ts = t.slack.thread_ts,
+			'<@UTEST>: mock getstatusoutput', thread_ts = t.slack.thread_ts,
+		)
+
+	def test_event_app_mention_uwscli_failed(t):
+		t.cb.getstatusoutput.return_value = (99, 'mock error')
+		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
+		t.slack.say.assert_called_once_with(
+			'<@UTEST>: mock error', thread_ts = t.slack.thread_ts,
 		)
 
 	def test_event_app_mention_empty(t):
@@ -95,7 +106,14 @@ class TestEvents(unittest.TestCase):
 	def test_event_message(t):
 		chatbot_slack.event_message(t.slack.body, t.slack.say)
 		t.slack.say.assert_called_once_with(
-			"Sorry, I'm not that clever.", thread_ts = t.slack.thread_ts,
+			'mock getstatusoutput', thread_ts = t.slack.thread_ts,
+		)
+
+	def test_event_message_uwscli_failed(t):
+		t.cb.getstatusoutput.return_value = (99, 'mock error')
+		chatbot_slack.event_message(t.slack.body, t.slack.say)
+		t.slack.say.assert_called_once_with(
+			'mock error', thread_ts = t.slack.thread_ts,
 		)
 
 	def test_event_message_ignore(t):
