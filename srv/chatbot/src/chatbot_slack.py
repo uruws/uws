@@ -81,7 +81,7 @@ def is_healthy() -> bool:
 # utils
 #
 
-channel_id: str = os.getenv('UWS_CHATBOT_CHANNEL_ID', '')
+channel_id: str = os.getenv('UWS_SLACK_CHANNEL_ID', '')
 
 def msg(text: str):
 	logging.debug('send message: %s', channel_id)
