@@ -40,7 +40,7 @@ def event_app_mention(event, say):
 		if st != 0:
 			logging.error('uwscli command failed: %s', text)
 			logging.debug('%s', out)
-		say(f"<@{user_id}>: {out}", thread_ts = thread_ts)
+		say(f"<@{user_id}>: {text}\n```\n{out}\n```", thread_ts = thread_ts)
 
 @app.event('message')
 def event_message(body, say):
@@ -55,7 +55,7 @@ def event_message(body, say):
 		if st != 0:
 			logging.error('uwscli command failed: %s', text)
 			logging.debug('%s', out)
-		say(out, thread_ts = thread_ts)
+		say(f"{text}\n```\n{out}\n```", thread_ts = thread_ts)
 	else:
 		logging.info('message ignored')
 
