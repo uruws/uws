@@ -19,7 +19,7 @@ class MockSlack(object):
 	def __init__(s):
 		s.thread_ts = '1674248319.693579'
 		s.event = {
-			'text':      '<@UBOT> testing',
+			'text':      'testing',
 			'thread_ts': s.thread_ts,
 			'user':      'UTEST',
 		}
@@ -31,7 +31,14 @@ class MockSlack(object):
 	def _destroy(s):
 		s.event.clear()
 		s.event = None
+		s.body.clear()
+		s.body = None
 		s.say = None
+
+	def mock_app_mention(s):
+		s.event['thread_ts'] = None
+		s.event['ts'] = s.thread_ts
+		s.event['text'] = '<@UBOT> testing'
 
 class MockApp(object):
 
@@ -84,20 +91,23 @@ class TestEvents(unittest.TestCase):
 		chatbot_slack.event_app_home_opened(t.slack.body)
 
 	def test_event_app_mention(t):
+		t.slack.mock_app_mention()
 		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
 		t.slack.say.assert_called_once_with(
-			'<@UTEST>: mock getstatusoutput', thread_ts = t.slack.thread_ts,
+			'<@UTEST>: testing\n```\nmock getstatusoutput\n```', thread_ts = t.slack.thread_ts,
 		)
 
 	def test_event_app_mention_uwscli_failed(t):
+		t.slack.mock_app_mention()
 		t.cb.getstatusoutput.return_value = (99, 'mock error')
 		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
 		t.slack.say.assert_called_once_with(
-			'<@UTEST>: mock error', thread_ts = t.slack.thread_ts,
+			'<@UTEST>: testing\n```\nmock error\n```', thread_ts = t.slack.thread_ts,
 		)
 
 	def test_event_app_mention_empty(t):
-		t.slack.event['text'] = ''
+		t.slack.mock_app_mention()
+		t.slack.event['text'] = '<@UBOT>'
 		chatbot_slack.event_app_mention(t.slack.event, t.slack.say)
 		t.slack.say.assert_called_once_with(
 			'<@UTEST>: what do you mean?', thread_ts = t.slack.thread_ts,
@@ -106,14 +116,14 @@ class TestEvents(unittest.TestCase):
 	def test_event_message(t):
 		chatbot_slack.event_message(t.slack.body, t.slack.say)
 		t.slack.say.assert_called_once_with(
-			'mock getstatusoutput', thread_ts = t.slack.thread_ts,
+			'testing\n```\nmock getstatusoutput\n```', thread_ts = t.slack.thread_ts,
 		)
 
 	def test_event_message_uwscli_failed(t):
 		t.cb.getstatusoutput.return_value = (99, 'mock error')
 		chatbot_slack.event_message(t.slack.body, t.slack.say)
 		t.slack.say.assert_called_once_with(
-			'mock error', thread_ts = t.slack.thread_ts,
+			'testing\n```\nmock error\n```', thread_ts = t.slack.thread_ts,
 		)
 
 	def test_event_message_ignore(t):
