@@ -12,11 +12,13 @@ import chatbot_conf
 import chatbot
 import chatbot_slack
 
+app = bottle.Bottle()
+
 #
 # views
 #
 
-@bottle.post('/healthz')
+@app.post('/healthz')
 def healthz():
 	if chatbot_slack.is_healthy():
 		return 'OK'
@@ -34,15 +36,15 @@ def start():
 	logging.debug('slack connected')
 	chatbot_slack.msg('connected')
 
-def getapp():
+def wsgi_application():
 	start()
-	logging.debug('getapp')
-	return bottle.app[0]
+	logging.debug('wsgi application: %s', type(app))
+	return app
 
 def main():
 	start()
 	logging.debug('bottle run')
-	bottle.run(
+	app.run(
 		host     = '0.0.0.0',
 		port     = chatbot.webapp_port,
 		reloader = True,

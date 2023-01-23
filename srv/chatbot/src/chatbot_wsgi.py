@@ -3,4 +3,4 @@
 
 import chatbot_main
 
-application = chatbot_main.getapp()
+application = chatbot_main.wsgi_application()
