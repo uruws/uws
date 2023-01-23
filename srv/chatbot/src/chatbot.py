@@ -15,7 +15,7 @@ from subprocess import getstatusoutput
 debug:       bool = getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
 libexec:     Path = Path('/opt/uws/chatbot/libexec')
 uwscli_cmd:  str  = 'uwscli.sh'
-uwscli_host: str  = 'localhost'
+uwscli_host: str  = getenv('UWSCLI_HOST', 'localhost')
 webapp_port: int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
 
 #
