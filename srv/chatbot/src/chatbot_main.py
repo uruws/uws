@@ -7,12 +7,7 @@ import sys
 
 from pathlib import Path
 
-# local conf
-
-conf = Path('/etc/opt/uws/chatbot/chatbot_conf.py')
-if conf.exists() and conf.is_file() and not conf.is_symlink():
-	sys.path.insert(0, conf.parent.as_posix())
-	import chatbot_conf # type: ignore
+import chatbot_conf
 
 import chatbot
 import chatbot_slack

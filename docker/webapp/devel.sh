@@ -36,5 +36,6 @@ exec docker run -it --rm --read-only \
 	-u uws \
 	-e USER=uws \
 	-e HOME=/home/uws \
+	-e PYTHONPATH=/etc/opt/uws/chatbot \
 	--tmpfs /tmp \
 	"uws/${webapp}-2211"
