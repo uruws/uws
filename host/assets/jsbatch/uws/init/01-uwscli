@@ -63,7 +63,9 @@ find ~uwscli/vendor/ -type d -name __pycache__ | xargs chown -R root:uwscli
 
 umask 0027
 
+#
 # users profile
+#
 
 chmod -v 0750 ~antonio
 install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~antonio/.bash_profile
@@ -86,7 +88,12 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~nelson/.bash_profile
 chmod -v 0750 ~ramiro
 install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
 
+chmod -v 0750 ~uwscbdev
+install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~uwscbdev/.bash_profile
+
+#
 # admin users
+#
 
 addgroup uwsadm || true
 
@@ -97,7 +104,9 @@ adduser uwscli   uwsadm
 adduser aram     uwsadm
 adduser jeremias uwsadm
 
+#
 # operator users
+#
 
 # Make uws user an operator. Needed for autobuild deploys.
 adduser uws uwsops
@@ -110,7 +119,9 @@ adduser jeremias  uwsops
 adduser nelson    uwsops
 adduser uwscbdev  uwsops
 
+#
 # app groups
+#
 
 # app
 addgroup uwsapp_app || true
@@ -158,11 +169,15 @@ addgroup uwsapp_meteor-vanilla || true
 
 adduser uwscbdev uwsapp_meteor-vanilla
 
+#
 # install crontab
+#
 
 crontab -u uwscli ~uwscli/etc/crontab.in
 
+#
 # remove old users
+#
 
 #~ deluser --remove-home alejandro || true
 
