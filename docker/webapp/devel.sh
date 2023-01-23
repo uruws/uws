@@ -22,6 +22,8 @@ install -v -d -m 0750 "${tmpdir}"
 
 webapp_port=${WEBAPP_PORT:-0}
 
+install -v -d -m 1777 "${webapp_src}/__pycache__"
+
 exec docker run -it --rm --read-only \
 	--name "uws-${webapp}-devel" \
 	--hostname "${webapp}-devel.uws.local" \
@@ -38,4 +40,5 @@ exec docker run -it --rm --read-only \
 	-e HOME=/home/uws \
 	-e PYTHONPATH=/etc/opt/uws/chatbot \
 	--tmpfs /tmp \
+	--tmpfs "/opt/uws/${webapp}/__pycache__" \
 	"uws/${webapp}-2211"
