@@ -23,12 +23,12 @@ def mock_start():
 
 @contextmanager
 def mock_bottle():
-	bup = chatbot_main.bottle
+	bup = chatbot_main.app
 	try:
-		chatbot_main.bottle = MagicMock()
+		chatbot_main.app = MagicMock()
 		yield
 	finally:
-		chatbot_main.bottle = bup
+		chatbot_main.app = bup
 
 class TestMain(unittest.TestCase):
 
@@ -45,10 +45,10 @@ class TestMain(unittest.TestCase):
 		t.app.smh.connect.assert_called_once_with()
 		t.app.client.chat_postMessage.assert_called_once_with(channel = 'CTESTING', text = 'connected')
 
-	def test_getapp(t):
+	def test_wsgi_application(t):
 		with mock_start():
-			app = chatbot_main.getapp()
-			t.assertIs(app, bottle.app)
+			app = chatbot_main.wsgi_application()
+			t.assertIs(app, chatbot_main.app)
 			chatbot_main.start.assert_called_once_with()
 
 	def test_main(t):
@@ -56,7 +56,7 @@ class TestMain(unittest.TestCase):
 			with mock_bottle():
 				chatbot_main.main()
 				chatbot_main.start.assert_called_once_with()
-				chatbot_main.bottle.run.assert_called_once_with(
+				chatbot_main.app.run.assert_called_once_with(
 					host = '0.0.0.0', port = 2741, reloader = True, debug = True,
 				)
 
