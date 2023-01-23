@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 import logging
+import shlex
 
 from os         import getenv
 from pathlib    import Path
@@ -23,6 +24,8 @@ webapp_port: int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
 
 def uwscli(user: str, cmd: str) -> tuple[int, str]:
 	logging.debug('uwscli: %s %s', user, cmd)
-	xcmd = f"{libexec}/{uwscli_cmd} {uwscli_host} {user} {cmd}"
+	xcmd = f"{libexec}/{uwscli_cmd} {uwscli_host} {user}"
+	for a in cmd.split():
+		xcmd += ' %s' % shlex.quote(a)
 	logging.debug('uwscli exec: %s', xcmd)
 	return getstatusoutput(xcmd)

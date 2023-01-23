@@ -67,5 +67,11 @@ class TestUtils(unittest.TestCase):
 		t.assertEqual(st, 0)
 		t.cb.getstatusoutput.assert_called_once_with('/opt/uws/chatbot/libexec/uwscli.sh localhost UTEST testing')
 
+	def test_uwscli_shell_quote(t):
+		st, out = chatbot.uwscli('UTEST', '<@UCHATBOT> testing')
+		t.assertEqual(out, 'mock getstatusoutput')
+		t.assertEqual(st, 0)
+		t.cb.getstatusoutput.assert_called_once_with("/opt/uws/chatbot/libexec/uwscli.sh localhost UTEST '<@UCHATBOT>' testing")
+
 if __name__ == '__main__':
 	unittest.main()
