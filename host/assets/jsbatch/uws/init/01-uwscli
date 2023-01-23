@@ -108,6 +108,7 @@ adduser gabriel   uwsops
 adduser guillermo uwsops
 adduser jeremias  uwsops
 adduser nelson    uwsops
+adduser uwscbdev  uwsops
 
 # app groups
 
@@ -122,8 +123,9 @@ adduser ramiro  uwsapp_app
 # apptest
 addgroup uwsapp_apptest || true
 
-adduser gabriel uwsapp_apptest
-adduser ramiro  uwsapp_apptest
+adduser gabriel  uwsapp_apptest
+adduser ramiro   uwsapp_apptest
+adduser uwscbdev uwsapp_apptest
 
 # beta
 addgroup uwsapp_beta || true
@@ -150,6 +152,11 @@ adduser ramiro    uwsapp_nlp
 addgroup uwsapp_infra-ui || true
 
 adduser gabriel uwsapp_infra-ui
+
+# uwsapp_meteor-vanilla
+addgroup uwsapp_meteor-vanilla || true
+
+adduser uwscbdev uwsapp_meteor-vanilla
 
 # install crontab
 
