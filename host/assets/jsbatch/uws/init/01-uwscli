@@ -90,6 +90,7 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
 
 chmod -v 0750 ~uwscbdev
 install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~uwscbdev/.bash_profile
+install -v -d -m 0750 ~uwscbdev/.ssh
 install -v -C -m 0600 /srv/uws/deploy/secret/webapp/chatbot/ssh/ecdsa_id.pub ~uwscbdev/.ssh/authorized_keys
 
 #
