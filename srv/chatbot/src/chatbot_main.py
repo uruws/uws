@@ -27,6 +27,8 @@ def healthz():
 #
 
 def start():
+	if chatbot.debug:
+		logging.basicConfig(level = logging.DEBUG)
 	logging.debug('start')
 	chatbot_slack.connect()
 	logging.debug('slack connected')
@@ -34,7 +36,8 @@ def start():
 
 def getapp():
 	start()
-	return bottle.app
+	logging.debug('getapp')
+	return bottle.app[0]
 
 def main():
 	start()
@@ -47,6 +50,4 @@ def main():
 	)
 
 if __name__ == '__main__': # pragma: no cover
-	if chatbot.debug:
-		logging.basicConfig(level = logging.DEBUG)
 	main()
