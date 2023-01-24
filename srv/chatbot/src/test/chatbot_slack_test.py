@@ -119,6 +119,11 @@ class TestEvents(unittest.TestCase):
 			'testing\n```\nmock getstatusoutput\n```', thread_ts = t.slack.thread_ts,
 		)
 
+	def test_event_message_ignore(t):
+		t.slack.event['thread_ts'] = None
+		chatbot_slack.event_message(t.slack.body, t.slack.say)
+		t.slack.say.assert_not_called()
+
 	def test_event_message_uwscli_failed(t):
 		t.cb.getstatusoutput.return_value = (99, 'mock error')
 		chatbot_slack.event_message(t.slack.body, t.slack.say)
@@ -126,8 +131,8 @@ class TestEvents(unittest.TestCase):
 			'[ERROR] testing\n```\nmock error\n```', thread_ts = t.slack.thread_ts,
 		)
 
-	def test_event_message_ignore(t):
-		t.slack.event['thread_ts'] = None
+	def test_event_message_uwscli_ignore(t):
+		t.cb.getstatusoutput.return_value = (-2, 'mock uwscli ignore')
 		chatbot_slack.event_message(t.slack.body, t.slack.say)
 		t.slack.say.assert_not_called()
 

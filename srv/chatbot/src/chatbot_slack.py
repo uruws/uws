@@ -26,40 +26,44 @@ def event_app_home_opened(body):
 # https://api.slack.com/events/message
 # https://github.com/slackapi/bolt-python/blob/main/examples/message_events.py
 
-@app.event('app_mention')
-def event_app_mention(event, say):
-	logging.debug('app_mention: %s', event)
+def _message(event, say, mention = False):
+	logging.debug('message: %s', event)
 	user_id = event['user']
-	text = ' '.join(event.get('text', '').split(' ')[1:]).strip()
+	if mention:
+		text = ' '.join(event.get('text', '').split(' ')[1:]).strip()
+		user_mention = f"<@{user_id}>: "
+	else:
+		text = event.get('text', '').strip()
+		user_mention = ''
 	thread_ts = event.get('thread_ts', None) or event['ts']
-	logging.debug('app_mention reply: %s', thread_ts)
+	logging.debug('message reply: %s', thread_ts)
 	if text == '':
 		say(f"<@{user_id}>: what do you mean?", thread_ts = thread_ts)
 	else:
 		st = ''
 		rc, out = chatbot.uwscli(user_id, text)
+		if rc < -1:
+			logging.debug('uwscli command ignore: %s', text)
+			return
 		if rc != 0:
 			st = '[ERROR] '
 			logging.error('uwscli command failed (%d): %s', rc, text)
 			logging.debug('%s', out)
-		say(f"<@{user_id}>: {st}{text}\n```\n{out}\n```", thread_ts = thread_ts)
+		say(f"{user_mention}{st}{text}\n```\n{out}\n```", thread_ts = thread_ts)
+
+@app.event('app_mention')
+def event_app_mention(event, say):
+	logging.debug('event_app_mention')
+	_message(event, say, mention = True)
 
 @app.event('message')
 def event_message(body, say):
-	logging.debug('message: %s', body)
+	logging.debug('event_message')
 	event = body['event']
-	user_id = event['user']
-	text = event.get('text', '')
 	thread_ts = event.get('thread_ts', None)
 	if thread_ts is not None:
 		logging.debug('message reply: %s', thread_ts)
-		st = ''
-		rc, out = chatbot.uwscli(user_id, text)
-		if rc != 0:
-			st = '[ERROR] '
-			logging.error('uwscli command failed (%d): %s', rc, text)
-			logging.debug('%s', out)
-		say(f"{st}{text}\n```\n{out}\n```", thread_ts = thread_ts)
+		_message(event, say)
 	else:
 		logging.info('message ignored')
 
