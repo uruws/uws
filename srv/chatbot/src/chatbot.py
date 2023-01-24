@@ -18,7 +18,7 @@ debug:         bool = getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
 libexec:       Path = Path('/opt/uws/chatbot/libexec')
 uwscli_cmd:    str  = 'uwscli.sh'
 uwscli_host:   str  = getenv('UWSCLI_HOST', 'localhost')
-uwscli_bindir: str  = Path('/srv/home/uwscli/bin')
+uwscli_bindir: Path = Path('/srv/home/uwscli/bin')
 webapp_port:   int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
 
 #
