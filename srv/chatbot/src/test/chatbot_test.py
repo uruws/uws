@@ -90,6 +90,24 @@ class TestUtils(unittest.TestCase):
 		t.assertEqual(out, 'unauthorized')
 		t.assertEqual(st, -1)
 
+	def test_uwscli_command(t):
+		cl = [k for k, c in chatbot.uwscli_command.items() if c.enable]
+		t.assertListEqual(cl, [
+			'app-build',
+			'app-deploy',
+			'app-events',
+			'app-logs',
+			'app-restart',
+			'app-rollin',
+			'app-scale',
+			'app-status',
+			'app-top',
+			'production-tapo',
+			'staging-tapo',
+			'uwshelp',
+			'testing',
+		])
+
 	def test_uwscli_command_invalid(t):
 		st, out = chatbot.uwscli('UTEST', 'testing-invalid')
 		t.assertEqual(out, 'unauthorized')

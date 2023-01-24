@@ -47,9 +47,42 @@ class UwscliCmd(object):
 	enable: bool
 
 uwscli_command: dict[str, UwscliCmd] = {
+	'app-build': UwscliCmd(
+		enable = True,
+	),
+	'app-deploy': UwscliCmd(
+		enable = True,
+	),
+	'app-events': UwscliCmd(
+		enable = True,
+	),
+	'app-logs': UwscliCmd(
+		enable = True,
+	),
+	'app-restart': UwscliCmd(
+		enable = True,
+	),
+	'app-rollin': UwscliCmd(
+		enable = True,
+	),
+	'app-scale': UwscliCmd(
+		enable = True,
+	),
 	'app-status': UwscliCmd(
 		enable = True,
-	)
+	),
+	'app-top': UwscliCmd(
+		enable = True,
+	),
+	'production-tapo': UwscliCmd(
+		enable = True,
+	),
+	'staging-tapo': UwscliCmd(
+		enable = True,
+	),
+	'uwshelp': UwscliCmd(
+		enable = True,
+	),
 }
 
 def uwscli(user: str, cmd: str) -> tuple[int, str]:
