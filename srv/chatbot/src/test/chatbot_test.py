@@ -51,9 +51,11 @@ def mock_teardown(cb):
 class TestConfig(unittest.TestCase):
 
 	def test_defaults(t):
-		t.assertEqual(chatbot.libexec,     Path('/opt/uws/chatbot/libexec'))
-		t.assertEqual(chatbot.uwscli_cmd,  'uwscli.sh')
-		t.assertEqual(chatbot.uwscli_host, 'chatbotdev.uws.talkingpts.org')
+		t.assertEqual(chatbot.libexec,       Path('/opt/uws/chatbot/libexec'))
+		t.assertEqual(chatbot.uwscli_cmd,    'uwscli.sh')
+		t.assertEqual(chatbot.uwscli_host,   'chatbotdev.uws.talkingpts.org')
+		t.assertEqual(chatbot.uwscli_bindir, Path('/srv/home/uwscli/bin'))
+		t.assertEqual(chatbot.webapp_port,   2741)
 
 #
 # utils

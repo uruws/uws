@@ -14,11 +14,12 @@ from typing      import Optional
 # config
 #
 
-debug:       bool = getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
-libexec:     Path = Path('/opt/uws/chatbot/libexec')
-uwscli_cmd:  str  = 'uwscli.sh'
-uwscli_host: str  = getenv('UWSCLI_HOST', 'localhost')
-webapp_port: int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
+debug:         bool = getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
+libexec:       Path = Path('/opt/uws/chatbot/libexec')
+uwscli_cmd:    str  = 'uwscli.sh'
+uwscli_host:   str  = getenv('UWSCLI_HOST', 'localhost')
+uwscli_bindir: str  = Path('/srv/home/uwscli/bin')
+webapp_port:   int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
 
 #
 # users
@@ -41,14 +42,37 @@ def user_get(uid: str) -> Optional[User]:
 # utils
 #
 
+@dataclass
+class UwscliCmd(object):
+	enable: bool
+
+uwscli_command: dict[str, UwscliCmd] = {
+	'app-status': UwscliCmd(
+		enable = True,
+	)
+}
+
 def uwscli(user: str, cmd: str) -> tuple[int, str]:
 	logging.debug('uwscli: %s %s', user, cmd)
+	# user
 	u = user_get(user)
 	if u is None:
 		logging.error('uwscli invalid user: %s', user)
 		return (-1, 'unauthorized')
+	# command
 	xcmd = f"{libexec}/{uwscli_cmd} {uwscli_host} {u.name}"
-	for a in cmd.split():
+	icmd = cmd.split()
+	xn = icmd[0].strip()
+	x = uwscli_command.get(xn, None)
+	if x is None:
+		logging.error('uwscli invalid command: %s', xn)
+		return (-2, 'unauthorized')
+	if not x.enable:
+		logging.error('uwscli disabled command: %s', xn)
+		return (-3, 'unauthorized')
+	xcmd += ' %s' % uwscli_bindir.joinpath(xn)
+	for a in icmd[1:]:
 		xcmd += ' %s' % shlex.quote(a)
+	# exec
 	logging.debug('uwscli exec: %s', xcmd)
 	return getstatusoutput(xcmd)
