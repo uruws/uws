@@ -4,9 +4,11 @@
 import logging
 import shlex
 
-from os         import getenv
-from pathlib    import Path
-from subprocess import getstatusoutput
+from dataclasses import dataclass
+from os          import getenv
+from pathlib     import Path
+from subprocess  import getstatusoutput
+from typing      import Optional
 
 #
 # config
@@ -19,12 +21,33 @@ uwscli_host: str  = getenv('UWSCLI_HOST', 'localhost')
 webapp_port: int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
 
 #
+# users
+#
+
+@dataclass
+class User(object):
+	name:     str
+	slack_id: str = ''
+
+user: dict[str, User] = {}
+
+def user_get(uid: str) -> Optional[User]:
+	u = user.get(uid, None)
+	if u is not None:
+		u.slack_id = uid
+	return u
+
+#
 # utils
 #
 
 def uwscli(user: str, cmd: str) -> tuple[int, str]:
 	logging.debug('uwscli: %s %s', user, cmd)
-	xcmd = f"{libexec}/{uwscli_cmd} {uwscli_host} {user}"
+	u = user_get(user)
+	if u is None:
+		logging.error('uwscli invalid user: %s', user)
+		return (-1, 'unauthorized')
+	xcmd = f"{libexec}/{uwscli_cmd} {uwscli_host} {u.name}"
 	for a in cmd.split():
 		xcmd += ' %s' % shlex.quote(a)
 	logging.debug('uwscli exec: %s', xcmd)
