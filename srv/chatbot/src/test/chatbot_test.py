@@ -36,6 +36,9 @@ def mock_setup():
 	chatbot.user['UTEST'] = chatbot.User(
 		name = 'testing',
 	)
+	chatbot.uwscli_command['testing'] = chatbot.UwscliCmd(
+		enable = True,
+	)
 	return cb
 
 def mock_teardown(cb):
@@ -74,18 +77,29 @@ class TestUtils(unittest.TestCase):
 		st, out = chatbot.uwscli('UTEST', 'testing')
 		t.assertEqual(out, 'mock getstatusoutput')
 		t.assertEqual(st, 0)
-		t.cb.getstatusoutput.assert_called_once_with('/opt/uws/chatbot/libexec/uwscli.sh localhost testing testing')
+		t.cb.getstatusoutput.assert_called_once_with('/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing')
 
 	def test_uwscli_shell_quote(t):
-		st, out = chatbot.uwscli('UTEST', '<@UCHATBOT> testing')
+		st, out = chatbot.uwscli('UTEST', 'testing <@UCHATBOT>')
 		t.assertEqual(out, 'mock getstatusoutput')
 		t.assertEqual(st, 0)
-		t.cb.getstatusoutput.assert_called_once_with("/opt/uws/chatbot/libexec/uwscli.sh localhost testing '<@UCHATBOT>' testing")
+		t.cb.getstatusoutput.assert_called_once_with("/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing '<@UCHATBOT>'")
 
-	def test_uwscli_invalid_user(t):
+	def test_uwscli_user_invalid(t):
 		st, out = chatbot.uwscli('UINVALID', 'testing')
 		t.assertEqual(out, 'unauthorized')
 		t.assertEqual(st, -1)
+
+	def test_uwscli_command_invalid(t):
+		st, out = chatbot.uwscli('UTEST', 'testing-invalid')
+		t.assertEqual(out, 'unauthorized')
+		t.assertEqual(st, -2)
+
+	def test_uwscli_command_disabled(t):
+		chatbot.uwscli_command['testing'].enable = False
+		st, out = chatbot.uwscli('UTEST', 'testing')
+		t.assertEqual(out, 'unauthorized')
+		t.assertEqual(st, -3)
 
 if __name__ == '__main__':
 	unittest.main()
