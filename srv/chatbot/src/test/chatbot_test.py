@@ -87,7 +87,7 @@ class TestUtils(unittest.TestCase):
 
 	def test_uwscli_user_invalid(t):
 		st, out = chatbot.uwscli('UINVALID', 'testing')
-		t.assertEqual(out, 'unauthorized')
+		t.assertEqual(out, 'unauthorized: UINVALID')
 		t.assertEqual(st, -1)
 
 	def test_uwscli_command(t):

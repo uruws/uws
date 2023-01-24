@@ -91,7 +91,7 @@ def uwscli(user: str, cmd: str) -> tuple[int, str]:
 	u = user_get(user)
 	if u is None:
 		logging.error('uwscli invalid user: %s', user)
-		return (-1, 'unauthorized')
+		return (-1, 'unauthorized: %s' % user)
 	# command
 	xcmd = f"{libexec}/{uwscli_cmd} {uwscli_host} {u.name}"
 	icmd = cmd.split()
@@ -104,6 +104,7 @@ def uwscli(user: str, cmd: str) -> tuple[int, str]:
 		logging.error('uwscli disabled command: %s', xn)
 		return (-3, 'unauthorized')
 	xcmd += ' %s' % uwscli_bindir.joinpath(xn)
+	# args
 	for a in icmd[1:]:
 		xcmd += ' %s' % shlex.quote(a)
 	# exec
