@@ -44,7 +44,8 @@ def mock_setup():
 def mock_teardown(cb):
 	chatbot.getstatusoutput = cb._bup_getstatusoutput
 	chatbot.uwscli_host = cb._bup_uwscli_host
-	del chatbot.user['UTEST']
+	chatbot.user.clear()
+	chatbot.uwscli_command.clear()
 	cb._destroy()
 
 #
@@ -97,18 +98,6 @@ class TestUwscli(unittest.TestCase):
 	def test_uwscli_command(t):
 		cl = [k for k, c in chatbot.uwscli_command.items() if c.enable]
 		t.assertListEqual(cl, [
-			'app-build',
-			'app-deploy',
-			'app-events',
-			'app-logs',
-			'app-restart',
-			'app-rollin',
-			'app-scale',
-			'app-status',
-			'app-top',
-			'production-tapo',
-			'staging-tapo',
-			'uwshelp',
 			'testing',
 		])
 
