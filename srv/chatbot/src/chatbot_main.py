@@ -47,8 +47,8 @@ def main():
 	app.run(
 		host     = '0.0.0.0',
 		port     = chatbot.webapp_port,
-		reloader = True,
-		debug    = True,
+		reloader = chatbot.debug,
+		debug    = chatbot.debug,
 	)
 
 if __name__ == '__main__': # pragma: no cover
