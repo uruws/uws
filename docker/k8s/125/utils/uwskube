@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+kcfg=~/.kube/eksctl/clusters/${UWS_CLUSTER}
+exec kubectl --kubeconfig=${kcfg} $@
