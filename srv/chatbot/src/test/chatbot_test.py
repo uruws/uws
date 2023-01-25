@@ -90,10 +90,9 @@ class TestUwscli(unittest.TestCase):
 		t.cb.getstatusoutput.assert_called_once_with("/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing '<@UCHATBOT>'")
 
 	def test_uwscli_user_invalid(t):
-		with t.assertRaises(chatbot.UwscliCmdError) as cm:
-			chatbot.uwscli('UINVALID', 'testing')
-		err = cm.exception
-		t.assertEqual(err.status, 1)
+		st, out = chatbot.uwscli('UINVALID', 'testing')
+		t.assertEqual(out, 'unauthorized: UINVALID')
+		t.assertEqual(st, -1)
 
 	def test_uwscli_command(t):
 		cl = [k for k, c in chatbot.uwscli_command.items() if c.enable]
@@ -105,14 +104,14 @@ class TestUwscli(unittest.TestCase):
 		with t.assertRaises(chatbot.UwscliCmdError) as cm:
 			chatbot.uwscli('UTEST', 'testing-invalid')
 		err = cm.exception
-		t.assertEqual(err.status, 2)
+		t.assertEqual(err.status, 1)
 
 	def test_uwscli_command_disabled(t):
 		chatbot.uwscli_command['testing'].enable = False
 		with t.assertRaises(chatbot.UwscliCmdError) as cm:
 			chatbot.uwscli('UTEST', 'testing')
 		err = cm.exception
-		t.assertEqual(err.status, 3)
+		t.assertEqual(err.status, 2)
 
 if __name__ == '__main__':
 	unittest.main()
