@@ -38,6 +38,7 @@ def user_get(uid: str) -> Optional[User]:
 #
 # uwscli
 #
+
 uwscli_cmd:    str  = 'uwscli.sh'
 uwscli_host:   str  = getenv('UWSCLI_HOST', 'localhost')
 uwscli_bindir: Path = Path('/srv/home/uwscli/bin')
