@@ -14,12 +14,9 @@ from typing      import Optional
 # config
 #
 
-debug:         bool = getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
-libexec:       Path = Path('/opt/uws/chatbot/libexec')
-uwscli_cmd:    str  = 'uwscli.sh'
-uwscli_host:   str  = getenv('UWSCLI_HOST', 'localhost')
-uwscli_bindir: Path = Path('/srv/home/uwscli/bin')
-webapp_port:   int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
+debug:       bool = getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
+libexec:     Path = Path('/opt/uws/chatbot/libexec')
+webapp_port: int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
 
 #
 # users
@@ -39,8 +36,11 @@ def user_get(uid: str) -> Optional[User]:
 	return u
 
 #
-# utils
+# uwscli
 #
+uwscli_cmd:    str  = 'uwscli.sh'
+uwscli_host:   str  = getenv('UWSCLI_HOST', 'localhost')
+uwscli_bindir: Path = Path('/srv/home/uwscli/bin')
 
 @dataclass
 class UwscliCmd(object):

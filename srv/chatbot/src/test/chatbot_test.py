@@ -54,17 +54,15 @@ def mock_teardown(cb):
 class TestConfig(unittest.TestCase):
 
 	def test_defaults(t):
-		t.assertEqual(chatbot.libexec,       Path('/opt/uws/chatbot/libexec'))
-		t.assertEqual(chatbot.uwscli_cmd,    'uwscli.sh')
-		t.assertEqual(chatbot.uwscli_host,   'chatbotdev.uws.talkingpts.org')
-		t.assertEqual(chatbot.uwscli_bindir, Path('/srv/home/uwscli/bin'))
-		t.assertEqual(chatbot.webapp_port,   2741)
+		t.assertTrue(chatbot.debug)
+		t.assertEqual(chatbot.libexec,     Path('/opt/uws/chatbot/libexec'))
+		t.assertEqual(chatbot.webapp_port, 2741)
 
 #
-# utils
+# uwscli
 #
 
-class TestUtils(unittest.TestCase):
+class TestUwscli(unittest.TestCase):
 
 	def setUp(t):
 		t.cb = mock_setup()
@@ -72,6 +70,11 @@ class TestUtils(unittest.TestCase):
 	def tearDown(t):
 		mock_teardown(t.cb)
 		t.cb = None
+
+	def test_defaults(t):
+		t.assertEqual(chatbot.uwscli_cmd,    'uwscli.sh')
+		t.assertEqual(chatbot.uwscli_host,   'localhost')
+		t.assertEqual(chatbot.uwscli_bindir, Path('/srv/home/uwscli/bin'))
 
 	def test_uwscli(t):
 		st, out = chatbot.uwscli('UTEST', 'testing')
