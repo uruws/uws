@@ -1,14 +1,16 @@
 #!/bin/sh
 set -eu
 
-nodes=2
-nodes_min=2
-nodes_max=10
+nodes=3
+nodes_min=3
+nodes_max=100
 
-uwseks-cluster-create --profile ${AWS_PROFILE} --region ${AWS_REGION} \
-	--nodes ${nodes} --nodes-min ${nodes_min} --nodes-max ${nodes_max} \
+uwseks-cluster-create --profile "${AWS_PROFILE}" --region "${AWS_REGION}" \
+	--zones "${AWS_ZONES}" --k8s-version "${K8S_VERSION}" \
+	--nodes "${nodes}" --nodes-min "${nodes_min}" --nodes-max "${nodes_max}" \
 	--instance-types "${AWS_INSTANCE_TYPES}" \
-	${UWS_CLUSTER}
+	--spot "${UWS_CLUSTER}"
 
-uwseks-cluster-setup
-exit 0
+sleep 3
+
+exec uwseks-cluster-setup
