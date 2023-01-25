@@ -41,8 +41,9 @@ def _message(event, say, mention = False):
 		say(f"<@{user_id}>: what do you mean?", thread_ts = thread_ts)
 	else:
 		st = ''
-		rc, out = chatbot.uwscli(user_id, text)
-		if rc < -1:
+		try:
+			rc, out = chatbot.uwscli(user_id, text)
+		except chatbot.UwscliCmdError:
 			logging.debug('uwscli command ignore: %s', text)
 			return
 		if rc != 0:

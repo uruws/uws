@@ -43,6 +43,11 @@ uwscli_host:   str  = getenv('UWSCLI_HOST', 'localhost')
 uwscli_bindir: Path = Path('/srv/home/uwscli/bin')
 
 @dataclass
+class UwscliCmdError(Exception):
+	status:  int
+	message: str
+
+@dataclass
 class UwscliCmd(object):
 	enable: bool
 
@@ -91,7 +96,7 @@ def uwscli(user: str, cmd: str) -> tuple[int, str]:
 	u = user_get(user)
 	if u is None:
 		logging.error('uwscli invalid user: %s', user)
-		return (-1, 'unauthorized: %s' % user)
+		raise UwscliCmdError(1, 'unauthorized: %s' % user)
 	# command
 	xcmd = f"{libexec}/{uwscli_cmd} {uwscli_host} {u.name}"
 	icmd = cmd.split()
@@ -99,10 +104,10 @@ def uwscli(user: str, cmd: str) -> tuple[int, str]:
 	x = uwscli_command.get(xn, None)
 	if x is None:
 		logging.error('uwscli invalid command: %s', xn)
-		return (-2, 'unauthorized')
+		raise UwscliCmdError(2, 'unauthorized')
 	if not x.enable:
 		logging.error('uwscli disabled command: %s', xn)
-		return (-3, 'unauthorized')
+		raise UwscliCmdError(3, 'unauthorized')
 	xcmd += ' %s' % uwscli_bindir.joinpath(xn)
 	# args
 	for a in icmd[1:]:

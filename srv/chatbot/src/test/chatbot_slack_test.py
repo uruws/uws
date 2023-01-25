@@ -7,8 +7,10 @@ from unittest.mock import MagicMock
 
 import unittest
 
-import chatbot_slack
 import chatbot_test
+
+import chatbot
+import chatbot_slack
 
 #
 # mock
@@ -132,7 +134,9 @@ class TestEvents(unittest.TestCase):
 		)
 
 	def test_event_message_uwscli_ignore(t):
-		t.cb.getstatusoutput.return_value = (-2, 'mock uwscli ignore')
+		def _fail(*args, **kwargs):
+			raise chatbot.UwscliCmdError(99, 'mock uwscli ignore')
+		t.cb.getstatusoutput.side_effect = _fail
 		chatbot_slack.event_message(t.slack.body, t.slack.say)
 		t.slack.say.assert_not_called()
 
