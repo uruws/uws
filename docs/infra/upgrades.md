@@ -37,15 +37,17 @@
     * 1.22
         * `2203`: upstream-get.sh 1.2.1
     * 1.19
-        * `2203`: upstream-get.sh 0.49.3
+        * 2203: upstream-get.sh 0.49.3
             * all clusters done
         * 2109: 0.49.2
         * 2108: 0.45.0 -> 0.48.1
 * [k8s/autoscaler][k8s-autoscaler]
+    * 1.25
+        * `2211`: upstream-get.sh, 1.25/deploy.yaml 1.25.0
     * 1.22
-        * `2203`: upstream-get.sh, 1.22/deploy.yaml 1.22.2
+        * 2203: upstream-get.sh, 1.22/deploy.yaml 1.22.2
     * 1.19
-        * `2203`: upstream-get.sh, setup.sh 1.19.2
+        * 2203: upstream-get.sh, setup.sh 1.19.2
             * all clusters done
         * 2109: 1.19.1 -> 1.19.2
 * [k8s/cert-manager][cert-manager]
