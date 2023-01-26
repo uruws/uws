@@ -1,7 +1,7 @@
-FROM uws/base-2211
+FROM uws/base-${DOCKER_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230126"
+LABEL version="${DOCKER_VERSION}"
 
 USER root:root
 WORKDIR /root
@@ -27,8 +27,8 @@ ENV HOME /home/uws
 # kubectl
 #
 
-RUN wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.25.5/2023-01-11/bin/linux/amd64/kubectl \
-	&& wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.25.5/2023-01-11/bin/linux/amd64/kubectl.sha256 \
+RUN wget -q ${KUBECTL_URL}/bin/linux/amd64/kubectl \
+	&& wget -q ${KUBECTL_URL}/bin/linux/amd64/kubectl.sha256 \
 	&& sha256sum -c kubectl.sha256 \
 	&& install -v -m 0755 kubectl /usr/local/bin \
 	&& rm -vf kubectl kubectl.sha256
@@ -40,7 +40,7 @@ RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 # helm
 #
 
-RUN wget -q -O helm.tgz https://get.helm.sh/helm-v3.11.0-linux-amd64.tar.gz \
+RUN wget -q -O helm.tgz ${HELM_URL}-linux-amd64.tar.gz \
 	&& tar -vxzf helm.tgz \
 	&& install -v -m 0755 linux-amd64/helm /usr/local/bin/helm.real \
 	&& rm -rvf helm.tgz linux-amd64 \
@@ -54,8 +54,8 @@ RUN install -v -m 0755 helm-wrapper.sh /usr/local/bin/helm \
 # kubeshark
 #
 
-RUN wget -q https://github.com/kubeshark/kubeshark/releases/download/38.3/kubeshark_linux_amd64 \
-	&& wget -q https://github.com/kubeshark/kubeshark/releases/download/38.3/kubeshark_linux_amd64.sha256 \
+RUN wget -q ${KUBESHARK_URL}/kubeshark_linux_amd64 \
+	&& wget -q ${KUBESHARK_URL}/kubeshark_linux_amd64.sha256 \
 	&& sha256sum -c kubeshark_linux_amd64.sha256 \
 	&& install -v -m 0755 kubeshark_linux_amd64 /usr/local/bin/kubeshark \
 	&& rm -vf kubeshark_linux_amd64.sha256 kubeshark_linux_amd64

@@ -4,9 +4,11 @@
 # See LICENSE file.
 
 import json
+import subprocess
 import sys
 
 from dataclasses import dataclass
+from datetime    import datetime
 from os          import makedirs
 from pathlib     import Path
 from shutil      import copytree
@@ -25,7 +27,7 @@ class Config(object):
 	k8s_tag:    str = ''
 	kubectl:    str = ''
 	helm:       str = ''
-	kubeshark   str = ''
+	kubeshark:  str = ''
 
 	def kubectl_url(c):
 		return 'https://amazon-eks.s3.us-west-2.amazonaws.com/%s' % c.kubectl
@@ -49,10 +51,6 @@ class Config(object):
 #   https://github.com/kubeshark/kubeshark/tags
 
 cfg: dict[str, Config] = {
-	# ~ '1.22': Config(
-		# ~ docker_tag = '2211',
-		# ~ k8s_tag    = '122',
-	# ~ ),
 	'1.25': Config(
 		docker_tag = '2211',
 		k8s_tag    = '125',
@@ -74,6 +72,13 @@ def copy(src: str, dst: str, ignore: Callable = None):
 	print(src, '->', dst)
 	copytree(src, dst, symlinks = True, dirs_exist_ok = True, ignore = ignore)
 
+def envsubst(src: str, dst: str, env: dict[str, str]):
+	print('envsubst:', src, '->', dst)
+	cmd = '/usr/bin/envsubst'
+	with open(src, 'rb') as stdin:
+		with open(dst, 'wb') as stdout:
+			subprocess.run([cmd], stdin = stdin, stdout = stdout, env = env)
+
 #
 # docker
 #
@@ -84,11 +89,25 @@ def docker_k8s_ignore(src, names):
 		l.append('Dockerfile')
 	return l
 
+def docker_version() -> str:
+	now = datetime.now()
+	return now.strftime('%y%m%d')
+
 def docker_k8s(version: str, cfg: Config):
 	src = './k8s/tpl/docker'
 	dst = './docker/k8s/%s' % cfg.k8s_tag.strip()
 	mkdir(dst)
 	copy(src, dst, ignore = docker_k8s_ignore)
+	srcfn = './k8s/tpl/docker/Dockerfile'
+	dstfn = './docker/k8s/%s/Dockerfile.%s' % (cfg.k8s_tag.strip(), cfg.docker_tag.strip())
+	env = {
+		'DOCKER_TAG':     cfg.docker_tag.strip(),
+		'DOCKER_VERSION': docker_version(),
+		'KUBECTL_URL':    cfg.kubectl_url(),
+		'HELM_URL':       cfg.helm_url(),
+		'KUBESHARK_URL':  cfg.kubeshark_url(),
+	}
+	envsubst(srcfn, dstfn, env)
 
 #
 # k8s tools
