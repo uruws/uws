@@ -20,7 +20,6 @@ __doc__ = 'k8s upgrades helper'
 # config
 #
 
-
 @dataclass
 class Config(object):
 	docker_tag: str = ''
@@ -28,6 +27,7 @@ class Config(object):
 	kubectl:    str = ''
 	helm:       str = ''
 	kubeshark:  str = ''
+	autoscaler: str = ''
 
 	def kubectl_url(c):
 		return 'https://amazon-eks.s3.us-west-2.amazonaws.com/%s' % c.kubectl
@@ -50,6 +50,9 @@ class Config(object):
 #   https://docs.kubeshark.co/en/install
 #   https://github.com/kubeshark/kubeshark/tags
 
+# k8s/autoscaler
+#   https://github.com/kubernetes/autoscaler/tags
+
 cfg: dict[str, Config] = {
 	'1.25': Config(
 		docker_tag = '2211',
@@ -57,6 +60,7 @@ cfg: dict[str, Config] = {
 		kubectl    = '1.25.5/2023-01-11',
 		helm       = '3.11.0',
 		kubeshark  = '38.3',
+		autoscaler = '1.25.0',
 	),
 }
 
@@ -114,7 +118,12 @@ def docker_k8s(version: str, cfg: Config):
 #
 
 def k8s_autoscaler(version: str, cfg: Config):
-	print('k8s/autoscaler:', version)
+	dstdir = './k8s/autoscaler/%s' % version
+	mkdir(dstdir)
+	dstfn = '%s/deploy.yaml' % dstdir
+	cmd = ['./k8s/autoscaler/upstream-get.sh', cfg.autoscaler]
+	with open(dstfn, 'wb') as stdout:
+		subprocess.run(cmd, stdout = stdout)
 
 #
 # main
