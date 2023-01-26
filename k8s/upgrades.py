@@ -8,6 +8,9 @@ import sys
 
 from dataclasses import dataclass
 from os          import makedirs
+from pathlib     import Path
+from shutil      import copytree
+from typing      import Callable
 
 __doc__ = 'k8s upgrades helper'
 
@@ -22,11 +25,11 @@ class Config(object):
 	k8s_tag:    str = ''
 
 cfg: dict[str, Config] = {
-	'1.22': Config(
-		docker_tag = '2211',
-		eks_tag    = '122',
-		k8s_tag    = '122',
-	),
+	# ~ '1.22': Config(
+		# ~ docker_tag = '2211',
+		# ~ eks_tag    = '122',
+		# ~ k8s_tag    = '122',
+	# ~ ),
 	'1.25': Config(
 		docker_tag = '2211',
 		eks_tag    = '125',
@@ -39,15 +42,28 @@ cfg: dict[str, Config] = {
 #
 
 def mkdir(name: str):
+	print(name)
 	makedirs(name, mode = 0o750, exist_ok = True)
-	print(f"{name}: dir created")
+
+def copy(src: str, dst: str, ignore: Callable = None):
+	print(src, '->', dst)
+	copytree(src, dst, symlinks = True, dirs_exist_ok = True, ignore = ignore)
 
 #
 # k8s
 #
 
+def docker_k8s_ignore(src, names):
+	l = []
+	if 'Dockerfile' in names:
+		l.append('Dockerfile')
+	return l
+
 def docker_k8s(version: str, cfg: Config):
-	print('docker/k8s:', version)
+	src = './k8s/tpl/docker/k8s'
+	dst = './docker/k8s/%s' % cfg.k8s_tag.strip()
+	mkdir(dst)
+	copy(src, dst, ignore = docker_k8s_ignore)
 
 def k8s_autoscaler(version: str, cfg: Config):
 	print('k8s/autoscaler:', version)
@@ -56,8 +72,18 @@ def k8s_autoscaler(version: str, cfg: Config):
 # eks
 #
 
+def docker_eks_ignore(src, names):
+	l = []
+	if 'Dockerfile' in names:
+		l.append('Dockerfile')
+	return l
+
 def docker_eks(version: str, cfg: Config):
 	print('docker/eks:', version)
+	src = './k8s/tpl/docker/eks'
+	dst = './docker/eks/%s' % cfg.eks_tag.strip()
+	mkdir(dst)
+	copy(src, dst, ignore = docker_eks_ignore)
 
 #
 # main
