@@ -60,7 +60,7 @@ def docker_k8s_ignore(src, names):
 	return l
 
 def docker_k8s(version: str, cfg: Config):
-	src = './k8s/tpl/docker/k8s'
+	src = './k8s/tpl/docker'
 	dst = './docker/k8s/%s' % cfg.k8s_tag.strip()
 	mkdir(dst)
 	copy(src, dst, ignore = docker_k8s_ignore)

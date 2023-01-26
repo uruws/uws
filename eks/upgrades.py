@@ -61,7 +61,7 @@ def docker_eks_ignore(src, names):
 
 def docker_eks(version: str, cfg: Config):
 	print('docker/eks:', version)
-	src = './k8s/tpl/docker/eks'
+	src = './eks/tpl/docker'
 	dst = './docker/eks/%s' % cfg.eks_tag.strip()
 	mkdir(dst)
 	copy(src, dst, ignore = docker_eks_ignore)
