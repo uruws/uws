@@ -22,18 +22,15 @@ __doc__ = 'eks upgrades helper'
 class Config(object):
 	docker_tag: str = ''
 	eks_tag:    str = ''
-	k8s_tag:    str = ''
 
 cfg: dict[str, Config] = {
 	# ~ '1.22': Config(
 		# ~ docker_tag = '2211',
 		# ~ eks_tag    = '122',
-		# ~ k8s_tag    = '122',
 	# ~ ),
 	'1.25': Config(
 		docker_tag = '2211',
 		eks_tag    = '125',
-		k8s_tag    = '125',
 	),
 }
 
