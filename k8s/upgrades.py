@@ -18,22 +18,47 @@ __doc__ = 'k8s upgrades helper'
 # config
 #
 
+
 @dataclass
 class Config(object):
 	docker_tag: str = ''
-	eks_tag:    str = ''
 	k8s_tag:    str = ''
+	kubectl:    str = ''
+	helm:       str = ''
+	kubeshark   str = ''
+
+	def kubectl_url(c):
+		return 'https://amazon-eks.s3.us-west-2.amazonaws.com/%s' % c.kubectl
+
+	def helm_url(c):
+		return 'https://get.helm.sh/helm-v%s' % c.helm
+
+	def kubeshark_url(c):
+		return 'https://github.com/kubeshark/kubeshark/releases/download/%s' % c.kubeshark
+
+# kubectl
+#   https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
+#   https://amazon-eks.s3.us-west-2.amazonaws.com/?versions&prefix=1.25
+
+# helm
+#   https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+#   https://github.com/helm/helm/tags
+
+# kubeshark
+#   https://docs.kubeshark.co/en/install
+#   https://github.com/kubeshark/kubeshark/tags
 
 cfg: dict[str, Config] = {
 	# ~ '1.22': Config(
 		# ~ docker_tag = '2211',
-		# ~ eks_tag    = '122',
 		# ~ k8s_tag    = '122',
 	# ~ ),
 	'1.25': Config(
 		docker_tag = '2211',
-		eks_tag    = '125',
 		k8s_tag    = '125',
+		kubectl    = '1.25.5/2023-01-11',
+		helm       = '3.11.0',
+		kubeshark  = '38.3',
 	),
 }
 
