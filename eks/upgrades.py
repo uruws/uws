@@ -12,7 +12,7 @@ from pathlib     import Path
 from shutil      import copytree
 from typing      import Callable
 
-__doc__ = 'k8s upgrades helper'
+__doc__ = 'eks upgrades helper'
 
 #
 # config
@@ -53,24 +53,18 @@ def copy(src: str, dst: str, ignore: Callable = None):
 # docker
 #
 
-def docker_k8s_ignore(src, names):
+def docker_eks_ignore(src, names):
 	l = []
 	if 'Dockerfile' in names:
 		l.append('Dockerfile')
 	return l
 
-def docker_k8s(version: str, cfg: Config):
-	src = './k8s/tpl/docker/k8s'
-	dst = './docker/k8s/%s' % cfg.k8s_tag.strip()
+def docker_eks(version: str, cfg: Config):
+	print('docker/eks:', version)
+	src = './k8s/tpl/docker/eks'
+	dst = './docker/eks/%s' % cfg.eks_tag.strip()
 	mkdir(dst)
-	copy(src, dst, ignore = docker_k8s_ignore)
-
-#
-# k8s tools
-#
-
-def k8s_autoscaler(version: str, cfg: Config):
-	print('k8s/autoscaler:', version)
+	copy(src, dst, ignore = docker_eks_ignore)
 
 #
 # main
@@ -78,8 +72,7 @@ def k8s_autoscaler(version: str, cfg: Config):
 
 def main(argv: list[str]) -> int:
 	for v in sorted(cfg.keys()):
-		docker_k8s(v, cfg[v])
-		k8s_autoscaler(v, cfg[v])
+		docker_eks(v, cfg[v])
 	return 0
 
 if __name__ == '__main__':
