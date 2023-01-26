@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
+
 import sys
 
 from argparse   import ArgumentParser
