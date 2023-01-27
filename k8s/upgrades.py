@@ -116,6 +116,24 @@ def docker_k8s(version: str, cfg: Config):
 	}
 	envsubst(srcfn, dstfn, env)
 
+def docker_k8s_build(cfg: dict[str, Config]) -> int:
+	buildfn = './docker/k8s/build.sh'
+	print(buildfn)
+	with open(buildfn, 'w') as fh:
+		print('#!/bin/sh', file = fh)
+		print('set -eu', file = fh)
+		for version in sorted(cfg.keys()):
+			print(f"# {version}", file = fh)
+			docker_tag = cfg[version].docker_tag.strip()
+			k8s_tag = cfg[version].k8s_tag.strip()
+			print(f"rsync -vax --delete-before ./docker/k8s/build/ ./docker/k8s/{k8s_tag}/build/", file = fh)
+			print(f"# k8s-{k8s_tag}-{docker_tag}", file = fh)
+			print(f"docker build --rm -t uws/k8s-{k8s_tag}-{docker_tag} \\", file = fh)
+			print(f"    -f docker/k8s/{k8s_tag}/Dockerfile.{docker_tag} \\", file = fh)
+			print(f"    ./docker/k8s/{k8s_tag}", file = fh)
+		print('exit 0', file = fh)
+	return 0
+
 #
 # k8s tools
 #
@@ -166,7 +184,7 @@ def main(argv: list[str]) -> int:
 	for v in sorted(cfg.keys()):
 		docker_k8s(v, cfg[v])
 		k8s_autoscaler(v, cfg[v])
-	return 0
+	return docker_k8s_build(cfg)
 
 if __name__ == '__main__':
 	sys.exit(main(sys.argv[1:]))
