@@ -4,9 +4,11 @@
 # See LICENSE file.
 
 import json
+import subprocess
 import sys
 
 from dataclasses import dataclass
+from datetime    import datetime
 from os          import makedirs
 from pathlib     import Path
 from shutil      import copytree
@@ -23,12 +25,20 @@ class Config(object):
 	docker_tag: str = ''
 	k8s_tag:    str = ''
 	eks_tag:    str = ''
+	eksctl:     str = ''
+
+	def eksctl_url(c):
+		return 'https://github.com/weaveworks/eksctl/releases/download/v%s' % c.eksctl
+
+# eksctl
+#   https://github.com/weaveworks/eksctl/tags
 
 cfg: dict[str, Config] = {
 	'1.25': Config(
 		docker_tag = '2211',
 		k8s_tag    = '125',
 		eks_tag    = '125',
+		eksctl     = '0.126.0',
 	),
 }
 
@@ -44,6 +54,13 @@ def copy(src: str, dst: str, ignore: Callable = None):
 	print(src, '->', dst)
 	copytree(src, dst, symlinks = True, dirs_exist_ok = True, ignore = ignore)
 
+def envsubst(src: str, dst: str, env: dict[str, str]):
+	print(src, '->', dst)
+	cmd = ['/usr/bin/envsubst']
+	with open(src, 'rb') as stdin:
+		with open(dst, 'wb') as stdout:
+			subprocess.run(cmd, stdin = stdin, stdout = stdout, env = env, check = True)
+
 #
 # docker
 #
@@ -54,12 +71,29 @@ def docker_eks_ignore(src, names):
 		l.append('Dockerfile')
 	return l
 
+def docker_version() -> str:
+	now = datetime.now()
+	return now.strftime('%y%m%d')
+
 def docker_eks(version: str, cfg: Config):
 	print('docker/eks:', version)
 	src = './eks/tpl/docker'
 	dst = './docker/eks/%s' % cfg.eks_tag.strip()
 	mkdir(dst)
 	copy(src, dst, ignore = docker_eks_ignore)
+	srcfn = './eks/tpl/docker/Dockerfile'
+	dstfn = './docker/eks/%s/Dockerfile.%s' % (cfg.eks_tag.strip(), cfg.docker_tag.strip())
+	env = {
+		'DOCKER_TAG':     cfg.docker_tag.strip(),
+		'DOCKER_VERSION': docker_version(),
+		'K8S_TAG':        cfg.k8s_tag.strip(),
+		'EKSCTL_URL':     cfg.eksctl_url(),
+	}
+	envsubst(srcfn, dstfn, env)
+	with open(dstfn, 'a') as fh:
+		print('''RUN printf 'export PS1="${AWS_PROFILE}@\H:\W\$ "\\n' >>.profile''', file = fh)
+		print('', file = fh)
+		print('CMD exec /usr/local/bin/uws-login.sh', file = fh)
 
 def docker_eks_build(cfg: dict[str, Config]) -> int:
 	buildfn = './docker/eks/build.sh'

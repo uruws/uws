@@ -18,13 +18,8 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-# https://github.com/weaveworks/eksctl/tags
-
-ENV EKS_VERSION 0.126.0
-ENV EKS_URL https://github.com/weaveworks/eksctl/releases/download/v${EKS_VERSION}
-
-RUN wget -q ${EKS_URL}/eksctl_Linux_amd64.tar.gz \
-	&& wget -q ${EKS_URL}/eksctl_checksums.txt \
+RUN wget -q ${EKSCTL_URL}/eksctl_Linux_amd64.tar.gz \
+	&& wget -q ${EKSCTL_URL}/eksctl_checksums.txt \
 	&& sha256sum --ignore-missing -c eksctl_checksums.txt \
 	&& tar -C /tmp -xvzf eksctl_Linux_amd64.tar.gz \
 	&& install -v -m 0755 /tmp/eksctl /usr/local/bin \
@@ -43,7 +38,3 @@ RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 ENV AWS_PROFILE uwsdev
 ENV AWS_REGION us-west-2
 ENV UWS_CLUSTER uwsdev
-
-RUN printf 'export PS1="${AWS_PROFILE}@\H:\W\$ "\n' >>.profile
-
-CMD exec /usr/local/bin/uws-login.sh

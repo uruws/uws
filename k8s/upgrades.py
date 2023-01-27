@@ -92,7 +92,7 @@ def envsubst(src: str, dst: str, env: dict[str, str]):
 	cmd = '/usr/bin/envsubst'
 	with open(src, 'rb') as stdin:
 		with open(dst, 'wb') as stdout:
-			subprocess.run([cmd], stdin = stdin, stdout = stdout, env = env)
+			subprocess.run([cmd], stdin = stdin, stdout = stdout, env = env, check = True)
 
 #
 # docker
