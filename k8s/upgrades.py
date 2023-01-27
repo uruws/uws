@@ -66,13 +66,12 @@ cfg: dict[str, Config] = {
 		kubeshark  = '38.3',
 		autoscaler = '1.22.2',
 	),
+}
+
+cfg_remove: dict[str, Config] = {
 	'1.25': Config(
 		docker_tag = '2211',
 		k8s_tag    = '125',
-		kubectl    = '1.25.5/2023-01-11',
-		helm       = '3.11.0',
-		kubeshark  = '38.3',
-		autoscaler = '1.25.0',
 	),
 }
 
@@ -131,6 +130,13 @@ def docker_k8s_build(cfg: dict[str, Config]) -> int:
 	with open(buildfn, 'w') as fh:
 		print('#!/bin/sh', file = fh)
 		print('set -eu', file = fh)
+		print('# remove old', file = fh)
+		for version in sorted(cfg_remove.keys()):
+			docker_tag = cfg_remove[version].docker_tag.strip()
+			k8s_tag = cfg_remove[version].k8s_tag.strip()
+			print(f"# {version}", file = fh)
+			print(f"docker rmi uws/k8s-{k8s_tag}-{docker_tag} || true", file = fh)
+		print('# build', file = fh)
 		for version in sorted(cfg.keys()):
 			print(f"# {version}", file = fh)
 			docker_tag = cfg[version].docker_tag.strip()
