@@ -82,6 +82,8 @@ def docker_eks_ignore(src, names):
 	l = []
 	if 'Dockerfile' in names:
 		l.append('Dockerfile')
+	if 'Dockerfile.devel' in names:
+		l.append('Dockerfile.devel')
 	return l
 
 def docker_version() -> str:
@@ -108,6 +110,16 @@ def docker_eks(version: str, cfg: Config):
 		print('''RUN printf 'export PS1="${AWS_PROFILE}@\H:\W\$ "\\n' >>.profile''', file = fh)
 		print('', file = fh)
 		print('CMD exec /usr/local/bin/uws-login.sh', file = fh)
+
+def docker_eks_devel(version: str, cfg: Config):
+	srcfn = './eks/tpl/docker/Dockerfile.devel'
+	dstfn = './docker/eks/Dockerfile.devel'
+	env = {
+		'DOCKER_TAG':     cfg.docker_tag.strip(),
+		'DOCKER_VERSION': docker_version(),
+		'EKS_TAG':        cfg.eks_tag.strip(),
+	}
+	envsubst(srcfn, dstfn, env)
 
 def docker_eks_cleanup(version: str, cfg: Config):
 	eks_tag = cfg.eks_tag.strip()
@@ -143,8 +155,11 @@ def docker_eks_build(cfg: dict[str, Config]) -> int:
 #
 
 def main(argv: list[str]) -> int:
+	latest = 'None'
 	for v in sorted(cfg.keys()):
 		docker_eks(v, cfg[v])
+		latest = v
+	docker_eks_devel(latest, cfg[latest])
 	for v in sorted(cfg_remove.keys()):
 		docker_eks_cleanup(v, cfg_remove[v])
 	return docker_eks_build(cfg)
