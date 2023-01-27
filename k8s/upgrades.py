@@ -107,6 +107,8 @@ def docker_k8s_ignore(src, names):
 	l = []
 	if 'Dockerfile' in names:
 		l.append('Dockerfile')
+	if 'Dockerfile.devel' in names:
+		l.append('Dockerfile.devel')
 	return l
 
 def docker_version() -> str:
@@ -126,6 +128,16 @@ def docker_k8s(version: str, cfg: Config):
 		'KUBECTL_URL':    cfg.kubectl_url(),
 		'HELM_URL':       cfg.helm_url(),
 		'KUBESHARK_URL':  cfg.kubeshark_url(),
+	}
+	envsubst(srcfn, dstfn, env)
+
+def docker_k8s_devel(version: str, cfg: Config):
+	srcfn = './k8s/tpl/docker/Dockerfile.devel'
+	dstfn = './docker/k8s/Dockerfile.devel'
+	env = {
+		'DOCKER_TAG':     cfg.docker_tag.strip(),
+		'DOCKER_VERSION': docker_version(),
+		'K8S_TAG':        cfg.k8s_tag.strip(),
 	}
 	envsubst(srcfn, dstfn, env)
 
@@ -209,9 +221,12 @@ def k8s_autoscaler_cleanup(version: str, cfg: Config):
 #
 
 def main(argv: list[str]) -> int:
+	latest = 'None'
 	for v in sorted(cfg.keys()):
 		docker_k8s(v, cfg[v])
 		k8s_autoscaler(v, cfg[v])
+		latest = v
+	docker_k8s_devel(latest, cfg[latest])
 	for v in sorted(cfg_remove.keys()):
 		docker_k8s_cleanup(v, cfg_remove[v])
 		k8s_autoscaler_cleanup(v, cfg_remove[v])
