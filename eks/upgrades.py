@@ -69,6 +69,11 @@ def envsubst(src: str, dst: str, env: dict[str, str]):
 		with open(dst, 'wb') as stdout:
 			subprocess.run(cmd, stdin = stdin, stdout = stdout, env = env, check = True)
 
+def gitrm(path: str):
+	if Path(path).exists():
+		cmd = ['/usr/bin/git', 'rm', '-rf', path]
+		subprocess.run(cmd, check = True)
+
 #
 # docker
 #
@@ -99,9 +104,14 @@ def docker_eks(version: str, cfg: Config):
 	}
 	envsubst(srcfn, dstfn, env)
 	with open(dstfn, 'a') as fh:
+		print('', file = fh)
 		print('''RUN printf 'export PS1="${AWS_PROFILE}@\H:\W\$ "\\n' >>.profile''', file = fh)
 		print('', file = fh)
 		print('CMD exec /usr/local/bin/uws-login.sh', file = fh)
+
+def docker_eks_cleanup(version: str, cfg: Config):
+	eks_tag = cfg.eks_tag.strip()
+	gitrm(f"./docker/eks/{eks_tag}")
 
 def docker_eks_build(cfg: dict[str, Config]) -> int:
 	buildfn = './docker/eks/build.sh'
@@ -135,6 +145,8 @@ def docker_eks_build(cfg: dict[str, Config]) -> int:
 def main(argv: list[str]) -> int:
 	for v in sorted(cfg.keys()):
 		docker_eks(v, cfg[v])
+	for v in sorted(cfg_remove.keys()):
+		docker_eks_cleanup(v, cfg_remove[v])
 	return docker_eks_build(cfg)
 
 if __name__ == '__main__':

@@ -38,6 +38,7 @@ RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 ENV AWS_PROFILE uwsdev
 ENV AWS_REGION us-west-2
 ENV UWS_CLUSTER uwsdev
+
 RUN printf 'export PS1="${AWS_PROFILE}@\H:\W\$ "\n' >>.profile
 
 CMD exec /usr/local/bin/uws-login.sh
