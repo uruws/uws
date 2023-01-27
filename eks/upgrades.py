@@ -24,8 +24,8 @@ __doc__ = 'eks upgrades helper'
 @dataclass
 class Config(object):
 	docker_tag: str = ''
-	k8s_tag:    str = ''
 	eks_tag:    str = ''
+	k8s_tag:    str = ''
 	eksctl:     str = ''
 
 	def eksctl_url(c):
@@ -37,15 +37,16 @@ class Config(object):
 cfg: dict[str, Config] = {
 	'1.22': Config(
 		docker_tag = '2211',
-		k8s_tag    = '122',
 		eks_tag    = '122',
+		k8s_tag    = '122',
 		eksctl     = '0.101.0',
 	),
+}
+
+cfg_remove: dict[str, Config] = {
 	'1.25': Config(
 		docker_tag = '2211',
-		k8s_tag    = '125',
 		eks_tag    = '125',
-		eksctl     = '0.126.0',
 	),
 }
 
@@ -108,6 +109,13 @@ def docker_eks_build(cfg: dict[str, Config]) -> int:
 	with open(buildfn, 'w') as fh:
 		print('#!/bin/sh', file = fh)
 		print('set -eu', file = fh)
+		print('# remove old', file = fh)
+		for version in sorted(cfg_remove.keys()):
+			docker_tag = cfg_remove[version].docker_tag.strip()
+			eks_tag = cfg_remove[version].eks_tag.strip()
+			print(f"# {version}", file = fh)
+			print(f"docker rmi uws/eks-{eks_tag}-{docker_tag} || true", file = fh)
+		print('# build', file = fh)
 		for version in sorted(cfg.keys()):
 			print(f"# {version}", file = fh)
 			docker_tag = cfg[version].docker_tag.strip()
