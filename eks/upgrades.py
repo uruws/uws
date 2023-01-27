@@ -21,15 +21,13 @@ __doc__ = 'eks upgrades helper'
 @dataclass
 class Config(object):
 	docker_tag: str = ''
+	k8s_tag:    str = ''
 	eks_tag:    str = ''
 
 cfg: dict[str, Config] = {
-	# ~ '1.22': Config(
-		# ~ docker_tag = '2211',
-		# ~ eks_tag    = '122',
-	# ~ ),
 	'1.25': Config(
 		docker_tag = '2211',
+		k8s_tag    = '125',
 		eks_tag    = '125',
 	),
 }
@@ -63,6 +61,23 @@ def docker_eks(version: str, cfg: Config):
 	mkdir(dst)
 	copy(src, dst, ignore = docker_eks_ignore)
 
+def docker_eks_build(cfg: dict[str, Config]) -> int:
+	buildfn = './docker/eks/build.sh'
+	print(buildfn)
+	with open(buildfn, 'w') as fh:
+		print('#!/bin/sh', file = fh)
+		print('set -eu', file = fh)
+		for version in sorted(cfg.keys()):
+			print(f"# {version}", file = fh)
+			docker_tag = cfg[version].docker_tag.strip()
+			eks_tag = cfg[version].eks_tag.strip()
+			print(f"# eks-{eks_tag}-{docker_tag}", file = fh)
+			print(f"docker build --rm -t uws/eks-{eks_tag}-{docker_tag} \\", file = fh)
+			print(f"    -f docker/eks/{eks_tag}/Dockerfile.{docker_tag} \\", file = fh)
+			print(f"    ./docker/eks/{eks_tag}", file = fh)
+		print('exit 0', file = fh)
+	return 0
+
 #
 # main
 #
@@ -70,7 +85,7 @@ def docker_eks(version: str, cfg: Config):
 def main(argv: list[str]) -> int:
 	for v in sorted(cfg.keys()):
 		docker_eks(v, cfg[v])
-	return 0
+	return docker_eks_build(cfg)
 
 if __name__ == '__main__':
 	sys.exit(main(sys.argv[1:]))

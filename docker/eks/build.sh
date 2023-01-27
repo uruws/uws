@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eu
-# eks-122
-./docker/eks/122/build.sh
-# eks-125
-./docker/eks/125/build.sh
+# 1.25
+# eks-125-2211
+docker build --rm -t uws/eks-125-2211 \
+    -f docker/eks/125/Dockerfile.2211 \
+    ./docker/eks/125
 exit 0
