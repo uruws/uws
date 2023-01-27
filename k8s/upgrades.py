@@ -156,7 +156,7 @@ def k8s_autoscaler(version: str, cfg: Config):
 			docs_final.append(d)
 	print(dstfn)
 	with open(dstfn, 'w') as fh:
-		yaml.safe_dump_all(docs_final, fh)
+		yaml.safe_dump_all(docs_final, fh, sort_keys = False)
 
 #
 # main
