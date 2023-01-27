@@ -94,6 +94,11 @@ def envsubst(src: str, dst: str, env: dict[str, str]):
 		with open(dst, 'wb') as stdout:
 			subprocess.run([cmd], stdin = stdin, stdout = stdout, env = env, check = True)
 
+def gitrm(path: str):
+	if Path(path).exists():
+		cmd = ['/usr/bin/git', 'rm', '-rf', path]
+		subprocess.run(cmd, check = True)
+
 #
 # docker
 #
@@ -123,6 +128,10 @@ def docker_k8s(version: str, cfg: Config):
 		'KUBESHARK_URL':  cfg.kubeshark_url(),
 	}
 	envsubst(srcfn, dstfn, env)
+
+def docker_k8s_cleanup(version: str, cfg: Config):
+	k8s_tag = cfg.k8s_tag.strip()
+	gitrm(f"./docker/k8s/{k8s_tag}")
 
 def docker_k8s_build(cfg: dict[str, Config]) -> int:
 	buildfn = './docker/k8s/build.sh'
@@ -192,6 +201,9 @@ def k8s_autoscaler(version: str, cfg: Config):
 	with open(dstfn, 'w') as fh:
 		yaml.safe_dump_all(docs_final, fh, sort_keys = False)
 
+def k8s_autoscaler_cleanup(version: str, cfg: Config):
+	gitrm(f"./k8s/autoscaler/{version}")
+
 #
 # main
 #
@@ -200,6 +212,9 @@ def main(argv: list[str]) -> int:
 	for v in sorted(cfg.keys()):
 		docker_k8s(v, cfg[v])
 		k8s_autoscaler(v, cfg[v])
+	for v in sorted(cfg_remove.keys()):
+		docker_k8s_cleanup(v, cfg_remove[v])
+		k8s_autoscaler_cleanup(v, cfg_remove[v])
 	return docker_k8s_build(cfg)
 
 if __name__ == '__main__':
