@@ -4,14 +4,17 @@
 # See LICENSE file.
 
 import json
+import re
 import subprocess
 import sys
+import yaml
 
 from dataclasses import dataclass
 from datetime    import datetime
 from os          import makedirs
 from pathlib     import Path
 from shutil      import copytree
+from typing      import Any
 from typing      import Callable
 
 __doc__ = 'k8s upgrades helper'
@@ -77,7 +80,7 @@ def copy(src: str, dst: str, ignore: Callable = None):
 	copytree(src, dst, symlinks = True, dirs_exist_ok = True, ignore = ignore)
 
 def envsubst(src: str, dst: str, env: dict[str, str]):
-	print('envsubst:', src, '->', dst)
+	print(src, '->', dst)
 	cmd = '/usr/bin/envsubst'
 	with open(src, 'rb') as stdin:
 		with open(dst, 'wb') as stdout:
@@ -117,6 +120,19 @@ def docker_k8s(version: str, cfg: Config):
 # k8s tools
 #
 
+def k8s_autoscaler_img(v: str, s: str) -> str:
+	return re.sub(r':v\d.*$', ':v%s' % v, s)
+
+def k8s_container_command(version: str, cfg: Config, d: dict[str, Any]):
+	cmd = []
+	for a in d['spec']['template']['spec']['containers'][0]['command']:
+		x = a.strip()
+		if x.startswith('--node-group-auto-discovery='):
+			x = x.replace('<YOUR CLUSTER NAME>', '${UWS_CLUSTER}')
+		cmd.append(x)
+	d['spec']['template']['spec']['containers'][0]['command'].clear()
+	d['spec']['template']['spec']['containers'][0]['command'].extend(cmd)
+
 def k8s_autoscaler(version: str, cfg: Config):
 	dstdir = './k8s/autoscaler/%s' % version
 	mkdir(dstdir)
@@ -124,6 +140,23 @@ def k8s_autoscaler(version: str, cfg: Config):
 	cmd = ['./k8s/autoscaler/upstream-get.sh', cfg.autoscaler]
 	with open(dstfn, 'wb') as stdout:
 		subprocess.run(cmd, stdout = stdout)
+	docs_final = []
+	with open(dstfn, 'r') as fh:
+		docs = yaml.safe_load_all(fh)
+		for d in docs:
+			kind = d.get('kind', '')
+			if kind == 'Deployment':
+				# container image
+				img = d['spec']['template']['spec']['containers'][0]['image']
+				d['spec']['template']['spec']['containers'][0]['image'] = k8s_autoscaler_img(cfg.autoscaler, img)
+				# certs bundle mount path
+				d['spec']['template']['spec']['containers'][0]['volumeMounts'][0]['mountPath'] = '/etc/ssl/certs/ca-bundle.crt'
+				# container command
+				k8s_container_command(version, cfg, d)
+			docs_final.append(d)
+	print(dstfn)
+	with open(dstfn, 'w') as fh:
+		yaml.safe_dump_all(docs_final, fh)
 
 #
 # main
