@@ -9,6 +9,7 @@ import sys
 
 from dataclasses import dataclass
 from datetime    import datetime
+from os          import chmod
 from os          import makedirs
 from pathlib     import Path
 from shutil      import copytree
@@ -116,6 +117,7 @@ def docker_eks_build(cfg: dict[str, Config]) -> int:
 			print(f"    -f docker/eks/{eks_tag}/Dockerfile.{docker_tag} \\", file = fh)
 			print(f"    ./docker/eks/{eks_tag}", file = fh)
 		print('exit 0', file = fh)
+	chmod(buildfn, 0o750)
 	return 0
 
 #

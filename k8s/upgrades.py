@@ -11,6 +11,7 @@ import yaml
 
 from dataclasses import dataclass
 from datetime    import datetime
+from os          import chmod
 from os          import makedirs
 from pathlib     import Path
 from shutil      import copytree
@@ -140,6 +141,7 @@ def docker_k8s_build(cfg: dict[str, Config]) -> int:
 			print(f"    -f docker/k8s/{k8s_tag}/Dockerfile.{docker_tag} \\", file = fh)
 			print(f"    ./docker/k8s/{k8s_tag}", file = fh)
 		print('exit 0', file = fh)
+	chmod(buildfn, 0o750)
 	return 0
 
 #
