@@ -57,6 +57,14 @@ class Config(object):
 #   https://github.com/kubernetes/autoscaler/tags
 
 cfg: dict[str, Config] = {
+	'1.22': Config(
+		docker_tag = '2211',
+		k8s_tag    = '122',
+		kubectl    = '1.22.6/2022-03-09',
+		helm       = '3.11.0',
+		kubeshark  = '38.3',
+		autoscaler = '1.22.2',
+	),
 	'1.25': Config(
 		docker_tag = '2211',
 		k8s_tag    = '125',
