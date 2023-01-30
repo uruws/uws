@@ -236,8 +236,10 @@ def k8smon_publish(cfg: Config):
 			k8s_tag = cfg[version].k8s_tag.strip()
 			docker_tag = cfg[version].docker_tag.strip()
 			print(f"# {version}", file = fh)
-			print(f"./cluster/ecr-push.sh us-east-1 uws/k8s-{k8s_tag}-{docker_tag} uws:mon-k8s-{k8s_tag}-$(MON_TAG)", file = fh)
+			print(f"./cluster/ecr-push.sh us-east-1 uws/k8s-{k8s_tag}-{docker_tag} \"uws:mon-k8s-{k8s_tag}-${{MON_TAG}}\"", file = fh)
 		print('exit 0', file = fh)
+	cmd = ['/usr/bin/shellcheck', script]
+	subprocess.run(cmd, check = True)
 
 #
 # main
