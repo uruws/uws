@@ -399,7 +399,6 @@ k8s: k8smon
 # k8smon
 #
 
-MON_TAG != cat ./k8s/mon/VERSION
 MON_MUNIN_TAG != cat ./k8s/mon/munin/VERSION
 
 .PHONY: mon-publish
