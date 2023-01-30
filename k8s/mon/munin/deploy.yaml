@@ -64,11 +64,11 @@ spec:
               mountPath: "/var/opt/munin-alert"
           resources:
             requests:
-              cpu: 400m
-              memory: 1700Mi
+              cpu: 100m
+              memory: 700Mi
             limits:
-              cpu: 400m
-              memory: 1700Mi
+              cpu: 100m
+              memory: 700Mi
           readinessProbe:
             exec:
               command:
@@ -104,11 +104,11 @@ spec:
               mountPath: "/var/lock"
           resources:
             requests:
-              cpu: 400m
-              memory: 1700Mi
+              cpu: 100m
+              memory: 700Mi
             limits:
-              cpu: 400m
-              memory: 1700Mi
+              cpu: 100m
+              memory: 700Mi
           readinessProbe:
             exec:
               command:
