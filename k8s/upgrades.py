@@ -66,6 +66,14 @@ cfg: dict[str, Config] = {
 		kubeshark  = '38.5',
 		autoscaler = '1.22.2',
 	),
+	'124': Config(
+		docker_tag = '2211',
+		k8s_tag    = '124',
+		kubectl    = '1.24.6/2022-10-05',
+		helm       = '3.11.0',
+		kubeshark  = '38.5',
+		autoscaler = '1.24.0',
+	),
 }
 
 cfg_remove: dict[str, Config] = {
