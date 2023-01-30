@@ -224,6 +224,21 @@ def k8s_autoscaler(version: str, cfg: Config):
 def k8s_autoscaler_cleanup(version: str, cfg: Config):
 	gitrm(f"./k8s/autoscaler/{version}")
 
+def k8smon_publish(cfg: Config):
+	script = './k8s/mon/publish.sh'
+	print(script)
+	with open(script, 'w') as fh:
+		print('#!/bin/sh', file = fh)
+		print('set -eu', file = fh)
+		print('MON_TAG=$(cat ./k8s/mon/VERSION)', file = fh)
+		print('./docker/ecr-login.sh us-east-1', file = fh)
+		for version in sorted(cfg.keys()):
+			k8s_tag = cfg[version].k8s_tag.strip()
+			docker_tag = cfg[version].docker_tag.strip()
+			print(f"# {version}", file = fh)
+			print(f"./cluster/ecr-push.sh us-east-1 uws/k8s-{k8s_tag}-{docker_tag} uws:mon-k8s-{k8s_tag}-$(MON_TAG)", file = fh)
+		print('exit 0', file = fh)
+
 #
 # main
 #
@@ -238,6 +253,7 @@ def main(argv: list[str]) -> int:
 	for v in sorted(cfg_remove.keys()):
 		docker_k8s_cleanup(v, cfg_remove[v])
 		k8s_autoscaler_cleanup(v, cfg_remove[v])
+	k8smon_publish(cfg)
 	return docker_k8s_build(cfg)
 
 if __name__ == '__main__':

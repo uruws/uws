@@ -423,8 +423,7 @@ docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
 
 .PHONY: k8smon-publish
 k8smon-publish: k8s
-	@./docker/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/k8s-122-2211 uws:mon-k8s-122-$(MON_TAG)
+	@./k8s/mon/publish.sh
 
 #
 # publish
