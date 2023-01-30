@@ -1,7 +1,7 @@
-FROM uws/eks-122-2211
+FROM uws/eks-124-2211
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230127"
+LABEL version="230130"
 
 USER root:root
 WORKDIR /root
