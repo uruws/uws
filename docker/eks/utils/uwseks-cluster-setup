@@ -5,7 +5,6 @@ set -eu
 . ~/secret/secret.env
 
 # aws users auth
-
 uwskube apply -f ~/secret/aws-auth.yaml
 
 # cluster autoscaler
@@ -20,6 +19,7 @@ uwseks create iamserviceaccount \
 	--attach-policy-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:policy/eksClusterAutoscaler \
 	--approve
 
+~/k8s/csi-driver/setup.sh
 ~/k8s/autoscaler/setup.sh
 ~/k8s/metrics-server/setup.sh
 ~/k8s/nginx-ingress/setup.sh

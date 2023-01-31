@@ -8,4 +8,5 @@ set -u
 ~/k8s/nginx-ingress/teardown.sh
 ~/k8s/metrics-server/teardown.sh
 ~/k8s/autoscaler/teardown.sh
+~/k8s/csi-driver/teardown.sh
 exit 0
