@@ -1,5 +1,6 @@
 #!/bin/sh
 set -u
+
 ~/k8s/gateway/teardown.sh
 ~/k8s/ctl/teardown.sh
 ~/k8s/mon/teardown.sh
@@ -9,4 +10,9 @@ set -u
 ~/k8s/metrics-server/teardown.sh
 ~/k8s/autoscaler/teardown.sh
 ~/k8s/csi-driver/teardown.sh
+
+uwseks delete iamserviceaccount \
+	--namespace=kube-system \
+	--name=cluster-autoscaler
+
 exit 0
