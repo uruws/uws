@@ -5,7 +5,7 @@ metadata:
   name: kubeshark
 spec:
   type: ExternalName
-  externalName: kubeshark.mon.svc.cluster.local
+  externalName: kubeshark-front.kubeshark.svc.cluster.local
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -35,4 +35,4 @@ spec:
               service:
                 name: kubeshark
                 port:
-                  number: 8899
+                  number: 80
