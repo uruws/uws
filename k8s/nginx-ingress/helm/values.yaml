@@ -14,11 +14,11 @@ controller:
         prometheus.io/scrape: "true"
   resources:
     requests:
-      cpu: 100m
-      memory: 90Mi
+      cpu: 400m
+      memory: 1500Mi
     limits:
-      cpu: 100m
-      memory: 90Mi
+      cpu: 400m
+      memory: 1500Mi
   service:
     type: LoadBalancer
     annotations:
