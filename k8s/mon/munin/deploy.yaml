@@ -126,15 +126,6 @@ spec:
         - name: rundir
           emptyDir:
             sizeLimit: 1Gi
-        - name: db
-          emptyDir:
-            sizeLimit: 3Gi
-        - name: cache
-          emptyDir:
-            sizeLimit: 1Gi
-        - name: log
-          emptyDir:
-            sizeLimit: 1Gi
         - name: web-tmpdir
           emptyDir:
             sizeLimit: 3Gi
@@ -162,25 +153,25 @@ spec:
         - name: smtps-ca
           secret:
             secretName: smtps-ca
-  #~ volumeClaimTemplates:
-    #~ - metadata:
-        #~ name: db
-      #~ spec:
-        #~ accessModes: [ "ReadWriteOnce" ]
-        #~ resources:
-          #~ requests:
-            #~ storage: 3Gi
-    #~ - metadata:
-        #~ name: cache
-      #~ spec:
-        #~ accessModes: [ "ReadWriteOnce" ]
-        #~ resources:
-          #~ requests:
-            #~ storage: 1Gi
-    #~ - metadata:
-        #~ name: log
-      #~ spec:
-        #~ accessModes: [ "ReadWriteOnce" ]
-        #~ resources:
-          #~ requests:
-            #~ storage: 1Gi
+  volumeClaimTemplates:
+    - metadata:
+        name: db
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 3Gi
+    - metadata:
+        name: cache
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: log
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
