@@ -1,3 +1,5 @@
 #!/bin/sh
 set -u
-exec uwskube delete deploy kubeshark -n mon
+uwskube delete deploy kubeshark -n mon
+~/k8s/mon/kubeshark/clean.sh
+exit 0
