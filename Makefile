@@ -292,6 +292,14 @@ chatbot-publish: chatbot-check
 	@./cluster/ecr-push.sh us-east-1 uws/chatbot-2211 uws:chatbot-$(CHATBOT_TAG)
 
 #
+# ab (apache benchmark)
+#
+
+.PHONY: ab
+ab:
+	@./srv/ab/build.sh
+
+#
 # deploy
 #
 
