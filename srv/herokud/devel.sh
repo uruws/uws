@@ -17,4 +17,4 @@ exec docker run -it --rm --name uws-herokud-devel \
 	--tmpfs /home/uws/.local \
 	--tmpfs /run \
 	--tmpfs /tmp \
-	uws/herokud
+	uws/herokud-2211
