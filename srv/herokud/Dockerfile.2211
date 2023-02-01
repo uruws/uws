@@ -9,18 +9,18 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh apt-transport-https gnupg
-
-# https://github.com/heroku/cli/blob/master/install-ubuntu.sh
-RUN echo 'deb https://cli-assets.heroku.com/apt ./' >/etc/apt/sources.list.d/heroku.list \
-	&& wget -O heroku.key https://cli-assets.heroku.com/apt/release.key \
-	&& apt-key add heroku.key \
-	&& rm -vf heroku.key \
-	&& /root/bin/apt-install.sh heroku
-
 RUN /root/bin/apt-install.sh fetchmail
 
-# /usr/lib/apt/apt.systemd.daily: 320: cannot create /var/lib/apt//daily_lock: Read-only file system
+# https://github.com/heroku/cli/blob/master/install-standalone.sh
+ENV HEROKU_CHECKSUM dc90d4c530d4157f5e4547497df6a8143b754e9ff704cce89f767c1c1fc5a3fc7babf808d4a3913c887fc20896df8e6e47343e75001f393d8c8addc98076a73d
+RUN cd /usr/local \
+	&& wget -q -O heroku.tgz https://cli-assets.heroku.com/heroku-linux-x64.tar.gz \
+	&& echo "${HEROKU_CHECKSUM}  heroku.tgz" >heroku.checksum \
+	&& sha512sum -c heroku.checksum \
+	&& tar -xf heroku.tgz \
+	&& rm -vf heroku.tgz \
+	&& ln -svf /usr/local/heroku/bin/heroku /usr/local/bin/heroku
+
 RUN rm -vf /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/logrotate
 
 COPY ./files/etc/cron.d/uws /etc/cron.d/uws
