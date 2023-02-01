@@ -1,7 +1,7 @@
 FROM uws/base-2211
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230130"
+LABEL version="230201"
 
 USER root:root
 WORKDIR /root
@@ -54,8 +54,8 @@ RUN install -v -m 0755 helm-wrapper.sh /usr/local/bin/helm \
 # kubeshark
 #
 
-RUN wget -q https://github.com/kubeshark/kubeshark/releases/download/38.5/kubeshark_linux_amd64 \
-	&& wget -q https://github.com/kubeshark/kubeshark/releases/download/38.5/kubeshark_linux_amd64.sha256 \
+RUN wget -q https://github.com/kubeshark/kubeshark/releases/download/38.3/kubeshark_linux_amd64 \
+	&& wget -q https://github.com/kubeshark/kubeshark/releases/download/38.3/kubeshark_linux_amd64.sha256 \
 	&& sha256sum -c kubeshark_linux_amd64.sha256 \
 	&& install -v -m 0755 kubeshark_linux_amd64 /usr/local/bin/kubeshark \
 	&& rm -vf kubeshark_linux_amd64.sha256 kubeshark_linux_amd64
