@@ -10,10 +10,10 @@ if ! test -r ${list}; then
 	exit 1
 fi
 
-mkdir -vp ${ACME_HOME}/key ${ACME_HOME}/req
+install -v -d -m 0750 ${ACME_HOME}/key ${ACME_HOME}/req
 
 TMPDIR=/srv/acme/run/tmp
-mkdir -vp ${TMPDIR}
+install -v -d -m 1777 ${TMPDIR}
 
 cksum=$(md5sum ${list} | cut -d ' ' -f 1)
 flag=${TMPDIR}/done-${cksum}.$(date '+%Y%m')
