@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+
+# Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
+# See LICENSE file.
+
+from contextlib    import contextmanager
+from unittest.mock import MagicMock
+
+import unittest
+
+import bottle # type: ignore
+import ab_main
+
+@contextmanager
+def mock_bottle():
+	bup = ab_main.app
+	try:
+		ab_main.app = MagicMock()
+		yield
+	finally:
+		ab_main.app = bup
+
+class TestMain(unittest.TestCase):
+
+	def test_wsgi_application(t):
+		app = ab_main.wsgi_application()
+		t.assertIs(app, ab_main.app)
+
+	def test_main(t):
+		with mock_bottle():
+			ab_main.main()
+			ab_main.app.run.assert_called_once_with(
+				host = '0.0.0.0', port = 2741, reloader = True, debug = True,
+			)
+
+class TestViews(unittest.TestCase):
+
+	def test_healthz(t):
+		t.assertEqual(ab_main.healthz(), 'OK')
+
+if __name__ == '__main__':
+	unittest.main()
