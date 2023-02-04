@@ -16,7 +16,11 @@ app = bottle.Bottle()
 @app.get('/healthz')
 def healthz():
 	response.content_type = 'text/plain'
-	return u'ok'
+	cmd = ab.Command('--help')
+	rc = ab.run(cmd)
+	if rc != 22:
+		return 'error: %d' % rc
+	return 'ok'
 
 #
 # main

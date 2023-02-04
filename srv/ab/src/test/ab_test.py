@@ -16,6 +16,7 @@ class TestConfig(unittest.TestCase):
 	def test_defaults(t):
 		t.assertTrue(ab.debug)
 		t.assertEqual(ab.webapp_port, 2741)
+		t.assertEqual(ab.cmdpath,     Path('/usr/bin/ab'))
 
 if __name__ == '__main__':
 	unittest.main()
