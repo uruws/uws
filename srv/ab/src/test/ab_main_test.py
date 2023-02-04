@@ -14,11 +14,14 @@ import ab_main
 @contextmanager
 def mock_bottle():
 	bup = ab_main.app
+	bup_resp = ab_main.response
 	try:
 		ab_main.app = MagicMock()
+		ab_main.response = MagicMock()
 		yield
 	finally:
 		ab_main.app = bup
+		ab_main.response = bup_resp
 
 class TestMain(unittest.TestCase):
 
@@ -36,7 +39,8 @@ class TestMain(unittest.TestCase):
 class TestViews(unittest.TestCase):
 
 	def test_healthz(t):
-		t.assertEqual(ab_main.healthz(), 'OK')
+		t.assertEqual(ab_main.healthz(), 'ok')
+		t.assertEqual(ab_main.response.content_type, 'text/plain')
 
 if __name__ == '__main__':
 	unittest.main()

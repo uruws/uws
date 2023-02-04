@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 import bottle # type: ignore
+from bottle import response
 
 import ab_conf
 import ab
@@ -12,9 +13,10 @@ app = bottle.Bottle()
 # views
 #
 
-@app.post('/healthz')
+@app.get('/healthz')
 def healthz():
-	return 'OK'
+	response.content_type = 'text/plain'
+	return u'ok'
 
 #
 # main
