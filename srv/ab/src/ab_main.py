@@ -2,7 +2,8 @@
 # See LICENSE file.
 
 import bottle # type: ignore
-from bottle import response
+from   bottle import response
+from   bottle import template
 
 import ab
 import ab_conf
@@ -21,6 +22,10 @@ def healthz():
 	if rc != 22:
 		return 'error: %d' % rc
 	return 'ok'
+
+@app.get('/')
+def home():
+	return template('home.html')
 
 #
 # main
