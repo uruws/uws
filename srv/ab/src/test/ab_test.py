@@ -11,12 +11,42 @@ from pathlib import Path
 
 import ab
 
+#
+# config
+#
+
 class TestConfig(unittest.TestCase):
 
 	def test_defaults(t):
 		t.assertTrue(ab.debug)
 		t.assertEqual(ab.webapp_port, 2741)
 		t.assertEqual(ab.cmdpath,     Path('/usr/bin/ab'))
+
+#
+# command
+#
+
+class TestCommand(unittest.TestCase):
+
+	def test_args(t):
+		t.assertListEqual(ab.Command().args(), ['/usr/bin/ab', '-HUser-Agent: uwsab'])
+
+	def test_args_init(t):
+		t.assertListEqual(ab.Command('-a', '-b', 123).args(),
+			['/usr/bin/ab', '-a', '-b', '123', '-HUser-Agent: uwsab'])
+
+	def test_args_settings(t):
+		c = ab.Command()
+		c.requests     = 99
+		c.concurrency  = 99
+		c.timelimit    = 99
+		c.timeout      = 99
+		c.postfile     = 'post.t'
+		c.content_type = 'c/t'
+		t.assertListEqual(c.args(), [
+			'/usr/bin/ab', '-n99', '-c99', '-t99', '-s99', '-ppost.t', '-Tc/t',
+			'-HUser-Agent: uwsab',
+		])
 
 if __name__ == '__main__':
 	unittest.main()

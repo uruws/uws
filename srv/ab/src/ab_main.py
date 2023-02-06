@@ -4,8 +4,8 @@
 import bottle # type: ignore
 from bottle import response
 
-import ab_conf
 import ab
+import ab_conf
 
 app = bottle.Bottle()
 
