@@ -23,18 +23,24 @@ def mock_cmdpath(cmd: str):
 		ab.cmdpath = Path(bup)
 
 @contextmanager
-def mock_subprocess(status: int = 0, timeout: bool = False):
+def mock_subprocess_timeout():
 	bup = ab.subprocess.run
 	def _timeout(*args, **kwargs):
 		raise subprocess.TimeoutExpired('mock_timeout', 99)
 	try:
-		if timeout:
-			ab.subprocess.run = MagicMock(side_effect = _timeout)
-		else:
-			ab.subprocess.run = MagicMock(return_value = status)
+		ab.subprocess.run = MagicMock(side_effect = _timeout)
 		yield
 	finally:
 		ab.subprocess.run = bup
+
+@contextmanager
+def mock_run(status: int = 0):
+	bup = ab.run
+	try:
+		ab.run = MagicMock(return_value = status)
+		yield
+	finally:
+		ab.run = bup
 
 #
 # config
@@ -82,15 +88,13 @@ class TestApi(unittest.TestCase):
 	def test_run(t):
 		with mock_cmdpath('/bin/true') as cmd:
 			t.assertEqual(ab.run(cmd), 0)
-		with mock_subprocess():
-			t.assertEqual(ab.run(cmd), 0)
 
 	def test_run_fail(t):
 		with mock_cmdpath('/bin/false') as cmd:
 			t.assertEqual(ab.run(cmd), 1)
 
 	def test_run_timeout(t):
-		with mock_subprocess(timeout = True):
+		with mock_subprocess_timeout():
 			cmd = ab.Command('10')
 			cmd.cmdpath = '/bin/sleep'
 			cmd.timelimit = 1

@@ -10,6 +10,7 @@ import unittest
 
 import bottle # type: ignore
 import ab_main
+import ab_test
 
 @contextmanager
 def mock_bottle():
@@ -41,6 +42,11 @@ class TestViews(unittest.TestCase):
 	def test_healthz(t):
 		t.assertEqual(ab_main.healthz(), 'ok')
 		t.assertEqual(ab_main.response.content_type, 'text/plain')
+
+	def test_healthz_error(t):
+		with ab_test.mock_run(status = 99):
+			t.assertEqual(ab_main.healthz(), 'error: 99')
+			t.assertEqual(ab_main.response.content_type, 'text/plain')
 
 if __name__ == '__main__':
 	unittest.main()
