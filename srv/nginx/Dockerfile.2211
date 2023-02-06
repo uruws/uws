@@ -1,0 +1,16 @@
+FROM uws/base-2211
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230206"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh nginx-light libnginx-mod-http-upstream-fair
+
+COPY ./utils/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT exec /usr/local/bin/entrypoint.sh

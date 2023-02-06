@@ -433,6 +433,14 @@ k8smon-publish: k8s
 	@./k8s/mon/publish.sh
 
 #
+# nginx
+#
+
+.PHONY: nginx
+nginx:
+	@./srv/nginx/build.sh
+
+#
 # publish
 #
 
