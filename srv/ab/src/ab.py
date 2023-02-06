@@ -53,10 +53,9 @@ class Command(object):
 # api
 #
 
-def run(cmd: Command) -> int:
-	timeout = 15
+def run(cmd: Command, timeout: int = 15) -> int:
 	if cmd.timelimit > 0:
-		timeout = cmd.timelimit + 15
+		timeout = cmd.timelimit + timeout
 	try:
 		proc = subprocess.run(cmd.args(), check = True, timeout = timeout,
 			capture_output = True)
@@ -64,5 +63,5 @@ def run(cmd: Command) -> int:
 		return err.returncode
 	except subprocess.TimeoutExpired:
 		print('[ERROR] subprocess timeout:', cmd.args(), file = sys.stderr)
-		return 1
+		return 9
 	return 0

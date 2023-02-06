@@ -3,13 +3,38 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+from contextlib    import contextmanager
 from unittest.mock import MagicMock
 
 import unittest
+import subprocess
 
 from pathlib import Path
 
 import ab
+
+@contextmanager
+def mock_cmdpath(cmd: str):
+	bup = ab.cmdpath.as_posix()
+	try:
+		ab.cmdpath = Path(cmd)
+		yield ab.Command()
+	finally:
+		ab.cmdpath = Path(bup)
+
+@contextmanager
+def mock_subprocess(status: int = 0, timeout: bool = False):
+	bup = ab.subprocess.run
+	def _timeout(*args, **kwargs):
+		raise subprocess.TimeoutExpired('mock_timeout', 99)
+	try:
+		if timeout:
+			ab.subprocess.run = MagicMock(side_effect = _timeout)
+		else:
+			ab.subprocess.run = MagicMock(return_value = status)
+		yield
+	finally:
+		ab.subprocess.run = bup
 
 #
 # config
@@ -47,6 +72,29 @@ class TestCommand(unittest.TestCase):
 			'/usr/bin/ab', '-n99', '-c99', '-t99', '-s99', '-ppost.t', '-Tc/t',
 			'-HUser-Agent: uwsab',
 		])
+
+#
+# api
+#
+
+class TestApi(unittest.TestCase):
+
+	def test_run(t):
+		with mock_cmdpath('/bin/true') as cmd:
+			t.assertEqual(ab.run(cmd), 0)
+		with mock_subprocess():
+			t.assertEqual(ab.run(cmd), 0)
+
+	def test_run_fail(t):
+		with mock_cmdpath('/bin/false') as cmd:
+			t.assertEqual(ab.run(cmd), 1)
+
+	def test_run_timeout(t):
+		with mock_subprocess(timeout = True):
+			cmd = ab.Command('10')
+			cmd.cmdpath = '/bin/sleep'
+			cmd.timelimit = 1
+			t.assertEqual(ab.run(cmd, timeout = 0), 9)
 
 if __name__ == '__main__':
 	unittest.main()
