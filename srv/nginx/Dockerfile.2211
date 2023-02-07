@@ -9,7 +9,11 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh nginx-light libnginx-mod-http-upstream-fair
+RUN /root/bin/apt-install.sh nginx-light
+
+RUN rm -vf /etc/nginx/sites-enabled/default
+
+COPY ./etc/conf.d/ /etc/nginx/conf.d/
 
 COPY ./utils/entrypoint.sh /usr/local/bin/entrypoint.sh
 
