@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: proxy
+  replicas: ${NGINX_REPLICAS}
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: proxy
+    spec:
+      terminationGracePeriodSeconds: 3
+      containers:
+        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${NGINX_VERSION}
+          imagePullPolicy: IfNotPresent
+          name: proxy
+          ports:
+            - containerPort: 180
+            - containerPort: 143
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: ${NGINX_CPU}m
+              memory: ${NGINX_MEM}Mi
+            limits:
+              cpu: ${NGINX_CPU}m
+              memory: ${NGINX_MEM}Mi
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/usr/sbin/nginx", "-s", "quit"]
+          readinessProbe:
+            httpGet:
+              path: /healthz.txt
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /healthz.txt
+              port: http
+              scheme: HTTP
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxy
+spec:
+  ports:
+    - port: 180
+      targetPort: 180
+      protocol: TCP
+    - port: 143
+      targetPort: 143
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: proxy
+  type: LoadBalancer
