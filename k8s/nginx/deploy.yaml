@@ -24,9 +24,9 @@ spec:
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${NGINX_VERSION}
           imagePullPolicy: IfNotPresent
           name: proxy
-          #~ envFrom:
-            #~ - configMapRef:
-                #~ name: nginx-proxy-env
+          envFrom:
+            - secretRef:
+                name: proxy-env
           ports:
             - containerPort: 180
               name: http
