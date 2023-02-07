@@ -440,6 +440,10 @@ k8smon-publish: k8s
 nginx:
 	@./srv/nginx/build.sh
 
+.PHONY: nginx-publish
+nginx-publish: nginx
+	@./srv/nginx/publish.sh
+
 #
 # publish
 #
@@ -450,3 +454,4 @@ publish:
 	@$(MAKE) mon-publish
 	@$(MAKE) pod-publish
 	@$(MAKE) chatbot-publish
+	@$(MAKE) nginx-publish
