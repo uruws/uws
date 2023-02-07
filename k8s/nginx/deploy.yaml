@@ -53,6 +53,9 @@ spec:
               mountPath: "/var/lib/nginx"
             - name: logdir
               mountPath: "/var/log/nginx"
+            - name: sites-enabled
+              mountPath: "/etc/nginx/sites-enabled"
+              readOnly: true
           lifecycle:
             preStop:
               exec:
@@ -87,6 +90,9 @@ spec:
         - name: logdir
           emptyDir:
             sizeLimit: 5Mi
+        - name: sites-enabled
+          secret:
+            secretName: sites-enabled
 ---
 apiVersion: v1
 kind: Service
