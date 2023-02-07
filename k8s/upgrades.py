@@ -63,7 +63,7 @@ cfg: dict[str, Config] = {
 		k8s_tag    = '122',
 		kubectl    = '1.22.6/2022-03-09',
 		helm       = '3.11.0',
-		kubeshark  = '38.3',
+		kubeshark  = '37.0',
 		autoscaler = '1.22.2',
 	),
 	'1.24': Config(
@@ -71,7 +71,7 @@ cfg: dict[str, Config] = {
 		k8s_tag    = '124',
 		kubectl    = '1.24.6/2022-10-05',
 		helm       = '3.11.0',
-		kubeshark  = '38.3',
+		kubeshark  = '37.0',
 		autoscaler = '1.24.0',
 	),
 }
@@ -241,6 +241,12 @@ def k8smon_publish(cfg: Config):
 	cmd = ['/usr/bin/shellcheck', script]
 	subprocess.run(cmd, check = True)
 
+def k8smon_version():
+	fn = './k8s/mon/VERSION'
+	print(fn)
+	with open(fn, 'w') as fh:
+		print(docker_version(), file = fh)
+
 #
 # main
 #
@@ -256,6 +262,7 @@ def main(argv: list[str]) -> int:
 		docker_k8s_cleanup(v, cfg_remove[v])
 		k8s_autoscaler_cleanup(v, cfg_remove[v])
 	k8smon_publish(cfg)
+	k8smon_version()
 	return docker_k8s_build(cfg)
 
 if __name__ == '__main__':
