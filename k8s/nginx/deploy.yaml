@@ -24,12 +24,19 @@ spec:
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${NGINX_VERSION}
           imagePullPolicy: IfNotPresent
           name: proxy
+          #~ envFrom:
+            #~ - configMapRef:
+                #~ name: nginx-proxy-env
           ports:
             - containerPort: 180
+              name: http
             - containerPort: 143
+              name: https
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+          command:
+            - /usr/local/bin/entrypoint.sh
           resources:
             requests:
               cpu: ${NGINX_CPU}m
@@ -37,6 +44,15 @@ spec:
             limits:
               cpu: ${NGINX_CPU}m
               memory: ${NGINX_MEM}Mi
+          volumeMounts:
+            - name: rundir
+              mountPath: "/run"
+            - name: tmpdir
+              mountPath: "/tmp"
+            - name: libdir
+              mountPath: "/var/lib/nginx"
+            - name: logdir
+              mountPath: "/var/log/nginx"
           lifecycle:
             preStop:
               exec:
@@ -58,6 +74,19 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 1
+      volumes:
+        - name: rundir
+          emptyDir:
+            sizeLimit: 10Mi
+        - name: tmpdir
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: libdir
+          emptyDir:
+            sizeLimit: 100Mi
+        - name: logdir
+          emptyDir:
+            sizeLimit: 5Mi
 ---
 apiVersion: v1
 kind: Service
