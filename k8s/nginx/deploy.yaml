@@ -56,6 +56,9 @@ spec:
             - name: sites-enabled
               mountPath: "/etc/nginx/sites-enabled"
               readOnly: true
+            - name: tapo-tls
+              mountPath: "/etc/ssl/private/tapo"
+              readOnly: true
           lifecycle:
             preStop:
               exec:
@@ -93,6 +96,9 @@ spec:
         - name: sites-enabled
           secret:
             secretName: sites-enabled
+        - name: tapo-tls
+          secret:
+            secretName: tapo-tls
 ---
 apiVersion: v1
 kind: Service
