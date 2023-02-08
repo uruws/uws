@@ -8,6 +8,9 @@ server {
 
 	server_name _;
 
+	access_log /var/log/nginx/access_log;
+	error_log  /var/log/nginx/error_log notice;
+
 	location /healthz {
 		return 200;
 	}
