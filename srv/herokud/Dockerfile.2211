@@ -1,7 +1,7 @@
 FROM uws/crond-2211
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230201"
+LABEL version="230208"
 
 USER root:root
 WORKDIR /root
@@ -12,11 +12,8 @@ ENV HOME /root
 RUN /root/bin/apt-install.sh fetchmail
 
 # https://github.com/heroku/cli/blob/master/install-standalone.sh
-ENV HEROKU_CHECKSUM dc90d4c530d4157f5e4547497df6a8143b754e9ff704cce89f767c1c1fc5a3fc7babf808d4a3913c887fc20896df8e6e47343e75001f393d8c8addc98076a73d
 RUN cd /usr/local \
 	&& wget -q -O heroku.tgz https://cli-assets.heroku.com/heroku-linux-x64.tar.gz \
-	&& echo "${HEROKU_CHECKSUM}  heroku.tgz" >heroku.checksum \
-	&& sha512sum -c heroku.checksum \
 	&& tar -xf heroku.tgz \
 	&& rm -vf heroku.tgz \
 	&& ln -svf /usr/local/heroku/bin/heroku /usr/local/bin/heroku
