@@ -65,7 +65,7 @@ spec:
                 command: ["/usr/sbin/nginx", "-s", "quit"]
           readinessProbe:
             httpGet:
-              path: /healthz.txt
+              path: /healthz
               port: http
               scheme: HTTP
             initialDelaySeconds: 5
@@ -74,7 +74,7 @@ spec:
             failureThreshold: 1
           livenessProbe:
             httpGet:
-              path: /healthz.txt
+              path: /healthz
               port: http
               scheme: HTTP
             periodSeconds: 5
