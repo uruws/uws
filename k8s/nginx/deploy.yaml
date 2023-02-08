@@ -54,7 +54,7 @@ spec:
             - name: logdir
               mountPath: "/var/log/nginx"
             - name: sites-enabled
-              mountPath: "/etc/nginx/sites-enabled"
+              mountPath: "/etc/nginx/uws-sites-enabled"
               readOnly: true
             - name: tapo-tls
               mountPath: "/etc/ssl/private/tapo"
