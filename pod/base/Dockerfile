@@ -1,7 +1,7 @@
 FROM debian:bullseye-20221114-slim
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="221115"
+LABEL version="230208"
 
 USER root:root
 WORKDIR /root
