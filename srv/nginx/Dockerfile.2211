@@ -9,7 +9,8 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh ssl-cert nginx-light
+RUN /root/bin/apt-install.sh ssl-cert nginx-light \
+	libnginx-mod-http-headers-more-filter
 
 RUN rm -vf /etc/nginx/sites-enabled/default
 
