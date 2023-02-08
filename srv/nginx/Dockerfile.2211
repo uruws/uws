@@ -11,8 +11,11 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh nginx-light
 
+RUN rm -vf /etc/nginx/sites-enabled/default
+
 COPY ./etc/conf.d/ /etc/nginx/conf.d/
 COPY ./etc/snippets/ /etc/nginx/snippets/
+COPY ./etc/sites-enabled/ /etc/nginx/sites-enabled/
 
 COPY ./utils/entrypoint.sh /usr/local/bin/entrypoint.sh
 
