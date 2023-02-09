@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: proxy
-  replicas: ${NGINX_REPLICAS}
+  replicas: ${PROXY_REPLICAS}
   revisionHistoryLimit: 2
   strategy:
     type: RollingUpdate
@@ -21,7 +21,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 3
       containers:
-        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${NGINX_VERSION}
+        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${PROXY_VERSION}
           imagePullPolicy: IfNotPresent
           name: proxy
           envFrom:
@@ -39,11 +39,11 @@ spec:
             - /usr/local/bin/entrypoint.sh
           resources:
             requests:
-              cpu: ${NGINX_CPU}m
-              memory: ${NGINX_MEM}Mi
+              cpu: ${PROXY_CPU}m
+              memory: ${PROXY_MEM}Mi
             limits:
-              cpu: ${NGINX_CPU}m
-              memory: ${NGINX_MEM}Mi
+              cpu: ${PROXY_CPU}m
+              memory: ${PROXY_MEM}Mi
           volumeMounts:
             - name: rundir
               mountPath: "/run"
