@@ -5,7 +5,7 @@ server {
 	server_name sarmiento.uws.talkingpts.org;
 
 	include snippets/uws.conf;
-	include snippets/snakeoil.conf;
+	include snippets/tapo-tls.conf;
 
 	root /var/www/html;
 	index index.html;
