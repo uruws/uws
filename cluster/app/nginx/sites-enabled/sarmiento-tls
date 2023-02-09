@@ -1,0 +1,18 @@
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	server_name sarmiento.uws.talkingpts.org;
+
+	include snippets/uws.conf;
+	include snippets/snakeoil.conf;
+
+	root /var/www/html;
+	index index.html;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+}
