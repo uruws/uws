@@ -109,9 +109,11 @@ spec:
     - port: 80
       targetPort: 80
       protocol: TCP
+      name: http
     - port: 443
       targetPort: 443
       protocol: TCP
+      name: https
   selector:
     app.kubernetes.io/name: proxy
   type: LoadBalancer
