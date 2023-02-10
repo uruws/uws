@@ -7,7 +7,7 @@ server {
 	root /var/www/html;
 	index index.html index.nginx-debian.html;
 
-	access_log /var/log/nginx/access_log;
+	access_log /var/log/nginx/access_log upstream;
 	error_log  /var/log/nginx/error_log notice;
 
 	location /healthz {
