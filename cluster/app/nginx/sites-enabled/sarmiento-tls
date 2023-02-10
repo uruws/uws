@@ -1,8 +1,10 @@
 upstream meteor-api {
+	ip_hash;
 	server meteor.api:3000;
 }
 
 upstream meteor-web {
+	ip_hash;
 	server meteor.web:3000;
 }
 

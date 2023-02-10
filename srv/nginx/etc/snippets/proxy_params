@@ -1,1 +1,4 @@
 include snippets/proxy_common;
+
+proxy_read_timeout 60s;
+proxy_send_timeout 60s;
