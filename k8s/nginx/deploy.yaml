@@ -120,7 +120,3 @@ spec:
   selector:
     app.kubernetes.io/name: proxy
   type: LoadBalancer
-  #~ sessionAffinity: ClientIP
-  #~ sessionAffinityConfig:
-    #~ clientIP:
-      #~ timeoutSeconds: 10800

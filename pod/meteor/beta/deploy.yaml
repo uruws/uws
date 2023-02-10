@@ -31,6 +31,10 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: meteor-beta
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
 ---
 apiVersion: apps/v1
 kind: Deployment

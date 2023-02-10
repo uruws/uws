@@ -107,3 +107,7 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800

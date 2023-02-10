@@ -116,3 +116,7 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: meteor-worker
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
