@@ -7,10 +7,8 @@ server {
 	root /var/www/html;
 	index index.html index.nginx-debian.html;
 
-	access_log /var/log/nginx/access_log upstream;
-	error_log  /var/log/nginx/error_log notice;
-
 	include snippets/uws.conf;
+	include snippets/uwslog.conf;
 	include snippets/snakeoil.conf;
 
 	location / {
