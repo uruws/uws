@@ -41,8 +41,6 @@ security_group_id=$(aws ec2 create-security-group \
 	--vpc-id "${vpc_id}" \
 	--output text)
 
-echo "VPC:${vpc_id} CIDR:${cidr_range} SG:${security_group_id}"
-
 aws ec2 authorize-security-group-ingress \
 	--region "${AWS_REGION}" \
 	--group-id "${security_group_id}" \
@@ -50,5 +48,10 @@ aws ec2 authorize-security-group-ingress \
 	--port 2049 \
 	--cidr "${cidr_range}" \
 	--output text
+
+echo "VPC:${vpc_id} CIDR:${cidr_range} SG:${security_group_id}"
+~/k8s/efs/setcfg.sh vpc_id "${vpc_id}"
+~/k8s/efs/setcfg.sh cidr_range "${cidr_range}"
+~/k8s/efs/setcfg.sh security_group_id "${security_group_id}"
 
 exec ~/k8s/efs/install.sh
