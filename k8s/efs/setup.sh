@@ -10,7 +10,8 @@ set -eu
 
 aws iam create-policy \
 	--policy-name AmazonEKS_EFS_CSI_Driver \
-	--policy-document "file://${HOME}/k8s/efs/iam-policy.json"
+	--policy-document "file://${HOME}/k8s/efs/iam-policy.json" \
+	--output text
 
 uwseks create iamserviceaccount \
 	--namespace kube-system \
@@ -47,6 +48,7 @@ aws ec2 authorize-security-group-ingress \
 	--group-id "${security_group_id}" \
 	--protocol tcp \
 	--port 2049 \
-	--cidr "${cidr_range}"
+	--cidr "${cidr_range}" \
+	--output text
 
 exec ~/k8s/efs/install.sh
