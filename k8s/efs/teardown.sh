@@ -6,7 +6,7 @@ set -u
 
 ~/k8s/efs/uninstall.sh
 
-security_group_id=$(~/k8s/efs/getcfg.sh security_group_id)
+security_group_id=$(~/k8s/efs/getcfg.sh security-group-id)
 
 aws ec2 delete-security-group \
 	--region "${AWS_REGION}" \

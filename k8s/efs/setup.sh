@@ -50,8 +50,8 @@ aws ec2 authorize-security-group-ingress \
 	--output text
 
 echo "VPC:${vpc_id} CIDR:${cidr_range} SG:${security_group_id}"
-~/k8s/efs/setcfg.sh vpc_id "${vpc_id}"
-~/k8s/efs/setcfg.sh cidr_range "${cidr_range}"
-~/k8s/efs/setcfg.sh security_group_id "${security_group_id}"
+~/k8s/efs/setcfg.sh vpc-id "${vpc_id}"
+~/k8s/efs/setcfg.sh cidr-range "${cidr_range}"
+~/k8s/efs/setcfg.sh security-group-id "${security_group_id}"
 
 exec ~/k8s/efs/install.sh
