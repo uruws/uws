@@ -13,7 +13,7 @@ aws ec2 delete-security-group \
 	--group-id "${security_group_id}" \
 	--output text
 
-uwseks delete iamserviceaccount --wait --approve \
+uwseks delete iamserviceaccount --wait \
 	--namespace kube-system \
 	--name efs-csi-controller-sa
 
