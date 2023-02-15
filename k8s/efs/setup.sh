@@ -43,6 +43,7 @@ security_group_id=$(aws ec2 create-security-group \
 echo "VPC:${vpc_id} CIDR:${cidr_range} SG:${security_group_id}"
 
 aws ec2 authorize-security-group-ingress \
+	--region "${AWS_REGION}" \
 	--group-id "${security_group_id}" \
 	--protocol tcp \
 	--port 2049 \
