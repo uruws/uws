@@ -10,7 +10,7 @@ set -eu
 
 aws iam create-policy \
 	--policy-name AmazonEKS_EFS_CSI_Driver \
-	--policy-document ~/k8s/efs/iam-policy.json
+	--policy-document "file://${HOME}/k8s/efs/iam-policy.json"
 
 uwseks create iamserviceaccount \
 	--namespace kube-system \
