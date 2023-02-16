@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -u
 ~/k8s/efs/rmfs.sh mon munin-db
 ~/k8s/efs/rmfs.sh mon munin-cache
 ~/k8s/efs/rmfs.sh mon munin-log
