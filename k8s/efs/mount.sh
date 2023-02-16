@@ -26,8 +26,7 @@ for sn in $(subnets); do
 		--region "${AWS_REGION}" \
 		--file-system-id "${fs_id}" \
 		--subnet-id "${sn}" \
-		--security-groups "${secgroup_id}" \
-		--tags "Key=uwseks-efs,Value=\"${fsname}\" Key=uwseks-efs-cluster,Value=\"${UWS_CLUSTER}\""
+		--security-groups "${secgroup_id}"
 done
 
 exit 0
