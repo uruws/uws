@@ -6,6 +6,9 @@ set -eu
 fsns=${1:?'fs namespace?'}
 fsname=${2:?'fs name?'}
 
+UWSEFS_NAME="${fsns}-${fsname}"
+export UWSEFS_NAME
+
 fsid=$(aws efs create-file-system \
 	--output text \
 	--query FileSystemId \
@@ -13,17 +16,15 @@ fsid=$(aws efs create-file-system \
 	--performance-mode generalPurpose \
 	--encrypted \
 	--creation-token "uwseks-efs-${UWS_CLUSTER}-${fsns}-${fsname}" \
-	--tags "Key=uwseks-efs-${UWS_CLUSTER},Value=\"${fsns}/${fsname}\"")
+	--tags "Key=uwseks-efs-${UWS_CLUSTER},Value=\"${UWSEFS_NAME}\"")
 
-echo "${fsns}/${fsname} created: ${fsid}"
-~/k8s/efs/setcfg.sh "${fsns}-${fsname}" "${fsid}"
+echo "${UWSEFS_NAME} created: ${fsid}"
 
-UWSEFS_NAME="${fsname}"
-export UWSEFS_NAME
+~/k8s/efs/setcfg.sh "${UWSEFS_NAME}" "${UWSEFS_FSID}"
 
 UWSEFS_FSID="${fsid}"
 export UWSEFS_FSID
 
-envsubst <~/k8s/efs/storageclass.yaml | uwskube apply -n "${fsns}" -f -
+envsubst <~/k8s/efs/storageclass.yaml | uwskube apply -f -
 
 exit 0

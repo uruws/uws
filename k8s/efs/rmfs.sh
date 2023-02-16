@@ -6,15 +6,17 @@ set -eu
 fsns=${1:?'fs namespace?'}
 fsname=${2:?'fs name?'}
 
-fsid=$(./k8s/efs/getcfg.sh "${fsns}-${fsname}")
+UWSEFS_NAME="${fsns}-${fsname}"
+
+fsid=$(./k8s/efs/getcfg.sh "${UWSEFS_NAME}")
 
 aws efs delete-file-system \
 	--output text \
 	--region "${AWS_REGION}" \
 	--file-system-id "${fsid}"
 
-~/k8s/efs/delcfg.sh "${fsns}-${fsname}"
+~/k8s/efs/delcfg.sh "${UWSEFS_NAME}"
 
-uwskube delete storageclass -n "${fsns}" "uwsefs-${fsname}"
+uwskube delete storageclass "${UWSEFS_NAME}"
 
 exit 0
