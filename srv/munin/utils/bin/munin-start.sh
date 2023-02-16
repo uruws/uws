@@ -1,16 +1,16 @@
 #!/bin/sh
 set -eu
 
+chown -v munin:adm /var/log/munin
+chmod -v 0755 /var/log/munin
+
+chown -v munin:munin /var/lib/munin
+chmod -v 0755 /var/lib/munin
+
 install -v -d -m 0775 -o munin -g www-data /var/lib/munin/cgi-tmp
 
-#chown -v munin:adm /var/log/munin
-#chmod -v 0755 /var/log/munin
-
-mkdir -vp /var/opt/munin-alert
-chmod -v 1777 /var/opt/munin-alert
-
-mkdir -vp /var/opt/munin-alert/statuspage
-chmod -v 1777 /var/opt/munin-alert/statuspage
+install -v -d -m 1777 /var/opt/munin-alert
+install -v -d -m 1777 /var/opt/munin-alert/statuspage
 
 # CA
 if test -d /srv/etc/ca; then
