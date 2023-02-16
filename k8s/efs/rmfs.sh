@@ -8,13 +8,13 @@ fsname=${2:?'fs name?'}
 
 fsid=$(./k8s/efs/getcfg.sh "${fsns}-${fsname}")
 
-uwskube delete storageclass -n "${fsns}" "uwsefs-${fsname}"
-
 aws efs delete-file-system \
 	--output text \
 	--region "${AWS_REGION}" \
 	--file-system-id "${fsid}"
 
 ~/k8s/efs/delcfg.sh "${fsns}-${fsname}"
+
+uwskube delete storageclass -n "${fsns}" "uwsefs-${fsname}"
 
 exit 0
