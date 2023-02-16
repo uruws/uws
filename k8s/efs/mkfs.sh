@@ -5,13 +5,16 @@ set -eu
 
 fsname=${1:?'fs name?'}
 
-aws efs create-file-system \
+fsid=$(aws efs create-file-system \
 	--output text \
+	--query FileSystemId \
 	--region "${AWS_REGION}" \
 	--performance-mode generalPurpose \
-	--query FileSystemId \
 	--encrypted \
 	--creation-token "uwseks-efs-${UWS_CLUSTER}-${fsname}" \
-	--tags "\"Key\":\"uwseks-efs\",\"Value\":\"${fsname}\" \"Key\":\"uwseks-efs-cluster\",\"Value\":\"${UWS_CLUSTER}\""
+	--tags "\"Key\":\"uwseks-efs\",\"Value\":\"${fsname}\" \"Key\":\"uwseks-efs-cluster\",\"Value\":\"${UWS_CLUSTER}\"")
+
+echo "${fsname} created: ${fsid}"
+~/k8s/efs/setcfg.sh "${fsname}" "${fsid}"
 
 exit 0
