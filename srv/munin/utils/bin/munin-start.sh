@@ -1,11 +1,23 @@
 #!/bin/sh
 set -eu
 
-chown -v munin:adm /var/log/munin
-chmod -v 0755 /var/log/munin
+if test -d /efs/munin-log; then
+	install -v -d -m 755 -o munin -g adm /efs/munin-log/data
+	rm -rf /var/log/munin
+	ln -sv /efs/munin-log/data /var/log/munin
+else
+	chown -v munin:adm /var/log/munin
+	chmod -v 0755 /var/log/munin
+fi
 
-chown -v munin:munin /var/lib/munin
-chmod -v 0755 /var/lib/munin
+if test -d /efs/munin-db; then
+	install -v -d -m 755 -o munin -g munin /efs/munin-db/data
+	rm -rf /var/lib/munin
+	ln -sv /efs/munin-db/data /var/lib/munin
+else
+	chown -v munin:munin /var/lib/munin
+	chmod -v 0755 /var/lib/munin
+fi
 
 install -v -d -m 0775 -o munin -g www-data /var/lib/munin/cgi-tmp
 
