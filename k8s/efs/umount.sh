@@ -3,19 +3,20 @@ set -eu
 
 # https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html
 
-fsname=${1:?'fs name?'}
+fsns=${1:?'fs namespace?'}
+fsname=${2:?'fs name?'}
 
-fs_id=$(./k8s/efs/getcfg.sh "fs-${fsname}")
+fsid=$(./k8s/efs/getcfg.sh "${fsns}-${fsname}")
 
 mount_targets() (
 	aws efs describe-mount-targets \
 		--region "${AWS_REGION}" \
-		--file-system-id "${fs_id}" \
+		--file-system-id "${fsid}" \
 		--query 'MountTargets[*].{f: MountTargetId}' \
 		--output text
 )
 
-echo "efs umount: ${fsname} (${fs_id})"
+echo "efs umount: ${fsns}/${fsname} (${fsid})"
 
 for mtid in $(mount_targets | uniq); do
 	echo "    ${mtid}"

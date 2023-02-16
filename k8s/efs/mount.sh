@@ -3,11 +3,12 @@ set -eu
 
 # https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html
 
-fsname=${1:?'fs name?'}
+fsns=${1:?'fs namespace?'}
+fsname=${2:?'fs name?'}
 
 vpc_id=$(./k8s/efs/getcfg.sh vpc-id)
 secgroup_id=$(./k8s/efs/getcfg.sh security-group-id)
-fs_id=$(./k8s/efs/getcfg.sh "fs-${fsname}")
+fsid=$(./k8s/efs/getcfg.sh "${fsns}-${fsname}")
 
 subnets() (
 	aws ec2 describe-subnets \
@@ -17,13 +18,13 @@ subnets() (
 		--query 'Subnets[*].{SubnetId: SubnetId}'
 )
 
-echo "efs mount: ${fsname} (${fs_id})"
+echo "efs mount: ${fsns}/${fsname} (${fsid})"
 
 for sn in $(subnets | uniq); do
 	aws efs create-mount-target \
 		--output text \
 		--region "${AWS_REGION}" \
-		--file-system-id "${fs_id}" \
+		--file-system-id "${fsid}" \
 		--subnet-id "${sn}" \
 		--security-groups "${secgroup_id}"
 done
