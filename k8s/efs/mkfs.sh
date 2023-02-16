@@ -15,6 +15,6 @@ fsid=$(aws efs create-file-system \
 	--tags "\"Key\":\"uwseks-efs\",\"Value\":\"${fsname}\" \"Key\":\"uwseks-efs-cluster\",\"Value\":\"${UWS_CLUSTER}\"")
 
 echo "${fsname} created: ${fsid}"
-~/k8s/efs/setcfg.sh "${fsname}" "${fsid}"
+~/k8s/efs/setcfg.sh "fs-${fsname}" "${fsid}"
 
 exit 0

@@ -5,11 +5,29 @@ set -eu
 
 fsname=${1:?'fs name?'}
 
-aws efs create-mount-target \
-	--region "${AWS_REGION}" \
-	--file-system-id "${file_system_id}" \
-	--subnet-id "${subnet_id}" \
-	--security-groups "${security_group_id}" \
-	--tags "\"Key\":\"uwseks-efs\",\"Value\":\"${fsname}\" \"Key\":\"uwseks-efs-cluster\",\"Value\":\"${UWS_CLUSTER}\""
+vpc_id=$(./k8s/efs/getcfg.sh vpc-id)
+secgroup_id=$(./k8s/efs/getcfg.sh security-group-id)
+fs_id=$(./k8s/efs/getcfg.sh "fs-${fsname}")
+
+subnets() (
+	aws ec2 describe-subnets \
+		--output text \
+		--region "${AWS_REGION}" \
+		--filters "Name=vpc-id,Values=${vpc_id}" \
+		--query 'Subnets[*].{SubnetId: SubnetId}'
+)
+
+echo "efs mount: ${fsname} (${fsid})"
+
+for sn in $(subnets); do
+	echo "  ${sn}"
+	aws efs create-mount-target \
+		--output text \
+		--region "${AWS_REGION}" \
+		--file-system-id "${fs_id}" \
+		--subnet-id "${sn}" \
+		--security-groups "${secgroup_id}" \
+		--tags "\"Key\":\"uwseks-efs\",\"Value\":\"${fsname}\" \"Key\":\"uwseks-efs-cluster\",\"Value\":\"${UWS_CLUSTER}\""
+done
 
 exit 0
