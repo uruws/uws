@@ -27,7 +27,7 @@ for sn in $(subnets); do
 		--file-system-id "${fs_id}" \
 		--subnet-id "${sn}" \
 		--security-groups "${secgroup_id}" \
-		--tags "\"Key\"=\"uwseks-efs\",\"Value\"=\"${fsname}\" \"Key\"=\"uwseks-efs-cluster\",\"Value\"=\"${UWS_CLUSTER}\""
+		--tags "Key=uwseks-efs,Value=\"${fsname}\" Key=uwseks-efs-cluster,Value=\"${UWS_CLUSTER}\""
 done
 
 exit 0
