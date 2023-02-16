@@ -1,7 +1,7 @@
 #!/bin/sh
 set -u
 
-# shellcheck source=/home/uws/secret/secret.env
+# shellcheck disable=SC1090 disable=SC1091
 . ~/secret/secret.env
 
 ~/k8s/efs/uninstall.sh

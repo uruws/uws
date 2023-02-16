@@ -3,7 +3,7 @@ set -eu
 
 # https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html
 
-# shellcheck source=/home/uws/secret/secret.env
+# shellcheck disable=SC1090 disable=SC1091
 . ~/secret/secret.env
 
 # IAM policy and role

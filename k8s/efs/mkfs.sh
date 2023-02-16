@@ -18,12 +18,12 @@ fsid=$(aws efs create-file-system \
 	--creation-token "uwseks-efs-${UWS_CLUSTER}-${fsns}-${fsname}" \
 	--tags "Key=uwseks-efs-${UWS_CLUSTER},Value=\"${UWSEFS_NAME}\"")
 
-echo "${UWSEFS_NAME} created: ${fsid}"
-
-~/k8s/efs/setcfg.sh "${UWSEFS_NAME}" "${UWSEFS_FSID}"
-
 UWSEFS_FSID="${fsid}"
 export UWSEFS_FSID
+
+echo "${UWSEFS_NAME} created: ${UWSEFS_FSID}"
+
+~/k8s/efs/setcfg.sh "${UWSEFS_NAME}" "${UWSEFS_FSID}"
 
 envsubst <~/k8s/efs/storageclass.yaml | uwskube apply -f -
 
