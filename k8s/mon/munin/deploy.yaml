@@ -157,6 +157,7 @@ spec:
     - metadata:
         name: db
       spec:
+        storageClassName: efs-mon-munin-db
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
@@ -164,6 +165,7 @@ spec:
     - metadata:
         name: cache
       spec:
+        storageClassName: efs-mon-munin-cache
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
@@ -171,6 +173,7 @@ spec:
     - metadata:
         name: log
       spec:
+        storageClassName: efs-mon-munin-log
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
