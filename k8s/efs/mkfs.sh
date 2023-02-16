@@ -24,6 +24,6 @@ export UWSEFS_NAME
 UWSEFS_FSID="${fsid}"
 export UWSEFS_FSID
 
-envsubst ~/k8s/efs/storageclass.yaml | uwskube apply -n "${fsns}" -f -
+envsubst <~/k8s/efs/storageclass.yaml | uwskube apply -n "${fsns}" -f -
 
 exit 0
