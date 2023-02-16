@@ -8,8 +8,6 @@ fsname=${2:?'fs name?'}
 
 UWSEFS_NAME="${fsns}-${fsname}"
 
-vpc_id=$(./k8s/efs/getcfg.sh vpc-id)
-secgroup_id=$(./k8s/efs/getcfg.sh security-group-id)
 fsid=$(./k8s/efs/getcfg.sh "${UWSEFS_NAME}")
 
 exec aws efs describe-mount-targets \
