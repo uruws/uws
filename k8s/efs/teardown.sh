@@ -20,4 +20,8 @@ uwseks delete iamserviceaccount --wait \
 aws iam delete-policy \
 	--policy-arn "arn:aws:iam::${AWS_ACCOUNT_ID}:policy/AmazonEKS_EFS_CSI_Driver"
 
+~/k8s/efs/delcfg.sh vpc-id
+~/k8s/efs/delcfg.sh cidr-range
+~/k8s/efs/delcfg.sh security-group-id
+
 exit 0
