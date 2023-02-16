@@ -17,7 +17,7 @@ subnets() (
 		--query 'Subnets[*].{SubnetId: SubnetId}'
 )
 
-echo "efs mount: ${fsname} (${fsid})"
+echo "efs mount: ${fsname} (${fs_id})"
 
 for sn in $(subnets); do
 	echo "  ${sn}"
