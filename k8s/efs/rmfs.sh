@@ -17,6 +17,6 @@ aws efs delete-file-system \
 
 ~/k8s/efs/delcfg.sh "${UWSEFS_NAME}"
 
-uwskube delete storageclass "${UWSEFS_NAME}"
+uwskube delete storageclass "efs-${UWSEFS_NAME}"
 
 exit 0
