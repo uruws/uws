@@ -1,16 +1,10 @@
 #!/bin/sh
 set -eu
 
-mkdir -vp /var/lib/munin/cgi-tmp
+install -v -d -m 0775 -o munin -g www-data /var/lib/munin/cgi-tmp
 
-chown -v munin:munin /var/lib/munin
-chmod -v 0755 /var/lib/munin
-
-chown -v munin:www-data /var/lib/munin/cgi-tmp
-chmod -v 0775 /var/lib/munin/cgi-tmp
-
-chown -v munin:adm /var/log/munin
-chmod -v 0755 /var/log/munin
+#chown -v munin:adm /var/log/munin
+#chmod -v 0755 /var/log/munin
 
 mkdir -vp /var/opt/munin-alert
 chmod -v 1777 /var/opt/munin-alert
