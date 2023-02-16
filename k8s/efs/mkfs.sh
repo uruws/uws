@@ -13,9 +13,9 @@ fsid=$(aws efs create-file-system \
 	--output text \
 	--query FileSystemId \
 	--region "${AWS_REGION}" \
-	--performance-mode generalPurpose \
 	--encrypted \
-	--creation-token "uwseks-efs-${UWS_CLUSTER}-${fsns}-${fsname}" \
+	--performance-mode generalPurpose \
+	--creation-token "uwseks-efs-${UWS_CLUSTER}-${UWSEFS_NAME}" \
 	--tags "Key=uwseks-efs-${UWS_CLUSTER},Value=\"${UWSEFS_NAME}\"")
 
 UWSEFS_FSID="${fsid}"
@@ -27,4 +27,4 @@ echo "${UWSEFS_NAME} created: ${UWSEFS_FSID}"
 
 envsubst <~/k8s/efs/storageclass.yaml | uwskube apply -f -
 
-exit 0
+exec ~/k8s/efs/mount.sh "${fsns}" "${fsname}"
