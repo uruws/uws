@@ -18,6 +18,7 @@ mount_targets() (
 echo "efs umount: ${fsname} (${fs_id})"
 
 for mtid in $(mount_targets | uniq); do
+	echo "    ${mtid}"
 	aws efs delete-mount-target \
 		--region "${AWS_REGION}" \
 		--mount-target-id "${mtid}" \
