@@ -12,7 +12,6 @@ aws efs delete-file-system \
 	--region "${AWS_REGION}" \
 	--file-system-id "${fs_id}"
 
-echo "${fsname} deleted: ${fsid}"
 ~/k8s/efs/delcfg.sh "fs-${fsname}"
 
 exit 0
