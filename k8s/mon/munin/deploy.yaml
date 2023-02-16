@@ -39,11 +39,11 @@ spec:
             allowPrivilegeEscalation: false
           volumeMounts:
             - name: db
-              mountPath: "/var/lib/munin"
+              mountPath: "/efs/munin-db"
             - name: cache
-              mountPath: "/var/cache/munin/www"
+              mountPath: "/efs/munin-cache"
             - name: log
-              mountPath: "/var/log/munin"
+              mountPath: "/efs/munin-log"
             - name: tmpdir
               mountPath: "/tmp"
             - name: rundir

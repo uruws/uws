@@ -19,6 +19,12 @@ else
 	chmod -v 0755 /var/lib/munin
 fi
 
+if test -d /efs/munin-cache; then
+	install -v -d -m 755 -o munin -g munin /efs/munin-cache/data
+	rm -rf /var/cache/munin/www
+	ln -sv /efs/munin-cache/data /var/cache/munin/www
+fi
+
 install -v -d -m 0775 -o munin -g www-data /var/lib/munin/cgi-tmp
 
 install -v -d -m 1777 /var/opt/munin-alert
