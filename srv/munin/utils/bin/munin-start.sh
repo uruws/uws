@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 
 if test -d /efs/munin-log; then
 	install -v -d /efs/munin-log/data/munin-log

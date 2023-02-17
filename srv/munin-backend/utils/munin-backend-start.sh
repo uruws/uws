@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 
 if test -d /efs/munin-db; then
 	install -v -d /efs/munin-db/data/munin-db
