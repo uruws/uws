@@ -11,7 +11,7 @@ parameters:
   fileSystemId: ${UWSEFS_FSID}
   directoryPerms: "755"
   readOnly: "false"
-  gidRangeStart: "1000"
-  gidRangeEnd: "49999"
+  gidRangeStart: "1500"
+  gidRangeEnd: "1500"
   #~ basePath: "/data"
 reclaimPolicy: Delete
