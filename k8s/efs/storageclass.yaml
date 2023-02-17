@@ -12,6 +12,6 @@ parameters:
   directoryPerms: "755"
   readOnly: "false"
   gidRangeStart: "1500"
-  gidRangeEnd: "1500"
+  gidRangeEnd: "1501"
   #~ basePath: "/data"
 reclaimPolicy: Delete
