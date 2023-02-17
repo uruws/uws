@@ -3,12 +3,15 @@ kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
   name: efs-${UWSEFS_NAME}
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
 provisioner: efs.csi.aws.com
 parameters:
   provisioningMode: efs-ap
   fileSystemId: ${UWSEFS_FSID}
   directoryPerms: "755"
   readOnly: "false"
-  #~ gidRangeStart: "1000"
-  #~ gidRangeEnd: "49999"
+  gidRangeStart: "1000"
+  gidRangeEnd: "49999"
   #~ basePath: "/data"
+reclaimPolicy: Delete
