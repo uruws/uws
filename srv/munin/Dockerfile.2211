@@ -38,10 +38,6 @@ RUN /root/bin/apt-install.sh patch \
 
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
-VOLUME /var/lib/munin
-VOLUME /var/cache/munin/www
-VOLUME /var/log/munin
-
 RUN /root/bin/apt-install.sh ssl-cert
 
 # munin-deploy-conf
