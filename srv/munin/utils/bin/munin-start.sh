@@ -2,27 +2,30 @@
 set -eu
 
 if test -d /efs/munin-log; then
-	install -v -d -m 755 -o munin -g adm /efs/munin-log/data
+	install -v -d /efs/munin-log/data
+	install -v -d -m 755 -o munin -g adm /efs/munin-log/data/munin-log
 	rm -rf /var/log/munin
-	ln -sv /efs/munin-log/data /var/log/munin
+	ln -sv /efs/munin-log/data/munin-log /var/log/munin
 else
 	chown -v munin:adm /var/log/munin
 	chmod -v 0755 /var/log/munin
 fi
 
 if test -d /efs/munin-db; then
-	install -v -d -m 755 -o munin -g munin /efs/munin-db/data
+	install -v -d /efs/munin-db/data
+	install -v -d -m 755 -o munin -g munin /efs/munin-db/data/munin-db
 	rm -rf /var/lib/munin
-	ln -sv /efs/munin-db/data /var/lib/munin
+	ln -sv /efs/munin-db/data/munin-db /var/lib/munin
 else
 	chown -v munin:munin /var/lib/munin
 	chmod -v 0755 /var/lib/munin
 fi
 
 if test -d /efs/munin-cache; then
-	install -v -d -m 755 -o munin -g munin /efs/munin-cache/data
+	install -v -d /efs/munin-cache/data
+	install -v -d -m 755 -o munin -g munin /efs/munin-cache/data/munin-cache
 	rm -rf /var/cache/munin/www
-	ln -sv /efs/munin-cache/data /var/cache/munin/www
+	ln -sv /efs/munin-cache/data/munin-cache /var/cache/munin/www
 fi
 
 install -v -d -m 0775 -o munin -g www-data /var/lib/munin/cgi-tmp
