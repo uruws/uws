@@ -8,6 +8,6 @@ parameters:
   provisioningMode: efs-ap
   fileSystemId: ${UWSEFS_FSID}
   directoryPerms: "755"
-  gidRangeStart: "1000"
-  gidRangeEnd: "49999"
-  basePath: "/"
+  #~ gidRangeStart: "1000"
+  #~ gidRangeEnd: "49999"
+  #~ basePath: "/data"
