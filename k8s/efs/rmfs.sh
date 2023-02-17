@@ -10,9 +10,6 @@ UWSEFS_NAME="${fsns}-${fsname}"
 
 fsid=$(./k8s/efs/getcfg.sh "${UWSEFS_NAME}")
 
-~/k8s/efs/umount.sh "${fsns}" "${fsname}"
-sleep 7
-
 aws efs delete-file-system \
 	--output text \
 	--region "${AWS_REGION}" \
