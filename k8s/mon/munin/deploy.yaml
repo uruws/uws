@@ -89,10 +89,10 @@ spec:
             allowPrivilegeEscalation: false
           volumeMounts:
             - name: db
-              mountPath: "/var/lib/munin"
+              mountPath: "/efs/munin-db"
               readOnly: true
             - name: cache
-              mountPath: "/var/cache/munin/www"
+              mountPath: "/efs/munin-cache"
               readOnly: true
             - name: web-tmpdir
               mountPath: "/tmp"
