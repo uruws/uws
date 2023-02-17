@@ -23,6 +23,7 @@ subnets() (
 echo "efs mount: ${UWSEFS_NAME} (${fsid})"
 
 for sn in $(subnets | uniq); do
+	echo "*** mount target: ${fsid} ${sn}"
 	aws efs create-mount-target \
 		--output text \
 		--region "${AWS_REGION}" \
