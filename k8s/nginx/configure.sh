@@ -12,13 +12,12 @@ gw=${2:?'gateway?'}
 # sites-enabled
 uwskube delete secret sites-enabled -n "${ns}" || true
 uwskube create secret generic sites-enabled -n "${ns}" \
-	--from-file=${gw}/nginx/sites-enabled
+	--from-file="${gw}/nginx/sites-enabled"
 
 # godaddy certs
 ~/ca/godaddyCerts/setup.sh "${ns}"
 
-# internal CAs
+# internal CA
 ~/k8s/ca/uws/ops/setup.sh "${ns}"
-~/k8s/ca/uws/opstest/setup.sh "${ns}"
 
 exit 0
