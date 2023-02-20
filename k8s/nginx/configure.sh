@@ -18,6 +18,6 @@ uwskube create secret generic sites-enabled -n "${ns}" \
 ~/ca/godaddyCerts/setup.sh "${ns}"
 
 # internal CA
-~/k8s/ca/uws/ops/setup.sh "${ns}"
+~/ca/uws/ops/setup.sh "${ns}"
 
 exit 0
