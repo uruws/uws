@@ -1,3 +1,5 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/events.sh nginx "$@"
+ns=${1:?'namespace?'}
+shift
+exec ~/pod/lib/events.sh "${ns}" "$@"

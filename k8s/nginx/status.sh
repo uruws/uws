@@ -1,3 +1,4 @@
 #!/bin/sh
 set -eu
-exec uwskube get all,cm,secret -n nginx
+ns=${1:?'namespace?'}
+exec uwskube get all,cm,secret -n "${ns}"

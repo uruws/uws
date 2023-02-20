@@ -1,5 +1,7 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/logs.py -n nginx --no-timestamps \
+ns=${1:?'namespace?'}
+shift
+exec ~/pod/lib/logs.py -n "${ns}" --no-timestamps \
 	-l 'app.kubernetes.io/name=proxy' \
 	"$@"

@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-replicas=${1:?'replicas?'}
-exec ~/pod/lib/scale.sh nginx proxy "${replicas}"
+ns=${1:?'namespace?'}
+replicas=${2:?'replicas?'}
+exec ~/pod/lib/scale.sh "${ns}" proxy "${replicas}"

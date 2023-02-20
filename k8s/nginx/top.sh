@@ -1,3 +1,4 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/top.sh nginx
+ns=${1:?'namespace?'}
+exec ~/pod/lib/top.sh "${ns}"
