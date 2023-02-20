@@ -14,10 +14,11 @@ uwskube delete secret sites-enabled -n "${ns}" || true
 uwskube create secret generic sites-enabled -n "${ns}" \
 	--from-file=${gw}/nginx/sites-enabled
 
-# tapo tls
-uwskube delete secret tapo-tls -n "${ns}" || true
-uwskube create secret tls tapo-tls -n "${ns}" \
-	--cert=${HOME}/ca/godaddyCerts/bundled_all.crt \
-	--key=${HOME}/ca/godaddyCerts/server.key
+# godaddy certs
+~/ca/godaddyCerts/setup.sh "${ns}"
+
+# internal CAs
+~/k8s/ca/uws/ops/setup.sh "${ns}"
+~/k8s/ca/uws/opstest/setup.sh "${ns}"
 
 exit 0
