@@ -59,6 +59,9 @@ spec:
             - name: tapo-tls
               mountPath: "/etc/ssl/private/tapo"
               readOnly: true
+            - name: uwsca-ops
+              mountPath: "/etc/ssl/private/uwsca-ops"
+              readOnly: true
           lifecycle:
             preStop:
               exec:
