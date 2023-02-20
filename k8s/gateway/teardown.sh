@@ -1,7 +1,5 @@
 #!/bin/sh
 set -u
-uwskube delete svc munin-web
-uwskube delete svc k8smon
-uwskube delete ingress cluster-gateway --wait=true
-uwskube delete secret uwsca-ops
+~/k8s/gateway/rollin.sh
+uwskube delete -f ${HOME}/k8s/gateway/services.yaml
 exit 0

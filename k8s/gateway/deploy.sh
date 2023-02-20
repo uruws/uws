@@ -1,4 +1,3 @@
 #!/bin/sh
 set -eu
-envsubst '${CLUSTER_HOST}' <~/k8s/gateway/gateway.yaml | uwskube apply -f -
-exit 0
+exec ~/k8s/nginx/deploy.sh default k8s/gateway

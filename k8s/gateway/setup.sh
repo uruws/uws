@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
-~/k8s/gateway/deploy.sh
-exit 0
+uwskube apply -f ${HOME}/k8s/gateway/services.yaml
+exec ~/k8s/gateway/deploy.sh
