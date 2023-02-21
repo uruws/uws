@@ -102,6 +102,9 @@ spec:
         - name: tapo-tls
           secret:
             secretName: tapo-tls
+        - name: uwsca-ops
+          secret:
+            secretName: uwsca-ops
 ---
 apiVersion: v1
 kind: Service
