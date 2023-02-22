@@ -9,7 +9,7 @@ uwskube delete secret sites-enabled -n "${ns}"
 
 svcd=${gw}/service
 if test -d "${svcd}"; then
-	uwskube delete -f "${svcd}"
+	uwskube delete -n "${ns}" -f "${svcd}"
 fi
 
 ~/ca/godaddyCerts/teardown.sh "${ns}"
