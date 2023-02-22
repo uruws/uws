@@ -18,6 +18,11 @@ export PROXY_MEM
 
 ~/k8s/nginx/configure.sh "${ns}" "${gw}"
 
+svcd=${gw}/service
+if test -d "${svcd}"; then
+	uwskube apply -f "${svcd}"
+fi
+
 envsubst <~/k8s/nginx/deploy.yaml | uwskube apply -n "${ns}" -f -
 
 exit 0
