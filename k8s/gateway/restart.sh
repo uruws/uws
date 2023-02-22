@@ -1,6 +1,7 @@
 #!/bin/sh
 set -eu
 
+# shellcheck source=/home/uws/k8s/gateway/configure.sh
 . ~/k8s/gateway/configure.sh
 
 cfgdir=$(mktemp -d -p ${HOME}/tmp k8s-gateway-restart-XXXXXXXXXX)
