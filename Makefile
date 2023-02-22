@@ -73,7 +73,8 @@ devel: base base-testing
 	@./docker/k8s/devel-build.sh
 	@./docker/eks/devel-build.sh
 	@./docker/asb/devel-build.sh
-	@$(MAKE) pod-base pod-test
+	@$(MAKE) pod-base
+	@$(MAKE) pod-test
 
 #
 # utils
@@ -306,7 +307,8 @@ ab:
 .PHONY: deploy
 deploy:
 	@echo "i - START deploy `date -R` as ${USER}"
-	@$(MAKE) bootstrap check
+	@$(MAKE) bootstrap
+	@$(MAKE) check
 	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
