@@ -97,8 +97,8 @@ spec:
               mountPath: "/tmp"
             - name: web-rundir
               mountPath: "/run"
-            #~ - name: cgi-tmp
-              #~ mountPath: "/var/lib/munin/cgi-tmp"
+            - name: cgi-tmp
+              mountPath: "/var/tmp/munin-cgi"
             - name: web-lockdir
               mountPath: "/var/lock"
           resources:
@@ -131,9 +131,9 @@ spec:
         - name: web-rundir
           emptyDir:
             sizeLimit: 1Gi
-        #~ - name: cgi-tmp
-          #~ emptyDir:
-            #~ sizeLimit: 1Gi
+        - name: cgi-tmp
+          emptyDir:
+            sizeLimit: 1Gi
         - name: web-lockdir
           emptyDir:
             sizeLimit: 1Gi

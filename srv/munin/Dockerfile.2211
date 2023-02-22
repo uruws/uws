@@ -48,6 +48,8 @@ RUN adduser uws munin \
 	&& adduser uws ssl-cert \
 	&& adduser munin ssl-cert
 
+RUN install -v -d -m 1777 /var/tmp/munin-cgi
+
 COPY ./files/etc/cron.d/uws /etc/cron.d/uws
 
 COPY ./files/etc/rsyslog.conf /etc/

@@ -14,11 +14,9 @@ if test -d /efs/munin-db; then
 	install -v -d /efs/munin-db/data/munin-db
 	rm -rf /var/lib/munin
 	ln -sv /efs/munin-db/data/munin-db /var/lib/munin
-	install -v -d /var/lib/munin/cgi-tmp
 else
 	chown -v munin:munin /var/lib/munin
 	chmod -v 0755 /var/lib/munin
-	install -v -d -m 0775 -o munin -g www-data /var/lib/munin/cgi-tmp
 fi
 
 if test -d /efs/munin-cache; then
