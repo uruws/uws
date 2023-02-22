@@ -18,7 +18,7 @@ export PROXY_MEM
 
 ~/k8s/nginx/configure.sh "${ns}" "${gw}"
 
-svcd=${gw}/service
+svcd=${gw}/nginx/service
 if test -d "${svcd}"; then
 	uwskube apply -f "${svcd}"
 fi
