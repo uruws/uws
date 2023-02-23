@@ -1,6 +1,8 @@
 #!/bin/sh
-set -u
+set -eu
 uwskube delete deploy munin-node -n mon
-uwskube delete configmap cluster-setup -n mon
-uwskube delete svc munin-node -n mon
-exit $?
+uwskube delete configmap node-setup    -n mon
+uwskube delete configmap munin-plugins -n mon
+uwskube delete configmap ops-ca        -n mon
+uwskube delete configmap ops-ca-client -n mon
+exit 0

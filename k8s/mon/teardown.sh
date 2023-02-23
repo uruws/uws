@@ -16,6 +16,8 @@ if test 'Xy' = "X${CONFIRM}"; then
 	~/k8s/mon/rollin.sh --no-munin
 	~/k8s/mon/kubeshark/teardown.sh
 	~/k8s/mon/rmfs.sh
+	~/k8s/mon/munin/teardown.sh
+	~/k8s/mon/munin-node/teardown.sh
 	exec uwskube delete namespace mon
 else
 	echo 'abort!'
