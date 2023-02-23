@@ -1,4 +1,18 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: munin-node
+  namespace: mon
+  labels:
+    app.kubernetes.io/name: munin-node
+spec:
+  ports:
+  - port: 4949
+    name: node
+  selector:
+    app.kubernetes.io/name: munin-node
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
