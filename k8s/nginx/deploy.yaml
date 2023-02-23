@@ -131,3 +131,5 @@ spec:
   selector:
     app.kubernetes.io/name: proxy
   type: LoadBalancer
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
