@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -u
 ~/k8s/mon/kubeshark/rollin.sh
 ~/k8s/mon/k8s/rollin.sh
 ~/k8s/mon/munin-node/rollin.sh

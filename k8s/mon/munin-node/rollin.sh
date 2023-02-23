@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -u
 uwskube delete deploy munin-node -n mon
 uwskube delete configmap node-setup    -n mon
 uwskube delete configmap munin-plugins -n mon
