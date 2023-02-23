@@ -6,12 +6,7 @@ set -eu
 # shellcheck disable=SC1090 disable=SC1091
 . ~/secret/secret.env
 
-# IAM policy and role
-
-aws iam create-policy \
-	--policy-name AmazonEKS_EFS_CSI_Driver \
-	--policy-document "file://${HOME}/k8s/efs/iam-policy.json" \
-	--output text
+# IAM role
 
 uwseks create iamserviceaccount \
 	--namespace kube-system \
