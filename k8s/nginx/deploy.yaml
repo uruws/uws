@@ -56,6 +56,9 @@ spec:
             - name: tapo-tls
               mountPath: "/etc/ssl/private/tapo"
               readOnly: true
+            - name: uwsgd-tls
+              mountPath: "/etc/ssl/private/uwsgd"
+              readOnly: true
             - name: uwsca-ops
               mountPath: "/etc/ssl/private/uwsca-ops"
               readOnly: true
@@ -99,6 +102,9 @@ spec:
         - name: tapo-tls
           secret:
             secretName: tapo-tls
+        - name: uwsgd-tls
+          secret:
+            secretName: uwsgd-tls
         - name: uwsca-ops
           secret:
             secretName: uwsca-ops
