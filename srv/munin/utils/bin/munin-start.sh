@@ -6,8 +6,8 @@ if test -d /efs/munin-log; then
 	rm -rf /var/log/munin
 	ln -sv /efs/munin-log/data/munin-log /var/log/munin
 else
-	chown -v munin:adm /var/log/munin
-	chmod -v 0755 /var/log/munin
+	install -v -d -m 0755 -o munin -g adm /var/log/munin
+	chown -R munin:adm /var/log/munin
 fi
 
 if test -d /efs/munin-db; then
@@ -15,14 +15,17 @@ if test -d /efs/munin-db; then
 	rm -rf /var/lib/munin
 	ln -sv /efs/munin-db/data/munin-db /var/lib/munin
 else
-	chown -v munin:munin /var/lib/munin
-	chmod -v 0755 /var/lib/munin
+	install -v -d -m 0755 -o munin -g munin /var/lib/munin
+	chown -R munin:munin /var/lib/munin
 fi
 
 if test -d /efs/munin-cache; then
 	install -v -d /efs/munin-cache/data/munin-cache
 	rm -rf /var/cache/munin/www
 	ln -sv /efs/munin-cache/data/munin-cache /var/cache/munin/www
+else
+	install -v -d -m 0755 -o munin -g munin /var/cache/munin/www
+	chown -R munin:munin /var/cache/munin/www
 fi
 
 install -v -d -m 1777 /var/opt/munin-alert
