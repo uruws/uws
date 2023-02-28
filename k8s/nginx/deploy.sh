@@ -16,11 +16,6 @@ export PROXY_CPU
 PROXY_MEM=${NGINX_MEM:-1500}
 export PROXY_MEM
 
-svcd=${gw}/nginx/service
-if test -d "${svcd}"; then
-	uwskube apply -n "${ns}" -f "${svcd}"
-fi
-
 ~/k8s/nginx/configure.sh "${ns}" "${gw}"
 
 envsubst <~/k8s/nginx/deploy.yaml | uwskube apply -n "${ns}" -f -
