@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
-uwskube delete secret -n cs appenv || true
+set -u
+uwskube delete secret -n cs appenv
 uwskube delete namespace cs
-exit 0
+exec ~/pod/meteor/cs/gw/teardown.sh
