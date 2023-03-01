@@ -1,6 +1,7 @@
 #!/bin/sh
 set -eu
 ns=cs
-# shellcheck source=/home/uws/pod/meteor/gw/configure.sh
-. ~/pod/meteor/gw/configure.sh
+export METEOR_NAMESPACE=${ns}
+export METEOR_HOST=${METEOR_CS_HOST}
+export METEOR_TLS=tapo
 exec ~/pod/meteor/gw/deploy.sh "${ns}"
