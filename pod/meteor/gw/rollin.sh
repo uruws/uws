@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-ns=${1:?'namespace?'}
+ns="${1:?'namespace?'}gw"
 
 # shellcheck source=/home/uws/pod/meteor/gw/configure.sh
 . ~/pod/meteor/gw/configure.sh
