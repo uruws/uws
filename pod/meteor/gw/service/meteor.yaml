@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteor.${METEOR_NAMESPACE}.svc.cluster.local
