@@ -1,5 +1,6 @@
 #!/bin/sh
 set -u
-envsubst <${HOME}/pod/meteor/infra-ui/gateway.yaml | uwskube delete -f -
-uwskube delete secret -n infra-ui-${INFRA_UI_ENV} appenv || true
-exec uwskube delete namespace infra-ui-${INFRA_UI_ENV}
+ns="infra-ui-${INFRA_UI_ENV}"
+uwskube delete secret -n "${ns}" appenv || true
+uwskube delete namespace "${ns}"
+exec ~/pod/meteor/infra-ui/gw/teardown.sh

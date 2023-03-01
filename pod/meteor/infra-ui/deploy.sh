@@ -1,5 +1,7 @@
 #!/bin/sh
 set -eu
 appver=${1:-''}
-${HOME}/pod/meteor/infra-ui/configure.sh
-exec ${HOME}/pod/meteor/deploy.sh infra-ui-${INFRA_UI_ENV} infra-ui ${appver}
+ns="infra-ui-${INFRA_UI_ENV}"
+~/pod/meteor/infra-ui/configure.sh
+~/pod/meteor/deploy.sh "${ns}" infra-ui "${appver}"
+exec ~/pod/meteor/infra-ui/gw/deploy.sh
