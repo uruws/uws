@@ -1,3 +1,5 @@
 #!/bin/sh
 set -eu
-exec uwskube delete deploy meteor -n infra-ui-${INFRA_UI_ENV}
+uwskube delete deploy meteor -n "infra-ui-${INFRA_UI_ENV}"
+~/pod/meteor/infra-ui/gw/rollin.sh
+exit 0
