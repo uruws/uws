@@ -318,7 +318,7 @@ deploy:
 #
 
 .PHONY: check
-check: check-docker check-golang check-cli check-k8s check-eks check-munin check-munin-node check-asb check-awscli
+check: check-docker check-golang check-cli check-k8s check-eks check-munin check-munin-node check-asb check-awscli check-pod-meteor
 
 .PHONY: check-docker
 check-docker:
@@ -363,6 +363,10 @@ check-asb:
 .PHONY: check-awscli
 check-awscli:
 	@./docker/awscli/check.sh
+
+.PHONY: check-pod-meteor
+check-pod-meteor:
+	@./pod/meteor/check.sh
 
 #
 # uws CA
