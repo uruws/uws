@@ -1,23 +1,20 @@
-#~ ---
-#~ apiVersion: autoscaling/v2beta2
-#~ kind: HorizontalPodAutoscaler
-#~ metadata:
-  #~ name: worker-hpa
-  #~ namespace: worker
-#~ spec:
-  #~ scaleTargetRef:
-    #~ apiVersion: apps/v1
-    #~ kind: Deployment
-    #~ name: meteor
-  #~ minReplicas: 30
-  #~ maxReplicas: 90
-  #~ metrics:
-    #~ - type: Resource
-      #~ resource:
-        #~ name: cpu
-        #~ target:
-          #~ type: Utilization
-          #~ averageUtilization: 70
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor
+  namespace: worker
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-worker
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -103,20 +100,3 @@ spec:
           emptyDir: {}
         - name: tmpdir
           emptyDir: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: meteor
-  namespace: worker
-spec:
-  ports:
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: meteor-worker
-  sessionAffinity: ClientIP
-  sessionAffinityConfig:
-    clientIP:
-      timeoutSeconds: 10800

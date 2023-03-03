@@ -13,9 +13,6 @@ ignore_file() (
 		./pod/meteor/web/*)
 			return 0
 		;;
-		./pod/meteor/worker/*)
-			return 0
-		;;
 	esac
 	return 1
 )
