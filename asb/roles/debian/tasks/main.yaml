@@ -63,6 +63,7 @@
       - less
       - vim
       - xz-utils
+      - acl
   tags:
     - apt
 
