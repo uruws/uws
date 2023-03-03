@@ -1,8 +1,0 @@
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: meteor-vanilla
-spec:
-  type: ExternalName
-  externalName: meteor.meteor-vanilla.svc.cluster.local

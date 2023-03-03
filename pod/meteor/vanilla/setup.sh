@@ -1,3 +1,5 @@
 #!/bin/sh
 set -eu
-exec uwskube create namespace meteor-vanilla
+uwskube create namespace meteor-vanilla
+~/pod/meteor/vanilla/gw/setup.sh
+exit 0

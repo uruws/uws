@@ -1,3 +1,5 @@
 #!/bin/sh
 set -eu
-exec uwskube delete deploy meteor -n meteor-vanilla
+uwskube delete deploy meteor -n meteor-vanilla
+~/pod/meteor/vanilla/gw/rollin.sh
+exit 0
