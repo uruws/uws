@@ -10,6 +10,8 @@ aws_zone: "{{ lookup('env', 'AWS_ZONE') }}"
 ansible_user: admin
 ansible_host: "{{ inventory_hostname }}.{{ uws_domain }}"
 
+ansible_common_remote_group: admin
+
 vm_tag_name: ""
 vm_public_dns_name: ""
 vm_public_name: ""
