@@ -131,6 +131,8 @@
     - acme-certs
 
 - name: get certs
+  become: yes
+  become_user: uws
   command: /srv/acme/bin/acme-certs.sh
   tags:
     - acme
