@@ -1,4 +1,8 @@
 #!/bin/sh
 set -eu
 replicas=${1:?'replicas?'}
-exec ~/pod/lib/scale.sh api meteor "${replicas}"
+web_replicas=$(uwskube get deployment/meteor -n web --output jsonpath='{.spec.replicas}')
+gw_replicas=$(expr ${replicas} ${web_replicas})
+~/pod/lib/scale.sh api meteor "${replicas}"
+~/pod/meteor/web/gw/scale.sh "${gw_replicas}"
+exit 0
