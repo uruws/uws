@@ -130,7 +130,7 @@ app: dict[str, App] = {
 		groups = ['uwsapp_apptest'],
 	),
 	'worker-test': App(True,
-		cluster = 'apptest-east',
+		cluster = 'apptest-2302',
 		desc = 'App worker, test cluster',
 		pod = 'meteor/worker',
 		deploy = AppDeploy('meteor-app'),
