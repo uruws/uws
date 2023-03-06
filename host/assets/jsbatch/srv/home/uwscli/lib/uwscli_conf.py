@@ -191,7 +191,7 @@ app: dict[str, App] = {
 		groups = ['uwsapp_infra-ui'],
 	),
 	'meteor-vanilla': App(True,
-		cluster = 'apptest-east',
+		cluster = 'apptest-2302',
 		desc = 'Meteor Vanilla',
 		pod = 'meteor/vanilla',
 		build = _buildpack('meteor-vanilla/src', 'meteor-vanilla'),
