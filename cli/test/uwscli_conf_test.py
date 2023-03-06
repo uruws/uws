@@ -39,8 +39,8 @@ class Test(unittest.TestCase):
 		])
 		# app list
 		app_list = [
-			'apitest-east',
-			'apptest-east',
+			'api-test',
+			'app-test',
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
