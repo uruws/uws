@@ -136,14 +136,6 @@ app: dict[str, App] = {
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_apptest'],
 	),
-	# ~ 'beta': App(True,
-		# ~ cluster = 'panoramix-2206',
-		# ~ desc = 'App beta',
-		# ~ pod = 'meteor/beta',
-		# ~ build = _buildpack('beta/src', 'beta'),
-		# ~ deploy = AppDeploy('meteor-beta'),
-		# ~ groups = ['uwsapp_beta'],
-	# ~ ),
 	'cs': App(True,
 		cluster = 'panoramix-2206',
 		desc = 'Crowdsourcing',
@@ -215,6 +207,7 @@ class AppCluster(object):
 	region: str
 
 cluster: dict[str, AppCluster] = {
+	'apptest-2302':   AppCluster(region = 'us-east-2'),
 	'apptest-east':   AppCluster(region = 'us-east-2'),
 	'panoramix-2206': AppCluster(region = 'us-east-1'),
 	'worker-2209':    AppCluster(region = 'us-east-1'),
