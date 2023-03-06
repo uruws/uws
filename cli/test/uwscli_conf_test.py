@@ -83,13 +83,13 @@ class Test(unittest.TestCase):
 		t.assertDictEqual(uwscli.app['app'].custom_deploy, {
 			'production': [
 				CustomDeploy('worker'),
-				CustomDeploy('api-east'),
-				CustomDeploy('app-east'),
+				CustomDeploy('api'),
+				CustomDeploy('app'),
 			],
 			'staging': [
 				CustomDeploy('worker-test'),
-				CustomDeploy('apitest-east'),
-				CustomDeploy('apptest-east'),
+				CustomDeploy('api-test'),
+				CustomDeploy('app-test'),
 			],
 		})
 
