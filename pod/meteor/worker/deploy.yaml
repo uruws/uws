@@ -54,9 +54,6 @@ spec:
             - name: appenv
               mountPath: "/run/meteor"
               readOnly: true
-            - name: clusterenv
-              mountPath: "/run/cluster"
-              readOnly: true
             - name: app-tmpdir
               mountPath: "/opt/app/bundle/tmp"
             - name: tmpdir
@@ -93,9 +90,6 @@ spec:
         - name: appenv
           secret:
             secretName: meteor-app-env
-        - name: clusterenv
-          secret:
-            secretName: meteor-cluster-env
         - name: app-tmpdir
           emptyDir: {}
         - name: tmpdir
