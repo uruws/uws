@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 replicas=${1:?'replicas?'}
 web_replicas=$(uwskube get deployment/meteor -n web --output jsonpath='{.spec.replicas}')
 gw_replicas=$(expr ${replicas} + ${web_replicas})
