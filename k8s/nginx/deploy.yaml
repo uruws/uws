@@ -19,7 +19,7 @@ spec:
       labels:
         app.kubernetes.io/name: proxy
     spec:
-      terminationGracePeriodSeconds: 3
+      terminationGracePeriodSeconds: 60
       containers:
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${PROXY_VERSION}
           imagePullPolicy: IfNotPresent
@@ -74,7 +74,7 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
             timeoutSeconds: 3
-            failureThreshold: 1
+            failureThreshold: 2
           livenessProbe:
             httpGet:
               path: /healthz
@@ -82,7 +82,7 @@ spec:
               scheme: HTTP
             periodSeconds: 5
             timeoutSeconds: 3
-            failureThreshold: 1
+            failureThreshold: 2
       volumes:
         - name: rundir
           emptyDir:
