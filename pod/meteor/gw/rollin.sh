@@ -1,15 +1,16 @@
 #!/bin/sh
 set -eu
 
-ns="${1:?'namespace?'}gw"
+nsorig="${1:?'namespace?'}"
+ns="${nsorig}gw"
 
 # shellcheck source=/home/uws/pod/meteor/gw/configure.sh
 . ~/pod/meteor/gw/configure.sh
 
 cfgdir=$(mktemp -d -p ${HOME}/tmp meteor-gw-rollin-XXXXXXXXXX)
 
-if test -s "${HOME}/pod/meteor/${ns}/nginx.conf"; then
-	cp -va "${HOME}/pod/meteor/${ns}/nginx.conf" "${cfgdir}/"
+if test -s "${HOME}/pod/meteor/${nsorig}/nginx.conf"; then
+	cp -va "${HOME}/pod/meteor/${nsorig}/nginx.conf" "${cfgdir}/"
 fi
 
 gateway_configure "${ns}" "${cfgdir}"
