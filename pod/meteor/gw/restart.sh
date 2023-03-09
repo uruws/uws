@@ -7,6 +7,11 @@ ns="${1:?'namespace?'}gw"
 . ~/pod/meteor/gw/configure.sh
 
 cfgdir=$(mktemp -d -p ${HOME}/tmp meteor-gw-restart-XXXXXXXXXX)
+
+if test -s "${HOME}/pod/meteor/${ns}/nginx.conf"; then
+	cp -va "${HOME}/pod/meteor/${ns}/nginx.conf" "${cfgdir}/"
+fi
+
 gateway_configure "${ns}" "${cfgdir}"
 
 ~/k8s/nginx/restart.sh "${ns}" "${cfgdir}"
