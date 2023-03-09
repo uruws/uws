@@ -446,8 +446,14 @@ k8smon-publish: k8s
 nginx:
 	@./srv/nginx/build.sh
 
+.PHONY: nginx-check
+nginx-check:
+	@./srv/nginx/check.sh
+
 .PHONY: nginx-publish
-nginx-publish: nginx
+nginx-publish:
+	@$(MAKE) nginx
+	@$(MAKE) nginx-check
 	@./srv/nginx/publish.sh
 
 #
