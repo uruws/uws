@@ -39,7 +39,9 @@ class Test(unittest.TestCase):
 		])
 		# app list
 		app_list = [
+			'api-prod',
 			'api-test',
+			'app-prod',
 			'app-test',
 			'cs',
 			'cs-test',
@@ -83,8 +85,8 @@ class Test(unittest.TestCase):
 		t.assertDictEqual(uwscli.app['app'].custom_deploy, {
 			'production': [
 				CustomDeploy('worker'),
-				CustomDeploy('api'),
-				CustomDeploy('app'),
+				CustomDeploy('api-prod'),
+				CustomDeploy('app-prod'),
 			],
 			'staging': [
 				CustomDeploy('worker-test'),
