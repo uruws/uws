@@ -3,5 +3,11 @@
 server {
 	listen 80;
 	server_name localhost;
+
 	include snippets/uwslog-json.conf;
+
+	location / {
+		set $upstream_name "testing";
+		include snippets/proxy_params;
+	}
 }
