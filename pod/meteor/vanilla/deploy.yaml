@@ -1,21 +1,4 @@
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: meteor
-  namespace: meteor-vanilla
-spec:
-  ports:
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: meteor
-  sessionAffinity: ClientIP
-  sessionAffinityConfig:
-    clientIP:
-      timeoutSeconds: 10800
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -79,3 +62,42 @@ spec:
         - name: appenv
           secret:
             secretName: appenv
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor
+  namespace: meteor-vanilla
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor1
+  namespace: meteor-vanilla
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor2
+  namespace: meteor-vanilla
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor

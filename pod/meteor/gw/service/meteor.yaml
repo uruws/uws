@@ -6,3 +6,19 @@ metadata:
 spec:
   type: ExternalName
   externalName: meteor.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor1-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteor1.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor2-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteor2.${METEOR_NAMESPACE}.svc.cluster.local

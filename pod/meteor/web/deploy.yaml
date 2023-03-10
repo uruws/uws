@@ -1,21 +1,4 @@
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: meteor
-  namespace: ${APP_NAMESPACE}
-spec:
-  ports:
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
-  sessionAffinity: ClientIP
-  sessionAffinityConfig:
-    clientIP:
-      timeoutSeconds: 10800
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -91,3 +74,42 @@ spec:
           emptyDir: {}
         - name: tmpdir
           emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor1
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor2
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
