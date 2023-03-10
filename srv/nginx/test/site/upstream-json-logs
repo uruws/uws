@@ -6,6 +6,8 @@ server {
 
 	include snippets/uwslog-json.conf;
 
+	set $upstream_name "testing-global";
+
 	location / {
 		set $upstream_name "testing";
 		include snippets/proxy_params;
