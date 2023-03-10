@@ -3,10 +3,10 @@ set -eu
 
 # setup
 
-rm -vf /etc/nginx/uws-sites-enabled/*
+rm -f /etc/nginx/uws-sites-enabled/*
 
-ln -svf /dev/stderr /var/log/nginx/access_log
-ln -svf /dev/stderr /var/log/nginx/error_log
+ln -sf /dev/stderr /var/log/nginx/access_log
+ln -sf /dev/stderr /var/log/nginx/error_log
 
 # test default
 
@@ -18,6 +18,14 @@ install -v -m 644 /root/test/site/proxy /etc/nginx/uws-sites-enabled
 
 /usr/sbin/nginx -t
 
-rm -vf /etc/nginx/uws-sites-enabled/*
+rm -f /etc/nginx/uws-sites-enabled/*
+
+# test upstream-json-logs
+
+install -v -m 644 /root/test/site/upstream-json-logs /etc/nginx/uws-sites-enabled
+
+/usr/sbin/nginx -t
+
+rm -f /etc/nginx/uws-sites-enabled/*
 
 exit 0

@@ -1,0 +1,7 @@
+# nginx test site conf
+
+server {
+	listen 80;
+	server_name localhost;
+	include snippets/uwslog-json.conf;
+}
