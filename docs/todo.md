@@ -1,3 +1,10 @@
+* k8s/nginx
+    * use 5 backend servers as upstream
+    * parse access log
+    * parse error log
+
+---
+
 * munin: sendmail errors
     * uws@jsbatch:/srv/munin/var/alert/statuspage
     * check sendmail.log for errors
