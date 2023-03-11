@@ -160,6 +160,14 @@ func Init(progname string) {
 	}
 }
 
+func NoDateTime() {
+	f := log.Lmsgprefix
+	if debug {
+		f = debugFlags
+	}
+	l.SetFlags(f)
+}
+
 func Output(calldepth int, s string) error {
 	return l.Output(calldepth, s)
 }
