@@ -4,6 +4,8 @@
 package ngxlogs
 
 import (
+	"os"
+
 	"testing"
 	"uws/testing/mock"
 
@@ -23,4 +25,33 @@ func TestMain(t *testing.T) {
 	defer mock.LoggerReset()
 	f := NewFlags()
 	Main(f)
+}
+
+func TestMainJsonParser(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	f := NewFlags()
+	f.Format = "json"
+	f.Input = "./testdata/uwsdev-gw.logs"
+	Main(f)
+}
+
+func TestJsonParser(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/uwsdev-gw.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	err = jsonParse(fh)
+	IsNil(t, err, "json parse")
+}
+
+func TestJsonParserError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/uwsdev-gw.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	fh.Close()
+	err = jsonParse(fh)
+	NotNil(t, err, "parse error")
 }
