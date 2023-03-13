@@ -56,7 +56,7 @@ func TestRawOutputError(t *testing.T) {
 	fh, err := os.Open("./testdata/uwsdev-gw.logs")
 	Fatal(t, IsNil(t, err, "read logs"))
 	fh.Close()
-	err = jsonParse(fh)
+	err = rawOutput(fh)
 	NotNil(t, err, "parse error")
 }
 
@@ -79,7 +79,8 @@ func TestJsonParse(t *testing.T) {
 	fh, err := os.Open("./testdata/uwsdev-gw.logs")
 	Fatal(t, IsNil(t, err, "read logs"))
 	defer fh.Close()
-	err = jsonParse(fh)
+	f := NewFlags()
+	err = jsonParse(f, fh)
 	IsNil(t, err, "json parse")
 }
 
@@ -89,6 +90,7 @@ func TestJsonParseError(t *testing.T) {
 	fh, err := os.Open("./testdata/uwsdev-gw.logs")
 	Fatal(t, IsNil(t, err, "read logs"))
 	fh.Close()
-	err = jsonParse(fh)
+	f := NewFlags()
+	err = jsonParse(f, fh)
 	NotNil(t, err, "parse error")
 }
