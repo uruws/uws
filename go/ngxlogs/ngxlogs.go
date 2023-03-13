@@ -71,13 +71,13 @@ func rawOutput(r io.Reader) error {
 //
 
 var (
-	rePod = `^\[pod/proxy-[^/]+/proxy\] `
+	rePod = `^\[pod/proxy-([^/]+)/proxy\] `
 )
 
 var (
-	reJsonLog  = regexp.MustCompile(rePod + `\{.*\}$`)
-	reErrorLog = regexp.MustCompile(rePod + `\d\d\d\d/\d\d/\d\d \d\d:\d\d:\d\d \[error\] `)
-	reStartLog = regexp.MustCompile(rePod + `nginx: start`)
+	reJsonLog  = regexp.MustCompile(rePod + `(\{.+\})$`)
+	reErrorLog = regexp.MustCompile(rePod + `(\d\d\d\d/\d\d/\d\d \d\d:\d\d:\d\d) \[error\] (.+)$`)
+	reStartLog = regexp.MustCompile(rePod + `nginx: start (.+)$`)
 )
 
 //
@@ -88,7 +88,23 @@ func jsonParse(f *Flags, r io.Reader) error {
 	log.Debug("json parse")
 	x := bufio.NewScanner(r)
 	for x.Scan() {
-		log.Info("%s", x.Text())
+		s := x.Text()
+		//~ log.Debug("%s", s)
+		m := reJsonLog.FindStringSubmatch(s)
+		if len(m) > 1 {
+			continue
+		}
+		m = reErrorLog.FindStringSubmatch(s)
+		if len(m) > 1 {
+			continue
+		}
+		m = reStartLog.FindStringSubmatch(s)
+		if len(m) > 1 {
+			container := m[1]
+			time := m[2]
+			log.Print("%s container start %s", time, container)
+			continue
+		}
 	}
 	return x.Err()
 }
