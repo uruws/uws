@@ -196,6 +196,10 @@ func Error(format string, v ...interface{}) error {
 	return err
 }
 
+func PrintError(format string, v ...interface{}) {
+	l.Printf(logger.ERROR, format, v...)
+}
+
 var osExit func(int) = os.Exit
 
 func Fatal(format string, v ...interface{}) {

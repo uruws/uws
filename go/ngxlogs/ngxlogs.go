@@ -6,9 +6,11 @@ package ngxlogs
 
 import (
 	"bufio"
+	"encoding/json"
 	"io"
 	"os"
 	"regexp"
+	"strconv"
 
 	"uws/log"
 )
@@ -84,6 +86,41 @@ var (
 // jsonParse
 //
 
+type Entry struct {
+	Container  string `json:"-"`
+	RequestURI string `json:"request_uri"`
+	Status     string `json:"status"`
+	StatusInt  int    `json:"-"`
+	TimeLocal  string `json:"time_local"`
+}
+
+func newEntry(container string) *Entry {
+	return &Entry{
+		Container: container,
+	}
+}
+
+func (e *Entry) Check() bool {
+	var err error
+	e.StatusInt, err = strconv.Atoi(e.Status)
+	if err != nil {
+		log.Print("[ERROR] e.Status: %s", err)
+		return false
+	}
+	return true
+}
+
+func (e *Entry) Print() {
+	var p func(string, ...interface{})
+	p = log.Info
+	if e.StatusInt >= 500 {
+		p = log.PrintError
+	} else if e.StatusInt >= 400 {
+		p = log.Warn
+	}
+	p("%s %s %s %s", e.TimeLocal, e.Container, e.Status, e.RequestURI)
+}
+
 func jsonParse(f *Flags, r io.Reader) error {
 	log.Debug("json parse")
 	x := bufio.NewScanner(r)
@@ -92,6 +129,17 @@ func jsonParse(f *Flags, r io.Reader) error {
 		//~ log.Debug("%s", s)
 		m := reJsonLog.FindStringSubmatch(s)
 		if len(m) > 1 {
+			container := m[1]
+			data := m[2]
+			e := newEntry(container)
+			if err := json.Unmarshal([]byte(data), e); err != nil {
+				log.Print("[ERROR] %s", err)
+				continue
+			}
+			if !e.Check() {
+				continue
+			}
+			e.Print()
 			continue
 		}
 		m = reErrorLog.FindStringSubmatch(s)
