@@ -96,6 +96,10 @@ func jsonParse(f *Flags, r io.Reader) error {
 		}
 		m = reErrorLog.FindStringSubmatch(s)
 		if len(m) > 1 {
+			container := m[1]
+			time := m[2]
+			msg := m[3]
+			log.Error("%s %s %s", time, container, msg)
 			continue
 		}
 		m = reStartLog.FindStringSubmatch(s)
