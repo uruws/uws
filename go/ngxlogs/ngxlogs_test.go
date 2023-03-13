@@ -4,7 +4,10 @@
 package ngxlogs
 
 import (
+	"bufio"
+	"io"
 	"os"
+	"regexp"
 
 	"testing"
 	"uws/testing/mock"
@@ -58,6 +61,50 @@ func TestRawOutputError(t *testing.T) {
 	fh.Close()
 	err = rawOutput(fh)
 	NotNil(t, err, "parse error")
+}
+
+//
+// regexp
+//
+
+func reCheck(t *testing.T, fh io.Reader, re *regexp.Regexp, count int) {
+	t.Helper()
+	got := 0
+	x := bufio.NewScanner(fh)
+	for x.Scan() {
+		if re.Match(x.Bytes()) {
+			got += 1
+		}
+	}
+	Fatal(t, IsNil(t, x.Err(), "scanner error"))
+	IsEqual(t, got, count, "regexp count")
+}
+
+func TestReJsonLog(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/uwsdev-gw.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	reCheck(t, fh, reJsonLog, 50)
+}
+
+func TestReErrorLog(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/uwsdev-gw.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	reCheck(t, fh, reErrorLog, 3)
+}
+
+func TestReStartLog(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/uwsdev-gw.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	reCheck(t, fh, reStartLog, 3)
 }
 
 //

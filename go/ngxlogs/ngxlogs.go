@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"io"
 	"os"
+	"regexp"
 
 	"uws/log"
 )
@@ -52,6 +53,10 @@ func Main(f *Flags) {
 	}
 }
 
+//
+// rawOutput
+//
+
 func rawOutput(r io.Reader) error {
 	log.Debug("raw output")
 	x := bufio.NewScanner(r)
@@ -60,6 +65,24 @@ func rawOutput(r io.Reader) error {
 	}
 	return x.Err()
 }
+
+//
+// regexp
+//
+
+var (
+	rePod = `^\[pod/proxy-[^/]+/proxy\] `
+)
+
+var (
+	reJsonLog  = regexp.MustCompile(rePod + `\{.*\}$`)
+	reErrorLog = regexp.MustCompile(rePod + `\d\d\d\d/\d\d/\d\d \d\d:\d\d:\d\d \[error\] `)
+	reStartLog = regexp.MustCompile(rePod + `nginx: start`)
+)
+
+//
+// jsonParse
+//
 
 func jsonParse(f *Flags, r io.Reader) error {
 	log.Debug("json parse")

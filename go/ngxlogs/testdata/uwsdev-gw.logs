@@ -1,11 +1,14 @@
+[pod/proxy-559b74d854-qg52w/proxy] nginx: start Mon, 13 Mar 2023 17:57:26 -0300
 [pod/proxy-559b74d854-qg52w/proxy] '/var/log/nginx/access_log' -> '/dev/stderr'
 [pod/proxy-559b74d854-qg52w/proxy] '/var/log/nginx/error_log' -> '/dev/stderr'
 [pod/proxy-559b74d854-qg52w/proxy] nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 [pod/proxy-559b74d854-qg52w/proxy] nginx: configuration file /etc/nginx/nginx.conf test is successful
+[pod/proxy-559b74d854-wxcm7/proxy] nginx: start Mon, 13 Mar 2023 17:57:26 -0300
 [pod/proxy-559b74d854-wxcm7/proxy] '/var/log/nginx/access_log' -> '/dev/stderr'
 [pod/proxy-559b74d854-wxcm7/proxy] '/var/log/nginx/error_log' -> '/dev/stderr'
 [pod/proxy-559b74d854-wxcm7/proxy] nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 [pod/proxy-559b74d854-wxcm7/proxy] nginx: configuration file /etc/nginx/nginx.conf test is successful
+[pod/proxy-559b74d854-5v5k5/proxy] nginx: start Mon, 13 Mar 2023 17:57:26 -0300
 [pod/proxy-559b74d854-5v5k5/proxy] '/var/log/nginx/access_log' -> '/dev/stderr'
 [pod/proxy-559b74d854-5v5k5/proxy] '/var/log/nginx/error_log' -> '/dev/stderr'
 [pod/proxy-559b74d854-5v5k5/proxy] nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
