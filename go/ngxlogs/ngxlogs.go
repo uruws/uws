@@ -43,10 +43,22 @@ func Main(f *Flags) {
 
 	if f.Format == "json" {
 		err = jsonParse(infh)
+	} else if f.Format == "raw" {
+		err = rawOutput(infh)
 	}
+
 	if err != nil {
 		log.Fatal("%s", err)
 	}
+}
+
+func rawOutput(r io.Reader) error {
+	log.Debug("raw output")
+	x := bufio.NewScanner(r)
+	for x.Scan() {
+		log.Print("%s", x.Text())
+	}
+	return x.Err()
 }
 
 func jsonParse(r io.Reader) error {

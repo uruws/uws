@@ -27,7 +27,44 @@ func TestMain(t *testing.T) {
 	Main(f)
 }
 
-func TestMainJsonParser(t *testing.T) {
+//
+// rawOutput
+//
+
+func TestMainRawOutput(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	f := NewFlags()
+	f.Format = "raw"
+	f.Input = "./testdata/uwsdev-gw.logs"
+	Main(f)
+}
+
+func TestRawOutput(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/uwsdev-gw.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	err = rawOutput(fh)
+	IsNil(t, err, "json parse")
+}
+
+func TestRawOutputError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/uwsdev-gw.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	fh.Close()
+	err = jsonParse(fh)
+	NotNil(t, err, "parse error")
+}
+
+//
+// jsonParse
+//
+
+func TestMainJsonParse(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	f := NewFlags()
@@ -36,7 +73,7 @@ func TestMainJsonParser(t *testing.T) {
 	Main(f)
 }
 
-func TestJsonParser(t *testing.T) {
+func TestJsonParse(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	fh, err := os.Open("./testdata/uwsdev-gw.logs")
@@ -46,7 +83,7 @@ func TestJsonParser(t *testing.T) {
 	IsNil(t, err, "json parse")
 }
 
-func TestJsonParserError(t *testing.T) {
+func TestJsonParseError(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	fh, err := os.Open("./testdata/uwsdev-gw.logs")
