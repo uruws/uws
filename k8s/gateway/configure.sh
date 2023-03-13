@@ -7,8 +7,7 @@ gateway_configure() (
 	install -d -m 0750 "${cfgdir}/nginx"
 	install -d -m 0750 "${cfgdir}/nginx/sites-enabled"
 
-	<~/k8s/gateway/cluster.conf envsubst \
-		'${CLUSTER_HOST}' \
+	<~/k8s/gateway/cluster.conf envsubst '${CLUSTER_HOST}' \
 		>"${cfgdir}/nginx/sites-enabled/cluster-gateway"
 
 	install -d -m 0750 "${cfgdir}/nginx/service"
