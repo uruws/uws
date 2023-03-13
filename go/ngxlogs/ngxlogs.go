@@ -42,14 +42,18 @@ func Main(f *Flags) {
 	}
 
 	if f.Format == "json" {
-		jsonParse(infh)
+		err = jsonParse(infh)
+	}
+	if err != nil {
+		log.Fatal("%s", err)
 	}
 }
 
-func jsonParse(r io.Reader) {
+func jsonParse(r io.Reader) error {
 	log.Debug("json parse")
 	x := bufio.NewScanner(r)
 	for x.Scan() {
 		log.Info("%s", x.Text())
 	}
+	return x.Err()
 }
