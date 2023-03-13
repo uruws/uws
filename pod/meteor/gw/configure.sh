@@ -14,12 +14,8 @@ gateway_configure() (
 	install -v -d -m 0750 "${cfgdir}/nginx/sites-enabled"
 
 	echo "nginx conf: ${nginx_conf}"
-	 <"${nginx_conf}" envsubst \
-		'${METEOR_NAMESPACE}' \
-		'${METEOR_HOST}' \
-		'${METEOR_TLS}' \
-		'${METEOR_NAMESPACE}' \
-		>"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
+	 <"${nginx_conf}" envsubst '${METEOR_NAMESPACE}' | envsubst '${METEOR_HOST}' |
+		envsubst '${METEOR_TLS}' >"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
 
 	install -v -d -m 0750 "${cfgdir}/nginx/service"
 	envsubst <~/pod/meteor/gw/service/meteor.yaml >"${cfgdir}/nginx/service/meteor-${ns}.yaml"
