@@ -28,4 +28,12 @@ install -v -m 644 /root/test/site/upstream-json-logs /etc/nginx/uws-sites-enable
 
 rm -f /etc/nginx/uws-sites-enabled/*
 
+# test upstream-analytics-logs
+
+install -v -m 644 /root/test/site/upstream-analytics-logs /etc/nginx/uws-sites-enabled
+
+/usr/sbin/nginx -t
+
+rm -f /etc/nginx/uws-sites-enabled/*
+
 exit 0
