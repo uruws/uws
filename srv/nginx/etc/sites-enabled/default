@@ -7,7 +7,7 @@ server {
 	root /var/www/html;
 	index index.html index.nginx-debian.html;
 
-	include snippets/uwslog.conf;
+	include snippets/uwslog-json-analytics.conf;
 
 	location /healthz {
 		access_log off;
