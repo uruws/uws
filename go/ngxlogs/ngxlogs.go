@@ -73,7 +73,7 @@ func rawOutput(r io.Reader) error {
 //
 
 var (
-	rePod = `^\[pod/proxy-([^/]+)/proxy\] `
+	rePod = `^\[pod/proxy-([^/]+/ngx\d+)\] `
 )
 
 var (

@@ -87,7 +87,7 @@ func TestReJsonLog(t *testing.T) {
 	fh, err := os.Open("./testdata/uwsdev-gw.logs")
 	Fatal(t, IsNil(t, err, "read logs"))
 	defer fh.Close()
-	reCheck(t, fh, reJsonLog, 50)
+	reCheck(t, fh, reJsonLog, 51)
 }
 
 func TestReErrorLog(t *testing.T) {
