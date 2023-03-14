@@ -129,7 +129,7 @@ func (e *Entry) Print() {
 		show = false
 	}
 	if show {
-		p("%s %s %s %s %s %s %s", e.TimeLocal, e.UpstreamName, e.RequestTime, e.Status, e.RequestMethod, e.RequestURI, e.UpstreamStatus)
+		p("%s %s %s %s %s %s %s", e.TimeLocal[:len(e.TimeLocal)-6], e.UpstreamName, e.RequestTime, e.Status, e.RequestMethod, e.RequestURI, e.UpstreamStatus)
 	}
 }
 
