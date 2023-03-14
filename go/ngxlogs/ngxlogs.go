@@ -98,6 +98,7 @@ type Entry struct {
 	TimeLocal      string `json:"time_local"`
 	UpstreamName   string `json:"upstream_name"`
 	UpstreamStatus string `json:"upstream_status"`
+	UpstreamTime   string `json:"upstream_response_time"`
 }
 
 func newEntry(f *Flags, container string) *Entry {
@@ -129,7 +130,7 @@ func (e *Entry) Print() {
 		show = false
 	}
 	if show {
-		p("%s %s %s %s %s %s %s", e.TimeLocal[:len(e.TimeLocal)-6], e.UpstreamName, e.RequestTime, e.Status, e.RequestMethod, e.RequestURI, e.UpstreamStatus)
+		p("%s [%s %s %s] %s %s %s %s", e.TimeLocal[:len(e.TimeLocal)-6], e.UpstreamName, e.UpstreamTime, e.UpstreamStatus, e.RequestTime, e.Status, e.RequestMethod, e.RequestURI)
 	}
 }
 
