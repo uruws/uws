@@ -16,8 +16,9 @@ import (
 )
 
 type Flags struct {
-	Input  string
+	Errors bool
 	Format string
+	Input  string
 }
 
 func NewFlags() *Flags {
@@ -87,6 +88,7 @@ var (
 //
 
 type Entry struct {
+	f          *Flags
 	Container  string `json:"-"`
 	RequestURI string `json:"request_uri"`
 	Status     string `json:"status"`
@@ -94,8 +96,9 @@ type Entry struct {
 	TimeLocal  string `json:"time_local"`
 }
 
-func newEntry(container string) *Entry {
+func newEntry(f *Flags, container string) *Entry {
 	return &Entry{
+		f:         f,
 		Container: container,
 	}
 }
@@ -113,12 +116,17 @@ func (e *Entry) Check() bool {
 func (e *Entry) Print() {
 	var p func(string, ...interface{})
 	p = log.Info
+	show := true
 	if e.StatusInt >= 500 {
 		p = log.PrintError
 	} else if e.StatusInt >= 400 {
 		p = log.Warn
+	} else if e.f.Errors {
+		show = false
 	}
-	p("%s %s %s %s", e.TimeLocal, e.Container, e.Status, e.RequestURI)
+	if show {
+		p("%s %s %s %s", e.TimeLocal, e.Container, e.Status, e.RequestURI)
+	}
 }
 
 func jsonParse(f *Flags, r io.Reader) error {
@@ -131,7 +139,7 @@ func jsonParse(f *Flags, r io.Reader) error {
 		if len(m) > 1 {
 			container := m[1]
 			data := m[2]
-			e := newEntry(container)
+			e := newEntry(f, container)
 			if err := json.Unmarshal([]byte(data), e); err != nil {
 				log.Print("[ERROR] %s", err)
 				continue
