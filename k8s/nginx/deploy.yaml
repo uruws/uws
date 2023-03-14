@@ -23,7 +23,7 @@ spec:
       containers:
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${PROXY_VERSION}
           imagePullPolicy: IfNotPresent
-          name: proxy
+          name: ngx${PROXY_VERSION}
           ports:
             - containerPort: 80
               name: http
