@@ -78,7 +78,7 @@ var (
 
 var (
 	reJsonLog  = regexp.MustCompile(rePod + `(\{.+\})$`)
-	reErrorLog = regexp.MustCompile(rePod + `(\d\d\d\d/\d\d/\d\d \d\d:\d\d:\d\d) \[error\] (.+)$`)
+	reErrorLog = regexp.MustCompile(rePod + `(\d\d\d\d/\d\d/\d\d \d\d:\d\d:\d\d) (\[error\] .+)$`)
 	reStartLog = regexp.MustCompile(rePod + `nginx: start (.+)$`)
 )
 
@@ -133,7 +133,7 @@ func jsonParse(f *Flags, r io.Reader) error {
 			data := m[2]
 			e := newEntry(container)
 			if err := json.Unmarshal([]byte(data), e); err != nil {
-				log.Print("[ERROR] %s", err)
+				log.Print("[error] %s", err)
 				continue
 			}
 			if !e.Check() {
@@ -147,7 +147,7 @@ func jsonParse(f *Flags, r io.Reader) error {
 			container := m[1]
 			time := m[2]
 			msg := m[3]
-			log.Error("%s %s %s", time, container, msg)
+			log.Print("%s %s %s", time, container, msg)
 			continue
 		}
 		m = reStartLog.FindStringSubmatch(s)
