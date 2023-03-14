@@ -17,19 +17,18 @@ import (
 
 type Flags struct {
 	Errors bool
-	Format string
 	Input  string
+	Raw    bool
 }
 
 func NewFlags() *Flags {
 	return &Flags{
 		Input:  "-",
-		Format: "default",
 	}
 }
 
 func Main(f *Flags) {
-	log.Debug("main: %s", f.Format)
+	log.Debug("main: errors=%v raw=%v", f.Errors, f.Raw)
 
 	var (
 		err  error
@@ -45,10 +44,10 @@ func Main(f *Flags) {
 		defer infh.Close()
 	}
 
-	if f.Format == "json" {
-		err = jsonParse(f, infh)
-	} else if f.Format == "raw" {
+	if f.Raw {
 		err = rawOutput(infh)
+	} else {
+		err = jsonParse(f, infh)
 	}
 
 	if err != nil {

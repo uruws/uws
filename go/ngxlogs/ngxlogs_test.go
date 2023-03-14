@@ -19,8 +19,9 @@ func TestFlags(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	f := NewFlags()
+	IsFalse(t, f.Errors, "f.Errros")
 	IsEqual(t, f.Input, "-", "f.Input")
-	IsEqual(t, f.Format, "default", "f.Format")
+	IsFalse(t, f.Raw, "f.Raw")
 }
 
 func TestMain(t *testing.T) {
@@ -38,7 +39,7 @@ func TestMainRawOutput(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	f := NewFlags()
-	f.Format = "raw"
+	f.Raw = true
 	f.Input = "./testdata/uwsdev-gw.logs"
 	Main(f)
 }
@@ -115,7 +116,6 @@ func TestMainJsonParse(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
 	f := NewFlags()
-	f.Format = "json"
 	f.Input = "./testdata/uwsdev-gw.logs"
 	Main(f)
 }

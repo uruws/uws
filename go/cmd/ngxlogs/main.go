@@ -15,8 +15,8 @@ func main() {
 	f := ngxlogs.NewFlags()
 
 	flag.BoolVar(&f.Errors, "error", false, "show errors only")
-	flag.StringVar(&f.Format, "format", "json", "input file format")
 	flag.StringVar(&f.Input, "input", "-", "read from file")
+	flag.BoolVar(&f.Raw, "raw", false, "show raw input")
 
 	flag.Parse()
 
