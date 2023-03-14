@@ -23,7 +23,7 @@ type Flags struct {
 
 func NewFlags() *Flags {
 	return &Flags{
-		Input:  "-",
+		Input: "-",
 	}
 }
 
@@ -87,12 +87,17 @@ var (
 //
 
 type Entry struct {
-	f          *Flags
-	Container  string `json:"-"`
-	RequestURI string `json:"request_uri"`
-	Status     string `json:"status"`
-	StatusInt  int    `json:"-"`
-	TimeLocal  string `json:"time_local"`
+	f              *Flags
+	Container      string `json:"-"`
+	Request        string `json:"request"`
+	RequestMethod  string `json:"request_method"`
+	RequestTime    string `json:"request_time"`
+	RequestURI     string `json:"request_uri"`
+	Status         string `json:"status"`
+	StatusInt      int    `json:"-"`
+	TimeLocal      string `json:"time_local"`
+	UpstreamName   string `json:"upstream_name"`
+	UpstreamStatus string `json:"upstream_status"`
 }
 
 func newEntry(f *Flags, container string) *Entry {
@@ -124,7 +129,7 @@ func (e *Entry) Print() {
 		show = false
 	}
 	if show {
-		p("%s %s %s %s", e.TimeLocal, e.Container, e.Status, e.RequestURI)
+		p("%s %s %s %s %s %s %s", e.TimeLocal, e.UpstreamName, e.RequestTime, e.Status, e.RequestMethod, e.RequestURI, e.UpstreamStatus)
 	}
 }
 
