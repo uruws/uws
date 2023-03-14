@@ -85,6 +85,7 @@ RUN install -v -m 0755 /tmp/uwskube /usr/local/bin/uwskube \
 	&& rm -vf /tmp/uwskube
 
 COPY ./build/k8smon.bin /usr/local/bin/k8smon
+COPY ./build/ngxlogs.bin /usr/local/bin/ngxlogs
 
 USER uws:uws
 WORKDIR /home/uws

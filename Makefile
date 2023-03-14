@@ -406,7 +406,7 @@ eks: k8s
 #
 
 .PHONY: k8s
-k8s: k8smon
+k8s: k8smon ngxlogs
 	@./docker/k8s/build.sh
 
 #
@@ -455,6 +455,22 @@ nginx-publish:
 	@$(MAKE) nginx
 	@$(MAKE) nginx-check
 	@./srv/nginx/publish.sh
+
+#
+# ngxlogs
+#
+
+NGXLOGS_DEPS != find go/cmd/ngxlogs go/ngxlogs -type f -name '*.go'
+
+.PHONY: ngxlogs
+ngxlogs: docker/k8s/build/ngxlogs.bin
+
+docker/k8s/build/ngxlogs.bin: docker/golang/build/ngxlogs.bin
+	@mkdir -vp ./docker/k8s/build
+	@install -v docker/golang/build/ngxlogs.bin ./docker/k8s/build/ngxlogs.bin
+
+docker/golang/build/ngxlogs.bin: $(NGXLOGS_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/ngxlogs.bin ./cmd/ngxlogs
 
 #
 # publish
