@@ -126,6 +126,8 @@ func (e *Entry) Print() {
 		p = log.PrintError
 	} else if e.StatusInt >= 400 {
 		p = log.Warn
+	} else if e.StatusInt < 200 {
+		p = log.Print
 	} else if e.f.Errors {
 		show = false
 	}
@@ -157,6 +159,7 @@ func jsonParse(f *Flags, r io.Reader) error {
 			e.Print()
 			continue
 		}
+		// nginx server error log
 		m = reErrorLog.FindStringSubmatch(s)
 		if len(m) > 1 {
 			container := m[1]
@@ -165,6 +168,7 @@ func jsonParse(f *Flags, r io.Reader) error {
 			log.Print("[ERROR] %s %s %s", time, container, msg)
 			continue
 		}
+		// nginx server start
 		m = reStartLog.FindStringSubmatch(s)
 		if len(m) > 1 {
 			container := m[1]
