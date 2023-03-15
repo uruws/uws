@@ -129,6 +129,9 @@ func (e *Entry) Print() {
 		p = log.Warn
 	} else if e.StatusInt < 200 {
 		p = log.Print
+		if e.f.Errors {
+			show = false
+		}
 	} else if e.f.Errors {
 		show = false
 	}
