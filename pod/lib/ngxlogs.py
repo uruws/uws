@@ -26,7 +26,7 @@ def main(argv = []):
 
 	args = flags.parse_args(argv)
 
-	cmd = "./pod/%s/gw/logs.sh" % args.gw
+	cmd = "./pod/%s/gw/logs.sh" % args.pod
 	cmd += " --tail=%d" % args.tail
 
 	if args.follow:
