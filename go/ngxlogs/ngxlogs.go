@@ -89,6 +89,7 @@ var (
 type Entry struct {
 	f              *Flags
 	Container      string `json:"-"`
+	RemoteAddr     string `json:"remote_addr"`
 	Request        string `json:"request"`
 	RequestMethod  string `json:"request_method"`
 	RequestTime    string `json:"request_time"`
@@ -132,9 +133,10 @@ func (e *Entry) Print() {
 		show = false
 	}
 	if show {
-		p("%s %s [%s %s %s] %s %s %s %s", e.TimeLocal[:len(e.TimeLocal)-6], e.Container,
-			e.UpstreamName, e.UpstreamTime, e.UpstreamStatus, e.RequestTime, e.Status,
-			e.RequestMethod, e.RequestURI)
+		p("%s %s %-15s [%s %s %s] %s %s %s %s",
+			e.TimeLocal[:len(e.TimeLocal)-6], e.Container, e.RemoteAddr,
+			e.UpstreamName, e.UpstreamTime, e.UpstreamStatus,
+			e.RequestTime, e.Status, e.RequestMethod, e.RequestURI)
 	}
 }
 
