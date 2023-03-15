@@ -1,7 +1,7 @@
 FROM uws/munin-2211
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="221117"
+LABEL version="230217"
 
 USER root:root
 WORKDIR /root
@@ -13,8 +13,6 @@ RUN /root/bin/apt-install.sh apache2 ssl-cert libapache2-mod-fcgid libcgi-fast-p
 
 # give read access to web server user
 RUN chmod -v 0644 /etc/munin/munin.conf
-
-VOLUME /var/cache/munin/www
 
 ADD ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh

@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -u
 
 cluster=${1:?'cluster name?'}
 

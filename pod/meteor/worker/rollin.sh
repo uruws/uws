@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
-#uwskube delete hpa worker-hpa -n worker || true
 uwskube delete deploy meteor -n worker
+~/pod/meteor/worker/gw/rollin.sh
 exit 0

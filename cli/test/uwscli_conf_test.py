@@ -32,14 +32,17 @@ class Test(unittest.TestCase):
 	def test_prod_settings(t):
 		# cluster
 		t.assertListEqual(sorted(uwscli.cluster.keys()), [
-			'apptest-east',
+			'appprod-2302',
+			'apptest-2302',
 			'panoramix-2206',
 			'worker-2209',
 		])
 		# app list
 		app_list = [
-			'apitest-east',
-			'apptest-east',
+			'api-prod',
+			'api-test',
+			'app-prod',
+			'app-test',
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
@@ -82,13 +85,13 @@ class Test(unittest.TestCase):
 		t.assertDictEqual(uwscli.app['app'].custom_deploy, {
 			'production': [
 				CustomDeploy('worker'),
-				CustomDeploy('api-east'),
-				CustomDeploy('app-east'),
+				CustomDeploy('api-prod'),
+				CustomDeploy('app-prod'),
 			],
 			'staging': [
 				CustomDeploy('worker-test'),
-				CustomDeploy('apitest-east'),
-				CustomDeploy('apptest-east'),
+				CustomDeploy('api-test'),
+				CustomDeploy('app-test'),
 			],
 		})
 

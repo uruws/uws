@@ -1,0 +1,24 @@
+FROM uws/base-2211
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230307"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh ssl-cert nginx-light \
+	libnginx-mod-http-headers-more-filter
+
+RUN mv -vf /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig \
+	&& rm -vf /etc/nginx/sites-enabled/default
+
+COPY ./etc/nginx.conf     /etc/nginx/
+COPY ./etc/conf.d/        /etc/nginx/conf.d/
+COPY ./etc/snippets/      /etc/nginx/snippets/
+COPY ./etc/sites-enabled/ /etc/nginx/sites-enabled/
+
+COPY ./utils/entrypoint.sh /usr/local/bin/entrypoint.sh
+ENTRYPOINT exec /usr/local/bin/entrypoint.sh

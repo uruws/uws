@@ -160,6 +160,14 @@ func Init(progname string) {
 	}
 }
 
+func NoDateTime() {
+	f := log.Lmsgprefix
+	if debug {
+		f = debugFlags
+	}
+	l.SetFlags(f)
+}
+
 func Output(calldepth int, s string) error {
 	return l.Output(calldepth, s)
 }
@@ -186,6 +194,10 @@ func Error(format string, v ...interface{}) error {
 	err := errors.New(fmt.Sprintf(format, v...))
 	l.Printf(logger.ERROR, "%v", err)
 	return err
+}
+
+func PrintError(format string, v ...interface{}) {
+	l.Printf(logger.ERROR, format, v...)
 }
 
 var osExit func(int) = os.Exit

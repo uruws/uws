@@ -73,7 +73,8 @@ devel: base base-testing
 	@./docker/k8s/devel-build.sh
 	@./docker/eks/devel-build.sh
 	@./docker/asb/devel-build.sh
-	@$(MAKE) pod-base pod-test
+	@$(MAKE) pod-base
+	@$(MAKE) pod-test
 
 #
 # utils
@@ -317,7 +318,8 @@ ab-publish: ab-check
 .PHONY: deploy
 deploy:
 	@echo "i - START deploy `date -R` as ${USER}"
-	@$(MAKE) bootstrap check
+	@$(MAKE) bootstrap
+	@$(MAKE) check
 	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
@@ -373,6 +375,10 @@ check-asb:
 check-awscli:
 	@./docker/awscli/check.sh
 
+.PHONY: check-pod-meteor
+check-pod-meteor:
+	@./pod/meteor/check.sh
+
 #
 # uws CA
 #
@@ -411,7 +417,7 @@ eks: k8s
 #
 
 .PHONY: k8s
-k8s: k8smon
+k8s: k8smon ngxlogs
 	@./docker/k8s/build.sh
 
 #
@@ -444,6 +450,40 @@ k8smon-publish: k8s
 	@./k8s/mon/publish.sh
 
 #
+# nginx
+#
+
+.PHONY: nginx
+nginx:
+	@./srv/nginx/build.sh
+
+.PHONY: nginx-check
+nginx-check:
+	@./srv/nginx/check.sh
+
+.PHONY: nginx-publish
+nginx-publish:
+	@$(MAKE) nginx
+	@$(MAKE) nginx-check
+	@./srv/nginx/publish.sh
+
+#
+# ngxlogs
+#
+
+NGXLOGS_DEPS != find go/cmd/ngxlogs go/ngxlogs -type f -name '*.go'
+
+.PHONY: ngxlogs
+ngxlogs: docker/k8s/build/ngxlogs.bin
+
+docker/k8s/build/ngxlogs.bin: docker/golang/build/ngxlogs.bin
+	@mkdir -vp ./docker/k8s/build
+	@install -v docker/golang/build/ngxlogs.bin ./docker/k8s/build/ngxlogs.bin
+
+docker/golang/build/ngxlogs.bin: $(NGXLOGS_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/ngxlogs.bin ./cmd/ngxlogs
+
+#
 # publish
 #
 
@@ -453,3 +493,4 @@ publish:
 	@$(MAKE) mon-publish
 	@$(MAKE) pod-publish
 	@$(MAKE) chatbot-publish
+	@$(MAKE) nginx-publish

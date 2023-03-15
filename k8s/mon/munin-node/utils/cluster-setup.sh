@@ -13,7 +13,7 @@ install -v -m 0755 /srv/munin/plugins/munin.py       /usr/local/bin/munin
 enpl=/root/bin/plugin-enable.sh
 
 ${enpl} local nodes
-${enpl} local nginx
+#${enpl} local nginx
 ${enpl} local deployments
 ${enpl} local pods
 ${enpl} local k8s

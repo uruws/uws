@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 uwskube create namespace cs
-exit 0
+exec ~/pod/meteor/cs/gw/setup.sh

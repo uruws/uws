@@ -1,0 +1,141 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: proxy
+  replicas: ${PROXY_REPLICAS}
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: proxy
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${PROXY_VERSION}
+          imagePullPolicy: IfNotPresent
+          name: ngx${PROXY_VERSION}
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 443
+              name: https
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          command:
+            - /usr/local/bin/entrypoint.sh
+          resources:
+            requests:
+              cpu: ${PROXY_CPU}m
+              memory: ${PROXY_MEM}Mi
+            limits:
+              cpu: ${PROXY_CPU}m
+              memory: ${PROXY_MEM}Mi
+          volumeMounts:
+            - name: rundir
+              mountPath: "/run"
+            - name: tmpdir
+              mountPath: "/tmp"
+            - name: libdir
+              mountPath: "/var/lib/nginx"
+            - name: logdir
+              mountPath: "/var/log/nginx"
+            - name: sites-enabled
+              mountPath: "/etc/nginx/uws-sites-enabled"
+              readOnly: true
+            - name: tapo-tls
+              mountPath: "/etc/ssl/private/tapo"
+              readOnly: true
+            - name: uwsgd-tls
+              mountPath: "/etc/ssl/private/uwsgd"
+              readOnly: true
+            - name: uwsca-ops
+              mountPath: "/etc/ssl/private/uwsca-ops"
+              readOnly: true
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/usr/sbin/nginx", "-s", "quit"]
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+              scheme: HTTP
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+      volumes:
+        - name: rundir
+          emptyDir:
+            sizeLimit: 10Mi
+        - name: tmpdir
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: libdir
+          emptyDir:
+            sizeLimit: 100Mi
+        - name: logdir
+          emptyDir:
+            sizeLimit: 5Mi
+        - name: sites-enabled
+          secret:
+            secretName: sites-enabled
+        - name: tapo-tls
+          secret:
+            secretName: tapo-tls
+        - name: uwsgd-tls
+          secret:
+            secretName: uwsgd-tls
+        - name: uwsca-ops
+          secret:
+            secretName: uwsca-ops
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxy
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-healthy-threshold: "2"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-unhealthy-threshold: "2"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval: "10"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "3"
+  labels:
+    app.kubernetes.io/name: proxy
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+    - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: https
+  selector:
+    app.kubernetes.io/name: proxy
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster

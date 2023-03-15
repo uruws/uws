@@ -28,7 +28,7 @@ var (
 var levelColor = map[Level]string{
 	PANIC:  tilt(red),
 	FATAL:  bold(red),
-	ERROR:  red,
+	ERROR:  italic(red),
 	WARN:   italic(yellow),
 	MSG:    magenta,
 	INFO:   cyan,
@@ -65,8 +65,9 @@ var esc = []byte{escape}
 func (l *Logger) color(lvl Level, msg string) string {
 	col := levelColor[lvl]
 	rst := levelColor[cReset]
-	tag := levelTag[lvl]
-	return fmt.Sprintf("%s[%sm%s%s%s[%sm", esc, col, tag, msg, esc, rst)
+	//~ tag := levelTag[lvl]
+	//~ return fmt.Sprintf("%s[%sm%s%s%s[%sm", esc, col, tag, msg, esc, rst)
+	return fmt.Sprintf("%s[%sm%s%s[%sm", esc, col, msg, esc, rst)
 }
 
 func (l *Logger) SetColors(cfg string) {

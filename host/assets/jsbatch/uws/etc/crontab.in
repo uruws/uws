@@ -6,7 +6,7 @@ HOME=/home/uws
 # m h  dom mon dow   command
 
 # uwscli logs
-###11 6 * * * /uws/bin/uwscli-logs.sh
+11 6 * * * /uws/bin/uwscli-logs.sh
 
 # docker prune
 11 7 * * * docker system prune -f

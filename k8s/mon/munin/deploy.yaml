@@ -10,7 +10,6 @@ spec:
   ports:
   - port: 80
     name: web
-  clusterIP: None
   selector:
     app.kubernetes.io/name: munin
 ---
@@ -39,11 +38,11 @@ spec:
             allowPrivilegeEscalation: false
           volumeMounts:
             - name: db
-              mountPath: "/var/lib/munin"
+              mountPath: "/efs/munin-db"
             - name: cache
-              mountPath: "/var/cache/munin/www"
+              mountPath: "/efs/munin-cache"
             - name: log
-              mountPath: "/var/log/munin"
+              mountPath: "/efs/munin-log"
             - name: tmpdir
               mountPath: "/tmp"
             - name: rundir
@@ -89,17 +88,17 @@ spec:
             allowPrivilegeEscalation: false
           volumeMounts:
             - name: db
-              mountPath: "/var/lib/munin"
+              mountPath: "/efs/munin-db"
               readOnly: true
             - name: cache
-              mountPath: "/var/cache/munin/www"
+              mountPath: "/efs/munin-cache"
               readOnly: true
             - name: web-tmpdir
               mountPath: "/tmp"
             - name: web-rundir
               mountPath: "/run"
             - name: cgi-tmp
-              mountPath: "/var/lib/munin/cgi-tmp"
+              mountPath: "/var/tmp/munin-cgi"
             - name: web-lockdir
               mountPath: "/var/lock"
           resources:
@@ -157,21 +156,27 @@ spec:
     - metadata:
         name: db
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: efs-mon-munin-db
+        accessModes:
+          - ReadWriteMany
         resources:
           requests:
             storage: 3Gi
     - metadata:
         name: cache
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: efs-mon-munin-cache
+        accessModes:
+          - ReadWriteMany
         resources:
           requests:
             storage: 1Gi
     - metadata:
         name: log
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: efs-mon-munin-log
+        accessModes:
+          - ReadWriteMany
         resources:
           requests:
             storage: 1Gi

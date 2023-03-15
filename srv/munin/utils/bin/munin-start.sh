@@ -1,22 +1,35 @@
 #!/bin/sh
-set -eu
+set -eux
 
-mkdir -vp /var/lib/munin/cgi-tmp
+if test -d /efs/munin-log; then
+	install -v -d /efs/munin-log/data/munin-log
+	rm -rf /var/log/munin
+	ln -sv /efs/munin-log/data/munin-log /var/log/munin
+else
+	install -v -d -m 0755 -o munin -g adm /var/log/munin
+	chown -R munin:adm /var/log/munin
+fi
 
-chown -v munin:munin /var/lib/munin
-chmod -v 0755 /var/lib/munin
+if test -d /efs/munin-db; then
+	install -v -d /efs/munin-db/data/munin-db
+	rm -rf /var/lib/munin
+	ln -sv /efs/munin-db/data/munin-db /var/lib/munin
+else
+	install -v -d -m 0755 -o munin -g munin /var/lib/munin
+	chown -R munin:munin /var/lib/munin
+fi
 
-chown -v munin:www-data /var/lib/munin/cgi-tmp
-chmod -v 0775 /var/lib/munin/cgi-tmp
+if test -d /efs/munin-cache; then
+	install -v -d /efs/munin-cache/data/munin-cache
+	rm -rf /var/cache/munin/www
+	ln -sv /efs/munin-cache/data/munin-cache /var/cache/munin/www
+else
+	install -v -d -m 0755 -o munin -g munin /var/cache/munin/www
+	chown -R munin:munin /var/cache/munin/www
+fi
 
-chown -v munin:adm /var/log/munin
-chmod -v 0755 /var/log/munin
-
-mkdir -vp /var/opt/munin-alert
-chmod -v 1777 /var/opt/munin-alert
-
-mkdir -vp /var/opt/munin-alert/statuspage
-chmod -v 1777 /var/opt/munin-alert/statuspage
+install -v -d -m 1777 /var/opt/munin-alert
+install -v -d -m 1777 /var/opt/munin-alert/statuspage
 
 # CA
 if test -d /srv/etc/ca; then

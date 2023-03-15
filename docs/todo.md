@@ -1,37 +1,7 @@
-* Research Team: remove Rina's user from rstudio server - `DONE!`
-
----
-
-* kubeshark implementation - [PR#39][PR#39] `DONE!`
-
-[PR#39]: https://github.com/TalkingPts/Infrastructure/pull/39
-
----
-
-* move helm installation and setup from docker/eks to docker/k8s to make it independent from the provider - `DONE!`
-
----
-
-* Deprecate janis server - `DONE!`
-    * we used it for the "heroku split proxy" setup but it was discarded
-    * it was to complex to add almost any advantage
-
----
-
-* separate web and api clusters - `DONE!`
-    * it is implemented for aws already, we wont do it on heroku infra
-    * /api/* web traffic should be served from a different cluster
-        * could be workers as we do for bandwidthCallback
-        * or, even better, a new/separate cluster for api calls
-    * we could use the current setup (east and west) for the api cluster
-    * and serve the rest of the web traffic for only one cluster
-    * as api calls are more than 50% of the traffic based on munin graphs
-    * or, even better, two east+west clusters for each: web and api
-
----
-
-* uwscli: build only 2.y.z App repository tags - `DONE!`
-    * it happens sometimes that a wrong tag is added to App repo like 8.y.z so it breaks the "versions logic", as this new wrong tag will be always grater than a valid 2.y.z tag
+* k8s/nginx
+    * use 5 backend servers as upstream
+    * parse access log
+    * parse error log
 
 ---
 
@@ -39,13 +9,6 @@
     * uws@jsbatch:/srv/munin/var/alert/statuspage
     * check sendmail.log for errors
     * list queded .eml files
-
----
-
-* split /websocket App container
-    * so we can serve the websockets from dedicated containers
-    * /api/ for the api calls
-    * and the web containers for the rest (which mostly goes to the CDN)
 
 ---
 
@@ -88,26 +51,10 @@
 
 ---
 
-* `FIX` Meteor CDN_URL is *only* used for some .js and .css assets/files
-    * but the rest of the assets like, in example, the images in the login page do not go via the CDN
-        * https://staging.talkingpts.org/img/login_image.png
-    * meaning: HTML URLs are now relative, like /img/
-        * we should add the CDN domain there and serve assets through it
-    * be careful about *critical* assets, like maybe meteor_runtime_config.js
-        * meteor itself serves .js assets via de CDN_URL, but excludes the meteor_runtime_config.js, I don't know the reason, but I think that it's a good idea to keep this kind of assets out of the CDN
-
----
-
 * `SEC` `FIX` Firebase content is discoverable:
     * https://firebasestorage.googleapis.com/v0/b/talkingpnts.appspot.com/o/
     * working in an unrelated issue with Gabriel we found out that ^
     * we should use a CDN for that too, and avoid this issue and also improve performance and costs
-
----
-
-* `FIX` panoramix-2206 munin storage failing
-    * munin is not running in panoramix-2206 cluster due to problems with nodes and ebs regions
-    * basically, the cluster is configured to run in zones us-east-1b and 1c, but all the nodes are now running from 1c and we are not being able to dispatch new nodes in 1b zone, which is where ebs volumes were created (automatically by kubernetes)
 
 ---
 
@@ -144,13 +91,6 @@
 
 ---
 
-* [Upgrades][Upgrades] round 2209
-    * previous one was 2203
-
-[Upgrades]: ./infra/upgrades.md
-
----
-
 * CA rotate ops/210823
 
 ---
@@ -174,29 +114,10 @@
 
 ---
 
-* Vanta SOC2: implement AWS [GuardDuty][GuardDuty]
-
-[GuardDuty]: https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html
-
----
-
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
     * check that munin-node container/service is running via k8smon "proxy"
-
----
-
-* infra-api - `WIP`
-    * help pages
-    * make commands run using nq to avoid HTTP connections timeout
-        * run commands using a per user NQDIR
-        * schedule it and return its qid
-        * job status/log API endpoints
-    * building on [InfraApp][InfraApp] repository
-        * Changelog: [master](https://github.com/TalkingPts/InfraApp/commits/master)
-
-[InfraApp]: https://github.com/TalkingPts/InfraApp
 
 ---
 
@@ -388,11 +309,6 @@
 
 ---
 
-* `FIX` k8smon: munin-alerts volume setup
-    * until we can fix the volumes claim config, we could use one of the already existent volumes and set ALERTS_QDIR to point to it
-
----
-
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
 
@@ -421,13 +337,6 @@
 
 * munin
     * graph app number of active users/sessions
-
----
-
-* nginx
-    * split cluster load over N instances instead of only 1
-    * run them in their own node group?
-    * or tune mem and cpu resources to make them run in a "dedicated" node?
 
 ---
 

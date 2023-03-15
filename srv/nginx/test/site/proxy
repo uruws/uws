@@ -1,0 +1,28 @@
+# nginx test site conf
+
+server {
+	listen 443      ssl http2;
+	listen [::]:443 ssl http2;
+
+	server_name localhost;
+
+	root /var/www/html;
+	index index.html;
+
+	include snippets/uws.conf;
+	include snippets/uwslog.conf;
+
+	include snippets/snakeoil.conf;
+
+	location /websocket {
+		include snippets/proxy_websocket_params;
+	}
+
+	location /api/ {
+		include snippets/proxy_params;
+	}
+
+	location / {
+		include snippets/proxy_params;
+	}
+}
