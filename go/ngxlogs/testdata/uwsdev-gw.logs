@@ -1,14 +1,14 @@
-[pod/proxy-7b76dcf57d-mrm8k/ngx23] nginx: start Tue, 14 Mar 2023 19:39:19 +0000
+[pod/proxy-7b76dcf57d-mrm8k/ngx23] nginx: start 14/Mar/2023:19:39:19
 [pod/proxy-7b76dcf57d-mrm8k/ngx23] '/var/log/nginx/access_log' -> '/dev/stderr'
 [pod/proxy-7b76dcf57d-mrm8k/ngx23] '/var/log/nginx/error_log' -> '/dev/stderr'
 [pod/proxy-7b76dcf57d-mrm8k/ngx23] nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 [pod/proxy-7b76dcf57d-mrm8k/ngx23] nginx: configuration file /etc/nginx/nginx.conf test is successful
-[pod/proxy-7b76dcf57d-bxvtl/ngx23] nginx: start Tue, 14 Mar 2023 19:39:14 +0000
+[pod/proxy-7b76dcf57d-bxvtl/ngx23] nginx: start 14/Mar/2023:19:39:14
 [pod/proxy-7b76dcf57d-bxvtl/ngx23] '/var/log/nginx/access_log' -> '/dev/stderr'
 [pod/proxy-7b76dcf57d-bxvtl/ngx23] '/var/log/nginx/error_log' -> '/dev/stderr'
 [pod/proxy-7b76dcf57d-bxvtl/ngx23] nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 [pod/proxy-7b76dcf57d-bxvtl/ngx23] nginx: configuration file /etc/nginx/nginx.conf test is successful
-[pod/proxy-7b76dcf57d-wpb6s/ngx23] nginx: start Tue, 14 Mar 2023 19:39:12 +0000
+[pod/proxy-7b76dcf57d-wpb6s/ngx23] nginx: start 14/Mar/2023:19:39:12
 [pod/proxy-7b76dcf57d-wpb6s/ngx23] '/var/log/nginx/access_log' -> '/dev/stderr'
 [pod/proxy-7b76dcf57d-wpb6s/ngx23] '/var/log/nginx/error_log' -> '/dev/stderr'
 [pod/proxy-7b76dcf57d-wpb6s/ngx23] nginx: the configuration file /etc/nginx/nginx.conf syntax is ok

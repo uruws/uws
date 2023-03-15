@@ -175,7 +175,7 @@ func jsonParse(f *Flags, r io.Reader) error {
 		if len(m) > 1 {
 			container := m[1]
 			time := m[2]
-			log.Print("%s container start %s", time, container)
+			log.Print("%s %s container start", time, container)
 			continue
 		}
 	}
