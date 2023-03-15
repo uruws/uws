@@ -40,6 +40,10 @@ chown -v root:uwsops ~uwscli/bin/app-restart
 chown -v root:uwsops ~uwscli/bin/app-rollin
 chown -v root:uwsops ~uwscli/bin/app-scale
 
+# operator proxy utils
+
+chown -v root:uwsops ~uwscli/bin/proxy-*
+
 # operator custom utils
 
 chown -v root:uwsops ~uwscli/bin/production-*
