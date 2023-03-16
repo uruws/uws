@@ -109,7 +109,7 @@ app: dict[str, App] = {
 		groups = ['uwsapp_app'],
 	),
 	'worker': App(True,
-		cluster = 'worker-2209',
+		cluster = 'appprod-2302',
 		desc = 'App worker cluster',
 		pod = 'meteor/worker',
 		deploy = AppDeploy('meteor-app'),
