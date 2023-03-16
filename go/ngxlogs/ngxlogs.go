@@ -15,6 +15,10 @@ import (
 	"uws/log"
 )
 
+//
+// Main
+//
+
 type Flags struct {
 	Errors bool
 	Input  string
@@ -60,7 +64,7 @@ func Main(f *Flags) {
 // rawOutput
 //
 
-func rawOutput(r io.Reader) error {
+var rawOutput = func(r io.Reader) error {
 	log.Debug("raw output")
 	x := bufio.NewScanner(r)
 	for x.Scan() {
@@ -176,6 +180,7 @@ func jsonParse(f *Flags, r io.Reader) *Parser {
 		s := x.Text()
 		//~ log.Debug("%s", s)
 		p.Lines += 1
+		// request info
 		m := reJsonLog.FindStringSubmatch(s)
 		if len(m) > 1 {
 			container := m[1]

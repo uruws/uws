@@ -5,6 +5,7 @@ package ngxlogs
 
 import (
 	"bufio"
+	"errors"
 	"io"
 	"os"
 	"regexp"
@@ -14,6 +15,10 @@ import (
 
 	. "uws/testing/check"
 )
+
+//
+// Main
+//
 
 func TestFlags(t *testing.T) {
 	mock.Logger()
@@ -29,6 +34,37 @@ func TestMain(t *testing.T) {
 	defer mock.LoggerReset()
 	f := NewFlags()
 	Main(f)
+}
+
+func TestMainFileNotFound(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	f := NewFlags()
+	f.Input = "/file/not/found.testing"
+	fn := func() {
+		Main(f)
+	}
+	Panics(t, fn, "Main")
+}
+
+func TestMainParseError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	var bupRawOutput func(r io.Reader) error
+	bupRawOutput = rawOutput
+	rawOutput = func(r io.Reader) error {
+		return errors.New("testing")
+	}
+	defer func() {
+		rawOutput = bupRawOutput
+	}()
+	f := NewFlags()
+	f.Raw = true
+	f.Input = "./testdata/json-error.logs"
+	fn := func() {
+		Main(f)
+	}
+	Panics(t, fn, "Main")
 }
 
 //
