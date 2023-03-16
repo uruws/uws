@@ -198,8 +198,12 @@ func TestJsonParse(t *testing.T) {
 	Fatal(t, IsNil(t, err, "read logs"))
 	defer fh.Close()
 	f := NewFlags()
-	err = jsonParse(f, fh)
-	IsNil(t, err, "json parse")
+	p := jsonParse(f, fh)
+	IsNil(t, p.Error, "json parse")
+	IsEqual(t, p.Lines, 69, "p.Lines")
+	IsEqual(t, p.Read, 57, "p.Read")
+	IsEqual(t, p.LinesError, 0, "p.LinesError")
+	IsEqual(t, p.Unknown, 12, "p.Unknown")
 }
 
 func TestJsonParseError(t *testing.T) {
@@ -209,6 +213,25 @@ func TestJsonParseError(t *testing.T) {
 	Fatal(t, IsNil(t, err, "read logs"))
 	fh.Close()
 	f := NewFlags()
-	err = jsonParse(f, fh)
-	NotNil(t, err, "parse error")
+	p := jsonParse(f, fh)
+	NotNil(t, p.Error, "parse error")
+	IsEqual(t, p.Lines, 0, "p.Lines")
+	IsEqual(t, p.Read, 0, "p.Read")
+	IsEqual(t, p.LinesError, 0, "p.LinesError")
+	IsEqual(t, p.Unknown, 0, "p.Unknown")
+}
+
+func TestJsonParseReadError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/json-error.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	f := NewFlags()
+	p := jsonParse(f, fh)
+	IsNil(t, p.Error, "parse read error")
+	IsEqual(t, p.Lines, 1, "p.Lines")
+	IsEqual(t, p.Read, 0, "p.Read")
+	IsEqual(t, p.LinesError, 1, "p.LinesError")
+	IsEqual(t, p.Unknown, 0, "p.Unknown")
 }

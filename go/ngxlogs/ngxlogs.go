@@ -47,7 +47,8 @@ func Main(f *Flags) {
 	if f.Raw {
 		err = rawOutput(infh)
 	} else {
-		err = jsonParse(f, infh)
+		p := jsonParse(f, infh)
+		err = p.Error
 	}
 
 	if err != nil {
@@ -155,12 +156,26 @@ func (e *Entry) Print() bool {
 // jsonParse
 //
 
-func jsonParse(f *Flags, r io.Reader) error {
+type Parser struct {
+	Error      error
+	Lines      int
+	Read       int
+	LinesError int
+	Unknown    int
+}
+
+func newParser() *Parser {
+	return &Parser{}
+}
+
+func jsonParse(f *Flags, r io.Reader) *Parser {
 	log.Debug("json parse")
+	p := newParser()
 	x := bufio.NewScanner(r)
 	for x.Scan() {
 		s := x.Text()
 		//~ log.Debug("%s", s)
+		p.Lines += 1
 		m := reJsonLog.FindStringSubmatch(s)
 		if len(m) > 1 {
 			container := m[1]
@@ -168,12 +183,15 @@ func jsonParse(f *Flags, r io.Reader) error {
 			e := newEntry(f, container)
 			if err := json.Unmarshal([]byte(data), e); err != nil {
 				log.Print("[ERROR] %s", err)
+				p.LinesError += 1
 				continue
 			}
 			if !e.Check() {
+				p.LinesError += 1
 				continue
 			}
 			e.Print()
+			p.Read += 1
 			continue
 		}
 		// nginx server error log
@@ -183,6 +201,7 @@ func jsonParse(f *Flags, r io.Reader) error {
 			time := m[2]
 			msg := m[3]
 			log.Print("[ERROR] %s %s %s", time, container, msg)
+			p.Read += 1
 			continue
 		}
 		// nginx server start
@@ -191,8 +210,12 @@ func jsonParse(f *Flags, r io.Reader) error {
 			container := m[1]
 			time := m[2]
 			log.Print("%s %s container start", time, container)
+			p.Read += 1
 			continue
 		}
+		// unknown log entry
+		p.Unknown += 1
 	}
-	return x.Err()
+	p.Error = x.Err()
+	return p
 }
