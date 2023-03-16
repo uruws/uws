@@ -266,8 +266,8 @@ func TestJsonParseReadError(t *testing.T) {
 	f := NewFlags()
 	p := jsonParse(f, fh)
 	IsNil(t, p.Error, "parse read error")
-	IsEqual(t, p.Lines, 1, "p.Lines")
-	IsEqual(t, p.Read, 0, "p.Read")
+	IsEqual(t, p.Lines, 3, "p.Lines")
+	IsEqual(t, p.Read, 2, "p.Read")
 	IsEqual(t, p.LinesError, 1, "p.LinesError")
 	IsEqual(t, p.Unknown, 0, "p.Unknown")
 }
@@ -281,8 +281,8 @@ func TestJsonParseInvalid(t *testing.T) {
 	f := NewFlags()
 	p := jsonParse(f, fh)
 	IsNil(t, p.Error, "parse invalid")
-	IsEqual(t, p.Lines, 1, "p.Lines")
-	IsEqual(t, p.Read, 0, "p.Read")
+	IsEqual(t, p.Lines, 3, "p.Lines")
+	IsEqual(t, p.Read, 1, "p.Read")
 	IsEqual(t, p.LinesError, 1, "p.LinesError")
-	IsEqual(t, p.Unknown, 0, "p.Unknown")
+	IsEqual(t, p.Unknown, 1, "p.Unknown")
 }
