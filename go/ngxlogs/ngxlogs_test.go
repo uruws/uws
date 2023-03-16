@@ -235,3 +235,18 @@ func TestJsonParseReadError(t *testing.T) {
 	IsEqual(t, p.LinesError, 1, "p.LinesError")
 	IsEqual(t, p.Unknown, 0, "p.Unknown")
 }
+
+func TestJsonParseInvalid(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/json-invalid.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	f := NewFlags()
+	p := jsonParse(f, fh)
+	IsNil(t, p.Error, "parse invalid")
+	IsEqual(t, p.Lines, 1, "p.Lines")
+	IsEqual(t, p.Read, 0, "p.Read")
+	IsEqual(t, p.LinesError, 1, "p.LinesError")
+	IsEqual(t, p.Unknown, 0, "p.Unknown")
+}
