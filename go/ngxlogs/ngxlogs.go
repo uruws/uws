@@ -83,11 +83,12 @@ var (
 )
 
 //
-// jsonParse
+// Entry
 //
 
 type Entry struct {
 	f              *Flags
+	ok             bool
 	Container      string `json:"-"`
 	RemoteAddr     string `json:"remote_addr"`
 	Request        string `json:"request"`
@@ -106,6 +107,8 @@ func newEntry(f *Flags, container string) *Entry {
 	return &Entry{
 		f:         f,
 		Container: container,
+		Status:    "0",
+		TimeLocal: " +0000",
 	}
 }
 
@@ -116,10 +119,14 @@ func (e *Entry) Check() bool {
 		log.Print("[ERROR] e.Status: %s", err)
 		return false
 	}
-	return true
+	e.ok = true
+	return e.ok
 }
 
-func (e *Entry) Print() {
+func (e *Entry) Print() bool {
+	if !e.ok {
+		return false
+	}
 	var p func(string, ...interface{})
 	p = log.Info
 	show := true
@@ -141,7 +148,12 @@ func (e *Entry) Print() {
 			e.UpstreamName, e.UpstreamTime, e.UpstreamStatus,
 			e.RequestTime, e.Status, e.RequestMethod, e.RequestURI)
 	}
+	return show
 }
+
+//
+// jsonParse
+//
 
 func jsonParse(f *Flags, r io.Reader) error {
 	log.Debug("json parse")

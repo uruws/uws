@@ -109,6 +109,77 @@ func TestReStartLog(t *testing.T) {
 }
 
 //
+// Entry
+//
+
+func TestEntry(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	f := NewFlags()
+	e := newEntry(f, "testing")
+	IsTrue(t, e.Check(), "e.Check()")
+	IsEqual(t, e.Container, "testing", "e.Container")
+	IsEqual(t, e.Status, "0", "e.Status")
+	IsEqual(t, e.TimeLocal, " +0000", "e.TimeLocal")
+	IsTrue(t, e.Print(), "e.Print()")
+}
+
+func TestEntryCheckError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	f := NewFlags()
+	e := newEntry(f, "testing")
+	e.Status = "NOT_A_NUMBER"
+	IsFalse(t, e.Check(), "e.Check()")
+	IsFalse(t, e.Print(), "e.Print()")
+}
+
+func TestEntryPrint(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	f := NewFlags()
+	e := newEntry(f, "testing")
+	e.Status = "100"
+	IsTrue(t, e.Check(), "e.Check() 100")
+	IsTrue(t, e.Print(), "e.Print() 100")
+	e.Status = "200"
+	IsTrue(t, e.Check(), "e.Check() 200")
+	IsTrue(t, e.Print(), "e.Print() 200")
+	e.Status = "300"
+	IsTrue(t, e.Check(), "e.Check() 300")
+	IsTrue(t, e.Print(), "e.Print() 300")
+	e.Status = "400"
+	IsTrue(t, e.Check(), "e.Check() 400")
+	IsTrue(t, e.Print(), "e.Print() 400")
+	e.Status = "500"
+	IsTrue(t, e.Check(), "e.Check() 500")
+	IsTrue(t, e.Print(), "e.Print() 500")
+}
+
+func TestEntryPrintErrors(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	f := NewFlags()
+	f.Errors = true
+	e := newEntry(f, "testing")
+	e.Status = "100"
+	IsTrue(t, e.Check(), "e.Check() 100")
+	IsFalse(t, e.Print(), "e.Print() 100")
+	e.Status = "200"
+	IsTrue(t, e.Check(), "e.Check() 200")
+	IsFalse(t, e.Print(), "e.Print() 200")
+	e.Status = "300"
+	IsTrue(t, e.Check(), "e.Check() 300")
+	IsFalse(t, e.Print(), "e.Print() 300")
+	e.Status = "400"
+	IsTrue(t, e.Check(), "e.Check() 400")
+	IsTrue(t, e.Print(), "e.Print() 400")
+	e.Status = "500"
+	IsTrue(t, e.Check(), "e.Check() 500")
+	IsTrue(t, e.Print(), "e.Print() 500")
+}
+
+//
 // jsonParse
 //
 
