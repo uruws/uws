@@ -23,11 +23,13 @@ type Flags struct {
 	Errors bool
 	Input  string
 	Raw    bool
+	Stats  bool
 }
 
 func NewFlags() *Flags {
 	return &Flags{
 		Input: "-",
+		Stats: true,
 	}
 }
 
@@ -53,6 +55,9 @@ func Main(f *Flags) {
 	} else {
 		p := jsonParse(f, infh)
 		err = p.Error
+		if f.Stats {
+			p.PrintStats()
+		}
 	}
 
 	if err != nil {
@@ -157,10 +162,29 @@ func (e *Entry) Print() bool {
 }
 
 //
+// Stats
+//
+
+type Stats struct {
+	NgxErrors int
+	NgxStarts int
+	Requests  int
+}
+
+func newStats() *Stats {
+	return &Stats{}
+}
+
+func (s *Stats) Print() {
+}
+
+//
 // jsonParse
 //
 
 type Parser struct {
+	stats      bool
+	Stats      *Stats
 	Error      error
 	Lines      int
 	Read       int
@@ -168,13 +192,44 @@ type Parser struct {
 	Unknown    int
 }
 
-func newParser() *Parser {
-	return &Parser{}
+func newParser(stats bool) *Parser {
+	return &Parser{stats: stats, Stats: newStats()}
+}
+
+func (p *Parser) PrintStats() {
+	if !p.stats {
+		return
+	}
+	p.Stats.Print()
+}
+
+func (p *Parser) Count(e *Entry) {
+	p.Read += 1
+	if !p.stats {
+		return
+	}
+	p.Stats.Requests += 1
+}
+
+func (p *Parser) CountNgxError() {
+	p.Read += 1
+	if !p.stats {
+		return
+	}
+	p.Stats.NgxErrors += 1
+}
+
+func (p *Parser) CountNgxStart() {
+	p.Read += 1
+	if !p.stats {
+		return
+	}
+	p.Stats.NgxStarts += 1
 }
 
 func jsonParse(f *Flags, r io.Reader) *Parser {
 	log.Debug("json parse")
-	p := newParser()
+	p := newParser(f.Stats)
 	x := bufio.NewScanner(r)
 	for x.Scan() {
 		s := x.Text()
@@ -196,7 +251,7 @@ func jsonParse(f *Flags, r io.Reader) *Parser {
 				continue
 			}
 			e.Print()
-			p.Read += 1
+			p.Count(e)
 			continue
 		}
 		// nginx server error log
@@ -206,7 +261,7 @@ func jsonParse(f *Flags, r io.Reader) *Parser {
 			time := m[2]
 			msg := m[3]
 			log.Print("[ERROR] %s %s %s", time, container, msg)
-			p.Read += 1
+			p.CountNgxError()
 			continue
 		}
 		// nginx server start
@@ -215,7 +270,7 @@ func jsonParse(f *Flags, r io.Reader) *Parser {
 			container := m[1]
 			time := m[2]
 			log.Print("%s %s container start", time, container)
-			p.Read += 1
+			p.CountNgxStart()
 			continue
 		}
 		// unknown log entry

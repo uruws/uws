@@ -27,6 +27,7 @@ func TestFlags(t *testing.T) {
 	IsFalse(t, f.Errors, "f.Errros")
 	IsEqual(t, f.Input, "-", "f.Input")
 	IsFalse(t, f.Raw, "f.Raw")
+	IsTrue(t, f.Stats, "f.Stats")
 }
 
 func TestMain(t *testing.T) {
@@ -216,6 +217,17 @@ func TestEntryPrintErrors(t *testing.T) {
 }
 
 //
+// Stats
+//
+
+func TestStats(t *testing.T) {
+	s := newStats()
+	IsEqual(t, s.NgxErrors, 0, "s.NgxErrors")
+	IsEqual(t, s.NgxStarts, 0, "s.NgxStarts")
+	IsEqual(t, s.Requests, 0, "s.Requests")
+}
+
+//
 // jsonParse
 //
 
@@ -240,6 +252,10 @@ func TestJsonParse(t *testing.T) {
 	IsEqual(t, p.Read, 57, "p.Read")
 	IsEqual(t, p.LinesError, 0, "p.LinesError")
 	IsEqual(t, p.Unknown, 12, "p.Unknown")
+	// Stats
+	IsEqual(t, p.Stats.NgxErrors, 3, "p.Stats.NgxErrors")
+	IsEqual(t, p.Stats.NgxStarts, 3, "p.Stats.NgxStarts")
+	IsEqual(t, p.Stats.Requests, 51, "p.Stats.Requests")
 }
 
 func TestJsonParseError(t *testing.T) {
