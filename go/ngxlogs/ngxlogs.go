@@ -7,6 +7,7 @@ package ngxlogs
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"io"
 	"os"
 	"regexp"
@@ -200,7 +201,16 @@ func (p *Parser) PrintStats() {
 	if !p.stats {
 		return
 	}
+	w := log.Writer()
+	fmt.Fprintf(w, "%s", "\n")
+	fmt.Fprintf(w, "%s", "Parser\n")
+	fmt.Fprintf(w, "  Error:         %v\n", p.Error != nil)
+	fmt.Fprintf(w, "  Lines:         %d\n", p.Lines)
+	fmt.Fprintf(w, "  Lines read:    %d\n", p.Read)
+	fmt.Fprintf(w, "  Lines error:   %d\n", p.LinesError)
+	fmt.Fprintf(w, "  Unknown lines: %d\n", p.Unknown)
 	p.Stats.Print()
+	fmt.Fprintf(w, "%s", "\n")
 }
 
 func (p *Parser) Count(e *Entry) {
