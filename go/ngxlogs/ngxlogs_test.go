@@ -256,6 +256,21 @@ func TestJsonParse(t *testing.T) {
 	IsEqual(t, p.Stats.NgxErrors, 3, "p.Stats.NgxErrors")
 	IsEqual(t, p.Stats.NgxStarts, 3, "p.Stats.NgxStarts")
 	IsEqual(t, p.Stats.Requests, 51, "p.Stats.Requests")
+	// cover p.PrintStats
+	IsTrue(t, p.PrintStats(), "p.PrintStats()")
+}
+
+func TestJsonParseNoStats(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/uwsdev-gw.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	f := NewFlags()
+	f.Stats = false
+	p := jsonParse(f, fh)
+	IsNil(t, p.Error, "json parse")
+	IsFalse(t, p.PrintStats(), "p.PrintStats()")
 }
 
 func TestJsonParseError(t *testing.T) {

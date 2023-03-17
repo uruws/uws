@@ -197,20 +197,21 @@ func newParser(stats bool) *Parser {
 	return &Parser{stats: stats, Stats: newStats()}
 }
 
-func (p *Parser) PrintStats() {
+func (p *Parser) PrintStats() bool {
 	if !p.stats {
-		return
+		return false
 	}
 	w := log.Writer()
 	fmt.Fprintf(w, "%s", "\n")
 	fmt.Fprintf(w, "%s", "Parser\n")
-	fmt.Fprintf(w, "  Error:         %v\n", p.Error != nil)
-	fmt.Fprintf(w, "  Lines:         %d\n", p.Lines)
-	fmt.Fprintf(w, "  Lines read:    %d\n", p.Read)
-	fmt.Fprintf(w, "  Lines error:   %d\n", p.LinesError)
-	fmt.Fprintf(w, "  Unknown lines: %d\n", p.Unknown)
+	fmt.Fprintf(w, "  Error        : %v\n", p.Error != nil)
+	fmt.Fprintf(w, "  Lines        : %d\n", p.Lines)
+	fmt.Fprintf(w, "  Lines read   : %d\n", p.Read)
+	fmt.Fprintf(w, "  Lines error  : %d\n", p.LinesError)
+	fmt.Fprintf(w, "  Lines ignore : %d\n", p.Unknown)
 	p.Stats.Print()
 	fmt.Fprintf(w, "%s", "\n")
+	return true
 }
 
 func (p *Parser) Count(e *Entry) {
