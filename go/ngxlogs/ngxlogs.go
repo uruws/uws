@@ -170,13 +170,25 @@ type Stats struct {
 	NgxErrors int
 	NgxStarts int
 	Requests  int
+	OK        int
+	Warning   int
+	Error     int
+	Websocket int
 }
 
 func newStats() *Stats {
 	return &Stats{}
 }
 
-func (s *Stats) Print() {
+func (s *Stats) Print(w io.Writer) {
+	fmt.Fprintf(w, "%s", "Nginx\n")
+	fmt.Fprintf(w, "  Server starts : %d\n", s.NgxStarts)
+	fmt.Fprintf(w, "  Server errors : %d\n", s.NgxErrors)
+	fmt.Fprintf(w, "  Requests      : %d\n", s.Requests)
+	fmt.Fprintf(w, "    OK          : %d\n", s.OK)
+	fmt.Fprintf(w, "    Warning     : %d\n", s.Warning)
+	fmt.Fprintf(w, "    Errror      : %d\n", s.Error)
+	fmt.Fprintf(w, "  Websocket     : %d\n", s.Websocket)
 }
 
 //
@@ -209,7 +221,8 @@ func (p *Parser) PrintStats() bool {
 	fmt.Fprintf(w, "  Lines read   : %d\n", p.Read)
 	fmt.Fprintf(w, "  Lines error  : %d\n", p.LinesError)
 	fmt.Fprintf(w, "  Lines ignore : %d\n", p.Unknown)
-	p.Stats.Print()
+	fmt.Fprintf(w, "%s", "\n")
+	p.Stats.Print(w)
 	fmt.Fprintf(w, "%s", "\n")
 	return true
 }
@@ -220,6 +233,16 @@ func (p *Parser) Count(e *Entry) {
 		return
 	}
 	p.Stats.Requests += 1
+	if e.StatusInt >= 500 {
+		p.Stats.Error += 1
+	} else if e.StatusInt >= 400 {
+		p.Stats.Warning += 1
+	} else {
+		p.Stats.OK += 1
+	}
+	if e.StatusInt == 101 {
+		p.Stats.Websocket += 1
+	}
 }
 
 func (p *Parser) CountNgxError() {

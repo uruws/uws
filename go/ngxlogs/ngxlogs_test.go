@@ -256,6 +256,10 @@ func TestJsonParse(t *testing.T) {
 	IsEqual(t, p.Stats.NgxErrors, 3, "p.Stats.NgxErrors")
 	IsEqual(t, p.Stats.NgxStarts, 3, "p.Stats.NgxStarts")
 	IsEqual(t, p.Stats.Requests, 51, "p.Stats.Requests")
+	IsEqual(t, p.Stats.OK, 43, "p.Stats.OK")
+	IsEqual(t, p.Stats.Warning, 5, "p.Stats.Warning")
+	IsEqual(t, p.Stats.Error, 3, "p.Stats.Error")
+	IsEqual(t, p.Stats.Websocket, 0, "p.Stats.Websocket")
 	// cover p.PrintStats
 	IsTrue(t, p.PrintStats(), "p.PrintStats()")
 }
@@ -316,4 +320,17 @@ func TestJsonParseInvalid(t *testing.T) {
 	IsEqual(t, p.Read, 1, "p.Read")
 	IsEqual(t, p.LinesError, 1, "p.LinesError")
 	IsEqual(t, p.Unknown, 1, "p.Unknown")
+}
+
+func TestJsonParseWebsocket(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/meteor-gw.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	f := NewFlags()
+	p := jsonParse(f, fh)
+	IsNil(t, p.Error, "parse error")
+	IsEqual(t, p.Lines, 100, "p.Lines")
+	IsEqual(t, p.Read, 100, "p.Read")
+	IsEqual(t, p.Stats.Websocket, 2, "p.Stats.Websocket")
 }
