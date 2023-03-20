@@ -1,7 +1,6 @@
 ---
-# date -d 2023/01/30 '+%s'
-# 1675047600
-rstudio_user_expire: 1675047600
+# date -d 2024/01/30 '+%s'
+rstudio_user_expire: 1706583600
 
 rstudio_gid: 3000
 
