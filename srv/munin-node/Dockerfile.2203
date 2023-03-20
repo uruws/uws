@@ -12,26 +12,6 @@ ENV HOME /root
 RUN /root/bin/apt-install.sh munin-node psmisc procps munin-plugins-core munin-plugins-extra \
 	&& rm -vf /etc/munin/plugins/*
 
-# mongodb plugins deps
-RUN /root/bin/apt-install.sh python3-pymongo
-
-ENV ATLASCLI_VERSION 1.1.7
-
-RUN wget -O /root/atlascli.deb \
-	https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_${ATLASCLI_VERSION}_linux_x86_64.deb \
-	&& apt-get install -yy /root/atlascli.deb \
-	&& rm -vf /root/atlascli.deb
-
-###ENV DBTOOLS_VERSION debian11-x86_64-100.6.0
-###ENV DBTOOLS_CHECKSUM b6a69f65d483de44ffb9f6b1a4fb494988d5b8e49fdd8bc20c8460719e641c74
-###RUN echo "${DBTOOLS_CHECKSUM}  dbtools.tgz" >/root/dbtools.checksum \
-###	&& wget -q -O /root/dbtools.tgz \
-###	https://fastdl.mongodb.org/tools/db/mongodb-database-tools-${DBTOOLS_VERSION}.tgz \
-###	&& sha256sum -c /root/dbtools.checksum \
-###	&& tar -xzf dbtools.tgz \
-###	&& rm -vf dbtools.tgz \
-###	&& mv -vf mongodb-database-tools-${DBTOOLS_VERSION} /opt/dbtools
-
 ENV MN munin-contrib
 ENV MR uruws/${MN}
 ENV MV 438e31f70d1a149d3e8d0db0fa875b10ef1e8dd7
@@ -41,6 +21,9 @@ RUN wget -O munin-contrib.tgz \
 	&& rm -vf munin-contrib.tgz \
 	&& mkdir -vp /uws/munin \
 	&& mv -vf ${MN}-${MV} /uws/munin/contrib
+
+# mongodb plugins deps
+RUN /root/bin/apt-install.sh python3-pymongo
 
 COPY ./utils /root/bin
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
