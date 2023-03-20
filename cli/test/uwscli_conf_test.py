@@ -35,7 +35,6 @@ class Test(unittest.TestCase):
 			'appprod-2302',
 			'apptest-2302',
 			'panoramix-2206',
-			'worker-2209',
 		])
 		# app list
 		app_list = [
