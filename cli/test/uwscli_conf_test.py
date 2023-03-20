@@ -10,6 +10,8 @@ import uwscli
 import uwscli_conf
 import uwscli_auth
 
+from uwscli_conf import CustomDeploy
+
 class Test(unittest.TestCase):
 
 	@classmethod
@@ -30,23 +32,21 @@ class Test(unittest.TestCase):
 	def test_prod_settings(t):
 		# cluster
 		t.assertListEqual(sorted(uwscli.cluster.keys()), [
-			'app-east',
-			'app-west',
-			'apptest-east',
-			'apptest-west',
+			'appprod-2302',
+			'apptest-2302',
 			'panoramix-2206',
-			'worker-2206',
+			'worker-2209',
 		])
 		# app list
 		app_list = [
-			'app-east',
-			'app-west',
-			'apptest-east',
-			'apptest-west',
+			'api-prod',
+			'api-test',
+			'app-prod',
+			'app-test',
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
-			'infra-ui-test',
+			'meteor-vanilla',
 			'nlp-category',
 			'nlp-sentiment-twitter',
 			'worker',
@@ -61,6 +61,7 @@ class Test(unittest.TestCase):
 			'app',
 			'cs',
 			'infra-ui',
+			'meteor-vanilla',
 			'nlpsvc',
 		])
 		# autobuild
@@ -68,6 +69,7 @@ class Test(unittest.TestCase):
 			'app',
 			'cs',
 			'infra-ui',
+			'meteor-vanilla',
 		])
 
 	def test_app_build_group(t):
@@ -78,6 +80,20 @@ class Test(unittest.TestCase):
 					if g == "uwsapp_%s" % appname:
 						group_ok = True
 				t.assertTrue(group_ok, appname)
+
+	def test_custom_deploy(t):
+		t.assertDictEqual(uwscli.app['app'].custom_deploy, {
+			'production': [
+				CustomDeploy('worker'),
+				CustomDeploy('api-prod'),
+				CustomDeploy('app-prod'),
+			],
+			'staging': [
+				CustomDeploy('worker-test'),
+				CustomDeploy('api-test'),
+				CustomDeploy('app-test'),
+			],
+		})
 
 if __name__ == '__main__':
 	unittest.main()

@@ -1,5 +1,0 @@
-#!/bin/sh
-set -eu
-cd /srv/uws/deploy
-#~ exec ./srv/uwsapi/setup-env.sh test
-exec ./srv/uwsapi/teardown-env.sh test

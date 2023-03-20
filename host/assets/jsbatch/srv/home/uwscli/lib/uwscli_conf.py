@@ -18,12 +18,6 @@ docker_storage_min: int = 10*1024*1024 # 10G
 admin_group:    str = getenv('UWSCLI_ADMIN_GROUP',    'uwsadm')
 operator_group: str = getenv('UWSCLI_OPERATOR_GROUP', 'uwsops')
 
-def _ghrepo(n: str) -> str:
-	return f"git@github.com:TalkingPts/{n}.git"
-
-def buildpack_repo() -> str:
-	return _ghrepo('Buildpack')
-
 @dataclass
 class AppBuild(object):
 	dir:    str
@@ -32,12 +26,8 @@ class AppBuild(object):
 	src:    str = '.'
 	target: str = 'None'
 	clean:  str = ''
-	repo:   str = ''
 
-def _buildpack(src: str, target: str, repo: str = '') -> AppBuild:
-	_uri = ''
-	if repo != '':
-		_uri = _ghrepo(repo)
+def _buildpack(src: str, target: str) -> AppBuild:
 	return AppBuild(
 		'/srv/deploy/Buildpack',
 		'build.py',
@@ -45,7 +35,6 @@ def _buildpack(src: str, target: str, repo: str = '') -> AppBuild:
 		src = src,
 		target = target,
 		clean = target,
-		repo = _uri,
 	)
 
 Buildpack = _buildpack
@@ -60,6 +49,11 @@ class AppDeploy(object):
 			self.filter = "%s-" % self.image
 
 @dataclass
+class CustomDeploy(object):
+	app:  str
+	wait: str = '5m'
+
+@dataclass
 class App(object):
 	app:              bool
 	cluster:          str       = 'None'
@@ -70,6 +64,7 @@ class App(object):
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
 	groups:           list[str] = field(default_factory = list)
+	custom_deploy:    dict[str, list[CustomDeploy]] = field(default_factory = dict)
 
 	def __post_init__(self):
 		if len(self.groups) == 0:
@@ -78,73 +73,81 @@ class App(object):
 app: dict[str, App] = {
 	'app': App(False,
 		desc = 'App web and workers',
-		build = _buildpack('app/src', 'app', 'App'),
+		build = _buildpack('app/src', 'app'),
 		autobuild = True,
-		autobuild_deploy = ['apptest-east', 'apptest-west', 'worker-test'],
+		autobuild_deploy = [
+			'worker-test',
+			'api-test',
+			'app-test',
+		],
 		groups = ['uwsapp_app'],
+		custom_deploy = {
+			'production': [
+				CustomDeploy('worker'),
+				CustomDeploy('api-prod'),
+				CustomDeploy('app-prod'),
+			],
+			'staging': [
+				CustomDeploy('worker-test'),
+				CustomDeploy('api-test'),
+				CustomDeploy('app-test'),
+			],
+		},
 	),
-	'app-east': App(True,
-		cluster = 'app-east',
-		desc = 'App web, east cluster',
-		pod = 'meteor/web',
+	'api-prod': App(True,
+		cluster = 'appprod-2302',
+		desc = 'App api',
+		pod = 'meteor/api',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_app'],
 	),
-	'app-west': App(True,
-		cluster = 'app-west',
-		desc = 'App web, west cluster',
+	'app-prod': App(True,
+		cluster = 'appprod-2302',
+		desc = 'App web',
 		pod = 'meteor/web',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_app'],
 	),
 	'worker': App(True,
-		cluster = 'worker-2206',
-		desc = 'App worker large nodes',
+		cluster = 'appprod-2302',
+		desc = 'App worker cluster',
 		pod = 'meteor/worker',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_app'],
 	),
-	'apptest-east': App(True,
-		cluster = 'apptest-east',
-		desc = 'App web, test cluster (east)',
-		pod = 'meteor/web',
+	'api-test': App(True,
+		cluster = 'apptest-2302',
+		desc = 'App api, test cluster',
+		pod = 'meteor/api',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_apptest'],
 	),
-	'apptest-west': App(True,
-		cluster = 'apptest-west',
-		desc = 'App web, test cluster (west)',
+	'app-test': App(True,
+		cluster = 'apptest-2302',
+		desc = 'App web, test cluster',
 		pod = 'meteor/web',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_apptest'],
 	),
 	'worker-test': App(True,
-		cluster = 'apptest-east',
-		desc = 'App worker test',
+		cluster = 'apptest-2302',
+		desc = 'App worker, test cluster',
 		pod = 'meteor/worker',
 		deploy = AppDeploy('meteor-app'),
 		groups = ['uwsapp_apptest'],
 	),
-	# ~ 'beta': App(True,
-		# ~ cluster = 'panoramix-2206',
-		# ~ desc = 'App beta',
-		# ~ pod = 'meteor/beta',
-		# ~ build = _buildpack('beta/src', 'beta'),
-		# ~ deploy = AppDeploy('meteor-beta'),
-		# ~ groups = ['uwsapp_beta'],
-	# ~ ),
 	'cs': App(True,
 		cluster = 'panoramix-2206',
 		desc = 'Crowdsourcing',
 		pod = 'meteor/cs',
-		build = _buildpack('cs/src', 'crowdsourcing', 'Crowdsourcing'),
+		build = _buildpack('cs/src', 'crowdsourcing'),
 		deploy = AppDeploy('meteor-crowdsourcing'),
 		groups = ['uwsapp_crowdsourcing', 'uwsapp_cs'],
 		autobuild = True,
 		autobuild_deploy = ['cs-test'],
 	),
 	'cs-test': App(True,
-		cluster = 'apptest-east',
+		cluster = 'apptest-2302',
 		desc = 'Crowdsourcing test',
 		pod = 'meteor/cs',
 		deploy = AppDeploy('meteor-crowdsourcing'),
@@ -156,7 +159,6 @@ app: dict[str, App] = {
 			'/srv/deploy/NLPService',
 			'build.sh',
 			clean = 'nlpsvc',
-			repo = _ghrepo('NLPService'),
 		),
 		groups = ['uwsapp_nlpsvc', 'uwsapp_nlp'],
 	),
@@ -176,10 +178,10 @@ app: dict[str, App] = {
 	),
 	'infra-ui': App(False,
 		desc = 'Infra-UI',
-		build = _buildpack('infra-ui/src', 'infra-ui', 'Infra-UI'),
+		build = _buildpack('infra-ui/src', 'infra-ui'),
 		groups = ['uwsapp_infra-ui'],
 		autobuild = True,
-		autobuild_deploy = ['infra-ui-test'],
+		# ~ autobuild_deploy = ['infra-ui-test'],
 	),
 	'infra-ui-prod': App(True,
 		cluster = 'panoramix-2206',
@@ -188,12 +190,15 @@ app: dict[str, App] = {
 		deploy = AppDeploy('meteor-infra-ui'),
 		groups = ['uwsapp_infra-ui'],
 	),
-	'infra-ui-test': App(True,
-		cluster = 'apptest-west',
-		desc = 'Infra-UI testing',
-		pod = 'meteor/infra-ui',
-		deploy = AppDeploy('meteor-infra-ui'),
-		groups = ['uwsapp_infra-ui'],
+	'meteor-vanilla': App(True,
+		cluster = 'apptest-2302',
+		desc = 'Meteor Vanilla',
+		pod = 'meteor/vanilla',
+		build = _buildpack('meteor-vanilla/src', 'meteor-vanilla'),
+		deploy = AppDeploy('meteor-vanilla'),
+		groups = ['uwsapp_meteor-vanilla'],
+		autobuild = True,
+		autobuild_deploy = ['meteor-vanilla'],
 	),
 }
 
@@ -202,10 +207,8 @@ class AppCluster(object):
 	region: str
 
 cluster: dict[str, AppCluster] = {
-	'app-east':       AppCluster(region = 'us-east-2'),
-	'app-west':       AppCluster(region = 'us-west-2'),
-	'apptest-east':   AppCluster(region = 'us-east-2'),
-	'apptest-west':   AppCluster(region = 'us-west-2'),
+	'appprod-2302':   AppCluster(region = 'us-east-1'),
+	'apptest-2302':   AppCluster(region = 'us-east-2'),
 	'panoramix-2206': AppCluster(region = 'us-east-1'),
-	'worker-2206':    AppCluster(region = 'us-east-2'),
+	'worker-2209':    AppCluster(region = 'us-east-1'),
 }

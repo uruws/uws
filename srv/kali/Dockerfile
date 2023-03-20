@@ -1,7 +1,7 @@
 FROM kalilinux/kali-rolling
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="211020"
+LABEL version="230208"
 
 USER root:root
 WORKDIR /root

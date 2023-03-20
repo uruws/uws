@@ -1,4 +1,4 @@
-PATH=/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin
+PATH=/usr/bin:/bin:/srv/home/uwscli/bin:/usr/local/bin
 MAILTO=root
 USER=uwscli
 UWSCLI_LOG=off
@@ -13,62 +13,44 @@ UWSCLI_LOG=off
 */15 * * * * UWSCLI_LOG=on app-autobuild app
 */15 * * * * UWSCLI_LOG=on app-autobuild cs
 */15 * * * * UWSCLI_LOG=on app-autobuild infra-ui
+*/15 * * * * UWSCLI_LOG=on app-autobuild meteor-vanilla
 
 #############
 # scale down
 #############
 
-# app
-11 23 * * 1-5 app-scale app-east 80
-11 23 * * 1-5 app-scale app-west 80
-11 0  * * 2-6 app-scale app-east 60
-11 0  * * 2-6 app-scale app-west 60
-11 1  * * 2-6 app-scale app-east 40
-11 1  * * 2-6 app-scale app-west 40
-11 2  * * 2-6 app-scale app-east 20
-11 2  * * 2-6 app-scale app-west 20
+# appprod
+10 3 * * 2-6 app-scale worker 30
+11 3 * * 2-6 app-scale api-prod 10
+12 3 * * 2-6 app-scale app-prod 10
 
 # apptest
 13 3 * * 2-6 app-scale worker-test 2
-14 3 * * 2-6 app-scale apptest-east 3
-15 3 * * 2-6 app-scale apptest-west 3
+14 3 * * 2-6 app-scale api-test 3
+15 3 * * 2-6 app-scale app-test 3
 
 # crowdsourcing
 16 3 * * 2-6 app-scale cs 10
+
+# meteor-vanilla
+17 3 * * 2-6 app-scale meteor-vanilla 1
 
 ###########
 # scale up
 ###########
 
-# app
-5 10 * * 1-5 app-scale app-east 45
-5 10 * * 1-5 app-scale app-west 45
-5 11 * * 1-5 app-scale app-east 60
-5 11 * * 1-5 app-scale app-west 60
-5 12 * * 1-5 app-scale app-east 75
-5 12 * * 1-5 app-scale app-west 75
-5 16 * * 1-5 app-scale app-east 90
-5 16 * * 1-5 app-scale app-west 90
-5 18 * * 1-5 app-scale app-east 100
-5 18 * * 1-5 app-scale app-west 100
+# appprod
+3 10 * * 1-5 app-scale worker 30
+4 10 * * 1-5 app-scale api-prod 10
+5 10 * * 1-5 app-scale app-prod 10
 
 # apptest
 6 10 * * 1-5 app-scale worker-test 2
-7 10 * * 1-5 app-scale apptest-east 3
-8 10 * * 1-5 app-scale apptest-west 3
+7 10 * * 1-5 app-scale api-test 3
+8 10 * * 1-5 app-scale app-test 3
 
 # crowdsourcing
 9 10 * * 1-5 app-scale cs 30
 
-##########
-# workers
-##########
-
-# adjusted to cleverSynch run times
-# https://ops.uws.talkingpts.org/munin/t.o/app.t.o/apijob_production/cleverSynch_jobs.html
-
-# scale up during the night
-3 3 * * 1-5 app-scale worker 30
-
-# scale down during the day
-3 10 * * 1-5 app-scale worker 15
+# meteor-vanilla
+9 10 * * 1-5 app-scale meteor-vanilla 1

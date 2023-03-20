@@ -22,6 +22,6 @@ if test -s ~/logs/uwsq.log; then
 	fi
 fi
 
-find ~/logs/ -type f -name '*.log.gz' -mtime +187 -exec rm -f {} \;
+find ~/logs/ -type f -name '*.log.gz' -mtime +400 -exec rm -f {} \;
 
 exit 0

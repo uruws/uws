@@ -2,13 +2,8 @@
 set -eu
 
 find ${HOME}/bin ${HOME}/cluster ${HOME}/eks \
-	-type f |
-	grep -vF '.yaml' |
-	grep -vF '.md' |
-	grep -vF '.env' |
-	grep -vF 'eks/lib' |
-	grep -vF 'secret/ssh' |
-	xargs -- \
+	-type f -name '*.sh' -print0 |
+	xargs --null -- \
 	shellcheck --check-sourced --color=auto --norc --severity=warning \
 		--exclude=SC1071
 

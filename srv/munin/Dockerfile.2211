@@ -1,0 +1,79 @@
+FROM uws/base-2211
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230217"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh rsyslog cron logrotate munin python3 nfs-common
+
+ENV MN munin-contrib
+ENV MR uruws/${MN}
+ENV MV 438e31f70d1a149d3e8d0db0fa875b10ef1e8dd7
+ENV MT munstrap
+RUN wget -q -O munin-contrib.tgz \
+	https://github.com/${MR}/archive/${MV}.tar.gz \
+	&& tar -xzf munin-contrib.tgz \
+	&& rm -vf munin-contrib.tgz \
+	&& mkdir -vp /uws/munin \
+	&& mv -vf ${MN}-${MV} /uws/munin/contrib \
+	&& rm -rvf /etc/munin/templates /etc/munin/static \
+	&& cp -vr /uws/munin/contrib/templates/${MT}/templates /etc/munin \
+	&& cp -vr /uws/munin/contrib/templates/${MT}/static /etc/munin \
+	&& rm -rf /uws/munin/contrib
+
+COPY --chown=root:munin ./files/etc/munin/templates.patch /etc/munin/
+COPY --chown=root:munin ./files/etc/munin/static/ /etc/munin/static/
+
+RUN /root/bin/apt-install.sh patch \
+	&& cd /etc/munin \
+	&& patch -p0 <templates.patch \
+	&& /root/bin/apt-autoremove.sh patch \
+	&& chmod -v 0755 /etc/munin/static /etc/munin/static/css \
+	&& chmod -v 0644 /etc/munin/static/css/uws.css
+
+RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
+
+RUN /root/bin/apt-install.sh ssl-cert
+
+# munin-deploy-conf
+RUN install -v -d -o root -g munin -m 0750 /etc/uws \
+	&& install -v -d -o root -g munin -m 0750 /etc/uws/munin
+
+RUN adduser uws munin \
+	&& adduser uws ssl-cert \
+	&& adduser munin ssl-cert
+
+RUN install -v -d -m 1777 /var/tmp/munin-cgi
+
+COPY ./files/etc/cron.d/uws /etc/cron.d/uws
+
+COPY ./files/etc/rsyslog.conf /etc/
+COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
+
+COPY --chown=root:munin ./files/etc/munin/munin.conf /etc/munin/
+
+RUN install -v -d -m 0755 /opt/uws/lib
+
+COPY ./build/sendmail.py /opt/uws/lib/sendmail.py
+RUN chmod -v 0644 /opt/uws/lib/sendmail.py
+RUN python3 -m compileall /opt/uws/lib/sendmail.py
+
+RUN install -v -d -m 0755 /opt/munin/bin \
+	&& install -v -d -m 0755 /opt/munin/lib
+
+COPY ./utils/bin /opt/munin/bin
+RUN chmod -v 0755 /opt/munin/bin/munin-*.*
+
+COPY ./utils/lib /opt/munin/lib
+RUN chmod -v 0644 /opt/munin/lib/*.*
+RUN python3 -m compileall /opt/munin/lib
+
+RUN install -v -d -o root -g root -m 0750 /srv/etc \
+	&& install -v -d -o root -g root -m 0750 /srv/etc/ca
+
+ENTRYPOINT exec /opt/munin/bin/munin-start.sh

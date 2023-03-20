@@ -1,0 +1,24 @@
+#!/bin/sh
+set -eux
+uws='sudo -u uws'
+
+# grant users access
+
+adduser uws    docker
+adduser uwsrun docker
+
+# build base image
+
+cd /srv/uws/deploy
+chmod -v 0750 ./docker/base/build.sh
+${uws} ./docker/base/build.sh
+cd -
+
+# restart docker service as iptables rules were reloaded before
+
+if test 'Xtrue' = "X$(cat /etc/iptables.uws-reload 2>/dev/null)"; then
+	echo 'i - firewall rules changed, restart docker service'
+	systemctl restart docker
+fi
+
+exit 0

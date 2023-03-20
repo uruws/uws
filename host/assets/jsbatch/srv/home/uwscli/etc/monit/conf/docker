@@ -1,0 +1,16 @@
+check process dockerd with pidfile /var/run/docker.pid
+  group system
+  group docker
+  start program = "/etc/init.d/docker start"
+  stop  program = "/etc/init.d/docker stop"
+  if 3 restarts with 3 cycles then timeout
+  depend dockerd_bin
+  depend docker_rc
+
+check file dockerd_bin with path /usr/sbin/dockerd
+  group docker
+  include /etc/monit/templates/rootbin
+
+check file docker_rc with path "/etc/init.d/docker"
+  group docker
+  include /etc/monit/templates/rootbin

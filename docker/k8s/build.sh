@@ -1,12 +1,19 @@
 #!/bin/sh
 set -eu
-docker rmi uws/k8s || true
-# k8s-2203
-docker build --rm -t uws/k8s-2203 \
-	-f docker/k8s/Dockerfile.2203 \
-	./docker/k8s
-# k8s-122-2203
-docker build --rm -t uws/k8s-122-2203 \
-	-f docker/k8s/Dockerfile-122.2203 \
-	./docker/k8s
+# remove old
+# 1.25
+docker rmi uws/k8s-125-2211 || true
+# build
+# 1.22
+rsync -vax --delete-before ./docker/k8s/build/ ./docker/k8s/122/build/
+# k8s-122-2211
+docker build --rm -t uws/k8s-122-2211 \
+    -f docker/k8s/122/Dockerfile.2211 \
+    ./docker/k8s/122
+# 1.24
+rsync -vax --delete-before ./docker/k8s/build/ ./docker/k8s/124/build/
+# k8s-124-2211
+docker build --rm -t uws/k8s-124-2211 \
+    -f docker/k8s/124/Dockerfile.2211 \
+    ./docker/k8s/124
 exit 0

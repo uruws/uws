@@ -1,0 +1,44 @@
+FROM uws/k8s-122-2211
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230127"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+# vim is needed for uwskube edit
+RUN /root/bin/apt-install.sh less git vim-tiny
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+RUN wget -q https://github.com/weaveworks/eksctl/releases/download/v0.101.0/eksctl_Linux_amd64.tar.gz \
+	&& wget -q https://github.com/weaveworks/eksctl/releases/download/v0.101.0/eksctl_checksums.txt \
+	&& sha256sum --ignore-missing -c eksctl_checksums.txt \
+	&& tar -C /tmp -xvzf eksctl_Linux_amd64.tar.gz \
+	&& install -v -m 0755 /tmp/eksctl /usr/local/bin \
+	&& rm -vf eksctl_*.* /tmp/eksctl
+
+RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
+	&& install -v -d -m 0750 /home/uws/.kube/cache \
+	&& install -v -d -m 0750 /home/uws/.aws \
+	&& install -v -d -m 0750 /home/uws/bin \
+	&& install -v -d -m 0750 /home/uws/k8s \
+	&& install -v -d -m 0750 /home/uws/pod \
+	&& install -v -d -m 0750 /home/uws/cluster \
+	&& install -v -d -m 0750 /home/uws/secret \
+	&& install -v -d -m 0750 /home/uws/tmp
+
+ENV AWS_PROFILE uwsdev
+ENV AWS_REGION us-west-2
+ENV UWS_CLUSTER uwsdev
+
+RUN printf 'export PS1="${AWS_PROFILE}@\H:\W\$ "\n' >>.profile
+
+CMD exec /usr/local/bin/uws-login.sh

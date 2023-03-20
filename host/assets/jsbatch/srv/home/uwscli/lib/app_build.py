@@ -57,6 +57,8 @@ def nq(app: str, version: str, timeout: int = 3600) -> int:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.nq('app-build.sh', args)
 
+__doc__ = 'build app release'
+
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.build_description())

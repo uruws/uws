@@ -20,13 +20,18 @@ pod=${PWD}/pod
 eksenv=${PWD}/eks/env/${uws_cluster}.env
 
 tmpdir=${PWD}/tmp
-mkdir -vp ${tmpdir}
+mkdir -vp "${tmpdir}"
 
 kubedir=${PWD}/secret/eks/kube/cluster/${uws_cluster}
-mkdir -vp ${kubedir}
+mkdir -vp "${kubedir}"
+
+kubecfg=${kubedir}/${uws_cluster}
+if test -s "${kubecfg}"; then
+	chmod 0600 "${kubecfg}"
+fi
 
 cluster=${PWD}/cluster/${uws_cluster}
-mkdir -vp ${cluster}
+mkdir -vp "${cluster}"
 
 # shellcheck disable=SC1090
 . ${eksenv}
@@ -53,26 +58,32 @@ if ! test -s "${secret}/ssh/${uws_cluster}/node.pub"; then
 	exit 4
 fi
 
-install -v -d -m 0750 ${ekslib}/__pycache__
+docker_args="-it --rm"
+if test "X${UWSEKSCMD:-NONE}" = 'true'; then
+	docker_args="--rm"
+fi
 
-exec docker run -it --rm \
-	--hostname ${hostname} -u uws \
+install -v -d -m 0750 "${ekslib}/__pycache__"
+
+exec docker run ${docker_args} \
+	--hostname "${hostname}" -u uws \
 	-p 127.0.0.1:0:3000 \
 	-p 127.0.0.1:0:8001 \
 	-p 127.0.0.1:0:9090 \
 	-p 127.0.0.1:0:9091 \
 	-p 127.0.0.1:0:9093 \
+	-p 127.0.0.1:0:8899 \
 	-e PYTHONPATH=/home/uws/lib \
-	-v ${utils}:/home/uws/bin:ro \
-	-v ${ekslib}:/home/uws/lib:ro \
-	-v ${ekslib}/__pycache__:/home/uws/lib/__pycache__:rw \
-	-v ${k8s}:/home/uws/k8s:ro \
-	-v ${pod}:/home/uws/pod:ro \
-	-v ${cluster}:/home/uws/cluster:ro \
-	-v ${secret}:/home/uws/secret:ro \
-	-v ${cadir}:/home/uws/ca:ro \
-	-v ${awsdir}:/home/uws/.aws:ro \
-	-v ${kubedir}:/home/uws/.kube/eksctl/clusters:${cluster_perms} \
-	-v ${tmpdir}:/home/uws/tmp \
-	--env-file ${eksenv} \
-	uws/${EKS_IMAGE}-2203 "$@"
+	-v "${utils}:/home/uws/bin:ro" \
+	-v "${ekslib}:/home/uws/lib:ro" \
+	-v "${ekslib}/__pycache__:/home/uws/lib/__pycache__:rw" \
+	-v "${k8s}:/home/uws/k8s:ro" \
+	-v "${pod}:/home/uws/pod:ro" \
+	-v "${cluster}:/home/uws/cluster:ro" \
+	-v "${secret}:/home/uws/secret:ro" \
+	-v "${cadir}:/home/uws/ca:ro" \
+	-v "${awsdir}:/home/uws/.aws:ro" \
+	-v "${kubedir}:/home/uws/.kube/eksctl/clusters:${cluster_perms}" \
+	-v "${tmpdir}:/home/uws/tmp" \
+	--env-file "${eksenv}" \
+	"uws/${EKS_IMAGE}-2211" "$@"

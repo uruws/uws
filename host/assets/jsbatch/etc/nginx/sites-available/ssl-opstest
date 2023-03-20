@@ -1,5 +1,5 @@
 #
-# SSL uwsapi-test
+# SSL opstest.uws
 #
 server {
 	listen 443 ssl;
@@ -19,5 +19,4 @@ server {
 	error_log /var/log/nginx/opstest_error.log;
 
 	include /srv/etc/nginx/opstest-verify-client.conf;
-	include /etc/nginx/snippets/uwsapp-test.conf;
 }

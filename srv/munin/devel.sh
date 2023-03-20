@@ -15,4 +15,4 @@ exec docker run -it --rm --name uws-munin-devel \
 	-v ${CA}/client:/etc/opt/uws/ca:ro \
 	--tmpfs /var/opt/munin-alert \
 	--workdir /opt/munin \
-	$@ uws/munin-2203
+	$@ uws/munin-2211

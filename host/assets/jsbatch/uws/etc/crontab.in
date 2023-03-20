@@ -1,4 +1,4 @@
-PATH=/usr/local/bin:/usr/bin:/bin
+PATH=/usr/bin:/bin:/usr/local/bin
 MAILTO=root
 USER=uws
 HOME=/home/uws
@@ -13,3 +13,6 @@ HOME=/home/uws
 
 # vanta vpc flow logs
 11 8 * * 1 /srv/uws/deploy/docker/awscli/run.sh vanta-vpc-flow-logs.sh
+
+# vanta logs retention
+21 8 * * * /srv/uws/deploy/docker/awscli/run.sh vanta-cloudwatch-log-groups-retention.sh

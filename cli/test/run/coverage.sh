@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-export PYTHONPATH=/srv/home/uwscli/lib:/srv/home/uwscli/sbin:${HOME}/test
+export PYTHONPATH=/srv/home/uwscli/lib:${HOME}/test
 
 cd ${HOME}
 

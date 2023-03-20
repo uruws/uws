@@ -7,13 +7,14 @@ rstudio_gid: 3000
 
 rstudio_user:
   jrms: 3001
-  rina: 3002
   # Kevin Fosnacht <kevinf@talkingpts.org>
   kevin: 3003
   # Adrienne <adrienne@talkingpts.org>
   adrienne: 3004
 
 rstudio_user_remove:
+  # Rina Park
+  rina: 3002
   # Beatriz Cabrera <beatriz@talkingpts.org>
   beatriz: 3005
 

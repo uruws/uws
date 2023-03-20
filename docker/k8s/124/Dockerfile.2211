@@ -1,0 +1,94 @@
+FROM uws/base-2211
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230207"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh gettext-base groff python3 python3-pip python3-semver
+
+RUN pip3 install --upgrade awscli
+RUN aws --version
+
+RUN chgrp uws /usr/local/bin \
+	&& chmod g+w /usr/local/bin
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+#
+# kubectl
+#
+
+RUN wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.24.6/2022-10-05/bin/linux/amd64/kubectl \
+	&& wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.24.6/2022-10-05/bin/linux/amd64/kubectl.sha256 \
+	&& sha256sum -c kubectl.sha256 \
+	&& install -v -m 0755 kubectl /usr/local/bin \
+	&& rm -vf kubectl kubectl.sha256
+
+RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
+	&& install -v -d -m 0750 /home/uws/.kube/cache
+
+#
+# helm
+#
+
+RUN wget -q -O helm.tgz https://get.helm.sh/helm-v3.11.0-linux-amd64.tar.gz \
+	&& tar -vxzf helm.tgz \
+	&& install -v -m 0755 linux-amd64/helm /usr/local/bin/helm.real \
+	&& rm -rvf helm.tgz linux-amd64 \
+	&& helm.real version
+
+COPY --chown=uws:uws ./utils/helm-wrapper.sh /home/uws/helm-wrapper.sh
+RUN install -v -m 0755 helm-wrapper.sh /usr/local/bin/helm \
+	&& rm -vf helm-wrapper.sh
+
+#
+# kubeshark
+#
+
+RUN wget -q https://github.com/kubeshark/kubeshark/releases/download/37.0/kubeshark_linux_amd64 \
+	&& wget -q https://github.com/kubeshark/kubeshark/releases/download/37.0/kubeshark_linux_amd64.sha256 \
+	&& sha256sum -c kubeshark_linux_amd64.sha256 \
+	&& install -v -m 0755 kubeshark_linux_amd64 /usr/local/bin/kubeshark \
+	&& rm -vf kubeshark_linux_amd64.sha256 kubeshark_linux_amd64
+
+RUN install -v -d -m 0750 /home/uws/.kubeshark
+COPY --chown=uws:uws ./config/kubeshark.yaml /home/uws/.kubeshark/config.yaml
+
+COPY --chown=uws:uws ./utils/kubeshark-start.sh /home/uws/kubeshark-start.sh
+RUN install -v -m 0755 kubeshark-start.sh /usr/local/bin/kubeshark-start.sh \
+	&& rm -vf kubeshark-start.sh
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN groupadd -o -g 3000 uwsrun \
+	&& useradd -o -d /home/uwsrun -m -c 'uwsrun' -g 3000 -u 3000 uwsrun \
+	&& chmod -v 0750 /home/uwsrun
+
+RUN install -v -d -o uwsrun -g uwsrun -m 0750 /home/uwsrun/.kube/eksctl/clusters \
+	&& install -v -d -o uwsrun -g uwsrun -m 0750 /home/uwsrun/.kube/cache
+
+COPY ./utils/uwskube /tmp/uwskube
+RUN install -v -m 0755 /tmp/uwskube /usr/local/bin/uwskube \
+	&& rm -vf /tmp/uwskube
+
+COPY ./build/k8smon.bin /usr/local/bin/k8smon
+COPY ./build/ngxlogs.bin /usr/local/bin/ngxlogs
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws

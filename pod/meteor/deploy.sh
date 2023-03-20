@@ -13,7 +13,9 @@ cat ${envf}
 
 # shellcheck disable=SC1090
 . ${envf}
-
 rm -f ${envf}
+
 envsubst <${pod}/deploy.yaml | uwskube apply -f -
+
+~/pod/lib/rollback-setcfg.sh "${ns}" "${appver}"
 exit 0

@@ -1,0 +1,38 @@
+upstream meteor-api {
+	ip_hash;
+	server meteor.api:3000;
+}
+
+upstream meteor-web {
+	ip_hash;
+	server meteor.web:3000;
+}
+
+server {
+	listen 443      ssl http2;
+	listen [::]:443 ssl http2;
+
+	server_name sarmiento.uws.talkingpts.org;
+
+	root /var/www/html;
+	index index.html;
+
+	include snippets/uws.conf;
+	include snippets/uwslog.conf;
+	include snippets/tapo-tls.conf;
+
+	location /websocket {
+		include snippets/proxy_websocket_params;
+		proxy_pass http://meteor-web;
+	}
+
+	location /api/ {
+		include snippets/proxy_params;
+		proxy_pass http://meteor-api;
+	}
+
+	location / {
+		include snippets/proxy_params;
+		proxy_pass http://meteor-web;
+	}
+}

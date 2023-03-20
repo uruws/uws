@@ -87,6 +87,7 @@
   loop:
     - acme-certs.sh
     - acme-cmd.sh
+    - acme-reload.sh
   tags:
     - acme
 
@@ -99,6 +100,19 @@
     job: /srv/acme/bin/acme-certs.sh
     minute: "17"
     hour: "3"
+    day: "3,18"
+  tags:
+    - acme
+
+- name: reload cron job
+  become: yes
+  cron:
+    cron_file: uws-acme-reload
+    name: acme-reload
+    user: root
+    job: /srv/acme/bin/acme-reload.sh
+    minute: "20"
+    hour: "4"
     day: "3,18"
   tags:
     - acme
@@ -117,6 +131,8 @@
     - acme-certs
 
 - name: get certs
+  become: yes
+  become_user: uws
   command: /srv/acme/bin/acme-certs.sh
   tags:
     - acme

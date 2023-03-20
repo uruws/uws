@@ -6,15 +6,20 @@
 import sys
 import unittest
 
-from os import environ, getcwd, linesep
-from pathlib import Path
-from shutil import rmtree
+from os         import environ
+from os         import getcwd
+from os         import linesep
+from pathlib    import Path
+from shutil     import rmtree
 from subprocess import CalledProcessError
 
 import uwscli_t
 import uwscli
 import uwscli_conf
 import uwscli_auth
+import uwscli_version
+
+from uwscli_conf import CustomDeploy
 
 _PATH = '/srv/home/uwscli/bin:/usr/local/bin:/usr/bin:/bin'
 
@@ -58,6 +63,9 @@ class Test(unittest.TestCase):
 		t.assertListEqual(uwscli._libs, [
 			'semver-2.13.0',
 		])
+
+	def test_version(t):
+		t.assertEqual(uwscli.version(), f"uwscli version {uwscli_version.VERSION}")
 
 	def test_chdir(t):
 		cwd = '/home/uws'
@@ -159,10 +167,19 @@ class Test(unittest.TestCase):
 		finally:
 			del uwscli.app['testing1']
 
+	def test_app_groups(t):
+		t.assertListEqual(uwscli.app_groups(), ['app', 'testing'])
+
 	def test_app_autobuild(t):
 		t.assertEqual(uwscli.autobuild_list(), [])
 		uwscli.app['testing'].autobuild = True
 		t.assertEqual(uwscli.autobuild_list(), ['testing'])
+
+	def test_app_autobuild_description(t):
+		t.assertEqual(uwscli.autobuild_description().strip(), 'available apps:')
+		uwscli.app['testing'].autobuild = True
+		t.assertEqual(uwscli.autobuild_description().replace('\n', '_N_'),
+			'available apps:_N_  testing - Testing_N_')
 
 	def test_app_autobuild_deploy(t):
 		t.assertListEqual(uwscli.app['testing'].autobuild_deploy, [])
@@ -179,20 +196,17 @@ class Test(unittest.TestCase):
 	def test_build_desc(t):
 		t.assertEqual(uwscli.build_description(), 'available apps:\n  testing - Testing\n')
 
-	def test_build_repo(t):
-		uwscli.app['testing'].build.repo = 'testing.git'
-		uwscli.app['testing'].build.src = 'app/src'
-		t.assertEqual(uwscli.build_repo(), [{
-			'app': 'testing',
-			'uri': 'testing.git',
-			'workdir': '/srv/deploy/Testing/app/src',
-		}])
-
 	def test_deploy_list(t):
 		t.assertEqual(uwscli.deploy_list(), ['testing'])
 
 	def test_deploy_desc(t):
 		t.assertEqual(uwscli.deploy_description(), 'available apps:\n  testing - Testing\n')
+
+	def test_custom_deploy(t):
+		t.assertEqual(uwscli.custom_deploy('testing', 'test'), [CustomDeploy('testing')])
+
+	def test_custom_deploy_invalid_app(t):
+		t.assertEqual(uwscli.custom_deploy('invalid', 'test'), [])
 
 	def test_ctl(t):
 		with uwscli_t.mock_system():
@@ -223,7 +237,7 @@ class Test(unittest.TestCase):
 	def test_list_images(t):
 		with uwscli_t.mock_check_output():
 			t.assertEqual(uwscli.list_images('testing', region = 't-1'), ['mock_output'])
-			uwscli.check_output.assert_called_once_with("aws ecr list-images --output text --repository-name uws --region t-1 | grep -F 'test' | awk '{ print $3 }' | sed 's/^test-//' | sort -n")
+			uwscli.check_output.assert_called_once_with("aws ecr list-images --output text --repository-name uws --region t-1 | grep -F 'test' | awk '{ print $3 }' | sed 's/^test-//' | sort -V")
 
 	def test_list_images_error(t):
 		with uwscli_t.mock_check_output(fail = True):

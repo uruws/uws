@@ -16,10 +16,11 @@ if ! systemctl is-enabled uws-munin-node.service; then
 	systemctl start uws-munin-node
 fi
 
-export DOCKER_IMAGE='uws/munin-node-2203'
+export DOCKER_IMAGE='uws/munin-node-2211'
 
 /uws/bin/service-restart.sh uws-munin-node /srv/etc/munin-node \
 	/srv/uws/deploy/secret/eks/files/munin \
-	/srv/uws/deploy/eks/env
+	/srv/uws/deploy/eks/env \
+	/srv/uws/deploy/secret/munin-node
 
 exit 0

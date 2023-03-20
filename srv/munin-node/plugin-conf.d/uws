@@ -1,0 +1,5 @@
+[cluster*]
+group uws
+
+[uws_*]
+group uws
