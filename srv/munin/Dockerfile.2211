@@ -1,7 +1,7 @@
-FROM uws/base-2211
+FROM uws/mailx-2211
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230217"
+LABEL version="230320"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh rsyslog cron logrotate munin python3 nfs-common
+RUN /root/bin/apt-install.sh ssl-cert cron logrotate munin python3 nfs-common
 
 ENV MN munin-contrib
 ENV MR uruws/${MN}
@@ -38,7 +38,7 @@ RUN /root/bin/apt-install.sh patch \
 
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
-RUN /root/bin/apt-install.sh ssl-cert
+RUN echo 'munin.uws.talkingpts.org' >/etc/mailname
 
 # munin-deploy-conf
 RUN install -v -d -o root -g munin -m 0750 /etc/uws \
@@ -51,9 +51,6 @@ RUN adduser uws munin \
 RUN install -v -d -m 1777 /var/tmp/munin-cgi
 
 COPY ./files/etc/cron.d/uws /etc/cron.d/uws
-
-COPY ./files/etc/rsyslog.conf /etc/
-COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
 
 COPY --chown=root:munin ./files/etc/munin/munin.conf /etc/munin/
 
