@@ -42,10 +42,10 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 1800m
+              cpu: 1700m
               memory: 7000Mi
             limits:
-              cpu: 1800m
+              cpu: 1700m
               memory: 7000Mi
       volumes:
         - name: tmpdir
