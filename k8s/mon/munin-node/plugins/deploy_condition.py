@@ -66,6 +66,8 @@ def config(sts):
 				_print(f"c_{cid}.label", c)
 				_print(f"c_{cid}.colour COLOUR{cc}")
 				_print(f"c_{cid}.min 0")
+				if c == 'Available':
+					_print(f"c_{cid}.critical 0:")
 				cc = mon.color(cc)
 			if mon.debug(): _print()
 

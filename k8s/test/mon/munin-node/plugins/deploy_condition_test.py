@@ -70,6 +70,7 @@ class Test(unittest.TestCase):
 			call('c_Available.label', 'Available'),
 			call('c_Available.colour COLOUR0'),
 			call('c_Available.min 0'),
+			call('c_Available.critical 0:'),
 			call('c_Testing.label', 'Testing'),
 			call('c_Testing.colour COLOUR1'),
 			call('c_Testing.min 0'),
