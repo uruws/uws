@@ -5,7 +5,9 @@ import mon
 
 def parse(sts, ns, name, i):
 	if not sts.get('condition_index', None):
-		sts['condition_index'] = {}
+		sts['condition_index'] = {
+			'Available': 0,
+		}
 	if not sts.get('condition', None):
 		sts['condition'] = {}
 	if not sts['condition'].get(ns, None):
