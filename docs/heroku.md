@@ -1,4 +1,4 @@
-# Heroku
+# Server down incident response plan
 
 Contingency plan.
 
