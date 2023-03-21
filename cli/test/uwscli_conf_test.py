@@ -33,6 +33,7 @@ class Test(unittest.TestCase):
 		# cluster
 		t.assertListEqual(sorted(uwscli.cluster.keys()), [
 			'appprod-2302',
+			'appsprod-2302',
 			'apptest-2302',
 			'panoramix-2206',
 		])
