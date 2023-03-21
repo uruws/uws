@@ -2,7 +2,7 @@
 set -eu
 
 # smtps CA
-CA=${HOME}/ca/uws/smtps/211006/client
+CA=${HOME}/ca/uws/smtps/211006
 uwskube delete secret smtps-ca -n mon || true
 uwskube create secret generic smtps-ca -n mon \
 	--from-file="${CA}"
