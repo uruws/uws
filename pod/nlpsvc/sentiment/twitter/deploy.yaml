@@ -43,10 +43,10 @@ spec:
           resources:
             requests:
               cpu: 1700m
-              memory: 7000Mi
+              memory: 6000Mi
             limits:
               cpu: 1700m
-              memory: 7000Mi
+              memory: 6000Mi
       volumes:
         - name: tmpdir
           emptyDir: {}
