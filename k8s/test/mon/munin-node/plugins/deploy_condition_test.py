@@ -35,7 +35,7 @@ class Test(unittest.TestCase):
 		sts = {}
 		deploy_condition.parse(sts, 'ns', 'name', info)
 		t.assertDictEqual(sts, {
-			'condition': {'ns': {'name': {'Testing': 1}}},
+			'condition': {'ns': {'name': {'Available': 0, 'Testing': 1}}},
 			'condition_index': {'Testing': 1},
 		})
 
