@@ -137,7 +137,7 @@ app: dict[str, App] = {
 		groups  = ['uwsapp_apptest'],
 	),
 	'cs': App(True,
-		cluster   = 'panoramix-2206',
+		cluster   = 'appsprod-2302',
 		desc      = 'Crowdsourcing',
 		pod       = 'meteor/cs',
 		build     = _buildpack('cs/src', 'crowdsourcing'),
