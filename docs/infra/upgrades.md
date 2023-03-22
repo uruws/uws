@@ -97,25 +97,6 @@
     * 2203: Debian 11.2 (bullseye-20220316-slim), uwsbot e5cc124
     * 2109: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
 
-### NLPService
-
-* Changelog
-    * [2203](https://github.com/TalkingPts/NLPService/compare/e417263b0fc48f7b1a22156cb8d46d1cbafbdd32...235706f19ab5eac08af4b046e3fd66ba7e50fc84)
-
-* docker/base
-    * `2203-1`: Debian 11.3 (bullseye-20220328-slim)
-        * zlib security upgrade CVE-2018-25032
-    * 2203: Debian 11.2 (bullseye-20220316-slim)
-    * 2109: Debian 11 (bullseye)
-* src
-    * `2203`: base-2203
-* sentiment/roberta
-    * `2203`: nlpsvc-2203
-* sentiment/twitter
-    * `2203`: nlpsvc-2203
-* Makefile/publish
-    * `2203`: nlpsvc-2203, sentiment-twitter-2203
-
 ### OfflinePage
 
 * Dockerfile

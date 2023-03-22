@@ -157,13 +157,13 @@ adduser gabriel uwsapp_crowdsourcing
 adduser gabriel uwsapp_cs
 adduser ramiro  uwsapp_cs
 
-# nlp
-addgroup uwsapp_nlpsvc || true
-addgroup uwsapp_nlp || true
+# remove nlp
+deluser guillermo uwsapp_nlpsvc || true
+deluser guillermo uwsapp_nlp    || true
+deluser ramiro    uwsapp_nlp    || true
 
-adduser guillermo uwsapp_nlpsvc
-adduser guillermo uwsapp_nlp
-adduser ramiro    uwsapp_nlp
+delgroup uwsapp_nlpsvc || true
+delgroup uwsapp_nlp    || true
 
 # infraui
 addgroup uwsapp_infra-ui || true

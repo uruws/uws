@@ -46,8 +46,6 @@ class Test(unittest.TestCase):
 			'cs-test',
 			'infra-ui-prod',
 			'meteor-vanilla',
-			'nlp-category',
-			'nlp-sentiment-twitter',
 			'worker',
 			'worker-test',
 		]
@@ -61,7 +59,6 @@ class Test(unittest.TestCase):
 			'cs',
 			'infra-ui',
 			'meteor-vanilla',
-			'nlpsvc',
 		])
 		# autobuild
 		t.assertListEqual(uwscli.autobuild_list(), [
