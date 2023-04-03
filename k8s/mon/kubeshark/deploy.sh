@@ -13,4 +13,4 @@ export KUBESHARK_NAMESPACES
 
 envsubst <~/k8s/mon/kubeshark/deploy.yaml | uwskube apply -f -
 
-exit 0
+exec ~/k8s/mon/kubeshark/gw/deploy.sh
