@@ -168,6 +168,10 @@ func NoDateTime() {
 	l.SetFlags(f)
 }
 
+func Writer() io.Writer {
+	return l.Writer()
+}
+
 func Output(calldepth int, s string) error {
 	return l.Output(calldepth, s)
 }

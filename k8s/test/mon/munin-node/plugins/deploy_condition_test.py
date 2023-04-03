@@ -14,6 +14,11 @@ import deploy_condition
 
 _bup_print = deploy_condition._print
 
+condition_test = {
+	'condition': {'ns': {'name': {'Available': 0, 'Testing': 1}}},
+	'condition_index': {'Available': 0, 'Testing': 1},
+}
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -34,19 +39,13 @@ class Test(unittest.TestCase):
 		}
 		sts = {}
 		deploy_condition.parse(sts, 'ns', 'name', info)
-		t.assertDictEqual(sts, {
-			'condition': {'ns': {'name': {'Testing': 1}}},
-			'condition_index': {'Testing': 1},
-		})
+		t.assertDictEqual(sts, condition_test.copy())
 
 	def test_print(t):
-		_bup_print('test', 'ing')
+		_bup_print('testing', '...')
 
 	def test_config(t):
-		deploy_condition.config({
-			'condition': {'ns': {'name': {'Testing': 1}}},
-			'condition_index': {'Testing': 1},
-		})
+		deploy_condition.config(condition_test.copy())
 		config = [
 			call('multigraph deploy_condition'),
 			call('graph_title k8stest deployments condition'),
@@ -55,8 +54,11 @@ class Test(unittest.TestCase):
 			call('graph_vlabel number'),
 			call('graph_printf %3.0lf'),
 			call('graph_scale yes'),
+			call('c_Available.label', 'Available'),
+			call('c_Available.colour COLOUR0'),
+			call('c_Available.min 0'),
 			call('c_Testing.label', 'Testing'),
-			call('c_Testing.colour COLOUR0'),
+			call('c_Testing.colour COLOUR1'),
 			call('c_Testing.min 0'),
 			call('multigraph deploy_condition.ns_name'),
 			call('graph_title k8stest ns/name condition'),
@@ -65,22 +67,25 @@ class Test(unittest.TestCase):
 			call('graph_vlabel number of deployments'),
 			call('graph_printf %3.0lf'),
 			call('graph_scale yes'),
+			call('c_Available.label', 'Available'),
+			call('c_Available.colour COLOUR0'),
+			call('c_Available.min 0'),
+			call('c_Available.critical 0:'),
 			call('c_Testing.label', 'Testing'),
-			call('c_Testing.colour COLOUR0'),
+			call('c_Testing.colour COLOUR1'),
 			call('c_Testing.min 0'),
 		]
 		t.assertEqual(deploy_condition._print.call_count, len(config))
 		deploy_condition._print.assert_has_calls(config)
 
 	def test_report(t):
-		deploy_condition.report({
-			'condition': {'ns': {'name': {'Testing': 1}}},
-			'condition_index': {'Testing': 2},
-		})
+		deploy_condition.report(condition_test.copy())
 		report = [
 			call('multigraph deploy_condition'),
-			call('c_Testing.value', 2),
+			call('c_Available.value', 0),
+			call('c_Testing.value', 1),
 			call('multigraph deploy_condition.ns_name'),
+			call('c_Available.value', 0),
 			call('c_Testing.value', 1),
 		]
 		t.assertEqual(deploy_condition._print.call_count, len(report))

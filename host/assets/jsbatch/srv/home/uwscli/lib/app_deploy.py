@@ -21,6 +21,8 @@ def wait(app: str) -> int:
 		uwscli.app[app].pod)
 	return uwscli.ctl(args)
 
+__doc__ = 'deploy app build'
+
 def main(argv: list[str] = []) -> int:
 	epilog = uwscli.deploy_description()
 	epilog += '\nif no app version is provided a list of available builds will be shown'

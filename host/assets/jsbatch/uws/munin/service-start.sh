@@ -15,7 +15,7 @@ exec /usr/bin/docker run --rm -u root \
 	-v /srv/munin/var/log:/var/log/munin \
 	-v /srv/munin/cache/www:/var/cache/munin/www \
 	-v /srv/etc/munin:/srv/etc/munin \
-	-v ${CA}/client:/srv/etc/ca:ro \
+	-v ${CA}:/srv/etc/ca:ro \
 	-v ${CROND}:/srv/etc/cron.d:ro \
 	-v ${CONFD}:/etc/uws/conf:ro \
 	uws/munin-2211

@@ -33,9 +33,8 @@ class Test(unittest.TestCase):
 		# cluster
 		t.assertListEqual(sorted(uwscli.cluster.keys()), [
 			'appprod-2302',
+			'appsprod-2302',
 			'apptest-2302',
-			'panoramix-2206',
-			'worker-2209',
 		])
 		# app list
 		app_list = [
@@ -47,8 +46,6 @@ class Test(unittest.TestCase):
 			'cs-test',
 			'infra-ui-prod',
 			'meteor-vanilla',
-			'nlp-category',
-			'nlp-sentiment-twitter',
 			'worker',
 			'worker-test',
 		]
@@ -62,7 +59,6 @@ class Test(unittest.TestCase):
 			'cs',
 			'infra-ui',
 			'meteor-vanilla',
-			'nlpsvc',
 		])
 		# autobuild
 		t.assertListEqual(uwscli.autobuild_list(), [

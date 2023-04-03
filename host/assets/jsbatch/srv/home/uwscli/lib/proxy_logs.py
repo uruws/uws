@@ -1,17 +1,20 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from argparse import ArgumentParser
+from argparse import RawDescriptionHelpFormatter
 
 import uwscli
 
-__doc__ = 'show app logs'
+__doc__ = 'app reverse proxy logs'
 
 def main(argv = []):
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
 		description = __doc__, epilog = uwscli.app_description())
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
+	flags.add_argument('-e', '--error', action = 'store_true', default = False,
+		help = 'show error messages only')
 	flags.add_argument('-f', '--follow', action = 'store_true', default = False,
 		help = 'follow messages')
 	flags.add_argument('-t', '--tail', type = int, default = 10,
@@ -23,7 +26,7 @@ def main(argv = []):
 
 	args = flags.parse_args(argv)
 
-	logs_args = "%s %s logs" % (uwscli.app[args.app].cluster,
+	logs_args = "%s %s ngxlogs" % (uwscli.app[args.app].cluster,
 		uwscli.app[args.app].pod)
 
 	cmd = 'app-cmd.sh'
@@ -31,11 +34,14 @@ def main(argv = []):
 	if args.follow:
 		cmd = 'app-cli.sh'
 		ttl = 3600
-		logs_args += ' -f'
+		logs_args += ' --follow'
 
 	if args.tail != 10:
 		logs_args += " --tail=%d" % args.tail
 	if args.max > 0:
 		logs_args += " --max=%d" % args.max
+
+	if args.error:
+		logs_args += " --error"
 
 	return uwscli.run(cmd, logs_args, timeout = ttl)

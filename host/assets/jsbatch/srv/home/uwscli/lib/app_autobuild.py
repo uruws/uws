@@ -171,6 +171,8 @@ def _deploy(app: str, tag: str) -> int:
 			uwscli.info('no build to deploy for app:', n)
 	return 0
 
+__doc__ = 'auto build app latest release'
+
 def main(argv = []):
 	uwscli.debug('main')
 

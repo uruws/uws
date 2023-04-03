@@ -7,7 +7,7 @@ ns="${nsorig}gw"
 # shellcheck source=/home/uws/pod/meteor/gw/configure.sh
 . ~/pod/meteor/gw/configure.sh
 
-cfgdir=$(mktemp -d -p ${HOME}/tmp meteor-gw-restart-XXXXXXXXXX)
+cfgdir=$(mktemp -d -p /tmp meteor-gw-restart-XXXXXXXXXX)
 
 if test -s "${HOME}/pod/meteor/${nsorig}/nginx.conf"; then
 	cp -va "${HOME}/pod/meteor/${nsorig}/nginx.conf" "${cfgdir}/"

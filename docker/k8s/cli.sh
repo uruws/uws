@@ -10,6 +10,7 @@ k8s=${PWD}/k8s
 pod=${PWD}/pod
 awsdir=${PWD}/secret/eks/aws/client/${cluster}
 secret=${PWD}/secret/eks/files
+cadir=${PWD}/secret/ca
 
 eksenv=${PWD}/eks/env/${cluster}.env
 # shellcheck disable=SC1090
@@ -31,6 +32,7 @@ exec docker run --rm ${docker_args} \
 	-v ${awsdir}:/home/uws/.aws:ro \
 	-v ${secret}/meteor:/home/uws/secret/meteor:ro \
 	-v ${kubedir}:/home/uws/.kube/eksctl/clusters:ro \
+	-v ${cadir}:/home/uws/ca:ro \
 	-v ${kube_cache}/:/home/uws/.kube/cache \
 	--env-file ${eksenv} \
 	uws/${K8S_IMAGE}-2211 "$@"

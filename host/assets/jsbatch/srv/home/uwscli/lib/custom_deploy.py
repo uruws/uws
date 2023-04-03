@@ -78,7 +78,8 @@ def action_run(name: str, cfg: Config) -> int:
 	return 0
 
 def main(argv: list[str], cfg: Config, commands_check: list[str] = []) -> int:
-	epilog = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
+	docs = f"{cfg.app_name} custom deploy for {cfg.app_env} environment"
+	epilog = ''
 
 	action_commands = ['deploy', 'restart', 'status']
 	action = 'command'
@@ -92,7 +93,7 @@ def main(argv: list[str], cfg: Config, commands_check: list[str] = []) -> int:
 			epilog += f"  {c}\n"
 
 	flags = ArgumentParser(formatter_class = RawDescriptionHelpFormatter,
-		description = __doc__, epilog = epilog)
+		description = docs, epilog = epilog)
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
 	flags.add_argument('action', metavar = action, default = 'status',

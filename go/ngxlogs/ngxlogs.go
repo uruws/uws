@@ -7,6 +7,7 @@ package ngxlogs
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"io"
 	"os"
 	"regexp"
@@ -15,15 +16,21 @@ import (
 	"uws/log"
 )
 
+//
+// Main
+//
+
 type Flags struct {
 	Errors bool
 	Input  string
 	Raw    bool
+	Stats  bool
 }
 
 func NewFlags() *Flags {
 	return &Flags{
 		Input: "-",
+		Stats: true,
 	}
 }
 
@@ -47,7 +54,11 @@ func Main(f *Flags) {
 	if f.Raw {
 		err = rawOutput(infh)
 	} else {
-		err = jsonParse(f, infh)
+		p := jsonParse(f, infh)
+		err = p.Error
+		if f.Stats {
+			p.PrintStats()
+		}
 	}
 
 	if err != nil {
@@ -59,7 +70,7 @@ func Main(f *Flags) {
 // rawOutput
 //
 
-func rawOutput(r io.Reader) error {
+var rawOutput = func(r io.Reader) error {
 	log.Debug("raw output")
 	x := bufio.NewScanner(r)
 	for x.Scan() {
@@ -83,12 +94,14 @@ var (
 )
 
 //
-// jsonParse
+// Entry
 //
 
 type Entry struct {
 	f              *Flags
+	ok             bool
 	Container      string `json:"-"`
+	RemoteAddr     string `json:"remote_addr"`
 	Request        string `json:"request"`
 	RequestMethod  string `json:"request_method"`
 	RequestTime    string `json:"request_time"`
@@ -105,6 +118,8 @@ func newEntry(f *Flags, container string) *Entry {
 	return &Entry{
 		f:         f,
 		Container: container,
+		Status:    "0",
+		TimeLocal: " +0000",
 	}
 }
 
@@ -115,10 +130,14 @@ func (e *Entry) Check() bool {
 		log.Print("[ERROR] e.Status: %s", err)
 		return false
 	}
-	return true
+	e.ok = true
+	return e.ok
 }
 
-func (e *Entry) Print() {
+func (e *Entry) Print() bool {
+	if !e.ok {
+		return false
+	}
 	var p func(string, ...interface{})
 	p = log.Info
 	show := true
@@ -126,22 +145,131 @@ func (e *Entry) Print() {
 		p = log.PrintError
 	} else if e.StatusInt >= 400 {
 		p = log.Warn
+	} else if e.StatusInt < 200 {
+		p = log.Print
+		if e.f.Errors {
+			show = false
+		}
 	} else if e.f.Errors {
 		show = false
 	}
 	if show {
-		p("%s %s [%s %s %s] %s %s %s %s", e.TimeLocal[:len(e.TimeLocal)-6], e.Container,
-			e.UpstreamName, e.UpstreamTime, e.UpstreamStatus, e.RequestTime, e.Status,
-			e.RequestMethod, e.RequestURI)
+		p("%s %s %-15s [%s %s %s] %s %s %s %s",
+			e.TimeLocal[:len(e.TimeLocal)-6], e.Container, e.RemoteAddr,
+			e.UpstreamName, e.UpstreamTime, e.UpstreamStatus,
+			e.RequestTime, e.Status, e.RequestMethod, e.RequestURI)
+	}
+	return show
+}
+
+//
+// Stats
+//
+
+type Stats struct {
+	NgxErrors int
+	NgxStarts int
+	Requests  int
+	OK        int
+	Warning   int
+	Error     int
+	Websocket int
+}
+
+func newStats() *Stats {
+	return &Stats{}
+}
+
+func (s *Stats) Print(w io.Writer) {
+	fmt.Fprintf(w, "%s", "Nginx\n")
+	fmt.Fprintf(w, "  Server starts : %d\n", s.NgxStarts)
+	fmt.Fprintf(w, "  Server errors : %d\n", s.NgxErrors)
+	fmt.Fprintf(w, "  Requests      : %d\n", s.Requests)
+	fmt.Fprintf(w, "    OK          : %d\n", s.OK)
+	fmt.Fprintf(w, "    Warning     : %d\n", s.Warning)
+	fmt.Fprintf(w, "    Errror      : %d\n", s.Error)
+	fmt.Fprintf(w, "  Websocket     : %d\n", s.Websocket)
+}
+
+//
+// jsonParse
+//
+
+type Parser struct {
+	stats      bool
+	Stats      *Stats
+	Error      error
+	Lines      int
+	Read       int
+	LinesError int
+	Unknown    int
+}
+
+func newParser(stats bool) *Parser {
+	return &Parser{stats: stats, Stats: newStats()}
+}
+
+func (p *Parser) PrintStats() bool {
+	if !p.stats {
+		return false
+	}
+	w := log.Writer()
+	fmt.Fprintf(w, "%s", "\n")
+	fmt.Fprintf(w, "%s", "Parser\n")
+	fmt.Fprintf(w, "  Error        : %v\n", p.Error != nil)
+	fmt.Fprintf(w, "  Lines        : %d\n", p.Lines)
+	fmt.Fprintf(w, "  Lines read   : %d\n", p.Read)
+	fmt.Fprintf(w, "  Lines error  : %d\n", p.LinesError)
+	fmt.Fprintf(w, "  Lines ignore : %d\n", p.Unknown)
+	fmt.Fprintf(w, "%s", "\n")
+	p.Stats.Print(w)
+	fmt.Fprintf(w, "%s", "\n")
+	return true
+}
+
+func (p *Parser) Count(e *Entry) {
+	p.Read += 1
+	if !p.stats {
+		return
+	}
+	p.Stats.Requests += 1
+	if e.StatusInt >= 500 {
+		p.Stats.Error += 1
+	} else if e.StatusInt >= 400 {
+		p.Stats.Warning += 1
+	} else {
+		p.Stats.OK += 1
+	}
+	if e.StatusInt == 101 {
+		p.Stats.Websocket += 1
 	}
 }
 
-func jsonParse(f *Flags, r io.Reader) error {
+func (p *Parser) CountNgxError() {
+	p.Read += 1
+	if !p.stats {
+		return
+	}
+	p.Stats.NgxErrors += 1
+}
+
+func (p *Parser) CountNgxStart() {
+	p.Read += 1
+	if !p.stats {
+		return
+	}
+	p.Stats.NgxStarts += 1
+}
+
+func jsonParse(f *Flags, r io.Reader) *Parser {
 	log.Debug("json parse")
+	p := newParser(f.Stats)
 	x := bufio.NewScanner(r)
 	for x.Scan() {
 		s := x.Text()
 		//~ log.Debug("%s", s)
+		p.Lines += 1
+		// request info
 		m := reJsonLog.FindStringSubmatch(s)
 		if len(m) > 1 {
 			container := m[1]
@@ -149,29 +277,39 @@ func jsonParse(f *Flags, r io.Reader) error {
 			e := newEntry(f, container)
 			if err := json.Unmarshal([]byte(data), e); err != nil {
 				log.Print("[ERROR] %s", err)
+				p.LinesError += 1
 				continue
 			}
 			if !e.Check() {
+				p.LinesError += 1
 				continue
 			}
 			e.Print()
+			p.Count(e)
 			continue
 		}
+		// nginx server error log
 		m = reErrorLog.FindStringSubmatch(s)
 		if len(m) > 1 {
 			container := m[1]
 			time := m[2]
 			msg := m[3]
 			log.Print("[ERROR] %s %s %s", time, container, msg)
+			p.CountNgxError()
 			continue
 		}
+		// nginx server start
 		m = reStartLog.FindStringSubmatch(s)
 		if len(m) > 1 {
 			container := m[1]
 			time := m[2]
-			log.Print("%s container start %s", time, container)
+			log.Print("%s %s container start", time, container)
+			p.CountNgxStart()
 			continue
 		}
+		// unknown log entry
+		p.Unknown += 1
 	}
-	return x.Err()
+	p.Error = x.Err()
+	return p
 }

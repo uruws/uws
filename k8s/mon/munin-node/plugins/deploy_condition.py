@@ -4,19 +4,23 @@
 import mon
 
 def parse(sts, ns, name, i):
+	if not sts.get('condition_index', None):
+		sts['condition_index'] = {
+			'Available': 0,
+		}
+	if not sts.get('condition', None):
+		sts['condition'] = {}
+	if not sts['condition'].get(ns, None):
+		sts['condition'][ns] = {}
+	if not sts['condition'][ns].get(name, None):
+		sts['condition'][ns][name] = {
+			'Available': 0,
+		}
 	for c in i.get('status', {}).get('conditions', []):
 		c_typ = c['type']
 		c_st = c['status']
-		if not sts.get('condition_index', None):
-			sts['condition_index'] = {}
 		if not sts['condition_index'].get(c_typ, None):
 			sts['condition_index'][c_typ] = 0
-		if not sts.get('condition', None):
-			sts['condition'] = {}
-		if not sts['condition'].get(ns, None):
-			sts['condition'][ns] = {}
-		if not sts['condition'][ns].get(name, None):
-			sts['condition'][ns][name] = {}
 		if not sts['condition'][ns][name].get(c_typ, None):
 			sts['condition'][ns][name][c_typ] = 0
 		if c_st == 'True':
@@ -62,6 +66,8 @@ def config(sts):
 				_print(f"c_{cid}.label", c)
 				_print(f"c_{cid}.colour COLOUR{cc}")
 				_print(f"c_{cid}.min 0")
+				if c == 'Available':
+					_print(f"c_{cid}.critical 0:")
 				cc = mon.color(cc)
 			if mon.debug(): _print()
 

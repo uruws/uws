@@ -274,10 +274,6 @@
 
 ---
 
-* nlpsvc: separate apps namespaces (for graphs and cli status/logs)
-
----
-
 * rstudio checks
     * http_loadtime IDE and Jupyter Notebook from jsbatch
     * vm local munin setup (ansible role)

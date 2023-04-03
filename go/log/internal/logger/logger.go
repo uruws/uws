@@ -62,6 +62,10 @@ func (l *Logger) Prefix() string {
 	return l.log.Prefix()
 }
 
+func (l *Logger) Writer() io.Writer {
+	return l.out
+}
+
 func (l *Logger) SetDepth(n int) {
 	l.Lock()
 	defer l.Unlock()

@@ -57,7 +57,7 @@ spec:
               mountPath: "/etc/uws/conf"
               readOnly: true
             - name: smtps-ca
-              mountPath: "/srv/etc/ca"
+              mountPath: "/srv/etc/ca/client"
               readOnly: true
             - name: munin-alert
               mountPath: "/var/opt/munin-alert"
