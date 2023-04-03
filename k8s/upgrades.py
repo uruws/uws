@@ -71,7 +71,7 @@ cfg: dict[str, Config] = {
 		k8s_tag    = '124',
 		kubectl    = '1.24.6/2022-10-05',
 		helm       = '3.11.0',
-		kubeshark  = '37.0',
+		kubeshark  = '39.5',
 		autoscaler = '1.24.0',
 	),
 }
