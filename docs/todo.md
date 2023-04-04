@@ -1,7 +1,25 @@
-* k8s/nginx
+* k8s/nginx - `DONE!`
     * use 5 backend servers as upstream
     * parse access log
     * parse error log
+
+---
+
+* kubeshark 39.5 setup - `WIP`
+
+---
+
+* uwscli: nq deploy so once they start can not be stopped by ctrl+c or similar
+    * we mainly need it for when custom deploys are launched
+    * so maybe we have to nq deploys and also the custom deploy too
+
+---
+
+* grafana.com integration setup
+
+---
+
+* munin: new custom nginx metrics
 
 ---
 
@@ -92,13 +110,6 @@
 ---
 
 * CA rotate ops/210823
-
----
-
-* `FIX` worker.uws domain:
-    * we should use a main subdomain like: callbacks.t.o so we can use Goddady's cert
-    * or we could buy a new cert for worker.uws and avoid having to re-configure 3rd party services
-    * the problem is that we can't use lets encrypt service in a "split cluster" setup as we have for the web service and want for the workers too
 
 ---
 
