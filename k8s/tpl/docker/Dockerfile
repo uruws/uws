@@ -63,10 +63,6 @@ RUN wget -q ${KUBESHARK_URL}/kubeshark_linux_amd64 \
 RUN install -v -d -m 0750 /home/uws/.kubeshark
 COPY --chown=uws:uws ./config/kubeshark.yaml /home/uws/.kubeshark/config.yaml
 
-COPY --chown=uws:uws ./utils/kubeshark-start.sh /home/uws/kubeshark-start.sh
-RUN install -v -m 0755 kubeshark-start.sh /usr/local/bin/kubeshark-start.sh \
-	&& rm -vf kubeshark-start.sh
-
 USER root:root
 WORKDIR /root
 

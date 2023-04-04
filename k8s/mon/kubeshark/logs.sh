@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/logs.py -n mon -l 'app.kubernetes.io/name=kubeshark' "$@"
+exec ~/pod/lib/logs.py -n kubeshark -l 'app.kubernetes.io/name=worker' "$@"
