@@ -6,7 +6,7 @@ set -eu
 
 cfgdir=$(mktemp -d -p /tmp kubeshark-gw-restart-XXXXXXXXXX)
 
-gateway_configure ksgw "${cfgdir}"
+gateway_configure "${cfgdir}"
 
 ~/k8s/nginx/restart.sh ksgw "${cfgdir}"
 

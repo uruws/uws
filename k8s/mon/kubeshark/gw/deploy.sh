@@ -6,7 +6,7 @@ set -eu
 
 cfgdir=$(mktemp -d -p /tmp kubeshark-gw-deploy-XXXXXXXXXX)
 
-gateway_configure ksgw "${cfgdir}"
+gateway_configure "${cfgdir}"
 
 ~/k8s/nginx/deploy.sh ksgw "${cfgdir}"
 
