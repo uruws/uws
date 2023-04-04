@@ -103,11 +103,11 @@ spec:
               mountPath: "/var/lock"
           resources:
             requests:
-              cpu: 100m
-              memory: 700Mi
+              cpu: 10m
+              memory: 50Mi
             limits:
               cpu: 100m
-              memory: 700Mi
+              memory: 500Mi
           readinessProbe:
             exec:
               command:
