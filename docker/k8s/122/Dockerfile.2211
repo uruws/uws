@@ -1,7 +1,7 @@
 FROM uws/base-2211
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230207"
+LABEL version="230404"
 
 USER root:root
 WORKDIR /root
@@ -63,10 +63,6 @@ RUN wget -q https://github.com/kubeshark/kubeshark/releases/download/37.0/kubesh
 RUN install -v -d -m 0750 /home/uws/.kubeshark
 COPY --chown=uws:uws ./config/kubeshark.yaml /home/uws/.kubeshark/config.yaml
 
-COPY --chown=uws:uws ./utils/kubeshark-start.sh /home/uws/kubeshark-start.sh
-RUN install -v -m 0755 kubeshark-start.sh /usr/local/bin/kubeshark-start.sh \
-	&& rm -vf kubeshark-start.sh
-
 USER root:root
 WORKDIR /root
 
@@ -85,6 +81,7 @@ RUN install -v -m 0755 /tmp/uwskube /usr/local/bin/uwskube \
 	&& rm -vf /tmp/uwskube
 
 COPY ./build/k8smon.bin /usr/local/bin/k8smon
+COPY ./build/ngxlogs.bin /usr/local/bin/ngxlogs
 
 USER uws:uws
 WORKDIR /home/uws
