@@ -9,7 +9,7 @@ gateway_configure() (
 	install -d -m 0750 "${cfgdir}/nginx"
 	install -v -d -m 0750 "${cfgdir}/nginx/sites-enabled"
 
-	<"${nginx_conf}" envsubst '${UWS_CLUSTER}' >"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
+	<"${nginx_conf}" envsubst '${UWS_CLUSTER}' >"${cfgdir}/nginx/sites-enabled/kubeshark"
 
 	install -v -d -m 0750 "${cfgdir}/nginx/service"
 	envsubst <~/k8s/mon/kubeshark/gw/service/kubeshark.yaml >"${cfgdir}/nginx/service/kubeshark.yaml"
