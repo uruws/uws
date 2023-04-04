@@ -56,7 +56,8 @@ spec:
             - /usr/local/bin/kubeshark-start.sh
             - ${UWS_CLUSTER}
             - tap
-            - -n
+            - --storagelimit=500MB
+            - --proxy-hub-port=80
             - ${KUBESHARK_NAMESPACES}
       volumes:
         - name: aws-auth
