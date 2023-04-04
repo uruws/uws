@@ -1,17 +1,10 @@
-* k8s/nginx - `DONE!`
-    * use 5 backend servers as upstream
-    * parse access log
-    * parse error log
+* kubeshark 39.5 setup - `DONE!` [PR#138][PR#138]
+
+[PR#138]: https://github.com/TalkingPts/Infrastructure/pull/138
 
 ---
 
-* kubeshark 39.5 setup - `WIP`
-
----
-
-* uwscli: nq deploy so once they start can not be stopped by ctrl+c or similar
-    * we mainly need it for when custom deploys are launched
-    * so maybe we have to nq deploys and also the custom deploy too
+* munin: new custom nginx metrics
 
 ---
 
@@ -19,7 +12,17 @@
 
 ---
 
-* munin: new custom nginx metrics
+* uwscli new build/console server
+    * run autobuilds there
+    * with more CPU and MEM
+    * do we move uwscli tools to there?
+    * or do we make app-build dispatch the build on the build server?
+
+---
+
+* uwscli: nq deploy so once they start can not be stopped by ctrl+c or similar
+    * we mainly need it for when custom deploys are launched
+    * so maybe we have to nq deploys and also the custom deploy too
 
 ---
 
