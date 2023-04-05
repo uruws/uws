@@ -14,6 +14,8 @@ import (
 	"uws/wapp"
 )
 
+var ngxlogsTimeFormat string = time.RFC3339Nano
+
 type NgxlogsInfo struct {
 	Since string `json:"since"`
 	Until string `json:"until"`
@@ -103,7 +105,7 @@ func ngxlogsTimeLimit(t time.Time) *NgxlogsTimeLimit {
 		min_since = 55
 		min_until = 0
 	}
-	// quite basic way to do it, but it works!
+	// that was a very basic way to do it, but it works!
 	return &NgxlogsTimeLimit{
 		unix:      t.Unix(),
 		min:       min,

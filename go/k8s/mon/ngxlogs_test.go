@@ -77,7 +77,7 @@ func TestNgxlogs(t *testing.T) {
 func TestNgxlogsTimeLimit35(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-05T04:36:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-05T04:36:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.unix, int64(1680669365), "time limit unix representation")
@@ -89,7 +89,7 @@ func TestNgxlogsTimeLimit35(t *testing.T) {
 func TestNgxlogsTimeLimit50(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-05T00:53:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-05T00:53:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 53, "time limit minute")
@@ -100,7 +100,7 @@ func TestNgxlogsTimeLimit50(t *testing.T) {
 func TestNgxlogsTimeLimit5(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-05T00:06:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-05T00:06:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 6, "time limit minute")
@@ -111,7 +111,7 @@ func TestNgxlogsTimeLimit5(t *testing.T) {
 func TestNgxlogsTimeLimit0(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-05T00:03:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-05T00:03:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 3, "time limit minute")
@@ -122,7 +122,7 @@ func TestNgxlogsTimeLimit0(t *testing.T) {
 func TestNgxlogsTimeLimit55(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-04T23:56:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-04T23:56:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 56, "time limit minute")
@@ -133,7 +133,7 @@ func TestNgxlogsTimeLimit55(t *testing.T) {
 func TestNgxlogsTimeLimit45(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-04T23:46:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-04T23:46:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 46, "time limit minute")
@@ -144,7 +144,7 @@ func TestNgxlogsTimeLimit45(t *testing.T) {
 func TestNgxlogsTimeLimit40(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-04T23:43:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-04T23:43:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 43, "time limit minute")
@@ -155,7 +155,7 @@ func TestNgxlogsTimeLimit40(t *testing.T) {
 func TestNgxlogsTimeLimit30(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-04T23:33:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-04T23:33:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 33, "time limit minute")
@@ -166,7 +166,7 @@ func TestNgxlogsTimeLimit30(t *testing.T) {
 func TestNgxlogsTimeLimit25(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-04T23:26:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-04T23:26:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 26, "time limit minute")
@@ -177,7 +177,7 @@ func TestNgxlogsTimeLimit25(t *testing.T) {
 func TestNgxlogsTimeLimit20(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-04T23:23:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-04T23:23:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 23, "time limit minute")
@@ -188,7 +188,7 @@ func TestNgxlogsTimeLimit20(t *testing.T) {
 func TestNgxlogsTimeLimit15(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-04T23:16:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-04T23:16:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 16, "time limit minute")
@@ -199,7 +199,7 @@ func TestNgxlogsTimeLimit15(t *testing.T) {
 func TestNgxlogsTimeLimit10(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
-	d, err := time.Parse(time.RFC3339Nano, "2023-04-04T23:13:05.429228763Z")
+	d, err := time.Parse(ngxlogsTimeFormat, "2023-04-04T23:13:05.429228763Z")
 	Fatal(t, IsNil(t, err, "time parse error"))
 	l := ngxlogsTimeLimit(d)
 	IsEqual(t, l.min, 13, "time limit minute")
