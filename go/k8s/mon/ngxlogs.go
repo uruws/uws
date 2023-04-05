@@ -18,7 +18,7 @@ type NgxlogsInfo struct {
 	Until string `json:"until"`
 }
 
-var ngxlogsCmd string = "logs -l 'app.kubernetes.io/name=proxy --max-log-requests=100 --ignore-errors=true --prefix=true --timestamps=true --limit-bytes=104857600"
+var ngxlogsCmd string = "logs -l app.kubernetes.io/name=proxy --max-log-requests=100 --ignore-errors=true --prefix=true --timestamps=true --limit-bytes=104857600"
 
 func Ngxlogs(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
@@ -45,11 +45,11 @@ func Ngxlogs(w http.ResponseWriter, r *http.Request) {
 }
 
 type NgxlogsTimeLimit struct {
-	err   error
-	since time.Time
-	until time.Time
-	unix  int64
-	min   int
+	err       error
+	since     time.Time
+	until     time.Time
+	unix      int64
+	min       int
 	min_since int
 	min_until int
 }
@@ -95,9 +95,10 @@ func ngxlogsTimeLimit(t time.Time) *NgxlogsTimeLimit {
 		min_since = 55
 		min_until = 0
 	}
+	// quite basic way to do it, but it works!
 	return &NgxlogsTimeLimit{
-		unix: t.Unix(),
-		min:  min,
+		unix:      t.Unix(),
+		min:       min,
 		min_since: min_since,
 		min_until: min_until,
 	}
