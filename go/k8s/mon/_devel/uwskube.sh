@@ -44,5 +44,9 @@ elif test "X${1}" = 'Xtest_k8s_metrics'; then
 	cat testdata/kube/k8s_metrics.txt
 	exit 0
 
+elif test "X${1}" = 'Xtest_ngxlogs_error'; then
+	echo 'invalid_json'
+	exit 0
+
 fi
 exit 128
