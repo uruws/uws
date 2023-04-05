@@ -8,5 +8,6 @@ Create an issue as follows:
 
 * __Project__: Development (DEV)
 * __Issue type__: Story
+* __Description__: It sounds obvious but it's not
 * __Team__: Infra/Architecture
 * __Sprint__: Infra Backlog
