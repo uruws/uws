@@ -52,3 +52,20 @@ func TestNgxlogsJSONError(t *testing.T) {
 	Match(t, "^error: invalid character",
 		mock.HTTPResponseString(resp), "resp body")
 }
+
+func TestNgxlogs(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	kubecmd = develKubecmd
+	ngxlogsCmd = "test_ngxlogs"
+	defer func() {
+		kubecmd = bupKubecmd
+		ngxlogsCmd = bupNgxlogsCmd
+	}()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	Ngxlogs(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 200, "resp status code")
+	IsEqual(t, resp.Header.Get("content-type"), "application/json", "resp content type")
+}

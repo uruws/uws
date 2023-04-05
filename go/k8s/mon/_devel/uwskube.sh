@@ -47,6 +47,9 @@ elif test "X${1}" = 'Xtest_k8s_metrics'; then
 elif test "X${1}" = 'Xtest_ngxlogs_error'; then
 	echo 'invalid_json'
 	exit 0
+elif test "X${1}" = 'Xtest_ngxlogs'; then
+	echo '{}'
+	exit 0
 
 fi
 exit 128
