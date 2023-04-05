@@ -5,6 +5,7 @@ package mon
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strings"
 	"time"
@@ -54,7 +55,14 @@ type NgxlogsTimeLimit struct {
 	min_until int
 }
 
+var ngxlogs_time_limit_mock_testing_error bool
+
 func ngxlogsTimeLimit(t time.Time) *NgxlogsTimeLimit {
+	if ngxlogs_time_limit_mock_testing_error {
+		return &NgxlogsTimeLimit{
+			err: errors.New("testing mock error"),
+		}
+	}
 	min := t.Minute()
 	min_since := 0
 	min_until := 0

@@ -206,3 +206,18 @@ func TestNgxlogsTimeLimit10(t *testing.T) {
 	IsEqual(t, l.min_since, 5, "time limit minute since")
 	IsEqual(t, l.min_until, 10, "time limit minute until")
 }
+
+func TestNgxlogsTimeLimitError(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	ngxlogs_time_limit_mock_testing_error = true
+	defer func() {
+		ngxlogs_time_limit_mock_testing_error = false
+	}()
+	w := mock.HTTPResponse()
+	r := mock.HTTPRequest()
+	Ngxlogs(w, r)
+	resp := w.Result()
+	IsEqual(t, resp.StatusCode, 500, "resp status code")
+	IsEqual(t, resp.Header.Get("content-type"), "text/plain; charset=utf-8", "resp content type")
+}
