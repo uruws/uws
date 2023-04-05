@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"time"
 
 	"uws/log"
 	"uws/wapp"
@@ -14,15 +15,15 @@ import (
 
 type NgxlogsInfo struct {
 	Since string `json:"since"`
+	Until string `json:"until"`
 }
 
-var ngxlogsCmd string = "logs -l 'app.kubernetes.io/name=proxy --max-log-requests 100 --ignore-errors=true --prefix=true --timestamps=true"
+var ngxlogsCmd string = "logs -l 'app.kubernetes.io/name=proxy --max-log-requests=100 --ignore-errors=true --prefix=true --timestamps=true --limit-bytes=104857600"
 
 func Ngxlogs(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	since := ngxlogsSince()
-	if since == "" {
-		err := log.Error("%s", "could not get ngxlogs since time value")
+	tl := ngxlogsTimeLimit(time.Now())
+	if err := tl.Error(); err != nil {
 		wapp.Error(w, r, start, err)
 		return
 	}
@@ -38,10 +39,70 @@ func Ngxlogs(w http.ResponseWriter, r *http.Request) {
 		wapp.Error(w, r, start, err)
 		return
 	}
-	i.Since = since
+	//~ i.Since = tl.since
+	//~ i.Until = tl.until
 	wapp.WriteJSON(w, r, start, &i)
 }
 
-func ngxlogsSince() string {
-	return "FIXME"
+type NgxlogsTimeLimit struct {
+	err   error
+	since time.Time
+	until time.Time
+	unix  int64
+	min   int
+	min_since int
+	min_until int
+}
+
+func ngxlogsTimeLimit(t time.Time) *NgxlogsTimeLimit {
+	min := t.Minute()
+	min_since := 0
+	min_until := 0
+	if min >= 55 {
+		min_since = 50
+		min_until = 55
+	} else if min >= 50 {
+		min_since = 45
+		min_until = 50
+	} else if min >= 45 {
+		min_since = 40
+		min_until = 45
+	} else if min >= 40 {
+		min_since = 35
+		min_until = 40
+	} else if min >= 35 {
+		min_since = 30
+		min_until = 35
+	} else if min >= 30 {
+		min_since = 25
+		min_until = 30
+	} else if min >= 25 {
+		min_since = 20
+		min_until = 25
+	} else if min >= 20 {
+		min_since = 15
+		min_until = 20
+	} else if min >= 15 {
+		min_since = 10
+		min_until = 15
+	} else if min >= 10 {
+		min_since = 5
+		min_until = 10
+	} else if min >= 5 {
+		min_since = 0
+		min_until = 5
+	} else if min >= 0 {
+		min_since = 55
+		min_until = 0
+	}
+	return &NgxlogsTimeLimit{
+		unix: t.Unix(),
+		min:  min,
+		min_since: min_since,
+		min_until: min_until,
+	}
+}
+
+func (t *NgxlogsTimeLimit) Error() error {
+	return t.err
 }
