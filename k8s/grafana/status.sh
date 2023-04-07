@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec uwskube get all -n grfn
+exec uwskube get all,pvc -n grfn
