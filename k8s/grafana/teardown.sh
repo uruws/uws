@@ -1,4 +1,4 @@
 #!/bin/sh
 set -u
-envsubst '${UWS_CLUSTER}' <~/secret/grafana/configure.yaml | uwskube delete -f -
+~/k8s/grafana/uninstall.sh
 exec uwskube delete namespace grfn

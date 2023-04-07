@@ -1,3 +1,4 @@
 #!/bin/sh
 set -eu
-exec uwskube create namespace grfn
+uwskube create namespace grfn
+exec ~/k8s/grafana/install.sh
