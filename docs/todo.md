@@ -1,14 +1,22 @@
-* kubeshark 39.5 setup - `DONE!` [PR#138][PR#138]
+* munin: new custom nginx metrics - [PR#139][PR#139]
 
-[PR#138]: https://github.com/TalkingPts/Infrastructure/pull/138
-
----
-
-* munin: new custom nginx metrics
+[PR#139]: https://github.com/TalkingPts/Infrastructure/pull/139
 
 ---
 
-* grafana.com integration setup
+* grafana.com integration setup - `DONE!` [PR#140][PR#140]
+
+[PR#140]: https://github.com/TalkingPts/Infrastructure/pull/140
+
+---
+
+* workers: separate callbacks vs jobs managers
+
+---
+
+* k8s ingress: test alternative [ingress controllers][k8s-ingress]
+
+[k8s-ingress]: https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/
 
 ---
 
