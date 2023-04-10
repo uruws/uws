@@ -26,9 +26,19 @@
 
 ---
 
+* `SEC` `CRITICAL` infra internal domain
+	* get a new and separate domain to isolate from main domain
+	* we should replace uws.t.o with this new domain
+	* we should also setup mailx for this domain to also separate from main domain accounts
+		* we should use this domain for critical/internal/3rd party accounts
+		* AWS accounts in example should use this separate domain
+		* any 3rd party integration (Jira, Bandwidth, etc, etc, etc) should use accounts on this domain
+		* all these mainly due to the Ramp integration the Finance people asked about which requires read access to ALL domain accounts
+
+---
+
 * munin: sendmail errors
     * uws@jsbatch:/srv/munin/var/alert/statuspage
-    * check sendmail.log for errors
     * list queded .eml files
 
 ---
