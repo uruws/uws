@@ -8,11 +8,9 @@ controller:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
-  defaultBackendService: ${HPX_NAMESPACE}/${HPX_DEFAULT_BACKEND}
+  defaultBackendService: ${HPX_DEFAULT_BACKEND}
 
   extraArgs:
-    disable-external-name: true
-    force-namespace-isolation: true
     watch-gateway: false
     watch-namespace: ${HPX_NAMESPACE}
 
