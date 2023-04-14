@@ -6,7 +6,7 @@ controller:
     minReplicas: ${HPX_REPLICAS}
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
-    targetMemoryUtilizationPercentage: 80
+    #~ targetMemoryUtilizationPercentage: 80
 
   defaultBackendService: ${HPX_DEFAULT_BACKEND}
 
@@ -36,6 +36,14 @@ controller:
 
   replicaCount: ${HPX_REPLICAS}
 
+  resources:
+    limits:
+      cpu: 30m
+      memory: 200Mi
+    requests:
+      cpu: 3m
+      memory: 20Mi
+
   service:
     annotations:
       service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
@@ -53,3 +61,10 @@ defaultBackend:
   minAvailable: 1
   name: default-backend
   replicaCount: 3
+  resources:
+    limits:
+      cpu: 10m
+      memory: 20Mi
+    requests:
+      cpu: 1m
+      memory: 2Mi
