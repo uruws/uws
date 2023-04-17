@@ -114,3 +114,94 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: meteor-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor3
+  namespace: worker
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor4
+  namespace: worker
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor5
+  namespace: worker
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor6
+  namespace: worker
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor7
+  namespace: worker
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor8
+  namespace: worker
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor9
+  namespace: worker
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-worker
