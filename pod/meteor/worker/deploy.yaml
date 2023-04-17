@@ -48,8 +48,6 @@ spec:
               value: "300"
             - name: METEOR_POLLING_THROTTLE_MS
               value: "50"
-            - name: SNOWFLAKE_SYNC_ENABLED
-              value: "TRUE"
             - name: NODE_OPTIONS
               value: "--max-old-space-size=${METEOR_WORKER_MEMORY}"
           resources:
