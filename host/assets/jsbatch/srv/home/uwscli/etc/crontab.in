@@ -21,8 +21,8 @@ UWSCLI_LOG=off
 
 # appprod
 10 3 * * 2-6 app-scale worker 20
-11 3 * * 2-6 app-scale api-prod 50
-12 3 * * 2-6 app-scale app-prod 25
+11 3 * * 2-6 app-scale api-prod 40
+12 3 * * 2-6 app-scale app-prod 50
 
 # apptest
 13 3 * * 2-6 app-scale worker-test 2
@@ -41,8 +41,8 @@ UWSCLI_LOG=off
 
 # appprod
 3 10 * * 1-5 app-scale worker 20
-4 10 * * 1-5 app-scale api-prod 50
-5 10 * * 1-5 app-scale app-prod 25
+4 10 * * 1-5 app-scale api-prod 40
+5 10 * * 1-5 app-scale app-prod 50
 
 # apptest
 6 10 * * 1-5 app-scale worker-test 2
