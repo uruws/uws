@@ -1,14 +1,22 @@
-* kubeshark 39.5 setup - `DONE!` [PR#138][PR#138]
+* munin: new custom nginx metrics - [PR#139][PR#139]
 
-[PR#138]: https://github.com/TalkingPts/Infrastructure/pull/138
-
----
-
-* munin: new custom nginx metrics
+[PR#139]: https://github.com/TalkingPts/Infrastructure/pull/139
 
 ---
 
-* grafana.com integration setup
+* grafana.com integration setup - `DONE!` [PR#140][PR#140]
+
+[PR#140]: https://github.com/TalkingPts/Infrastructure/pull/140
+
+---
+
+* workers: separate callbacks vs jobs managers
+
+---
+
+* k8s ingress: test alternative [ingress controllers][k8s-ingress]
+
+[k8s-ingress]: https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/
 
 ---
 
@@ -26,9 +34,19 @@
 
 ---
 
+* `SEC` `CRITICAL` infra internal domain
+	* get a new and separate domain to isolate from main domain
+	* we should replace uws.t.o with this new domain
+	* we should also setup mailx for this domain to also separate from main domain accounts
+		* we should use this domain for critical/internal/3rd party accounts
+		* AWS accounts in example should use this separate domain
+		* any 3rd party integration (Jira, Bandwidth, etc, etc, etc) should use accounts on this domain
+		* all these mainly due to the Ramp integration the Finance people asked about which requires read access to ALL domain accounts
+
+---
+
 * munin: sendmail errors
     * uws@jsbatch:/srv/munin/var/alert/statuspage
-    * check sendmail.log for errors
     * list queded .eml files
 
 ---

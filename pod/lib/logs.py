@@ -15,6 +15,8 @@ def main(argv = []):
 	flags = ArgumentParser(description = 'get pod logs')
 	flags.add_argument('-c', '--container', metavar = 'name', default = '',
 		help = 'pod container')
+	flags.add_argument('-C', '--all-containers', action = 'store_true',
+		default = False, help = 'all containers in the pod')
 	flags.add_argument('-n', '--namespace', metavar = 'ns', required = True,
 		help = 'pod namespace')
 	flags.add_argument('-T', '--no-timestamps', action = 'store_true',
@@ -59,6 +61,8 @@ def main(argv = []):
 	# pod container
 	if args.container != '':
 		cmd += " -c %s" % args.container
+	elif args.all_containers is True:
+		cmd += ' --all-containers=true'
 
 	return _system(cmd)
 
