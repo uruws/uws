@@ -143,6 +143,8 @@ func (e *Entry) Print() bool {
 	show := true
 	if e.StatusInt >= 500 {
 		p = log.PrintError
+	} else if e.StatusInt == 499 {
+		p = log.PrintError
 	} else if e.StatusInt >= 400 {
 		p = log.Warn
 	} else if e.StatusInt < 200 {
