@@ -1,22 +1,36 @@
-* munin: new custom nginx metrics - [PR#139][PR#139]
+* munin: new custom nginx metrics - [PR#139][PR#139] `DONE!`
 
 [PR#139]: https://github.com/TalkingPts/Infrastructure/pull/139
 
 ---
 
-* grafana.com integration setup - `DONE!` [PR#140][PR#140]
+* k8s: haproxy setup - [PR#141][PR#141]
 
-[PR#140]: https://github.com/TalkingPts/Infrastructure/pull/140
+[PR#141]: https://github.com/TalkingPts/Infrastructure/pull/141
+
+---
+
+* k8s: netdata for cluster local on-the-fly metrics
+    * prometheus + grafana
+
+---
+
+* haproxy: metrics
+    * integrate with netdata
+    * integrate with munin
+
+---
+
+* heroku: sync tapo secrets from Infrastructure repo CI scripts
+    * update heroku env vars every time there's a modification on the Infra repo secrets
+
+---
+
+* uwscli: meteor deploy to heroku to keep versions in sync
 
 ---
 
 * workers: separate callbacks vs jobs managers
-
----
-
-* k8s ingress: test alternative [ingress controllers][k8s-ingress]
-
-[k8s-ingress]: https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/
 
 ---
 
