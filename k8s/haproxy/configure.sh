@@ -7,7 +7,7 @@ haproxy_configure() (
 	srcfn="${HOME}/k8s/haproxy/values.yaml"
 
 	export HPX_NAMESPACE=default
-	export HPX_DEFAULT_BACKEND=default/haproxy-ingress-default-backend
+	export HPX_DEFAULT_BACKEND=defaulthpx/haproxy-ingress-default-backend
 	export HPX_ENABLE_DEFAULT_BACKEND=false
 	export HPX_ENABLE_AUTOSCALING=true
 	export HPX_REPLICAS=3

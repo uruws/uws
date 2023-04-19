@@ -7,4 +7,4 @@ envfn=${1:?'haproxy env file?'}
 . "${envfn}"
 
 ~/k8s/haproxy/uninstall.sh "${envfn}"
-exec uwskube delete namespace "${HPX_NAMESPACE}"
+exec uwskube delete namespace "${HPX_NAMESPACE}hpx"
