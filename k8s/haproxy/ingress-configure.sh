@@ -1,9 +1,11 @@
 haproxy_ingress_configure() (
 	set -eu
 
-	dstfn=${1:?'haproxy dest ingress file?'}
+	action=${1:?'haproxy configure action?}
 	envfn=${2:?'haproxy env configure file?'}
 	ingfn=${3:?'haproxy ingress configure file?'}
+
+	ingcfg="${HOME}/k8s/haproxy/ingress-config.yaml"
 
 	export HPX_NAMESPACE=default
 	export HPX_HOSTNAME="${UWS_CLUSTER}.uws"
@@ -11,6 +13,10 @@ haproxy_ingress_configure() (
 	# shellcheck disable=SC1090
 	. "${envfn}"
 
-	envsubst '${HPX_NAMESPACE}' <"${ingfn}" |
-		envsubst '${HPX_HOSTNAME}' >"${dstfn}"
+	<"${ingfn}" envsubst '${HPX_NAMESPACE}' |
+		        envsubst '${HPX_HOSTNAME}'  |
+		uwskube "${action}" -n "${HPX_NAMESPACE}" -f -
+
+	<"${ingcfg}" envsubst '${HPX_NAMESPACE}' |
+		uwskube "${action}" -n "${HPX_NAMESPACE}" -f -
 )
