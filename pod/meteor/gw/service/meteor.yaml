@@ -78,3 +78,83 @@ metadata:
 spec:
   type: ExternalName
   externalName: meteor9.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorA-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorA.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorB-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorB.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorC-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorC.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorD-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorD.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorE-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorE.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorF-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorF.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorG-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorG.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorH-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorH.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorI-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorI.${METEOR_NAMESPACE}.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorJ-${METEOR_NAMESPACE}
+spec:
+  type: ExternalName
+  externalName: meteorJ.${METEOR_NAMESPACE}.svc.cluster.local
