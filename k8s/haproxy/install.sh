@@ -17,7 +17,7 @@ haproxy_configure "${vfn}" "${envfn}"
 
 helm upgrade --install haproxy-ingress haproxy-ingress \
 	--repo https://haproxy-ingress.github.io/charts \
-	--namespace "${HPX_NAMESPACE}hpx" \
+	--namespace "${HPX_NAMESPACE}" \
 	--version 0.14.2 \
 	--values "${vfn}"
 
