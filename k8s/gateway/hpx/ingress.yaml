@@ -20,6 +20,7 @@ kind: Ingress
 metadata:
   name: gateway
   annotations:
+    kubernetes.io/ingress.class: "${HPX_NAMESPACE}hpx"
     haproxy-ingress.github.io/ssl-redirect: "true"
 spec:
   ingressClassName: ${HPX_NAMESPACE}hpx
@@ -50,8 +51,9 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: gateway
+  name: gateway-k8smon
   annotations:
+    kubernetes.io/ingress.class: "${HPX_NAMESPACE}hpx"
     haproxy-ingress.github.io/rewrite-target: "/"
 spec:
   ingressClassName: ${HPX_NAMESPACE}hpx
