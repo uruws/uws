@@ -204,3 +204,133 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteora
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorb
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorc
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteord
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteore
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorf
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorg
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorh
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteori
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorj
+  namespace: ${APP_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${APP_NAMESPACE}
