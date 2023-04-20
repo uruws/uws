@@ -11,7 +11,7 @@ envfn=${1:?'haproxy env file?'}
 # shellcheck source=/home/uws/k8s/haproxy/configure.sh
 . ~/k8s/haproxy/configure.sh
 
-vfn=$(mktemp -p /tmp haproxy-${HPX_NAMESPACE}-XXXXXXXXXX)
+vfn=$(mktemp -p /tmp haproxy-${HPX_NAMESPACE}-install-XXXXXXXXXX)
 
 haproxy_configure "${vfn}" "${envfn}"
 
