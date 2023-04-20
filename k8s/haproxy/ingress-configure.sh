@@ -1,7 +1,7 @@
 haproxy_ingress_configure() (
 	set -eu
 
-	action=${1:?'haproxy configure action?}
+	action=${1:?'haproxy configure action?'}
 	envfn=${2:?'haproxy env configure file?'}
 	ingfn=${3:?'haproxy ingress configure file?'}
 
