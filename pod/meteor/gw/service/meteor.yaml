@@ -82,79 +82,79 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorA-${METEOR_NAMESPACE}
+  name: meteora-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorA.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteora.${METEOR_NAMESPACE}.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorB-${METEOR_NAMESPACE}
+  name: meteorb-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorB.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteorb.${METEOR_NAMESPACE}.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorC-${METEOR_NAMESPACE}
+  name: meteorc-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorC.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteorc.${METEOR_NAMESPACE}.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorD-${METEOR_NAMESPACE}
+  name: meteord-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorD.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteord.${METEOR_NAMESPACE}.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorE-${METEOR_NAMESPACE}
+  name: meteore-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorE.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteore.${METEOR_NAMESPACE}.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorF-${METEOR_NAMESPACE}
+  name: meteorf-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorF.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteorf.${METEOR_NAMESPACE}.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorG-${METEOR_NAMESPACE}
+  name: meteorg-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorG.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteorg.${METEOR_NAMESPACE}.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorH-${METEOR_NAMESPACE}
+  name: meteorh-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorH.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteorh.${METEOR_NAMESPACE}.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorI-${METEOR_NAMESPACE}
+  name: meteori-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorI.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteori.${METEOR_NAMESPACE}.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteorJ-${METEOR_NAMESPACE}
+  name: meteorj-${METEOR_NAMESPACE}
 spec:
   type: ExternalName
-  externalName: meteorJ.${METEOR_NAMESPACE}.svc.cluster.local
+  externalName: meteorj.${METEOR_NAMESPACE}.svc.cluster.local
