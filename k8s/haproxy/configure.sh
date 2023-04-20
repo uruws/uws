@@ -5,6 +5,7 @@ haproxy_configure() (
 	envfn=${2:?'haproxy env configure file?'}
 
 	srcfn="${HOME}/k8s/haproxy/values.yaml"
+	ingclfn="${HOME}/k8s/haproxy/ingress-class.yaml"
 
 	export HPX_NAMESPACE=default
 	export HPX_DEFAULT_BACKEND=defaulthpx/haproxy-ingress-default-backend
@@ -20,4 +21,7 @@ haproxy_configure() (
 		envsubst '${HPX_ENABLE_DEFAULT_BACKEND}' |
 		envsubst '${HPX_ENABLE_AUTOSCALING}'     |
 		envsubst '${HPX_REPLICAS}' >"${dstfn}"
+
+	envsubst '${HPX_NAMESPACE}' <"${ingclfn}" |
+		uwskube apply -n "${HPX_NAMESPACE}" -f -
 )

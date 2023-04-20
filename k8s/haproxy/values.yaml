@@ -13,7 +13,7 @@ controller:
   extraArgs:
     watch-namespace: ${HPX_NAMESPACE}
 
-  ingressClass: ${HPX_NAMESPACE}-hpx
+  ingressClass: ${HPX_NAMESPACE}hpx
   kind: Deployment
 
   logging:
