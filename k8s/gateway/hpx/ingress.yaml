@@ -26,7 +26,7 @@ spec:
   tls:
     - hosts:
         - ${HPX_HOSTNAME}.talkingpts.org
-      secretName: hpxtls
+      secretName: uwsgd-tls
   rules:
     - host: ${HPX_HOSTNAME}.talkingpts.org
       http:
@@ -46,19 +46,6 @@ spec:
                 name: meteor-web
                 port:
                   number: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: gateway-k8smon
-  annotations:
-    haproxy-ingress.github.io/rewrite-target: "/"
-spec:
-  ingressClassName: ${HPX_NAMESPACE}hpx
-  rules:
-    - host: ${HPX_HOSTNAME}.talkingpts.org
-      http:
-        paths:
           # k8smon
           - path: /k8smon/
             pathType: Prefix
@@ -67,3 +54,24 @@ spec:
                 name: k8smon
                 port:
                   number: 2800
+#~ ---
+#~ apiVersion: networking.k8s.io/v1
+#~ kind: Ingress
+#~ metadata:
+  #~ name: gateway-k8smon
+  #~ annotations:
+    #~ haproxy-ingress.github.io/rewrite-target: "/"
+#~ spec:
+  #~ ingressClassName: ${HPX_NAMESPACE}hpx
+  #~ rules:
+    #~ - host: ${HPX_HOSTNAME}.talkingpts.org
+      #~ http:
+        #~ paths:
+          #~ # k8smon
+          #~ - path: /k8smon/
+            #~ pathType: Prefix
+            #~ backend:
+              #~ service:
+                #~ name: k8smon
+                #~ port:
+                  #~ number: 2800
