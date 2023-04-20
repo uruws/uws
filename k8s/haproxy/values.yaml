@@ -22,6 +22,13 @@ controller:
 
   logs:
     enabled: true
+    resources:
+      limits:
+        cpu: 10m
+        memory: 10Mi
+      requests:
+        cpu: 1m
+        memory: 1Mi
 
   metrics:
     controllerPort: 10254
