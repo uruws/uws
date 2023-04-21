@@ -5,7 +5,7 @@ haproxy_configure() (
 	envfn=${2:?'haproxy env configure file?'}
 
 	srcfn="${HOME}/k8s/haproxy/values.yaml"
-	ingclfn="${HOME}/k8s/haproxy/ingress-class.yaml"
+	ingclfn="${HOME}/k8s/haproxy/ingress/class.yaml"
 
 	export HPX_NAMESPACE=default
 	export HPX_DEFAULT_BACKEND=defaulthpx/haproxy-ingress-default-backend
