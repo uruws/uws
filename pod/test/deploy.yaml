@@ -18,7 +18,7 @@ spec:
           imagePullPolicy: IfNotPresent
           name: podtest
           ports:
-            - containerPort: 8699
+            - containerPort: 2800
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
