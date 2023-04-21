@@ -11,6 +11,9 @@ controller:
   defaultBackendService: ${HPX_DEFAULT_BACKEND}
 
   extraArgs:
+    acme-server: true
+    force-namespace-isolation: true
+    ingress-class-precedence: true
     watch-namespace: ${HPX_NAMESPACE}
 
   ingressClass: ${HPX_NAMESPACE}hpx
