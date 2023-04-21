@@ -38,7 +38,7 @@ spec:
   tls:
     - hosts:
         - ${HPX_HOSTNAME}.talkingpts.org
-      secretName: uwsgd-tls
+      secretName: ${HPX_NAMESPACE}hpx-tls
   rules:
     - host: ${HPX_HOSTNAME}.talkingpts.org
       http:
