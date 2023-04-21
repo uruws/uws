@@ -1,2 +1,3 @@
 #!/bin/sh
-exec uwskube create namespace uwspod
+set -eu
+exit 0
