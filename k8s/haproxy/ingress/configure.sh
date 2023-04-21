@@ -5,7 +5,7 @@ haproxy_ingress_configure() (
 	envfn=${2:?'haproxy env configure file?'}
 	ingfn=${3:?'haproxy ingress configure file?'}
 
-	ingcfg="${HOME}/k8s/haproxy/ingress-config.yaml"
+	ingcfg="${HOME}/k8s/haproxy/ingress/configure.yaml"
 
 	export HPX_NAMESPACE=default
 	export HPX_HOSTNAME="${CLUSTER_HOST}.uws"
