@@ -8,7 +8,7 @@ haproxy_ingress_configure() (
 	ingcfg="${HOME}/k8s/haproxy/ingress-config.yaml"
 
 	export HPX_NAMESPACE=default
-	export HPX_HOSTNAME="${UWS_CLUSTER}.uws"
+	export HPX_HOSTNAME="${CLUSTER_HOST}.uws"
 
 	# shellcheck disable=SC1090
 	. "${envfn}"
