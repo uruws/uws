@@ -16,6 +16,7 @@ haproxy_ingress_configure() (
 
 	<"${ingfn}" envsubst '${HPX_NAMESPACE}' |
 		        envsubst '${HPX_HOSTNAME}'  |
+		        envsubst '${HPX_TLS}'       |
 		uwskube "${action}" -n "${HPX_NAMESPACE}" -f -
 
 	<"${ingcfg}" envsubst '${HPX_NAMESPACE}' |
