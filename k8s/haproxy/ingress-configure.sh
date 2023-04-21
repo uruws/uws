@@ -9,6 +9,7 @@ haproxy_ingress_configure() (
 
 	export HPX_NAMESPACE=default
 	export HPX_HOSTNAME="${CLUSTER_HOST}.uws"
+	export HPX_TLS=uwsgd-tls
 
 	# shellcheck disable=SC1090
 	. "${envfn}"
