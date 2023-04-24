@@ -2,11 +2,14 @@ PATH=/usr/bin:/bin:/srv/home/uwscli/bin:/usr/local/bin
 MAILTO=root
 USER=uwscli
 UWSCLI_LOG=off
-APP_REPLICAS=50
-METEOR_API_REPLICAS=50
-METEOR_WORKER_REPLICAS=20
 
 # m h  dom mon dow   command
+
+###################################
+#
+# NOTE: All date times are in UTC!
+#
+###################################
 
 ############
 # autobuild
@@ -23,9 +26,9 @@ METEOR_WORKER_REPLICAS=20
 #############
 
 # appprod
-10 3 * * 2-6 app-scale worker ${METEOR_WORKER_REPLICAS}
-11 3 * * 2-6 app-scale api-prod ${METEOR_API_REPLICAS}
-12 3 * * 2-6 app-scale app-prod ${APP_REPLICAS}
+10 4 * * 2-6 app-scale worker 20
+11 4 * * 2-6 app-scale api-prod 20
+12 4 * * 2-6 app-scale app-prod 20
 
 # apptest
 13 3 * * 2-6 app-scale worker-test 2
@@ -43,9 +46,9 @@ METEOR_WORKER_REPLICAS=20
 ###########
 
 # appprod
-3 10 * * 1-5 app-scale worker ${METEOR_WORKER_REPLICAS}
-4 10 * * 1-5 app-scale api-prod ${METEOR_API_REPLICAS}
-5 10 * * 1-5 app-scale app-prod ${APP_REPLICAS}
+3 10 * * 1-5 app-scale worker 20
+4 10 * * 1-5 app-scale api-prod 50
+5 10 * * 1-5 app-scale app-prod 50
 
 # apptest
 6 10 * * 1-5 app-scale worker-test 2
