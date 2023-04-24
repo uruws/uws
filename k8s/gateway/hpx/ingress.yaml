@@ -32,9 +32,10 @@ kind: Ingress
 metadata:
   name: gateway
   annotations:
-    uws.t.o/ingress-class: ${HPX_NAMESPACE}hpx
     # https://haproxy-ingress.github.io/docs/configuration/keys/#auth-tls
     haproxy-ingress.github.io/auth-tls-verify-client: "on"
+  labels:
+    uws.t.o/ingress-class: ${HPX_NAMESPACE}hpx
 spec:
   ingressClassName: ${HPX_NAMESPACE}hpx
   tls:
