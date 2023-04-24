@@ -1,5 +1,8 @@
 #!/bin/sh
 set -eu
-ns=${1:?'haproxy namespace?'}
+prof=${1:?'haproxy profile?'}
 shift
-exec uwskube get all -n "${ns}" -l 'app.kubernetes.io/name=haproxy-ingress-default-backend'
+envfn="${HOME}/${prof}/haproxy.env"
+# shellcheck disable=SC1090
+. "${envfn}"
+exec uwskube get all -n "${HPX_NAMESPACE}" -l 'app.kubernetes.io/name=haproxy-ingress-default-backend'

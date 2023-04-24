@@ -1,5 +1,8 @@
 #!/bin/sh
 set -eu
-ns=${1:?'haproxy namespace?'}
+prof=${1:?'haproxy profile?'}
 shift
-exec uwskube rollout restart deployment/haproxy-ingress -n "${ns}"
+envfn="${HOME}/${prof}/haproxy.env"
+# shellcheck disable=SC1090
+. "${envfn}"
+exec uwskube rollout restart deployment/haproxy-ingress -n "${HPX_NAMESPACE}"

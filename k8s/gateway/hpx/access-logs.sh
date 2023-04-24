@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/k8s/haproxy/access-logs.sh default "$@"
+exec ~/k8s/haproxy/access-logs.sh k8s/gateway/hpx "$@"

@@ -1,5 +1,8 @@
 #!/bin/sh
 set -eu
-ns=${1:?'haproxy namespace?'}
+prof=${1:?'haproxy profile?'}
 shift
-exec ~/pod/lib/top.sh "${ns}" -l 'app.kubernetes.io/name=haproxy-ingress' --containers=true
+envfn="${HOME}/${prof}/haproxy.env"
+# shellcheck disable=SC1090
+. "${envfn}"
+exec ~/pod/lib/top.sh "${HPX_NAMESPACE}" -l 'app.kubernetes.io/name=haproxy-ingress' --containers=true
