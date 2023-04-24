@@ -1,9 +1,29 @@
+#
+# https://haproxy-ingress.github.io/docs/configuration/keys/
+# https://haproxy-ingress.github.io/docs/configuration/keys/#keys
+#
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: "${HPX_NAMESPACE}hpx"
 data:
+  backend-protocol: "h2"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#auth-tls
+  auth-tls-cert-header: "false"
+  auth-tls-secret:      "uwsca-ops"
+  auth-tls-strict:      "true"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#balance-algorithm
   balance-algorithm: "roundrobin"
-  maxconn-server:    "2000"
-  ssl-redirect:      "true"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#connection
+  max-connections: "2000"
+  maxconn-server:  "2000"
+  maxqueue-server: "10"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#forwardfor
+  forwardfor: "add"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#path-type
+  path-type: "prefix"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#security
+  use-chroot: "true"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#ssl-redirect
+  ssl-redirect: "true"
