@@ -32,7 +32,8 @@ kind: Ingress
 metadata:
   name: gateway
   annotations:
-    haproxy-ingress.github.io/ssl-redirect: "true"
+    uws.t.o/ingress-class: ${HPX_NAMESPACE}hpx
+    #~ haproxy-ingress.github.io/ssl-redirect: "true"
 spec:
   ingressClassName: ${HPX_NAMESPACE}hpx
   tls:
