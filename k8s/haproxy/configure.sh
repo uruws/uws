@@ -1,11 +1,13 @@
 haproxy_configure() (
 	set -eu
 
-	dstfn=${1:?'haproxy dest values file?'}
-	envfn=${2:?'haproxy env configure file?'}
+	dstfn=${1:?'haproxy configure dest file?'}
+	prof=${2:?'haproxy configure profile?'}
 
 	srcfn="${HOME}/k8s/haproxy/values.yaml"
 	ingclfn="${HOME}/k8s/haproxy/ingress/class.yaml"
+
+	envfn="${HOME}/${prof}/haproxy.env"
 
 	export HPX_NAMESPACE=default
 	export HPX_DEFAULT_BACKEND=defaulthpx/haproxy-ingress-default-backend

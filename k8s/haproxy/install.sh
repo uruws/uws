@@ -3,7 +3,9 @@ set -eu
 
 # https://haproxy-ingress.github.io/docs/getting-started/
 
-envfn=${1:?'haproxy env file?'}
+prof=${1:?'haproxy profile?'}
+
+envfn="${HOME}/${prof}/haproxy.env"
 
 # shellcheck disable=SC1090
 . "${envfn}"
@@ -13,7 +15,7 @@ envfn=${1:?'haproxy env file?'}
 
 vfn=$(mktemp -p /tmp haproxy-${HPX_NAMESPACE}-install-XXXXXXXXXX)
 
-haproxy_configure "${vfn}" "${envfn}"
+haproxy_configure "${vfn}" "${prof}"
 
 helm upgrade --install haproxy-ingress haproxy-ingress \
 	--repo https://haproxy-ingress.github.io/charts \
