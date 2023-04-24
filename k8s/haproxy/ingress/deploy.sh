@@ -1,8 +1,10 @@
 #!/bin/sh
 set -eu
 
-envfn=${1:?'haproxy env file?'}
-ingfn=${2:?'haproxy ingress file?'}
+prof=${1:?'haproxy profile?'}
+
+envfn="${HOME}/${prof}/haproxy.env"
+ingfn="${HOME}/${prof}/ingress.yaml"
 
 # shellcheck source=/home/uws/k8s/haproxy/ingress/configure.sh
 . ~/k8s/haproxy/ingress/configure.sh
