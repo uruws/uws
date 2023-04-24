@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ${HPX_NAMESPACE}hpx
+  name: "${HPX_NAMESPACE}hpx"
 data:
-  balance-algorithm: roundrobin
-  maxconn-server: "5000"
-  ssl-redirect: "true"
+  balance-algorithm: "roundrobin"
+  maxconn-server:    "2000"
+  ssl-redirect:      "true"
