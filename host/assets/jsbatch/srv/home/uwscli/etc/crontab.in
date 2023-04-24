@@ -30,13 +30,13 @@ UWSCLI_LOG=off
 # UTC times
 #
 #      09hs: 40%  20
-#      10hs: 65%  26
+#      10hs: 55%  26
 #      11hs: 70%  34
 #      12hs: 85%  42
 #      13hs: 100% 50
 #      20hs: 85%  42
 #      21hs: 70%  34
-#      22hs: 65%  26
+#      22hs: 55%  26
 #      23hs: 40%  20
 #
 # Mon-Fri
@@ -45,7 +45,7 @@ UWSCLI_LOG=off
 4 9 * * 1-5 app-scale api-prod 20
 5 9 * * 1-5 app-scale app-prod 20
 #
-# 10hs 65%: 20/26/26
+# 10hs 55%: 20/26/26
 4 10 * * 1-5 app-scale api-prod 26
 5 10 * * 1-5 app-scale app-prod 26
 #
@@ -69,7 +69,7 @@ UWSCLI_LOG=off
 4 21 * * 1-5 app-scale api-prod 34
 5 21 * * 1-5 app-scale app-prod 34
 #
-# 22hs 65%: 20/26/26
+# 22hs 55%: 20/26/26
 4 22 * * 1-5 app-scale api-prod 26
 5 22 * * 1-5 app-scale app-prod 26
 #
