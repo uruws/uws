@@ -36,3 +36,8 @@ data:
   timeout-server-fin:   "60s"
   timeout-stop:         "10m"
   timeout-tunnel:       "1h"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#syslog
+  syslog-format: "raw"
+  syslog-length: "3072"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#log-format
+  http-log-format: "{\"H\":\"%H\",\"HM\":\"%HM\",\"HU\":\"%HU\",\"HV\":\"%HV\",\"ID\":\"%ID\",\"ST\":\"%ST\"}"
