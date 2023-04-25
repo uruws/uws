@@ -9,4 +9,4 @@ envfn="${HOME}/${prof}/haproxy.env"
 . "${envfn}"
 
 uwskube create namespace "${HPX_NAMESPACE}"
-exec ~/k8s/haproxy/install.sh "${prof}"
+exit 0

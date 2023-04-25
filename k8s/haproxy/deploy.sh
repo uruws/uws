@@ -16,4 +16,5 @@ vfn=$(mktemp -p /tmp haproxy-${HPX_NAMESPACE}-install-XXXXXXXXXX)
 haproxy_configure "${vfn}" "${prof}"
 
 rm -f "${vfn}"
-exit 0
+
+exec ~/k8s/haproxy/ingress/deploy.sh "${prof}"
