@@ -1,3 +1,5 @@
+#!/bin/sh
+
 haproxy_configure() (
 	set -eu
 

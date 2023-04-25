@@ -1,3 +1,5 @@
+#!/bin/sh
+
 haproxy_ingress_configure() (
 	set -eu
 
