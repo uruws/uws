@@ -1,9 +1,3 @@
-* munin: new custom nginx metrics - [PR#139][PR#139] `DONE!`
-
-[PR#139]: https://github.com/TalkingPts/Infrastructure/pull/139
-
----
-
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
