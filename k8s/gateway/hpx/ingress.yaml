@@ -33,6 +33,8 @@ metadata:
   name: gateway
   annotations:
     # https://haproxy-ingress.github.io/docs/configuration/keys/#auth-tls
+    haproxy-ingress.github.io/auth-tls-secret: "uwsca-ops"
+    haproxy-ingress.github.io/auth-tls-strict: "true"
     haproxy-ingress.github.io/auth-tls-verify-client: "on"
   labels:
     uws.t.o/ingress-class: ${HPX_NAMESPACE}hpx

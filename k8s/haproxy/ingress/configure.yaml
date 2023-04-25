@@ -11,8 +11,6 @@ data:
   backend-protocol: "h1"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#auth-tls
   auth-tls-cert-header: "false"
-  auth-tls-secret:      "uwsca-ops"
-  auth-tls-strict:      "true"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#balance-algorithm
   balance-algorithm: "roundrobin"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#connection
