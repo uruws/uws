@@ -25,3 +25,14 @@ data:
   use-chroot: "true"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#ssl-redirect
   ssl-redirect: "true"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#timeout
+  timeout-client:       "50s"
+  timeout-client-fin:   "50s"
+  timeout-connect:      "5s"
+  timeout-http-request: "5s"
+  timeout-keep-alive:   "1m"
+  timeout-queue:        "5s"
+  timeout-server:       "50s"
+  timeout-server-fin:   "50s"
+  timeout-stop:         "10m"
+  timeout-tunnel:       "1h"
