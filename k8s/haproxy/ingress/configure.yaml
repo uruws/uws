@@ -2,43 +2,57 @@
 # https://haproxy-ingress.github.io/docs/configuration/keys/
 # https://haproxy-ingress.github.io/docs/configuration/keys/#keys
 #
+
+
+# Global
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "haproxy-ingress"
+data:
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#connection
+  max-connections: "2000"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#forwardfor
+  forwardfor: "add"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#security
+  use-chroot: "true"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#timeout
+  timeout-client:     "60s"
+  timeout-client-fin: "60s"
+  timeout-stop:       "10m"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#syslog
+  syslog-format: "raw"
+  syslog-length: "3072"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#log-format
+  http-log-format: "{\"H\":\"%H\",\"HM\":\"%HM\",\"HU\":\"%HU\",\"HV\":\"%HV\",\"ID\":\"%ID\",\"ST\":\"%ST\"}"
+
+
+# Backend
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: "${HPX_NAMESPACE}hpx"
 data:
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#backend-protocol
   backend-protocol: "h1"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#auth-tls
   auth-tls-cert-header: "false"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#balance-algorithm
   balance-algorithm: "roundrobin"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#connection
-  max-connections: "2000"
   maxconn-server:  "2000"
   maxqueue-server: "10"
-  # https://haproxy-ingress.github.io/docs/configuration/keys/#forwardfor
-  forwardfor: "add"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#path-type
   path-type: "prefix"
-  # https://haproxy-ingress.github.io/docs/configuration/keys/#security
-  use-chroot: "true"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#ssl-redirect
   ssl-redirect: "true"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#timeout
-  timeout-client:       "60s"
-  timeout-client-fin:   "60s"
   timeout-connect:      "6s"
   timeout-http-request: "6s"
   timeout-keep-alive:   "60s"
   timeout-queue:        "6s"
   timeout-server:       "60s"
   timeout-server-fin:   "60s"
-  timeout-stop:         "10m"
   timeout-tunnel:       "1h"
-  # https://haproxy-ingress.github.io/docs/configuration/keys/#syslog
-  syslog-endpoint: "127.0.0.1:514"
-  syslog-format: "raw"
-  syslog-length: "3072"
-  # https://haproxy-ingress.github.io/docs/configuration/keys/#log-format
-  http-log-format: "{\"H\":\"%H\",\"HM\":\"%HM\",\"HU\":\"%HU\",\"HV\":\"%HV\",\"ID\":\"%ID\",\"ST\":\"%ST\"}"
