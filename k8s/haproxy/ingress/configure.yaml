@@ -8,7 +8,7 @@ kind: ConfigMap
 metadata:
   name: "${HPX_NAMESPACE}hpx"
 data:
-  backend-protocol: "h2"
+  backend-protocol: "h1"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#auth-tls
   auth-tls-cert-header: "false"
   auth-tls-secret:      "uwsca-ops"
