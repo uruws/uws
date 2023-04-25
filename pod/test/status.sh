@@ -1,2 +1,3 @@
 #!/bin/sh
-exec ~/pod/lib/status.sh uwspod
+exec ~/pod/lib/status.sh default all \
+	-l 'app.kubernetes.io/name=podtest'

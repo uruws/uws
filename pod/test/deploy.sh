@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
-version=${1:-''}
-exec ~/pod/lib/deploy.sh uwspod test ${version}
+version=$(cat ${HOME}/pod/test/VERSION)
+exec ~/pod/lib/deploy.sh default test "${version}"

@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/k8s/nginx/status.sh default
+exec ~/k8s/gateway/ngx/status.sh

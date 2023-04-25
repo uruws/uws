@@ -1,0 +1,54 @@
+#~ ---
+#~ apiVersion: v1
+#~ kind: Service
+#~ metadata:
+  #~ name: munin-web
+#~ spec:
+  #~ type: ExternalName
+  #~ externalName: munin-web.mon.svc.cluster.local
+#~ ---
+#~ apiVersion: v1
+#~ kind: Service
+#~ metadata:
+  #~ name: k8smon
+#~ spec:
+  #~ type: ExternalName
+  #~ externalName: k8s.mon.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: podtest
+spec:
+  ports:
+    - port: 2800
+      targetPort: 2800
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: podtest
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway
+  annotations:
+    uws.t.o/ingress-class: ${HPX_NAMESPACE}hpx
+    #~ haproxy-ingress.github.io/ssl-redirect: "true"
+spec:
+  ingressClassName: ${HPX_NAMESPACE}hpx
+  tls:
+    - hosts:
+        - ${HPX_HOSTNAME}.talkingpts.org
+      secretName: ${HPX_TLS}
+  rules:
+    - host: ${HPX_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # podtest
+          - path: /podtest/
+            pathType: Prefix
+            backend:
+              service:
+                name: podtest
+                port:
+                  number: 2800

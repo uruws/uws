@@ -1,2 +1,3 @@
 #!/bin/sh
-exec uwskube delete namespace uwspod
+set -u
+exit 0
