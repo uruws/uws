@@ -37,6 +37,7 @@ data:
   timeout-stop:         "10m"
   timeout-tunnel:       "1h"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#syslog
+  syslog-endpoint: "127.0.0.1:514"
   syslog-format: "raw"
   syslog-length: "3072"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#log-format
