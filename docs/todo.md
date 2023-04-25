@@ -4,19 +4,22 @@
 
 ---
 
-* k8s: haproxy setup - [PR#141][PR#141]
+* k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
-[PR#141]: https://github.com/TalkingPts/Infrastructure/pull/141
+[haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
 
 ---
 
-* k8s: netdata for cluster local on-the-fly metrics
-    * prometheus + grafana
+* k8s: haproxy logs parser to easily detect problems on-the-fly
+
+---
+
+* k8s: prom+grafana cluster local dashboard for on-the-fly metrics
 
 ---
 
 * haproxy: metrics
-    * integrate with netdata
+    * integrate with k8s dashboard
     * integrate with munin
 
 ---
@@ -56,6 +59,10 @@
 		* AWS accounts in example should use this separate domain
 		* any 3rd party integration (Jira, Bandwidth, etc, etc, etc) should use accounts on this domain
 		* all these mainly due to the Ramp integration the Finance people asked about which requires read access to ALL domain accounts
+
+---
+
+* meteor: accelerate build time using local caches/proxy/repo for npm dependencies
 
 ---
 
