@@ -37,7 +37,8 @@ data:
   syslog-format: "raw"
   syslog-length: "3072"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#log-format
-  http-log-format: '{\"H\":\"%H\",\"HM\":\"%HM\",\"HU\":\"%HU\",\"HV\":\"%HV\",\"ID\":\"%ID\",\"ST\":\"%ST\"}'
+  # https://docs.haproxy.org/2.4/configuration.html#8.2.4
+  http-log-format: '%{+Q}o {\"H\":%H,\"HM\":%HM,\"HU\":%HU,\"HV\":%HV,\"ID\":%ID,\"ST\":%ST}'
 
 
 # Backend
