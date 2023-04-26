@@ -11,6 +11,11 @@ kind: ConfigMap
 metadata:
   name: "haproxy-ingress"
 data:
+  # from helm install
+  healthz-port: "10253"
+  prometheus-port: "9101"
+  stats-port: "1936"
+  syslog-endpoint: 127.0.0.1:514
   # https://haproxy-ingress.github.io/docs/configuration/keys/#connection
   max-connections: "2000"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#forwardfor
