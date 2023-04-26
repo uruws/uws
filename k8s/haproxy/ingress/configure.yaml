@@ -38,7 +38,7 @@ data:
   syslog-length: "3072"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#log-format
   # https://docs.haproxy.org/2.4/configuration.html#8.2.4
-  http-log-format: '%{+Q,+E}o\ {\"B\":%B,\"H\":%H,\"HM\":%HM,\"HPO\":%HPO,\"HV\":%HV,\"ID\":%ID,\"ST\":%ST,\"Ta\":%Ta,\"Ts\":%Ts,\"U\":%U,\"b\":%b,\"ci\":%ci,\"cp\":%cp,\"f\":%f,\"rc\":%rc,\"s\":%s,\"t\":\"%{-Q}t\",\"ts\":\"%{-Q}ts\"}'
+  http-log-format: '%{+Q,+E}o\ {\"B\":%B,\"H\":%H,\"HM\":%HM,\"HPO\":%HPO,\"HV\":%HV,\"ID\":%ID,\"ST\":%ST,\"Ta\":%Ta,\"Tc\":%Tc,\"Tr\":%Tr,\"Ts\":%Ts,\"Tw\":%Tw,\"U\":%U,\"b\":%b,\"ci\":%ci,\"cp\":%cp,\"f\":%f,\"rc\":%rc,\"s\":%s,\"t\":\"%{-Q}t\",\"ts\":\"%{-Q}ts\"}'
 
 
 # Backend
