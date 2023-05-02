@@ -23,14 +23,14 @@ data:
   # https://haproxy-ingress.github.io/docs/configuration/keys/#security
   use-chroot: "true"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#timeout
-  timeout-client:       "60s"
-  timeout-client-fin:   "60s"
-  timeout-connect:      "6s"
-  timeout-http-request: "6s"
-  timeout-keep-alive:   "60s"
-  timeout-queue:        "6s"
-  timeout-server:       "60s"
-  timeout-server-fin:   "60s"
+  timeout-client:       "50s"
+  timeout-client-fin:   "50s"
+  timeout-connect:      "5s"
+  timeout-http-request: "5s"
+  timeout-keep-alive:   "1m"
+  timeout-queue:        "5s"
+  timeout-server:       "50s"
+  timeout-server-fin:   "50s"
   timeout-stop:         "10m"
   timeout-tunnel:       "1h"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#syslog
