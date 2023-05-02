@@ -55,7 +55,8 @@ data:
   # https://haproxy-ingress.github.io/docs/configuration/keys/#auth-tls
   auth-tls-cert-header: "false"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#balance-algorithm
-  balance-algorithm: "roundrobin"
+  # https://docs.haproxy.org/2.4/configuration.html#4-balance
+  balance-algorithm: "random(2)"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#connection
   maxconn-server:  "2000"
   maxqueue-server: "10"
