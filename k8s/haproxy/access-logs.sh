@@ -7,4 +7,4 @@ envfn="${HOME}/${prof}/haproxy.env"
 . "${envfn}"
 exec ~/pod/lib/logs.py -n "${HPX_NAMESPACE}" --no-timestamps \
 	-l 'app.kubernetes.io/name=haproxy-ingress' \
-	--max 200 -c access-logs "$@"
+	--no-prefix --max 200 -c access-logs "$@"

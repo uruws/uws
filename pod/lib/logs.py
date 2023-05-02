@@ -25,6 +25,8 @@ def main(argv = []):
 		help = 'filter label')
 	flags.add_argument('-f', '--follow', action = 'store_true',
 		default = False, help = 'follow messages')
+	flags.add_argument('-P', '--no-prefix', action = 'store_true',
+		default = False, help = 'no log prefix')
 	flags.add_argument('-t', '--tail', type = int, default = 10,
 		metavar = 'N', help = 'show last N messages (default 10)')
 	flags.add_argument('-m', '--max', type = int, default = 0,
@@ -47,8 +49,11 @@ def main(argv = []):
 		cmd += " %s" % args.pod
 		return _system(cmd)
 
+	if not args.no_prefix:
+		cmd += ' --prefix=true'
+
 	# all logs
-	cmd += ' --prefix=true --ignore-errors'
+	cmd += ' --ignore-errors'
 	if args.max > 0:
 		cmd += " --max-log-requests=%d" % args.max
 
