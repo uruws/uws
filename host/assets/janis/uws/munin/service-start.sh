@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-CA=/srv/uws/deploy/secret/ca/uws/smtps/211006
+CA=/srv/uws/deploy/secret/ca/uws/smtps/230503
 CROND=/srv/uws/deploy/secret/eks/files/munin/cron.d
 CONFD=/srv/uws/deploy/secret/eks/files/munin/conf
 

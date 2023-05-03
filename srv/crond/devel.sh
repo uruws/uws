@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-CA=${PWD}/secret/ca/uws/smtps/211006
+CA=${PWD}/secret/ca/uws/smtps/230503
 mkdir -vp ${PWD}/tmp
 exec docker run -it --rm --name uws-crond-devel \
 	--hostname crond-devel.uws.local \
