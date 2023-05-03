@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-CA=smtps/211006
+CA=smtps/230503
 mkdir -vp ${PWD}/tmp
 exec docker run -it --rm --name uws-herokud-devel \
 	--hostname herokud-devel.uws.local \
