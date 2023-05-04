@@ -32,14 +32,31 @@ install -v -d -m 1777 /var/opt/munin-alert
 install -v -d -m 1777 /var/opt/munin-alert/statuspage
 
 # CA
-if test -d /srv/etc/ca; then
+if test -d /srv/etc/ca.orig; then
+	# munin-sendmail.py files
 	install -v -d -m 0750 -o root -g munin /etc/opt/uws/ca
 	install -v -m 0640 -o root -g munin \
-		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
+		/srv/etc/ca.orig/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
 		/etc/opt/uws/ca/smtps.pem
 	install -v -m 0640 -o root -g munin \
-		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
+		/srv/etc/ca.orig/client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
 		/etc/opt/uws/ca/smtps.key
+	# msmtp files
+	install -v -d -m 0755 -o root -g root /srv/etc
+	install -v -d -m 0750 -o root -g msmtp /srv/etc/ca
+	install -v -d -m 0750 -o root -g msmtp /srv/etc/ca/client
+	install -v -d -m 0750 -o root -g msmtp \
+		/srv/etc/ca.orig/rootCA.pem \
+		/srv/etc/ca/rootCA.pem
+	install -v -d -m 0750 -o root -g msmtp \
+		/srv/etc/ca.orig/rootCA-crl.pem \
+		/srv/etc/ca/rootCA-crl.pem
+	install -v -d -m 0750 -o root -g msmtp \
+		/srv/etc/ca.orig/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
+		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem
+	install -v -d -m 0750 -o root -g msmtp \
+		/srv/etc/ca.orig/client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
+		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.key
 fi
 
 # /etc/cron.d
