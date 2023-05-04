@@ -65,7 +65,7 @@ PODTEST_TAG != cat ./pod/test/VERSION
 
 .PHONY: pod-publish
 pod-publish:
-	@./docker/ecr-login.sh us-east-1
+	@./host/ecr-login.sh us-east-1
 	@./cluster/ecr-push.sh us-east-1 uws/pod:test uws:podtest-$(PODTEST_TAG)
 
 .PHONY: devel
@@ -85,7 +85,7 @@ utils: acme
 
 .PHONY: utils-publish
 utils-publish: utils
-	@./docker/ecr-login.sh sa-east-1
+	@./host/ecr-login.sh sa-east-1
 	@./cluster/ecr-push.sh sa-east-1 uws/acme-2211 uwsops:acme
 
 .PHONY: awscli
@@ -122,7 +122,7 @@ proftpd:
 
 .PHONY: ecr-login
 ecr-login:
-	@./docker/ecr-login.sh
+	@./host/ecr-login.sh
 
 .PHONY: ansible
 ansible:
@@ -289,7 +289,7 @@ CHATBOT_TAG != cat ./srv/chatbot/VERSION
 
 .PHONY: chatbot-publish
 chatbot-publish: chatbot-check
-	@./docker/ecr-login.sh us-east-1
+	@./host/ecr-login.sh us-east-1
 	@./cluster/ecr-push.sh us-east-1 uws/chatbot-2211 uws:chatbot-$(CHATBOT_TAG)
 
 #
