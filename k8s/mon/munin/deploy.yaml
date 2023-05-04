@@ -57,7 +57,10 @@ spec:
               mountPath: "/etc/uws/conf"
               readOnly: true
             - name: smtps-ca
-              mountPath: "/srv/etc/ca/client"
+              mountPath: "/srv/etc/ca.root"
+              readOnly: true
+            - name: smtps-ca-client
+              mountPath: "/srv/etc/ca.client"
               readOnly: true
             - name: munin-alert
               mountPath: "/var/opt/munin-alert"
@@ -152,6 +155,9 @@ spec:
         - name: smtps-ca
           secret:
             secretName: smtps-ca
+        - name: smtps-ca-client
+          secret:
+            secretName: smtps-ca-client
   volumeClaimTemplates:
     - metadata:
         name: db

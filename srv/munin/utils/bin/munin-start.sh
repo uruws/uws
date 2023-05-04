@@ -59,6 +59,31 @@ if test -d /srv/etc/ca.orig; then
 		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.key
 fi
 
+# k8s CA
+if test -d /srv/etc/ca.root; then
+	# msmtp files
+	install -v -d -m 0755 -o root -g root /srv/etc
+	install -v -d -m 0750 -o root -g msmtp /srv/etc/ca
+	install -v -m 0640 -o root -g msmtp \
+		/srv/etc/ca.root/rootCA.pem \
+		/srv/etc/ca/rootCA.pem
+	install -v -m 0640 -o root -g msmtp \
+		/srv/etc/ca.root/rootCA-crl.pem \
+		/srv/etc/ca/rootCA-crl.pem
+fi
+
+# k8s CA client
+if test -d /srv/etc/ca.client; then
+	# msmtp files
+	install -v -d -m 0750 -o root -g msmtp /srv/etc/ca/client
+	install -v -m 0640 -o root -g msmtp \
+		/srv/etc/ca.client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
+		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem
+	install -v -m 0640 -o root -g msmtp \
+		/srv/etc/ca.client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
+		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.key
+fi
+
 # /etc/cron.d
 if test -d /srv/etc/cron.d; then
 	cp -vrf /srv/etc/cron.d /etc
