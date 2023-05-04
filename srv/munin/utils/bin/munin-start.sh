@@ -45,16 +45,16 @@ if test -d /srv/etc/ca.orig; then
 	install -v -d -m 0755 -o root -g root /srv/etc
 	install -v -d -m 0750 -o root -g msmtp /srv/etc/ca
 	install -v -d -m 0750 -o root -g msmtp /srv/etc/ca/client
-	install -v -d -m 0750 -o root -g msmtp \
+	install -v -m 0640 -o root -g msmtp \
 		/srv/etc/ca.orig/rootCA.pem \
 		/srv/etc/ca/rootCA.pem
-	install -v -d -m 0750 -o root -g msmtp \
+	install -v -m 0640 -o root -g msmtp \
 		/srv/etc/ca.orig/rootCA-crl.pem \
 		/srv/etc/ca/rootCA-crl.pem
-	install -v -d -m 0750 -o root -g msmtp \
+	install -v -m 0640 -o root -g msmtp \
 		/srv/etc/ca.orig/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
 		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem
-	install -v -d -m 0750 -o root -g msmtp \
+	install -v -m 0640 -o root -g msmtp \
 		/srv/etc/ca.orig/client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
 		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.key
 fi
