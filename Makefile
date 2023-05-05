@@ -418,6 +418,8 @@ MON_MUNIN_TAG != cat ./k8s/mon/munin/VERSION
 .PHONY: mon-publish
 mon-publish: awscli munin munin-backend munin-node
 	@$(MAKE) k8smon-publish
+	@$(MAKE) check-munin
+	@$(MAKE) check-munin-node
 	@./cluster/ecr-push.sh us-east-1 uws/munin-2211 uws:munin-$(MON_MUNIN_TAG)
 	@./cluster/ecr-push.sh us-east-1 uws/munin-backend-2211 uws:munin-web-$(MON_MUNIN_TAG)
 	@./cluster/ecr-push.sh us-east-1 uws/munin-node-2211 uws:munin-node-$(MON_MUNIN_TAG)
@@ -436,6 +438,7 @@ docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
 
 .PHONY: k8smon-publish
 k8smon-publish: k8s
+	@$(MAKE) check-k8s
 	@./k8s/mon/publish.sh
 
 #
