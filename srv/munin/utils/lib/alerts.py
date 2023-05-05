@@ -117,7 +117,7 @@ def _sesMsgFrom(s):
 def amazon_ses(stats):
 	"""Send formatted alert stats info via amazon ses"""
 	msg = _msgNew()
-	msg['From'] = _msgFrom(stats)
+	msg['From'] = _sesMsgFrom(stats)
 	msg['To'] = conf.MAILTO_SES
 	msg['Cc'] = ','.join(conf.MAILCC_SES)
 	msg['Subject'] = _msgSubject(stats)
