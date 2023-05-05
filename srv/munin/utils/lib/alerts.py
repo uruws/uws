@@ -107,6 +107,20 @@ def parse(stats):
 		msg.set_content(c.getvalue())
 	return msg
 
+# amazon ses
+
+def amazon_ses(stats):
+	"""Send formatted alert stats info via amazon ses"""
+	msg = _msgNew()
+	msg['From'] = _msgFrom(stats)
+	msg['To'] = conf.MAILTO_SES
+	msg['Cc'] = ','.join(MAILCC_SES)
+	msg['Subject'] = _msgSubject(stats)
+	with StringIO() as c:
+		_msgContent(c, stats, msg)
+		msg.set_content(c.getvalue())
+	return msg
+
 # report
 
 def report(stats):
@@ -241,7 +255,13 @@ def main():
 				# ~ continue
 
 			# send email alert using internal smtps
-			st = nq(parse(stats))
+			nq(parse(stats))
+			# ~ st = nq(parse(stats))
+			# ~ if st > rc:
+				# ~ rc = st
+
+			# send email alert using amazon ses
+			st = nq(amazon_ses(stats), qdir = conf.SES_QDIR.as_posix())
 			if st > rc:
 				rc = st
 
