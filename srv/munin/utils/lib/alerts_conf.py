@@ -53,7 +53,7 @@ def sp_load():
 # amazon ses
 
 SES_QDIR   = Path(QDIR) / 'amazon-ses'
-MAILTO_SES = Address('devops', 'dev_ops_vo548nvb', 'talkingpts.org')
+MAILTO_SES = Address('infra-reports', 'infra-reports-aaaaemqdujfnolzj55j5bljebm', 'talkingpoints.slack.com')
 MAILCC_SES = [
-	'infra-reports-aaaaemqdujfnolzj55j5bljebm@talkingpoints.slack.com',
+	'jeremias@talkingpts.org',
 ]
