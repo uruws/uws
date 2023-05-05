@@ -114,7 +114,7 @@ def amazon_ses(stats):
 	msg = _msgNew()
 	msg['From'] = _msgFrom(stats)
 	msg['To'] = conf.MAILTO_SES
-	msg['Cc'] = ','.join(MAILCC_SES)
+	msg['Cc'] = ','.join(conf.MAILCC_SES)
 	msg['Subject'] = _msgSubject(stats)
 	with StringIO() as c:
 		_msgContent(c, stats, msg)
