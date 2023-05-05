@@ -109,6 +109,11 @@ def parse(stats):
 
 # amazon ses
 
+def _sesMsgFrom(s):
+	h = s.get('host', gethostname())
+	h = h.strip()
+	return Address(h, 'munin-alert', 'uws.talkingpts.org')
+
 def amazon_ses(stats):
 	"""Send formatted alert stats info via amazon ses"""
 	msg = _msgNew()
