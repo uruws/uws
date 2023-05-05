@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eux
 
+# munin dirs
+
 if test -d /efs/munin-log; then
 	install -v -d /efs/munin-log/data/munin-log
 	rm -rf /var/log/munin
@@ -28,10 +30,14 @@ else
 	chown -R munin:munin /var/cache/munin/www
 fi
 
+# alerts dirs
+
 install -v -d -m 1777 /var/opt/munin-alert
 install -v -d -m 1777 /var/opt/munin-alert/statuspage
+install -v -d -m 1777 /var/opt/munin-alert/amazon-ses
 
 # CA
+
 if test -d /srv/etc/ca.orig; then
 	# munin-sendmail.py files
 	install -v -d -m 0750 -o root -g munin /etc/opt/uws/ca
@@ -60,6 +66,7 @@ if test -d /srv/etc/ca.orig; then
 fi
 
 # k8s CA
+
 if test -d /srv/etc/ca.root; then
 	# msmtp files
 	install -v -d -m 0755 -o root -g root /srv/etc
@@ -73,6 +80,7 @@ if test -d /srv/etc/ca.root; then
 fi
 
 # k8s CA client
+
 if test -d /srv/etc/ca.client; then
 	# msmtp files
 	install -v -d -m 0750 -o root -g msmtp /srv/etc/ca/client
@@ -85,6 +93,7 @@ if test -d /srv/etc/ca.client; then
 fi
 
 # /etc/cron.d
+
 if test -d /srv/etc/cron.d; then
 	cp -vrf /srv/etc/cron.d /etc
 	chown -v root:root /etc/cron.d/uws-*
@@ -92,6 +101,7 @@ if test -d /srv/etc/cron.d; then
 fi
 
 # /etc/munin
+
 if test -d /srv/etc/munin; then
 	cp -vrf /srv/etc/munin /etc
 fi
@@ -99,6 +109,7 @@ chown -v root:munin /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
 chmod -v 0640 /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
 
 # /etc/uws/conf
+
 if test -d /etc/uws/conf; then
 	install -v -o root -g munin \
 		/etc/uws/conf/alerts_conf.json /etc/uws/munin/alerts_conf.json
@@ -109,4 +120,4 @@ fi
 /etc/init.d/munin start
 /etc/init.d/cron start
 
-exec rsyslogd -n
+exec /usr/sbin/rsyslogd -n
