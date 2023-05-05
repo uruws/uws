@@ -4,4 +4,4 @@ UWS_SMTPS_PORT=328
 UWS_SMTPS_CERT=/etc/opt/uws/ca/smtps.pem
 UWS_SMTPS_KEY=/etc/opt/uws/ca/smtps.key
 
-*/1 * * * *	munin /opt/munin/bin/munin-sendmail.py --internal
+*/1 * * * *	munin /opt/munin/bin/munin-sendmail.py 1>&2 2>/var/opt/munin-alert/sendmail.out
