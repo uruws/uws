@@ -101,3 +101,224 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor3
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor4
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor5
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor6
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor7
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor8
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor9
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteora
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorb
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorc
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteord
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteore
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorf
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorg
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorh
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteori
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorj
+  namespace: cs
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
