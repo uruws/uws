@@ -1,3 +1,13 @@
+* rstudio: set up Leah's user
+
+---
+
+* munin: alerts via amazon SES - [PR#149][PR#149] `WIP`
+
+[PR#149]: https://github.com/TalkingPts/Infrastructure/pull/149
+
+---
+
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
