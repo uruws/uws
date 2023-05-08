@@ -2,6 +2,7 @@
 set -eu
 
 action=${1:?'action?'}
+shift
 
 if ! test -x "${action}"; then
 	echo "invalid action: ${action}" >&2
@@ -13,7 +14,7 @@ for ef in eks/env/*.env; do
 	echo '***'
 	echo "*** ${cluster}"
 	echo '***'
-	./eks/cmd.sh "${cluster}" "${action}"
+	./eks/cmd.sh "${cluster}" "${action}" $@
 done
 
 exit 0
