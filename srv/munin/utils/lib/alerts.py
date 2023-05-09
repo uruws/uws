@@ -269,7 +269,7 @@ def main():
 			if st > rc:
 				rc = st
 
-			# statuspage report using external smtps
+			# statuspage report using amazon ses
 			if stch:
 				statuspage(stats)
 
