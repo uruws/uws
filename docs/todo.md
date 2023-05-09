@@ -1,10 +1,28 @@
-* rstudio: set up Leah's user
+* rstudio: set up Leah's user - [PR#150][PR#150] `DONE!`
+
+[PR#150]: https://github.com/TalkingPts/Infrastructure/pull/150
 
 ---
 
-* munin: alerts via amazon SES - [PR#149][PR#149] `WIP`
+* talkingpts.org DNSSEC setup - [I#151][I#151] `WIP`
+
+[I#151]: https://github.com/TalkingPts/Infrastructure/issues/151
+
+---
+
+* munin: updates - `WIP`
+    * alerts via amazon SES - [PR#149][PR#149]
+    * mailq check script - [PR#152][PR#152]
+    * cross check limits - [PR#153][PR#153]
+    * nodes condition limits - [PR#154][PR#154]
 
 [PR#149]: https://github.com/TalkingPts/Infrastructure/pull/149
+
+[PR#152]: https://github.com/TalkingPts/Infrastructure/pull/152
+
+[PR#153]: https://github.com/TalkingPts/Infrastructure/pull/153
+
+[PR#154]: https://github.com/TalkingPts/Infrastructure/pull/154
 
 ---
 
