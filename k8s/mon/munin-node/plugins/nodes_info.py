@@ -5,8 +5,8 @@ import mon
 
 limits = {
 	'Unknown': {
-		'warning': 1,
-		'critical': 3,
+		'warning': 3,
+		'critical': 5,
 	},
 }
 
