@@ -260,7 +260,6 @@ def main():
 				# ~ continue
 
 			# send email alert using internal smtps
-			nq(parse(stats))
 			# ~ st = nq(parse(stats))
 			# ~ if st > rc:
 				# ~ rc = st

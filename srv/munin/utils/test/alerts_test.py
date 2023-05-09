@@ -189,10 +189,12 @@ class Test(unittest.TestCase):
 				with mock_nq():
 					with mock_parse():
 						t.assertEqual(alerts.main(), 0)
-						alerts.nq.assert_has_calls([
-							call('mock_parse'),
-							call('mock_amazon_ses', qdir = '/var/opt/munin-alert/amazon-ses'),
-						])
+						# ~ alerts.nq.assert_has_calls([
+							# ~ call('mock_parse'),
+							# ~ call('mock_amazon_ses', qdir = '/var/opt/munin-alert/amazon-ses'),
+						# ~ ])
+						alerts.nq.assert_called_once_with('mock_amazon_ses',
+							qdir = '/var/opt/munin-alert/amazon-ses')
 
 	def test_main_nq_report_error(t):
 		with mock(fileinput = ['{"state_changed": "1", "worst": "CRITICAL"}']):
