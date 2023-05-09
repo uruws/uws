@@ -1,6 +1,8 @@
-* rstudio: set up Leah's user - [PR150][PR150] `DONE!`
-
-[PR150]: https://github.com/TalkingPts/Infrastructure/pull/150
+* meteor App tunning
+    * reduce resources to half so we can accommodate 2 containers per ec2
+    * create new workers cluster using on-demand c5n ec2 type
+        * assign resources by CPU only
+    * munin graph/alert worker jobs elapsed time
 
 ---
 
