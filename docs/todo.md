@@ -1,31 +1,31 @@
-* rstudio: set up Leah's user - [PR#150][PR#150] `DONE!`
+* rstudio: set up Leah's user - [PR150][PR150] `DONE!`
 
-[PR#150]: https://github.com/TalkingPts/Infrastructure/pull/150
+[PR150]: https://github.com/TalkingPts/Infrastructure/pull/150
 
 ---
 
-* talkingpts.org DNSSEC setup - [I#151][I#151] `WIP`
+* talkingpts.org DNSSEC setup - [I151][I151] `WIP`
 
-[I#151]: https://github.com/TalkingPts/Infrastructure/issues/151
+[I151]: https://github.com/TalkingPts/Infrastructure/issues/151
 
 ---
 
 * munin: updates - `WIP`
-    * alerts via amazon SES - [PR#149][PR#149]
-    * mailq check script - [PR#152][PR#152]
-    * cross check limits - [PR#153][PR#153]
-    * nodes condition limits - [PR#154][PR#154]
-    * stop using internal smtps - [PR#155][PR#155]
+    * alerts via amazon SES - [PR149][PR149]
+    * mailq check script - [PR152][PR152]
+    * cross check limits - [PR153][PR153]
+    * nodes condition limits - [PR154][PR154]
+    * stop using internal smtps - [PR155][PR155]
 
-[PR#149]: https://github.com/TalkingPts/Infrastructure/pull/149
+[PR149]: https://github.com/TalkingPts/Infrastructure/pull/149
 
-[PR#152]: https://github.com/TalkingPts/Infrastructure/pull/152
+[PR152]: https://github.com/TalkingPts/Infrastructure/pull/152
 
-[PR#153]: https://github.com/TalkingPts/Infrastructure/pull/153
+[PR153]: https://github.com/TalkingPts/Infrastructure/pull/153
 
-[PR#154]: https://github.com/TalkingPts/Infrastructure/pull/154
+[PR154]: https://github.com/TalkingPts/Infrastructure/pull/154
 
-[PR#155]: https://github.com/TalkingPts/Infrastructure/pull/155
+[PR155]: https://github.com/TalkingPts/Infrastructure/pull/155
 
 ---
 
