@@ -15,6 +15,7 @@
     * mailq check script - [PR#152][PR#152]
     * cross check limits - [PR#153][PR#153]
     * nodes condition limits - [PR#154][PR#154]
+    * stop using internal smtps - [PR#155][PR#155]
 
 [PR#149]: https://github.com/TalkingPts/Infrastructure/pull/149
 
@@ -23,6 +24,8 @@
 [PR#153]: https://github.com/TalkingPts/Infrastructure/pull/153
 
 [PR#154]: https://github.com/TalkingPts/Infrastructure/pull/154
+
+[PR#155]: https://github.com/TalkingPts/Infrastructure/pull/155
 
 ---
 
