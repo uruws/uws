@@ -43,7 +43,6 @@ def main(argv):
 	flags = ArgumentParser(description = __doc__)
 
 	flags.add_argument('-p', '--profile', required = True, help = 'cluster iam profile')
-	flags.add_argument('-r', '--region',  required = True, help = 'cluster region')
 	flags.add_argument('name', help = 'cluster name')
 
 	args = flags.parse_args(argv)
