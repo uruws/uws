@@ -486,3 +486,11 @@ publish:
 	@$(MAKE) pod-publish
 	@$(MAKE) chatbot-publish
 	@$(MAKE) nginx-publish
+
+#
+# secrets
+#
+
+.PHONY: secrets
+secrets:
+	@./eks/secrets/cluster-all.sh
