@@ -41,4 +41,4 @@ echo "AWS_ZONES=${region}a,${region}b,${region}c" >>${eksenv}
 touch ${admin_dir}/credentials
 touch ${client_dir}/credentials
 
-exec ./secret/gen/eks/cluster.py --profile "${prof}" --region "${region}" "${cluster}"
+exec ./eks/secrets/cluster.py --profile "${prof}" --region "${region}" "${cluster}"
