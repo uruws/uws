@@ -32,7 +32,7 @@ cat ${admin_dir}/config >${client_dir}/config
 
 echo "UWS_CLUSTER=${cluster}"                      >${eksenv}
 echo "CLUSTER_HOST=${cluster}"                    >>${eksenv}
-echo "AWS_PROFILE=${prod}"                        >>${eksenv}
+echo "AWS_PROFILE=${prof}"                        >>${eksenv}
 echo "AWS_REGION=${region}"                       >>${eksenv}
 echo "AWS_ZONES=${region}a,${region}b,${region}c" >>${eksenv}
 
