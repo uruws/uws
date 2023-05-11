@@ -505,6 +505,7 @@ publish:
 secrets:
 	@./eks/secrets/cluster-all.sh
 	@./eks/secrets/aws.env-all.sh
+	@./eks/secrets/aws.ses-update.py
 
 .PHONY: check-secrets
 check-secrets:
