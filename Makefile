@@ -506,6 +506,7 @@ secrets:
 	@./eks/secrets/cluster-all.sh
 	@./eks/secrets/aws.env-all.sh
 	@./eks/secrets/aws.ses-update.py
+	@./eks/secrets/tapoS3-all.sh
 
 .PHONY: check-secrets
 check-secrets:
