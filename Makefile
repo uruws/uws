@@ -318,7 +318,17 @@ deploy:
 #
 
 .PHONY: check
-check: check-docker check-golang check-cli check-k8s check-eks check-munin check-munin-node check-asb check-awscli
+check:
+	@$(MAKE) check-docker
+	@$(MAKE) check-secrets
+	@$(MAKE) check-golang
+	@$(MAKE) check-cli
+	@$(MAKE) check-k8s
+	@$(MAKE) check-eks
+	@$(MAKE) check-munin
+	@$(MAKE) check-munin-node
+	@$(MAKE) check-asb
+	@$(MAKE) check-awscli
 
 .PHONY: check-docker
 check-docker:
@@ -494,3 +504,7 @@ publish:
 .PHONY: secrets
 secrets:
 	@./eks/secrets/cluster-all.sh
+
+.PHONY: check-secrets
+check-secrets:
+	@./eks/secrets/check.sh
