@@ -504,6 +504,7 @@ publish:
 .PHONY: secrets
 secrets:
 	@./eks/secrets/cluster-all.sh
+	@./eks/secrets/aws.env-all.sh
 
 .PHONY: check-secrets
 check-secrets:

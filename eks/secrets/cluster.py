@@ -14,6 +14,7 @@ def getCredentials(profile):
 
 def genAdmin(cluster, profile, key, secret):
 	f = Path('./secret/eks/aws/admin', cluster, 'credentials')
+	print(f)
 	with f.open('w') as fh:
 		fh.write('[default]\n')
 		fh.write('aws_access_key_id = %s\n' % key)
@@ -23,11 +24,11 @@ def genAdmin(cluster, profile, key, secret):
 		fh.write('aws_access_key_id = %s\n' % key)
 		fh.write('aws_secret_access_key = %s\n' % secret)
 		fh.close()
-	print(f, 'done!')
 
 def genClient(cluster, profile):
 	key, secret = getCredentials('uwscli')
 	f = Path('./secret/eks/aws/client', cluster, 'credentials')
+	print(f)
 	with f.open('w') as fh:
 		fh.write('[default]\n')
 		fh.write('aws_access_key_id = %s\n' % key)
@@ -37,7 +38,6 @@ def genClient(cluster, profile):
 		fh.write('aws_access_key_id = %s\n' % key)
 		fh.write('aws_secret_access_key = %s\n' % secret)
 		fh.close()
-	print(f, 'done!')
 
 def main(argv):
 	flags = ArgumentParser(description = __doc__)
