@@ -3,6 +3,7 @@ set -eu
 
 ef=${1:?'env file?'}
 
+# shellcheck disable=SC1090
 . "${ef}"
 
 echo "*** secrets update: ${UWS_CLUSTER}"
