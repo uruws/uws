@@ -1,11 +1,12 @@
 # Docker Upgrades
 
-* `2211` [PR#36](https://github.com/TalkingPts/Infrastructure/pull/36)
+* 2211 [PR36](https://github.com/TalkingPts/Infrastructure/pull/36)
 
 ---
 
 * [docker/base][debian-container]
-    * `2211`: Debian 11.5 (bullseye-20221114-slim)
+    * `2305`: Debian 11.7 (bullseye-20230502-slim)
+    * 2211: Debian 11.5 (bullseye-20221114-slim)
     * 2203-1: Debian 11.3 (bullseye-20220328-slim)
         * zlib security upgrade CVE-2018-25032
     * 2203: Debian 11.2 (bullseye-20220316-slim)
