@@ -26,7 +26,8 @@
 ---
 
 * pod/base
-    * `2211`: Debian 11.5 (bullseye-20221114-slim)
+    * `2305`: Debian 11.7 (bullseye-20230502-slim)
+    * 2211: Debian 11.5 (bullseye-20221114-slim)
     * 2203-1: Debian 11.3 (bullseye-20220328-slim)
         * zlib security upgrade CVE-2018-25032
     * 2203: Debian 11.2 (bullseye-20220316-slim)
@@ -34,7 +35,8 @@
 ---
 
 * pod/test
-    * `2211`: pod:base
+    * `2305`: pod:base
+    * 2211: pod:base
     * 2203: pod:base
 
 ---
