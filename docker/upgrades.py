@@ -12,9 +12,9 @@ from subprocess import check_output
 
 __doc__ = 'uws upgrades helper'
 
-FROM_VERSION   = '2203'
-TO_VERSION     = '2211'
-REMOVE_VERSION = ['2109']
+FROM_VERSION   = '2211'
+TO_VERSION     = '2305'
+REMOVE_VERSION = ['2203']
 
 BUILD_SCRIPT = 'build.sh'
 
