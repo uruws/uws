@@ -54,10 +54,10 @@ spec:
           resources:
             requests:
               cpu: ${APP_CPU}m
-              memory: ${APP_MEMORY}Mi
+              #~ memory: ${APP_MEMORY}Mi
             limits:
               cpu: ${APP_CPU}m
-              memory: ${APP_MEMORY}Mi
+              #~ memory: ${APP_MEMORY}Mi
           readinessProbe:
             exec:
               command:
