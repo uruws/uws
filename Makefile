@@ -504,6 +504,7 @@ publish:
 .PHONY: secrets
 secrets:
 	@./eks/secrets/cluster-all.sh
+	@./eks/secrets/uwsadm-update.py
 	@./eks/secrets/aws.env-all.sh
 	@./eks/secrets/aws.ses-update.py
 	@./eks/secrets/tapoS3-all.sh
