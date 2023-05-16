@@ -508,6 +508,7 @@ secrets:
 	@./eks/secrets/aws.env-all.sh
 	@./eks/secrets/aws.ses-update.py
 	@./eks/secrets/tapoS3-all.sh
+	@./eks/secrets/uwsasb-update.py
 
 .PHONY: check-secrets
 check-secrets:
