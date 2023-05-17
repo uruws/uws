@@ -35,6 +35,7 @@ class Test(unittest.TestCase):
 			'appprod-2302',
 			'appsprod-2302',
 			'apptest-2302',
+			'appweb-2302',
 			'appwrk-2302',
 		])
 		# app list
