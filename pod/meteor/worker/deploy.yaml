@@ -53,10 +53,10 @@ spec:
           resources:
             requests:
               cpu: ${METEOR_WORKER_CPU}m
-              memory: ${METEOR_WORKER_MEMORY}Mi
+              #~ memory: ${METEOR_WORKER_MEMORY}Mi
             limits:
               cpu: ${METEOR_WORKER_CPU}m
-              memory: ${METEOR_WORKER_MEMORY}Mi
+              #~ memory: ${METEOR_WORKER_MEMORY}Mi
           readinessProbe:
             exec:
               command:

@@ -95,10 +95,10 @@ UWSCLI_LOG=off
 # app worker prod
 ##################
 
-3 4 * * * app-scale worker 20
-3 10 * * * app-scale worker 20
-3 16 * * * app-scale worker 20
-3 22 * * * app-scale worker 20
+3 4 * * * app-scale worker 30
+3 10 * * * app-scale worker 30
+3 16 * * * app-scale worker 30
+3 22 * * * app-scale worker 30
 
 
 
