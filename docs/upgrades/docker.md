@@ -1,5 +1,6 @@
 # Docker Upgrades
 
+* `2305` [PR162](https://github.com/TalkingPts/Infrastructure/pull/162)
 * 2211 [PR36](https://github.com/TalkingPts/Infrastructure/pull/36)
 
 ---

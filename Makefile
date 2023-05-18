@@ -513,3 +513,11 @@ secrets:
 .PHONY: check-secrets
 check-secrets:
 	@./eks/secrets/check.sh
+
+#
+# upgrades
+#
+
+.PHONY: upgrades
+upgrades:
+	@./docker/upgrades-all.sh
