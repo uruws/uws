@@ -38,20 +38,20 @@ def _build(app: str, version: str, timeout: int = 3600) -> int:
 	if builder == 'pack':
 		src = uwscli.app[app].build.src
 		target = uwscli.app[app].build.target
-		args = "%s %s %s" % (src, target, version)
+		args = "%s %s %s True" % (src, target, version)
 		return uwscli.run('buildpack.sh', args, timeout = timeout)
 	else:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
 		return uwscli.run('app-build.sh', args, timeout = timeout)
 
-def nq(app: str, version: str, timeout: int = 3600) -> int:
+def nq(app: str, version: str, timeout: int = 3600, autodeploy: bool = False) -> int:
 	builder = uwscli.app[app].build.type
 	build_dir = uwscli.app[app].build.dir
 	build_script = uwscli.app[app].build.script
 	if builder == 'pack':
 		src = uwscli.app[app].build.src
 		target = uwscli.app[app].build.target
-		args = "%s %s %s" % (src, target, version)
+		args = "%s %s %s %s" % (src, target, version, autodeploy)
 		return uwscli.nq('buildpack.sh', args)
 	else:
 		args = "%s %s %s %s" % (app, build_dir, build_script, version)
@@ -64,6 +64,8 @@ def main(argv = []):
 		description = __doc__, epilog = uwscli.build_description())
 	flags.add_argument('-V', '--version', action = 'version',
 		version = uwscli.version())
+	flags.add_argument('-d', '--deploy', action = 'store_true', default = False,
+		help = 'enable auto deploy')
 	flags.add_argument('app', metavar = 'app', choices = uwscli.build_list(),
 		default = 'app', help = 'app name')
 	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
@@ -79,7 +81,7 @@ def main(argv = []):
 		uwscli.error('version blacklist:', args.app, args.version)
 		return 9
 
-	rc = nq(args.app, args.version)
+	rc = nq(args.app, args.version, autodeploy = args.deploy)
 	if rc != 0:
 		uwscli.error("enqueue of %s build job failed!" % args.app)
 		return rc

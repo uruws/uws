@@ -127,7 +127,7 @@ class Test(unittest.TestCase):
 
 	def test_run_pack(t):
 		calls = [
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/buildpack.sh /srv/deploy/App app 0.999', timeout = 3600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/buildpack.sh /srv/deploy/App app 0.999 True', timeout = 3600),
 		]
 		with mock_run():
 			try:
