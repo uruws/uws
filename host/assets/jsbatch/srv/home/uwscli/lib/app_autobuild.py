@@ -38,6 +38,10 @@ def _ignoreTag(app: str, tag: str) -> bool:
 	elif app.startswith('app') and not tag.startswith('2.'):
 		uwscli.debug('tag ignore:', app, 'tag', tag)
 		return True
+	# app build blacklist
+	elif uwscli.build_blacklist(app, tag):
+		uwscli.debug('tag blacklist:', app, 'tag', tag)
+		return True
 	return False
 
 def _latestTag(app: str, src: str) -> str:

@@ -75,6 +75,10 @@ def main(argv = []):
 		uwscli.error('ERROR: not enough disk space!')
 		return rc
 
+	if uwscli.build_blacklist(args.app, args.version):
+		uwscli.error('version blacklist:', args.app, args.version)
+		return 9
+
 	rc = nq(args.app, args.version)
 	if rc != 0:
 		uwscli.error("enqueue of %s build job failed!" % args.app)
