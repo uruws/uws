@@ -4,5 +4,5 @@ awsdir=${PWD}/secret/aws
 docker run --rm --name uws-awscli-cmd --hostname awscli-cmd.uws.local -u uws \
 	--env-file ${awsdir}/cli.env \
 	-v ${awsdir}:/home/uws/.aws:ro \
-	uws/awscli-2211 "$@"
+	uws/awscli-2305 "$@"
 exit 0
