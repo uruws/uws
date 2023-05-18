@@ -1,18 +1,10 @@
-* meteor App tunning
-    * reduce resources to half so we can accommodate 2 containers per ec2
-    * create new workers cluster using on-demand c5n ec2 type
-        * assign resources by CPU only
-    * munin graph/alert worker jobs elapsed time
-
----
-
-* talkingpts.org DNSSEC setup - [I151][I151] `WIP`
+* talkingpts.org DNSSEC setup - [I151][I151] `DONE!`
 
 [I151]: https://github.com/TalkingPts/Infrastructure/issues/151
 
 ---
 
-* munin: updates - `WIP`
+* munin - `DONE!`
     * alerts via amazon SES - [PR149][PR149]
     * mailq check script - [PR152][PR152]
     * cross check limits - [PR153][PR153]
@@ -36,6 +28,32 @@
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
+
+---
+
+* meteor App tunning
+    * reduce resources to half so we can accommodate 2 containers per ec2
+    * create new workers cluster using on-demand c5n ec2 type
+        * assign resources by CPU only
+    * munin graph/alert worker jobs elapsed time
+
+---
+
+* uwscli
+    * app-build autodeploy when requested only
+        * with --deploy
+    * app-build versions blacklist
+        * like App 2.98.8 tag
+
+---
+
+* k8s clusters
+    * remove appprod-2302
+        * replaced by appweb-2302 and appwrk-2302
+    * migrate appsprod-2302 services (CS, infra-ui, ...)
+        * DEGRADED nodegroup
+        * move services to appwrk-2302? or new cluster?
+        * remove appsprod-2302 cluster after migrating all services
 
 ---
 

@@ -60,6 +60,7 @@ class App(object):
 	desc:             str       = 'None'
 	pod:              str       = 'None'
 	build:            AppBuild  = AppBuild('', '')
+	build_blacklist:  list[str] = field(default_factory = list)
 	deploy:           AppDeploy = AppDeploy('')
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
@@ -72,10 +73,13 @@ class App(object):
 
 app: dict[str, App] = {
 	'app': App(False,
-		desc      = 'App web and workers',
-		build     = _buildpack('app/src', 'app'),
-		groups    = ['uwsapp_app'],
-		autobuild = True,
+		desc            = 'App web and workers',
+		build           = _buildpack('app/src', 'app'),
+		build_blacklist = [
+			# 2.98.8 was wrongly created in 2.96 times
+			'2.98.8',
+		],
+		autobuild        = True,
 		autobuild_deploy = [
 			'worker-test',
 			'api-test',
@@ -93,23 +97,24 @@ app: dict[str, App] = {
 				CustomDeploy('app-test'),
 			],
 		},
+		groups = ['uwsapp_app'],
 	),
 	'api-prod': App(True,
-		cluster = 'appprod-2302',
+		cluster = 'appweb-2302',
 		desc    = 'App api',
 		pod     = 'meteor/api',
 		deploy  = AppDeploy('meteor-app'),
 		groups  = ['uwsapp_app'],
 	),
 	'app-prod': App(True,
-		cluster = 'appprod-2302',
+		cluster = 'appweb-2302',
 		desc    = 'App web',
 		pod     = 'meteor/web',
 		deploy  = AppDeploy('meteor-app'),
 		groups  = ['uwsapp_app'],
 	),
 	'worker': App(True,
-		cluster = 'appprod-2302',
+		cluster = 'appwrk-2302',
 		desc    = 'App worker cluster',
 		pod     = 'meteor/worker',
 		deploy  = AppDeploy('meteor-app'),
@@ -184,7 +189,9 @@ class AppCluster(object):
 	region: str
 
 cluster: dict[str, AppCluster] = {
-	'appprod-2302':   AppCluster(region = 'us-east-1'),
-	'appsprod-2302':  AppCluster(region = 'us-east-1'),
-	'apptest-2302':   AppCluster(region = 'us-east-2'),
+	'appprod-2302':  AppCluster(region = 'us-east-1'),
+	'appsprod-2302': AppCluster(region = 'us-east-1'),
+	'apptest-2302':  AppCluster(region = 'us-east-2'),
+	'appweb-2302':   AppCluster(region = 'us-east-2'),
+	'appwrk-2302':   AppCluster(region = 'us-east-2'),
 }

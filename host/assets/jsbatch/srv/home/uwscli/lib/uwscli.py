@@ -209,6 +209,12 @@ def build_description() -> str:
 	"""format build apps description"""
 	return __desc(build_list())
 
+def build_blacklist(appname: str, tag: str) -> bool:
+	if appname in app.keys():
+		if tag.strip() in app[appname].build_blacklist:
+			return True
+	return False
+
 def deploy_list(user: User = None) -> list[str]:
 	"""return list of apps configured for deploy"""
 	if user is None: user = _user
