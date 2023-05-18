@@ -55,29 +55,6 @@
 
 ---
 
-* docker/golang
-    * `2211`: base-2211
-        * build.sh: Dockerfile.2211
-        * ./docker/upgrades.py -t uws/golang
-    * 2203: base-2203
-        * build.sh: Dockerfile.2203
-        * check.sh: golang-2203
-        * cmd.sh: golang-2203
-        * devel.sh: golang-2203
-        * docs.sh: golang-2203
-    * 2109: base-2109
-
----
-
-* docker/python
-    * `2211`: base-2211
-        * ./docker/upgrades.py -U docker/python -t uws/python
-        * ./docker/upgrades.py -t uws/python
-    * 2203: base-2203
-    * 2109: base-2109
-
----
-
 * docker/clamav
     * `2211`: base-testing
         * Dockerfile version

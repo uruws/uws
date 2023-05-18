@@ -16,7 +16,7 @@ for cmd in $(echo ${RUN}); do
 		-v ${PWD}/srv/munin/utils:/home/uws/utils:ro \
 		-v ${SECRET}:/home/uws/secret:ro \
 		-v ${TMPDIR}:/home/uws/tmp \
-		uws/python-2211 ./utils/test/${cmd}
+		uws/python-2305 ./utils/test/${cmd}
 done
 
 exit 0

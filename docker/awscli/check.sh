@@ -14,4 +14,4 @@ exec docker run --rm --name uws-awscli-check \
 	-v ${utils}:/home/uws/bin:ro \
 	-v ${testd}:/home/uws/test:ro \
 	-v ${tmpdir}:/home/uws/tmp \
-	uws/python-2211 /home/uws/test/check.sh
+	uws/python-2305 /home/uws/test/check.sh

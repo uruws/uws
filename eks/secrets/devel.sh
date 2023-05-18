@@ -12,4 +12,4 @@ exec docker run -it --rm --name uws-secrets-devel \
 	-v "${PWD}/secret:/home/uws/secret:ro" \
 	--workdir /home/uws \
 	--entrypoint /usr/local/bin/uws-login.sh \
-	uws/python-2211
+	uws/python-2305
