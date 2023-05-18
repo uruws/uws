@@ -291,5 +291,10 @@ class Test(unittest.TestCase):
 			t.assertEqual(app_autobuild.main(['--deploy', 'crowdsourcing', '0.999.0']), 0)
 			app_autobuild._deploy.assert_called_once_with('cs', '0.999.0')
 
+	def test_ignore_tag(t):
+		with mock():
+			t.assertFalse(app_autobuild._ignoreTag('testing', '0.999'))
+			t.assertTrue(app_autobuild._ignoreTag('testing', '2.98.8'))
+
 if __name__ == '__main__':
 	unittest.main()

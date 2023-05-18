@@ -149,5 +149,9 @@ class Test(unittest.TestCase):
 		with mock_run_error(build_status = 99):
 			t.assertEqual(app_build.run('testing', '0.999'), 99)
 
+	def test_version_blacklist(t):
+		with mock_check_storage():
+			t.assertEqual(app_build.main(['testing', '2.98.8']), 9)
+
 if __name__ == '__main__':
 	unittest.main()
