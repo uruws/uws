@@ -1,7 +1,7 @@
-FROM amazon/aws-cli:2.4.26
+FROM amazon/aws-cli:2.11.20
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220513"
+LABEL version="230518"
 
 USER root:root
 WORKDIR /root
@@ -33,10 +33,6 @@ ENV PATH /home/uws/.local/bin:${PATH}
 
 ARG UWS_UMASK=0027
 
-RUN printf 'umask %s\n'               ${UWS_UMASK}         >>/home/uws/.profile
-RUN printf 'export PATH=%s:${PATH}\n' /home/uws/bin        >>/home/uws/.profile
-RUN printf 'source %s\n'              /etc/bashrc          >>/home/uws/.profile
-
-RUN pip3 install -U pip
-RUN /home/uws/.local/bin/pip3 install -U httpie
-RUN httpie --version
+RUN printf 'umask %s\n'               ${UWS_UMASK}  >>/home/uws/.profile
+RUN printf 'export PATH=%s:${PATH}\n' /home/uws/bin >>/home/uws/.profile
+RUN printf 'source %s\n'              /etc/bashrc   >>/home/uws/.profile

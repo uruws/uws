@@ -42,6 +42,20 @@
 
 ---
 
+* [docker/awscli][awscli]
+    * `2305`: amazon/aws-cli:2.11.20
+        * build.sh: Dockerfile.2211
+        * ./docker/upgrades.py -t uws/awscli
+    * 2211: amazon/aws-cli:2.9.8
+        * build.sh: Dockerfile.2211
+        * ./docker/upgrades.py -t uws/awscli
+    * 2203: amazon/aws-cli:2.4.26
+    * 2109: amazon/aws-cli
+
+[awscli]: https://hub.docker.com/r/amazon/aws-cli/tags
+
+---
+
 * docker/golang
     * `2211`: base-2211
         * build.sh: Dockerfile.2211
@@ -62,17 +76,6 @@
         * ./docker/upgrades.py -t uws/python
     * 2203: base-2203
     * 2109: base-2109
-
----
-
-* [docker/awscli][awscli]
-    * `2211`: amazon/aws-cli:2.9.8
-        * build.sh: Dockerfile.2211
-        * ./docker/upgrades.py -t uws/awscli
-    * 2203: amazon/aws-cli:2.4.26
-    * 2109: amazon/aws-cli
-
-[awscli]: https://hub.docker.com/r/amazon/aws-cli/tags
 
 ---
 
