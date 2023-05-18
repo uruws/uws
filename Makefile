@@ -521,3 +521,11 @@ check-secrets:
 .PHONY: upgrades
 upgrades:
 	@./docker/upgrades-all.sh
+
+.PHONY: upgrades-list
+upgrades-list:
+	@./docker/upgrades.py
+
+.PHONY: upgrades-report
+upgrades-report:
+	@./docker/upgrades.py --check
