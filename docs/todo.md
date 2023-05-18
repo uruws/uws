@@ -31,6 +31,12 @@
 
 ---
 
+* workers munin
+    * check https://workers.talkingpts.org/bandwidthCallbackSMS
+    * check https://workers.talkingpts.org/coconut_webhook
+
+---
+
 * meteor App tunning
     * reduce resources to half so we can accommodate 2 containers per ec2
     * create new workers cluster using on-demand c5n ec2 type
