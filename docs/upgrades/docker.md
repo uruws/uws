@@ -72,14 +72,6 @@
 
 ---
 
-* docker/mkcert
-    * `2211`: base-2211
-        * ./docker/upgrades.py -U docker/mkcert -t uws/mkcert
-        * ./docker/upgrades.py -t uws/mkcert
-    * 2203: base-2203
-
----
-
 * docker/mailx
     * `2211`: base-2211
         * ./docker/upgrades.py -U docker/mailx -t uws/mailx

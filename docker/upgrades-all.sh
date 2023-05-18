@@ -19,4 +19,8 @@ set -eu
 ./docker/upgrades.py -t uws/python -U docker/python
 ./docker/upgrades.py -t uws/python
 
+# uws/mkcert
+./docker/upgrades.py -t uws/mkcert -U docker/mkcert
+./docker/upgrades.py -t uws/mkcert
+
 exit 0
