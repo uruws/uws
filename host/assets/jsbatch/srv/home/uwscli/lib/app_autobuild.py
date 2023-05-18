@@ -131,14 +131,16 @@ def _build(app: str) -> int:
 		pass
 	return EBUILD
 
-def _latestBuild(app: str) -> str:
-	uwscli.debug('latestBuild')
+def _latestBuild(app: str, tag: str = '') -> str:
+	uwscli.debug('latestBuild:', app, tag)
 	l = None
 	for img in uwscli.list_images(app):
 		try:
 			v = semver.VersionInfo.parse(img)
 		except ValueError as err:
 			uwscli.debug('latest build semver error:', err)
+			continue
+		if tag != '' and not str(v).startswith(tag):
 			continue
 		if _ignoreTag(app, str(v)):
 			continue
@@ -159,11 +161,11 @@ def _deploy(app: str, tag: str) -> int:
 		uwscli.debug('deploy:', n)
 		if ver == '':
 			uwscli.debug('get', app, 'latest build')
-			ver = _latestBuild(n)
+			ver = _latestBuild(n, tag = tag.strip())
 		if ver != '':
 			uwscli.debug('version:', ver)
 			v = semver.VersionInfo.parse(ver.split('-')[0])
-			if v >= t:
+			if v == t:
 				uwscli.debug('new version to deploy:', ver)
 				uwscli.info('app-deploy:', n, ver)
 				rc = app_deploy.deploy(n, ver)
