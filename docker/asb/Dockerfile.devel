@@ -1,7 +1,7 @@
-FROM uws/ansible-2211
+FROM uws/ansible-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="221116"
+LABEL version="230518"
 
 USER root:root
 WORKDIR /root

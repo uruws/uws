@@ -112,15 +112,6 @@
 
 ---
 
-* docker/asb
-    * `2211`: base-2211
-        * ./docker/upgrades.py -U docker/asb -t uws/ansible
-        * ./docker/upgrades.py -t uws/ansible
-    * 2203: base-2203
-    * 2109: base-2109
-
----
-
 * docker/k8s
     * `2211`: k8s-122-2211
         * ./docker/upgrades.py -U docker/k8s/122 -t uws/k8s-122
