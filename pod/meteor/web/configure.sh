@@ -7,6 +7,9 @@ appenv=${HOME}/secret/meteor/app/${APP_ENV}.env
 echo "app.env: ${appenv}"
 
 appenv_cluster=${HOME}/secret/meteor/app/${UWS_CLUSTER}.env
+if ! test -s "${appenv_cluster}"; then
+	appenv_cluster=${HOME}/secret/meteor/app/empty.env
+fi
 echo "app-cluster.env: ${appenv_cluster}"
 
 appset=${HOME}/secret/meteor/app/${APP_ENV}-settings.json
