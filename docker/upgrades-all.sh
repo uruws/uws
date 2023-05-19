@@ -23,12 +23,16 @@ set -eu
 ./docker/upgrades.py -t uws/mkcert -U docker/mkcert
 ./docker/upgrades.py -t uws/mkcert
 
+# uws/acme
+./docker/upgrades.py -t uws/acme -U srv/acme
+./docker/upgrades.py -t uws/acme
+
 # uws/mailx
 ./docker/upgrades.py -t uws/mailx -U docker/mailx
 ./docker/upgrades.py -t uws/mailx
 
-# uws/acme
-./docker/upgrades.py -t uws/acme -U srv/acme
-./docker/upgrades.py -t uws/acme
+# uws/crond
+./docker/upgrades.py -t uws/crond -U srv/crond -s uws/mailx
+./docker/upgrades.py -t uws/crond
 
 exit 0
