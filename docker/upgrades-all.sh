@@ -42,6 +42,9 @@ set -eu
 # uws/k8s
 ./k8s/upgrades.py
 
+# uws/eks
+./eks/upgrades.py
+
 # uws/acme
 ./docker/upgrades.py -t uws/acme -U srv/acme
 ./docker/upgrades.py -t uws/acme
