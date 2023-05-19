@@ -10,6 +10,7 @@ import sys
 import yaml
 
 from dataclasses import dataclass
+from dataclasses import field
 from datetime    import datetime
 from os          import chmod
 from os          import makedirs
@@ -26,12 +27,13 @@ __doc__ = 'k8s upgrades helper'
 
 @dataclass
 class Config(object):
-	docker_tag: str = ''
-	k8s_tag:    str = ''
-	kubectl:    str = ''
-	helm:       str = ''
-	kubeshark:  str = ''
-	autoscaler: str = ''
+	docker_tag: str       = ''
+	rm_tags:    list[str] = field(default_factory = list)
+	k8s_tag:    str       = ''
+	kubectl:    str       = ''
+	helm:       str       = ''
+	kubeshark:  str       = ''
+	autoscaler: str       = ''
 
 	def kubectl_url(c):
 		return 'https://amazon-eks.s3.us-west-2.amazonaws.com/%s' % c.kubectl
@@ -60,6 +62,7 @@ class Config(object):
 cfg: dict[str, Config] = {
 	'1.24': Config(
 		docker_tag = '2305',
+		rm_tags    = ['2211'],
 		k8s_tag    = '124',
 		kubectl    = '1.24.6/2022-10-05',
 		helm       = '3.11.0',
@@ -157,6 +160,12 @@ def docker_k8s_build(cfg: dict[str, Config]) -> int:
 			k8s_tag = cfg_remove[version].k8s_tag.strip()
 			print(f"# {version}", file = fh)
 			print(f"docker rmi uws/k8s-{k8s_tag}-{docker_tag} || true", file = fh)
+		print('# cleanup', file = fh)
+		for version in sorted(cfg.keys()):
+			k8s_tag = cfg[version].k8s_tag.strip()
+			print(f"# {version}", file = fh)
+			for rmtag in sorted(cfg[version].rm_tags):
+				print(f"docker rmi uws/k8s-{k8s_tag}-{rmtag} || true", file = fh)
 		print('# build', file = fh)
 		for version in sorted(cfg.keys()):
 			print(f"# {version}", file = fh)

@@ -3,6 +3,9 @@ set -eu
 # remove old
 # 1.22
 docker rmi uws/k8s-122-2211 || true
+# cleanup
+# 1.24
+docker rmi uws/k8s-124-2211 || true
 # build
 # 1.24
 rsync -vax --delete-before ./docker/k8s/build/ ./docker/k8s/124/build/
