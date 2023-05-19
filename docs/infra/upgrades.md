@@ -1,10 +1,10 @@
-# Upgrades schedule
+# Infra Upgrades
+
+* [Docker](./docs/upgrades/docker.md)
 
 ## Changelog
 
 * `2305` [M12](https://github.com/TalkingPts/Infrastructure/milestone/12)
-
-* [2203](https://github.com/TalkingPts/Infrastructure/compare/b6a7990e1cae40d194303c7a6375f1d1142d86a9...9b32f1516ff7f6f9eb03149ac1387c3c6c19280f)
 
 ## Cluster
 
@@ -71,19 +71,6 @@
 [k8s-autoscaler]: https://github.com/kubernetes/autoscaler/releases
 [cert-manager]: https://github.com/jetstack/cert-manager/releases
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server/releases
-
-## Debian OS
-
-* [jsbatch][debian-os]
-    * `2203-1`: zlib security upgrade CVE-2018-25032
-    * 2203: 11.2 (bullseye) - 5.10.0-12
-    * 2109: 10 (buster) -> 11 (bullseye)
-* asb/rstudio
-    * `2203-1`: zlib security upgrade CVE-2018-25032
-    * 2203: 11.2 (bullseye) - 5.10.0-12
-    * 2109: Debian 11 (bullseye)
-
-[debian-os]: https://www.debian.org/releases/
 
 ## App
 
