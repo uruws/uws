@@ -60,11 +60,11 @@ set -eu
 ./docker/upgrades.py -t uws/munin-node
 
 # uws/chatbot
-./docker/upgrades.py -t uws/chatbot -U srv/chatbot
+./docker/upgrades.py -t uws/chatbot -U srv/chatbot -s uws/webapp
 ./docker/upgrades.py -t uws/chatbot
 
 # uws/herokud
-./docker/upgrades.py -t uws/herokud -U srv/herokud
+./docker/upgrades.py -t uws/herokud -U srv/herokud -s uws/crond
 ./docker/upgrades.py -t uws/herokud
 
 exit 0
