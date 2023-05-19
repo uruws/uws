@@ -55,17 +55,6 @@
 
 ---
 
-* docker/mailx
-    * `2211`: base-2211
-        * ./docker/upgrades.py -U docker/mailx -t uws/mailx
-        * ./docker/upgrades.py -t uws/mailx
-    * 2203: base-2203
-        * devel.sh: mailx-2203
-    * 2109: base-2109
-        * devel.sh: mailx
-
----
-
 * docker/k8s
     * `2211`: k8s-122-2211
         * ./docker/upgrades.py -U docker/k8s/122 -t uws/k8s-122
@@ -98,15 +87,6 @@
 
 * docker/heroku
     * `2211`: Dockerfile
-
----
-
-* docker/uwscli
-    * `2211`: python-2211
-        * ./docker/upgrades.py -U docker/uwscli -t uws/cli -s uws/python
-        * ./docker/upgrades.py -t uws/cli
-    * 2203: python-2203
-    * 2109: python-2109
 
 ---
 

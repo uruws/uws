@@ -19,6 +19,10 @@ set -eu
 ./docker/upgrades.py -t uws/python -U docker/python
 ./docker/upgrades.py -t uws/python
 
+# uws/cli
+./docker/upgrades.py -t uws/cli -U docker/uwscli -s uws/python
+./docker/upgrades.py -t uws/cli
+
 # uws/mkcert
 ./docker/upgrades.py -t uws/mkcert -U docker/mkcert
 ./docker/upgrades.py -t uws/mkcert
