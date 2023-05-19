@@ -18,4 +18,4 @@ exec /usr/bin/docker run --rm -u root \
 	-v ${CA}/client:/srv/etc/ca:ro \
 	-v ${CROND}:/srv/etc/cron.d:ro \
 	-v ${CONFD}:/etc/uws/conf:ro \
-	uws/munin-2211
+	uws/munin-2305

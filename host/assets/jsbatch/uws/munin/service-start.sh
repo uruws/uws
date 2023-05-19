@@ -16,4 +16,4 @@ exec /usr/bin/docker run --rm -u root \
 	-v /srv/etc/munin:/srv/etc/munin \
 	-v ${CROND}:/srv/etc/cron.d:ro \
 	-v ${CONFD}:/etc/uws/conf:ro \
-	uws/munin-2211
+	uws/munin-2305

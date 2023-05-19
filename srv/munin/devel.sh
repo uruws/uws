@@ -11,4 +11,4 @@ exec docker run -it --rm --name uws-munin-devel \
 	-v ${PWD}/python:/opt/uws \
 	--tmpfs /var/opt/munin-alert \
 	--workdir /opt/munin \
-	$@ uws/munin-2211
+	$@ uws/munin-2305

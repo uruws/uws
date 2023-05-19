@@ -43,4 +43,8 @@ set -eu
 ./docker/upgrades.py -t uws/crond -U srv/crond -s uws/mailx
 ./docker/upgrades.py -t uws/crond
 
+# uws/munin
+./docker/upgrades.py -t uws/munin -U srv/munin
+./docker/upgrades.py -t uws/munin
+
 exit 0

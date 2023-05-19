@@ -75,16 +75,6 @@
 
 ---
 
-* docker/uwsbot
-    * `2211`: base-2211
-        * ./docker/upgrades.py -U docker/uwsbot -t uws/uwsbot
-        * ./docker/upgrades.py -t uws/uwsbot
-    * 2203: base-2203
-        * devel.sh: golang-2203
-    * 2109: base-2109
-
----
-
 * docker/heroku
     * `2211`: Dockerfile
 
