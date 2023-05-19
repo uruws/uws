@@ -72,6 +72,6 @@
 
 ---
 
-    $ make upgrades-report
+    $ make upgrades-check
     $ make upgrades
-    $ make upgrades-report
+    $ make upgrades-check

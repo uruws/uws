@@ -526,6 +526,6 @@ upgrades:
 upgrades-list:
 	@./docker/upgrades.py
 
-.PHONY: upgrades-report
-upgrades-report:
+.PHONY: upgrades-check
+upgrades-check:
 	@./docker/upgrades.py --check
