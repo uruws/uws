@@ -67,4 +67,8 @@ set -eu
 ./docker/upgrades.py -t uws/herokud -U srv/herokud -s uws/crond
 ./docker/upgrades.py -t uws/herokud
 
+# uws/nginx
+./docker/upgrades.py -t uws/nginx -U srv/nginx
+./docker/upgrades.py -t uws/nginx
+
 exit 0
