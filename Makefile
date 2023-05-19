@@ -86,7 +86,7 @@ utils: acme
 .PHONY: utils-publish
 utils-publish: utils
 	@./host/ecr-login.sh sa-east-1
-	@./cluster/ecr-push.sh sa-east-1 uws/acme-2211 uwsops:acme
+	@./cluster/ecr-push.sh sa-east-1 uws/acme-2305 uwsops:acme
 
 .PHONY: awscli
 awscli:

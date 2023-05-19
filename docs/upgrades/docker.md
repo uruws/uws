@@ -55,23 +55,6 @@
 
 ---
 
-* docker/clamav
-    * `2211`: base-testing
-        * Dockerfile version
-    * 2203: base-testing
-    * 2109: base-testing
-
----
-
-* srv/acme
-    * `2211`: base-2211
-        * ./docker/upgrades.py -U srv/acme -t uws/acme
-        * ./docker/upgrades.py -t uws/acme
-    * 2203: base-2203
-    * 2109: base-2109
-
----
-
 * docker/mailx
     * `2211`: base-2211
         * ./docker/upgrades.py -U docker/mailx -t uws/mailx

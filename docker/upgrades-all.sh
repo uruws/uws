@@ -27,4 +27,8 @@ set -eu
 ./docker/upgrades.py -t uws/mailx -U docker/mailx
 ./docker/upgrades.py -t uws/mailx
 
+# uws/acme
+./docker/upgrades.py -t uws/acme -U srv/acme
+./docker/upgrades.py -t uws/acme
+
 exit 0
