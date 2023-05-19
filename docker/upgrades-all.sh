@@ -47,4 +47,8 @@ set -eu
 ./docker/upgrades.py -t uws/munin -U srv/munin
 ./docker/upgrades.py -t uws/munin
 
+# uws/munin-backend
+./docker/upgrades.py -t uws/munin-backend -U srv/munin-backend -s uws/munin
+./docker/upgrades.py -t uws/munin-backend
+
 exit 0
