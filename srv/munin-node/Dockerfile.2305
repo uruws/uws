@@ -1,7 +1,7 @@
-FROM uws/base-2203
+FROM uws/base-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220921"
+LABEL version="230519"
 
 USER root:root
 WORKDIR /root
@@ -15,7 +15,7 @@ RUN /root/bin/apt-install.sh munin-node psmisc procps munin-plugins-core munin-p
 ENV MN munin-contrib
 ENV MR uruws/${MN}
 ENV MV 438e31f70d1a149d3e8d0db0fa875b10ef1e8dd7
-RUN wget -O munin-contrib.tgz \
+RUN wget -q -O munin-contrib.tgz \
 	https://github.com/${MR}/archive/${MV}.tar.gz \
 	&& tar -xzf munin-contrib.tgz \
 	&& rm -vf munin-contrib.tgz \
