@@ -290,7 +290,7 @@ CHATBOT_TAG != cat ./srv/chatbot/VERSION
 .PHONY: chatbot-publish
 chatbot-publish: chatbot-check
 	@./host/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/chatbot-2211 uws:chatbot-$(CHATBOT_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/chatbot-2305 uws:chatbot-$(CHATBOT_TAG)
 
 #
 # ab (apache benchmark)

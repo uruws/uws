@@ -59,4 +59,8 @@ set -eu
 ./docker/upgrades.py -t uws/munin-node -U srv/munin-node
 ./docker/upgrades.py -t uws/munin-node
 
+# uws/chatbot
+./docker/upgrades.py -t uws/chatbot -U srv/chatbot
+./docker/upgrades.py -t uws/chatbot
+
 exit 0
