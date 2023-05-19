@@ -13,4 +13,4 @@ exec docker run -it --rm --name uws-mailx-devel \
 	-v ${CA}:/srv/etc/ca:ro \
 	--tmpfs /tmp \
 	--workdir /home/uws \
-	uws/mailx-2211
+	uws/mailx-2305

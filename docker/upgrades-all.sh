@@ -23,4 +23,8 @@ set -eu
 ./docker/upgrades.py -t uws/mkcert -U docker/mkcert
 ./docker/upgrades.py -t uws/mkcert
 
+# uws/mailx
+./docker/upgrades.py -t uws/mailx -U docker/mailx
+./docker/upgrades.py -t uws/mailx
+
 exit 0
