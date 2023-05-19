@@ -79,6 +79,7 @@ def writefile(name: str, data: str):
 def fslist(repo):
 	for fn in git_ls(repo, '*Dockerfile*'):
 		print(Path(repo, fn))
+	return 0
 
 def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 	src = '%s-%s' % (tag, vfrom)
@@ -103,6 +104,16 @@ def check(repo, vfrom, vto):
 		if dstfn.exists():
 			continue
 		print(Path(repo, fn))
+	return 0
+
+def prune_docker(repo):
+	for v in REMOVE_VERSION:
+		for fn in git_ls(repo, '*Dockerfile*.%s' % v):
+			p = Path(repo, fn)
+			if p.exists() and p.is_file():
+				print('remove:', p)
+				p.unlink()
+	return 0
 
 def upgrade_docker(repo, vfrom, vto, tag, srctag):
 	for fn in git_ls(repo, '*Dockerfile*.%s' % vfrom):
@@ -110,7 +121,7 @@ def upgrade_docker(repo, vfrom, vto, tag, srctag):
 		dstfn = Path(repo, fn.replace(vfrom, vto, 1))
 		if dstfn.exists():
 			continue
-		print(srcfn)
+		print(srcfn, '->', dstfn)
 		copyfn(srcfn, dstfn)
 		src = '%s-%s' % (srctag, vfrom)
 		dst = '%s-%s' % (srctag, vto)
@@ -118,7 +129,7 @@ def upgrade_docker(repo, vfrom, vto, tag, srctag):
 		replace_docker_version(dstfn, date_version())
 		dstdir = dstfn.parent
 		build_script(repo, dstdir, tag, vfrom, vto)
-		print(dstfn)
+	return prune_docker(repo)
 
 # main
 
