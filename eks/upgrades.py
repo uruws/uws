@@ -8,6 +8,7 @@ import subprocess
 import sys
 
 from dataclasses import dataclass
+from dataclasses import field
 from datetime    import datetime
 from os          import chmod
 from os          import makedirs
@@ -23,10 +24,11 @@ __doc__ = 'eks upgrades helper'
 
 @dataclass
 class Config(object):
-	docker_tag: str = ''
-	eks_tag:    str = ''
-	k8s_tag:    str = ''
-	eksctl:     str = ''
+	docker_tag: str       = ''
+	rm_tags:    list[str] = field(default_factory = list)
+	eks_tag:    str       = ''
+	k8s_tag:    str       = ''
+	eksctl:     str       = ''
 
 	def eksctl_url(c):
 		return 'https://github.com/weaveworks/eksctl/releases/download/v%s' % c.eksctl
@@ -37,6 +39,7 @@ class Config(object):
 cfg: dict[str, Config] = {
 	'1.24': Config(
 		docker_tag = '2305',
+		rm_tags    = ['2211'],
 		eks_tag    = '124',
 		k8s_tag    = '124',
 		eksctl     = '0.127.0',
@@ -137,6 +140,12 @@ def docker_eks_build(cfg: dict[str, Config]) -> int:
 			eks_tag = cfg_remove[version].eks_tag.strip()
 			print(f"# {version}", file = fh)
 			print(f"docker rmi uws/eks-{eks_tag}-{docker_tag} || true", file = fh)
+		print('# cleanup', file = fh)
+		for version in sorted(cfg.keys()):
+			eks_tag = cfg[version].eks_tag.strip()
+			print(f"# {version}", file = fh)
+			for rmtag in sorted(cfg[version].rm_tags):
+				print(f"docker rmi uws/eks-{eks_tag}-{rmtag} || true", file = fh)
 		print('# build', file = fh)
 		for version in sorted(cfg.keys()):
 			print(f"# {version}", file = fh)
