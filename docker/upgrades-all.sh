@@ -75,4 +75,8 @@ set -eu
 ./docker/upgrades.py -t uws/proftpd -U srv/proftpd
 ./docker/upgrades.py -t uws/proftpd
 
+# uws/ab
+./docker/upgrades.py -t uws/ab -U srv/ab
+./docker/upgrades.py -t uws/ab
+
 exit 0
