@@ -35,13 +35,6 @@
 
 ---
 
-* pod/test
-    * `2305`: pod:base
-    * 2211: pod:base
-    * 2203: pod:base
-
----
-
 * [docker/awscli][awscli]
     * `2305`: amazon/aws-cli:2.11.20
         * build.sh: Dockerfile.2211
