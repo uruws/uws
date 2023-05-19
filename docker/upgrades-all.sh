@@ -39,6 +39,10 @@ set -eu
 ./docker/upgrades.py -t uws/mailx -U docker/mailx
 ./docker/upgrades.py -t uws/mailx
 
+# uws/webapp
+./docker/upgrades.py -t uws/webapp -U docker/webapp
+./docker/upgrades.py -t uws/webapp
+
 # uws/crond
 ./docker/upgrades.py -t uws/crond -U srv/crond -s uws/mailx
 ./docker/upgrades.py -t uws/crond
