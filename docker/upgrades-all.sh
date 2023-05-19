@@ -31,10 +31,6 @@ set -eu
 ./docker/upgrades.py -t uws/mkcert -U docker/mkcert
 ./docker/upgrades.py -t uws/mkcert
 
-# uws/acme
-./docker/upgrades.py -t uws/acme -U srv/acme
-./docker/upgrades.py -t uws/acme
-
 # uws/mailx
 ./docker/upgrades.py -t uws/mailx -U docker/mailx
 ./docker/upgrades.py -t uws/mailx
@@ -42,6 +38,13 @@ set -eu
 # uws/webapp
 ./docker/upgrades.py -t uws/webapp -U docker/webapp
 ./docker/upgrades.py -t uws/webapp
+
+# uws/k8s
+./k8s/upgrades.py
+
+# uws/acme
+./docker/upgrades.py -t uws/acme -U srv/acme
+./docker/upgrades.py -t uws/acme
 
 # uws/crond
 ./docker/upgrades.py -t uws/crond -U srv/crond -s uws/mailx

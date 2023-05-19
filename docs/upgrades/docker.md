@@ -72,24 +72,3 @@
         * ./docker/upgrades.py -t 'uws/${EKS_IMAGE}'
     * 2203: k8s-2203
     * 2109: k8s
-
----
-
-* docker/heroku
-    * `2211`: Dockerfile
-
----
-
-* srv/proftpd
-    * `2211`: base-2211
-        * ./docker/upgrades.py -U srv/proftpd -t uws/proftpd
-        * ./docker/upgrades.py -t uws/proftpd
-    * 2203: base-2203
-    * 2109: base-2109
-
----
-
-* srv/herokud
-    * `2211`: crond-2211
-        * ./docker/upgrades.py -U srv/herokud -t uws/herokud -s uws/crond
-        * ./docker/upgrades.py -t uws/herokud

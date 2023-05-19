@@ -231,7 +231,7 @@ def k8smon_publish(cfg: Config):
 		print('#!/bin/sh', file = fh)
 		print('set -eu', file = fh)
 		print('MON_TAG=$(cat ./k8s/mon/VERSION)', file = fh)
-		print('./docker/ecr-login.sh us-east-1', file = fh)
+		print('./host/ecr-login.sh us-east-1', file = fh)
 		for version in sorted(cfg.keys()):
 			k8s_tag = cfg[version].k8s_tag.strip()
 			docker_tag = cfg[version].docker_tag.strip()
