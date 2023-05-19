@@ -63,4 +63,8 @@ set -eu
 ./docker/upgrades.py -t uws/chatbot -U srv/chatbot
 ./docker/upgrades.py -t uws/chatbot
 
+# uws/herokud
+./docker/upgrades.py -t uws/herokud -U srv/herokud
+./docker/upgrades.py -t uws/herokud
+
 exit 0
