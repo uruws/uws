@@ -76,3 +76,7 @@
         * ./docker/upgrades.py -t 'uws/${EKS_IMAGE}'
     * 2203: k8s-2203
     * 2109: k8s
+
+---
+
+    $ make upgrades
