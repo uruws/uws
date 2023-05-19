@@ -1,7 +1,7 @@
 # Infra Upgrades
 
-* [Server](../docs/upgrades/server.md)
-* [Docker](../docs/upgrades/docker.md)
+* [Server](../upgrades/server.md)
+* [Docker](../upgrades/docker.md)
 
 ## Changelog
 
