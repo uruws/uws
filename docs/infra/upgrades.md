@@ -2,6 +2,7 @@
 
 * [Server](../upgrades/server.md)
 * [Docker](../upgrades/docker.md)
+* [Buildpack](../upgrades/buildpack.md)
 
 ## Changelog
 
