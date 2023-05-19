@@ -35,12 +35,6 @@ class Config(object):
 #   https://github.com/weaveworks/eksctl/tags
 
 cfg: dict[str, Config] = {
-	'1.22': Config(
-		docker_tag = '2211',
-		eks_tag    = '122',
-		k8s_tag    = '122',
-		eksctl     = '0.101.0',
-	),
 	'1.24': Config(
 		docker_tag = '2211',
 		eks_tag    = '124',
@@ -50,9 +44,9 @@ cfg: dict[str, Config] = {
 }
 
 cfg_remove: dict[str, Config] = {
-	'1.25': Config(
+	'1.22': Config(
 		docker_tag = '2211',
-		eks_tag    = '125',
+		eks_tag    = '122',
 	),
 }
 
