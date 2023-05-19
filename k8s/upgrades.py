@@ -59,7 +59,7 @@ class Config(object):
 
 cfg: dict[str, Config] = {
 	'1.24': Config(
-		docker_tag = '2211',
+		docker_tag = '2305',
 		k8s_tag    = '124',
 		kubectl    = '1.24.6/2022-10-05',
 		helm       = '3.11.0',

@@ -56,7 +56,9 @@
 ---
 
 * docker/k8s
-    * `2211`: k8s-122-2211
+    * `2305`: ./k8s/upgrades.py
+        * docker_tag: 2305
+    * 2211: k8s-122-2211
         * ./docker/upgrades.py -U docker/k8s/122 -t uws/k8s-122
         * ./docker/upgrades.py -t uws/k8s-122
         * ./docker/upgrades.py -t 'uws/${K8S_IMAGE}'
@@ -66,7 +68,9 @@
 ---
 
 * docker/eks
-    * `2211`: base-2211
+    * `2305`: ./eks/upgrades.py
+        * docker_tag: 2305
+    * 2211: base-2211
         * ./docker/upgrades.py -U docker/eks/122 -t uws/eks-122 -s uws/k8s-122
         * ./docker/upgrades.py -t uws/eks-122
         * ./docker/upgrades.py -t 'uws/${EKS_IMAGE}'

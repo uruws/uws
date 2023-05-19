@@ -41,9 +41,15 @@ set -eu
 
 # uws/k8s
 ./k8s/upgrades.py
+./docker/upgrades.py -t uws/k8s-124 -U docker/k8s/124
+./docker/upgrades.py -t uws/k8s-124        || true
+./docker/upgrades.py -t 'uws/${K8S_IMAGE}' || true
 
 # uws/eks
 ./eks/upgrades.py
+./docker/upgrades.py -U docker/eks/124 -t uws/eks-124 -s uws/k8s-124
+./docker/upgrades.py -t uws/eks-124        || true
+./docker/upgrades.py -t 'uws/${EKS_IMAGE}' || true
 
 # uws/acme
 ./docker/upgrades.py -t uws/acme -U srv/acme
