@@ -71,4 +71,8 @@ set -eu
 ./docker/upgrades.py -t uws/nginx -U srv/nginx
 ./docker/upgrades.py -t uws/nginx
 
+# uws/proftpd
+./docker/upgrades.py -t uws/proftpd -U srv/proftpd
+./docker/upgrades.py -t uws/proftpd
+
 exit 0
