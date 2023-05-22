@@ -46,8 +46,7 @@ set -eu
 
 # uws/eks
 ./eks/upgrades.py
-./docker/upgrades.py -U docker/eks/124 -t uws/eks-124 -s uws/k8s-124
-./docker/upgrades.py -t uws/eks-124        || true
+./eks/upgrades-all.sh
 ./docker/upgrades.py -t 'uws/${EKS_IMAGE}' || true
 
 # uws/acme
