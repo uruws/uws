@@ -93,6 +93,8 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 				pass
 			elif fn.endswith('.%s' % vto):
 				pass
+			elif fn == 'Dockerfile':
+				pass
 			else:
 				continue
 		print(fpath)
