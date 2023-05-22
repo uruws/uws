@@ -2,7 +2,7 @@
 
 * [Server](../upgrades/server.md)
 * [Docker](../upgrades/docker.md)
-* [Buildpack](../upgrades/buildpack.md)
+* [Buildpack](https://github.com/TalkingPts/Buildpack/docs/upgrades.md)
 
 ## Changelog
 
