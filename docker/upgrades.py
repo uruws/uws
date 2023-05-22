@@ -88,8 +88,13 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 		fn = Path(fpath).name.strip()
 		if fn == BUILD_SCRIPT:
 			continue
-		elif fn.startswith('Dockerfile') and not fn.endswith('.devel'):
-			continue
+		elif fn.startswith('Dockerfile'):
+			if fn.endswith('.devel'):
+				pass
+			elif fn.endswith('.%s' % vto):
+				pass
+			else:
+				continue
 		print(fpath)
 		replace(fpath, src, dst)
 		if fn == 'Dockerfile.devel':
