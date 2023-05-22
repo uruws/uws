@@ -125,6 +125,9 @@ mkcert:
 
 .PHONY: golang
 golang:
+	@mkdir -vp ./docker/golang/tmp
+	@install -v -m 0640 ./go/go.mod ./docker/golang/tmp
+	@install -v -m 0640 ./go/go.sum ./docker/golang/tmp
 	@./docker/golang/build.sh
 
 .PHONY: python
