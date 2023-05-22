@@ -2,7 +2,7 @@
 set -eu
 
 k8sls() (
-	for fn in docker/k8s/*/Dockerfile.????; do basename $(dirname $fn); done | sort -u
+	for fn in docker/k8s/*/Dockerfile.????; do basename "$(dirname $fn)"; done | sort -u
 )
 
 for k8s in $(k8sls); do

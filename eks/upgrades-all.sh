@@ -2,7 +2,7 @@
 set -eu
 
 eksls() (
-	for fn in docker/eks/*/Dockerfile.????; do basename $(dirname $fn); done | sort -u
+	for fn in docker/eks/*/Dockerfile.????; do basename "$(dirname $fn)"; done | sort -u
 )
 
 for eks in $(eksls); do
