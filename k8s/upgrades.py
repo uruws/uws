@@ -84,15 +84,15 @@ DOCKER_VERSION = '230519'
 #
 
 def mkdir(name: str):
-	print(name)
+	# ~ print(name)
 	makedirs(name, mode = 0o750, exist_ok = True)
 
 def copy(src: str, dst: str, ignore: Callable = None):
-	print(src, '->', dst)
+	# ~ print(src, '->', dst)
 	copytree(src, dst, symlinks = True, dirs_exist_ok = True, ignore = ignore)
 
 def envsubst(src: str, dst: str, env: dict[str, str]):
-	print(src, '->', dst)
+	# ~ print(src, '->', dst)
 	cmd = '/usr/bin/envsubst'
 	with open(src, 'rb') as stdin:
 		with open(dst, 'wb') as stdout:
