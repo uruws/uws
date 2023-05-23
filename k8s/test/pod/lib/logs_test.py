@@ -55,5 +55,13 @@ class Test(unittest.TestCase):
 		t.assertEqual(logs.main(['-n', 'ns', '-l', 'testing']), 0)
 		logs._system.assert_called_once_with('uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors -l testing')
 
+	def test_main_container(t):
+		t.assertEqual(logs.main(['-n', 'ns', '-c', 'testing']), 0)
+		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors -l '*' -c testing")
+
+	def test_main_all_containers(t):
+		t.assertEqual(logs.main(['-n', 'ns', '-C']), 0)
+		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors -l '*' --all-containers=true")
+
 if __name__ == '__main__':
 	unittest.main()
