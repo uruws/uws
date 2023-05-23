@@ -4,53 +4,6 @@
 
 ---
 
-* uwscli - `DONE!`
-    * app-build versions blacklist - [PR165][PR165]
-        * like App 2.98.8 tag
-    * app-build autodeploy when requested only - [PR166][PR166]
-        * with --deploy
-
-[PR165]: https://github.com/TalkingPts/Infrastructure/pull/165
-[PR166]: https://github.com/TalkingPts/Infrastructure/pull/166
-
----
-
-* Infrastructure CI: check-secret - `DONE!`
-    * check/parse config files from secret directory
-        * like parsing secret/eks/files/meteor/*/*.json for syntax errors
-        * secret/eks/files/meteor/*/*.env shellcheck and/or similar
-        * secret/aws.config/s3/*.env and secret/aws.config/s3/*.json
-        * secret/eks/files/munin/conf/alerts_conf.json
-
----
-
-* talkingpts.org DNSSEC setup - [I151][I151] `DONE!`
-
-[I151]: https://github.com/TalkingPts/Infrastructure/issues/151
-
----
-
-* munin - `DONE!`
-    * alerts via amazon SES - [PR149][PR149]
-    * mailq check script - [PR152][PR152]
-    * cross check limits - [PR153][PR153]
-    * nodes condition limits - [PR154][PR154]
-    * stop using internal smtps - [PR155][PR155] [PR157][PR157]
-
-[PR149]: https://github.com/TalkingPts/Infrastructure/pull/149
-
-[PR152]: https://github.com/TalkingPts/Infrastructure/pull/152
-
-[PR153]: https://github.com/TalkingPts/Infrastructure/pull/153
-
-[PR154]: https://github.com/TalkingPts/Infrastructure/pull/154
-
-[PR155]: https://github.com/TalkingPts/Infrastructure/pull/155
-
-[PR157]: https://github.com/TalkingPts/Infrastructure/pull/157
-
----
-
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
@@ -68,6 +21,14 @@
 * 2305 [upgrades][upgrades] round - `WIP`
 
 [upgrades]: ./infra/upgrades.md
+
+---
+
+* munin: remove total field from k8s top cpu and mem graphs
+
+---
+
+* App: send callbacks to api containers instead of workers
 
 ---
 
