@@ -20,7 +20,7 @@ set -eu
 ./docker/upgrades.py -t uws/python
 
 # uws/cli
-./docker/upgrades.py -t uws/cli -U docker/uwscli -s uws/python
+./docker/upgrades.py -t uws/cli -s uws/python -U docker/uwscli
 ./docker/upgrades.py -t uws/cli
 
 # uws/uwsbot
@@ -54,15 +54,15 @@ set -eu
 ./docker/upgrades.py -t uws/acme
 
 # uws/crond
-./docker/upgrades.py -t uws/crond -U srv/crond -s uws/mailx
+./docker/upgrades.py -t uws/crond -s uws/mailx -U srv/crond
 ./docker/upgrades.py -t uws/crond
 
 # uws/munin
-./docker/upgrades.py -t uws/munin -U srv/munin
+./docker/upgrades.py -t uws/munin -s uws/mailx -U srv/munin
 ./docker/upgrades.py -t uws/munin
 
 # uws/munin-backend
-./docker/upgrades.py -t uws/munin-backend -U srv/munin-backend -s uws/munin
+./docker/upgrades.py -t uws/munin-backend -s uws/munin -U srv/munin-backend
 ./docker/upgrades.py -t uws/munin-backend
 
 # uws/munin-node
@@ -70,11 +70,11 @@ set -eu
 ./docker/upgrades.py -t uws/munin-node
 
 # uws/chatbot
-./docker/upgrades.py -t uws/chatbot -U srv/chatbot -s uws/webapp
+./docker/upgrades.py -t uws/chatbot -s uws/webapp -U srv/chatbot
 ./docker/upgrades.py -t uws/chatbot
 
 # uws/herokud
-./docker/upgrades.py -t uws/herokud -U srv/herokud -s uws/crond
+./docker/upgrades.py -t uws/herokud -s uws/crond -U srv/herokud
 ./docker/upgrades.py -t uws/herokud
 
 # uws/nginx
