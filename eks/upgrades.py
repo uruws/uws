@@ -52,8 +52,6 @@ cfg_remove: dict[str, Config] = {
 	),
 }
 
-DOCKER_VERSION = '230519'
-
 #
 # utils
 #
@@ -91,7 +89,7 @@ def docker_eks_ignore(src, names):
 	return l
 
 def docker_version() -> str:
-	return DOCKER_VERSION.strip()
+	return Path('./docker/VERSION').read_text().strip()
 
 def docker_eks(version: str, cfg: Config):
 	# ~ print('docker/eks:', version)

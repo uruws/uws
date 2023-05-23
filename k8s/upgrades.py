@@ -77,8 +77,6 @@ cfg_remove: dict[str, Config] = {
 	),
 }
 
-DOCKER_VERSION = '230519'
-
 #
 # utils
 #
@@ -116,9 +114,7 @@ def docker_k8s_ignore(src, names):
 	return l
 
 def docker_version() -> str:
-	# ~ now = datetime.now()
-	# ~ return now.strftime('%y%m%d')
-	return DOCKER_VERSION.strip()
+	return Path('./docker/VERSION').read_text().strip()
 
 def docker_k8s(version: str, cfg: Config):
 	src = './k8s/tpl/docker'
