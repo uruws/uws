@@ -59,15 +59,15 @@ DOCKER_VERSION = '230519'
 #
 
 def mkdir(name: str):
-	print(name)
+	# ~ print(name)
 	makedirs(name, mode = 0o750, exist_ok = True)
 
 def copy(src: str, dst: str, ignore: Callable = None):
-	print(src, '->', dst)
+	# ~ print(src, '->', dst)
 	copytree(src, dst, symlinks = True, dirs_exist_ok = True, ignore = ignore)
 
 def envsubst(src: str, dst: str, env: dict[str, str]):
-	print(src, '->', dst)
+	# ~ print(src, '->', dst)
 	cmd = ['/usr/bin/envsubst']
 	with open(src, 'rb') as stdin:
 		with open(dst, 'wb') as stdout:
@@ -94,7 +94,7 @@ def docker_version() -> str:
 	return DOCKER_VERSION.strip()
 
 def docker_eks(version: str, cfg: Config):
-	print('docker/eks:', version)
+	# ~ print('docker/eks:', version)
 	src = './eks/tpl/docker'
 	dst = './docker/eks/%s' % cfg.eks_tag.strip()
 	mkdir(dst)
@@ -130,7 +130,7 @@ def docker_eks_cleanup(version: str, cfg: Config):
 
 def docker_eks_build(cfg: dict[str, Config]) -> int:
 	buildfn = './docker/eks/build.sh'
-	print(buildfn)
+	# ~ print(buildfn)
 	with open(buildfn, 'w') as fh:
 		print('#!/bin/sh', file = fh)
 		print('set -eu', file = fh)

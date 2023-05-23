@@ -152,7 +152,7 @@ def docker_k8s_cleanup(version: str, cfg: Config):
 
 def docker_k8s_build(cfg: dict[str, Config]) -> int:
 	buildfn = './docker/k8s/build.sh'
-	print(buildfn)
+	# ~ print(buildfn)
 	with open(buildfn, 'w') as fh:
 		print('#!/bin/sh', file = fh)
 		print('set -eu', file = fh)
@@ -220,7 +220,7 @@ def k8s_autoscaler(version: str, cfg: Config):
 				# container command
 				k8s_container_command(version, cfg, d)
 			docs_final.append(d)
-	print(dstfn)
+	# ~ print(dstfn)
 	with open(dstfn, 'w') as fh:
 		yaml.safe_dump_all(docs_final, fh, sort_keys = False)
 
@@ -229,7 +229,7 @@ def k8s_autoscaler_cleanup(version: str, cfg: Config):
 
 def k8smon_publish(cfg: Config):
 	script = './k8s/mon/publish.sh'
-	print(script)
+	# ~ print(script)
 	with open(script, 'w') as fh:
 		print('#!/bin/sh', file = fh)
 		print('set -eu', file = fh)
@@ -246,7 +246,7 @@ def k8smon_publish(cfg: Config):
 
 def k8smon_version():
 	fn = './k8s/mon/VERSION'
-	print(fn)
+	# ~ print(fn)
 	with open(fn, 'w') as fh:
 		print(docker_version(), file = fh)
 
