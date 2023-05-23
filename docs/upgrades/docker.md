@@ -75,3 +75,11 @@
     $ make upgrades-check
     $ make upgrades
     $ make upgrades-check
+
+---
+
+    $ ./deploy.sh
+
+---
+
+    $ make publish
