@@ -1,3 +1,29 @@
+* Weekly [changelog][wcl]
+
+[wcl]: https://github.com/TalkingPts/Infrastructure/compare/master%40%7B7days%7D...master
+
+---
+
+* uwscli - `DONE!`
+    * app-build versions blacklist - [PR165][PR165]
+        * like App 2.98.8 tag
+    * app-build autodeploy when requested only - [PR166][PR166]
+        * with --deploy
+
+[PR165]: https://github.com/TalkingPts/Infrastructure/pull/165
+[PR166]: https://github.com/TalkingPts/Infrastructure/pull/166
+
+---
+
+* Infrastructure CI: check-secret - `DONE!`
+    * check/parse config files from secret directory
+        * like parsing secret/eks/files/meteor/*/*.json for syntax errors
+        * secret/eks/files/meteor/*/*.env shellcheck and/or similar
+        * secret/aws.config/s3/*.env and secret/aws.config/s3/*.json
+        * secret/eks/files/munin/conf/alerts_conf.json
+
+---
+
 * talkingpts.org DNSSEC setup - [I151][I151] `DONE!`
 
 [I151]: https://github.com/TalkingPts/Infrastructure/issues/151
@@ -31,13 +57,7 @@
 
 ---
 
-* workers munin
-    * check https://workers.talkingpts.org/bandwidthCallbackSMS
-    * check https://workers.talkingpts.org/coconut_webhook
-
----
-
-* meteor App tunning
+* meteor App tunning - `WIP`
     * reduce resources to half so we can accommodate 2 containers per ec2
     * create new workers cluster using on-demand c5n ec2 type
         * assign resources by CPU only
@@ -45,17 +65,28 @@
 
 ---
 
-* uwscli
-    * app-build autodeploy when requested only
-        * with --deploy
-    * app-build versions blacklist
-        * like App 2.98.8 tag
+* 2305 [upgrades][upgrades] round - `WIP`
+
+[upgrades]: ./infra/upgrades.md
+
+---
+
+* remove k8s cluster appprod-2302
+    * replaced by appweb-2302 and appwrk-2302
+
+---
+
+* workers: separate callbacks vs jobs managers
+
+---
+
+* workers munin
+    * check https://workers.talkingpts.org/bandwidthCallbackSMS
+    * check https://workers.talkingpts.org/coconut_webhook
 
 ---
 
 * k8s clusters
-    * remove appprod-2302
-        * replaced by appweb-2302 and appwrk-2302
     * migrate appsprod-2302 services (CS, infra-ui, ...)
         * DEGRADED nodegroup
         * move services to appwrk-2302? or new cluster?
@@ -83,10 +114,6 @@
 ---
 
 * uwscli: meteor deploy to heroku to keep versions in sync
-
----
-
-* workers: separate callbacks vs jobs managers
 
 ---
 
@@ -150,16 +177,7 @@
 
 ---
 
-* Infrastructure CI: check-secret
-    * check/parse config files from secret directory
-        * like parsing secret/eks/files/meteor/*/*.json for syntax errors
-        * secret/eks/files/meteor/*/*.env shellcheck and/or similar
-        * secret/aws.config/s3/*.env and secret/aws.config/s3/*.json
-        * secret/eks/files/munin/conf/alerts_conf.json
-
----
-
-* `SEC` `WAIT` App security changes
+* `SEC` App security changes
     * Remove private/settings.json from the repo
 
 ---
@@ -208,12 +226,6 @@
 
 ---
 
-* `FIX` infra-ui config: JIRA_TOKEN='mauro'
-    * and the JIRA_TOKEN too as I guess it's from Mauro's account
-    * asked Gabriel but no reply yet
-
----
-
 * Research Team
     * re-implement jupyter notebook setups
         * setup one web interface per user vs the "global" one we currently have
@@ -232,11 +244,6 @@
     * the SSH service should be only enabled when we dispatch the debug containers, using a random public port ideally and setting a random password for the uws user inside the container (show that password in the container init steps or similar) so we can share that info (port and password) "securely" as it's generated every time the container starts
 
 [node-inspector]: https://nodejs.org/en/docs/guides/debugging-getting-started/
-
----
-
-* apply awscli/utils/s3-app-bucket*.sh to production App bucket (stagingmms)
-    * it was applied to staging environment, but not yet on prod
 
 ---
 
@@ -278,17 +285,11 @@
 
 ---
 
-* uwscli auto-setup from main configuration
-    * integrate with buildpack deploy scripts
-
----
-
 * munin: scan cluster ingress domains and add them to the checks (munin-node-clusters)
 
 ---
 
 * aws support meeting
-    * setup CDN mainly to help saving network transfer costs
     * Route53 app.t.o use geolocation inside US or latency setup
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
@@ -333,8 +334,6 @@
         * maybe add an @reboot job to se app.status accordingly? set a BOOT state or similar?
         * if .status file is not find assume it was built and do nothing?
         * and/or check the going to be built tag exists in the ECR?
-    * app-deploy:
-        * list available builds using semver sort order
 
 ---
 
