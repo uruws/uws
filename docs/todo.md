@@ -69,6 +69,14 @@
 
 ---
 
+* munin: k8smon network usage graphs
+    * by namespace
+    * by node
+    * total
+    * by pod/container?
+
+---
+
 * heroku: sync tapo secrets from Infrastructure repo CI scripts
     * update heroku env vars every time there's a modification on the Infra repo secrets
 
