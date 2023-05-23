@@ -84,3 +84,7 @@
 ---
 
     $ make publish
+
+---
+
+    $ ./eks/all.sh ./k8s/mon/deploy.sh
