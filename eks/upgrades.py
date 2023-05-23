@@ -9,7 +9,6 @@ import sys
 
 from dataclasses import dataclass
 from dataclasses import field
-from datetime    import datetime
 from os          import chmod
 from os          import makedirs
 from pathlib     import Path
@@ -53,6 +52,8 @@ cfg_remove: dict[str, Config] = {
 	),
 }
 
+DOCKER_VERSION = '230519'
+
 #
 # utils
 #
@@ -90,8 +91,7 @@ def docker_eks_ignore(src, names):
 	return l
 
 def docker_version() -> str:
-	now = datetime.now()
-	return now.strftime('%y%m%d')
+	return DOCKER_VERSION.strip()
 
 def docker_eks(version: str, cfg: Config):
 	print('docker/eks:', version)

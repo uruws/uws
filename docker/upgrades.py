@@ -18,6 +18,8 @@ REMOVE_VERSION = ['2203']
 
 BUILD_SCRIPT = 'build.sh'
 
+DOCKER_VERSION = '230515'
+
 # utils
 
 def git_ls(repo: str, pattern: str = '*') -> list[str]:
@@ -31,9 +33,10 @@ def git_grep(repo: str, pattern: str, args: str = '-Fl') -> list[str]:
 	return sorted(out.splitlines())
 
 def date_version() -> str:
-	out = check_output(f"/usr/bin/date '+%y%m%d'",
-		timeout = 15, shell = True, text = True)
-	return out.splitlines()[0].strip()
+	# ~ out = check_output(f"/usr/bin/date '+%y%m%d'",
+		# ~ timeout = 15, shell = True, text = True)
+	# ~ return out.splitlines()[0].strip()
+	return DOCKER_VERSION.strip()
 
 def replace(filename: str, src: str, dst: str):
 	check_output(f"/usr/bin/sed -i 's#{src}#{dst}#g' {filename}",
