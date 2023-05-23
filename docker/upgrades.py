@@ -104,8 +104,6 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 		replace(fpath, src, dst)
 		if fn == 'Dockerfile.devel':
 			replace_docker_version(fpath, date_version())
-		elif repo == 'srv/munin':
-			writefile('./k8s/mon/munin/VERSION', '%s\n' % date_version())
 	return 0
 
 def check(repo, vfrom, vto):
@@ -139,6 +137,12 @@ def upgrade_docker(repo, vfrom, vto, tag, srctag):
 		replace_docker_version(dstfn, date_version())
 		dstdir = dstfn.parent
 		build_script(repo, dstdir, tag, vfrom, vto)
+	if repo == 'srv/munin':
+		writefile('./k8s/mon/munin/VERSION', '%s\n' % date_version())
+	elif repo == 'pod/base':
+		writefile('./pod/test/VERSION', '%s\n' % date_version())
+	elif repo == 'srv/munin':
+		writefile('./k8s/mon/munin/VERSION', '%s\n' % date_version())
 	return prune_docker(repo)
 
 # main

@@ -4,6 +4,9 @@ set -eu
 # uws/base
 ./docker/upgrades.py -t uws/base
 
+# uws/pod:base
+./docker/upgrades.py -t uws/pod:base -U pod/base
+
 # uws/awscli
 ./docker/upgrades.py -t uws/awscli
 
