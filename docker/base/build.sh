@@ -5,7 +5,7 @@ if test 'X0' = "X$(id -u)"; then
 	exit 1
 fi
 # base.2203
-docker rm uws/base-2203 || true
+docker rmi uws/base-2203 || true
 # base.2211
 docker build "$@" --rm -t uws/base-2211 \
 	--build-arg "UWS_UID=$(id -u)" \

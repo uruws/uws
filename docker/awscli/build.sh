@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 # awscli-2203
-docker rm uws/awscli-2203 || true
+docker rmi uws/awscli-2203 || true
 # awscli-2211
 docker build "$@" --rm -t uws/awscli-2211 \
 	--build-arg "UWS_UID=$(id -u)" \
