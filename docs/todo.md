@@ -24,7 +24,9 @@
 
 ---
 
-* munin: remove total field from k8s top cpu and mem graphs
+* munin: remove total field from k8s top cpu and mem graphs - `DONE!` [PR169][PR169]
+
+[PR169]: https://github.com/TalkingPts/Infrastructure/pull/169
 
 ---
 
@@ -32,8 +34,10 @@
 
 ---
 
-* remove k8s cluster appprod-2302
+* remove k8s cluster appprod-2302 - `DONE!` [PR170][PR170]
     * replaced by appweb-2302 and appwrk-2302
+
+[PR170]: https://github.com/TalkingPts/Infrastructure/pull/170
 
 ---
 
