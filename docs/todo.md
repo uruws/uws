@@ -55,6 +55,15 @@
 
 ---
 
+* Buildpack:
+    * add start/end date time info to build logs to track elapsed time
+    * currently two log files are created, should be only one
+        * one for make _app_
+        * other for the make deploy
+        * if app-build sets the LOGFILE env var makefiles could use that one
+
+---
+
 * k8s: haproxy logs parser to easily detect problems on-the-fly
 
 ---
