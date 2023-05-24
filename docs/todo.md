@@ -1,6 +1,6 @@
-* Weekly [changelog][wcl]
+* last 7 days [changelog][weekly-changelog]
 
-[wcl]: https://github.com/TalkingPts/Infrastructure/compare/master%40%7B7days%7D...master
+[weekly-changelog]: https://github.com/TalkingPts/Infrastructure/compare/master%40%7B7days%7D...master
 
 ---
 
@@ -390,7 +390,6 @@
         * we should be able to properly stop/abort a building process
     * show events log or auto-refresh status info
     * control deploy replicas
-    * show web proxy logs
 
 ---
 
