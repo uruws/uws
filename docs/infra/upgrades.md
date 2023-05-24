@@ -4,6 +4,7 @@
 * [Docker](../upgrades/docker.md)
 * [MonitoringBots](https://github.com/TalkingPts/MonitoringBots/docs/upgrades.md)
 * [Buildpack](https://github.com/TalkingPts/Buildpack/docs/upgrades.md)
+* [OfflinePage](https://github.com/TalkingPts/OfflinePage/docs/upgrades.md)
 
 ## Changelog
 
@@ -74,24 +75,3 @@
 [k8s-autoscaler]: https://github.com/kubernetes/autoscaler/releases
 [cert-manager]: https://github.com/jetstack/cert-manager/releases
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server/releases
-
-## App
-
-### MonitoringBots
-
-* Changelog
-
-    * [2203](https://github.com/TalkingPts/MonitoringBots/compare/ff20e4dac62f53d2cddd4399e820f2fe781604c1...0006eb83ef048c00418c8e5727faf977e8d25b01)
-
-* docker
-    * `2203-1`: Debian 11.3 (bullseye-20220328-slim)
-        * zlib security upgrade CVE-2018-25032
-    * 2203: Debian 11.2 (bullseye-20220316-slim), uwsbot e5cc124
-    * 2109: Debian 10 (buster) -> 11 (bullseye), uwsbot 398e147
-
-### OfflinePage
-
-* Dockerfile
-    * `2211`: base-2211
-* docker/devel/Dockerfile
-    * `2211`: golang-2211
