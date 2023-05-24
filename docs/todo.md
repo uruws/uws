@@ -30,7 +30,9 @@
 
 ---
 
-* App: send callbacks to api containers instead of workers
+* App: send callbacks to api containers instead of workers - `WIP` [PR171][PR171]
+
+[PR171]: https://github.com/TalkingPts/Infrastructure/pull/171
 
 ---
 
