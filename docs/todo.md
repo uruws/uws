@@ -4,6 +4,13 @@
 
 ---
 
+* docker: k8s and eks utils upgrades - `DONE!` [PR175][PR175]
+    * load utils version from json file
+
+[PR175]: https://github.com/TalkingPts/Infrastructure/pull/175
+
+---
+
 * meteor: deploy env vars info - `DONE!` [PR173][PR173]
 
 [PR173]: https://github.com/TalkingPts/Infrastructure/pull/173
