@@ -304,10 +304,6 @@
 
 ---
 
-* `CLEAN` /srv/deploy/analysis.git setup for (old) iss72 deploy
-
----
-
 * `FIX` buildpack:
     * use tag version from command line for publishing the image
     * instead of using the git describe tag
