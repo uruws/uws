@@ -9,6 +9,7 @@ import subprocess
 import sys
 import yaml
 
+from dataclasses import asdict
 from dataclasses import dataclass
 from dataclasses import field
 from os          import chmod
@@ -63,10 +64,6 @@ cfg: dict[str, Config] = {
 		docker_tag = '2305',
 		rm_tags    = ['2211'],
 		k8s_tag    = '124',
-		kubectl    = '1.24.6/2022-10-05',
-		helm       = '3.11.0',
-		kubeshark  = '39.5',
-		autoscaler = '1.24.0',
 	),
 }
 
@@ -76,6 +73,30 @@ cfg_remove: dict[str, Config] = {
 		k8s_tag    = '122',
 	),
 }
+
+def getcfg(v: str, remove = False) -> Config:
+	c = None
+	if remove:
+		c = cfg_remove[v]
+	else:
+		c = cfg[v]
+		loadcfg(v, c)
+	return c
+
+def loadcfg(v: str, c: Config):
+	if c is None:
+		return
+	utils = getutils()
+	c.autoscaler = utils[v]["autoscaler"]
+	c.helm       = utils[v]["helm"]
+	c.kubectl    = utils[v]["kubectl"]
+	c.kubeshark  = utils[v]["kubeshark"]
+
+def getutils() -> dict[str, dict[str, str]]:
+	d = {}
+	with Path('./k8s/utils.json').open() as fh:
+		d = json.load(fh)
+	return d
 
 #
 # utils
@@ -154,21 +175,24 @@ def docker_k8s_build(cfg: dict[str, Config]) -> int:
 		print('set -eu', file = fh)
 		print('# remove old', file = fh)
 		for version in sorted(cfg_remove.keys()):
-			docker_tag = cfg_remove[version].docker_tag.strip()
-			k8s_tag = cfg_remove[version].k8s_tag.strip()
+			c = getcfg(version, remove = True)
+			docker_tag = c.docker_tag.strip()
+			k8s_tag = c.k8s_tag.strip()
 			print(f"# {version}", file = fh)
 			print(f"docker rmi uws/k8s-{k8s_tag}-{docker_tag} || true", file = fh)
 		print('# cleanup', file = fh)
 		for version in sorted(cfg.keys()):
-			k8s_tag = cfg[version].k8s_tag.strip()
+			c = getcfg(version)
+			k8s_tag = c.k8s_tag.strip()
 			print(f"# {version}", file = fh)
-			for rmtag in sorted(cfg[version].rm_tags):
+			for rmtag in sorted(c.rm_tags):
 				print(f"docker rmi uws/k8s-{k8s_tag}-{rmtag} || true", file = fh)
 		print('# build', file = fh)
 		for version in sorted(cfg.keys()):
+			c = getcfg(version)
 			print(f"# {version}", file = fh)
-			docker_tag = cfg[version].docker_tag.strip()
-			k8s_tag = cfg[version].k8s_tag.strip()
+			docker_tag = c.docker_tag.strip()
+			k8s_tag = c.k8s_tag.strip()
 			print(f"rsync -vax --delete-before ./docker/k8s/build/ ./docker/k8s/{k8s_tag}/build/", file = fh)
 			print(f"# k8s-{k8s_tag}-{docker_tag}", file = fh)
 			print(f"docker build --rm -t uws/k8s-{k8s_tag}-{docker_tag} \\", file = fh)
@@ -232,8 +256,9 @@ def k8smon_publish(cfg: Config):
 		print('MON_TAG=$(cat ./k8s/mon/VERSION)', file = fh)
 		print('./host/ecr-login.sh us-east-1', file = fh)
 		for version in sorted(cfg.keys()):
-			k8s_tag = cfg[version].k8s_tag.strip()
-			docker_tag = cfg[version].docker_tag.strip()
+			c = getcfg(version)
+			k8s_tag = c.k8s_tag.strip()
+			docker_tag = c.docker_tag.strip()
 			print(f"# {version}", file = fh)
 			print(f"./cluster/ecr-push.sh us-east-1 uws/k8s-{k8s_tag}-{docker_tag} \"uws:mon-k8s-{k8s_tag}-${{MON_TAG}}\"", file = fh)
 		print('exit 0', file = fh)
@@ -251,18 +276,34 @@ def k8smon_version():
 #
 
 def main(argv: list[str]) -> int:
+	if '-i' in argv:
+		return show_info()
 	latest = 'None'
 	for v in sorted(cfg.keys()):
-		docker_k8s(v, cfg[v])
-		k8s_autoscaler(v, cfg[v])
+		c = getcfg(v)
+		docker_k8s(v, c)
+		k8s_autoscaler(v, c)
 		latest = v
-	docker_k8s_devel(latest, cfg[latest])
+	docker_k8s_devel(latest, getcfg(latest))
 	for v in sorted(cfg_remove.keys()):
-		docker_k8s_cleanup(v, cfg_remove[v])
-		k8s_autoscaler_cleanup(v, cfg_remove[v])
+		c = getcfg(v, remove = True)
+		docker_k8s_cleanup(v, c)
+		k8s_autoscaler_cleanup(v, c)
 	k8smon_publish(cfg)
 	k8smon_version()
 	return docker_k8s_build(cfg)
+
+def show_info():
+	print('Config:')
+	for v in sorted(cfg.keys()):
+		c = getcfg(v)
+		print(' ', v, asdict(c))
+	print()
+	print('Config remove:')
+	for v in sorted(cfg_remove.keys()):
+		c = getcfg(v, remove = True)
+		print(' ', v, asdict(c))
+	return 0
 
 if __name__ == '__main__':
 	sys.exit(main(sys.argv[1:]))
