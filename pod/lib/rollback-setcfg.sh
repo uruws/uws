@@ -7,7 +7,7 @@ set -eu
 ns=${1:?'namespace?'}
 new_version=${2:?'app version?'}
 
-cur_version=$(./pod/lib/rollback-getcur.sh)
+cur_version=$(./pod/lib/rollback-getcur.sh "${ns}")
 if test 'X' = "X${cur_version}"; then
 	cur_version="${new_version}"
 fi
