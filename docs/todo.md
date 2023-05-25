@@ -4,6 +4,12 @@
 
 ---
 
+* meteor: deploy env vars info - `DONE!` [PR173][PR173]
+
+[PR173]: https://github.com/TalkingPts/Infrastructure/pull/173
+
+---
+
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
