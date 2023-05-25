@@ -15,6 +15,14 @@ cat ${envf}
 . ${envf}
 rm -f ${envf}
 
+export APP_CLUSTER="${UWS_CLUSTER}"
+export APP_ENV="${APP_ENV}"
+export APP_NAMESPACE="${ns}"
+export APP_VERSION="${appver}"
+
+APP_DEPLOY=$(date '+%y%m%d.%H%M%S')
+export APP_DEPLOY
+
 envsubst <${pod}/deploy.yaml | uwskube apply -f -
 
 ~/pod/lib/rollback-setcfg.sh "${ns}" "${appver}"
