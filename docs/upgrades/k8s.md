@@ -1,4 +1,4 @@
-# Kubernetes Upgrades
+# AWS Kubernetes Upgrades
 
 * [aws AMI][aws-ami]
     * `2211`: ./eks/admin-all.sh k8s/nodes/upgrade.sh
