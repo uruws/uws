@@ -2,7 +2,11 @@
 set -eu
 ns=${1:?'namespace?'}
 
-./pod/lib/getcfg.sh "${ns}" |
+cmd=${UWSPOD_GETCFG:-lib/getcfg}
+
+echo "*** rollback get cur version: ${cmd}"
+
+./pod/${cmd}.sh "${ns}" |
 	fgrep APP_VERSION       |
 	sed 's/^export //'      |
 	cut -d '=' -f 2         |

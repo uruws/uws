@@ -5,6 +5,8 @@ pod=${2:?'pod?'}
 
 envf=$(mktemp -p /tmp "pod-${ns}-rollback.XXXXXXXX")
 ~/pod/lib/rollback-getcfg.sh "${ns}" >${envf}
+
+echo "*** app rollback: ${ns} ${pod}"
 cat ${envf}
 
 # shellcheck disable=SC1090

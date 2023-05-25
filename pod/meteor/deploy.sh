@@ -4,6 +4,10 @@ ns=${1:?'app namespace?'}
 app=${2:?'app name?'}
 appver=${3:-''}
 pod=${HOME}/pod/meteor/${app}
+
+export UWSPOD_GETCFG='meteor/getcfg'
+~/pod/lib/rollback-setcfg.sh "${ns}" "${appver}"
+
 if test "X${appver}" != 'X'; then
 	~/pod/meteor/setcfg.sh "${ns}" "${appver}"
 fi
@@ -24,6 +28,4 @@ APP_DEPLOY=$(date '+%y%m%d.%H%M%S')
 export APP_DEPLOY
 
 envsubst <${pod}/deploy.yaml | uwskube apply -f -
-
-~/pod/lib/rollback-setcfg.sh "${ns}" "${appver}"
 exit 0
