@@ -7,6 +7,7 @@ import json
 import subprocess
 import sys
 
+from dataclasses import asdict
 from dataclasses import dataclass
 from dataclasses import field
 from os          import chmod
@@ -41,7 +42,6 @@ cfg: dict[str, Config] = {
 		rm_tags    = ['2211'],
 		eks_tag    = '124',
 		k8s_tag    = '124',
-		eksctl     = '0.127.0',
 	),
 }
 
@@ -51,6 +51,27 @@ cfg_remove: dict[str, Config] = {
 		eks_tag    = '122',
 	),
 }
+
+def getcfg(v: str, remove = False) -> Config:
+	c = None
+	if remove:
+		c = cfg_remove[v]
+	else:
+		c = cfg[v]
+		loadcfg(v, c)
+	return c
+
+def loadcfg(v: str, c: Config):
+	if c is None:
+		return
+	utils = getutils()
+	c.eksctl = utils[v]["eksctl"]
+
+def getutils() -> dict[str, dict[str, str]]:
+	d = {}
+	with Path('./eks/utils.json').open() as fh:
+		d = json.load(fh)
+	return d
 
 #
 # utils
@@ -134,21 +155,24 @@ def docker_eks_build(cfg: dict[str, Config]) -> int:
 		print('set -eu', file = fh)
 		print('# remove old', file = fh)
 		for version in sorted(cfg_remove.keys()):
-			docker_tag = cfg_remove[version].docker_tag.strip()
-			eks_tag = cfg_remove[version].eks_tag.strip()
+			c = getcfg(version, remove = True)
+			docker_tag = c.docker_tag.strip()
+			eks_tag = c.eks_tag.strip()
 			print(f"# {version}", file = fh)
 			print(f"docker rmi uws/eks-{eks_tag}-{docker_tag} || true", file = fh)
 		print('# cleanup', file = fh)
 		for version in sorted(cfg.keys()):
-			eks_tag = cfg[version].eks_tag.strip()
+			c = getcfg(version)
+			eks_tag = c.eks_tag.strip()
 			print(f"# {version}", file = fh)
-			for rmtag in sorted(cfg[version].rm_tags):
+			for rmtag in sorted(c.rm_tags):
 				print(f"docker rmi uws/eks-{eks_tag}-{rmtag} || true", file = fh)
 		print('# build', file = fh)
 		for version in sorted(cfg.keys()):
+			c = getcfg(version)
 			print(f"# {version}", file = fh)
-			docker_tag = cfg[version].docker_tag.strip()
-			eks_tag = cfg[version].eks_tag.strip()
+			docker_tag = c.docker_tag.strip()
+			eks_tag = c.eks_tag.strip()
 			print(f"# eks-{eks_tag}-{docker_tag}", file = fh)
 			print(f"docker build --rm -t uws/eks-{eks_tag}-{docker_tag} \\", file = fh)
 			print(f"    -f docker/eks/{eks_tag}/Dockerfile.{docker_tag} \\", file = fh)
@@ -162,14 +186,31 @@ def docker_eks_build(cfg: dict[str, Config]) -> int:
 #
 
 def main(argv: list[str]) -> int:
+	if '-i' in argv:
+		return show_info()
 	latest = 'None'
 	for v in sorted(cfg.keys()):
-		docker_eks(v, cfg[v])
+		c = getcfg(v)
+		docker_eks(v, c)
 		latest = v
-	docker_eks_devel(latest, cfg[latest])
+	c = getcfg(latest)
+	docker_eks_devel(latest, c)
 	for v in sorted(cfg_remove.keys()):
-		docker_eks_cleanup(v, cfg_remove[v])
+		c = getcfg(v, remove = True)
+		docker_eks_cleanup(v, c)
 	return docker_eks_build(cfg)
+
+def show_info():
+	print('Config:')
+	for v in sorted(cfg.keys()):
+		c = getcfg(v)
+		print(' ', v, asdict(c))
+	print()
+	print('Config remove:')
+	for v in sorted(cfg_remove.keys()):
+		c = getcfg(v, remove = True)
+		print(' ', v, asdict(c))
+	return 0
 
 if __name__ == '__main__':
 	sys.exit(main(sys.argv[1:]))
