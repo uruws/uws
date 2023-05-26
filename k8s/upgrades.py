@@ -3,7 +3,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import json
 import re
 import subprocess
 import sys
@@ -21,32 +20,9 @@ __doc__ = 'k8s upgrades helper'
 from upgrades_config import Config
 from upgrades_config import cfg
 from upgrades_config import cfg_remove
+from upgrades_config import getcfg
 
 from upgrades_utils import k8sutils_latest
-
-def getcfg(v: str, remove = False) -> Config:
-	c = None
-	if remove:
-		c = cfg_remove[v]
-	else:
-		c = cfg[v]
-		loadcfg(v, c)
-	return c
-
-def loadcfg(v: str, c: Config):
-	if c is None:
-		return
-	utils = getutils()
-	c.autoscaler = utils[v]["autoscaler"]
-	c.helm       = utils[v]["helm"]
-	c.kubectl    = utils[v]["kubectl"]
-	c.kubeshark  = utils[v]["kubeshark"]
-
-def getutils() -> dict[str, dict[str, str]]:
-	d = {}
-	with Path('./k8s/utils.json').open() as fh:
-		d = json.load(fh)
-	return d
 
 #
 # utils
@@ -232,7 +208,7 @@ def main(argv: list[str]) -> int:
 	latest = list(sorted(cfg.keys()))[-1]
 	# latest k8s utils version update
 	c = getcfg(latest)
-	k8sutils_latest(c)
+	k8sutils_latest(latest, c)
 	# k8s and utils
 	for v in sorted(cfg.keys()):
 		c = getcfg(v)
