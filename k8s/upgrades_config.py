@@ -1,23 +1,26 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-# ~ import json
-# ~ import re
-# ~ import subprocess
-# ~ import sys
-# ~ import yaml
-
 from dataclasses import asdict
 from dataclasses import dataclass
 from dataclasses import field
-# ~ from os          import chmod
-# ~ from os          import makedirs
-# ~ from pathlib     import Path
-# ~ from shutil      import copytree
-# ~ from typing      import Any
-# ~ from typing      import Callable
 
 __doc__ = 'k8s upgrades config'
+
+# kubectl
+#   https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
+#   https://amazon-eks.s3.us-west-2.amazonaws.com/?versions&prefix=1.25
+
+# helm
+#   https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+#   https://github.com/helm/helm/tags
+
+# kubeshark
+#   https://docs.kubeshark.co/en/install
+#   https://github.com/kubeshark/kubeshark/tags
+
+# k8s/autoscaler
+#   https://github.com/kubernetes/autoscaler/tags
 
 @dataclass
 class Config(object):
@@ -37,21 +40,6 @@ class Config(object):
 
 	def kubeshark_url(c):
 		return 'https://github.com/kubeshark/kubeshark/releases/download/%s' % c.kubeshark
-
-# kubectl
-#   https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#linux
-#   https://amazon-eks.s3.us-west-2.amazonaws.com/?versions&prefix=1.25
-
-# helm
-#   https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-#   https://github.com/helm/helm/tags
-
-# kubeshark
-#   https://docs.kubeshark.co/en/install
-#   https://github.com/kubeshark/kubeshark/tags
-
-# k8s/autoscaler
-#   https://github.com/kubernetes/autoscaler/tags
 
 cfg: dict[str, Config] = {
 	'1.24': Config(

@@ -9,18 +9,20 @@ import subprocess
 import sys
 import yaml
 
-from os          import chmod
-from os          import makedirs
-from pathlib     import Path
-from shutil      import copytree
-from typing      import Any
-from typing      import Callable
+from os      import chmod
+from os      import makedirs
+from pathlib import Path
+from shutil  import copytree
+from typing  import Any
+from typing  import Callable
 
 __doc__ = 'k8s upgrades helper'
 
 from upgrades_config import Config
 from upgrades_config import cfg
 from upgrades_config import cfg_remove
+
+from upgrades_utils import k8sutils_latest
 
 def getcfg(v: str, remove = False) -> Config:
 	c = None
@@ -218,13 +220,6 @@ def k8smon_version():
 	# ~ print(fn)
 	with open(fn, 'w') as fh:
 		print(docker_version(), file = fh)
-
-#
-# utils
-#
-
-def k8sutils_latest(c: Config):
-	pass
 
 #
 # main
