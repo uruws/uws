@@ -272,25 +272,39 @@ def k8smon_version():
 		print(docker_version(), file = fh)
 
 #
+# utils
+#
+
+def k8sutils_latest(c: Config):
+	pass
+
+#
 # main
 #
 
 def main(argv: list[str]) -> int:
 	if '-i' in argv:
 		return show_info()
-	latest = 'None'
+	# get latest config version
+	latest = list(sorted(cfg.keys()))[-1]
+	# latest k8s utils version update
+	c = getcfg(latest)
+	k8sutils_latest(c)
+	# k8s and utils
 	for v in sorted(cfg.keys()):
 		c = getcfg(v)
 		docker_k8s(v, c)
 		k8s_autoscaler(v, c)
-		latest = v
+	# k8s devel
 	docker_k8s_devel(latest, getcfg(latest))
 	for v in sorted(cfg_remove.keys()):
 		c = getcfg(v, remove = True)
 		docker_k8s_cleanup(v, c)
 		k8s_autoscaler_cleanup(v, c)
+	# k8smon updates
 	k8smon_publish(cfg)
 	k8smon_version()
+	# docker k8s build files
 	return docker_k8s_build(cfg)
 
 def show_info():
