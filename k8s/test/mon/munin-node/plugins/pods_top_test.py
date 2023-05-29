@@ -266,6 +266,7 @@ class Test(unittest.TestCase):
 	def test_config(t):
 		pods_top.config(_sts)
 		config = [
+			# cpu all
 			call('multigraph pod_top_cpu'),
 			call('graph_title k8stest pods CPU'),
 			call('graph_args --base 1000 -l 0'),
@@ -316,10 +317,7 @@ class Test(unittest.TestCase):
 			call('mon_munin_node.colour COLOUR10'),
 			call('mon_munin_node.draw AREASTACK'),
 			call('mon_munin_node.min 0'),
-			call('ztotal.label total', '(11)'),
-			call('ztotal.colour 000000'),
-			call('ztotal.draw LINE1'),
-			call('ztotal.min 0'),
+			# namespace cpu
 			call('multigraph pod_top_cpu.cert_manager_cert_manager_cpu'),
 			call('graph_title k8stest cert-manager/cert-manager pods CPU'),
 			call('graph_args --base 1000 -l 0'),
@@ -518,6 +516,7 @@ class Test(unittest.TestCase):
 			call('f3_max.colour COLOUR3'),
 			call('f3_max.draw LINE1'),
 			call('f3_max.min 0'),
+			# mem all
 			call('multigraph pod_top_mem'),
 			call('graph_title k8stest pods memory'),
 			call('graph_args --base 1000 -l 0'),
@@ -568,10 +567,7 @@ class Test(unittest.TestCase):
 			call('mon_munin_node.colour COLOUR10'),
 			call('mon_munin_node.draw AREASTACK'),
 			call('mon_munin_node.min 0'),
-			call('ztotal.label total', '(11)'),
-			call('ztotal.colour 000000'),
-			call('ztotal.draw LINE1'),
-			call('ztotal.min 0'),
+			# namespace mem
 			call('multigraph pod_top_mem.cert_manager_cert_manager_mem'),
 			call('graph_title k8stest cert-manager/cert-manager pods memory'),
 			call('graph_args --base 1000 -l 0'),
@@ -780,6 +776,7 @@ class Test(unittest.TestCase):
 		x['test'] = dict()
 		pods_top.report(x)
 		report = [
+			# cpu all
 			call('multigraph pod_top_cpu'),
 			call('cert_manager_cert_manager.value', 1),
 			call('cert_manager_cert_manager_cainjector.value', 3),
@@ -793,7 +790,7 @@ class Test(unittest.TestCase):
 			call('mon_munin_0.value', 4),
 			call('mon_munin_node.value', 1),
 			call('test.value', 'U'),
-			call('ztotal.value', 29),
+			# namespace cpu
 			call('multigraph pod_top_cpu.cert_manager_cert_manager_cpu'),
 			call('f1_avg.value', 1.0),
 			call('f2_min.value', 1),
@@ -842,6 +839,7 @@ class Test(unittest.TestCase):
 			call('f1_avg.value', 'U'),
 			call('f2_min.value', 'U'),
 			call('f3_max.value', 'U'),
+			# mem all
 			call('multigraph pod_top_mem'),
 			call('cert_manager_cert_manager.value', 24),
 			call('cert_manager_cert_manager_cainjector.value', 52),
@@ -855,7 +853,7 @@ class Test(unittest.TestCase):
 			call('mon_munin_0.value', 66),
 			call('mon_munin_node.value', 12),
 			call('test.value', 'U'),
-			call('ztotal.value', 361),
+			# namespace mem
 			call('multigraph pod_top_mem.cert_manager_cert_manager_mem'),
 			call('f1_avg.value', 24.0),
 			call('f2_min.value', 24),
