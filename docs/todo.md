@@ -31,7 +31,7 @@
 
 ---
 
-* 2305 [upgrades][upgrades] round - `WIP`
+* 2305 [upgrades][upgrades] round - `DONE!`
 
 [upgrades]: ./infra/upgrades.md
 
@@ -116,6 +116,12 @@
     * by node
     * total
     * by pod/container?
+
+---
+
+* 2309 [upgrades][upgrades] round
+
+[upgrades]: ./infra/upgrades.md
 
 ---
 
