@@ -62,14 +62,10 @@
 
 ---
 
-* munin: pods top by namespace/name group - `DONE!` [PR178][PR178]
+* munin: pods top graphs grouped by pod name - `DONE!` [PR178][PR178]
+    * excluding the deploy-id random strings from pod names
 
 [PR178]: https://github.com/TalkingPts/Infrastructure/pull/178
-
----
-
-* munin: pods top graphs grouped by pod name - `WIP`
-    * excluding the deploy-id random strings from pod names
 
 ---
 
