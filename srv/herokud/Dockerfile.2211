@@ -20,6 +20,8 @@ RUN cd /usr/local \
 
 RUN rm -vf /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/logrotate
 
+RUN echo 'herokud.uws.talkingpts.org' >/etc/mailname
+
 COPY ./files/etc/cron.d/uws /etc/cron.d/uws
 
 USER uws:uws
@@ -31,6 +33,7 @@ ENV HOME /home/uws
 RUN install -v -d -m 0750 -o uws -g uws ~/.cache \
 	&& install -v -d -m 0777 -o uws -g uws ~/.cache/heroku \
 	&& install -v -d -m 0777 -o uws -g uws ~/.local
+
 RUN heroku version
 
 USER root:root

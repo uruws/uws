@@ -50,13 +50,23 @@ spec:
               value: "50"
             - name: NODE_OPTIONS
               value: "--max-old-space-size=${METEOR_WORKER_MEMORY}"
+            - name: UWSAPP_CLUSTER
+              value: "${APP_CLUSTER}"
+            - name: UWSAPP_DEPLOY
+              value: "${APP_DEPLOY}"
+            - name: UWSAPP_ENV
+              value: "${APP_ENV}"
+            - name: UWSAPP_NAMESPACE
+              value: "${APP_NAMESPACE}"
+            - name: UWSAPP_VERSION
+              value: "${APP_VERSION}"
           resources:
             requests:
               cpu: ${METEOR_WORKER_CPU}m
-              memory: ${METEOR_WORKER_MEMORY}Mi
+              #~ memory: ${METEOR_WORKER_MEMORY}Mi
             limits:
               cpu: ${METEOR_WORKER_CPU}m
-              memory: ${METEOR_WORKER_MEMORY}Mi
+              #~ memory: ${METEOR_WORKER_MEMORY}Mi
           readinessProbe:
             exec:
               command:

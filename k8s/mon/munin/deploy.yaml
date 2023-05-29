@@ -56,9 +56,6 @@ spec:
             - name: munin-deploy-confd
               mountPath: "/etc/uws/conf"
               readOnly: true
-            - name: smtps-ca
-              mountPath: "/srv/etc/ca/client"
-              readOnly: true
             - name: munin-alert
               mountPath: "/var/opt/munin-alert"
           resources:
@@ -149,9 +146,6 @@ spec:
         - name: munin-deploy-confd
           secret:
             secretName: munin-deploy-confd
-        - name: smtps-ca
-          secret:
-            secretName: smtps-ca
   volumeClaimTemplates:
     - metadata:
         name: db

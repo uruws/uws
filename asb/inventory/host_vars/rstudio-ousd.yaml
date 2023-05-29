@@ -10,6 +10,8 @@ rstudio_user:
   kevin: 3003
   # Adrienne <adrienne@talkingpts.org>
   adrienne: 3004
+  # Leah <leah@talkingpts.org>
+  leah: 3006
 
 rstudio_user_remove:
   # Rina Park

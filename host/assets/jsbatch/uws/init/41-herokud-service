@@ -8,7 +8,7 @@ if ! systemctl is-enabled herokud.service; then
 	systemctl start herokud
 fi
 
-export DOCKER_IMAGE='uws/herokud-2211'
+export DOCKER_IMAGE='uws/herokud-2305'
 /uws/bin/service-restart.sh herokud /srv/uws/deploy/srv/herokud /uws/init/41-herokud-service
 
 exit 0

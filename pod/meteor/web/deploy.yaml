@@ -13,8 +13,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 50%
-      maxSurge: 50%
+      maxUnavailable: 10%
+      maxSurge: 20%
   template:
     metadata:
       labels:
@@ -48,16 +48,26 @@ spec:
               value: "TRUE"
             - name: NODE_OPTIONS
               value: "--max-old-space-size=${APP_MEMORY}"
+            - name: UWSAPP_CLUSTER
+              value: "${APP_CLUSTER}"
+            - name: UWSAPP_DEPLOY
+              value: "${APP_DEPLOY}"
+            - name: UWSAPP_ENV
+              value: "${APP_ENV}"
+            - name: UWSAPP_NAMESPACE
+              value: "${APP_NAMESPACE}"
+            - name: UWSAPP_VERSION
+              value: "${APP_VERSION}"
           envFrom:
             - secretRef:
                 name: meteor-deploy-env
           resources:
             requests:
               cpu: ${APP_CPU}m
-              memory: ${APP_MEMORY}Mi
+              #~ memory: ${APP_MEMORY}Mi
             limits:
               cpu: ${APP_CPU}m
-              memory: ${APP_MEMORY}Mi
+              #~ memory: ${APP_MEMORY}Mi
           readinessProbe:
             exec:
               command:

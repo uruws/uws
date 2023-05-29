@@ -5,6 +5,8 @@ app=${2:?'app name?'}
 version=${3:-''}
 pod=${HOME}/pod/${app}
 
+~/pod/lib/rollback-setcfg.sh "${ns}" "${version}"
+
 if test "X${version}" != 'X'; then
 	~/pod/lib/setcfg.sh "${ns}" "${version}"
 fi
@@ -18,6 +20,4 @@ cat ${envf}
 rm -f ${envf}
 
 envsubst <${pod}/deploy.yaml | uwskube apply -f -
-
-~/pod/lib/rollback-setcfg.sh "${ns}" "${version}"
 exit 0

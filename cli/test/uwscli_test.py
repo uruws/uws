@@ -196,6 +196,10 @@ class Test(unittest.TestCase):
 	def test_build_desc(t):
 		t.assertEqual(uwscli.build_description(), 'available apps:\n  testing - Testing\n')
 
+	def test_build_blacklist(t):
+		t.assertFalse(uwscli.build_blacklist('testing', '0.999'))
+		t.assertTrue(uwscli.build_blacklist('testing', '2.98.8'))
+
 	def test_deploy_list(t):
 		t.assertEqual(uwscli.deploy_list(), ['testing'])
 

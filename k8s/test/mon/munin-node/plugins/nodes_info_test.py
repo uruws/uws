@@ -120,8 +120,8 @@ class Test(unittest.TestCase):
 			call('c_unknown.colour COLOUR3'),
 			call('c_unknown.draw AREASTACK'),
 			call('c_unknown.min 0'),
-			call('c_unknown.warning', 1),
-			call('c_unknown.critical', 3),
+			call('c_unknown.warning', 3),
+			call('c_unknown.critical', 5),
 		]
 		nodes_info._print.assert_has_calls(config)
 		t.assertEqual(nodes_info._print.call_count, len(config))

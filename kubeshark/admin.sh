@@ -33,4 +33,4 @@ exec docker run -it --rm -u uws \
 	-v "${ksdir}:/home/uws/kubeshark:ro" \
 	-v "${tmpdir}:/home/uws/tmp" \
 	--env-file "${eksenv}" \
-	"uws/${K8S_IMAGE}-2211"
+	"uws/${K8S_IMAGE}-2305"

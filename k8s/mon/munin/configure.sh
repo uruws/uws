@@ -2,10 +2,10 @@
 set -eu
 
 # smtps CA
-CA=${HOME}/ca/uws/smtps/211006/client
 uwskube delete secret smtps-ca -n mon || true
-uwskube create secret generic smtps-ca -n mon \
-	--from-file="${CA}"
+
+# smtps CA client
+uwskube delete secret smtps-ca-client -n mon || true
 
 # cluster.conf
 conf=/tmp/mon.munin.cluster.conf

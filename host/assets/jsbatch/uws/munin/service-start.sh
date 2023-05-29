@@ -1,6 +1,5 @@
 #!/bin/sh
 set -eu
-CA=/srv/uws/deploy/secret/ca/uws/smtps/211006
 CROND=/srv/uws/deploy/secret/eks/files/munin/cron.d
 CONFD=/srv/uws/deploy/secret/eks/files/munin/conf
 
@@ -15,7 +14,6 @@ exec /usr/bin/docker run --rm -u root \
 	-v /srv/munin/var/log:/var/log/munin \
 	-v /srv/munin/cache/www:/var/cache/munin/www \
 	-v /srv/etc/munin:/srv/etc/munin \
-	-v ${CA}:/srv/etc/ca:ro \
 	-v ${CROND}:/srv/etc/cron.d:ro \
 	-v ${CONFD}:/etc/uws/conf:ro \
-	uws/munin-2211
+	uws/munin-2305

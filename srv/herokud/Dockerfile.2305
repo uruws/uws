@@ -1,0 +1,45 @@
+FROM uws/crond-2305
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230519"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh fetchmail
+
+# https://github.com/heroku/cli/blob/master/install-standalone.sh
+RUN cd /usr/local \
+	&& wget -q -O heroku.tgz https://cli-assets.heroku.com/heroku-linux-x64.tar.gz \
+	&& tar -xf heroku.tgz \
+	&& rm -vf heroku.tgz \
+	&& ln -svf /usr/local/heroku/bin/heroku /usr/local/bin/heroku
+
+RUN rm -vf /etc/cron.daily/apt-compat /etc/cron.daily/dpkg /etc/cron.daily/logrotate
+
+RUN echo 'herokud.uws.talkingpts.org' >/etc/mailname
+
+COPY ./files/etc/cron.d/uws /etc/cron.d/uws
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+RUN install -v -d -m 0750 -o uws -g uws ~/.cache \
+	&& install -v -d -m 0777 -o uws -g uws ~/.cache/heroku \
+	&& install -v -d -m 0777 -o uws -g uws ~/.local
+
+RUN heroku version
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+ENTRYPOINT exec /usr/local/bin/entrypoint.sh

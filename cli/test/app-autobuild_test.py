@@ -230,6 +230,9 @@ class Test(unittest.TestCase):
 		# check ignore version
 		with uwscli_t.mock_list_images(['0.64.9-bp21', '2.64.10-bp21', '8.64.11-bp21']):
 			t.assertEqual(app_autobuild._latestBuild('app'), '2.64.10-bp21')
+		# check invalid version
+		with uwscli_t.mock_list_images(['0.64.9-bp21', '8.64.11-bp21']):
+			t.assertEqual(app_autobuild._latestBuild('app', tag = '8.77.33'), '')
 
 	def test_latestBuild_error(t):
 		with uwscli_t.mock_list_images([]):
@@ -269,12 +272,19 @@ class Test(unittest.TestCase):
 			with mock_deploy():
 				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
 				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0', timeout=600)
-				app_autobuild._latestBuild.assert_called_once_with('test-1')
+				app_autobuild._latestBuild.assert_called_once_with('test-1', tag='0.999.0')
 		with uwscli_t.mock_list_images(['0.999.0-bp999']):
 			with mock_deploy(build = '0.999.0-bp999'):
 				t.assertEqual(app_autobuild._deploy('testing', '0.999.0'), 0)
 				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.0-bp999', timeout=600)
-				app_autobuild._latestBuild.assert_called_once_with('test-1')
+				app_autobuild._latestBuild.assert_called_once_with('test-1', tag='0.999.0')
+
+	def test_deploy_exact_version(t):
+		with uwscli_t.mock_list_images(['0.999.0-bp0', '0.999.1-bp0', '0.999.2-bp0']):
+			with mock_deploy(build = '0.999.1-bp0'):
+				t.assertEqual(app_autobuild._deploy('testing', '0.999.1'), 0)
+				uwscli.system.assert_called_once_with('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/app-ctl.sh uws ktest test deploy 0.999.1-bp0', timeout=600)
+				app_autobuild._latestBuild.assert_called_once_with('test-1', tag='0.999.1')
 
 	def test_main_deploy(t):
 		with mock():
@@ -290,6 +300,11 @@ class Test(unittest.TestCase):
 		with mock_main_deploy():
 			t.assertEqual(app_autobuild.main(['--deploy', 'crowdsourcing', '0.999.0']), 0)
 			app_autobuild._deploy.assert_called_once_with('cs', '0.999.0')
+
+	def test_ignore_tag(t):
+		with mock():
+			t.assertFalse(app_autobuild._ignoreTag('testing', '0.999'))
+			t.assertTrue(app_autobuild._ignoreTag('testing', '2.98.8'))
 
 if __name__ == '__main__':
 	unittest.main()

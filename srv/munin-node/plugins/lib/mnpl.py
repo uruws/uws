@@ -39,14 +39,14 @@ class Config(object):
 	auth:     bool = True
 	path:     str  = '/'
 	status:   int  = 200
-	timeout:  int  = 7
+	timeout:  int  = 15
 	category: str  = ''
 	label:    str  = 'number'
 	title:    str  = ''
 	base:     int  = 1000
 	scale:    bool = True
-	warning:  int  = 3
-	critical: int  = 5
+	warning:  int  = 13
+	critical: int  = 15
 
 @dataclass
 class HostConfig(object):

@@ -24,4 +24,4 @@ exec docker run -it --rm --name uws-awscli-root-${root} \
 	-v ${cfgdir}:/home/uws/config:ro \
 	-v ${utils}:/home/uws/bin:ro \
 	-v ${tmpdir}:/home/uws/tmp \
-	uws/awscli-2211 -il
+	uws/awscli-2305 -il

@@ -1,7 +1,7 @@
 FROM uws/pod:base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="221115"
+LABEL version="230515"
 
 USER root:root
 WORKDIR /root

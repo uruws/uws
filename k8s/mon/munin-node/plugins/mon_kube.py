@@ -18,7 +18,7 @@ def _exit(rc):
 def _get(uri):
 	mon.dbg('kube get:', uri)
 	try:
-		resp = urlopen(uri, None, 15)
+		resp = urlopen(uri, None, 180)
 	except Exception as err:
 		mon.log('ERROR:', err)
 		_exit(9)
