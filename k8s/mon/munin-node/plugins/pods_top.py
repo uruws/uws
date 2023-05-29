@@ -3,11 +3,36 @@
 
 import mon
 
+def _podname(n):
+	if n == '':
+		return None
+	n = n.strip()
+	# aws-node
+	if n.startswith('aws-node-'):
+		return 'aws-node'
+	# ebs-csi-node
+	if n.startswith('ebs-csi-node-'):
+		return 'ebs-csi-node'
+	# efs-csi-node
+	if n.startswith('efs-csi-node-'):
+		return 'efs-csi-node'
+	# kube-proxy
+	if n.startswith('kube-proxy-'):
+		return 'kube-proxy'
+	# deployments
+	i = n.split('-')
+	if len(i) >= 3:
+		return '-'.join(i[:-2])
+	# stateful set
+	return n
+
 def parse(pods):
 	mon.dbg('pods_top parse')
 	sts = dict()
 	for i in pods.get('items', []):
 		ns = i.get('namespace', None)
+		n = _podname(i.get('name', ''))
+		ns = '%s/%s' % (ns, n)
 		c = i.get('cpu', 0)
 		m = i.get('mem', 0)
 		if ns is not None:
