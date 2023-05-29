@@ -49,6 +49,8 @@ spec:
             - containerPort: 2800
               name: k8smon
           env:
+            - name: UWS_DEPLOY
+              value: "${UWS_DEPLOY}"
             - name: USER
               value: "uwsrun"
             - name: HOME

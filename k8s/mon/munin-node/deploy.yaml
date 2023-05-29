@@ -45,6 +45,8 @@ spec:
             - containerPort: 4949
               name: node
           env:
+            - name: UWS_DEPLOY
+              value: "${UWS_DEPLOY}"
             - name: UWS_CLUSTER
               value: "${UWS_CLUSTER}"
           volumeMounts:

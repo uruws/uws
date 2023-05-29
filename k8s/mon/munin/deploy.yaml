@@ -36,6 +36,9 @@ spec:
           name: munin
           securityContext:
             allowPrivilegeEscalation: false
+          env:
+            - name: UWS_DEPLOY
+              value: "${UWS_DEPLOY}"
           volumeMounts:
             - name: db
               mountPath: "/efs/munin-db"
@@ -83,6 +86,9 @@ spec:
               name: web
           securityContext:
             allowPrivilegeEscalation: false
+          env:
+            - name: UWS_DEPLOY
+              value: "${UWS_DEPLOY}"
           volumeMounts:
             - name: db
               mountPath: "/efs/munin-db"
