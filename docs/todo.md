@@ -56,7 +56,14 @@
 
 ---
 
-* munin: remove totals from k8s node top graphs
+* munin: remove totals from k8s node top graphs - `DONE!` [PR177][PR177]
+
+[PR177]: https://github.com/TalkingPts/Infrastructure/pull/177
+
+---
+
+* munin: pods top graphs grouped by pod name - `WIP`
+    * excluding the deploy-id random strings from pod names
 
 ---
 
