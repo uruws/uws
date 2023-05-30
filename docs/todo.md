@@ -1,19 +1,6 @@
-* last 7 days [changelog][weekly-changelog]
+* Last 7 days [changelog][weekly-changelog]
 
 [weekly-changelog]: https://github.com/TalkingPts/Infrastructure/compare/master%40%7B7days%7D...master
-
----
-
-* docker: k8s and eks utils upgrades - `DONE!` [PR175][PR175]
-    * load utils version from json file
-
-[PR175]: https://github.com/TalkingPts/Infrastructure/pull/175
-
----
-
-* meteor: deploy env vars info - `DONE!` [PR173][PR173]
-
-[PR173]: https://github.com/TalkingPts/Infrastructure/pull/173
 
 ---
 
@@ -31,41 +18,26 @@
 
 ---
 
-* 2305 [upgrades][upgrades] round - `DONE!`
-
-[upgrades]: ./infra/upgrades.md
-
----
-
-* munin: remove total field from k8s top cpu and mem graphs - `DONE!` [PR169][PR169]
-
-[PR169]: https://github.com/TalkingPts/Infrastructure/pull/169
-
----
-
-* App: send callbacks to api containers instead of workers - `WIP` [PR171][PR171]
+* App: send callbacks to api containers instead of workers - `DONE!` [PR171][PR171] [PR180][PR180]
 
 [PR171]: https://github.com/TalkingPts/Infrastructure/pull/171
+[PR180]: https://github.com/TalkingPts/Infrastructure/pull/180
 
 ---
 
-* remove k8s cluster appprod-2302 - `DONE!` [PR170][PR170]
-    * replaced by appweb-2302 and appwrk-2302
-
-[PR170]: https://github.com/TalkingPts/Infrastructure/pull/170
-
----
-
-* munin: remove totals from k8s node top graphs - `DONE!` [PR177][PR177]
-
-[PR177]: https://github.com/TalkingPts/Infrastructure/pull/177
+* api munin
+    * check https://api.talkingpts.org/ (404)
+    * check https://api.talkingpts.org/api/
+    * check https://api.talkingpts.org/bandwidthCallbackSMS
+    * check https://api.talkingpts.org/coconut_webhook
 
 ---
 
-* munin: pods top graphs grouped by pod name - `DONE!` [PR178][PR178]
-    * excluding the deploy-id random strings from pod names
-
-[PR178]: https://github.com/TalkingPts/Infrastructure/pull/178
+* k8s clusters
+    * migrate appsprod-2302 services (CS, infra-ui, ...)
+        * DEGRADED nodegroup
+        * move services to appwrk-2302
+        * remove appsprod-2302 cluster after migrating all services
 
 ---
 
@@ -80,20 +52,6 @@
 ---
 
 * CA: deprecate smtps
-
----
-
-* workers munin
-    * check https://workers.talkingpts.org/bandwidthCallbackSMS
-    * check https://workers.talkingpts.org/coconut_webhook
-
----
-
-* k8s clusters
-    * migrate appsprod-2302 services (CS, infra-ui, ...)
-        * DEGRADED nodegroup
-        * move services to appwrk-2302? or new cluster?
-        * remove appsprod-2302 cluster after migrating all services
 
 ---
 
