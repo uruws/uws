@@ -1,7 +1,12 @@
 #!/bin/sh
 set -eu
+_UID=$(id -u)
+_GID=$(id -g)
+_UMASK=$(umask)
+_VERSION=$(cat ./docker/VERSION)
 exec docker build $@ --rm -t uws/kali \
-	--build-arg UWS_UID=$(id -u) \
-	--build-arg UWS_GID=$(id -g) \
-	--build-arg UWS_UMASK=$(umask) \
+	--build-arg "UWS_UID=${_UID}" \
+	--build-arg "UWS_GID=${_GID}" \
+	--build-arg "UWS_UMASK=${_UMASK}" \
+	--build-arg "UWS_VERSION=${_VERSION}" \
 	./srv/kali

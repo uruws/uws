@@ -1,13 +1,18 @@
 # Docker Upgrades
 
-* `2305` [PR162](https://github.com/TalkingPts/Infrastructure/pull/162)
+* `2305-1` DSA 5417-1: openssl security update - [PR181][PR181]
+* 2305 [PR162](https://github.com/TalkingPts/Infrastructure/pull/162)
 * 2211 [PR36](https://github.com/TalkingPts/Infrastructure/pull/36)
+
+[PR181]: https://github.com/TalkingPts/Infrastructure/pull/181
 
 ---
 
 * [docker/base][debian-container]
-    * `2305`: Debian 11.7 (bullseye-20230502-slim)
-        * docker/VERSION: `230523`
+    * `2305-1` DSA 5417-1: openssl security update
+        * docker/VERSION: `230531`
+    * 2305: Debian 11.7 (bullseye-20230502-slim)
+        * docker/VERSION: 230523
     * 2211: Debian 11.5 (bullseye-20221114-slim)
     * 2203-1: Debian 11.3 (bullseye-20220328-slim)
         * zlib security upgrade CVE-2018-25032

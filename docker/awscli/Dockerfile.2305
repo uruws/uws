@@ -1,7 +1,7 @@
 FROM amazon/aws-cli:2.11.20
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230518"
+LABEL version="${UWS_VERSION}"
 
 USER root:root
 WORKDIR /root

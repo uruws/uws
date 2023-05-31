@@ -1,3 +1,6 @@
 #!/bin/sh
 set -eu
-exec docker build --rm -t uws/pod:base ./pod/base
+_VERSION=$(cat ./docker/VERSION)
+exec docker build --rm -t uws/pod:base \
+	--build-arg "UWS_VERSION=${_VERSION}" \
+	./pod/base
