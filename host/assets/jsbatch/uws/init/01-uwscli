@@ -3,35 +3,43 @@ set -eu
 
 umask 0027
 
+#
 # sudoers
+#
 
 install -v -C -m 0640 -o root -g root ~uwscli/etc/sudoers.d/99-uwscli /etc/sudoers.d/99-uwscli
 
+#
 # run dirs
+#
 
 /uws/bin/uwscli-rundir.sh
 
+#
 # utils access
+#
 
 chmod -v 0750 ~uwscli
 chown -v uwscli:uwscli ~uwscli
 
-chmod -v 0750 ~uwscli/etc
+chmod -v  0750        ~uwscli/etc
 chown -vR root:uwscli ~uwscli/etc
 
-chmod -v 0750 ~uwscli/lib
+chmod -v  0750        ~uwscli/lib
 chown -vR root:uwscli ~uwscli/lib
 
-chmod -v 0750 ~uwscli/vendor
+chmod -v  0750        ~uwscli/vendor
 chown -vR root:uwscli ~uwscli/vendor
 
-chmod -v 0550 ~uwscli/bin/*
-chmod -v 0750 ~uwscli/bin
+chmod -v  0550        ~uwscli/bin/*
+chmod -v  0750        ~uwscli/bin
 chown -vR root:uwscli ~uwscli/bin
 
 adduser uws uwscli
 
+#
 # operator utils
+#
 
 addgroup uwsops || true
 
@@ -40,20 +48,28 @@ chown -v root:uwsops ~uwscli/bin/app-restart
 chown -v root:uwsops ~uwscli/bin/app-rollin
 chown -v root:uwsops ~uwscli/bin/app-scale
 
+#
 # operator proxy utils
+#
 
 chown -v root:uwsops ~uwscli/bin/proxy-*
 
+#
 # operator custom utils
+#
 
 chown -v root:uwsops ~uwscli/bin/production-*
 chown -v root:uwsops ~uwscli/bin/staging-*
 
+#
 # internal utils
+#
 
 chown -v uwscli:uws ~uwscli/bin/app-autobuild
 
+#
 # python compile lib and vendor
+#
 
 umask 0022
 
