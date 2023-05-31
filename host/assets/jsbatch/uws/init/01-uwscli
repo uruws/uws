@@ -113,6 +113,9 @@ install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~uwscbdev/.bash_profile
 install -v -d -m 0750 -o uwscbdev -g uwscbdev ~uwscbdev/.ssh
 install -v -C -m 0600 -o uwscbdev -g uwscbdev /srv/uws/deploy/secret/webapp/chatbot/ssh/ecdsa_id.pub ~uwscbdev/.ssh/authorized_keys
 
+chmod -v 0750 ~pablo
+install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~pablo/.bash_profile
+
 #
 # admin users
 #
@@ -152,6 +155,7 @@ adduser antonio uwsapp_app
 adduser gabriel uwsapp_app
 adduser nelson  uwsapp_app
 adduser ramiro  uwsapp_app
+adduser pablo   uwsapp_app
 
 # apptest
 addgroup uwsapp_apptest || true
@@ -159,6 +163,7 @@ addgroup uwsapp_apptest || true
 adduser gabriel  uwsapp_apptest
 adduser ramiro   uwsapp_apptest
 adduser uwscbdev uwsapp_apptest
+adduser pablo    uwsapp_apptest
 
 # beta
 addgroup uwsapp_beta || true
