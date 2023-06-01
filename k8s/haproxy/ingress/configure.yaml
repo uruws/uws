@@ -38,7 +38,7 @@ data:
   syslog-length: "3072"
   # https://haproxy-ingress.github.io/docs/configuration/keys/#log-format
   # https://docs.haproxy.org/2.4/configuration.html#8.2.4
-  http-log-format: '%{+Q,+E}o\ {\"B\":%B,\"H\":%H,\"HM\":%HM,\"HPO\":%HPO,\"HV\":%HV,\"ID\":%ID,\"ST\":%ST,\"Ta\":%Ta,\"Tc\":%Tc,\"Tr\":%Tr,\"Ts\":%Ts,\"Tw\":%Tw,\"U\":%U,\"ac\":%ac,\"b\":%b,\"bc\":%bc,\"ci\":%ci,\"cp\":%cp,\"f\":%f,\"fc\":%fc,\"rc\":%rc,\"s\":%s,\"sc\":%sc,\"t\":\"%{-Q}t\",\"ts\":\"%{-Q}ts\"}'
+  http-log-format: '%{+Q,+E}o\ {\"resp_bytes\":%B,\"hostname\":%H,\"method\":%HM,\"path\":%HPO,\"http_version\":%HV,\"id\":%ID,\"status\":%ST,\"active_time\":%Ta,\"total_time\":%Tc,\"server_waiting_time\":%Tr,\"timestamp\":%Ts,\"total_waiting_time\":%Tw,\"req_bytes\":%U,\"active_conn\":%ac,\"backend\":%b,\"backend_conn\":%bc,\"client\":%ci,\"client_port\":%cp,\"frontend\":%f,\"frontend_conn\":%fc,\"retries\":%rc,\"server\":%s,\"server_conn\":%sc,\"datetime\":\"%{-Q}t\",\"termination_state\":\"%{-Q}ts\"}'
 
 
 # Backend
