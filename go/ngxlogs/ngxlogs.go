@@ -157,9 +157,19 @@ func (e *Entry) Print() bool {
 	}
 	if show {
 		p("%s %s %-15s [%s %s %s] %s %s %s %s",
-			e.TimeLocal[:len(e.TimeLocal)-6], e.Container, e.RemoteAddr,
-			e.UpstreamName, e.UpstreamTime, e.UpstreamStatus,
-			e.RequestTime, e.Status, e.RequestMethod, e.RequestURI)
+			e.TimeLocal[:len(e.TimeLocal)-6],
+			e.Container,
+			e.RemoteAddr,
+
+			e.UpstreamName,
+			e.UpstreamTime,
+			e.UpstreamStatus,
+
+			e.RequestTime,
+			e.Status,
+			e.RequestMethod,
+			e.RequestURI,
+		)
 	}
 	return show
 }

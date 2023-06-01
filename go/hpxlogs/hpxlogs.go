@@ -91,33 +91,32 @@ var (
 //
 
 type Entry struct {
-	f                 *Flags
-	ok                bool
-	ActiveConn        int    `json:"active_conn"`
-	ActiveTime        int    `json:"active_time"`
-	BackendConn       int    `json:"backend_conn"`
-	Backend           string `json:"backend"`
-	Client            string `json:"client"`
-	ClientPort        int    `json:"client_port"`
-	Datetime          string `json:"datetime"`
-	Frontend          string `json:"frontend"`
-	FrontendConn      int    `json:"frontend_conn"`
-	Hostname          string `json:"hostname"`
-	HttpVersion       string `json:"http_version"`
-	Id                string `json:"id"`
-	Method            string `json:"method"`
-	Path              string `json:"path"`
-	ReqBytes          int    `json:"req_bytes"`
-	RespBytes         int    `json:"resp_bytes"`
-	Retries           int    `json:"retries"`
-	Server            string `json:"server"`
-	ServerConn        int    `json:"server_conn"`
-	ServerWaitingTime int    `json:"server_waiting_time"`
-	Status            int    `json:"status"`
-	TerminationState  string `json:"termination_state"`
-	Timestamp         uint   `json:"timestamp"`
-	TotalTime         int    `json:"total_time"`
-	TotalWaitingTime  int    `json:"total_waiting_time"`
+	f                *Flags
+	ok               bool
+	ActiveConn       int    `json:"active_conn"`
+	ActiveTime       int    `json:"active_time"`
+	BackendConn      int    `json:"backend_conn"`
+	Backend          string `json:"backend"`
+	Client           string `json:"client"`
+	ClientPort       int    `json:"client_port"`
+	ClientTime       int    `json:"client_time"`
+	Datetime         string `json:"datetime"`
+	Frontend         string `json:"frontend"`
+	FrontendConn     int    `json:"frontend_conn"`
+	Hostname         string `json:"hostname"`
+	HttpVersion      string `json:"http_version"`
+	Id               string `json:"id"`
+	Method           string `json:"method"`
+	Path             string `json:"path"`
+	ReqBytes         int    `json:"req_bytes"`
+	RespBytes        int    `json:"resp_bytes"`
+	RespTime         int    `json:"resp_time"`
+	Retries          int    `json:"retries"`
+	Server           string `json:"server"`
+	ServerConn       int    `json:"server_conn"`
+	Status           int    `json:"status"`
+	TerminationState string `json:"termination_state"`
+	Timestamp        uint   `json:"timestamp"`
 }
 
 func newEntry(f *Flags) *Entry {
@@ -154,10 +153,19 @@ func (e *Entry) Print() bool {
 		show = false
 	}
 	if show {
-		p("%s %s %d",
+		p("%s %s %-15s %5d [%s %5d] %5d %3d %s %s",
 			e.Datetime,
+			e.Frontend,
+			e.Client,
+			e.ClientTime,
+
 			e.Server,
+			e.ActiveTime,
+
+			e.RespTime,
 			e.Status,
+			e.Method,
+			e.Path,
 		)
 	}
 	return show
