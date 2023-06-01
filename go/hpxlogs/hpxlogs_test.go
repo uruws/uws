@@ -139,7 +139,7 @@ func TestEntry(t *testing.T) {
 	e.Status = 999
 	IsTrue(t, e.Check(), "e.Check()")
 	IsEqual(t, e.Status, 999, "e.Status")
-	IsEqual(t, e.TimeLocal, "", "e.TimeLocal")
+	IsEqual(t, e.Datetime, "", "e.Datetime")
 	IsTrue(t, e.Print(), "e.Print()")
 }
 

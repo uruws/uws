@@ -91,12 +91,33 @@ var (
 //
 
 type Entry struct {
-	f         *Flags
-	ok        bool
-	Server    string `json:"server"`
-	Status    int    `json:"status"`
-	TimeLocal string `json:"datetime"`
-	Timestamp uint   `json:"timestamp"`
+	f                 *Flags
+	ok                bool
+	ActiveConn        int    `json:"active_conn"`
+	ActiveTime        int    `json:"active_time"`
+	BackendConn       int    `json:"backend_conn"`
+	Backend           string `json:"backend"`
+	Client            string `json:"client"`
+	ClientPort        int    `json:"client_port"`
+	Datetime          string `json:"datetime"`
+	Frontend          string `json:"frontend"`
+	FrontendConn      int    `json:"frontend_conn"`
+	Hostname          string `json:"hostname"`
+	HttpVersion       string `json:"http_version"`
+	Id                string `json:"id"`
+	Method            string `json:"method"`
+	Path              string `json:"path"`
+	ReqBytes          int    `json:"req_bytes"`
+	RespBytes         int    `json:"resp_bytes"`
+	Retries           int    `json:"retries"`
+	Server            string `json:"server"`
+	ServerConn        int    `json:"server_conn"`
+	ServerWaitingTime int    `json:"server_waiting_time"`
+	Status            int    `json:"status"`
+	TerminationState  string `json:"termination_state"`
+	Timestamp         uint   `json:"timestamp"`
+	TotalTime         int    `json:"total_time"`
+	TotalWaitingTime  int    `json:"total_waiting_time"`
 }
 
 func newEntry(f *Flags) *Entry {
@@ -134,7 +155,7 @@ func (e *Entry) Print() bool {
 	}
 	if show {
 		p("%s %s %d",
-			e.TimeLocal,
+			e.Datetime,
 			e.Server,
 			e.Status,
 		)
