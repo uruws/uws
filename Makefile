@@ -457,6 +457,7 @@ eks:
 k8s:
 	@$(MAKE) k8smon
 	@$(MAKE) ngxlogs
+	@$(MAKE) hpxlogs
 	@./docker/k8s/build.sh
 
 #
@@ -529,6 +530,22 @@ docker/k8s/build/ngxlogs.bin: docker/golang/build/ngxlogs.bin
 
 docker/golang/build/ngxlogs.bin: $(NGXLOGS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/ngxlogs.bin ./cmd/ngxlogs
+
+#
+# hpxlogs
+#
+
+HPXLOGS_DEPS != find go/cmd/hpxlogs go/hpxlogs -type f -name '*.go'
+
+.PHONY: hpxlogs
+hpxlogs: docker/k8s/build/hpxlogs.bin
+
+docker/k8s/build/hpxlogs.bin: docker/golang/build/hpxlogs.bin
+	@mkdir -vp ./docker/k8s/build
+	@install -v docker/golang/build/hpxlogs.bin ./docker/k8s/build/hpxlogs.bin
+
+docker/golang/build/hpxlogs.bin: $(HPXLOGS_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/hpxlogs.bin ./cmd/hpxlogs
 
 #
 # publish
