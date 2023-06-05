@@ -143,15 +143,6 @@ func TestEntry(t *testing.T) {
 	IsTrue(t, e.Print(), "e.Print()")
 }
 
-//~ func TestEntryCheckError(t *testing.T) {
-//~ mock.Logger()
-//~ defer mock.LoggerReset()
-//~ f := NewFlags()
-//~ e := newEntry(f)
-//~ IsFalse(t, e.Check(), "e.Check()")
-//~ IsFalse(t, e.Print(), "e.Print()")
-//~ }
-
 func TestEntryPrint(t *testing.T) {
 	mock.Logger()
 	defer mock.LoggerReset()
@@ -308,16 +299,3 @@ func TestJsonParseInvalid(t *testing.T) {
 	IsEqual(t, p.LinesError, 1, "p.LinesError")
 	IsEqual(t, p.Unknown, 0, "p.Unknown")
 }
-
-//~ func TestJsonParseWebsocket(t *testing.T) {
-//~ mock.Logger()
-//~ defer mock.LoggerReset()
-//~ fh, err := os.Open("./testdata/meteor-gw.logs")
-//~ Fatal(t, IsNil(t, err, "read logs"))
-//~ f := NewFlags()
-//~ p := jsonParse(f, fh)
-//~ IsNil(t, p.Error, "parse error")
-//~ IsEqual(t, p.Lines, 100, "p.Lines")
-//~ IsEqual(t, p.Read, 100, "p.Read")
-//~ IsEqual(t, p.Stats.Websocket, 2, "p.Stats.Websocket")
-//~ }
