@@ -331,3 +331,36 @@ func TestJsonParseInvalid(t *testing.T) {
 	IsEqual(t, p.LinesError, 1, "p.LinesError")
 	IsEqual(t, p.Unknown, 0, "p.Unknown")
 }
+
+func TestJsonParseServerMessage(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/server-message.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	f := NewFlags()
+	p := jsonParse(f, fh)
+	IsNil(t, p.Error, "parse server message")
+	IsEqual(t, p.Lines, 1, "p.Lines")
+	IsEqual(t, p.Read, 0, "p.Read")
+	IsEqual(t, p.LinesError, 0, "p.LinesError")
+	IsEqual(t, p.ServerMessage, 1, "p.ServerMessage")
+	IsEqual(t, p.Unknown, 0, "p.Unknown")
+}
+
+func TestJsonParseQuiet(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	fh, err := os.Open("./testdata/server-message.logs")
+	Fatal(t, IsNil(t, err, "read logs"))
+	defer fh.Close()
+	f := NewFlags()
+	f.Quiet = true
+	p := jsonParse(f, fh)
+	IsNil(t, p.Error, "parse quiet")
+	IsEqual(t, p.Lines, 1, "p.Lines")
+	IsEqual(t, p.Read, 0, "p.Read")
+	IsEqual(t, p.LinesError, 0, "p.LinesError")
+	IsEqual(t, p.ServerMessage, 0, "p.ServerMessage")
+	IsEqual(t, p.Unknown, 1, "p.Unknown")
+}

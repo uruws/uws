@@ -84,7 +84,8 @@ var rawOutput = func(r io.Reader) error {
 //
 
 var (
-	reJsonLog = regexp.MustCompile(`^\d[^\{]*(\{.+\})$`)
+	reJsonLog = regexp.MustCompile(`^\d\d\d\d[^\{]*(\{.+\})$`)
+	reSrvMsg  = regexp.MustCompile(`^\d\d\d\d[^\{]*`)
 )
 
 //
@@ -201,11 +202,11 @@ func (s *Stats) Print(w io.Writer) {
 //
 
 type Parser struct {
-	stats      bool
-	Stats      *Stats
-	Error      error
-	Lines      int
-	Read           int
+	stats         bool
+	Stats         *Stats
+	Error         error
+	Lines         int
+	Read          int
 	LinesError    int
 	Unknown       int
 	ServerMessage int
@@ -278,10 +279,13 @@ func jsonParse(f *Flags, r io.Reader) *Parser {
 			continue
 		}
 		if !f.Quiet {
-			// haproxy message
-			p.ServerMessage += 1
-			log.Print(s)
-			continue
+			m := reSrvMsg.FindStringSubmatch(s)
+			if len(m) == 1 {
+				// haproxy message
+				p.ServerMessage += 1
+				log.Print(s)
+				continue
+			}
 		}
 		// unknown log entry
 		p.Unknown += 1
