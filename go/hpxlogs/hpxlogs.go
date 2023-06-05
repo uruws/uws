@@ -24,6 +24,7 @@ type Flags struct {
 	Input  string
 	Raw    bool
 	Stats  bool
+	Quiet  bool
 }
 
 func NewFlags() *Flags {
@@ -55,7 +56,7 @@ func Main(f *Flags) {
 	} else {
 		p := jsonParse(f, infh)
 		err = p.Error
-		if f.Stats {
+		if f.Stats && !f.Quiet {
 			p.PrintStats()
 		}
 	}
@@ -257,9 +258,7 @@ func jsonParse(f *Flags, r io.Reader) *Parser {
 		s := x.Text()
 		p.Lines += 1
 		// request json info
-		//~ println(s)
 		m := reJsonLog.FindStringSubmatch(s)
-		//~ println(len(m))
 		if len(m) == 2 {
 			data := m[1]
 			e := newEntry(f)
@@ -278,6 +277,10 @@ func jsonParse(f *Flags, r io.Reader) *Parser {
 		}
 		// unknown log entry
 		p.Unknown += 1
+		if !f.Quiet {
+			// haproxy message
+			log.Print(s)
+		}
 	}
 	p.Error = x.Err()
 	return p

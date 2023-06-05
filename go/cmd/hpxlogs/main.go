@@ -22,6 +22,7 @@ func main() {
 	flag.StringVar(&f.Input, "input", "-", "read from file")
 	flag.BoolVar(&f.Raw, "raw", false, "show raw input")
 	flag.BoolVar(&noStats, "no-stats", false, "disable stats information")
+	flag.BoolVar(&f.Quiet, "quiet", false, "reduce verbosity")
 
 	flag.Parse()
 
