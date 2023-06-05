@@ -31,7 +31,7 @@
 
 - name: ecr docker login script
   copy:
-    src: ecr-login.sh
+    src: ~/host/ecr-login.sh
     dest: "~/bin/ecr-login.sh"
     mode: '0750'
   tags:

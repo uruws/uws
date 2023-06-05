@@ -65,16 +65,16 @@
   tags:
     - acme
 
-- name: docker image
-  docker_image:
-    repository: uwsops
-    name: "{{ uwsops_ecr }}:acme"
-    source: pull
-    force_source: yes
-    force_tag: yes
-  tags:
-    - acme
-    - docker
+#~ - name: docker image
+  #~ docker_image:
+    #~ repository: uwsops
+    #~ name: "{{ uwsops_ecr }}:acme"
+    #~ source: pull
+    #~ force_source: yes
+    #~ force_tag: yes
+  #~ tags:
+    #~ - acme
+    #~ - docker
 
 - name: scripts
   become: yes
@@ -126,6 +126,12 @@
     group: "{{ ansible_user }}"
     mode: '0440'
   when: uws_acme_certs
+  tags:
+    - acme
+    - acme-certs
+
+- name: get docker image
+  command: /srv/acme/bin/acme-docker-image.sh
   tags:
     - acme
     - acme-certs
