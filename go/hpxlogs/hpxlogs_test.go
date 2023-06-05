@@ -208,6 +208,38 @@ func TestStats(t *testing.T) {
 }
 
 //
+// Parser
+//
+
+func TestParser(t *testing.T) {
+	stats := false
+	p := newParser(stats)
+	IsFalse(t, p.stats, "p.stats")
+}
+
+func TestParserCount(t *testing.T) {
+	stats := true
+	p := newParser(stats)
+	e := newEntry(NewFlags())
+	p.Count(e)
+	// 500
+	e.Status = 500
+	p.Count(e)
+	// 400
+	e.Status = 400
+	p.Count(e)
+	// 101
+	e.Status = 101
+	p.Count(e)
+
+	IsEqual(t, p.Stats.Requests, 4, "p.Stats.Requests")
+	IsEqual(t, p.Stats.OK, 2, "p.Stats.OK")
+	IsEqual(t, p.Stats.Error, 1, "p.Stats.Error")
+	IsEqual(t, p.Stats.Warning, 1, "p.Stats.Warning")
+	IsEqual(t, p.Stats.Websocket, 1, "p.Stats.Websocket")
+}
+
+//
 // jsonParse
 //
 
