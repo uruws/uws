@@ -59,7 +59,7 @@ controller:
     type: LoadBalancer
 
   serviceMonitor:
-    enabled: true
+    enabled: false
 
   stats:
     enabled: true
