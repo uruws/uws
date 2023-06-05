@@ -56,7 +56,7 @@ func Main(f *Flags) {
 	} else {
 		p := jsonParse(f, infh)
 		err = p.Error
-		if f.Stats && !f.Quiet {
+		if f.Stats {
 			p.PrintStats()
 		}
 	}
