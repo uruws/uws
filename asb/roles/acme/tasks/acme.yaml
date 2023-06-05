@@ -87,6 +87,7 @@
   loop:
     - acme-certs.sh
     - acme-cmd.sh
+    - acme-docker-image.sh
     - acme-reload.sh
   tags:
     - acme
