@@ -21,6 +21,9 @@ set +e
 uwskube delete deploy/haproxy-ingress-default-backend -n "${HPX_NAMESPACE}"
 uwskube delete hpa/haproxy-ingress                    -n "${HPX_NAMESPACE}"
 uwskube delete deploy/haproxy-ingress                 -n "${HPX_NAMESPACE}"
+
+uwskube delete clusterrole/haproxy-ingress
+uwskube delete clusterrolebinding/haproxy-ingress
 set -e
 
 helm upgrade --install haproxy-ingress haproxy-ingress \
