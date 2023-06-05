@@ -205,9 +205,10 @@ type Parser struct {
 	Stats      *Stats
 	Error      error
 	Lines      int
-	Read       int
-	LinesError int
-	Unknown    int
+	Read           int
+	LinesError    int
+	Unknown       int
+	ServerMessage int
 }
 
 func newParser(stats bool) *Parser {
@@ -221,11 +222,12 @@ func (p *Parser) PrintStats() bool {
 	w := log.Writer()
 	fmt.Fprintf(w, "%s", "\n")
 	fmt.Fprintf(w, "%s", "Parser\n")
-	fmt.Fprintf(w, "  Error        : %v\n", p.Error != nil)
-	fmt.Fprintf(w, "  Lines        : %d\n", p.Lines)
-	fmt.Fprintf(w, "  Lines read   : %d\n", p.Read)
-	fmt.Fprintf(w, "  Lines error  : %d\n", p.LinesError)
-	fmt.Fprintf(w, "  Lines ignore : %d\n", p.Unknown)
+	fmt.Fprintf(w, "  Error         : %v\n", p.Error != nil)
+	fmt.Fprintf(w, "  Lines         : %d\n", p.Lines)
+	fmt.Fprintf(w, "    Read        : %d\n", p.Read)
+	fmt.Fprintf(w, "    Error       : %d\n", p.LinesError)
+	fmt.Fprintf(w, "    Unknown     : %d\n", p.Unknown)
+	fmt.Fprintf(w, "  Server lines  : %d\n", p.ServerMessage)
 	fmt.Fprintf(w, "%s", "\n")
 	p.Stats.Print(w)
 	fmt.Fprintf(w, "%s", "\n")
@@ -275,12 +277,14 @@ func jsonParse(f *Flags, r io.Reader) *Parser {
 			p.Count(e)
 			continue
 		}
-		// unknown log entry
-		p.Unknown += 1
 		if !f.Quiet {
 			// haproxy message
+			p.ServerMessage += 1
 			log.Print(s)
+			continue
 		}
+		// unknown log entry
+		p.Unknown += 1
 	}
 	p.Error = x.Err()
 	return p
