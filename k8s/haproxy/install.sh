@@ -26,7 +26,7 @@ set -e
 helm upgrade --install haproxy-ingress haproxy-ingress \
 	--repo https://haproxy-ingress.github.io/charts \
 	--namespace "${HPX_NAMESPACE}" \
-	--version 0.14.2 \
+	--version 0.14.3 \
 	--values "${vfn}"
 
 rm -f "${vfn}"
