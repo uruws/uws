@@ -197,6 +197,16 @@ func TestEntryPrintErrors(t *testing.T) {
 	IsTrue(t, e.Print(), "e.Print() 500")
 }
 
+func TestEntryNoPrint(t *testing.T) {
+	mock.Logger()
+	defer mock.LoggerReset()
+	f := NewFlags()
+	e := newEntry(f)
+	e.Status = 0
+	IsFalse(t, e.Check(), "e.Check() Status=0")
+	IsFalse(t, e.Print(), "e.Print() Status=0")
+}
+
 //
 // Stats
 //
