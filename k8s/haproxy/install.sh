@@ -18,7 +18,6 @@ vfn=$(mktemp -p /tmp haproxy-${HPX_NAMESPACE}-install-XXXXXXXXXX)
 haproxy_configure "${vfn}" "${prof}"
 
 set +e
-uwskube delete deploy/haproxy-ingress-default-backend -n "${HPX_NAMESPACE}"
 uwskube delete hpa/haproxy-ingress                    -n "${HPX_NAMESPACE}"
 uwskube delete deploy/haproxy-ingress                 -n "${HPX_NAMESPACE}"
 
