@@ -36,6 +36,7 @@ class Test(unittest.TestCase):
 			'apptest-2302',
 			'appweb-2302',
 			'appwrk-2302',
+			'appwrk-2306',
 		])
 		# app list
 		app_list = [
