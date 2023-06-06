@@ -25,7 +25,8 @@ def mock():
 		uwscli.app['testing'].autobuild_deploy = ['test-1']
 		with uwscli_t.mock_chdir():
 			with uwscli_t.mock_mkdir():
-				yield
+				with uwscli_t.mock_list_images():
+					yield
 	finally:
 		uwscli.app['testing'].autobuild = False
 		uwscli.app['testing'].autobuild_deploy = []
@@ -144,9 +145,8 @@ class Test(unittest.TestCase):
 			with uwscli_t.mock_check_output(output = '1.999.0'):
 				with mock_deploy(build = '1.999.0-bp99'):
 					with mock():
-						with uwscli_t.mock_list_images(['1.999.0-bp99']):
-							t.assertEqual(app_autobuild.main(['testing']), 0)
-							uwscli.system.assert_has_calls(calls)
+						t.assertEqual(app_autobuild.main(['testing']), 0)
+						uwscli.system.assert_has_calls(calls)
 
 	def test_main_done(t):
 		calls = [
@@ -196,19 +196,22 @@ class Test(unittest.TestCase):
 		t.assertTrue(app_autobuild._checkVersion('0.999.0', '0.888.0'))
 
 	def test_isBuildingOrDone(t):
-		with mock_status(st = 'OK'):
-			t.assertFalse(app_autobuild._isBuildingOrDone('testing', '1.999.0'))
-			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
-		with mock_status(fail = True):
-			t.assertFalse(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+		with uwscli_t.mock_list_images():
+			with mock_status(st = 'OK'):
+				t.assertFalse(app_autobuild._isBuildingOrDone('testing', '1.999.0'))
+				t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+			with mock_status(fail = True):
+				t.assertFalse(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
 	def test_isBuildingOrDone_fail(t):
-		with mock_status(st = 'FAIL'):
-			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+		with uwscli_t.mock_list_images():
+			with mock_status(st = 'FAIL'):
+				t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
 	def test_isBuildingOrDone_building(t):
-		with mock_status(st = 'BUILD'):
-			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+		with uwscli_t.mock_list_images():
+			with mock_status(st = 'BUILD'):
+				t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
 	def test_build(t):
 		with mock():

@@ -1,6 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import re
 import sys
 
 from typing     import Optional
@@ -210,9 +211,25 @@ def build_description() -> str:
 	return __desc(build_list())
 
 def build_blacklist(appname: str, tag: str) -> bool:
+	"""check if the version is blacklisted to be built"""
 	if appname in app.keys():
 		if tag.strip() in app[appname].build_blacklist:
 			return True
+	return False
+
+_buildpack_version_re = re.compile('.*-bp\d+$')
+
+def _image_version(v: str) -> str:
+	if _buildpack_version_re.match(v):
+		return '-'.join(v.split('-')[:-1])
+	return v
+
+def build_done(appname: str, tag: str) -> bool:
+	"""check against images repo if already exists"""
+	for i in list_images(appname):
+		if i.startswith(tag):
+			v = _image_version(i)
+			return v == tag
 	return False
 
 def deploy_list(user: User = None) -> list[str]:
