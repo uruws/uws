@@ -18,10 +18,7 @@
 
 ---
 
-* App: send callbacks to api containers instead of workers - `DONE!` [PR171][PR171] [PR180][PR180]
-
-[PR171]: https://github.com/TalkingPts/Infrastructure/pull/171
-[PR180]: https://github.com/TalkingPts/Infrastructure/pull/180
+* deprecate appwrk-2302 cluster
 
 ---
 
@@ -36,7 +33,7 @@
 * k8s clusters
     * migrate appsprod-2302 services (CS, infra-ui, ...)
         * DEGRADED nodegroup
-        * move services to appwrk-2302
+        * move services to appwrk-2306
         * remove appsprod-2302 cluster after migrating all services
 
 ---
