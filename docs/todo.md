@@ -4,6 +4,14 @@
 
 ---
 
+* Buildpack updates - [bp44...bp50 changelog][bpcl4450] `DONE!`
+    * mimic heroku steps and build settings
+    * based from a heroku build log
+
+[bpcl4450]: https://github.com/TalkingPts/Buildpack/compare/bp44...bp50
+
+---
+
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
