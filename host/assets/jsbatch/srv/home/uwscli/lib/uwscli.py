@@ -225,11 +225,12 @@ def _image_version(v: str) -> str:
 	return v
 
 def build_done(appname: str, tag: str) -> bool:
-	"""check against images repo if already exists"""
+	"""check against images repo if it already exists"""
 	for i in list_images(appname):
 		if i.startswith(tag):
 			v = _image_version(i)
-			return v == tag
+			if v == tag:
+				return True
 	return False
 
 def deploy_list(user: User = None) -> list[str]:

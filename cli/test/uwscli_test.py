@@ -198,7 +198,27 @@ class Test(unittest.TestCase):
 
 	def test_build_blacklist(t):
 		t.assertFalse(uwscli.build_blacklist('testing', '0.999'))
-		t.assertTrue(uwscli.build_blacklist('testing', '2.98.8'))
+		t.assertTrue(uwscli.build_blacklist('testing',  '2.98.8'))
+
+	def test_image_version(t):
+		t.assertEqual(uwscli._image_version('0.999'),       '0.999')
+		t.assertEqual(uwscli._image_version('0.999-bp0'),   '0.999')
+		t.assertEqual(uwscli._image_version('0.999-bp0a'),  '0.999-bp0a')
+		t.assertEqual(uwscli._image_version('0.999-1'),     '0.999-1')
+		t.assertEqual(uwscli._image_version('0.999-1-bp0'), '0.999-1')
+
+	def test_build_done(t):
+		# not done
+		with uwscli_t.mock_list_images():
+			t.assertFalse(uwscli.build_done('testing', '0.999'))
+		# done
+		with uwscli_t.mock_list_images(['0.999-bp0']):
+			t.assertTrue(uwscli.build_done('testing', '0.999'))
+		# list of images
+		with uwscli_t.mock_list_images(['0.999-bp0']):
+			t.assertFalse(uwscli.build_done('testing', '0.99'))
+		with uwscli_t.mock_list_images(['0.999-bp0', '0.99-bp0', '0.99.1-bp0']):
+			t.assertTrue(uwscli.build_done('testing', '0.99'))
 
 	def test_deploy_list(t):
 		t.assertEqual(uwscli.deploy_list(), ['testing'])
