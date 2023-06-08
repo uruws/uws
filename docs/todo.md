@@ -253,21 +253,6 @@
 
 ---
 
-* `FIX` app-autobuild
-    * keep track of tags already in the build queue, to avoid, in example:
-        * 2.71.5 was dispatched as latest build was 2.71.3
-        * 2.71.4 was dispatched manually by Gabriel so autobuild didn't knew
-        * as 2.71.4 build was running and taking some time, 2.71.5 keeps being queued because latestBuild info keeps saying that it was 2.71.3 until 2.71.4 finish but still the same... 2.71.5 keeps being queued... etc...
-    * based from a discussion with Gabriel about how to "better" implement it
-        * autobuild deploys should only happend if we are deploying a newer version
-        * that's because now ANY build dispatchs auto deploys for configured apps
-        * we want the auto deploy functionallity from any kind of build
-        * but taking care of the deploy
-            * because it happens often that a build of an older sprint version is dispatched for a hotfix or whatever... we don't want to auto deploy those
-            * autobuilds will always deploy new tags, but we need to fix it for manual dispatch
-
----
-
 * `FIX` app-build
     * do not dispatch build if one already in place for same version
 
