@@ -213,6 +213,10 @@ class Test(unittest.TestCase):
 			with mock_status(st = 'BUILD'):
 				t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
 
+	def test_isBuildingOrDone_build_done(t):
+		with uwscli_t.mock_list_images(['0.888.0']):
+			t.assertTrue(app_autobuild._isBuildingOrDone('testing', '0.888.0'))
+
 	def test_build(t):
 		with mock():
 			with uwscli_t.mock_system():
