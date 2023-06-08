@@ -253,11 +253,6 @@
 
 ---
 
-* `FIX` app-build
-    * do not dispatch build if one already in place for same version
-
----
-
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
     * maybe use an script for Route53 editions which alerts about prod domains or similar
@@ -294,22 +289,17 @@
 ---
 
 * uwscli:
-    * `FIX` non-operator users should not be able to app-restart either
-        * app-restart reloads the deploy config, so it can modify the live environment
-        * as only operators are allowed to modify the live env: deploy, rollin
-        * makes sense also that only them can restart
+    * cleanup old images in ECR
+    * app-build
+        * we should be able to properly stop/abort a building process
+    * show events log or auto-refresh status info
+    * control deploy replicas
     * app-build
         * keep a "queued list"
         * only build tag not in "already done list" nor in the "queued list" either
         * to avoid all the duplicate build jobs
     * cli/buildpack.sh: should manage the log and email report if any fail
     * cli/app-build.sh: should do the same
-    * `FIX` app-autobuild: when jsbatch is restarted autobuild of last tag fails
-        * because the image already exists in the ECR
-        * as /run/uwscli/build/app.status is with a failed state it keeps trying (looping) and failing every 15min...
-        * maybe add an @reboot job to se app.status accordingly? set a BOOT state or similar?
-        * if .status file is not find assume it was built and do nothing?
-        * and/or check the going to be built tag exists in the ECR?
 
 ---
 
@@ -327,11 +317,6 @@
 ---
 
 * mongodb analyzer?
-
----
-
-* app-autobuild deploy
-    * wait some time between deploys on "multi cluster" apps
 
 ---
 
@@ -388,15 +373,6 @@
 
 * k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
     * aws AMI nodegroup auto upgrade (should be a daily check)
-
----
-
-* uwscli wish list
-    * cleanup old images in ECR
-    * app-build
-        * we should be able to properly stop/abort a building process
-    * show events log or auto-refresh status info
-    * control deploy replicas
 
 ---
 
