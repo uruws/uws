@@ -4,6 +4,14 @@
 
 ---
 
+* Buildpack updates - [bp44...bp50 changelog][bpcl4450] `DONE!`
+    * mimic heroku steps and build settings
+    * based from a heroku build log
+
+[bpcl4450]: https://github.com/TalkingPts/Buildpack/compare/bp44...bp50
+
+---
+
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
@@ -18,10 +26,7 @@
 
 ---
 
-* App: send callbacks to api containers instead of workers - `DONE!` [PR171][PR171] [PR180][PR180]
-
-[PR171]: https://github.com/TalkingPts/Infrastructure/pull/171
-[PR180]: https://github.com/TalkingPts/Infrastructure/pull/180
+* deprecate appwrk-2302 cluster
 
 ---
 
@@ -36,7 +41,7 @@
 * k8s clusters
     * migrate appsprod-2302 services (CS, infra-ui, ...)
         * DEGRADED nodegroup
-        * move services to appwrk-2302
+        * move services to appwrk-2306
         * remove appsprod-2302 cluster after migrating all services
 
 ---

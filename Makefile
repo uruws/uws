@@ -100,6 +100,7 @@ devel:
 	@./docker/asb/devel-build.sh
 	@$(MAKE) pod-base
 	@$(MAKE) pod-test
+	@$(MAKE) heroku
 
 #
 # utils
