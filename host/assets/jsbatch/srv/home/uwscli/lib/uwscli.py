@@ -226,7 +226,7 @@ def _image_version(v: str) -> str:
 
 def build_done(appname: str, tag: str) -> bool:
 	"""check against images repo if it already exists"""
-	for i in list_images(appname):
+	for i in list_images(appname, region = 'us-east-1'):
 		if i.startswith(tag):
 			v = _image_version(i)
 			if v == tag:
@@ -261,7 +261,7 @@ def list_images(appname: str, region: str = '') -> list[str]:
 		try:
 			region = cluster[kn].region
 		except KeyError:
-			error(f"{kn}: no cluster region")
+			error(f"{kn}: no cluster region to list images")
 			return []
 	cmd = "aws ecr list-images --output text --repository-name uws"
 	cmd += " --region %s" % region
