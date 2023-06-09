@@ -26,12 +26,22 @@ def main(argv: list[str]):
 
 	flags = ArgumentParser(description = __doc__)
 
-	flags.add_argument('-b', '--bindir', default = plugins_bindir, help = 'plugins bindir')
+	flags.add_argument('-b', '--bindir', default = plugins_bindir,
+		help = 'plugins bindir')
+
+	flags.add_argument('action', default = 'report', nargs = '*',
+		choices = ['config', 'report'],
+		help = 'plugin action')
 
 	args = flags.parse_args(argv)
 
+	action = 'report'
+	if isinstance(args.action, list):
+		action = args.action[0].strip()
+
 	bindir = Path(args.bindir)
 
+	print(action)
 	for pl in _listPlugins(bindir):
 		print(pl)
 
