@@ -70,7 +70,7 @@ def _pprint(p: Popen):
 		sys.stdout.write(p.stdout.read())
 		sys.stdout.flush()
 
-def _run(bindir: str, action: str) -> int:
+def _run(bindir: str, action: str, report: bool = False) -> int:
 	sts: dict[str, str] = {}
 	pwait: list[Popen] = []
 	for pl in _listPlugins(bindir):
@@ -85,10 +85,11 @@ def _run(bindir: str, action: str) -> int:
 		if st != 0:
 			rc = st
 		_pprint(proc)
-	if action == 'config':
-		_config(sts)
-	else:
-		_report(sts)
+	if report:
+		if action == 'config':
+			_config(sts)
+		else:
+			_report(sts)
 	return rc
 
 #
@@ -102,6 +103,8 @@ def main(argv: list[str]) -> int:
 
 	flags.add_argument('-b', '--bindir', default = plugins_bindir,
 		help = 'plugins bindir')
+	flags.add_argument('-R', '--no-report', action = 'store_true', default = False,
+		help = 'no self report')
 	flags.add_argument('-s', '--serial', action = 'store_true', default = False,
 		help = 'no parallelism')
 	flags.add_argument('action', default = 'report', nargs = '*',
@@ -121,7 +124,8 @@ def main(argv: list[str]) -> int:
 			if st != 0:
 				rc = st
 	else:
-		return _run(args.bindir, action)
+		report = not args.no_report
+		return _run(args.bindir, action, report = report)
 	return rc
 
 if __name__ == '__main__': # pragma no cover
