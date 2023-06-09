@@ -10,6 +10,7 @@ from argparse   import ArgumentParser
 from pathlib    import Path
 from subprocess import PIPE
 from subprocess import Popen
+from time       import time
 
 import mon
 
@@ -20,30 +21,48 @@ plugins_suffix = '.mnppl'
 # configs and reports
 #
 
+class Stats(object):
+	__start: float
+	__end:   float
+
+	def __init__(s):
+		s.__start = time()
+
+	def end(s):
+		s.__end = time()
+
+	def took(s) -> float:
+		return s.__end - s.__start
+
 def _print(*args):
 	print(*args)
 
 def _config(sts):
-	mon.dbg('mnppl config')
 	cluster = mon.cluster()
 	_print('multigraph mnppl')
 	_print(f"graph_title {cluster} mnppl")
 	_print('graph_args --base 1000 -l 0')
-	_print('graph_category deploy')
-	_print('graph_vlabel number')
-	_print('graph_printf %3.0lf')
+	_print('graph_category munin')
+	_print('graph_vlabel seconds')
+	_print('graph_printf %3.3lf')
 	_print('graph_scale yes')
-	# FIXME: loop sts keys
-	_print('a_total.label total')
-	_print('a_total.colour COLOUR0')
-	_print('a_total.draw AREA')
-	_print('a_total.min 0')
+	color = -1
+	for pl in sts.keys():
+		color = mon.color(color)
+		fn = mon.cleanfn(pl)
+		_print('%s.label' % fn, pl)
+		_print('%s.colour COLOUR%d' % (fn, color))
+		_print('%s.draw AREA' % fn)
+		_print('%s.min 0' % fn)
+		_print('%s.warning 270' % fn)
+		_print('%s.critical 290' % fn)
 
 def _report(sts):
-	mon.dbg('mnppl report')
 	_print('multigraph mnppl')
 	# FIXME: loop sts keys
-	_print('a_total.value', sts.get('total', 'U'))
+	for pl in sts.keys():
+		fn = mon.cleanfn(pl)
+		_print('%s.value' % fn, sts[pl].took())
 
 #
 # run parallel
@@ -68,24 +87,28 @@ def _pprint(p: Popen):
 		sys.stderr.flush()
 	if p.stdout is not None:
 		sys.stdout.write(p.stdout.read())
+		sys.stdout.write('\n')
 		sys.stdout.flush()
 
-def _run(bindir: str, action: str, report: bool = False) -> int:
-	sts: dict[str, str] = {}
-	pwait: list[Popen] = []
+def _run(bindir: str, action: str, self_report: bool = False) -> int:
+	sts: dict[str, Stats] = {}
+	pwait: dict[str, Popen] = {}
 	for pl in _listPlugins(bindir):
+		if self_report:
+			sts[pl] = Stats()
 		cmd = [Path(bindir, pl).as_posix()]
 		if action == 'config':
 			cmd.append(action)
-		pwait.append(_newProc(cmd))
-		sts[pl] = ''
+		pwait[pl] = _newProc(cmd)
 	rc = 0
-	for proc in pwait:
+	for pl, proc in pwait.items():
 		st = proc.wait()
 		if st != 0:
 			rc = st
 		_pprint(proc)
-	if report:
+		if self_report:
+			sts[pl].end()
+	if self_report:
 		if action == 'config':
 			_config(sts)
 		else:
@@ -124,8 +147,8 @@ def main(argv: list[str]) -> int:
 			if st != 0:
 				rc = st
 	else:
-		report = not args.no_report
-		return _run(args.bindir, action, report = report)
+		self_report = not args.no_report
+		return _run(args.bindir, action, self_report = self_report)
 	return rc
 
 if __name__ == '__main__': # pragma no cover
