@@ -29,6 +29,9 @@ def main(argv: list[str]):
 	flags.add_argument('-b', '--bindir', default = plugins_bindir,
 		help = 'plugins bindir')
 
+	flags.add_argument('-s', '--serial', action = 'store_true', default = False,
+		help = 'no parallelism')
+
 	flags.add_argument('action', default = 'report', nargs = '*',
 		choices = ['config', 'report'],
 		help = 'plugin action')
@@ -41,9 +44,9 @@ def main(argv: list[str]):
 
 	bindir = Path(args.bindir)
 
-	print(action)
-	for pl in _listPlugins(bindir):
-		print(pl)
+	if args.serial:
+		for pl in _listPlugins(bindir):
+			os.system(Path(bindir, pl))
 
 	return 0
 
