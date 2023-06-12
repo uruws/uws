@@ -109,6 +109,10 @@ class Test(unittest.TestCase):
 	# main
 	#
 
+	def test_main_config(t):
+		d = Path(testing_plugins_bindir, 'run').as_posix()
+		t.assertEqual(mnppl.main(['-b', d, 'config']), 0)
+
 	def test_main_no_plugins(t):
 		t.assertEqual(mnppl.main([]), 1)
 
