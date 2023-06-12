@@ -117,7 +117,12 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnppl.main([]), 1)
 
 	def test_main_no_parallel(t):
-		t.assertEqual(mnppl.main(['--serial']), 0)
+		d = Path(testing_plugins_bindir, 'run').as_posix()
+		t.assertEqual(mnppl.main(['-b', d, '--serial']), 0)
+
+	def test_main_no_parallel_fail(t):
+		d = Path(testing_plugins_bindir, 'fail').as_posix()
+		t.assertEqual(mnppl.main(['-b', d, '--serial']), 128)
 
 if __name__ == '__main__':
 	unittest.main()

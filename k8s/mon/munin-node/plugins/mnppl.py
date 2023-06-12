@@ -190,7 +190,7 @@ def main(argv: list[str]) -> int:
 	rc = 0
 	if args.serial:
 		for pl in _listPlugins(args.bindir):
-			st = os.system(Path(args.bindir, pl))
+			st = mon.system(Path(args.bindir, pl))
 			if st != 0:
 				rc = st
 	else:
