@@ -133,6 +133,9 @@ def _run(bindir: str, action: str, self_report: bool = True) -> int:
 			cmd.append(action)
 		x.append(cmd)
 	xlen = len(x)
+	if xlen < 1:
+		print('[ERROR] mnppl: no plugins to run', file = sys.stderr)
+		return 1
 	sts: dict[str, float] = {}
 	with Pool(processes = xlen) as pool:
 		rwait = []
@@ -152,6 +155,7 @@ def _run(bindir: str, action: str, self_report: bool = True) -> int:
 		else:
 			sts['total.mnppl'] = time() - run_start
 			_report(sts)
+	return 0
 
 #
 # main

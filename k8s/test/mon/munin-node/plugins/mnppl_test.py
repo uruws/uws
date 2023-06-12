@@ -22,8 +22,8 @@ class Test(unittest.TestCase):
 			't4.mnppl',
 		])
 
-	def test_main(t):
-		t.assertEqual(mnppl.main([]), 0)
+	def test_main_no_plugins(t):
+		t.assertEqual(mnppl.main([]), 1)
 
 if __name__ == '__main__':
 	unittest.main()
