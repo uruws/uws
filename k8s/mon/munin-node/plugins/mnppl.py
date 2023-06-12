@@ -29,7 +29,7 @@ plugins_suffix = '.mnppl'
 def _print(*args):
 	print(*args)
 
-def _config(sts):
+def _config(sts: dict[str, float]):
 	cluster = mon.cluster()
 	_print('multigraph mnppl')
 	_print(f"graph_title {cluster} mnppl")
@@ -42,18 +42,18 @@ def _config(sts):
 	for pl in sorted(sts.keys()):
 		color = mon.color(color)
 		fn = mon.cleanfn(pl)
-		_print('%s.label' % fn, pl)
+		_print('%s.label' % fn, Path(pl).stem)
 		_print('%s.colour COLOUR%d' % (fn, color))
 		_print('%s.draw AREA' % fn)
 		_print('%s.min 0' % fn)
 		_print('%s.warning 270' % fn)
 		_print('%s.critical 290' % fn)
 
-def _report(sts):
+def _report(sts: dict[str, float]):
 	_print('multigraph mnppl')
 	for pl in sorted(sts.keys()):
 		fn = mon.cleanfn(pl)
-		_print('%s.value' % fn, sts[pl].took())
+		_print('%s.value' % fn, sts.get(pl, 'U'))
 
 #
 # run parallel
@@ -72,32 +72,39 @@ def _newProc(cmd: list[str]) -> Popen:
 
 class Proc(object):
 	cmd:   list[str]
+	err:   str
+	out:   str
+	name:  str
 	start: float
 	end:   float
 	rc:    int
-	err:   str
-	out:   str
+
+	def __init__(p, cmd: list[str]):
+		p.cmd  = cmd.copy()
+		p.pl   = Path(p.cmd[0]).name
+		p.name = Path(p.pl).stem
+		p.err  = ''
+		p.out  = ''
+		p.rc   = -128
 
 	def print(p):
 		if p.rc != 0:
-			print('[ERROR]', p.cmd, 'failed:', p.rc, file = sys.stderr)
+			print('[ERROR]', p.pl, 'failed:', p.rc, file = sys.stderr)
 			sys.stderr.flush()
 		if p.err != '':
-			pl = Path(p.cmd[0]).stem
 			for line in p.err.splitlines(keepends = True):
-				sys.stderr.write('[E] %s: ' % pl)
+				sys.stderr.write('[E] %s: ' % p.pl)
 				sys.stderr.write(line)
 			sys.stderr.flush()
 		if p.out != '':
 			sys.stdout.write(p.out)
 			sys.stdout.flush()
 
+	def took(p) -> float:
+		return p.end - p.start
+
 def _start(cmd: list[str]) -> Proc:
-	p = Proc()
-	p.err = ''
-	p.out = ''
-	p.rc = -128
-	p.cmd = cmd.copy()
+	p = Proc(cmd)
 	p.start = time()
 	x = _newProc(p.cmd)
 	p.rc = x.wait()
@@ -110,7 +117,7 @@ def _start(cmd: list[str]) -> Proc:
 
 _pool_wait = 300
 
-def _run(bindir: str, action: str) -> int:
+def _run(bindir: str, action: str, self_report: bool = True) -> int:
 	x: list[list[str]] = []
 	for pl in _listPlugins(bindir):
 		cmd = [Path(bindir, pl).as_posix()]
@@ -118,6 +125,7 @@ def _run(bindir: str, action: str) -> int:
 			cmd.append(action)
 		x.append(cmd)
 	xlen = len(x)
+	sts: dict[str, float] = {}
 	with Pool(processes = xlen) as pool:
 		rwait = []
 		for i in range(xlen):
@@ -128,6 +136,13 @@ def _run(bindir: str, action: str) -> int:
 			r.wait(_pool_wait)
 			p = r.get()
 			p.print()
+			if self_report:
+				sts[p.pl] = p.took()
+	if self_report:
+		if action == 'config':
+			_config(sts)
+		else:
+			_report(sts)
 
 #
 # main
@@ -161,7 +176,8 @@ def main(argv: list[str]) -> int:
 			if st != 0:
 				rc = st
 	else:
-		return _run(args.bindir, action)
+		self_report = not args.no_report
+		return _run(args.bindir, action, self_report = self_report)
 	return rc
 
 if __name__ == '__main__': # pragma no cover
