@@ -16,11 +16,6 @@ _bup_print = mnppl._print
 
 testing_plugins_bindir = './k8s/test/mon/munin-node/plugins/mnppl'
 
-stats = {
-	't0.mnppl': 0.1,
-	't1.mnppl': 0.2,
-}
-
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -30,7 +25,6 @@ class Test(unittest.TestCase):
 	def test_globals(t):
 		t.assertEqual(mnppl.plugins_bindir, '/usr/local/bin')
 		t.assertEqual(mnppl.plugins_suffix, '.mnppl')
-		t.assertEqual(mnppl.pool_wait,      300)
 		t.assertEqual(mnppl.time_warning,   270)
 		t.assertEqual(mnppl.time_critical,  290)
 
@@ -42,7 +36,7 @@ class Test(unittest.TestCase):
 		_bup_print('testing', '...')
 
 	def test_config(t):
-		mnppl._config(stats)
+		mnppl._config()
 		config = [
 			call('multigraph mnppl'),
 			call('graph_title k8stest mnppl'),
@@ -51,35 +45,21 @@ class Test(unittest.TestCase):
 			call('graph_vlabel seconds'),
 			call('graph_printf %3.3lf'),
 			call('graph_scale yes'),
-			call('total_mnppl.label total'),
-			call('total_mnppl.colour COLOUR0'),
-			call('total_mnppl.draw LINE'),
-			call('total_mnppl.min 0'),
-			call('total_mnppl.max 400'),
-			call('total_mnppl.warning', 270),
-			call('total_mnppl.critical', 290),
-			call('t0_mnppl.label', 't0'),
-			call('t0_mnppl.colour COLOUR1'),
-			call('t0_mnppl.draw AREA'),
-			call('t0_mnppl.min 0'),
-			call('t0_mnppl.max 400'),
-			call('t1_mnppl.label', 't1'),
-			call('t1_mnppl.colour COLOUR2'),
-			call('t1_mnppl.draw AREA'),
-			call('t1_mnppl.min 0'),
-			call('t1_mnppl.max 400'),
+			call('mnppl.label total'),
+			call('mnppl.colour COLOUR0'),
+			call('mnppl.draw AREA'),
+			call('mnppl.min 0'),
+			call('mnppl.warning', mnppl.time_warning),
+			call('mnppl.critical', mnppl.time_critical),
 		]
 		mnppl._print.assert_has_calls(config)
 		t.assertEqual(mnppl._print.call_count, len(config))
 
 	def test_report(t):
-		stats['total.mnppl'] = 0.3
-		mnppl._report(stats)
+		mnppl._report(0.3)
 		report = [
 			call('multigraph mnppl'),
-			call('t0_mnppl.value', 0.1),
-			call('t1_mnppl.value', 0.2),
-			call('total_mnppl.value', 0.3),
+			call('mnppl.value', 0.3),
 		]
 		mnppl._print.assert_has_calls(report)
 		t.assertEqual(mnppl._print.call_count, len(report))
@@ -105,22 +85,9 @@ class Test(unittest.TestCase):
 		d = Path(testing_plugins_bindir, 'run')
 		t.assertEqual(mnppl._run(d, 'report'), 0)
 
-	def test_proc_print(t):
-		p = mnppl.Proc(['/bin/false'])
-		p.rc = 0
-		t.assertFalse(p.print())
-		p.rc = 99
-		p.err = 'err'
-		p.out = 'out'
-		t.assertTrue(p.print())
-
-	def test_start(t):
-		p = mnppl._start(['/bin/true'])
-		t.assertIsInstance(p, mnppl.Proc)
-		t.assertEqual(p.name, 'true')
-		t.assertEqual(p.rc, 0)
-		t.assertEqual(p.err, '')
-		t.assertEqual(p.out, '')
+	def test_run_fail(t):
+		d = Path(testing_plugins_bindir, 'fail')
+		t.assertEqual(mnppl._run(d, 'report'), 128)
 
 	#
 	# main
@@ -131,15 +98,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnppl.main(['-b', d, 'config']), 0)
 
 	def test_main_no_plugins(t):
-		t.assertEqual(mnppl.main([]), 1)
-
-	def test_main_no_parallel(t):
-		d = Path(testing_plugins_bindir, 'run').as_posix()
-		t.assertEqual(mnppl.main(['-b', d, '--serial']), 0)
-
-	def test_main_no_parallel_fail(t):
-		d = Path(testing_plugins_bindir, 'fail').as_posix()
-		t.assertEqual(mnppl.main(['-b', d, '--serial']), 128)
+		t.assertEqual(mnppl.main([]), 0)
 
 if __name__ == '__main__':
 	unittest.main()

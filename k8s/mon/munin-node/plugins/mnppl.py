@@ -13,11 +13,14 @@ from argparse   import ArgumentParser
 from pathlib    import Path
 from subprocess import PIPE
 from subprocess import Popen
+from time       import time
 
 import mon
 
 plugins_bindir = '/usr/local/bin'
 plugins_suffix = '.mnppl'
+time_warning   = 270
+time_critical  = 290
 
 #
 # configs and reports
@@ -26,7 +29,7 @@ plugins_suffix = '.mnppl'
 def _print(*args):
 	print(*args)
 
-def _config(sts):
+def _config():
 	cluster = mon.cluster()
 	_print('multigraph mnppl')
 	_print(f"graph_title {cluster} mnppl")
@@ -35,22 +38,16 @@ def _config(sts):
 	_print('graph_vlabel seconds')
 	_print('graph_printf %3.3lf')
 	_print('graph_scale yes')
-	color = -1
-	for pl in sorted(sts.keys()):
-		color = mon.color(color)
-		fn = mon.cleanfn(pl)
-		_print('%s.label' % fn, pl)
-		_print('%s.colour COLOUR%d' % (fn, color))
-		_print('%s.draw AREA' % fn)
-		_print('%s.min 0' % fn)
-		_print('%s.warning 270' % fn)
-		_print('%s.critical 290' % fn)
+	_print('mnppl.label total')
+	_print('mnppl.colour COLOUR0')
+	_print('mnppl.draw AREA')
+	_print('mnppl.min 0')
+	_print('mnppl.warning', time_warning)
+	_print('mnppl.critical', time_critical)
 
-def _report(sts):
+def _report(elapsed_time: float):
 	_print('multigraph mnppl')
-	for pl in sorted(sts.keys()):
-		fn = mon.cleanfn(pl)
-		_print('%s.value' % fn, sts[pl].took())
+	_print('mnppl.value', elapsed_time)
 
 #
 # run parallel
@@ -67,21 +64,30 @@ def _listPlugins(bindir: str) -> list[str]:
 def _newProc(cmd: list[str]) -> Popen:
 	return Popen(cmd, text = True, stdout = PIPE, stderr = PIPE)
 
-def _pprint(p: Popen):
+def _pprint(p: Popen) -> bool:
+	_done = False
+	pl = Path(str(p.args[0])).name
+	name = Path(pl).stem
 	if p.returncode != 0:
-		print('[ERROR]', p.args, 'failed:', p.returncode, file = sys.stderr)
-	if p.stderr is not None:
-		pl = Path(p.args[0]).stem
-		for line in p.stderr.readlines():
-			sys.stderr.write('[E] %s: ' % pl)
-			sys.stderr.write(line)
-			sys.stderr.write('\n')
+		print('[ERROR]', pl, 'failed:', p.returncode, file = sys.stderr)
 		sys.stderr.flush()
+		_done = True
+	if p.stderr is not None:
+		for line in p.stderr.readlines():
+			sys.stderr.write('[E] %s: ' % name)
+			sys.stderr.write(line)
+		p.stderr.close()
+		sys.stderr.flush()
+		_done = True
 	if p.stdout is not None:
 		sys.stdout.write(p.stdout.read())
+		p.stdout.close()
 		sys.stdout.flush()
+		_done = True
+	return _done
 
 def _run(bindir: str, action: str) -> int:
+	run_start: float = time()
 	pwait: dict[str, Popen] = {}
 	for pl in _listPlugins(bindir):
 		cmd = [Path(bindir, pl).as_posix()]
@@ -94,6 +100,10 @@ def _run(bindir: str, action: str) -> int:
 		if st != 0:
 			rc = st
 		_pprint(proc)
+	if action == 'config':
+		_config()
+	else:
+		_report(time() - run_start)
 	return rc
 
 #
@@ -107,10 +117,6 @@ def main(argv: list[str]) -> int:
 
 	flags.add_argument('-b', '--bindir', default = plugins_bindir,
 		help = 'plugins bindir')
-	flags.add_argument('-R', '--no-report', action = 'store_true', default = False,
-		help = 'no self report')
-	flags.add_argument('-s', '--serial', action = 'store_true', default = False,
-		help = 'no parallelism')
 	flags.add_argument('action', default = 'report', nargs = '*',
 		choices = ['config', 'report'],
 		help = 'plugin action')
@@ -121,15 +127,7 @@ def main(argv: list[str]) -> int:
 	if isinstance(args.action, list):
 		action = args.action[0].strip()
 
-	rc = 0
-	if args.serial:
-		for pl in _listPlugins(args.bindir):
-			st = os.system(Path(args.bindir, pl))
-			if st != 0:
-				rc = st
-	else:
-		return _run(args.bindir, action)
-	return rc
+	return _run(args.bindir, action)
 
 if __name__ == '__main__': # pragma no cover
 	sys.exit(main(sys.argv[1:]))

@@ -1,3 +1,4 @@
 #!/bin/sh
 set -eu
+echo 'testing' >&2
 exit 128
