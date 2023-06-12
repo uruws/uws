@@ -14,6 +14,11 @@ _bup_print = mnppl._print
 
 testing_plugins_bindir = './k8s/test/mon/munin-node/plugins/mnppl'
 
+stats = {
+	't0.mnppl': 0.1,
+	't1.mnppl': 0.2,
+}
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -33,6 +38,37 @@ class Test(unittest.TestCase):
 
 	def test_print(t):
 		_bup_print('testing', '...')
+
+	def test_config(t):
+		mnppl._config(stats)
+		config = [
+			call('multigraph mnppl'),
+			call('graph_title k8stest mnppl'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category munin'),
+			call('graph_vlabel seconds'),
+			call('graph_printf %3.3lf'),
+			call('graph_scale yes'),
+			call('total_mnppl.label total'),
+			call('total_mnppl.colour COLOUR0'),
+			call('total_mnppl.draw LINE'),
+			call('total_mnppl.min 0'),
+			call('total_mnppl.max 400'),
+			call('total_mnppl.warning', 270),
+			call('total_mnppl.critical', 290),
+			call('t0_mnppl.label', 't0'),
+			call('t0_mnppl.colour COLOUR1'),
+			call('t0_mnppl.draw AREA'),
+			call('t0_mnppl.min 0'),
+			call('t0_mnppl.max 400'),
+			call('t1_mnppl.label', 't1'),
+			call('t1_mnppl.colour COLOUR2'),
+			call('t1_mnppl.draw AREA'),
+			call('t1_mnppl.min 0'),
+			call('t1_mnppl.max 400'),
+		]
+		mnppl._print.assert_has_calls(config)
+		t.assertEqual(mnppl._print.call_count, len(config))
 
 	#
 	# run parallel

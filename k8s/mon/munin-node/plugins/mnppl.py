@@ -47,6 +47,7 @@ def _config(sts: dict[str, float]):
 	_print('%s.colour COLOUR0' % fn)
 	_print('%s.draw LINE' % fn)
 	_print('%s.min 0' % fn)
+	_print('%s.max 400' % fn)
 	_print('%s.warning' % fn, time_warning)
 	_print('%s.critical' % fn, time_critical)
 	# plugins
@@ -58,6 +59,7 @@ def _config(sts: dict[str, float]):
 		_print('%s.colour COLOUR%d' % (fn, color))
 		_print('%s.draw AREA' % fn)
 		_print('%s.min 0' % fn)
+		_print('%s.max 400' % fn)
 
 def _report(sts: dict[str, float]):
 	_print('multigraph mnppl')
