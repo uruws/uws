@@ -47,7 +47,7 @@ def _config(sts):
 	_print('graph_printf %3.3lf')
 	_print('graph_scale yes')
 	color = -1
-	for pl in sts.keys():
+	for pl in sorted(sts.keys()):
 		color = mon.color(color)
 		fn = mon.cleanfn(pl)
 		_print('%s.label' % fn, pl)
@@ -59,8 +59,7 @@ def _config(sts):
 
 def _report(sts):
 	_print('multigraph mnppl')
-	# FIXME: loop sts keys
-	for pl in sts.keys():
+	for pl in sorted(sts.keys()):
 		fn = mon.cleanfn(pl)
 		_print('%s.value' % fn, sts[pl].took())
 
@@ -83,11 +82,14 @@ def _pprint(p: Popen):
 	if p.returncode != 0:
 		print('[ERROR]', p.args, 'failed:', p.returncode, file = sys.stderr)
 	if p.stderr is not None:
-		sys.stderr.write(p.stderr.read())
+		pl = Path(p.args[0]).stem
+		for line in p.stderr.readlines():
+			sys.stderr.write('[E] %s: ' % pl)
+			sys.stderr.write(line)
+			sys.stderr.write('\n')
 		sys.stderr.flush()
 	if p.stdout is not None:
 		sys.stdout.write(p.stdout.read())
-		sys.stdout.write('\n')
 		sys.stdout.flush()
 
 def _run(bindir: str, action: str, self_report: bool = False) -> int:
