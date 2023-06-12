@@ -6,11 +6,13 @@
 import os
 import sys
 
+MONLIB = os.getenv('MONLIB', '/srv/munin/plugins')
+sys.path.insert(0, MONLIB)
+
 from argparse   import ArgumentParser
 from pathlib    import Path
 from subprocess import PIPE
 from subprocess import Popen
-from time       import time
 
 import mon
 
@@ -20,19 +22,6 @@ plugins_suffix = '.mnppl'
 #
 # configs and reports
 #
-
-class Stats(object):
-	__start: float
-	__end:   float
-
-	def __init__(s):
-		s.__start = time()
-
-	def end(s):
-		s.__end = time()
-
-	def took(s) -> float:
-		return s.__end - s.__start
 
 def _print(*args):
 	print(*args)
@@ -92,12 +81,9 @@ def _pprint(p: Popen):
 		sys.stdout.write(p.stdout.read())
 		sys.stdout.flush()
 
-def _run(bindir: str, action: str, self_report: bool = False) -> int:
-	sts: dict[str, Stats] = {}
+def _run(bindir: str, action: str) -> int:
 	pwait: dict[str, Popen] = {}
 	for pl in _listPlugins(bindir):
-		if self_report:
-			sts[pl] = Stats()
 		cmd = [Path(bindir, pl).as_posix()]
 		if action == 'config':
 			cmd.append(action)
@@ -108,13 +94,6 @@ def _run(bindir: str, action: str, self_report: bool = False) -> int:
 		if st != 0:
 			rc = st
 		_pprint(proc)
-		if self_report:
-			sts[pl].end()
-	if self_report:
-		if action == 'config':
-			_config(sts)
-		else:
-			_report(sts)
 	return rc
 
 #
@@ -149,8 +128,7 @@ def main(argv: list[str]) -> int:
 			if st != 0:
 				rc = st
 	else:
-		self_report = not args.no_report
-		return _run(args.bindir, action, self_report = self_report)
+		return _run(args.bindir, action)
 	return rc
 
 if __name__ == '__main__': # pragma no cover
