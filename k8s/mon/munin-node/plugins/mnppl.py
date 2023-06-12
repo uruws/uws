@@ -21,6 +21,9 @@ import mon
 
 plugins_bindir = '/usr/local/bin'
 plugins_suffix = '.mnppl'
+pool_wait      = 300
+time_warning   = 270
+time_critical  = 290
 
 #
 # configs and reports
@@ -44,8 +47,8 @@ def _config(sts: dict[str, float]):
 	_print('%s.colour COLOUR0' % fn)
 	_print('%s.draw LINE' % fn)
 	_print('%s.min 0' % fn)
-	_print('%s.warning 270' % fn)
-	_print('%s.critical 290' % fn)
+	_print('%s.warning' % fn, time_warning)
+	_print('%s.critical' % fn, time_critical)
 	# plugins
 	color = 0
 	for pl in sorted(sts.keys()):
@@ -121,8 +124,6 @@ def _start(cmd: list[str]) -> Proc:
 		p.out = x.stdout.read()
 	p.end = time()
 	return p
-
-_pool_wait = 300
 
 def _run(bindir: str, action: str, self_report: bool = True) -> int:
 	run_start: float = time()
