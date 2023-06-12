@@ -102,5 +102,8 @@ class Test(unittest.TestCase):
 	def test_main_no_plugins(t):
 		t.assertEqual(mnppl.main([]), 1)
 
+	def test_main_no_parallel(t):
+		t.assertEqual(mnppl.main(['--serial']), 0)
+
 if __name__ == '__main__':
 	unittest.main()
