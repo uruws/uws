@@ -21,6 +21,10 @@ class Test(unittest.TestCase):
 	def tearDown(t):
 		mon_t.tearDown()
 
+	def test_system(t):
+		t.assertEqual(mon.system('/bin/true'), 0)
+		t.assertEqual(mon.system('/bin/false'), 1)
+
 	# logger
 
 	def test_debug(t):

@@ -9,6 +9,9 @@ import sys
 
 from time import time
 
+def system(cmd) -> int:
+	return os.system(cmd) >> 8
+
 # logger
 
 _debug = os.getenv('UWS_DEBUG', None) is not None
