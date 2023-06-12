@@ -13,17 +13,11 @@ from argparse   import ArgumentParser
 from pathlib    import Path
 from subprocess import PIPE
 from subprocess import Popen
-from time       import time
-
-from multiprocessing.pool import Pool
 
 import mon
 
 plugins_bindir = '/usr/local/bin'
 plugins_suffix = '.mnppl'
-pool_wait      = 300
-time_warning   = 270
-time_critical  = 290
 
 #
 # configs and reports
@@ -32,7 +26,7 @@ time_critical  = 290
 def _print(*args):
 	print(*args)
 
-def _config(sts: dict[str, float]):
+def _config(sts):
 	cluster = mon.cluster()
 	_print('multigraph mnppl')
 	_print(f"graph_title {cluster} mnppl")
@@ -41,31 +35,22 @@ def _config(sts: dict[str, float]):
 	_print('graph_vlabel seconds')
 	_print('graph_printf %3.3lf')
 	_print('graph_scale yes')
-	# total
-	fn = mon.cleanfn('total.mnppl')
-	_print('%s.label total' % fn)
-	_print('%s.colour COLOUR0' % fn)
-	_print('%s.draw LINE' % fn)
-	_print('%s.min 0' % fn)
-	_print('%s.max 400' % fn)
-	_print('%s.warning' % fn, time_warning)
-	_print('%s.critical' % fn, time_critical)
-	# plugins
-	color = 0
+	color = -1
 	for pl in sorted(sts.keys()):
 		color = mon.color(color)
 		fn = mon.cleanfn(pl)
-		_print('%s.label' % fn, Path(pl).stem)
+		_print('%s.label' % fn, pl)
 		_print('%s.colour COLOUR%d' % (fn, color))
 		_print('%s.draw AREA' % fn)
 		_print('%s.min 0' % fn)
-		_print('%s.max 400' % fn)
+		_print('%s.warning 270' % fn)
+		_print('%s.critical 290' % fn)
 
-def _report(sts: dict[str, float]):
+def _report(sts):
 	_print('multigraph mnppl')
 	for pl in sorted(sts.keys()):
 		fn = mon.cleanfn(pl)
-		_print('%s.value' % fn, sts.get(pl, 'U'))
+		_print('%s.value' % fn, sts[pl].took())
 
 #
 # run parallel
@@ -82,90 +67,34 @@ def _listPlugins(bindir: str) -> list[str]:
 def _newProc(cmd: list[str]) -> Popen:
 	return Popen(cmd, text = True, stdout = PIPE, stderr = PIPE)
 
-class Proc(object):
-	cmd:   list[str]
-	err:   str
-	out:   str
-	name:  str
-	start: float
-	end:   float
-	rc:    int
+def _pprint(p: Popen):
+	if p.returncode != 0:
+		print('[ERROR]', p.args, 'failed:', p.returncode, file = sys.stderr)
+	if p.stderr is not None:
+		pl = Path(p.args[0]).stem
+		for line in p.stderr.readlines():
+			sys.stderr.write('[E] %s: ' % pl)
+			sys.stderr.write(line)
+			sys.stderr.write('\n')
+		sys.stderr.flush()
+	if p.stdout is not None:
+		sys.stdout.write(p.stdout.read())
+		sys.stdout.flush()
 
-	def __init__(p, cmd: list[str]):
-		p.cmd  = cmd.copy()
-		p.pl   = Path(p.cmd[0]).name
-		p.name = Path(p.pl).stem
-		p.err  = ''
-		p.out  = ''
-		p.rc   = -128
-
-	def print(p) -> bool:
-		_done = False
-		if p.rc != 0:
-			print('[ERROR]', p.pl, 'failed:', p.rc, file = sys.stderr)
-			sys.stderr.flush()
-			_done = True
-		if p.err != '':
-			for line in p.err.splitlines(keepends = True):
-				sys.stderr.write('[E] %s: ' % p.pl)
-				sys.stderr.write(line)
-			sys.stderr.flush()
-			_done = True
-		if p.out != '':
-			sys.stdout.write(p.out)
-			sys.stdout.flush()
-			_done = True
-		return _done
-
-	def took(p) -> float:
-		return p.end - p.start
-
-def _start(cmd: list[str]) -> Proc:
-	p = Proc(cmd)
-	p.start = time()
-	x = _newProc(p.cmd)
-	p.rc = x.wait()
-	if x.stderr is not None:
-		p.err = x.stderr.read()
-		x.stderr.close()
-	if x.stdout is not None:
-		p.out = x.stdout.read()
-		x.stdout.close()
-	p.end = time()
-	return p
-
-def _run(bindir: str, action: str, self_report: bool = True) -> int:
-	run_start: float = time()
-	x: list[list[str]] = []
+def _run(bindir: str, action: str) -> int:
+	pwait: dict[str, Popen] = {}
 	for pl in _listPlugins(bindir):
 		cmd = [Path(bindir, pl).as_posix()]
 		if action == 'config':
 			cmd.append(action)
-		x.append(cmd)
-	xlen = len(x)
-	if xlen < 1:
-		print('[ERROR] mnppl: no plugins to run', file = sys.stderr)
-		return 1
-	sts: dict[str, float] = {}
-	with Pool(processes = xlen) as pool:
-		rwait = []
-		for i in range(xlen):
-			r = pool.apply_async(_start, (x[i],))
-			rwait.append(r)
-		for i in range(xlen):
-			r = rwait[i]
-			r.wait(pool_wait)
-			p = r.get()
-			p.print()
-			if self_report:
-				sts[p.pl] = p.took()
-	if self_report:
-		if action == 'config':
-			_config(sts)
-		else:
-			sts['total.mnppl'] = time() - run_start
-			_report(sts)
-	return 0
+		pwait[pl] = _newProc(cmd)
+	rc = 0
+	for pl, proc in pwait.items():
+		st = proc.wait()
+		if st != 0:
+			rc = st
+		_pprint(proc)
+	return rc
 
 #
 # main
@@ -195,12 +124,11 @@ def main(argv: list[str]) -> int:
 	rc = 0
 	if args.serial:
 		for pl in _listPlugins(args.bindir):
-			st = mon.system(Path(args.bindir, pl))
+			st = os.system(Path(args.bindir, pl))
 			if st != 0:
 				rc = st
 	else:
-		self_report = not args.no_report
-		return _run(args.bindir, action, self_report = self_report)
+		return _run(args.bindir, action)
 	return rc
 
 if __name__ == '__main__': # pragma no cover
