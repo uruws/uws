@@ -38,7 +38,16 @@ def _config(sts: dict[str, float]):
 	_print('graph_vlabel seconds')
 	_print('graph_printf %3.3lf')
 	_print('graph_scale yes')
-	color = -1
+	# total
+	fn = mon.cleanfn('total.mnppl')
+	_print('%s.label total' % fn)
+	_print('%s.colour COLOUR0' % fn)
+	_print('%s.draw LINE' % fn)
+	_print('%s.min 0' % fn)
+	_print('%s.warning 270' % fn)
+	_print('%s.critical 290' % fn)
+	# plugins
+	color = 0
 	for pl in sorted(sts.keys()):
 		color = mon.color(color)
 		fn = mon.cleanfn(pl)
@@ -46,8 +55,6 @@ def _config(sts: dict[str, float]):
 		_print('%s.colour COLOUR%d' % (fn, color))
 		_print('%s.draw AREA' % fn)
 		_print('%s.min 0' % fn)
-		_print('%s.warning 270' % fn)
-		_print('%s.critical 290' % fn)
 
 def _report(sts: dict[str, float]):
 	_print('multigraph mnppl')
@@ -118,6 +125,7 @@ def _start(cmd: list[str]) -> Proc:
 _pool_wait = 300
 
 def _run(bindir: str, action: str, self_report: bool = True) -> int:
+	run_start: float = time()
 	x: list[list[str]] = []
 	for pl in _listPlugins(bindir):
 		cmd = [Path(bindir, pl).as_posix()]
@@ -142,6 +150,7 @@ def _run(bindir: str, action: str, self_report: bool = True) -> int:
 		if action == 'config':
 			_config(sts)
 		else:
+			sts['total.mnppl'] = time() - run_start
 			_report(sts)
 
 #
