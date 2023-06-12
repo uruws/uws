@@ -13,6 +13,9 @@ from argparse   import ArgumentParser
 from pathlib    import Path
 from subprocess import PIPE
 from subprocess import Popen
+from time       import time
+
+from multiprocessing.pool import Pool
 
 import mon
 
@@ -67,34 +70,64 @@ def _listPlugins(bindir: str) -> list[str]:
 def _newProc(cmd: list[str]) -> Popen:
 	return Popen(cmd, text = True, stdout = PIPE, stderr = PIPE)
 
-def _pprint(p: Popen):
-	if p.returncode != 0:
-		print('[ERROR]', p.args, 'failed:', p.returncode, file = sys.stderr)
-	if p.stderr is not None:
-		pl = Path(p.args[0]).stem
-		for line in p.stderr.readlines():
-			sys.stderr.write('[E] %s: ' % pl)
-			sys.stderr.write(line)
-			sys.stderr.write('\n')
-		sys.stderr.flush()
-	if p.stdout is not None:
-		sys.stdout.write(p.stdout.read())
-		sys.stdout.flush()
+class Proc(object):
+	cmd:   list[str]
+	start: float
+	end:   float
+	rc:    int
+	err:   str
+	out:   str
+
+	def print(p):
+		if p.rc != 0:
+			print('[ERROR]', p.cmd, 'failed:', p.rc, file = sys.stderr)
+			sys.stderr.flush()
+		if p.err != '':
+			pl = Path(p.cmd[0]).stem
+			for line in p.err.splitlines(keepends = True):
+				sys.stderr.write('[E] %s: ' % pl)
+				sys.stderr.write(line)
+			sys.stderr.flush()
+		if p.out != '':
+			sys.stdout.write(p.out)
+			sys.stdout.flush()
+
+def _start(cmd: list[str]) -> Proc:
+	p = Proc()
+	p.err = ''
+	p.out = ''
+	p.rc = -128
+	p.cmd = cmd.copy()
+	p.start = time()
+	x = _newProc(p.cmd)
+	p.rc = x.wait()
+	if x.stderr is not None:
+		p.err = x.stderr.read()
+	if x.stdout is not None:
+		p.out = x.stdout.read()
+	p.end = time()
+	return p
+
+_pool_wait = 300
 
 def _run(bindir: str, action: str) -> int:
-	pwait: dict[str, Popen] = {}
+	x: list[list[str]] = []
 	for pl in _listPlugins(bindir):
 		cmd = [Path(bindir, pl).as_posix()]
 		if action == 'config':
 			cmd.append(action)
-		pwait[pl] = _newProc(cmd)
-	rc = 0
-	for pl, proc in pwait.items():
-		st = proc.wait()
-		if st != 0:
-			rc = st
-		_pprint(proc)
-	return rc
+		x.append(cmd)
+	xlen = len(x)
+	with Pool(processes = xlen) as pool:
+		rwait = []
+		for i in range(xlen):
+			r = pool.apply_async(_start, (x[i],))
+			rwait.append(r)
+		for i in range(xlen):
+			r = rwait[i]
+			r.wait(_pool_wait)
+			p = r.get()
+			p.print()
 
 #
 # main
