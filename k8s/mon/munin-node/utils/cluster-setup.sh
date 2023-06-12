@@ -25,7 +25,7 @@ install -v -m 0755 /srv/munin/plugins/munin.py       /usr/local/bin/munin.mnppl
 # plugins config
 
 cat <<EOF >/etc/munin/plugin-conf.d/uws
-[munin]
+[mnppl]
 user uws
 group uws
 EOF
