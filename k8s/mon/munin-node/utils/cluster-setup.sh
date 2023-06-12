@@ -19,7 +19,7 @@ install -v -m 0755 /srv/munin/plugins/nodes.py       /usr/local/bin/nodes.mnppl
 #install -v -m 0755 /srv/munin/plugins/nginx.py       /usr/local/bin/nginx.mnppl
 install -v -m 0755 /srv/munin/plugins/deployments.py /usr/local/bin/deployments.mnppl
 install -v -m 0755 /srv/munin/plugins/pods.py        /usr/local/bin/pods.mnppl
-install -v -m 0755 /srv/munin/plugins/k8s.py         /usr/local/bin/k8s.mnppl
+#install -v -m 0755 /srv/munin/plugins/k8s.py         /usr/local/bin/k8s.mnppl
 install -v -m 0755 /srv/munin/plugins/munin.py       /usr/local/bin/munin.mnppl
 
 # plugins config
