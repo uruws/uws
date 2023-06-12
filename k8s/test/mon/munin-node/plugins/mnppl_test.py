@@ -6,6 +6,8 @@
 import unittest
 from   unittest.mock import MagicMock, call
 
+from pathlib import Path
+
 import mon_t
 
 import mnppl
@@ -94,6 +96,14 @@ class Test(unittest.TestCase):
 			't3.mnppl',
 			't4.mnppl',
 		])
+
+	def test_run_config(t):
+		d = Path(testing_plugins_bindir, 'run')
+		t.assertEqual(mnppl._run(d, 'config'), 0)
+
+	def test_run_report(t):
+		d = Path(testing_plugins_bindir, 'run')
+		t.assertEqual(mnppl._run(d, 'report'), 0)
 
 	#
 	# main

@@ -122,8 +122,10 @@ def _start(cmd: list[str]) -> Proc:
 	p.rc = x.wait()
 	if x.stderr is not None:
 		p.err = x.stderr.read()
+		x.stderr.close()
 	if x.stdout is not None:
 		p.out = x.stdout.read()
+		x.stdout.close()
 	p.end = time()
 	return p
 
@@ -147,7 +149,7 @@ def _run(bindir: str, action: str, self_report: bool = True) -> int:
 			rwait.append(r)
 		for i in range(xlen):
 			r = rwait[i]
-			r.wait(_pool_wait)
+			r.wait(pool_wait)
 			p = r.get()
 			p.print()
 			if self_report:
