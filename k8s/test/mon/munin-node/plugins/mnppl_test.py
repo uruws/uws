@@ -70,6 +70,18 @@ class Test(unittest.TestCase):
 		mnppl._print.assert_has_calls(config)
 		t.assertEqual(mnppl._print.call_count, len(config))
 
+	def test_report(t):
+		stats['total.mnppl'] = 0.3
+		mnppl._report(stats)
+		report = [
+			call('multigraph mnppl'),
+			call('t0_mnppl.value', 0.1),
+			call('t1_mnppl.value', 0.2),
+			call('total_mnppl.value', 0.3),
+		]
+		mnppl._print.assert_has_calls(report)
+		t.assertEqual(mnppl._print.call_count, len(report))
+
 	#
 	# run parallel
 	#
