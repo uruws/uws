@@ -105,6 +105,23 @@ class Test(unittest.TestCase):
 		d = Path(testing_plugins_bindir, 'run')
 		t.assertEqual(mnppl._run(d, 'report'), 0)
 
+	def test_proc_print(t):
+		p = mnppl.Proc(['/bin/false'])
+		p.rc = 0
+		t.assertFalse(p.print())
+		p.rc = 99
+		p.err = 'err'
+		p.out = 'out'
+		t.assertTrue(p.print())
+
+	def test_start(t):
+		p = mnppl._start(['/bin/true'])
+		t.assertIsInstance(p, mnppl.Proc)
+		t.assertEqual(p.name, 'true')
+		t.assertEqual(p.rc, 0)
+		t.assertEqual(p.err, '')
+		t.assertEqual(p.out, '')
+
 	#
 	# main
 	#

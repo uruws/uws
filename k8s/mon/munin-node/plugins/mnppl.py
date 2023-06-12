@@ -99,18 +99,23 @@ class Proc(object):
 		p.out  = ''
 		p.rc   = -128
 
-	def print(p):
+	def print(p) -> bool:
+		_done = False
 		if p.rc != 0:
 			print('[ERROR]', p.pl, 'failed:', p.rc, file = sys.stderr)
 			sys.stderr.flush()
+			_done = True
 		if p.err != '':
 			for line in p.err.splitlines(keepends = True):
 				sys.stderr.write('[E] %s: ' % p.pl)
 				sys.stderr.write(line)
 			sys.stderr.flush()
+			_done = True
 		if p.out != '':
 			sys.stdout.write(p.out)
 			sys.stdout.flush()
+			_done = True
+		return _done
 
 	def took(p) -> float:
 		return p.end - p.start
