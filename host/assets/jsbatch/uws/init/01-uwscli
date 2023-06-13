@@ -84,37 +84,49 @@ find ~uwscli/vendor/ -type d -name __pycache__ | xargs chown -R root:uwscli
 umask 0027
 
 #
+# users
+#
+
+uws_useradd() (
+	set -eu
+	user_name=${1}
+	user_keyid=${2:-"NOKEY"}
+	getent passwd "${user_name}" || {
+		useradd -U -m \
+			-s /bin/bash \
+			-c "${user_name}" \
+			-d "/srv/home/${user_name}" \
+			"${user_name}"
+	}
+	usermod --lock "${user_name}"
+	chmod 0750 "~${user_name}"
+	install -v -C -m 0644 ~uwscli/etc/user.bash_profile "~${user_name}/.bash_profile"
+	if test "X${user_keyid}" != 'XNOKEY'; then
+		sudo -n -u "${user_name}" /usr/bin/ssh-import-id "${user_keyid}"
+	fi
+)
+
+# developers
+uws_useradd antonio   gh:antoniobracco
+uws_useradd aram      gh:aram-uruworks
+uws_useradd gabriel   gh:gabdsg
+uws_useradd guillermo gh:gsiriani
+uws_useradd jeremias  gh:jrmstp
+uws_useradd nelson
+uws_useradd ramiro    gh:ramiroTalkingpts
+uws_useradd pablo     gh:pmarquez-bioinfo
+
+# chatbot dev
+uws_useradd uwscbdev
+
+#
 # users profile
 #
 
-chmod -v 0750 ~antonio
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~antonio/.bash_profile
-
-chmod -v 0750 ~aram
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~aram/.bash_profile
-
-chmod -v 0750 ~gabriel
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~gabriel/.bash_profile
-
-chmod -v 0750 ~guillermo
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~guillermo/.bash_profile
-
-chmod -v 0750 ~jeremias
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~jeremias/.bash_profile
-
-chmod -v 0750 ~nelson
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~nelson/.bash_profile
-
-chmod -v 0750 ~ramiro
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~ramiro/.bash_profile
-
-chmod -v 0750 ~uwscbdev
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~uwscbdev/.bash_profile
 install -v -d -m 0750 -o uwscbdev -g uwscbdev ~uwscbdev/.ssh
-install -v -C -m 0600 -o uwscbdev -g uwscbdev /srv/uws/deploy/secret/webapp/chatbot/ssh/ecdsa_id.pub ~uwscbdev/.ssh/authorized_keys
-
-chmod -v 0750 ~pablo
-install -v -C -m 0644 ~uwscli/etc/user.bash_profile ~pablo/.bash_profile
+install -v -C -m 0600 -o uwscbdev -g uwscbdev \
+	/srv/uws/deploy/secret/webapp/chatbot/ssh/ecdsa_id.pub \
+	~uwscbdev/.ssh/authorized_keys
 
 #
 # admin users
