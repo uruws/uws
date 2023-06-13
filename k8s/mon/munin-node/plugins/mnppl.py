@@ -75,18 +75,6 @@ def _pprint(p: Popen) -> bool:
 		print('[ERROR]', pl, 'failed:', p.returncode, file = sys.stderr)
 		sys.stderr.flush()
 		_done = True
-	# ~ if p.stderr is not None:
-		# ~ for line in p.stderr.readlines():
-			# ~ sys.stderr.write('[E] %s: ' % name)
-			# ~ sys.stderr.write(line)
-		# ~ p.stderr.close()
-		# ~ sys.stderr.flush()
-		# ~ _done = True
-	# ~ if p.stdout is not None:
-		# ~ sys.stdout.write(p.stdout.read())
-		# ~ p.stdout.close()
-		# ~ sys.stdout.flush()
-		# ~ _done = True
 	return _done
 
 def _run(bindir: str, action: str) -> int:

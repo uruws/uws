@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnppl.plugins_suffix, '.mnppl')
 		t.assertEqual(mnppl.time_warning,   270)
 		t.assertEqual(mnppl.time_critical,  290)
-		t.assertEqual(mnppl.plwait_timeout, 240)
+		t.assertEqual(mnppl.plwait_timeout, 180)
 
 	#
 	# configs and reports
@@ -89,6 +89,14 @@ class Test(unittest.TestCase):
 	def test_run_fail(t):
 		d = Path(testing_plugins_bindir, 'fail')
 		t.assertEqual(mnppl._run(d, 'report'), 128)
+
+	def test_run_timeout(t):
+		try:
+			mnppl.plwait_timeout = 0
+			d = Path(testing_plugins_bindir, 'run')
+			t.assertEqual(mnppl._run(d, 'report'), 0)
+		finally:
+			mnppl.plwait_timeout = 180
 
 	#
 	# main
