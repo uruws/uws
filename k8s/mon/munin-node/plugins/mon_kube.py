@@ -29,9 +29,11 @@ def _get(uri):
 	return json.loads(resp.read().decode())
 
 def _parse(uri, mods):
+	mon.dbg('mon_kube parse:', uri)
 	d = _get(uri)
 	sts = dict()
 	for n in mods.keys():
+		mon.dbg('mon_kube parse:', n)
 		mod = mods.get(n)
 		sts[n] = mod.parse(d)
 	return sts
@@ -39,6 +41,7 @@ def _parse(uri, mods):
 def _config(uri, mods):
 	sts = _parse(uri, mods)
 	for n in mods.keys():
+		mon.dbg('mon_kube config:', n)
 		mod = mods.get(n)
 		mod.config(sts[n])
 	mon.cacheSet(sts, uri)
@@ -49,6 +52,7 @@ def _report(uri, mods):
 	if sts is None:
 		sts = _parse(uri, mods)
 	for n in mods.keys():
+		mon.dbg('mon_kube report:', n)
 		mod = mods.get(n)
 		mod.report(sts[n])
 	return 0
@@ -58,6 +62,7 @@ def _uri(uri):
 
 def main(argv, uri, mods):
 	uri = _uri(uri)
+	mon.dbg('mon_kube:', uri)
 	try:
 		if argv[0] == 'config':
 			return _config(uri, mods)
