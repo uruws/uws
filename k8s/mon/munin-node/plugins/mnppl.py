@@ -22,7 +22,7 @@ plugins_bindir = '/usr/local/bin'
 plugins_suffix = '.mnppl'
 time_warning   = 270
 time_critical  = 290
-plwait_timeout = 240
+plwait_timeout = 180
 
 #
 # configs and reports
