@@ -27,6 +27,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(mnppl.plugins_suffix, '.mnppl')
 		t.assertEqual(mnppl.time_warning,   270)
 		t.assertEqual(mnppl.time_critical,  290)
+		t.assertEqual(mnppl.plwait_timeout, 240)
 
 	#
 	# configs and reports

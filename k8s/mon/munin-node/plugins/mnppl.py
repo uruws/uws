@@ -21,6 +21,7 @@ plugins_bindir = '/usr/local/bin'
 plugins_suffix = '.mnppl'
 time_warning   = 270
 time_critical  = 290
+plwait_timeout = 240
 
 #
 # configs and reports
@@ -90,16 +91,22 @@ def _run(bindir: str, action: str) -> int:
 	run_start: float = time()
 	pwait: dict[str, Popen] = {}
 	for pl in _listPlugins(bindir):
+		mon.dbg('pl:', pl)
 		cmd = [Path(bindir, pl).as_posix()]
 		if action == 'config':
 			cmd.append(action)
 		pwait[pl] = _newProc(cmd)
 	rc = 0
 	for pl, proc in pwait.items():
-		st = proc.wait()
-		if st != 0:
-			rc = st
-		_pprint(proc)
+		mon.dbg('pwait:', pl)
+		try:
+			st = proc.wait(timeout = plwait_timeout)
+			if st != 0:
+				rc = st
+			_pprint(proc)
+		except TimeoutExpired as err:
+			mon.log('[ERROR]', err)
+			proc.kill()
 	if action == 'config':
 		_config()
 	else:
