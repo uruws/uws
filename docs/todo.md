@@ -90,7 +90,7 @@
 
 ---
 
-* munin: k8smon network usage graphs
+* k8smon: munin network usage graphs
     * by namespace
     * by node
     * total
@@ -101,11 +101,6 @@
 * 2309 [upgrades][upgrades] round
 
 [upgrades]: ./infra/upgrades.md
-
----
-
-* heroku: sync tapo secrets from Infrastructure repo CI scripts
-    * update heroku env vars every time there's a modification on the Infra repo secrets
 
 ---
 
@@ -214,10 +209,6 @@
 
 ---
 
-* munin: MongoDB slow queries
-
----
-
 * CA rotate ops/210823
 
 ---
@@ -243,17 +234,6 @@
 
 ---
 
-* create a monitoring from App logs for Bandwidth message-failed like the one that follows.
-
-    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059667535Z Bandwidth sms callback [
-    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059715316Z   {
-    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059722316Z     time: '2022-06-14T18:38:45.798Z',
-    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059727236Z     type: 'message-failed',
-    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059731996Z     to: '+12408057329',
-    [pod/meteor-6b6dd995c8-jmbtc/meteor-worker] 2022-06-14T18:38:46.059736966Z     description: '050003BA0303006F0077 Carrier error 503',
-
----
-
 * `FIX` implement a "double check" mechanism for changing DNS uws.t.o domain records
     * the idea is to avoid issues like the one I did changing a production record
     * maybe use an script for Route53 editions which alerts about prod domains or similar
@@ -269,10 +249,6 @@
     * Route53 app.t.o use geolocation inside US or latency setup
         * versus current weighted 50/50 setup
         * we must keep the "heroku contingency plan" setup or adapt it to new ways
-
----
-
-* add bot to check we can send emails? (mandrill service)
 
 ---
 
@@ -314,10 +290,6 @@
 
 * `SEC` aws auth credentials rotation schedule
     * uwsadm and friends "access keys"
-
----
-
-* mongodb analyzer?
 
 ---
 
@@ -372,29 +344,5 @@
 
 ---
 
-* k8smon check jobs errors and sendmail.py if any (devel a munin plugin maybe?)
-    * aws AMI nodegroup auto upgrade (should be a daily check)
-
----
-
-* cache web assets
-    * use separate domain for static assets
-    * test meteor appcache
-
----
-
 * block web access by geoip?
     * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#use-geoip
-
----
-
-* munin
-    * graph app number of active users/sessions
-
----
-
-* improve web deploys
-    * currently it seems that the autoscaler moves around the pods after the deploy so it can re-arrange them in the minimun number of nodes as possible... In that sometimes the nginx-ingress pod is moved around so there's an outage there as the proxy is not available.
-    * some ideas:
-        * use more than one ingress (maybe in sep namespaces)
-        * use different nodegroups for "core" services like nginx and the "main" nodegroup to run our services (web, workers, etc...), using node affinity annotations.
