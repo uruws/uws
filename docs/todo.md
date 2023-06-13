@@ -4,17 +4,7 @@
 
 ---
 
-* Buildpack updates - `DONE!` [bp44...bp50 changelog][bpcl4450]
-    * mimic heroku steps and build settings
-    * based from a heroku build log
-
-[bpcl4450]: https://github.com/TalkingPts/Buildpack/compare/bp44...bp50
-
----
-
-* uwscli: app-autobuild improve checking versions already built - `DONE!` [PR189][PR189]
-
-[PR189]: https://github.com/TalkingPts/Infrastructure/pull/189
+* k8smon: munin-node run plugins in parallel - `DONE!`
 
 ---
 
@@ -29,6 +19,17 @@
     * create new workers cluster using on-demand c5n ec2 type
         * assign resources by CPU only
     * munin graph/alert worker jobs elapsed time
+
+---
+
+* munin: deprecate apijob (worker jobs)
+    * it will be done from infra-ui project
+
+---
+
+* meteor secrets: pull from heroku
+    * pull heroku env vars for aws deploy/restart
+    * remove: secret/eks/files/meteor
 
 ---
 
