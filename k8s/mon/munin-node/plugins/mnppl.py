@@ -13,6 +13,7 @@ from argparse   import ArgumentParser
 from pathlib    import Path
 from subprocess import PIPE
 from subprocess import Popen
+from subprocess import TimeoutExpired
 from time       import time
 
 import mon
@@ -63,7 +64,8 @@ def _listPlugins(bindir: str) -> list[str]:
 	return sorted(l)
 
 def _newProc(cmd: list[str]) -> Popen:
-	return Popen(cmd, text = True, stdout = PIPE, stderr = PIPE)
+	# ~ return Popen(cmd, text = True, stdout = PIPE, stderr = PIPE)
+	return Popen(cmd, text = True)
 
 def _pprint(p: Popen) -> bool:
 	_done = False
@@ -73,18 +75,18 @@ def _pprint(p: Popen) -> bool:
 		print('[ERROR]', pl, 'failed:', p.returncode, file = sys.stderr)
 		sys.stderr.flush()
 		_done = True
-	if p.stderr is not None:
-		for line in p.stderr.readlines():
-			sys.stderr.write('[E] %s: ' % name)
-			sys.stderr.write(line)
-		p.stderr.close()
-		sys.stderr.flush()
-		_done = True
-	if p.stdout is not None:
-		sys.stdout.write(p.stdout.read())
-		p.stdout.close()
-		sys.stdout.flush()
-		_done = True
+	# ~ if p.stderr is not None:
+		# ~ for line in p.stderr.readlines():
+			# ~ sys.stderr.write('[E] %s: ' % name)
+			# ~ sys.stderr.write(line)
+		# ~ p.stderr.close()
+		# ~ sys.stderr.flush()
+		# ~ _done = True
+	# ~ if p.stdout is not None:
+		# ~ sys.stdout.write(p.stdout.read())
+		# ~ p.stdout.close()
+		# ~ sys.stdout.flush()
+		# ~ _done = True
 	return _done
 
 def _run(bindir: str, action: str) -> int:
