@@ -91,16 +91,17 @@ uws_useradd() (
 	set -eu
 	user_name=${1}
 	user_keyid=${2:-"NOKEY"}
+	user_home=/srv/home/${user_name}
 	getent passwd "${user_name}" || {
 		useradd -U -m \
 			-s /bin/bash \
 			-c "${user_name}" \
-			-d "/srv/home/${user_name}" \
+			-d "${user_home}" \
 			"${user_name}"
 	}
 	usermod --lock "${user_name}"
-	chmod 0750 "~${user_name}"
-	install -v -C -m 0644 ~uwscli/etc/user.bash_profile "~${user_name}/.bash_profile"
+	chmod 0750 "${user_home}"
+	install -v -C -m 0644 ~uwscli/etc/user.bash_profile "${user_home}/.bash_profile"
 	if test "X${user_keyid}" != 'XNOKEY'; then
 		sudo -n -u "${user_name}" /usr/bin/ssh-import-id "${user_keyid}"
 	fi
