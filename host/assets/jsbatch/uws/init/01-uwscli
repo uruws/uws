@@ -115,6 +115,7 @@ uws_useradd jeremias  gh:jrmstp
 uws_useradd nelson
 uws_useradd ramiro    gh:ramiroTalkingpts
 uws_useradd pablo     gh:pmarquez-bioinfo
+uws_useradd gonzalo
 
 # chatbot dev
 uws_useradd uwscbdev
@@ -154,6 +155,9 @@ adduser gabriel   uwsops
 adduser guillermo uwsops
 adduser jeremias  uwsops
 adduser nelson    uwsops
+adduser gonzalo   uwsops
+
+# chatbot dev
 adduser uwscbdev  uwsops
 
 #
@@ -194,6 +198,7 @@ adduser ramiro  uwsapp_cs
 addgroup uwsapp_infra-ui || true
 
 adduser gabriel uwsapp_infra-ui
+adduser gonzalo uwsapp_infra-ui
 
 # uwsapp_meteor-vanilla
 addgroup uwsapp_meteor-vanilla || true
