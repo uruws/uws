@@ -125,12 +125,14 @@ uws_useradd() (
 uws_useradd jeremias
 uws_useradd aram
 uws_useradd gabriel
-uws_useradd nelson
 uws_useradd antonio
 uws_useradd gonzalo
-uws_useradd guillermo gh:gsiriani
 uws_useradd ramiro    gh:ramiroTalkingpts
 uws_useradd pablo     gh:pmarquez-bioinfo
+
+# no ssh keys, but keep the profiles for now
+uws_useradd nelson
+uws_useradd guillermo
 
 # chatbot dev
 uws_useradd uwscbdev
