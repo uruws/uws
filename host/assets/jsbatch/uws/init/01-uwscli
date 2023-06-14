@@ -101,6 +101,7 @@ uws_useradd() (
 			"${user_name}"
 	}
 	usermod --lock "${user_name}"
+	adduser "${user_name}" uwscli
 	chmod 0750 "${user_home}"
 	install -v -C -m 0644 "${uwscli_home}/etc/user.bash_profile" "${user_home}/.bash_profile"
 	# ssh-import-id
