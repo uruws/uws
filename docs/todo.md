@@ -8,6 +8,26 @@
 
 ---
 
+* uwscli: gonzalo's user - `DONE!` [PR193][PR193]
+
+[PR193]: https://github.com/TalkingPts/Infrastructure/pull/193
+
+---
+
+* deprecate appwrk-2302 cluster - `DONE!` [PR194][PR194]
+
+[PR194]: https://github.com/TalkingPts/Infrastructure/pull/194
+
+---
+
+* k8smon: munin-node plugins parallel runner - `DONE!` [PR192][PR192] [PR191][PR191] [PR190][PR190]
+
+[PR192]: https://github.com/TalkingPts/Infrastructure/pull/192
+[PR191]: https://github.com/TalkingPts/Infrastructure/pull/191
+[PR190]: https://github.com/TalkingPts/Infrastructure/pull/190
+
+---
+
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
@@ -30,10 +50,6 @@
 * meteor secrets: pull from heroku
     * pull heroku env vars for aws deploy/restart
     * remove: secret/eks/files/meteor
-
----
-
-* deprecate appwrk-2302 cluster
 
 ---
 
