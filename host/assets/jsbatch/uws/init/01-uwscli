@@ -126,8 +126,8 @@ uws_useradd jeremias
 uws_useradd aram
 uws_useradd gabriel
 uws_useradd antonio
+uws_useradd ramiro
 uws_useradd gonzalo
-uws_useradd ramiro    gh:ramiroTalkingpts
 uws_useradd pablo     gh:pmarquez-bioinfo
 
 # no ssh keys, but keep the profiles for now
