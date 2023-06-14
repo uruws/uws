@@ -125,6 +125,12 @@ uws_useradd() (
 	if test "X${user_keyid}" = 'XNOSSH'; then
 		rm -vf "${sshauth_dst}"
 	fi
+	# chatbot auth keys
+	cbtest_sshkey=/srv/uws/deploy/secret/eks/files/chatbot/test/config/ssh/ecdsa_id.pub
+	if test -s "${sshauth_dst}"; then
+		# test
+		cat "${cbtest_sshkey}" >>"${sshauth_dst}"
+	fi
 )
 
 # developers
