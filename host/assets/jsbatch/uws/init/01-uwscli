@@ -123,10 +123,10 @@ uws_useradd() (
 
 # developers
 uws_useradd jeremias
+uws_useradd aram
 uws_useradd nelson
-uws_useradd gonzalo
 uws_useradd antonio
-uws_useradd aram      gh:aram-uruworks
+uws_useradd gonzalo
 uws_useradd gabriel   gh:gabdsg
 uws_useradd guillermo gh:gsiriani
 uws_useradd ramiro    gh:ramiroTalkingpts
