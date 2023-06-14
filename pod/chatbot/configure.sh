@@ -16,4 +16,11 @@ uwskube delete secret webapp-conf -n "${uwscb_ns}" || true
 uwskube create secret generic webapp-conf -n "${uwscb_ns}" \
 	--from-file=${HOME}/secret/chatbot/${UWSCB_ENV}/config
 
+# webapp-conf-ssh
+
+uwskube delete secret webapp-conf-ssh -n "${uwscb_ns}" || true
+
+uwskube create secret generic webapp-conf-ssh -n "${uwscb_ns}" \
+	--from-file=${HOME}/secret/chatbot/${UWSCB_ENV}/config/ssh
+
 exit 0

@@ -43,7 +43,13 @@ spec:
             - name: webapp-conf
               mountPath: "/etc/opt/uws/chatbot"
               readOnly: true
+            - name: webapp-conf-ssh
+              mountPath: "/etc/opt/uws/chatbot/ssh"
+              readOnly: true
       volumes:
         - name: webapp-conf
           secret:
             secretName: webapp-conf
+        - name: webapp-conf-ssh
+          secret:
+            secretName: webapp-conf-ssh
