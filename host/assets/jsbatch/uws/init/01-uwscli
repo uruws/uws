@@ -125,7 +125,7 @@ uws_useradd() (
 uws_useradd jeremias
 uws_useradd nelson
 uws_useradd gonzalo
-uws_useradd antonio   gh:antoniobracco
+uws_useradd antonio
 uws_useradd aram      gh:aram-uruworks
 uws_useradd gabriel   gh:gabdsg
 uws_useradd guillermo gh:gsiriani
