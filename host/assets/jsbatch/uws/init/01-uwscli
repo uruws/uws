@@ -110,7 +110,9 @@ uws_useradd() (
 	install -v -C -m 0644 "${uwscli_home}/etc/user.bash_profile" "${user_home}/.bash_profile"
 	# ssh-import-id
 	if test "X${user_keyid}" != 'XNOKEY'; then
-		sudo -n -u "${user_name}" /usr/bin/ssh-import-id "${user_keyid}"
+		if test "X${user_keyid}" != 'XNOSSH'; then
+			sudo -n -u "${user_name}" /usr/bin/ssh-import-id "${user_keyid}"
+		fi
 	fi
 	# internal ssh auth keys
 	sshauth_src="${sshauth_srcdir}/${user_name}/authorized_keys"
@@ -118,6 +120,10 @@ uws_useradd() (
 	install -v -d -m 0750 -o "${user_name}" -g "${user_name}" "$(dirname "${sshauth_dst}")"
 	if test -s "${sshauth_src}"; then
 		install -v -C -m 0640  -o "${user_name}" -g "${user_name}" "${sshauth_src}" "${sshauth_dst}"
+	fi
+	# no ssh access
+	if test "X${user_keyid}" = 'XNOSSH'; then
+		rm -vf "${sshauth_dst}"
 	fi
 )
 
@@ -131,8 +137,8 @@ uws_useradd pablo
 uws_useradd gonzalo
 
 # no ssh keys, but keep the profiles for now
-uws_useradd nelson
-uws_useradd guillermo
+uws_useradd nelson    NOSSH
+uws_useradd guillermo NOSSH
 
 # chatbot dev
 uws_useradd uwscbdev
