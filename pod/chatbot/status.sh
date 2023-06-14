@@ -1,3 +1,4 @@
 #!/bin/sh
-exec ~/pod/lib/status.sh default all \
-	-l 'app.kubernetes.io/name=podtest'
+uwscb_ns="cb${UWSCB_ENV}"
+exec ~/pod/lib/status.sh "${uwscb_ns}" all \
+	-l 'app.kubernetes.io/name=webapp'
