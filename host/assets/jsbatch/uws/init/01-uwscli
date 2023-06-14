@@ -93,6 +93,8 @@ uws_useradd() (
 	user_keyid=${2:-"NOKEY"}
 	user_home=/srv/home/${user_name}
 	uwscli_home=/srv/home/uwscli
+	sshauth_srcdir="/srv/uws/deploy/secret/cli/ssh"
+	# user
 	getent passwd "${user_name}" || {
 		useradd -U -m \
 			-s /bin/bash \
@@ -101,15 +103,17 @@ uws_useradd() (
 			"${user_name}"
 	}
 	usermod --lock "${user_name}"
+	# groups
 	adduser "${user_name}" uwscli
+	# profile
 	chmod 0750 "${user_home}"
 	install -v -C -m 0644 "${uwscli_home}/etc/user.bash_profile" "${user_home}/.bash_profile"
 	# ssh-import-id
 	if test "X${user_keyid}" != 'XNOKEY'; then
 		sudo -n -u "${user_name}" /usr/bin/ssh-import-id "${user_keyid}"
 	fi
-	# uwscli ssh auth keys
-	sshauth_src="${uwscli_home}/etc/ssh/${user_name}/authorized_keys"
+	# internal ssh auth keys
+	sshauth_src="${sshauth_srcdir}/${user_name}/authorized_keys"
 	sshauth_dst="${user_home}/.ssh/authorized_keys"
 	install -v -d -m 0750 -o "${user_name}" -g "${user_name}" "$(dirname "${sshauth_dst}")"
 	if test -s "${sshauth_src}"; then
