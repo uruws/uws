@@ -1,6 +1,6 @@
 display_information:
-  name: chatbot
-  description: uws chatbot
+  name: chatbottest
+  description: uws testing chatbot
   background_color: "#333333"
 features:
   app_home:
@@ -8,7 +8,7 @@ features:
     messages_tab_enabled: false
     messages_tab_read_only_enabled: true
   bot_user:
-    display_name: chatbot
+    display_name: chatbottest
     always_online: false
 oauth_config:
   scopes:
