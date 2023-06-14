@@ -93,7 +93,7 @@ uws_useradd() (
 	user_keyid=${2:-"NOKEY"}
 	user_home="/srv/home/${user_name}"
 	uwscli_home=/srv/home/uwscli
-	sshauth_srcdir=/srv/uws/deploy/secret/cli/ssh
+	sshauth_srcdir=/srv/uws/deploy/secret/cli/ssh.auth
 	# user
 	getent passwd "${user_name}" || {
 		useradd -U -m \
