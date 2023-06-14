@@ -143,6 +143,9 @@ uws_useradd guillermo NOSSH
 # chatbot devel
 uws_useradd uwscbdev
 
+# chatbot test
+uws_useradd uwscbtest
+
 #
 # users profile
 #
@@ -152,6 +155,12 @@ install -v -d -m 0750 -o uwscbdev -g uwscbdev ~uwscbdev/.ssh
 install -v -C -m 0600 -o uwscbdev -g uwscbdev \
 	/srv/uws/deploy/secret/webapp/devel/chatbot/ssh/ecdsa_id.pub \
 	~uwscbdev/.ssh/authorized_keys
+
+# chatbot test
+install -v -d -m 0750 -o uwscbtest -g uwscbtest ~uwscbtest/.ssh
+install -v -C -m 0600 -o uwscbtest -g uwscbtest \
+	/srv/uws/deploy/secret/webapp/test/chatbot/ssh/ecdsa_id.pub \
+	~uwscbtest/.ssh/authorized_keys
 
 #
 # admin users
