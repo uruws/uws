@@ -9,4 +9,11 @@ uwskube delete secret webapp-env -n "${uwscb_ns}" || true
 uwskube create secret generic webapp-env -n "${uwscb_ns}" \
 	--from-env-file=${HOME}/secret/chatbot/${UWSCB_ENV}/chatbot.env
 
+# webapp-conf
+
+uwskube delete secret webapp-conf -n "${uwscb_ns}" || true
+
+uwskube create secret generic webapp-conf -n "${uwscb_ns}" \
+	--from-file=${HOME}/secret/chatbot/${UWSCB_ENV}/config
+
 exit 0
