@@ -32,13 +32,13 @@ spec:
           envFrom:
             - secretRef:
                 name: webapp-env
-          resources:
-            requests:
-              cpu: 1m
-              memory: 5Mi
-            limits:
-              cpu: 1m
-              memory: 5Mi
+          #~ resources:
+            #~ requests:
+              #~ cpu: 1m
+              #~ memory: 5Mi
+            #~ limits:
+              #~ cpu: 1m
+              #~ memory: 5Mi
           volumeMounts:
             - name: webapp-conf
               mountPath: "/etc/opt/uws/chatbot"
