@@ -156,12 +156,6 @@ install -v -C -m 0600 -o uwscbdev -g uwscbdev \
 	/srv/uws/deploy/secret/webapp/devel/chatbot/ssh/ecdsa_id.pub \
 	~uwscbdev/.ssh/authorized_keys
 
-# chatbot test
-install -v -d -m 0750 -o uwscbtest -g uwscbtest ~uwscbtest/.ssh
-install -v -C -m 0600 -o uwscbtest -g uwscbtest \
-	/srv/uws/deploy/secret/webapp/test/chatbot/ssh/ecdsa_id.pub \
-	~uwscbtest/.ssh/authorized_keys
-
 #
 # admin users
 #
@@ -248,14 +242,6 @@ crontab -u uwscli ~uwscli/etc/crontab.in
 # remove old users
 #
 
-#~ deluser --remove-home alejandro || true
-
-# deprecate uwscli schroot setup
-rm -vf /etc/systemd/system/uwscli-@.service
-rm -vf /srv/home/uwscli/sbin/*_init.sh
-rm -vf /uws/bin/uwscli-deploy.sh
-rm -vf /srv/home/uwscli/bin/uwspass
-rm -vf /srv/home/uwscli/bin/production-tapo-*
-rm -vf /srv/home/uwscli/bin/staging-tapo-*
+deluser --remove-home uwscbtest || true
 
 exit 0
