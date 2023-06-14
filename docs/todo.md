@@ -4,6 +4,12 @@
 
 ---
 
+* k8s: haproxy logs parser to easily detect problems on-the-fly - `DONE!` [M8]
+
+[M8]: https://github.com/TalkingPts/Infrastructure/milestone/8?closed=1
+
+---
+
 * k8smon: munin-node run plugins in parallel - `DONE!`
 
 ---
@@ -89,10 +95,6 @@
         * one for make _app_
         * other for the make deploy
         * if app-build sets the LOGFILE env var makefiles could use that one
-
----
-
-* k8s: haproxy logs parser to easily detect problems on-the-fly
 
 ---
 
