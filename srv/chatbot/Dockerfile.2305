@@ -1,7 +1,7 @@
 FROM uws/webapp-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230614"
 
 USER root:root
 WORKDIR /root
@@ -22,13 +22,15 @@ COPY --chown=uws:uwsops ./src/requirements.txt /opt/uws/chatbot/requirements.txt
 RUN /opt/uws/venv/bin/pip install -r /opt/uws/chatbot/requirements.txt
 RUN /opt/uws/venv/bin/python3 -m compileall /opt/uws/chatbot
 
-USER root:root
-WORKDIR /root
+USER uws:uwsops
+WORKDIR /home/uws
 
-ENV USER root
-ENV HOME /root
+ENV USER uws
+ENV HOME /home/uws
 
 COPY --chown=uws:uwsops ./src /opt/uws/chatbot
+
+RUN /opt/uws/venv/bin/python3 -m compileall /opt/uws/chatbot
 
 USER uwsops:uwsops
 WORKDIR /home/uwsops
