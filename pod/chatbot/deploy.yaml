@@ -29,6 +29,9 @@ spec:
           env:
             - name: UWSAPP_DEPLOY
               value: "${APP_DEPLOY}"
+          envFrom:
+            - secretRef:
+                name: webapp-env
           resources:
             requests:
               cpu: 1m
