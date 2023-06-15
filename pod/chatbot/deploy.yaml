@@ -39,6 +39,23 @@ spec:
             #~ limits:
               #~ cpu: 1m
               #~ memory: 5Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 2741
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 2741
+              scheme: HTTP
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 1
           volumeMounts:
             - name: webapp-conf
               mountPath: "/etc/opt/uws/chatbot"
