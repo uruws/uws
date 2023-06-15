@@ -91,9 +91,11 @@ uws_useradd() (
 	set -eu
 	user_name=${1}
 	user_keyid=${2:-"NOKEY"}
-	user_home="/srv/home/${user_name}"
+	# config
+	user_home=/srv/home/${user_name}
 	uwscli_home=/srv/home/uwscli
 	sshauth_srcdir=/srv/uws/deploy/secret/cli/ssh.auth
+	chatbot_sshkey=/srv/uws/deploy/secret/eks/files/chatbot/prod/config/ssh/ecdsa_id.pub
 	# user
 	getent passwd "${user_name}" || {
 		useradd -U -m \
@@ -126,10 +128,10 @@ uws_useradd() (
 		rm -vf "${sshauth_dst}"
 	fi
 	# chatbot auth keys
-	cbtest_sshkey=/srv/uws/deploy/secret/eks/files/chatbot/test/config/ssh/ecdsa_id.pub
-	if test -s "${sshauth_dst}"; then
-		# test
-		cat "${cbtest_sshkey}" >>"${sshauth_dst}"
+	if test -s "${chatbot_sshkey}"; then
+		if test -s "${sshauth_dst}"; then
+			cat "${chatbot_sshkey}" >>"${sshauth_dst}"
+		fi
 	fi
 )
 
