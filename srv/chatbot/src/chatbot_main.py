@@ -18,10 +18,10 @@ app = bottle.Bottle()
 # views
 #
 
-@app.post('/healthz')
+@app.get('/healthz')
 def healthz():
 	if chatbot_slack.is_healthy():
-		return 'OK'
+		return 'ok'
 	raise RuntimeError('slack chatbot not healthy')
 
 #
