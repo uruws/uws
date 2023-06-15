@@ -146,10 +146,8 @@ uws_useradd gonzalo
 uws_useradd nelson    NOSSH
 uws_useradd guillermo NOSSH
 
-# chatbot devel
+# chatbot
 uws_useradd uwscbdev
-
-# chatbot test
 uws_useradd uwscbtest
 
 #
@@ -161,6 +159,12 @@ install -v -d -m 0750 -o uwscbdev -g uwscbdev ~uwscbdev/.ssh
 install -v -C -m 0600 -o uwscbdev -g uwscbdev \
 	/srv/uws/deploy/secret/webapp/devel/chatbot/ssh/ecdsa_id.pub \
 	~uwscbdev/.ssh/authorized_keys
+
+# chatbot test
+install -v -d -m 0750 -o uwscbtest -g uwscbtest ~uwscbtest/.ssh
+install -v -C -m 0600 -o uwscbtest -g uwscbtest \
+	/srv/uws/deploy/secret/eks/files/chatbot/test/config/ssh/ecdsa_id.pub \
+	~uwscbtest/.ssh/authorized_keys
 
 #
 # admin users
@@ -190,8 +194,9 @@ adduser jeremias  uwsops
 adduser nelson    uwsops
 adduser gonzalo   uwsops
 
-# chatbot dev
+# chatbot
 adduser uwscbdev  uwsops
+adduser uwscbtest uwsops
 
 #
 # app groups
@@ -211,8 +216,10 @@ addgroup uwsapp_apptest || true
 
 adduser gabriel  uwsapp_apptest
 adduser ramiro   uwsapp_apptest
-adduser uwscbdev uwsapp_apptest
 adduser pablo    uwsapp_apptest
+
+adduser uwscbdev  uwsapp_apptest
+adduser uwscbtest uwsapp_apptest
 
 # beta
 addgroup uwsapp_beta || true
@@ -236,7 +243,8 @@ adduser gonzalo uwsapp_infra-ui
 # uwsapp_meteor-vanilla
 addgroup uwsapp_meteor-vanilla || true
 
-adduser uwscbdev uwsapp_meteor-vanilla
+adduser uwscbdev  uwsapp_meteor-vanilla
+adduser uwscbtest uwsapp_meteor-vanilla
 
 #
 # install crontab
@@ -248,6 +256,6 @@ crontab -u uwscli ~uwscli/etc/crontab.in
 # remove old users
 #
 
-deluser --remove-home uwscbtest || true
+#~ deluser --remove-home uwscbtest || true
 
 exit 0
