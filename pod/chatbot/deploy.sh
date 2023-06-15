@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-version=$(cat ${HOME}/pod/chatbot/VERSION)
+version=$(cat "${HOME}/pod/chatbot/VERSION.${UWSCB_ENV}")
 uwscb_ns=cb${UWSCB_ENV}
 
 ~/pod/chatbot/configure.sh
