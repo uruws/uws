@@ -32,10 +32,10 @@ spec:
           envFrom:
             - secretRef:
                 name: webapp-env
-          #~ resources:
-            #~ requests:
-              #~ cpu: 1m
-              #~ memory: 5Mi
+          resources:
+            requests:
+              cpu: 1m
+              memory: 25Mi
             #~ limits:
               #~ cpu: 1m
               #~ memory: 5Mi
