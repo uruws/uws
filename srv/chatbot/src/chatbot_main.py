@@ -15,6 +15,10 @@ import chatbot_slack
 app = bottle.Bottle()
 log = logging.getLogger(__name__)
 
+# https://docs.python.org/3.9/library/logging.html#logrecord-attributes
+logfmt       = '%(message)s'
+logfmt_debug = '%(pathname)s:%(lineno)d %(message)s'
+
 #
 # views
 #
@@ -31,7 +35,9 @@ def healthz():
 
 def start():
 	if chatbot.debug:
-		logging.basicConfig(level = logging.DEBUG)
+		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
+	else:
+		logging.basicConfig(format = logfmt)
 	log.debug('start')
 	chatbot_slack.connect()
 	log.debug('slack connected')
