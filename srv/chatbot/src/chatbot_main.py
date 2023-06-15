@@ -34,10 +34,9 @@ def healthz():
 #
 
 def start():
+	logging.basicConfig(format = logfmt)
 	if chatbot.debug:
 		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
-	else:
-		logging.basicConfig(format = logfmt)
 	log.debug('start')
 	chatbot_slack.connect()
 	log.debug('slack connected')
