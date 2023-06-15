@@ -10,6 +10,8 @@ from pathlib     import Path
 from subprocess  import getstatusoutput
 from typing      import Optional
 
+log = logging.getLogger(__name__)
+
 #
 # config
 #
@@ -55,11 +57,11 @@ class UwscliCmd(object):
 uwscli_command: dict[str, UwscliCmd] = {}
 
 def uwscli(user: str, cmd: str) -> tuple[int, str]:
-	logging.debug('uwscli: %s %s', user, cmd)
+	log.debug('uwscli: %s %s', user, cmd)
 	# user
 	u = user_get(user)
 	if u is None:
-		logging.error('uwscli invalid user: %s', user)
+		log.error('uwscli invalid user: %s', user)
 		return (-1, 'unauthorized: %s' % user)
 	# command
 	xcmd = f"{libexec}/{uwscli_cmd} {uwscli_host} {u.name}"
@@ -67,15 +69,15 @@ def uwscli(user: str, cmd: str) -> tuple[int, str]:
 	xn = icmd[0].strip()
 	x = uwscli_command.get(xn, None)
 	if x is None:
-		logging.error('uwscli invalid command: %s', xn)
+		log.error('uwscli invalid command: %s', xn)
 		raise UwscliCmdError(1, 'unauthorized')
 	if not x.enable:
-		logging.error('uwscli disabled command: %s', xn)
+		log.error('uwscli disabled command: %s', xn)
 		raise UwscliCmdError(2, 'unauthorized')
 	xcmd += ' %s' % uwscli_bindir.joinpath(xn)
 	# args
 	for a in icmd[1:]:
 		xcmd += ' %s' % shlex.quote(a)
 	# exec
-	logging.debug('uwscli exec: %s', xcmd)
+	log.debug('uwscli exec: %s', xcmd)
 	return getstatusoutput(xcmd)
