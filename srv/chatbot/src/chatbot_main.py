@@ -16,7 +16,6 @@ app = bottle.Bottle()
 log = logging.getLogger(__name__)
 
 # https://docs.python.org/3.9/library/logging.html#logrecord-attributes
-logfmt       = '%(message)s'
 logfmt_debug = '%(pathname)s:%(lineno)d %(message)s'
 
 #
@@ -34,7 +33,6 @@ def healthz():
 #
 
 def start():
-	logging.basicConfig(format = logfmt)
 	if chatbot.debug:
 		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
 	log.debug('start')
