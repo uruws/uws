@@ -33,4 +33,4 @@ After *cdn containers* are ready, the *web and api containers* can be deployed.
 
 ## Why?
 
-Because CDN providers do not retry if they get a 404 response, also on retrying they could still get a response from an old container during a deploying rolling out.
+Because CDN providers do not retry if they get a 404 response, also on retrying they could still get a response from an old container during a deploy rolling out.
