@@ -1,3 +1,5 @@
 #!/bin/sh
 set -eu
-exec uwskube delete deploy meteor -n web
+uwskube delete deploy meteor -n web
+~/pod/meteor/web/cdn/rollin.sh
+exit 0
