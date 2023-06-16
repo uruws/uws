@@ -7,6 +7,9 @@ gw=${2:?'gateway?'}
 PROXY_VERSION=$(cat ~/k8s/nginx/VERSION)
 export PROXY_VERSION
 
+PROXY_NAMESPACE=${ns}
+export PROXY_NAMESPACE
+
 PROXY_REPLICAS=${NGINX_REPLICAS:-3}
 export PROXY_REPLICAS
 

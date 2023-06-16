@@ -19,7 +19,7 @@ spec:
       labels:
         app.kubernetes.io/name: proxy
     spec:
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 10
       containers:
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${PROXY_VERSION}
           imagePullPolicy: IfNotPresent
@@ -50,6 +50,8 @@ spec:
               mountPath: "/var/lib/nginx"
             - name: logdir
               mountPath: "/var/log/nginx"
+            - name: cachedir
+              mountPath: "/efs/nginx-cache"
             - name: sites-enabled
               mountPath: "/etc/nginx/uws-sites-enabled"
               readOnly: true
@@ -66,20 +68,12 @@ spec:
             preStop:
               exec:
                 command: ["/usr/sbin/nginx", "-s", "quit"]
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-              scheme: HTTP
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 2
           livenessProbe:
             httpGet:
               path: /healthz
               port: http
               scheme: HTTP
+            initialDelaySeconds: 5
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 2
@@ -108,6 +102,16 @@ spec:
         - name: uwsca-ops
           secret:
             secretName: uwsca-ops
+  volumeClaimTemplates:
+    - metadata:
+        name: cachedir
+      spec:
+        storageClassName: efs-${PROXY_NAMESPACE}-nginx-cache
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 3Gi
 ---
 apiVersion: v1
 kind: Service
