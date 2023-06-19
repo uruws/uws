@@ -41,8 +41,8 @@ Because CDN providers do not retry if they get a 404 response, also on retrying 
            |             |
            |             |
            |             |
-          CDN           App
-    (abc123.c.n)-----(app.t.o)
+          CDN-----------App
+    (abc123.c.n)     (app.t.o)
                          |
                          |
                          |__ web containers
