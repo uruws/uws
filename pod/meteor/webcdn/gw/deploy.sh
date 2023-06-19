@@ -1,6 +1,5 @@
 #!/bin/sh
 set -eu
-appver=${1:-''}
 ns=webcdn
 export METEOR_NAMESPACE=${ns}
 export METEOR_TLS=${APPCDN_TLS}
