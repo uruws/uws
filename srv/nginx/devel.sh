@@ -6,6 +6,7 @@ exec docker run -it --rm --name uws-nginx-devel \
 	--entrypoint /bin/bash \
 	--tmpfs /run \
 	--tmpfs /tmp \
+	--tmpfs /var/cache/nginx \
 	--tmpfs /var/lib/nginx \
 	--tmpfs /var/log/nginx \
 	--tmpfs /etc/nginx/uws-sites-enabled \

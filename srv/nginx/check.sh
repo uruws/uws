@@ -6,6 +6,7 @@ exec docker run --rm --name uws-nginx-check \
 	--entrypoint /root/test/check.sh \
 	--tmpfs /run \
 	--tmpfs /tmp \
+	--tmpfs /var/cache/nginx \
 	--tmpfs /var/lib/nginx \
 	--tmpfs /var/log/nginx \
 	--tmpfs /etc/nginx/uws-sites-enabled \
