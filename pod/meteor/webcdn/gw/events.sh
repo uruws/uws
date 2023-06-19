@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 ns=webcdn
-exec ~/pod/lib/events.sh "${ns}" "$@"
+exec ~/pod/meteor/gw/events.sh "${ns}" "$@"
