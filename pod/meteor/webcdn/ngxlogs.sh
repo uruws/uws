@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/ngxlogs.py "$@" meteor/web/cdn
+exec ~/pod/lib/ngxlogs.py "$@" meteor/webcdn
