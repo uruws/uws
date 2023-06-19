@@ -34,3 +34,15 @@ After *cdn containers* are ready, the *web containers* can be deployed.
 ## Why?
 
 Because CDN providers do not retry if they get a 404 response, also on retrying they could still get a response from an old container during a deploy rolling out.
+
+## Before
+
+          User-----------.
+           |             |
+           |             |
+           |             |
+          CDN           App
+    (abc123.c.n)-----(app.t.o)
+                         |
+                         |
+                         |__ web containers
