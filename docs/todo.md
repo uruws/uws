@@ -42,6 +42,12 @@
 
 ---
 
+* meteor: App kubernetes healthz check endpoint - `WAITING` [APP1583][APP1583]
+
+[APP1583]: https://github.com/TalkingPts/App/pull/1583
+
+---
+
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
