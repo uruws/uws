@@ -46,6 +46,7 @@ class Test(unittest.TestCase):
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
+			'infra-ui-test',
 			'meteor-vanilla',
 			'worker',
 			'worker-test',
