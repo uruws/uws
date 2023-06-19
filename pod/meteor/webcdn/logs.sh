@@ -1,4 +1,5 @@
 #!/bin/sh
 set -eu
-ns=webcdn
-exec ~/pod/meteor/gw/logs.sh "${ns}" "$@"
+exec ~/pod/lib/logs.py -n webcdn \
+	-l 'app.kubernetes.io/name=meteor-webcdn' \
+	--max 200 "$@"
