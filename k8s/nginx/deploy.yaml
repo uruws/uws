@@ -51,7 +51,7 @@ spec:
             - name: logdir
               mountPath: "/var/log/nginx"
             - name: cachedir
-              mountPath: "/efs/nginx-cache"
+              mountPath: "/var/cache/nginx"
             - name: sites-enabled
               mountPath: "/etc/nginx/uws-sites-enabled"
               readOnly: true
