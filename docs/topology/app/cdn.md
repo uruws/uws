@@ -8,7 +8,7 @@
     (abc123.c.n)   (app.t.o)
            |           |
            |           |
-           |           |__ web and api containers
+           |           |__ web containers
            |
            |________ nginx proxy cache
                      (appcdn.uws.t.o)
@@ -21,11 +21,11 @@
 
 At deploy time the *cdn containers* MUST be deployed first in order to have the new assets ready for the CDN provider.
 
-We now have the new assets ready for the CDN, but no *user* is asking for them yet; as *web and api containers* weren't deployed so far.
+We now have the new assets ready for the CDN, but no *user* is asking for them yet; as *web containers* weren't deployed so far.
 
 We have still the old asset's versions as well, in the nginx's cache (for 1h). So *users* asking for either new versions or old versions will properly get them; either from the cache (old) or from the the new deployed *cdn containers*.
 
-After *cdn containers* are ready, the *web and api containers* can be deployed.
+After *cdn containers* are ready, the *web containers* can be deployed.
 
 ## Refs
 
