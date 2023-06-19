@@ -43,6 +43,8 @@ class Test(unittest.TestCase):
 			'api-test',
 			'app-prod',
 			'app-test',
+			'appcdn-prod',
+			'appcdn-test',
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
