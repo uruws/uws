@@ -4,6 +4,14 @@
 
 ---
 
+* meteor: App [webcdn setup][webcdn] - `DONE!` [PR197][PR197] [PR198][PR198]
+
+[webcdn]: https://github.com/TalkingPts/Infrastructure/blob/master/docs/topology/app/cdn.md
+[PR197]: https://github.com/TalkingPts/Infrastructure/pull/197
+[PR198]: https://github.com/TalkingPts/Infrastructure/pull/198
+
+---
+
 * k8s: haproxy logs parser to easily detect problems on-the-fly - `DONE!` [M8]
 
 [M8]: https://github.com/TalkingPts/Infrastructure/milestone/8?closed=1
