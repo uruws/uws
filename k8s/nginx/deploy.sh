@@ -21,6 +21,9 @@ export PROXY_MEM
 
 ~/k8s/nginx/configure.sh "${ns}" "${gw}"
 
+UWS_DEPLOY=$(date '+%y%m%d.%H%M%S')
+export UWS_DEPLOY
+
 envsubst <~/k8s/nginx/deploy.yaml | uwskube apply -n "${ns}" -f -
 
 exit 0
