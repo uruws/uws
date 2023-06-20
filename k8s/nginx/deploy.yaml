@@ -52,6 +52,10 @@ spec:
               mountPath: "/var/log/nginx"
             - name: cachedir
               mountPath: "/var/cache/nginx"
+            - name: storedir
+              mountPath: "/var/cache/nginx.store"
+            - name: storetempdir
+              mountPath: "/var/cache/nginx.temp"
             - name: sites-enabled
               mountPath: "/etc/nginx/uws-sites-enabled"
               readOnly: true
@@ -85,6 +89,12 @@ spec:
           emptyDir:
             sizeLimit: 10Gi
         - name: cachedir
+          emptyDir:
+            sizeLimit: 10Gi
+        - name: storedir
+          emptyDir:
+            sizeLimit: 10Gi
+        - name: storetempdir
           emptyDir:
             sizeLimit: 10Gi
         - name: libdir
