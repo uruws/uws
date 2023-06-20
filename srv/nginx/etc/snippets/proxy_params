@@ -2,3 +2,5 @@ include snippets/proxy_common;
 
 proxy_read_timeout 12s;
 proxy_send_timeout 12s;
+
+proxy_buffering on;
