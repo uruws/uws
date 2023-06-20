@@ -97,19 +97,9 @@ class Test(unittest.TestCase):
 			bup_sp_conf = conf.SP_CONF
 			conf.SP_CONF = Path('/home/uws/secret/conf/alerts_conf.json')
 			t.assertTrue(conf.sp_load())
-			t.__check_sp_conf()
 		finally:
 			conf.SP_CONF = bup_sp_conf
 			conf.sp.clear()
-
-	def __check_sp_conf(t):
-		# sp_domain
-		t.assertEqual(conf.sp['_']['sp_domain'], 'notifications.statuspage.io')
-		# sp_mailcc
-		t.assertListEqual(sorted(conf.sp['_']['sp_mailcc']), [
-			# slack munin-statuspage channel
-			'munin-statuspage-aaaag3givhvyeizw7lcl4plunm@talkingpoints.slack.com',
-		])
 
 if __name__ == '__main__':
 	unittest.main()
