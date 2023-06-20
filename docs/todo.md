@@ -4,6 +4,12 @@
 
 ---
 
+* chatbot: prod env - `DONE!` [PR199][PR199]
+
+[PR199]: https://github.com/TalkingPts/Infrastructure/pull/199
+
+---
+
 * meteor: App [webcdn setup][webcdn] - `DONE!` [PR197][PR197] [PR198][PR198]
 
 [webcdn]: https://github.com/TalkingPts/Infrastructure/blob/master/docs/topology/app/cdn.md
