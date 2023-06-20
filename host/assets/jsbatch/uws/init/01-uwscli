@@ -144,9 +144,8 @@ uws_useradd ramiro
 uws_useradd pablo
 uws_useradd gonzalo
 
-# no ssh keys, but keep the profiles for now
-uws_useradd nelson    NOSSH
-uws_useradd guillermo NOSSH
+# no ssh keys, but can go via slack chatbot
+uws_useradd nelson NOSSH
 
 # chatbot
 uws_useradd uwscbdev
@@ -191,7 +190,6 @@ adduser uws uwsops
 adduser uwscli    uwsops
 adduser aram      uwsops
 adduser gabriel   uwsops
-adduser guillermo uwsops
 adduser jeremias  uwsops
 adduser nelson    uwsops
 adduser gonzalo   uwsops
@@ -258,6 +256,6 @@ crontab -u uwscli ~uwscli/etc/crontab.in
 # remove old users
 #
 
-#~ deluser --remove-home uwscbtest || true
+deluser --remove-home guillermo || true
 
 exit 0
