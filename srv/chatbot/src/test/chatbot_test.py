@@ -113,5 +113,12 @@ class TestUwscli(unittest.TestCase):
 		err = cm.exception
 		t.assertEqual(err.status, 2)
 
+	def test_uwscli_command_args(t):
+		chatbot.uwscli_command['testing'].args = ['--args-test']
+		st, out = chatbot.uwscli('UTEST', 'testing')
+		t.assertEqual(out, 'mock getstatusoutput')
+		t.assertEqual(st, 0)
+		t.cb.getstatusoutput.assert_called_once_with('/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing --args-test')
+
 if __name__ == '__main__':
 	unittest.main()

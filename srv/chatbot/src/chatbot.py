@@ -5,6 +5,7 @@ import logging
 import shlex
 
 from dataclasses import dataclass
+from dataclasses import field
 from os          import getenv
 from pathlib     import Path
 from subprocess  import getstatusoutput
@@ -53,6 +54,7 @@ class UwscliCmdError(Exception):
 @dataclass
 class UwscliCmd(object):
 	enable: bool
+	args:   list[str] = field(default_factory = list)
 
 uwscli_command: dict[str, UwscliCmd] = {}
 
@@ -75,7 +77,12 @@ def uwscli(user: str, cmd: str) -> tuple[int, str]:
 		log.error('uwscli disabled command: %s', xn)
 		raise UwscliCmdError(2, 'unauthorized')
 	xcmd += ' %s' % uwscli_bindir.joinpath(xn)
-	# args
+	# args (config)
+	xargs = uwscli_command[xn].args
+	if len(xargs) > 0:
+		for a in xargs:
+			xcmd += ' %s' % shlex.quote(a)
+	# args (user)
 	for a in icmd[1:]:
 		xcmd += ' %s' % shlex.quote(a)
 	# exec
