@@ -270,8 +270,8 @@ def main():
 				rc = st
 
 			# statuspage report using amazon ses
-			if stch:
-				statuspage(stats)
+			# ~ if stch:
+				# ~ statuspage(stats)
 
 	except KeyboardInterrupt:
 		return 1
