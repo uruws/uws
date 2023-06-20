@@ -10,6 +10,7 @@ from slack_bolt                     import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 import chatbot
+import chatbot_msg
 
 log = logging.getLogger(__name__)
 
@@ -53,7 +54,8 @@ def _message(event, say, mention = False):
 			st = '[ERROR] '
 			log.error('uwscli command failed (%d): %s', rc, text)
 			log.debug('%s', out)
-		say(f"{user_mention}{st}{text}\n```\n{out}\n```", thread_ts = thread_ts)
+		for msg in chatbot_msg.parse(out):
+			say(f"{user_mention}{st}{text}\n```\n{msg}\n```", thread_ts = thread_ts)
 
 @app.event('app_mention')
 def event_app_mention(event, say):
