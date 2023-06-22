@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
-ns=cb${UWSCB_ENV}
-exec uwskube delete -n "${ns}" -f ~/pod/chatbot/deploy.yaml
+uwscb_ns=cb${UWSCB_ENV}
+exec ~/pod/lib/rollin.sh "${uwscb_ns}" chatbot
