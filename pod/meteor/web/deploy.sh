@@ -2,8 +2,10 @@
 set -eu
 appver=${1:-''}
 
+echo 'webcdn'
 ~/pod/meteor/webcdn/deploy.sh "${appver}"
 ~/pod/meteor/webcdn/wait.sh
 
+echo 'web'
 ~/pod/meteor/web/configure.sh
 exec ~/pod/meteor/deploy.sh web web "${appver}"
