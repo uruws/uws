@@ -43,12 +43,14 @@ def _message(event, say, mention = False):
 	if text == '':
 		say(f"<@{user_id}>: what do you mean?", thread_ts = thread_ts)
 	else:
+		cmd = text.split(' ')[0].strip()
 		st = ''
 		try:
 			rc, out = chatbot.uwscli(user_id, text)
 		except chatbot.UwscliCmdError:
-			log.debug('uwscli ignore: %s', text)
-			say(f"{user_mention}invalid command", thread_ts = thread_ts)
+			log.debug('uwscli ignore: %s', cmd)
+			if mention:
+				say(f"{user_mention}invalid command: {cmd}", thread_ts = thread_ts)
 			return
 		if rc != 0:
 			st = '[ERROR] '

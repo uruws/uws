@@ -138,8 +138,23 @@ class TestEvents(unittest.TestCase):
 			raise chatbot.UwscliCmdError(99, 'mock uwscli ignore')
 		t.cb.getstatusoutput.side_effect = _fail
 		chatbot_slack.event_message(t.slack.body, t.slack.say)
+		t.slack.say.assert_not_called()
+
+	def test_message_invalid_command(t):
+		def _fail(*args, **kwargs):
+			raise chatbot.UwscliCmdError(99, 'mock uwscli ignore')
+		t.cb.getstatusoutput.side_effect = _fail
+		chatbot_slack._message(t.slack.event, t.slack.say)
+		t.slack.say.assert_not_called()
+
+	def test_message_invalid_command_mention(t):
+		def _fail(*args, **kwargs):
+			raise chatbot.UwscliCmdError(99, 'mock uwscli ignore')
+		t.cb.getstatusoutput.side_effect = _fail
+		t.slack.event['text'] = '<@UBOT> testing'
+		chatbot_slack._message(t.slack.event, t.slack.say, mention = True)
 		t.slack.say.assert_called_once_with(
-			'invalid command', thread_ts = t.slack.thread_ts,
+			'<@UTEST>: invalid command: testing', thread_ts = t.slack.thread_ts,
 		)
 
 #
