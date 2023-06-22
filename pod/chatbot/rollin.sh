@@ -1,3 +1,4 @@
 #!/bin/sh
 set -eu
-exec uwskube delete -f ~/pod/chatbot/deploy.yaml
+ns=cb${UWSCB_ENV}
+exec uwskube delete -n "${ns}" -f ~/pod/chatbot/deploy.yaml
