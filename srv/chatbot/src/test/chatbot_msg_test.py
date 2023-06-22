@@ -10,7 +10,7 @@ import chatbot_msg
 class TestChatbotMsg(unittest.TestCase):
 
 	def test_defaults(t):
-		t.assertEqual(chatbot_msg.lines_split, 30)
+		t.assertEqual(chatbot_msg.max_bytes, 3500)
 
 if __name__ == '__main__':
 	unittest.main()

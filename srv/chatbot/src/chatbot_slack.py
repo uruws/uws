@@ -26,7 +26,9 @@ app = App(
 def event_app_home_opened(body):
 	log.debug('app_home_opened: %s', body)
 
+# https://api.slack.com/messaging/sending
 # https://api.slack.com/events/message
+# https://api.slack.com/messaging/composing
 # https://github.com/slackapi/bolt-python/blob/main/examples/message_events.py
 
 def _message(event, say, mention = False):
@@ -56,8 +58,13 @@ def _message(event, say, mention = False):
 			st = '[ERROR] '
 			log.error('uwscli command failed (%d): %s', rc, text)
 			log.debug('%s', out)
+		msgid = 0
 		for msg in chatbot_msg.parse(text, out):
-			say(f"{user_mention}{st}{msg}", thread_ts = thread_ts)
+			if msgid == 0:
+				say(f"{user_mention}{st}{msg}", thread_ts = thread_ts)
+			else:
+				say(f"{st}{msg}", thread_ts = thread_ts)
+			msgid += 1
 
 @app.event('app_mention')
 def event_app_mention(event, say):
