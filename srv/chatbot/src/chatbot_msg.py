@@ -10,17 +10,20 @@ log = logging.getLogger(__name__)
 max_bytes = 3500
 
 def _msgadd(l: list[str], lines: list[str], cmd: str, msg_id: int, msg_total: int):
+	msg = '[empty]'
+	if len(lines) > 0:
+		msg = '\n'.join(lines)
 	if msg_total <= 1:
-		l.append("%s\n```%s```" % (cmd, '\n'.join(lines)))
+		l.append("%s\n```%s```" % (cmd, msg))
 	else:
-		l.append("%s [%d/%d]\n```%s```" % (cmd, msg_id, msg_total, '\n'.join(lines)))
+		l.append("%s [%d/%d]\n```%s```" % (cmd, msg_id, msg_total, msg))
 
 def parse(cmd: str, out: str) -> list[str]:
 	size = len(out)
 	log.debug('parse: %s - %d', cmd, size)
 	l: list[str] = []
 	if size == 0:
-		_msgadd(l, ['[empty]'], cmd, 1, 1)
+		_msgadd(l, [], cmd, 1, 1)
 		return l
 	x = 0
 	m: list[str] = []

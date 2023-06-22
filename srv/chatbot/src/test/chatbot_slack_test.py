@@ -4,10 +4,12 @@
 # See LICENSE file.
 
 from unittest.mock import MagicMock
+from unittest.mock import call
 
 import unittest
 
 import chatbot_test
+import chatbot_msg_test
 
 import chatbot
 import chatbot_slack
@@ -45,11 +47,11 @@ class MockSlack(object):
 class MockApp(object):
 
 	def __init__(a):
-		a._bup_app        = chatbot_slack.app
-		a._bup_smh        = chatbot_slack.smh
-		a.smh             = MagicMock()
-		a.smh.client      = MagicMock()
-		a._bup_channel_id = chatbot_slack.channel_id
+		a._bup_app                = chatbot_slack.app
+		a._bup_smh                = chatbot_slack.smh
+		a.smh                     = MagicMock()
+		a.smh.client              = MagicMock()
+		a._bup_channel_id         = chatbot_slack.channel_id
 		a.client                  = MagicMock()
 		a.client_response         = {'mock': 'client_response'}
 		a.client.chat_postMessage = MagicMock(side_effect = a.mock_client_response)
@@ -156,6 +158,18 @@ class TestEvents(unittest.TestCase):
 		t.slack.say.assert_called_once_with(
 			'<@UTEST>: invalid command: testing', thread_ts = t.slack.thread_ts,
 		)
+
+	def test_message_multi_lines(t):
+		x = [
+			call('testing [1/3]\n```out1```', thread_ts='1674248319.693579'),
+			call('testing [2/3]\n```out2```', thread_ts='1674248319.693579'),
+			call('testing [3/3]\n```out3```', thread_ts='1674248319.693579'),
+		]
+		with chatbot_msg_test.mock(max_bytes = 5):
+			t.cb.getstatusoutput.return_value = (0, 'out1\nout2\nout3\n')
+			chatbot_slack._message(t.slack.event, t.slack.say)
+			t.slack.say.assert_has_calls(x)
+			t.assertEqual(t.slack.say.call_count, len(x))
 
 #
 # socket mode handler
