@@ -9,6 +9,7 @@ exec docker run -it --rm --name uws-munin-devel \
 	-v ${PWD}/srv/munin/utils:/opt/munin \
 	-v ${PWD}/tmp:/home/uws/tmp \
 	-v ${PWD}/python:/opt/uws \
+	--tmpfs /tmp \
 	--tmpfs /var/opt/munin-alert \
 	--workdir /opt/munin \
 	$@ uws/munin-2305
