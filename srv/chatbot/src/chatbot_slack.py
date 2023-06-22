@@ -54,8 +54,8 @@ def _message(event, say, mention = False):
 			st = '[ERROR] '
 			log.error('uwscli command failed (%d): %s', rc, text)
 			log.debug('%s', out)
-		for msg in chatbot_msg.parse(out):
-			say(f"{user_mention}{st}{text}\n```\n{msg}\n```", thread_ts = thread_ts)
+		for msg in chatbot_msg.parse(text, out):
+			say(f"{user_mention}{st}{msg}", thread_ts = thread_ts)
 
 @app.event('app_mention')
 def event_app_mention(event, say):
