@@ -22,7 +22,7 @@ install -v -d -m 0750 "${tmpdir}"
 
 webapp_port=${WEBAPP_PORT:-0}
 
-install -v -d -m 0750 "${webapp_src}/__pycache__"
+install -v -d -m 1777 "${webapp_src}/__pycache__"
 
 if test -s "${webapp_confd}/ssh/ecdsa_id"; then
 	chmod -v 0600 "${webapp_confd}/ssh/ecdsa_id"
