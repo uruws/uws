@@ -33,7 +33,6 @@ fi
 # alerts dirs
 
 install -v -d -m 1777 /var/opt/munin-alert
-install -v -d -m 1777 /var/opt/munin-alert/statuspage
 install -v -d -m 1777 /var/opt/munin-alert/amazon-ses
 
 # /etc/cron.d

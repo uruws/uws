@@ -36,20 +36,6 @@ def sleepingHours(h = None):
 		return True
 	return False
 
-# statuspage
-
-SP_QDIR     = Path(QDIR) / 'statuspage'
-SP_CONF     = Path('/etc/uws/munin/alerts_conf.json')
-
-sp = {'_': {}}
-
-def sp_load():
-	if SP_CONF.is_file():
-		with SP_CONF.open() as fh:
-			sp.update(json.load(fh))
-			return True
-	return False
-
 # amazon ses
 
 SES_QDIR   = Path(QDIR) / 'amazon-ses'

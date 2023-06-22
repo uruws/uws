@@ -28,9 +28,6 @@ class Test(unittest.TestCase):
 
 		t.assertEqual(conf.SLEEP_TZ, 'UTC')
 
-		t.assertEqual(conf.SP_QDIR.as_posix(), '/var/opt/munin-alert/statuspage')
-		t.assertEqual(conf.SP_CONF.as_posix(), '/etc/uws/munin/alerts_conf.json')
-
 	def test_sleepingHours(t):
 		conf.sleepingHours()
 		check = dict()
@@ -75,31 +72,6 @@ class Test(unittest.TestCase):
 			conf.SLEEP_TZ = 'UTC'
 			os.environ['TZ'] = 'UTC'
 			tzset()
-
-	def test_sp(t):
-		t.assertDictEqual(conf.sp, {'_': {}})
-
-	def test_sp_load(t):
-		t.assertFalse(conf.sp_load())
-		t.assertEqual(len(conf.sp), 1)
-
-	def test_sp_load_file(t):
-		try:
-			bup_sp_conf = conf.SP_CONF
-			conf.SP_CONF = Path('/home/uws/utils/testdata/alerts_conf.json')
-			t.assertTrue(conf.sp_load())
-		finally:
-			conf.SP_CONF = bup_sp_conf
-			conf.sp.clear()
-
-	def test_sp_load_conf(t):
-		try:
-			bup_sp_conf = conf.SP_CONF
-			conf.SP_CONF = Path('/home/uws/secret/conf/alerts_conf.json')
-			t.assertTrue(conf.sp_load())
-		finally:
-			conf.SP_CONF = bup_sp_conf
-			conf.sp.clear()
 
 if __name__ == '__main__':
 	unittest.main()

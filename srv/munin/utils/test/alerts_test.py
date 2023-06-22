@@ -98,41 +98,6 @@ def mock_timestamp():
 	finally:
 		alerts._timestamp = bup
 
-@contextmanager
-def mock_statuspage(mock_sp = True):
-	bup = alerts.conf.sp.copy()
-	bup_domain = alerts.conf.DOMAIN
-	if mock_sp:
-		bup_sp = alerts._sp
-	try:
-		alerts.conf.sp.clear()
-		alerts.conf.sp.update({
-			'_': {
-				'sp_domain': 'sp.comp',
-				'sp_mailcc': ['mailcc1@sp.comp', 'mailcc2@sp.comp'],
-			},
-			'thost': {
-				'tgrp': {
-					'tctg::tpl': {},
-					'tctg::taddr': {
-						'component_description': 'testing group -> desc',
-						'component': 'testing',
-					},
-				},
-			},
-		})
-		alerts.conf.DOMAIN = 'uws.test'
-		if mock_sp:
-			alerts._sp = MagicMock(return_value = None)
-		with mock_nq():
-			yield
-	finally:
-		alerts.conf.sp.clear()
-		alerts.conf.sp.update(bup.copy())
-		alerts.conf.DOMAIN = bup_domain
-		if mock_sp:
-			alerts._sp = bup_sp
-
 class Test(unittest.TestCase):
 
 	def test_msgNew(t):
@@ -515,70 +480,6 @@ UNKNOWN
 		stats = {"testing": RuntimeError('testing')}
 		m = alerts.report(stats)
 		t.assertIsNone(m)
-
-	def test_statuspage_no_report(t):
-		stats = {'worst': 'TEST'}
-		t.assertEqual(alerts.statuspage(stats), 1)
-
-	def test_statuspage_no_config(t):
-		stats = {'worst': 'OK'}
-		t.assertEqual(alerts.statuspage(stats), 2)
-
-	def test_statuspage_host_no_match(t):
-		stats = {'host': 'thost', 'worst': 'CRITICAL'}
-		t.assertEqual(alerts.statuspage(stats), 2)
-
-	def test_statuspage_host_no_component_addr(t):
-		with mock_statuspage():
-			stats = {
-				'host': 'thost',
-				'group': 'tgrp',
-				'category': 'tctg',
-				'plugin': 'tpl',
-				'worst': 'CRITICAL',
-			}
-			t.assertEqual(alerts.statuspage(stats), 2)
-
-	def test_statuspage(t):
-		with mock_statuspage():
-			stats = {
-				'host': 'thost',
-				'group': 'tgrp',
-				'category': 'tctg',
-				'plugin': 'taddr',
-				'worst': 'CRITICAL',
-			}
-			t.assertEqual(alerts.statuspage(stats), 0)
-			alerts._sp.assert_called_once_with(
-				'"thost :: tctg :: taddr" <munin-statuspage@uws.test>',
-				'"testing group -> desc" <testing@sp.comp>', 'CRITICAL')
-			alerts.nq.assert_called_once_with(None, qdir = '/var/opt/munin-alert/statuspage')
-
-	def test_statuspage_message_up(t):
-		m = alerts._sp('test@munin.check', 'test@sp.comp', 'OK')
-		t.assertEqual(m['From'],    'test@munin.check')
-		t.assertEqual(m['To'],      'test@sp.comp')
-		t.assertEqual(m['Subject'], 'UP')
-		t.assertEqual(m.get_content().strip(), '=)')
-
-	def test_statuspage_message_down(t):
-		m = alerts._sp('test@munin.check', 'test@sp.comp', 'CRITICAL')
-		t.assertEqual(m['From'],    'test@munin.check')
-		t.assertEqual(m['To'],      'test@sp.comp')
-		t.assertEqual(m['Subject'], 'DOWN')
-		t.assertEqual(m.get_content().strip(), '=(')
-
-	def test_statuspage_message_other(t):
-		m = alerts._sp('test@munin.check', 'test@sp.comp', 'TESTING')
-		t.assertEqual(m['From'],    'test@munin.check')
-		t.assertEqual(m['To'],      'test@sp.comp')
-		t.assertEqual(m['Subject'], 'DOWN')
-		t.assertEqual(m.get_content().strip(), '=(')
-
-	def test_statuspage_message_cc(t):
-		with mock_statuspage(mock_sp = False):
-			m = alerts._sp('test@munin.check', 'test@sp.comp', 'OK')
-			t.assertEqual(m['Cc'], 'mailcc1@sp.comp, mailcc2@sp.comp')
 
 if __name__ == '__main__':
 	unittest.main()
