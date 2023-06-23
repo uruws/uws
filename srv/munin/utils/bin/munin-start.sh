@@ -58,6 +58,14 @@ if test -d /etc/uws/conf; then
 		/etc/uws/conf/alerts_conf.json /etc/uws/munin/alerts_conf.json
 fi
 
+# mailx
+
+if test -d /srv/mailx/etc; then
+	/root/bin/msmtprc-install.sh syslog root
+	/root/bin/msmtprc-install.sh syslog munin
+	/root/bin/msmtprc-install.sh syslog www-data
+fi
+
 ###/opt/munin/bin/k8s-setup.py
 
 /etc/init.d/munin start

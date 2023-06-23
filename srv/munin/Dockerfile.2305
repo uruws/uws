@@ -1,7 +1,7 @@
 FROM uws/mailx-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230623"
 
 USER root:root
 WORKDIR /root
@@ -38,7 +38,9 @@ RUN /root/bin/apt-install.sh patch \
 
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
-RUN echo 'munin.uws.talkingpts.org' >/etc/mailname
+# mailx
+RUN ln -svf /etc/opt/mailx/munin/msmtprc /var/lib/munin/.msmtprc \
+	&& ln -svf /etc/opt/mailx/www-data/msmtprc /var/www/.msmtprc
 
 # munin-deploy-conf
 RUN install -v -d -o root -g munin -m 0750 /etc/uws \
