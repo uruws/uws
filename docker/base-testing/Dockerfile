@@ -1,5 +1,7 @@
 FROM debian:bookworm-20230502-slim
 
+ARG UWS_VERSION
+
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="${UWS_VERSION}"
 
