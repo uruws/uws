@@ -86,7 +86,7 @@ def qdir(d, limit = 100):
 					elif st > rc:
 						rc = st
 						failed += 1
-	print(d, 'COUNT:', '%d/%d/%d/%d' % (count, sent, clean, failed))
+	# ~ print(d, 'COUNT:', '%d/%d/%d/%d' % (count, sent, clean, failed))
 	return rc
 
 @contextmanager
