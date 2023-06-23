@@ -44,11 +44,6 @@ def main(argv = []):
 	if args.follow:
 		cmd += ' -f'
 
-	# pod logs
-	if args.pod != '':
-		cmd += " %s" % args.pod
-		return _system(cmd)
-
 	if not args.no_prefix:
 		cmd += ' --prefix=true'
 
@@ -57,17 +52,21 @@ def main(argv = []):
 	if args.max > 0:
 		cmd += " --max-log-requests=%d" % args.max
 
-	# label selector
-	if args.label == '':
-		cmd += " -l '*'"
-	else:
-		cmd += " -l %s" % args.label
-
 	# pod container
 	if args.container != '':
 		cmd += " -c %s" % args.container
 	elif args.all_containers is True:
 		cmd += ' --all-containers=true'
+
+	# label selector
+	if args.pod == '':
+		if args.label == '':
+			cmd += " -l '*'"
+		else:
+			cmd += " -l %s" % args.label
+	else:
+		# pod logs
+		cmd += " %s" % args.pod
 
 	return _system(cmd)
 
