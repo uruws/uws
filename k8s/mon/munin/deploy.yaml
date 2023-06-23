@@ -125,6 +125,15 @@ spec:
             successThreshold: 1
             failureThreshold: 1
       volumes:
+        - name: db
+          emptyDir:
+            sizeLimit: 3Gi
+        - name: cache
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: log
+          emptyDir:
+            sizeLimit: 1Gi
         - name: tmpdir
           emptyDir:
             sizeLimit: 3Gi
@@ -158,31 +167,3 @@ spec:
         - name: munin-mailx
           secret:
             secretName: munin-mailx
-  volumeClaimTemplates:
-    - metadata:
-        name: db
-      spec:
-        storageClassName: efs-mon-munin-db
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 3Gi
-    - metadata:
-        name: cache
-      spec:
-        storageClassName: efs-mon-munin-cache
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 1Gi
-    - metadata:
-        name: log
-      spec:
-        storageClassName: efs-mon-munin-log
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 1Gi
