@@ -3,32 +3,14 @@ set -eux
 
 # munin dirs
 
-if test -d /efs/munin-log; then
-	install -v -d /efs/munin-log/data/munin-log
-	rm -rf /var/log/munin
-	ln -sv /efs/munin-log/data/munin-log /var/log/munin
-else
-	install -v -d -m 0755 -o munin -g adm /var/log/munin
-	chown -R munin:adm /var/log/munin
-fi
+install -v -d -m 0755 -o munin -g adm /var/log/munin
+chown -R munin:adm /var/log/munin
 
-if test -d /efs/munin-db; then
-	install -v -d /efs/munin-db/data/munin-db
-	rm -rf /var/lib/munin
-	ln -sv /efs/munin-db/data/munin-db /var/lib/munin
-else
-	install -v -d -m 0755 -o munin -g munin /var/lib/munin
-	chown -R munin:munin /var/lib/munin
-fi
+install -v -d -m 0755 -o munin -g munin /var/lib/munin
+chown -R munin:munin /var/lib/munin
 
-if test -d /efs/munin-cache; then
-	install -v -d /efs/munin-cache/data/munin-cache
-	rm -rf /var/cache/munin/www
-	ln -sv /efs/munin-cache/data/munin-cache /var/cache/munin/www
-else
-	install -v -d -m 0755 -o munin -g munin /var/cache/munin/www
-	chown -R munin:munin /var/cache/munin/www
-fi
+install -v -d -m 0755 -o munin -g munin /var/cache/munin/www
+chown -R munin:munin /var/cache/munin/www
 
 # alerts dirs
 
@@ -64,6 +46,7 @@ if test -d /srv/mailx/etc; then
 	/root/bin/msmtprc-install.sh syslog root
 	/root/bin/msmtprc-install.sh syslog munin
 	/root/bin/msmtprc-install.sh syslog www-data
+	ln -svf /etc/opt/mailx/munin/msmtprc /var/lib/munin/.msmtprc
 fi
 
 ###/opt/munin/bin/k8s-setup.py

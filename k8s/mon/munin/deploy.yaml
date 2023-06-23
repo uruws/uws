@@ -41,11 +41,11 @@ spec:
               value: "${UWS_DEPLOY}"
           volumeMounts:
             - name: db
-              mountPath: "/efs/munin-db"
+              mountPath: "/var/lib/munin"
             - name: cache
-              mountPath: "/efs/munin-cache"
+              mountPath: "/var/cache/munin/www"
             - name: log
-              mountPath: "/efs/munin-log"
+              mountPath: "/var/log/munin"
             - name: tmpdir
               mountPath: "/tmp"
             - name: rundir
