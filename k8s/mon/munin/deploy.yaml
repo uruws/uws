@@ -94,10 +94,10 @@ spec:
               value: "${UWS_DEPLOY}"
           volumeMounts:
             - name: db
-              mountPath: "/efs/munin-db"
+              mountPath: "/var/lib/munin"
               readOnly: true
             - name: cache
-              mountPath: "/efs/munin-cache"
+              mountPath: "/var/cache/munin/www"
               readOnly: true
             - name: web-tmpdir
               mountPath: "/tmp"
