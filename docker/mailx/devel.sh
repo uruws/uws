@@ -6,8 +6,7 @@ chmod -v 0600 "${awsses}/msmtprc"
 exec docker run -it --rm --name uws-mailx-devel \
 	--hostname mailx-devel.uws.local \
 	--read-only \
-	-v "${awsses}:/srv/mailx/etc:ro" \
-	-v "${PWD}/docker/mailx/utils:/usr/local/uws:ro" \
+	-v "${awsses}:/etc/opt/mailx/uws:ro" \
 	-v "${PWD}/tmp/mailx:/home/uws/tmp" \
 	-u uws \
 	-e USER=uws \
