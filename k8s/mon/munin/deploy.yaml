@@ -66,11 +66,11 @@ spec:
               mountPath: "/var/opt/munin-alert"
           resources:
             requests:
-              cpu: 100m
-              memory: 700Mi
-            limits:
-              cpu: 100m
-              memory: 700Mi
+              cpu: 50m
+              memory: 100Mi
+            #~ limits:
+              #~ cpu: 100m
+              #~ memory: 700Mi
           readinessProbe:
             exec:
               command:

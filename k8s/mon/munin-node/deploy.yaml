@@ -70,11 +70,11 @@ spec:
               mountPath: "/srv/munin/plugins/__pycache__"
           resources:
             requests:
-              cpu: 10m
+              cpu: 20m
               memory: 50Mi
-            limits:
-              cpu: 100m
-              memory: 500Mi
+            #~ limits:
+              #~ cpu: 100m
+              #~ memory: 500Mi
           readinessProbe:
             exec:
               command:
