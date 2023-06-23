@@ -5,12 +5,14 @@ mkdir -vp ${PWD}/tmp
 exec docker run -it --rm --name uws-mailx-devel \
 	--hostname mailx-devel.uws.local \
 	--read-only \
-	-u uws \
-	--entrypoint /usr/local/bin/uws-login.sh \
-	-e USER=uws \
-	-e HOME=/home/uws \
+	-v ${PWD}/secret/eks/files/aws.ses:/etc/opt/uws:ro \
+	-v ${PWD}/docker/mailx/utils:/usr/local/uws:ro \
 	-v ${PWD}/tmp:/home/uws/tmp \
 	-v ${CA}:/srv/etc/ca:ro \
-	--tmpfs /tmp \
+	-u uws \
+	-e USER=uws \
+	-e HOME=/home/uws \
 	--workdir /home/uws \
+	--entrypoint /usr/local/bin/uws-login.sh \
+	--tmpfs /tmp \
 	uws/mailx-2305

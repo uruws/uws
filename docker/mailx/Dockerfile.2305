@@ -1,7 +1,7 @@
 FROM uws/base-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230522"
 
 USER root:root
 WORKDIR /root
@@ -12,18 +12,25 @@ ENV HOME /root
 RUN /root/bin/apt-install.sh ssl-cert msmtp-mta bsd-mailx rsyslog
 
 RUN adduser uws ssl-cert \
-	&& adduser uws msmtp
+	&& adduser uws msmtp \
+	&& adduser uwsops msmtp
 
 RUN install -v -d -o root -g msmtp -m 0750 /srv/etc \
 	&& install -v -d -o root -g msmtp -m 0750 /srv/etc/ca
 
-RUN echo 'mailx.uws.talkingpts.org' >/etc/mailname
+RUN install -v -m 0444 -o root -g root /etc/ssl/private/ssl-cert-snakeoil.key /etc/opt/ssl-cert-snakeoil.key
+
+RUN echo 'uws.talkingpts.org' >/etc/mailname
 
 COPY ./files/etc/aliases /etc/
 RUN chmod -v 0644 /etc/aliases
 
-COPY ./files/etc/msmtprc /etc/
-RUN chmod -v 0644 /etc/msmtprc
+# internal postfix
+##COPY ./files/etc/msmtprc /etc/
+##RUN chmod -v 0644 /etc/msmtprc
+
+# custom config
+RUN ln -vsf /etc/opt/uws/msmtprc /home/uws/.msmtprc
 
 RUN echo 'set mta=/usr/bin/msmtp' >>/etc/mail.rc
 
