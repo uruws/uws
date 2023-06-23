@@ -19,5 +19,5 @@ cat ${envf}
 . ${envf}
 rm -f ${envf}
 
-envsubst <${pod}/deploy.yaml | uwskube apply -f -
+envsubst <${pod}/deploy.yaml | uwskube apply -n "${ns}" -f -
 exit 0
