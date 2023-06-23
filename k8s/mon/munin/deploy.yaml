@@ -59,6 +59,9 @@ spec:
             - name: munin-deploy-confd
               mountPath: "/etc/uws/conf"
               readOnly: true
+            - name: munin-mailx
+              mountPath: "/srv/mailx/etc"
+              readOnly: true
             - name: munin-alert
               mountPath: "/var/opt/munin-alert"
           resources:
@@ -152,6 +155,9 @@ spec:
         - name: munin-deploy-confd
           secret:
             secretName: munin-deploy-confd
+        - name: munin-mailx
+          secret:
+            secretName: munin-mailx
   volumeClaimTemplates:
     - metadata:
         name: db

@@ -34,4 +34,9 @@ uwskube delete secret munin-deploy-confd -n mon || true
 uwskube create secret generic munin-deploy-confd -n mon \
 	--from-file="${deploy_confd}"
 
+# munin-mailx
+mailxd=${HOME}/secret/mailx/aws.ses
+uwskube delete secret munin-mailx -n mon || true
+uwskube create secret generic munin-mailx -n mon --from-file="${mailxd}"
+
 exit 0
