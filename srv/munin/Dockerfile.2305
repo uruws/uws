@@ -39,6 +39,7 @@ RUN /root/bin/apt-install.sh patch \
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
 # mailx
+RUN install -v -d -m 0755 -o root -g root /var/www
 RUN ln -svf /etc/opt/mailx/munin/msmtprc /var/lib/munin/.msmtprc \
 	&& ln -svf /etc/opt/mailx/www-data/msmtprc /var/www/.msmtprc
 
