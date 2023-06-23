@@ -1,12 +1,6 @@
 #!/bin/sh
 set -eu
 
-# smtps CA
-uwskube delete secret smtps-ca -n mon || true
-
-# smtps CA client
-uwskube delete secret smtps-ca-client -n mon || true
-
 # cluster.conf
 conf=/tmp/mon.munin.cluster.conf
 envsubst <~/k8s/mon/munin/conf.d/cluster.conf >${conf}
