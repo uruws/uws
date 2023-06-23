@@ -1,7 +1,7 @@
 FROM uws/mailx-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230623"
 
 USER root:root
 WORKDIR /root
@@ -10,8 +10,6 @@ ENV USER root
 ENV HOME /root
 
 RUN /root/bin/apt-install.sh cron logrotate
-
-RUN echo 'crond.uws.talkingpts.org' >/etc/mailname
 
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 
