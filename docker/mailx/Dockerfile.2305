@@ -1,7 +1,7 @@
 FROM uws/base-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230522"
+LABEL version="230523"
 
 USER root:root
 WORKDIR /root
@@ -11,23 +11,23 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh ssl-cert msmtp-mta bsd-mailx rsyslog
 
-RUN install -v -m 0444 -o root -g root /etc/ssl/private/ssl-cert-snakeoil.key /etc/opt/ssl-cert-snakeoil.key
-
 RUN echo 'uws.talkingpts.org' >/etc/mailname
-
 RUN echo 'set mta=/usr/bin/msmtp' >>/etc/mail.rc
 
 COPY ./files/etc/rsyslog.conf /etc/
 COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
 
-RUN install -v -d -m 0750 -o root -g root /etc/opt/root \
-	&& ln -vsf /etc/opt/root/msmtprc /root/.msmtprc
+RUN install -v -d -m 0755 -o root -g root /etc/opt/mailx \
+	&& install -v -d -m 0750 -o root -g root /srv/mailx
 
-RUN install -v -d -m 0750 -o uws -g uws /etc/opt/uws \
-	&& ln -vsf /etc/opt/uws/msmtprc /home/uws/.msmtprc
+RUN install -v -m 0444 -o root -g root \
+	/etc/ssl/private/ssl-cert-snakeoil.key \
+	/etc/opt/mailx/ssl-cert-snakeoil.key
 
-RUN install -v -d -m 0750 -o uwsops -g uwsops /etc/opt/uwsops \
-	&& ln -vsf /etc/opt/uwsops/msmtprc /home/uwsops/.msmtprc
+COPY ./files/bin/msmtprc-install.sh /root/bin/
+RUN chmod -v 0750 /root/bin/msmtprc-install.sh
 
-RUN install -v -d -m 0750 -o nobody -g nogroup /etc/opt/nobody \
-	&& ln -vsf /etc/opt/nobody/msmtprc /etc/msmtprc
+RUN ln -svf    /etc/opt/mailx/uws/msmtprc    /home/uws/.msmtprc \
+	&& ln -svf /etc/opt/mailx/uwsops/msmtprc /home/uwsops/.msmtprc \
+	&& ln -svf /etc/opt/mailx/root/msmtprc   /root/.msmtprc \
+	&& ln -svf /etc/opt/mailx/nobody/msmtprc /etc/msmtprc
