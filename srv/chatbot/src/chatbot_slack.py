@@ -49,7 +49,7 @@ def _message(event, say, mention = False):
 		try:
 			proc = chatbot.uwscli(user_id, text)
 		except chatbot.UwscliCmdError as err:
-			log.debug('%s', err)
+			log.debug('UwscliCmdError%s', err)
 			if mention:
 				say(f"{user_mention}invalid command: {text}", thread_ts = thread_ts)
 			return

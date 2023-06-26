@@ -64,8 +64,18 @@ class UwscliCmd(object):
 
 uwscli_command: dict[str, UwscliCmd] = {}
 
+def _uwscli_check(cmd):
+	failed = 0
+	if cmd.find('|') >= 0:
+		failed = 10
+	if cmd.find(';') >= 0:
+		failed = 11
+	if failed > 0:
+		raise UwscliCmdError(failed, 'invalid command')
+
 def uwscli(user: str, cmd: str) -> UwscliCmdStatus:
 	log.debug('uwscli: %s %s', user, cmd)
+	_uwscli_check(cmd)
 	proc = UwscliCmdStatus(cmd)
 	# user
 	u = user_get(user)

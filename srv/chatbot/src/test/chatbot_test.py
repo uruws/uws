@@ -116,13 +116,25 @@ class TestUwscli(unittest.TestCase):
 		err = cm.exception
 		t.assertEqual(err.status, 2)
 
-	def test_uwscli_command_args(t):
+	def test_uwscli_command_config_args(t):
 		chatbot.uwscli_command['testing'].args = ['--args-test']
 		p = chatbot.uwscli('UTEST', 'testing')
 		t.assertEqual(p.output,  'mock getstatusoutput')
 		t.assertEqual(p.status,  0)
 		t.assertEqual(p.command, '/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing --args-test')
 		t.cb.getstatusoutput.assert_called_once_with(p.command)
+
+	def test_uwscli_command_pipes(t):
+		with t.assertRaises(chatbot.UwscliCmdError) as cm:
+			chatbot.uwscli('UTEST', 'testing | pipes')
+		err = cm.exception
+		t.assertEqual(err.status, 10)
+
+	def test_uwscli_command_semicolon(t):
+		with t.assertRaises(chatbot.UwscliCmdError) as cm:
+			chatbot.uwscli('UTEST', 'testing; semicolon')
+		err = cm.exception
+		t.assertEqual(err.status, 11)
 
 if __name__ == '__main__':
 	unittest.main()
