@@ -78,21 +78,24 @@ class TestUwscli(unittest.TestCase):
 		t.assertEqual(chatbot.uwscli_bindir, Path('/srv/home/uwscli/bin'))
 
 	def test_uwscli(t):
-		st, out = chatbot.uwscli('UTEST', 'testing')
-		t.assertEqual(out, 'mock getstatusoutput')
-		t.assertEqual(st, 0)
-		t.cb.getstatusoutput.assert_called_once_with('/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing')
+		p = chatbot.uwscli('UTEST', 'testing')
+		t.assertEqual(p.output,  'mock getstatusoutput')
+		t.assertEqual(p.status,  0)
+		t.assertEqual(p.command, '/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing')
+		t.cb.getstatusoutput.assert_called_once_with(p.command)
 
 	def test_uwscli_shell_quote(t):
-		st, out = chatbot.uwscli('UTEST', 'testing <@UCHATBOT>')
-		t.assertEqual(out, 'mock getstatusoutput')
-		t.assertEqual(st, 0)
-		t.cb.getstatusoutput.assert_called_once_with("/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing '<@UCHATBOT>'")
+		p = chatbot.uwscli('UTEST', 'testing <@UCHATBOT>')
+		t.assertEqual(p.output,  'mock getstatusoutput')
+		t.assertEqual(p.status,  0)
+		t.assertEqual(p.command, "/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing '<@UCHATBOT>'")
+		t.cb.getstatusoutput.assert_called_once_with(p.command)
 
 	def test_uwscli_user_invalid(t):
-		st, out = chatbot.uwscli('UINVALID', 'testing')
-		t.assertEqual(out, 'unauthorized: UINVALID')
-		t.assertEqual(st, -1)
+		p = chatbot.uwscli('UINVALID', 'testing')
+		t.assertEqual(p.command, 'testing')
+		t.assertEqual(p.output,  'unauthorized: UINVALID')
+		t.assertEqual(p.status,  -1)
 
 	def test_uwscli_command(t):
 		cl = [k for k, c in chatbot.uwscli_command.items() if c.enable]
@@ -115,10 +118,11 @@ class TestUwscli(unittest.TestCase):
 
 	def test_uwscli_command_args(t):
 		chatbot.uwscli_command['testing'].args = ['--args-test']
-		st, out = chatbot.uwscli('UTEST', 'testing')
-		t.assertEqual(out, 'mock getstatusoutput')
-		t.assertEqual(st, 0)
-		t.cb.getstatusoutput.assert_called_once_with('/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing --args-test')
+		p = chatbot.uwscli('UTEST', 'testing')
+		t.assertEqual(p.output,  'mock getstatusoutput')
+		t.assertEqual(p.status,  0)
+		t.assertEqual(p.command, '/opt/uws/chatbot/libexec/uwscli.sh localhost testing /srv/home/uwscli/bin/testing --args-test')
+		t.cb.getstatusoutput.assert_called_once_with(p.command)
 
 if __name__ == '__main__':
 	unittest.main()

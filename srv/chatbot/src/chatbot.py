@@ -47,6 +47,12 @@ uwscli_host:   str  = getenv('UWSCLI_HOST', 'localhost')
 uwscli_bindir: Path = Path('/srv/home/uwscli/bin')
 
 @dataclass
+class UwscliCmdStatus(Exception):
+	command: str
+	status:  int = -999
+	output:  str = ''
+
+@dataclass
 class UwscliCmdError(Exception):
 	status:  int
 	message: str
@@ -58,17 +64,20 @@ class UwscliCmd(object):
 
 uwscli_command: dict[str, UwscliCmd] = {}
 
-def uwscli(user: str, cmd: str) -> tuple[int, str]:
+def uwscli(user: str, cmd: str) -> UwscliCmdStatus:
 	log.debug('uwscli: %s %s', user, cmd)
+	proc = UwscliCmdStatus(cmd)
 	# user
 	u = user_get(user)
 	if u is None:
 		log.error('uwscli invalid user: %s', user)
-		return (-1, 'unauthorized: %s' % user)
+		proc.status = -1
+		proc.output = 'unauthorized: %s' % user
+		return proc
 	# command
 	xcmd = f"{libexec}/{uwscli_cmd} {uwscli_host} {u.name}"
-	icmd = cmd.split()
-	xn = icmd[0].strip()
+	icmd = shlex.split(cmd)
+	xn = shlex.quote(icmd[0].strip())
 	x = uwscli_command.get(xn, None)
 	if x is None:
 		log.error('uwscli invalid command: %s', xn)
@@ -78,13 +87,14 @@ def uwscli(user: str, cmd: str) -> tuple[int, str]:
 		raise UwscliCmdError(2, 'unauthorized')
 	xcmd += ' %s' % uwscli_bindir.joinpath(xn)
 	# args (config)
-	xargs = uwscli_command[xn].args
-	if len(xargs) > 0:
-		for a in xargs:
+	if len(x.args) > 0:
+		for a in x.args:
 			xcmd += ' %s' % shlex.quote(a)
 	# args (user)
 	for a in icmd[1:]:
 		xcmd += ' %s' % shlex.quote(a)
 	# exec
 	log.debug('uwscli exec: %s', xcmd)
-	return getstatusoutput(xcmd)
+	proc.command = xcmd
+	proc.status, proc.output = getstatusoutput(xcmd)
+	return proc

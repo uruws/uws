@@ -45,21 +45,20 @@ def _message(event, say, mention = False):
 	if text == '':
 		say(f"<@{user_id}>: what do you mean?", thread_ts = thread_ts)
 	else:
-		cmd = text.split(' ')[0].strip()
 		st = ''
 		try:
-			rc, out = chatbot.uwscli(user_id, text)
-		except chatbot.UwscliCmdError:
-			log.debug('uwscli ignore: %s', cmd)
+			proc = chatbot.uwscli(user_id, text)
+		except chatbot.UwscliCmdError as err:
+			log.debug('%s', err)
 			if mention:
-				say(f"{user_mention}invalid command: {cmd}", thread_ts = thread_ts)
+				say(f"{user_mention}invalid command: {text}", thread_ts = thread_ts)
 			return
-		if rc != 0:
+		if proc.status != 0:
 			st = '[ERROR] '
-			log.error('uwscli command failed (%d): %s', rc, text)
-			log.debug('%s', out)
+			log.error('uwscli command failed (%d): %s', proc.status, text)
+			log.debug('%s[%d]: %s', proc.command, proc.status, proc.output)
 		msgid = 0
-		for msg in chatbot_msg.parse(text, out):
+		for msg in chatbot_msg.parse(text, proc.output):
 			if msgid == 0:
 				say(f"{user_mention}{st}{msg}", thread_ts = thread_ts)
 			else:
