@@ -46,7 +46,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "${HPX_NAMESPACE}hpx"
+  name: "${HPX_NAME}"
 data:
   # https://haproxy-ingress.github.io/docs/configuration/keys/#backend-server-naming
   backend-server-naming: "pod"

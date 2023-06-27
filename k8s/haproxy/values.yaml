@@ -5,7 +5,7 @@ controller:
     enabled: ${HPX_ENABLE_AUTOSCALING}
     minReplicas: ${HPX_REPLICAS}
     maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
+    targetCPUUtilizationPercentage: 90
     #~ targetMemoryUtilizationPercentage: 80
 
   defaultBackendService: ${HPX_DEFAULT_BACKEND}
@@ -15,7 +15,7 @@ controller:
     ingress-class-precedence: true
     watch-namespace: ${HPX_NAMESPACE}
 
-  ingressClass: ${HPX_NAMESPACE}hpx
+  ingressClass: ${HPX_NAME}
   kind: Deployment
 
   logging:
@@ -25,9 +25,9 @@ controller:
   logs:
     enabled: true
     resources:
-      limits:
-        cpu: 10m
-        memory: 10Mi
+      #~ limits:
+        #~ cpu: 10m
+        #~ memory: 10Mi
       requests:
         cpu: 2m
         memory: 2Mi
@@ -70,9 +70,9 @@ defaultBackend:
   name: default-backend
   replicaCount: 3
   resources:
-    limits:
-      cpu: 10m
-      memory: 20Mi
+    #~ limits:
+      #~ cpu: 10m
+      #~ memory: 20Mi
     requests:
       cpu: 1m
       memory: 2Mi

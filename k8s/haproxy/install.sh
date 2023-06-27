@@ -18,14 +18,11 @@ vfn=$(mktemp -p /tmp haproxy-${HPX_NAMESPACE}-install-XXXXXXXXXX)
 haproxy_configure "${vfn}" "${prof}"
 
 set +e
-uwskube delete hpa/haproxy-ingress                    -n "${HPX_NAMESPACE}"
-uwskube delete deploy/haproxy-ingress                 -n "${HPX_NAMESPACE}"
-
-uwskube delete clusterrole/haproxy-ingress
-uwskube delete clusterrolebinding/haproxy-ingress
+uwskube delete "hpa/${HPX_NAME}-haproxy-ingress"    -n "${HPX_NAMESPACE}"
+uwskube delete "deploy/${HPX_NAME}-haproxy-ingress" -n "${HPX_NAMESPACE}"
 set -e
 
-helm upgrade --install haproxy-ingress haproxy-ingress \
+helm upgrade --install "${HPX_NAME}" haproxy-ingress \
 	--repo https://haproxy-ingress.github.io/charts \
 	--namespace "${HPX_NAMESPACE}" \
 	--version "$(cat ~/k8s/haproxy/VERSION)" \

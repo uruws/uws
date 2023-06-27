@@ -37,9 +37,9 @@ metadata:
     haproxy-ingress.github.io/auth-tls-strict: "true"
     haproxy-ingress.github.io/auth-tls-verify-client: "on"
   labels:
-    uws.t.o/ingress-class: ${HPX_NAMESPACE}hpx
+    uws.t.o/ingress-class: ${HPX_NAME}
 spec:
-  ingressClassName: ${HPX_NAMESPACE}hpx
+  ingressClassName: ${HPX_NAME}
   tls:
     - hosts:
         - ${HPX_HOSTNAME}.talkingpts.org

@@ -5,4 +5,4 @@ shift
 envfn="${HOME}/${prof}/haproxy.env"
 # shellcheck disable=SC1090
 . "${envfn}"
-exec uwskube rollout restart deployment/haproxy-ingress-default-backend -n "${HPX_NAMESPACE}"
+exec uwskube rollout restart "deployment/${HPX_NAME}-haproxy-ingress-default-backend" -n "${HPX_NAMESPACE}"

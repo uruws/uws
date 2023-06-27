@@ -7,4 +7,4 @@ shift
 envfn="${HOME}/${prof}/haproxy.env"
 # shellcheck disable=SC1090
 . "${envfn}"
-exec ~/pod/lib/scale.sh "${HPX_NAMESPACE}" haproxy-ingress "${replicas}"
+exec ~/pod/lib/scale.sh "${HPX_NAMESPACE}" "${HPX_NAME}-haproxy-ingress" "${replicas}"

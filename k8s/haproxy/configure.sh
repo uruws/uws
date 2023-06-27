@@ -11,8 +11,9 @@ haproxy_configure() (
 
 	envfn="${HOME}/${prof}/haproxy.env"
 
+	export HPX_NAME=defhpx
 	export HPX_NAMESPACE=default
-	export HPX_DEFAULT_BACKEND=default/haproxy-ingress-default-backend
+	export HPX_DEFAULT_BACKEND=default/defhpx-haproxy-ingress-default-backend
 	export HPX_ENABLE_DEFAULT_BACKEND=false
 	export HPX_ENABLE_AUTOSCALING=true
 	export HPX_REPLICAS=3
@@ -20,12 +21,13 @@ haproxy_configure() (
 	# shellcheck disable=SC1090
 	. "${envfn}"
 
-	envsubst '${HPX_NAMESPACE}' <"${srcfn}"      |
+	envsubst '${HPX_NAME}' <"${srcfn}"           |
+		envsubst '${HPX_NAMESPACE}'              |
 		envsubst '${HPX_DEFAULT_BACKEND}'        |
 		envsubst '${HPX_ENABLE_DEFAULT_BACKEND}' |
 		envsubst '${HPX_ENABLE_AUTOSCALING}'     |
 		envsubst '${HPX_REPLICAS}' >"${dstfn}"
 
-	envsubst '${HPX_NAMESPACE}' <"${ingclfn}" |
+	envsubst '${HPX_NAME}' <"${ingclfn}" |
 		uwskube apply -n "${HPX_NAMESPACE}" -f -
 )

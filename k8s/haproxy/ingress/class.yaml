@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
-  name: ${HPX_NAMESPACE}hpx
+  name: ${HPX_NAME}
 spec:
   controller: haproxy-ingress.github.io/controller
   parameters:
     kind: ConfigMap
-    name: ${HPX_NAMESPACE}hpx
+    name: ${HPX_NAME}
