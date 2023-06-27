@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/k8s/gateway/ngx/setup.sh
+exec ~/k8s/gateway/hpx/setup.sh
