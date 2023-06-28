@@ -17,4 +17,8 @@ haproxy_configure "${vfn}" "${prof}"
 
 rm -f "${vfn}"
 
+~/ca/godaddyCerts/setup.sh "${HPX_NAMESPACE}"
+~/ca/uws/ops/setup.sh "${HPX_NAMESPACE}"
+~/ca/uwsgd/setup.sh "${HPX_NAMESPACE}"
+
 exec ~/k8s/haproxy/ingress/deploy.sh "${prof}"
