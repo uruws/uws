@@ -25,6 +25,8 @@ def main(argv = []):
 		help = 'filter label')
 	flags.add_argument('-f', '--follow', action = 'store_true',
 		default = False, help = 'follow messages')
+	flags.add_argument('-p', '--previous', action = 'store_true',
+		default = False, help = 'previous container logs')
 	flags.add_argument('-P', '--no-prefix', action = 'store_true',
 		default = False, help = 'no log prefix')
 	flags.add_argument('-t', '--tail', type = int, default = 10,
@@ -46,6 +48,9 @@ def main(argv = []):
 
 	if not args.no_prefix:
 		cmd += ' --prefix=true'
+
+	if args.previous:
+		cmd += ' --previous=true'
 
 	# all logs
 	cmd += ' --ignore-errors'
