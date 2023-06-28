@@ -4,53 +4,9 @@
 
 ---
 
-* chatbot: prod env - `DONE!` [PR199][PR199]
-
-[PR199]: https://github.com/TalkingPts/Infrastructure/pull/199
-
----
-
-* meteor: App [webcdn setup][webcdn] - `DONE!` [PR197][PR197] [PR198][PR198]
+* meteor: App production [webcdn setup][webcdn]
 
 [webcdn]: https://github.com/TalkingPts/Infrastructure/blob/master/docs/topology/app/cdn.md
-[PR197]: https://github.com/TalkingPts/Infrastructure/pull/197
-[PR198]: https://github.com/TalkingPts/Infrastructure/pull/198
-
----
-
-* k8s: haproxy logs parser to easily detect problems on-the-fly - `DONE!` [M8]
-
-[M8]: https://github.com/TalkingPts/Infrastructure/milestone/8?closed=1
-
----
-
-* k8smon: munin-node run plugins in parallel - `DONE!`
-
----
-
-* uwscli: gonzalo's user - `DONE!` [PR193][PR193]
-
-[PR193]: https://github.com/TalkingPts/Infrastructure/pull/193
-
----
-
-* deprecate appwrk-2302 cluster - `DONE!` [PR194][PR194]
-
-[PR194]: https://github.com/TalkingPts/Infrastructure/pull/194
-
----
-
-* k8smon: munin-node plugins parallel runner - `DONE!` [PR192][PR192] [PR191][PR191] [PR190][PR190]
-
-[PR192]: https://github.com/TalkingPts/Infrastructure/pull/192
-[PR191]: https://github.com/TalkingPts/Infrastructure/pull/191
-[PR190]: https://github.com/TalkingPts/Infrastructure/pull/190
-
----
-
-* meteor: App kubernetes healthz check endpoint - `WAITING` [APP1583][APP1583]
-
-[APP1583]: https://github.com/TalkingPts/App/pull/1583
 
 ---
 
@@ -65,6 +21,13 @@
     * create new workers cluster using on-demand c5n ec2 type
         * assign resources by CPU only
     * munin graph/alert worker jobs elapsed time
+
+---
+
+* meteor: App kubernetes healthz check endpoint - [APP1583][APP1583]
+    * once in production implement the k8s configuration for the health check
+
+[APP1583]: https://github.com/TalkingPts/App/pull/1583
 
 ---
 
