@@ -9,4 +9,9 @@ envfn="${HOME}/${prof}/haproxy.env"
 . "${envfn}"
 
 ~/k8s/haproxy/uninstall.sh "${prof}"
+
+~/ca/godaddyCerts/teardown.sh "${HPX_NAMESPACE}"
+~/ca/uws/ops/teardown.sh "${HPX_NAMESPACE}"
+~/ca/uwsgd/teardown.sh "${HPX_NAMESPACE}"
+
 exit 0
