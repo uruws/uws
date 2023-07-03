@@ -34,4 +34,4 @@ exec docker run --rm --read-only \
 	-e HOME=/home/uws \
 	-e PYTHONPATH=/etc/opt/uws/chatbot \
 	--tmpfs /tmp \
-	"uws/${webapp}-2211" "$@"
+	"uws/${webapp}-2305" "$@"

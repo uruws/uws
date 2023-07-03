@@ -45,4 +45,4 @@ exec docker run -it --rm --read-only \
 	-e PYTHONPATH=/etc/opt/uws/chatbot \
 	--tmpfs /tmp \
 	--tmpfs "/opt/uws/${webapp}/__pycache__" \
-	"uws/${webapp}-2211"
+	"uws/${webapp}-2305"

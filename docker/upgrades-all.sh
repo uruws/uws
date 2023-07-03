@@ -41,6 +41,7 @@ set -eu
 # uws/webapp
 ./docker/upgrades.py -t uws/webapp -U docker/webapp
 ./docker/upgrades.py -t uws/webapp
+./docker/upgrades.py -t 'uws/${webapp}'
 
 # uws/k8s
 ./k8s/upgrades.py
