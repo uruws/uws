@@ -1,7 +1,7 @@
 FROM uws/python-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230603"
 
 USER root:root
 WORKDIR /root
@@ -33,7 +33,8 @@ ENV HOME /root
 RUN install -v -d -m 0750 -o uws -g uwsops /etc/opt/uws
 
 COPY --chown=root:uwsops ./utils /usr/local/bin
-RUN chmod -v 0750 /usr/local/bin/*.sh
+RUN chmod -v 0750 /usr/local/bin/*.sh \
+	&& chmod -v 0755 /usr/local/bin/uws-login.sh
 
 USER uwsops:uwsops
 WORKDIR /home/uwsops
