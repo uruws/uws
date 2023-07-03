@@ -1,7 +1,7 @@
 FROM uws/python-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230603"
+LABEL version="230703"
 
 USER root:root
 WORKDIR /root
