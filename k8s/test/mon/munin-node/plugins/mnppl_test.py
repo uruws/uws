@@ -93,7 +93,7 @@ class Test(unittest.TestCase):
 	def test_run_timeout(t):
 		try:
 			mnppl.plwait_timeout = 0
-			d = Path(testing_plugins_bindir, 'run')
+			d = Path(testing_plugins_bindir, 'timeout')
 			t.assertEqual(mnppl._run(d, 'report'), 0)
 		finally:
 			mnppl.plwait_timeout = 180
