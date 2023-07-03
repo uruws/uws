@@ -321,13 +321,10 @@ chatbot-check:
 	@$(MAKE) chatbot
 	@./docker/webapp/check.sh chatbot
 
-CHATBOT_TAG != cat ./srv/chatbot/VERSION
-
 .PHONY: chatbot-publish
 chatbot-publish:
 	@$(MAKE) chatbot-check
-	@./host/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/chatbot-2305 uws:chatbot-$(CHATBOT_TAG)
+	@./srv/chatbot/publish.sh
 
 #
 # ab (apache benchmark)
