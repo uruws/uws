@@ -63,5 +63,9 @@ class Test(unittest.TestCase):
 		t.assertEqual(logs.main(['-n', 'ns', '-C']), 0)
 		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors --all-containers=true -l '*'")
 
+	def test_main_previous(t):
+		t.assertEqual(logs.main(['-n', 'ns', '-p']), 0)
+		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --previous=true --ignore-errors -l '*'")
+
 if __name__ == '__main__':
 	unittest.main()
