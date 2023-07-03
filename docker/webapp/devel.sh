@@ -42,7 +42,7 @@ exec docker run -it --rm --read-only \
 	-u uws \
 	-e USER=uws \
 	-e HOME=/home/uws \
-	-e PYTHONPATH=/etc/opt/uws/chatbot \
+	-e "PYTHONPATH=/etc/opt/uws/${webapp}" \
 	--tmpfs /tmp \
 	--tmpfs "/opt/uws/${webapp}/__pycache__" \
 	"uws/${webapp}-2305"
