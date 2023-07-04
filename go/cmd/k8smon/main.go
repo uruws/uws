@@ -34,10 +34,8 @@ func main() {
 	}
 	log.Debug("cluster %s", cluster)
 
-	// internal endpoint for k8s check
-	http.HandleFunc("/_/healthz", healthzHandler)
-
 	// haproxy URLs scheme
+	http.HandleFunc("/k8smon/_/healthz", healthzHandler)
 	http.HandleFunc("/k8smon/_/ping", pingHandler)
 	http.HandleFunc("/k8smon/kube/nodes", mon.Nodes)
 	http.HandleFunc("/k8smon/kube/deployments", mon.Deployments)
@@ -48,6 +46,7 @@ func main() {
 	http.HandleFunc("/k8smon/", mainHandler)
 
 	// nginx URLs scheme
+	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_/ping", pingHandler)
 	http.HandleFunc("/kube/nodes", mon.Nodes)
 	http.HandleFunc("/kube/deployments", mon.Deployments)
@@ -81,7 +80,7 @@ func pingHandler(w http.ResponseWriter, r *http.Request) {
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	if r.URL.Path != "/" {
+	if r.URL.Path != "/" && r.URL.Path != "/k8smon/" {
 		wapp.NotFound(w, r, start)
 	} else {
 		wapp.Write(w, r, start, "index\n")
