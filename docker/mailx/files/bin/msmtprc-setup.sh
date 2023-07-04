@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eux
 
-srcd=/srv/mailx/etc
+srcd=/srv/mailx/setup
 dstd=/etc/opt/mailx
 
 if test -s "${srcd}/ca/rootCA.pem"; then

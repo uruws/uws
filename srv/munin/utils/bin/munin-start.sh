@@ -42,7 +42,9 @@ fi
 
 # mailx
 
-if test -d /srv/mailx/etc; then
+if test -d /srv/mailx/setup; then
+	/root/bin/msmtprc-setup.sh
+elif test -d /srv/mailx/etc; then
 	/root/bin/msmtprc-install.sh syslog root
 	/root/bin/msmtprc-install.sh syslog munin
 	/root/bin/msmtprc-install.sh syslog www-data
