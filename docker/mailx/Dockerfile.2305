@@ -33,6 +33,9 @@ RUN install -v -m 0444 -o root -g root \
 COPY ./files/bin/msmtprc-install.sh /root/bin/
 RUN chmod -v 0750 /root/bin/msmtprc-install.sh
 
+COPY --chown=root:root ./files/bin/msmtprc-setup.sh /usr/local/bin/
+RUN chmod -v 0555 /usr/local/bin/msmtprc-setup.sh
+
 RUN ln -svf    /etc/opt/mailx/uws/msmtprc    /home/uws/.msmtprc \
 	&& ln -svf /etc/opt/mailx/uwsops/msmtprc /home/uwsops/.msmtprc \
 	&& ln -svf /etc/opt/mailx/root/msmtprc   /root/.msmtprc
