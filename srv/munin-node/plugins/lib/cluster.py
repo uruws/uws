@@ -8,7 +8,7 @@ import mnpl
 def main(argv: list[str]):
 	cfg = mnpl.Config(
 		auth   = False,
-		path   = '/',
+		path   = '/k8smon/_/ping',
 		status = 400,
 	)
 	return mnpl.main(argv, cfg)
