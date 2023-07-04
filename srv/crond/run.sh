@@ -1,7 +1,9 @@
 #!/bin/sh
 set -eu
-CA=${PWD}/secret/ca/uws/smtps/230503
+CA=smtps/230503
+CADIR=${PWD}/secret/ca/uws/${CA}
 exec docker run -it --rm --name uws-crond \
 	--hostname crond.uws.local \
-	-v ${CA}:/srv/etc/ca:ro \
+	-v "${CADIR}:/srv/mailx/setup/ca:ro" \
+	-v "${CADIR}/client:/srv/mailx/setup/ca.client:ro" \
 	uws/crond-2305
