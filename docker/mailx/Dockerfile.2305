@@ -35,5 +35,4 @@ RUN chmod -v 0750 /root/bin/msmtprc-install.sh
 
 RUN ln -svf    /etc/opt/mailx/uws/msmtprc    /home/uws/.msmtprc \
 	&& ln -svf /etc/opt/mailx/uwsops/msmtprc /home/uwsops/.msmtprc \
-	&& ln -svf /etc/opt/mailx/root/msmtprc   /root/.msmtprc \
-	&& ln -svf /etc/opt/mailx/nobody/msmtprc /etc/msmtprc
+	&& ln -svf /etc/opt/mailx/root/msmtprc   /root/.msmtprc
