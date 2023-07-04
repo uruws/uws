@@ -33,4 +33,7 @@ mailxd=${HOME}/secret/mailx/aws.ses
 uwskube delete secret munin-mailx -n mon || true
 uwskube create secret generic munin-mailx -n mon --from-file="${mailxd}"
 
+# smtps-ca
+~/ca/uws/smtps/setup.sh mon
+
 exit 0

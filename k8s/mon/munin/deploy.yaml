@@ -62,6 +62,12 @@ spec:
             - name: munin-mailx
               mountPath: "/srv/mailx/etc"
               readOnly: true
+            - name: uwsca-smtps
+              mountPath: "/srv/mailx/setup/ca"
+              readOnly: true
+            - name: uwsca-smtps-client
+              mountPath: "/srv/mailx/setup/ca.client"
+              readOnly: true
             - name: munin-alert
               mountPath: "/var/opt/munin-alert"
           resources:
@@ -167,3 +173,9 @@ spec:
         - name: munin-mailx
           secret:
             secretName: munin-mailx
+        - name: uwsca-smtps
+          secret:
+            secretName: uwsca-smtps
+        - name: uwsca-smtps-client
+          secret:
+            secretName: uwsca-smtps-client
