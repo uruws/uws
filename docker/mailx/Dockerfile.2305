@@ -1,7 +1,7 @@
 FROM uws/base-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230523"
+LABEL version="230704"
 
 USER root:root
 WORKDIR /root
@@ -13,6 +13,12 @@ RUN /root/bin/apt-install.sh ssl-cert msmtp-mta bsd-mailx rsyslog
 
 RUN echo 'uws.talkingpts.org' >/etc/mailname
 RUN echo 'set mta=/usr/bin/msmtp' >>/etc/mail.rc
+
+COPY --chown=root:root ./files/etc/aliases /etc/
+RUN chmod -v 0444 /etc/aliases
+
+COPY --chown=root:root ./files/etc/msmtprc /etc/
+RUN chmod -v 0444 /etc/msmtprc
 
 COPY ./files/etc/rsyslog.conf /etc/
 COPY ./files/etc/rsyslog.d/ /etc/rsyslog.d/
