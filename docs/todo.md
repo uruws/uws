@@ -4,7 +4,11 @@
 
 ---
 
-* meteor: App production [webcdn setup][webcdn]
+* debian: new release version 12, codename bookworm
+
+---
+
+* meteor: App production [webcdn setup][webcdn] `DONE!`
 
 [webcdn]: https://github.com/TalkingPts/Infrastructure/blob/master/docs/topology/app/cdn.md
 
