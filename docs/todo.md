@@ -8,6 +8,12 @@
 
 ---
 
+* rotate aws ses credentials due to crond env vars exposing them
+    * only internally, but still
+    * secret/aws.iam/smtps_credentials.csv
+
+---
+
 * meteor: App production [webcdn setup][webcdn] `DONE!`
 
 [webcdn]: https://github.com/TalkingPts/Infrastructure/blob/master/docs/topology/app/cdn.md
