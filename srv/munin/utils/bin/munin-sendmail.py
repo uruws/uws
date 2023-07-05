@@ -8,12 +8,6 @@ import sys
 
 from pathlib import Path
 
-sys.path.insert(0, '/opt/munin/lib')
-import alerts_conf as conf
-
-sys.path.insert(0, '/opt/uws/lib')
-import sendmail
-
 def __loadenv():
 	# ugly hack to avoid env vars in crond email headers
 	fn = os.getenv('UWS_SMTPS_CONF', '').strip()
@@ -34,4 +28,8 @@ def __loadenv():
 
 if __name__ == '__main__':
 	__loadenv()
+	sys.path.insert(0, '/opt/munin/lib')
+	import alerts_conf as conf
+	sys.path.insert(0, '/opt/uws/lib')
+	import sendmail
 	sys.exit(sendmail.qdir(conf.QDIR))
