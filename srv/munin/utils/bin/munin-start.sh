@@ -23,6 +23,9 @@ if test -d /srv/etc/cron.d; then
 	cp -vrf /srv/etc/cron.d /etc
 	chown -v root:root /etc/cron.d/uws-*
 	chmod -v 0640 /etc/cron.d/uws-*
+	if test -s /etc/cron.d/uws-ses-env; then
+		chgrp -v munin /etc/cron.d/uws-ses-env
+	fi
 fi
 
 # /etc/munin
