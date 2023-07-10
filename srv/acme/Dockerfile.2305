@@ -1,7 +1,7 @@
 FROM uws/base-2305
 
 LABEL maintainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230710"
 
 USER root:root
 WORKDIR /root
@@ -9,10 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh python3 git python3-pip python3-setuptools python3-wheel \
-	&& pip3 install --system 'git+https://github.com/diafygi/acme-tiny.git@master' \
-	&& rm -rf /root/.cache \
-	&& /root/bin/apt-autoremove.sh git python3-pip python3-setuptools python3-wheel
+RUN /root/bin/apt-install.sh acme-tiny
 
 ADD --chown=root:root ./utils/*.sh /usr/local/bin/
 RUN chmod -v 0755 /usr/local/bin/*.sh
