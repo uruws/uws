@@ -9,9 +9,8 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh gettext-base groff python3 python3-pip python3-semver
+RUN /root/bin/apt-install.sh gettext-base python3 python3-semver awscli
 
-RUN pip3 install --upgrade awscli
 RUN aws --version
 
 RUN chgrp uws /usr/local/bin \
