@@ -60,9 +60,9 @@ class App(object):
 	cluster:          str       = 'None'
 	desc:             str       = 'None'
 	pod:              str       = 'None'
-	build:            Any       = AppBuild('', '')
+	build:            Any       = None
 	build_blacklist:  list[str] = field(default_factory = list)
-	deploy:           Any       = AppDeploy('')
+	deploy:           Any       = None
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
 	groups:           list[str] = field(default_factory = list)
@@ -71,6 +71,10 @@ class App(object):
 	def __post_init__(self):
 		if len(self.groups) == 0:
 			self.groups = ['nogroup']
+		if self.build is None:
+			self.build = AppBuild('', '')
+		if self.deploy is None:
+			self.deploy = AppDeploy('')
 
 app: dict[str, App] = {
 	'app': App(False,
