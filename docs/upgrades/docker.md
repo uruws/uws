@@ -26,7 +26,8 @@
 ---
 
 * docker/base-testing
-    * `2305`: Debian testing (bookworm-20230502-slim)
+    * `2305-1`: Debian testing (trixie-20230703-slim)
+    * 2305: Debian testing (bookworm-20230502-slim)
     * 2211: Debian testing (bookworm-20221114-slim)
     * 2203-1: zlib security upgrade CVE-2018-25032
     * 2203: base-2203, Debian bookworm
