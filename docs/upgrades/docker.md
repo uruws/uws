@@ -9,7 +9,9 @@
 ---
 
 * [docker/base][debian-container]
-    * `2305-1` DSA 5417-1: openssl security update
+    * `2305-2`: Debian 12.0 (bookworm-20230703-slim)
+        * docker/VERSION: 230710
+    * 2305-1 DSA 5417-1: openssl security update
         * docker/VERSION: `230531`
     * 2305: Debian 11.7 (bullseye-20230502-slim)
         * docker/VERSION: 230523
