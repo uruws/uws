@@ -4,7 +4,9 @@
 
 ---
 
-* debian: new release version 12, codename bookworm
+* debian: new release version 12, codename bookworm - `WIP` [PR213][PR213]
+
+[PR213]: https://github.com/TalkingPts/Infrastructure/pull/213
 
 ---
 
