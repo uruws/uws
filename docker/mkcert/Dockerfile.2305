@@ -1,7 +1,7 @@
 FROM uws/base-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230518"
+LABEL version="230710"
 
 USER root:root
 WORKDIR /root
@@ -9,15 +9,17 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
+RUN /root/bin/apt-install.sh uuid-runtime
+
 ENV GOPATH /root/go
 
 RUN /root/bin/apt-install.sh golang git \
-	&& go get github.com/uruws/mkcert \
+	&& go install github.com/uruws/mkcert@230710 \
 	&& /root/bin/apt-autoremove.sh golang git \
 	&& install -v -m 0755 /root/go/bin/mkcert /usr/local/bin/mkcert \
 	&& rm -rf /root/go
 
-RUN /root/bin/apt-install.sh uuid-runtime
+ENV GOPATH=
 
 RUN chgrp -v uws /usr/local/bin \
 	&& chmod -v g+w /usr/local/bin
