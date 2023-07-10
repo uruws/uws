@@ -22,7 +22,7 @@
 - name: apt repo
   become: yes
   apt_repository:
-    repo: deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/
+    repo: deb http://cloud.r-project.org/bin/linux/debian bookworm-cran40/
     state: present
     filename: rstudio
   tags:
