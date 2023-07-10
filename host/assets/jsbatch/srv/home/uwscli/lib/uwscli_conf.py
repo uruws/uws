@@ -3,7 +3,8 @@
 
 from dataclasses import dataclass
 from dataclasses import field
-from os import getenv
+from os          import getenv
+from typing      import Any
 
 homedir: str = getenv('UWSCLI_HOMEDIR', '/home')
 sbindir: str = getenv('UWSCLI_SBINDIR', '/srv/home/uwscli/sbin')
@@ -59,9 +60,9 @@ class App(object):
 	cluster:          str       = 'None'
 	desc:             str       = 'None'
 	pod:              str       = 'None'
-	build:            AppBuild  = AppBuild('', '')
+	build:            Any       = AppBuild('', '')
 	build_blacklist:  list[str] = field(default_factory = list)
-	deploy:           AppDeploy = AppDeploy('')
+	deploy:           Any       = AppDeploy('')
 	autobuild:        bool      = False
 	autobuild_deploy: list[str] = field(default_factory = list)
 	groups:           list[str] = field(default_factory = list)
