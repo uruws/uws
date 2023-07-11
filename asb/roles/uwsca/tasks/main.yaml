@@ -1,2 +1,3 @@
 ---
-- import_tasks: uwsca.yaml
+- name: UWSCA import
+  ansible.builtin.import_tasks: uwsca.yaml
