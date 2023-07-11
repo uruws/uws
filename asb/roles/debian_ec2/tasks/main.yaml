@@ -1,16 +1,16 @@
 ---
-- name: apt install
+- name: Debian apt install
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - awscli
       - cloud-init
   tags:
     - apt
 
-- name: cloud-init setup
+- name: Debian cloud-init setup
   become: true
-  template:
+  ansible.builtin.template:
     src: cloud-init/00_setup.cfg
     dest: /etc/cloud/cloud.cfg.d/99zzzuws_00_setup.cfg
     owner: root
