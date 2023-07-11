@@ -110,7 +110,7 @@ def _setenv(env: Optional[dict[str, str]]) -> dict[str, str]:
 
 system_ttl: int = 600
 
-def system(cmd: str, env: dict[str, str] = None, timeout: int = system_ttl) -> int:
+def system(cmd: str, env: dict[str, str] | None = None, timeout: int = system_ttl) -> int:
 	"""run system commands"""
 	p = proc_run(cmd, shell = True, capture_output = False, timeout = timeout,
 		stdout = None, stderr = None, env = _setenv(env))
@@ -120,7 +120,7 @@ def gso(cmd: str) -> tuple[int, str]:
 	"""get status output from system commands"""
 	return getstatusoutput(cmd)
 
-def check_output(cmd: str, env: dict[str, str] = None) -> str:
+def check_output(cmd: str, env: dict[str, str] | None = None) -> str:
 	"""get output from system commands checking its exit status"""
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
@@ -201,7 +201,7 @@ def autobuild_deploy(n: str) -> list[str]:
 	"""get list of apps to deploy from an autobuild"""
 	return app[n].autobuild_deploy.copy()
 
-def build_list(user: User = None) -> list[str]:
+def build_list(user: User | None = None) -> list[str]:
 	"""return list of apps configured for build"""
 	if user is None: user = _user
 	return user_auth(user, [n for n in app.keys() if app[n].build.dir != ''])
@@ -233,7 +233,7 @@ def build_done(appname: str, tag: str) -> bool:
 				return True
 	return False
 
-def deploy_list(user: User = None) -> list[str]:
+def deploy_list(user: User | None = None) -> list[str]:
 	"""return list of apps configured for deploy"""
 	if user is None: user = _user
 	return user_auth(user, [n for n in app.keys() if app[n].deploy.image != ''])
