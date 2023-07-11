@@ -1,7 +1,7 @@
 ---
-- name: install
+- name: Docker install
   become: true
-  apt:
+  ansible.builtin.apt:
     install_recommends: false
     pkg:
       - docker.io
@@ -10,18 +10,18 @@
     - apt
     - docker-apt
 
-- name: user group
+- name: Docker user group
   become: true
-  group:
+  ansible.builtin.group:
     state: present
     name: docker
     system: true
   tags:
     - docker
 
-- name: group auth
+- name: Docker group auth
   become: true
-  user:
+  ansible.builtin.user:
     name: "{{ item }}"
     append: true
     groups: docker
@@ -29,15 +29,15 @@
   tags:
     - docker
 
-- name: ecr docker login script
-  copy:
+- name: Docker ecr docker login script
+  ansible.builtin.copy:
     src: ~/host/ecr-login.sh
     dest: "~/bin/ecr-login.sh"
     mode: '0750'
   tags:
     - docker
 
-- name: ecr docker login
-  command: "~/bin/ecr-login.sh {{ aws_region }}"
+- name: Docker ecr docker login
+  ansible.builtin.command: "~/bin/ecr-login.sh {{ aws_region }}"
   tags:
     - docker

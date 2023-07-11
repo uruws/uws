@@ -1,7 +1,7 @@
 ---
-- name: restart docker
+- name: Docker restart
   become: true
-  service:
+  ansible.builtin.service:
     name: docker
     state: restarted
   listen: "firewall changed"

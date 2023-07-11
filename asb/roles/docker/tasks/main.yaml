@@ -1,2 +1,3 @@
 ---
-- import_tasks: docker.yaml
+- name: Docker import
+  ansible.builtin.import_tasks: docker.yaml
