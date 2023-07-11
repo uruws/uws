@@ -5,9 +5,11 @@
   tasks:
     - name: kali vm create
       delegate_to: localhost
-      ec2:
+      ec2_instance:
         key_name: asbhost-kali
-        group: kali-sg
+        network:
+          groups:
+            - kali-sg
         instance_profile_name: EC2InstanceRole
         monitoring: false
         termination_protection: true
@@ -20,11 +22,9 @@
             encrypted: true
         image: "{{ vm_ami }}"
         instance_type: "{{ vm_type }}"
-        instance_tags:
+        tags:
           Name: "{{ inventory_hostname }}"
         exact_count: 1
-        count_tag:
-          Name: "{{ inventory_hostname }}"
         vpc_subnet_id: "{{ vm_subnet }}"
       register: kali_vm
 

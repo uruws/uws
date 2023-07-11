@@ -28,19 +28,19 @@
 
     - name: teardown rstudio vm stop
       delegate_to: localhost
-      ec2:
+      ec2_instance:
         state: stopped
         wait: yes
         wait_timeout: 600
-        instance_id: "{{ teardown_vm.instances.0.instance_id }}"
+        instance_ids: "{{ teardown_vm.instances.0.instance_id }}"
         termination_protection: false
       when: teardown_vm.instances
 
     - name: teardown rstudio vm terminate
       delegate_to: localhost
-      ec2:
+      ec2_instance:
         state: absent
         wait: yes
         wait_timeout: 600
-        instance_id: "{{ teardown_vm.instances.0.instance_id }}"
+        instance_ids: "{{ teardown_vm.instances.0.instance_id }}"
       when: teardown_vm.instances

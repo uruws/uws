@@ -14,10 +14,10 @@
 
     - name: kali vm start
       delegate_to: localhost
-      ec2:
+      ec2_instance:
         state: running
         wait: yes
         wait_timeout: 600
-        instance_id: "{{ item.instance_id }}"
+        instance_ids: "{{ item.instance_id }}"
       loop: "{{ kali_vm.instances }}"
       when: kali_vm.instances

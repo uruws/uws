@@ -6,10 +6,12 @@
 
     - name: rstudio vm create
       delegate_to: localhost
-      ec2:
-        zone: "{{ aws_zone }}"
+      ec2_instance:
+        availability_zone: "{{ aws_zone }}"
         key_name: asbhost-rstudio
-        group: rstudio-sg
+        network:
+          groups:
+            - rstudio-sg
         instance_profile_name: EC2InstanceRole
         monitoring: false
         termination_protection: true
@@ -22,13 +24,11 @@
             delete_on_termination: true
             encrypted: true
         image: "{{ debian_ami }}"
-        vpc_subnet_id: "{{ vm_subnet }}"
         instance_type: "{{ vm_type }}"
-        instance_tags:
+        tags:
           Name: "{{ inventory_hostname }}"
         exact_count: 1
-        count_tag:
-          Name: "{{ inventory_hostname }}"
+        vpc_subnet_id: "{{ vm_subnet }}"
       register: rstudio_vm
 
     - name: rstudio vm rootfs tag
