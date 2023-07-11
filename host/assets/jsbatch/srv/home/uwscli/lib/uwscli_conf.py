@@ -56,17 +56,17 @@ class CustomDeploy(object):
 
 @dataclass
 class App(object):
-	app:              bool
-	cluster:          str       = 'None'
-	desc:             str       = 'None'
-	pod:              str       = 'None'
-	build:            Any       = None
-	build_blacklist:  list[str] = field(default_factory = list)
-	deploy:           Any       = None
-	autobuild:        bool      = False
-	autobuild_deploy: list[str] = field(default_factory = list)
-	groups:           list[str] = field(default_factory = list)
-	custom_deploy:    dict[str, list[CustomDeploy]] = field(default_factory = dict)
+	app:                                    bool
+	cluster:                                 str = 'None'
+	desc:                                    str = 'None'
+	pod:                                     str = 'None'
+	build:                        AppBuild | Any = None
+	build_blacklist:                   list[str] = field(default_factory = list)
+	deploy:                      AppDeploy | Any = None
+	autobuild:                              bool = False
+	autobuild_deploy:                  list[str] = field(default_factory = list)
+	groups:                            list[str] = field(default_factory = list)
+	custom_deploy: dict[str, list[CustomDeploy]] = field(default_factory = dict)
 
 	def __post_init__(self):
 		if len(self.groups) == 0:
