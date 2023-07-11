@@ -1,7 +1,7 @@
 ---
-- name: apt install
+- name: Jupyter apt install
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - python3-pip
       - jupyter
@@ -15,9 +15,9 @@
     - apt
     - jupyter-notebook
 
-- name: user
+- name: Jupyter user
   become: true
-  user:
+  ansible.builtin.user:
     state: present
     name: "{{ jupyter_notebook_user.name }}"
     uid: "{{ jupyter_notebook_user.uid }}"
@@ -29,9 +29,9 @@
   tags:
     - jupyter-notebook
 
-- name: user groups
+- name: Jupyter user groups
   become: true
-  user:
+  ansible.builtin.user:
     state: present
     name: "{{ jupyter_notebook_user.name }}"
     append: true
@@ -39,9 +39,9 @@
   tags:
     - jupyter-notebook
 
-- name: rstudio project groups
+- name: Jupyter rstudio project groups
   become: true
-  user:
+  ansible.builtin.user:
     state: present
     name: "{{ jupyter_notebook_user.name }}"
     append: true
@@ -51,9 +51,9 @@
     - jupyter-notebook
     - rstudio-project
 
-- name: user home dir
+- name: Jupyter user home dir
   become: true
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/{{ jupyter_notebook_user.name }}"
     owner: "{{ jupyter_notebook_user.name }}"
@@ -62,9 +62,9 @@
   tags:
     - jupyter-notebook
 
-- name: scripts
+- name: Jupyter scripts
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/usr/local/bin/{{ item }}"
     owner: "{{ jupyter_notebook_user.name }}"
@@ -76,9 +76,9 @@
   tags:
     - jupyter-notebook
 
-- name: systemd config
+- name: Jupyter systemd config
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "systemd/{{ item }}"
     dest: "/etc/systemd/system/{{ item }}"
     owner: root
@@ -89,17 +89,17 @@
   tags:
     - jupyter-notebook
 
-- name: service enable
+- name: Jupyter service enable
   become: true
-  service:
+  ansible.builtin.service:
     name: jupyter-notebook
     enabled: true
   tags:
     - jupyter-notebook
 
-- name: service started
+- name: Jupyter service started
   become: true
-  service:
+  ansible.builtin.service:
     name: jupyter-notebook
     state: started
   tags:
