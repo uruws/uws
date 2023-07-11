@@ -1,6 +1,6 @@
 ---
 - name: cache setup
-  become: yes
+  become: true
   file:
     state: directory
     path: "{{ item }}"
@@ -14,7 +14,7 @@
     - nginx_tls
 
 - name: uws cache setup
-  become: yes
+  become: true
   file:
     state: directory
     path: "{{ item }}"
@@ -28,7 +28,7 @@
     - nginx_tls
 
 - name: config
-  become: yes
+  become: true
   template:
     src: conf/{{ item }}.conf
     dest: /etc/nginx/conf.d/zzzuws_{{ item }}.conf
@@ -44,7 +44,7 @@
     - nginx_tls
 
 - name: snippets
-  become: yes
+  become: true
   template:
     src: snippets/{{ item }}.conf
     dest: /etc/nginx/snippets/uws_{{ item }}.conf
@@ -65,7 +65,7 @@
     - nginx_tls
 
 - name: default server
-  become: yes
+  become: true
   template:
     src: nginx/default_tls.conf
     dest: /etc/nginx/sites-enabled/default_tls
@@ -79,7 +79,7 @@
     - nginx_tls
 
 - name: sites enable
-  become: yes
+  become: true
   template:
     src: "{{ item }}"
     dest: "/etc/nginx/sites-enabled/{{ item | basename }}"

@@ -1,6 +1,6 @@
 ---
 - name: apt install
-  become: yes
+  become: true
   apt:
     pkg:
       - iptables
@@ -10,7 +10,7 @@
     - apt
 
 - name: rules
-  become: yes
+  become: true
   template:
     src: iptables/{{ item }}
     dest: /etc/iptables/{{ item }}
@@ -27,10 +27,10 @@
     - iptables
 
 - name: reload iptables
-  become: yes
+  become: true
   command:
     cmd: service netfilter-persistent reload
-    warn: no
+    warn: false
   when: iptables_rules is changed
   tags:
     - iptables

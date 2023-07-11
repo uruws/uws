@@ -1,6 +1,6 @@
 ---
 - name: tools install
-  become: yes
+  become: true
   apt:
     pkg:
       - faraday

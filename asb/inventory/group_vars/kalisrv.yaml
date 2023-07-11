@@ -2,11 +2,11 @@
 ansible_user: kali
 ansible_python_interpreter: /usr/bin/python3
 
-apt_sources_update: no
+apt_sources_update: false
 
 uws_acme_account: kali.key
 
-iptables_nginx_enable: yes
+iptables_nginx_enable: true
 iptables_tcp_enable:
   - 3327
 

@@ -1,8 +1,8 @@
 ---
 - name: mailname
-  become: yes
+  become: true
   copy:
-    force: yes
+    force: true
     owner: root
     group: root
     mode: '0644'
@@ -12,7 +12,7 @@
     - postconf
 
 - name: aliases
-  become: yes
+  become: true
   lineinfile:
     state: present
     owner: root
@@ -34,7 +34,7 @@
     - postconf
 
 - name: munin-alert alias
-  become: yes
+  become: true
   lineinfile:
     state: present
     path: /etc/aliases
@@ -46,7 +46,7 @@
     - postconf
 
 - name: root alias
-  become: yes
+  become: true
   lineinfile:
     state: present
     path: /etc/aliases
@@ -58,7 +58,7 @@
     - postconf
 
 - name: smtps CA files
-  become: yes
+  become: true
   block:
     - name: smtps CA
       copy:
@@ -92,7 +92,7 @@
     - postconf
 
 - name: main.cf
-  become: yes
+  become: true
   template:
     src: postfix/main.cf
     dest: /etc/postfix/main.cf

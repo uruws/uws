@@ -1,6 +1,6 @@
 ---
 - name: apt install
-  become: yes
+  become: true
   apt:
     pkg:
       - monit
@@ -8,15 +8,15 @@
     - apt
 
 - name: service enable
-  become: yes
+  become: true
   service:
     name: monit
-    enabled: yes
+    enabled: true
   tags:
     - monit
 
 - name: service
-  become: yes
+  become: true
   service:
     name: monit
     state: started
@@ -24,7 +24,7 @@
     - monit
 
 - name: monitrc
-  become: yes
+  become: true
   template:
     src: monitrc
     dest: /etc/monit/conf.d/monitrc

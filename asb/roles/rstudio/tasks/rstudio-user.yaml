@@ -1,6 +1,6 @@
 ---
 - name: user's group
-  become: yes
+  become: true
   group:
     name: rstudio
     state: present
@@ -9,25 +9,25 @@
     - users
 
 - name: user remove
-  become: yes
+  become: true
   user:
     state: absent
-    force: no
-    remove: yes
+    force: false
+    remove: true
     name: "{{ item.name }}"
   loop: "{{ rstudio_user_remove | dict2items(key_name='name', value_name='uid') }}"
   tags:
     - users
 
 - name: user
-  become: yes
+  become: true
   user:
     state: present
     name: "{{ item.name }}"
     uid: "{{ item.uid }}"
-    append: no
+    append: false
     comment: "{{ item.name }}"
-    create_home: yes
+    create_home: true
     group: rstudio
     home: "{{ uws_users_homedir }}/{{ item.name }}"
     shell: /bin/bash
@@ -37,7 +37,7 @@
     - users
 
 - name: user home dir
-  become: yes
+  become: true
   file:
     state: directory
     path: "{{ uws_users_homedir }}/{{ item.name }}"
@@ -49,10 +49,10 @@
     - users
 
 - name: user umask
-  become: yes
+  become: true
   lineinfile:
     path: "{{ uws_users_homedir }}/{{ item }}/.profile"
-    backup: yes
+    backup: true
     state: present
     regexp: '^umask'
     line: 'umask 0002'

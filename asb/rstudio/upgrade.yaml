@@ -4,21 +4,21 @@
   gather_facts: true
   tasks:
     - name: apt update
-      become: yes
+      become: true
       apt:
-        update_cache: yes
+        update_cache: true
 
     - name: apt upgrade
-      become: yes
+      become: true
       apt:
         name: "*"
         state: latest
-        autoclean: yes
-        autoremove: yes
+        autoclean: true
+        autoremove: true
 
     - name: apt dist-upgrade
-      become: yes
+      become: true
       apt:
         upgrade: dist
-        autoclean: yes
-        autoremove: yes
+        autoclean: true
+        autoremove: true

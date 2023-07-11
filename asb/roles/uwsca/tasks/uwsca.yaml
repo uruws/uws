@@ -1,6 +1,6 @@
 ---
 - name: dirs
-  become: yes
+  become: true
   file:
     state: directory
     path: "{{ item }}"
@@ -15,7 +15,7 @@
     - uwsca
 
 - name: ops rootCA
-  become: yes
+  become: true
   copy:
     src: ~/ca/{{ uwsca_ops }}/{{ item }}
     dest: /srv/uws/ca/ops/{{ item }}

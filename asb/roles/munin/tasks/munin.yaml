@@ -1,6 +1,6 @@
 ---
 - name: apt install
-  become: yes
+  become: true
   apt:
     pkg:
       - munin
@@ -12,15 +12,15 @@
     - munin
 
 - name: service enable
-  become: yes
+  become: true
   service:
     name: munin-node
-    enabled: yes
+    enabled: true
   tags:
     - munin
 
 - name: service
-  become: yes
+  become: true
   service:
     name: munin-node
     state: started
@@ -28,7 +28,7 @@
     - munin
 
 - name: munin-setup
-  become: yes
+  become: true
   template:
     src: munin/uws-setup.sh
     dest: /etc/munin/uws-setup.sh
@@ -39,7 +39,7 @@
     - munin
 
 - name: run munin-setup
-  become: yes
+  become: true
   shell:
     cmd: /etc/munin/uws-setup.sh
   tags:

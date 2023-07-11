@@ -3,14 +3,14 @@
 # host
 #
 - name: hostname
-  become: yes
+  become: true
   hostname:
     name: "{{ ansible_host }}"
   tags:
     - host
 
 - name: timezone
-  become: yes
+  become: true
   timezone:
     name: UTC
   tags:
@@ -19,7 +19,7 @@
 # apt
 #
 - name: apt sources
-  become: yes
+  become: true
   template:
     src: apt/sources.list
     dest: /etc/apt/sources.list
@@ -31,20 +31,20 @@
     - apt
 
 - name: apt clean
-  become: yes
+  become: true
   apt:
-    autoclean: yes
+    autoclean: true
   tags:
     - apt
 
 - name: apt update
-  become: yes
+  become: true
   apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
 
 - name: apt install
-  become: yes
+  become: true
   apt:
     pkg:
       - bash
@@ -68,28 +68,28 @@
     - apt
 
 - name: apt remove
-  become: yes
+  become: true
   apt:
     state: absent
-    autoremove: yes
-    purge: yes
+    autoremove: true
+    purge: true
     pkg:
       - nano
   tags:
     - apt
 
 - name: apt purge
-  become: yes
+  become: true
   apt:
-    autoremove: yes
-    purge: yes
+    autoremove: true
+    purge: true
   tags:
     - apt
 #
 # root
 #
 - name: root home dir
-  become: yes
+  become: true
   file:
     state: directory
     path: /root
@@ -102,7 +102,7 @@
 # admin
 #
 - name: "{{ ansible_user }} home dir"
-  become: yes
+  become: true
   file:
     state: directory
     path: "~{{ ansible_user }}"
@@ -113,7 +113,7 @@
     - admin
 
 - name: "{{ ansible_user }} bin dir"
-  become: yes
+  become: true
   file:
     state: directory
     path: "~{{ ansible_user }}/bin"
@@ -126,7 +126,7 @@
 # uws
 #
 - name: uws group
-  become: yes
+  become: true
   group:
     state: present
     name: uws
@@ -135,14 +135,14 @@
     - uws
 
 - name: uws user
-  become: yes
+  become: true
   user:
     state: present
     name: uws
     uid: 1500
-    append: no
+    append: false
     comment: uws
-    create_home: yes
+    create_home: true
     group: uws
     home: /home/uws
     shell: /bin/bash
@@ -150,16 +150,16 @@
     - uws
 
 - name: uws user groups
-  become: yes
+  become: true
   user:
     name: uws
-    append: yes
+    append: true
     groups: "{{ ansible_user }}"
   tags:
     - uws
 
 - name: uws home dir
-  become: yes
+  become: true
   file:
     state: directory
     path: /home/uws
@@ -172,9 +172,9 @@
 # sudo
 #
 - name: uws sudoers
-  become: yes
+  become: true
   copy:
-    force: yes
+    force: true
     owner: root
     group: root
     mode: '0440'
@@ -187,14 +187,14 @@
 # ssh
 #
 - name: uws ssh authorized keys
-  become: yes
+  become: true
   authorized_key:
     state: present
     user: uws
     comment: "{{ item }}@github.com"
     key: https://github.com/{{ item }}.keys
-    manage_dir: yes
-    exclusive: yes
+    manage_dir: true
+    exclusive: true
   loop: "{{ uws_authorized_key }}"
   tags:
     - uws
@@ -203,7 +203,7 @@
 # sshd
 #
 - name: sshd config
-  become: yes
+  become: true
   template:
     src: ssh/sshd_config
     dest: /etc/ssh/sshd_config.d/uws.conf

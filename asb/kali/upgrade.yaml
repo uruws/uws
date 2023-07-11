@@ -2,7 +2,7 @@
 - name: kali upgrade
   hosts: kalisrv
   gather_facts: false
-  become: yes
+  become: true
   tasks:
 
     - name: kali repo

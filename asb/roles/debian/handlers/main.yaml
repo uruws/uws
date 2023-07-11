@@ -1,6 +1,6 @@
 ---
 - name: restart sshd
-  become: yes
+  become: true
   service:
     state: restarted
     name: ssh

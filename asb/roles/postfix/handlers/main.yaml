@@ -1,12 +1,12 @@
 ---
 - name: newaliases
-  become: yes
+  become: true
   command: newaliases
   tags:
     - postconf
 
 - name: restart postfix
-  become: yes
+  become: true
   service:
     state: restarted
     name: postfix

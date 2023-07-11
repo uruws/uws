@@ -1,6 +1,6 @@
 ---
 - name: install
-  become: yes
+  become: true
   apt:
     pkg:
       - fail2ban
@@ -8,7 +8,7 @@
     - apt
 
 - name: config
-  become: yes
+  become: true
   template:
     src: fail2ban.conf
     dest: /etc/fail2ban/jail.d/zzzuws.conf

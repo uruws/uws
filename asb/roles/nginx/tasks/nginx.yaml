@@ -1,6 +1,6 @@
 ---
 - name: apt install
-  become: yes
+  become: true
   apt:
     pkg:
       - nginx
@@ -9,7 +9,7 @@
     - nginx-apt
 
 - name: index.html
-  become: yes
+  become: true
   template:
     src: www/index.html
     dest: /var/www/html/index.html
@@ -20,7 +20,7 @@
     - nginx
 
 - name: server config
-  become: yes
+  become: true
   template:
     src: nginx.conf
     dest: /etc/nginx/conf.d/zzzuws.conf
@@ -33,7 +33,7 @@
     - nginx
 
 - name: default server
-  become: yes
+  become: true
   template:
     src: nginx/default.conf
     dest: /etc/nginx/sites-enabled/default
@@ -47,7 +47,7 @@
     - nginx
 
 - name: reload config
-  become: yes
+  become: true
   service:
     name: nginx
     state: reloaded

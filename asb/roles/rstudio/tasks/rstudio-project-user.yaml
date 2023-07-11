@@ -1,24 +1,24 @@
 ---
 - name: project user remove
-  become: yes
+  become: true
   user:
     state: absent
     name: "{{ item }}"
-    force: no
-    remove: yes
+    force: false
+    remove: true
   loop: "{{ rstudio_project_user_remove | list }}"
   tags:
     - rstudio-project
 
 - name: project user
-  become: yes
+  become: true
   user:
     state: present
     name: "{{ item }}"
     uid: "{{ rstudio_project_user[item].uid }}"
-    append: no
+    append: false
     comment: "{{ item }}"
-    create_home: yes
+    create_home: true
     group: ruser
     groups: "{{ rstudio_project_user[item].groups }}"
     home: "{{ uws_users_homedir }}/user/{{ item }}"
@@ -29,7 +29,7 @@
     - rstudio-project
 
 - name: project user homedir
-  become: yes
+  become: true
   file:
     state: directory
     path: "{{ uws_users_homedir }}/user/{{ item }}"
@@ -41,12 +41,12 @@
     - rstudio-project
 
 - name: project users symlink
-  become: yes
+  become: true
   file:
     state: link
     src: "{{ uws_users_homedir }}/project"
     dest: "{{ uws_users_homedir }}/user/{{ item }}/project"
-    force: yes
+    force: true
     owner: root
     group: root
   loop: "{{ rstudio_project_user | list }}"
@@ -54,10 +54,10 @@
     - rstudio-project
 
 - name: project users umask
-  become: yes
+  become: true
   lineinfile:
     path: "{{ uws_users_homedir }}/user/{{ item }}/.profile"
-    backup: yes
+    backup: true
     state: present
     regexp: '^umask'
     line: 'umask 0002'

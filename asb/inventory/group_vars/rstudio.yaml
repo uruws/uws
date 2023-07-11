@@ -6,7 +6,7 @@ debian_ami: ami-09b4378b1d3387f81
 rstudio_repo: https://download2.rstudio.org/server/bionic/amd64
 rstudio_server_version: rstudio-server-2021.09.0-351-amd64.deb
 
-iptables_nginx_enable: yes
+iptables_nginx_enable: true
 
 server_name: "{{ inventory_hostname }}.{{ uws_domain }}"
 rstudio_server_name: "{{ inventory_hostname }}-ide.{{ uws_domain }}"

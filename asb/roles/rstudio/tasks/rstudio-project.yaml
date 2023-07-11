@@ -1,6 +1,6 @@
 ---
 - name: project users group
-  become: yes
+  become: true
   group:
     name: ruser
     state: present
@@ -9,17 +9,17 @@
     - rstudio-project
 
 - name: project admin users group
-  become: yes
+  become: true
   user:
     name: "{{ item }}"
-    append: yes
+    append: true
     groups: ruser
   loop: "{{ rstudio_user | list }}"
   tags:
     - rstudio-project
 
 - name: project group
-  become: yes
+  become: true
   group:
     name: "{{ item }}"
     state: present
@@ -29,17 +29,17 @@
     - rstudio-project
 
 - name: project admin users
-  become: yes
+  become: true
   user:
     name: "{{ item.0 }}"
-    append: yes
+    append: true
     groups: "{{ item.1 }}"
   loop: "{{ rstudio_user | list | product(rstudio_project | list) | list }}"
   tags:
     - rstudio-project
 
 - name: projects basedir
-  become: yes
+  become: true
   file:
     state: directory
     path: "{{ uws_users_homedir }}/project"
@@ -50,12 +50,12 @@
     - rstudio-project
 
 - name: project admin users symlink
-  become: yes
+  become: true
   file:
     state: link
     src: "{{ uws_users_homedir }}/project"
     dest: "{{ uws_users_homedir }}/{{ item }}/project"
-    force: yes
+    force: true
     owner: root
     group: root
   loop: "{{ rstudio_user | list }}"
@@ -63,7 +63,7 @@
     - rstudio-project
 
 - name: project dir
-  become: yes
+  become: true
   file:
     state: directory
     path: "{{ uws_users_homedir }}/project/{{ rstudio_project[item].name }}"
@@ -75,7 +75,7 @@
     - rstudio-project
 
 - name: project users base homedir
-  become: yes
+  become: true
   file:
     state: directory
     path: "{{ uws_users_homedir }}/user"

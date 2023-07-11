@@ -1,8 +1,8 @@
 ---
 - name: install
-  become: yes
+  become: true
   apt:
-    install_recommends: no
+    install_recommends: false
     pkg:
       - docker.io
       - docker-compose
@@ -11,19 +11,19 @@
     - docker-apt
 
 - name: user group
-  become: yes
+  become: true
   group:
     state: present
     name: docker
-    system: yes
+    system: true
   tags:
     - docker
 
 - name: group auth
-  become: yes
+  become: true
   user:
     name: "{{ item }}"
-    append: yes
+    append: true
     groups: docker
   loop: "{{ docker_users }}"
   tags:

@@ -1,6 +1,6 @@
 ---
 - name: restart rstudio-server
-  become: yes
+  become: true
   service:
     name: rstudio-server
     state: restarted
@@ -8,8 +8,8 @@
     - rstudio
 
 - name: reload systemd
-  become: yes
+  become: true
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
   tags:
     - rstudio

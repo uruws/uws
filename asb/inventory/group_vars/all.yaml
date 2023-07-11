@@ -19,7 +19,7 @@ vm_public_name: ""
 debian_release: bookworm
 
 postconf_mailname: ""
-postconf_smtps_server: no
+postconf_smtps_server: false
 
 uws_users_homedir: /srv/home
 
