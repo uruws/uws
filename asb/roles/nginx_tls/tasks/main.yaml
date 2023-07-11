@@ -1,2 +1,3 @@
 ---
-- import_tasks: nginx_tls.yaml
+- name: NginxTLS import
+  ansible.builtin.import_tasks: nginx_tls.yaml
