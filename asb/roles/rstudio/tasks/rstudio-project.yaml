@@ -1,16 +1,16 @@
 ---
-- name: project users group
+- name: RStudio project users group
   become: true
-  group:
+  ansible.builtin.group:
     name: ruser
     state: present
     gid: "{{ rstudio_project_user_gid }}"
   tags:
     - rstudio-project
 
-- name: project admin users group
+- name: RStudio project admin users group
   become: true
-  user:
+  ansible.builtin.user:
     name: "{{ item }}"
     append: true
     groups: ruser
@@ -18,9 +18,9 @@
   tags:
     - rstudio-project
 
-- name: project group
+- name: RStudio project group
   become: true
-  group:
+  ansible.builtin.group:
     name: "{{ item }}"
     state: present
     gid: "{{ rstudio_project[item].gid }}"
@@ -28,9 +28,9 @@
   tags:
     - rstudio-project
 
-- name: project admin users
+- name: RStudio project admin users
   become: true
-  user:
+  ansible.builtin.user:
     name: "{{ item.0 }}"
     append: true
     groups: "{{ item.1 }}"
@@ -38,9 +38,9 @@
   tags:
     - rstudio-project
 
-- name: projects basedir
+- name: RStudio projects basedir
   become: true
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/project"
     owner: root
@@ -49,9 +49,9 @@
   tags:
     - rstudio-project
 
-- name: project admin users symlink
+- name: RStudio project admin users symlink
   become: true
-  file:
+  ansible.builtin.file:
     state: link
     src: "{{ uws_users_homedir }}/project"
     dest: "{{ uws_users_homedir }}/{{ item }}/project"
@@ -62,9 +62,9 @@
   tags:
     - rstudio-project
 
-- name: project dir
+- name: RStudio project dir
   become: true
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/project/{{ rstudio_project[item].name }}"
     owner: root
@@ -74,9 +74,9 @@
   tags:
     - rstudio-project
 
-- name: project users base homedir
+- name: RStudio project users base homedir
   become: true
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/user"
     owner: root

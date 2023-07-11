@@ -1,7 +1,7 @@
 ---
-- name: project user remove
+- name: RStudio project user remove
   become: true
-  user:
+  ansible.builtin.user:
     state: absent
     name: "{{ item }}"
     force: false
@@ -10,9 +10,9 @@
   tags:
     - rstudio-project
 
-- name: project user
+- name: RStudio project user
   become: true
-  user:
+  ansible.builtin.user:
     state: present
     name: "{{ item }}"
     uid: "{{ rstudio_project_user[item].uid }}"
@@ -28,9 +28,9 @@
   tags:
     - rstudio-project
 
-- name: project user homedir
+- name: RStudio project user homedir
   become: true
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/user/{{ item }}"
     owner: "{{ item }}"
@@ -40,9 +40,9 @@
   tags:
     - rstudio-project
 
-- name: project users symlink
+- name: RStudio project users symlink
   become: true
-  file:
+  ansible.builtin.file:
     state: link
     src: "{{ uws_users_homedir }}/project"
     dest: "{{ uws_users_homedir }}/user/{{ item }}/project"
@@ -53,9 +53,9 @@
   tags:
     - rstudio-project
 
-- name: project users umask
+- name: RStudio project users umask
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ uws_users_homedir }}/user/{{ item }}/.profile"
     backup: true
     state: present

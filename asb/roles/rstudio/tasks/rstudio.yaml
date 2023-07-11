@@ -1,7 +1,7 @@
 ---
-- name: apt install deps
+- name: RStudio apt install deps
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - gnupg
       - git
@@ -10,18 +10,18 @@
     - rstudio-apt
 
 # https://cran.rstudio.com/bin/linux/debian/
-- name: apt key
+- name: RStudio apt key
   become: true
-  apt_key:
+  ansible.builtin.apt_key:
     keyserver: keyserver.ubuntu.com
     id: "0x95c0faf38db3ccad0c080a7bdc78b2ddeabc47b7"
   tags:
     - apt
     - rstudio-apt
 
-- name: apt repo
+- name: RStudio apt repo
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: deb http://cloud.r-project.org/bin/linux/debian bookworm-cran40/
     state: present
     filename: rstudio
@@ -29,17 +29,17 @@
     - apt
     - rstudio-apt
 
-- name: apt update
+- name: RStudio apt update
   become: true
-  apt:
+  ansible.builtin.apt:
     update_cache: true
   tags:
     - apt
     - rstudio-apt
 
-- name: apt remove
+- name: RStudio apt remove
   become: true
-  apt:
+  ansible.builtin.apt:
     state: absent
     autoremove: true
     purge: true
@@ -50,9 +50,9 @@
     - apt
     - rstudio-apt
 
-- name: apt install
+- name: RStudio apt install
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - r-base
       - xz-utils

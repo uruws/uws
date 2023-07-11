@@ -1,44 +1,44 @@
 ---
-- name: server install
+- name: RStudio server install
   become: true
-  apt:
+  ansible.builtin.apt:
     deb: "{{ rstudio_repo }}/{{ rstudio_server_version }}"
   tags:
     - apt
     - rstudio-apt
 
-- name: server config
+- name: RStudio server config
   become: true
-  template:
+  ansible.builtin.template:
     src: rserver.conf
     dest: /etc/rstudio/rserver.conf
     owner: root
     group: root
     mode: '0644'
   notify:
-    - restart rstudio-server
+    - RStudio restart server
   tags:
     - rstudio
 
-- name: systemd service config
+- name: RStudio systemd service config
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /lib/systemd/system/rstudio-server.service
     backup: true
     state: present
     line: 'UMask=0002'
     insertafter: '^PIDFile='
   notify:
-    - reload systemd
-    - restart rstudio-server
+    - RStudio reload systemd
+    - RStudio restart server
   tags:
     - rstudio
 
 # homefs
 
-- name: vm info
+- name: RStudio vm info
   delegate_to: localhost
-  ec2_instance_info:
+  amazon.aws.ec2_instance_info:
     filters:
       "tag:Name": "{{ inventory_hostname }}"
       availability-zone: "{{ aws_zone }}"
@@ -47,9 +47,9 @@
   tags:
     - homefs
 
-- name: homefs vol
+- name: RStudio homefs vol
   delegate_to: localhost
-  ec2_vol:
+  amazon.aws.ec2_vol:
     name: "{{ inventory_hostname }}-homefs"
     zone: "{{ aws_zone }}"
     instance: "{{ rstudio_vm.instances.0.instance_id }}"
@@ -61,18 +61,18 @@
   tags:
     - homefs
 
-- name: make homefs
+- name: RStudio make homefs
   become: true
-  filesystem:
+  community.general.filesystem:
     dev: /dev/sdf
     fstype: ext4
     opts: -L rstudio-homefs
   tags:
     - homefs
 
-- name: mount homefs
+- name: RStudio mount homefs
   become: true
-  mount:
+  ansible.posix.mount:
     path: "{{ uws_users_homedir }}"
     src: LABEL=rstudio-homefs
     fstype: ext4

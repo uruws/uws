@@ -1,16 +1,16 @@
 ---
-- name: user's group
+- name: RStudio user's group
   become: true
-  group:
+  ansible.builtin.group:
     name: rstudio
     state: present
     gid: "{{ rstudio_gid }}"
   tags:
     - users
 
-- name: user remove
+- name: RStudio user remove
   become: true
-  user:
+  ansible.builtin.user:
     state: absent
     force: false
     remove: true
@@ -19,9 +19,9 @@
   tags:
     - users
 
-- name: user
+- name: RStudio user
   become: true
-  user:
+  ansible.builtin.user:
     state: present
     name: "{{ item.name }}"
     uid: "{{ item.uid }}"
@@ -36,9 +36,9 @@
   tags:
     - users
 
-- name: user home dir
+- name: RStudio user home dir
   become: true
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/{{ item.name }}"
     owner: "{{ item.name }}"
@@ -48,9 +48,9 @@
   tags:
     - users
 
-- name: user umask
+- name: RStudio user umask
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ uws_users_homedir }}/{{ item }}/.profile"
     backup: true
     state: present
