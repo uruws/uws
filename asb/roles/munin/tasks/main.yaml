@@ -1,2 +1,3 @@
 ---
-- import_tasks: munin.yaml
+- name: Munin import
+  ansible.builtin.import_tasks: munin.yaml
