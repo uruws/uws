@@ -69,7 +69,7 @@ def _newProc(cmd: list[str]) -> Popen:
 
 def _pprint(p: Popen) -> bool:
 	_done = False
-	pl = Path(str(p.args[0])).name
+	pl = Path(str(p.args).split()[0]).name
 	name = Path(pl).stem
 	if p.returncode != 0:
 		print('[ERROR]', pl, 'failed:', p.returncode, file = sys.stderr)
