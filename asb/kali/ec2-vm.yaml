@@ -1,11 +1,11 @@
 ---
-- name: kali ec2 vm
+- name: Kali ec2 vm
   hosts: ec2vm
   gather_facts: false
   tasks:
-    - name: kali vm create
+    - name: Kali vm create
       delegate_to: localhost
-      ec2_instance:
+      amazon.aws.ec2_instance:
         key_name: asbhost-kali
         network:
           groups:
@@ -28,9 +28,9 @@
         vpc_subnet_id: "{{ vm_subnet }}"
       register: kali_vm
 
-    - name: kali vm rootfs tag
+    - name: Kali vm rootfs tag
       delegate_to: localhost
-      ec2_vol:
+      amazon.aws.ec2_vol:
         state: present
         id: "{{ item['block_device_mapping'][item.root_device_name]['volume_id'] }}"
         zone: "{{ item.placement }}"

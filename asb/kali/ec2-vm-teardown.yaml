@@ -1,21 +1,21 @@
 ---
-- name: kali ec2 vm teardown
+- name: Kali ec2 vm teardown
   hosts: ec2vm_teardown
   gather_facts: false
   tasks:
 
-    - name: teardown kali vm
+    - name: Teardown kali vm
       delegate_to: localhost
-      ec2_instance_info:
+      amazon.aws.ec2_instance_info:
         filters:
           "tag:Name": "{{ vm_tag_name or inventory_hostname }}"
       register: teardown_vm
       tags:
         - dns
 
-    - name: teardown kali public vm dns record
+    - name: Teardown kali public vm dns record
       delegate_to: localhost
-      route53:
+      amazon.aws.route53:
         state: absent
         zone: uws.talkingpts.org
         record: "{{ kali_public_vm }}.{{ uws_domain }}"
@@ -26,9 +26,9 @@
       tags:
         - dns
 
-    - name: teardown kali vm dns record
+    - name: Teardown kali vm dns record
       delegate_to: localhost
-      route53:
+      amazon.aws.route53:
         state: absent
         zone: uws.talkingpts.org
         record: "{{ ansible_host }}"
@@ -39,9 +39,9 @@
       tags:
         - dns
 
-    - name: teardown kali vm stop
+    - name: Teardown kali vm stop
       delegate_to: localhost
-      ec2_instance:
+      amazon.aws.ec2_instance:
         state: stopped
         wait: true
         wait_timeout: 600
@@ -49,18 +49,19 @@
         termination_protection: false
       when: teardown_vm.instances
 
-    - block:
-        - name: datafs vol
+    - name: Kali datafs
+      when: kali_public_vm
+      block:
+        - name: Datafs vol
           delegate_to: localhost
-          ec2_vol:
+          amazon.aws.ec2_vol:
             name: kali-datafs
             instance: "{{ kali_vm.instances.0.instance_id }}"
             state: absent
-      when: kali_public_vm
 
-    - name: teardown kali vm terminate
+    - name: Teardown kali vm terminate
       delegate_to: localhost
-      ec2_instance:
+      amazon.aws.ec2_instance:
         state: absent
         wait: true
         wait_timeout: 600

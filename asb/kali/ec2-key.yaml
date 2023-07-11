@@ -1,9 +1,9 @@
 ---
-- name: kali ec2 keypair
+- name: Kali ec2 keypair
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: ec2 keypair
-      ec2_key:
+    - name: Kali ec2 keypair
+      amazon.aws.ec2_key:
         name: asbhost-kali
         key_material: "{{ lookup('file', '/home/uws/secret/ssh/kali.pub') }}"
