@@ -1,7 +1,7 @@
 ---
-- name: restart xrdp
+- name: Kali restart xrdp
   become: true
-  service:
+  ansible.builtin.service:
     name: xrdp
     state: restarted
   tags:

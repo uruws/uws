@@ -1,7 +1,7 @@
 ---
-- name: tools install
+- name: Faraday tools install
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - faraday
   tags:
