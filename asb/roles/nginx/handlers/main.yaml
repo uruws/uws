@@ -1,7 +1,7 @@
 ---
-- name: reload nginx
+- name: Nginx reload
   become: true
-  service:
+  ansible.builtin.service:
     name: nginx
     state: reloaded
   tags:

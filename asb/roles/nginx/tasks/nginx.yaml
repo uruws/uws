@@ -1,16 +1,16 @@
 ---
-- name: apt install
+- name: Nginx apt install
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - nginx
   tags:
     - apt
     - nginx-apt
 
-- name: index.html
+- name: Nginx index.html
   become: true
-  template:
+  ansible.builtin.template:
     src: www/index.html
     dest: /var/www/html/index.html
     mode: '0644'
@@ -19,22 +19,22 @@
   tags:
     - nginx
 
-- name: server config
+- name: Nginx server config
   become: true
-  template:
+  ansible.builtin.template:
     src: nginx.conf
     dest: /etc/nginx/conf.d/zzzuws.conf
     mode: '0644'
     owner: root
     group: root
   notify:
-    - reload nginx
+    - Nginx reload
   tags:
     - nginx
 
-- name: default server
+- name: Nginx default server
   become: true
-  template:
+  ansible.builtin.template:
     src: nginx/default.conf
     dest: /etc/nginx/sites-enabled/default
     mode: '0644'
@@ -42,15 +42,14 @@
     group: root
   register: nginx_config
   notify:
-    - reload nginx
+    - Nginx reload
   tags:
     - nginx
 
-- name: reload config
+- name: Nginx reload config
   become: true
-  service:
+  ansible.builtin.service:
     name: nginx
     state: reloaded
-  when: nginx_config is changed
   tags:
     - nginx
