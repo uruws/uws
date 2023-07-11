@@ -4,13 +4,14 @@
 
 ---
 
-* debian: new release version 12, codename bookworm - `WIP` [PR213][PR213] [PR214][PR214] [PR215][PR215] [PR216][PR216] [PR217][PR217]
+* debian: new release version 12, codename bookworm - `WIP` [PR213][PR213] [PR214][PR214] [PR215][PR215] [PR216][PR216] [PR217][PR217] [PR218][PR218]
 
 [PR213]: https://github.com/TalkingPts/Infrastructure/pull/213
 [PR214]: https://github.com/TalkingPts/Infrastructure/pull/214
 [PR215]: https://github.com/TalkingPts/Infrastructure/pull/215
 [PR216]: https://github.com/TalkingPts/Infrastructure/pull/216
 [PR217]: https://github.com/TalkingPts/Infrastructure/pull/217
+[PR218]: https://github.com/TalkingPts/Infrastructure/pull/218
 
 ---
 
