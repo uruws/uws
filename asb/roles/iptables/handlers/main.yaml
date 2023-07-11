@@ -1,0 +1,8 @@
+---
+- name: IPtables reload
+  become: true
+  ansible.builtin.service:
+    name: netfilter-persistent
+    state: reloaded
+  tags:
+    - iptables

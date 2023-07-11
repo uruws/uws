@@ -16,6 +16,6 @@
     group: uws
     mode: '0640'
   notify:
-    - restart fail2ban
+    - Fail2ban restart
   tags:
     - fail2ban
