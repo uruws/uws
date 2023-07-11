@@ -1,2 +1,3 @@
 ---
-- import_tasks: postconf.yaml
+- name: Postfix import
+  ansible.builtin.import_tasks: postconf.yaml

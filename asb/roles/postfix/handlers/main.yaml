@@ -1,13 +1,13 @@
 ---
-- name: newaliases
+- name: Postfix newaliases
   become: true
-  command: newaliases
+  ansible.builtin.command: newaliases
   tags:
     - postconf
 
-- name: restart postfix
+- name: Postfix restart
   become: true
-  service:
+  ansible.builtin.service:
     state: restarted
     name: postfix
   tags:

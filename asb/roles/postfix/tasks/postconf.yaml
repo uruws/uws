@@ -1,7 +1,7 @@
 ---
-- name: mailname
+- name: Postfix mailname
   become: true
-  copy:
+  ansible.builtin.copy:
     force: true
     owner: root
     group: root
@@ -11,9 +11,9 @@
   tags:
     - postconf
 
-- name: aliases
+- name: Postfix aliases
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     state: present
     owner: root
     group: root
@@ -29,77 +29,77 @@
     - munin
     - monit
   notify:
-    - newaliases
+    - Postfix newaliases
   tags:
     - postconf
 
-- name: munin-alert alias
+- name: Postfix munin-alert alias
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     state: present
     path: /etc/aliases
     regexp: "^munin-alert:"
     line: "munin-alert: munin-alert@{{ uws_domain }}"
   notify:
-    - newaliases
+    - Postfix newaliases
   tags:
     - postconf
 
-- name: root alias
+- name: Postfix root alias
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     state: present
     path: /etc/aliases
     regexp: "^root:"
     line: "root: root@{{ uws_domain }}"
   notify:
-    - newaliases
+    - Postfix newaliases
   tags:
     - postconf
 
-- name: smtps CA files
+- name: Postfix smtps CA files
   become: true
+  when: not postconf_smtps_server
+  tags:
+    - postconf
   block:
-    - name: smtps CA
-      copy:
+    - name: Postfix smtps CA
+      ansible.builtin.copy:
         src: ~/ca/{{ uwsca_smtps }}/rootCA.pem
         dest: /etc/ssl/certs/uws-smtps-CA.pem
         owner: root
         group: root
         mode: '0644'
       notify:
-        - restart postfix
-    - name: smtps client cert
-      copy:
+        - Postfix restart
+    - name: Postfix smtps client cert
+      ansible.builtin.copy:
         src: ~/ca/{{ uwsca_smtps }}/client/{{ uwsca_smtps_client }}.pem
         dest: /etc/ssl/certs/uws-smtps.pem
         owner: root
         group: root
         mode: '0644'
       notify:
-        - restart postfix
-    - name: smtps client key
-      copy:
+        - Postfix restart
+    - name: Postfix smtps client key
+      ansible.builtin.copy:
         src: ~/ca/{{ uwsca_smtps }}/client/{{ uwsca_smtps_client }}.key
         dest: /etc/ssl/private/uws-smtps.key
         owner: root
         group: ssl-cert
         mode: '0640'
       notify:
-        - restart postfix
-  when: not postconf_smtps_server
-  tags:
-    - postconf
+        - Postfix restart
 
-- name: main.cf
+- name: Postfix main.cf
   become: true
-  template:
+  ansible.builtin.template:
     src: postfix/main.cf
     dest: /etc/postfix/main.cf
     owner: root
     group: root
     mode: '0644'
   notify:
-    - restart postfix
+    - Postfix restart
   tags:
     - postconf
