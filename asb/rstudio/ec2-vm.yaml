@@ -1,13 +1,12 @@
 ---
-- name: rstudio ec2 vm
+- name: RStudio ec2 vm
   hosts: rstudio
   gather_facts: false
   tasks:
 
-    - name: rstudio vm create
+    - name: RStudio vm create
       delegate_to: localhost
-      ec2_instance:
-        availability_zone: "{{ aws_zone }}"
+      amazon.aws.ec2_instance:
         key_name: asbhost-rstudio
         network:
           groups:
@@ -31,9 +30,9 @@
         vpc_subnet_id: "{{ vm_subnet }}"
       register: rstudio_vm
 
-    - name: rstudio vm rootfs tag
+    - name: RStudio vm rootfs tag
       delegate_to: localhost
-      ec2_vol:
+      amazon.aws.ec2_vol:
         state: present
         id: "{{ item['block_device_mapping'][item.root_device_name]['volume_id'] }}"
         zone: "{{ item.placement }}"

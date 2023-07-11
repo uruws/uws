@@ -1,9 +1,9 @@
 ---
-- name: rstudio ec2 keypair
+- name: RStudio ec2 keypair
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: ec2 keypair
-      ec2_key:
+    - name: RStudio ec2 keypair
+      amazon.aws.ec2_key:
         name: asbhost-rstudio
         key_material: "{{ lookup('file', '~/secret/ssh/rstudio.pub') }}"

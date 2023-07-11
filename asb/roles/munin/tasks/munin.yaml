@@ -40,7 +40,6 @@
 
 - name: Munin run munin-setup
   become: true
-  ansible.builtin.shell:
-    cmd: /etc/munin/uws-setup.sh
+  ansible.builtin.command: /etc/munin/uws-setup.sh
   tags:
     - munin

@@ -1,21 +1,21 @@
 ---
-- name: rstudio ec2 vm check
+- name: RStudio ec2 vm check
   hosts: rstudio
   gather_facts: false
   tasks:
 
-    - name: rstudio vm running
+    - name: RStudio vm running
       delegate_to: localhost
-      ec2_instance_info:
+      amazon.aws.ec2_instance_info:
         filters:
           availability-zone: "{{ aws_zone }}"
           "tag:Name": "{{ inventory_hostname }}"
           instance-state-name: running
       register: rstudio_vm
 
-    - name: rstudio vm dns record
+    - name: RStudio vm dns record
       delegate_to: localhost
-      route53:
+      amazon.aws.route53:
         state: present
         overwrite: true
         zone: "{{ uws_domain }}"
@@ -25,9 +25,9 @@
         value: "{{ rstudio_vm.instances.0.public_dns_name }}."
       when: rstudio_vm.instances
 
-    - name: rstudio ide dns record
+    - name: RStudio ide dns record
       delegate_to: localhost
-      route53:
+      amazon.aws.route53:
         state: present
         overwrite: true
         zone: "{{ uws_domain }}"
@@ -37,9 +37,9 @@
         value: "{{ rstudio_vm.instances.0.public_dns_name }}."
       when: rstudio_vm.instances
 
-    - name: rstudio jupyter-notebook dns record
+    - name: RStudio jupyter-notebook dns record
       delegate_to: localhost
-      route53:
+      amazon.aws.route53:
         state: present
         overwrite: true
         zone: "{{ uws_domain }}"

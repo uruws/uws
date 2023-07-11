@@ -1,12 +1,12 @@
 ---
-- name: rstudio ec2 vpc
+- name: RStudio ec2 vpc
   hosts: ec2vpc
   gather_facts: false
   tasks:
 
-    - name: rstudio net
+    - name: RStudio net
       delegate_to: localhost
-      ec2_vpc_net:
+      amazon.aws.ec2_vpc_net:
         name: rstudio-vpc
         state: present
         tags:
@@ -14,18 +14,18 @@
         cidr_block: "{{ ec2vpc_block }}"
       register: rstudio_net
 
-    - name: rstudio internet gateway
+    - name: RStudio internet gateway
       delegate_to: localhost
-      ec2_vpc_igw:
+      amazon.aws.ec2_vpc_igw:
         state: present
         vpc_id: "{{ rstudio_net.vpc.id }}"
         tags:
           Name: rstudio-igw
       register: rstudio_igw
 
-    - name: rstudio subnet
+    - name: RStudio subnet
       delegate_to: localhost
-      ec2_vpc_subnet:
+      amazon.aws.ec2_vpc_subnet:
         state: present
         assign_instances_ipv6: false
         map_public: true
@@ -35,9 +35,9 @@
           Name: rstudio-subnet
       register: rstudio_subnet
 
-    - name: rstudio subnet route table
+    - name: RStudio subnet route table
       delegate_to: localhost
-      ec2_vpc_route_table:
+      amazon.aws.ec2_vpc_route_table:
         state: present
         vpc_id: "{{ rstudio_net.vpc.id }}"
         tags:
@@ -48,9 +48,9 @@
           - dest: 0.0.0.0/0
             gateway_id: "{{ rstudio_igw.gateway_id }}"
 
-    - name: rstudio security group
+    - name: RStudio security group
       delegate_to: localhost
-      ec2_group:
+      amazon.aws.ec2_security_group:
         name: rstudio-sg
         description: rstudio security group
         state: present

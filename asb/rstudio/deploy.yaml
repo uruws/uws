@@ -1,5 +1,5 @@
 ---
-- name: rstudio deploy
+- name: RStudio deploy
   hosts: rstudio
   gather_facts: true
   roles:

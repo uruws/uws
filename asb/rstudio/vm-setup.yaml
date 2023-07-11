@@ -1,5 +1,5 @@
 ---
-- name: rstudio vm setup
+- name: RStudio vm setup
   hosts: rstudio
   gather_facts: true
   roles:
