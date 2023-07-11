@@ -28,6 +28,13 @@
 
 ---
 
+* msmtprc: profiled setup
+    * generate files in order to identify emails origin
+    * currently all mails are from user@uws.t.o
+    * we could use something like user-cluster@uws.t.o or user-host@uws.t.o or similar
+
+---
+
 * k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
 
 [haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
