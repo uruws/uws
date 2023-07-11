@@ -1,7 +1,7 @@
 ---
-- name: restart monit
+- name: Monit restart
   become: true
-  service:
+  ansible.builtin.service:
     name: monit
     state: restarted
   tags:

@@ -1,37 +1,37 @@
 ---
-- name: apt install
+- name: Monit apt install
   become: true
-  apt:
+  ansible.builtin.apt:
     pkg:
       - monit
   tags:
     - apt
 
-- name: service enable
+- name: Monit service enable
   become: true
-  service:
+  ansible.builtin.service:
     name: monit
     enabled: true
   tags:
     - monit
 
-- name: service
+- name: Monit service
   become: true
-  service:
+  ansible.builtin.service:
     name: monit
     state: started
   tags:
     - monit
 
-- name: monitrc
+- name: Monit rc
   become: true
-  template:
+  ansible.builtin.template:
     src: monitrc
     dest: /etc/monit/conf.d/monitrc
     owner: root
     group: root
     mode: '0644'
   notify:
-    - restart monit
+    - Monit restart
   tags:
     - monit
