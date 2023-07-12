@@ -163,9 +163,19 @@ ansible:
 kali:
 	@./srv/kali/build.sh
 
+#
+# webapp
+#
+
 .PHONY: webapp
 webapp:
 	@./docker/webapp/build.sh
+
+.PHONY: webapp-all
+webapp-all:
+	@$(MAKE) webapp
+	@$(MAKE) ab
+	@$(MAKE) chatbot
 
 #
 # uwscli
