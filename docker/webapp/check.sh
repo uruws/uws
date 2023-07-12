@@ -25,6 +25,8 @@ exec docker run --rm --read-only \
 	--name "uws-${webapp}-check" \
 	--hostname "${webapp}-check.uws.local" \
 	--env-file "${webapp_env}" \
+	-v "${PWD}/docker/webapp/utils.test:/opt/uws/test:ro" \
+	-v "${webapp_src}/test:/opt/uws/${webapp}/test:ro" \
 	-v "${webapp_confd}:/etc/opt/uws/${webapp}:ro" \
 	-v "${tmpdir}:/home/uws/tmp" \
 	--workdir "/opt/uws/${webapp}" \

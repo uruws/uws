@@ -22,7 +22,8 @@ install -v -d -m 0750 "${tmpdir}"
 
 webapp_port=${WEBAPP_PORT:-0}
 
-install -v -d -m 1777 "${webapp_src}/__pycache__"
+#~ install -v -d -m 1777 "${webapp_src}/__pycache__"
+rm -rf "${webapp_src}/__pycache__"
 
 if test -s "${webapp_confd}/ssh/ecdsa_id"; then
 	chmod -v 0600 "${webapp_confd}/ssh/ecdsa_id"
@@ -35,7 +36,10 @@ exec docker run -it --rm --read-only \
 	--env-file "${webapp_env}" \
 	-p "127.0.0.1:${webapp_port}:2741" \
 	-v "${PWD}/docker/webapp/utils:/usr/local/bin:ro" \
+	-v "${PWD}/docker/webapp/utils.test:/opt/uws/test:ro" \
+	-v "${PWD}/docker/webapp/src:/opt/uws/lib:ro" \
 	-v "${webapp_confd}:/etc/opt/uws/${webapp}:ro" \
+	-v "${webapp_src}:/opt/uws/${webapp}" \
 	-v "${tmpdir}:/home/uws/tmp" \
 	--workdir "/opt/uws/${webapp}" \
 	-u uws \
@@ -43,5 +47,4 @@ exec docker run -it --rm --read-only \
 	-e HOME=/home/uws \
 	-e "PYTHONPATH=/opt/uws/lib:/etc/opt/uws/${webapp}" \
 	--tmpfs /tmp \
-	--tmpfs "/opt/uws/${webapp}/__pycache__" \
 	"uws/${webapp}-2305"

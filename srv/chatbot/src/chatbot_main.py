@@ -47,7 +47,7 @@ def send():
 """
 
 @app.post('/send')
-def send():
+def do_send():
 	return """<!DOCTYPE html>
 <html>
 <head>
