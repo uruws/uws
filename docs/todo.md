@@ -22,6 +22,12 @@
 
 ---
 
+* rstudio: remove kevin's user - `DONE!` [PR221][PR221]
+
+[PR221]: https://github.com/TalkingPts/Infrastructure/pull/221
+
+---
+
 * rotate aws ses credentials due to crond env vars exposing them
     * only internally, but still
     * secret/aws.iam/smtps_credentials.csv
