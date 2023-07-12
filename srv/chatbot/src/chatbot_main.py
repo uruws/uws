@@ -20,11 +20,44 @@ log = wapp.getLogger(__name__)
 # views
 #
 
+# /healthz
+
 @app.get('/healthz')
 def healthz():
 	if chatbot_slack.is_healthy():
 		return 'ok'
 	raise RuntimeError('slack chatbot not healthy')
+
+# /send
+
+@app.get('/send')
+def send():
+	return """<!DOCTYPE html>
+<html>
+<head>
+  <title>chatbot - send</title>
+</head>
+<body>
+  <form action="/send" method="post">
+    <input type="text" name="message" required="required" placeholder="message">
+    <input type="submit" name="send" value="send">
+  </form>
+</body>
+</html>
+"""
+
+@app.post('/send')
+def send():
+	return """<!DOCTYPE html>
+<html>
+<head>
+  <title>chatbot - message</title>
+</head>
+<body>
+  <p>sent</p>
+</body>
+</html>
+"""
 
 #
 # main
