@@ -335,7 +335,9 @@ ab:
 	@./srv/ab/build.sh
 
 .PHONY: ab-check
-ab-check: webapp ab
+ab-check:
+	@$(MAKE) webapp
+	@$(MAKE) ab
 	@./docker/webapp/check.sh ab
 
 .PHONY: ab-publish

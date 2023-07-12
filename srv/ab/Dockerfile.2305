@@ -1,7 +1,7 @@
-FROM uws/base-testing
+FROM uws/webapp-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230711"
 
 USER root:root
 WORKDIR /root
@@ -16,5 +16,31 @@ WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
+
+RUN install -v -d -m 0750 /opt/uws/ab
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+COPY --chown=uws:uwsops ./src /opt/uws/ab
+
+USER uws:uwsops
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+RUN /opt/uws/venv/bin/python3 -m compileall /opt/uws/ab
+
+USER uwsops:uwsops
+WORKDIR /home/uwsops
+
+ENV USER uwsops
+ENV HOME /home/uwsops
+ENV UWS_WEBAPP_WORKERS 1
+ENV UWS_WEBAPP_PORT 2741
 
 ENTRYPOINT exec /usr/local/bin/entrypoint.sh
