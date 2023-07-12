@@ -22,8 +22,8 @@ tmpdir="${PWD}/tmp/${webapp}"
 install -v -d -m 0750 "${tmpdir}"
 
 exec docker run --rm --read-only \
-	--name "uws-${webapp}-cmd" \
-	--hostname "${webapp}-cmd.uws.local" \
+	--name "uws-${webapp}-check" \
+	--hostname "${webapp}-check.uws.local" \
 	--env-file "${webapp_env}" \
 	-v "${webapp_confd}:/etc/opt/uws/${webapp}:ro" \
 	-v "${tmpdir}:/home/uws/tmp" \
@@ -32,6 +32,5 @@ exec docker run --rm --read-only \
 	-u uws \
 	-e USER=uws \
 	-e HOME=/home/uws \
-	-e PYTHONPATH=/etc/opt/uws/chatbot \
 	--tmpfs /tmp \
 	"uws/${webapp}-2305" "$@"

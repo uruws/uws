@@ -35,7 +35,6 @@ exec docker run -it --rm --read-only \
 	--env-file "${webapp_env}" \
 	-p "127.0.0.1:${webapp_port}:2741" \
 	-v "${PWD}/docker/webapp/utils:/usr/local/bin:ro" \
-	-v "${webapp_src}:/opt/uws/${webapp}:ro" \
 	-v "${webapp_confd}:/etc/opt/uws/${webapp}:ro" \
 	-v "${tmpdir}:/home/uws/tmp" \
 	--workdir "/opt/uws/${webapp}" \

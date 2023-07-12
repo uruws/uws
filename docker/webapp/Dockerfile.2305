@@ -31,7 +31,7 @@ ENV USER root
 ENV HOME /root
 
 COPY --chown=root:root ./utils.test /opt/uws/test
-RUN chmod -v 0755 /opt/uws/test/*.sh
+RUN chmod -v 0755 /opt/uws/test/*.sh /opt/uws/test/self /opt/uws/test/self/*.sh
 
 COPY --chown=root:uwsops ./utils /usr/local/bin
 RUN chmod -v 0750 /usr/local/bin/*.sh \

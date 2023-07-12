@@ -317,12 +317,11 @@ chatbot:
 
 .PHONY: chatbot-check
 chatbot-check:
-	@$(MAKE) webapp
-	@$(MAKE) chatbot
 	@./docker/webapp/check.sh chatbot
 
 .PHONY: chatbot-publish
 chatbot-publish:
+	@$(MAKE) chatbot
 	@$(MAKE) chatbot-check
 	@./srv/chatbot/publish.sh
 
@@ -336,12 +335,12 @@ ab:
 
 .PHONY: ab-check
 ab-check:
-	@$(MAKE) webapp
-	@$(MAKE) ab
 	@./docker/webapp/check.sh ab
 
 .PHONY: ab-publish
-ab-publish: ab-check
+ab-publish:
+	@$(MAKE) ab
+	@$(MAKE) ab-check
 	@./srv/ab/publish.sh
 
 #
@@ -373,6 +372,7 @@ check:
 	@$(MAKE) check-munin-node
 	@$(MAKE) check-asb
 	@$(MAKE) check-awscli
+	@$(MAKE) check-webapp
 
 .PHONY: check-docker
 check-docker:
@@ -421,6 +421,10 @@ check-awscli:
 .PHONY: check-pod-meteor
 check-pod-meteor:
 	@./pod/meteor/check.sh
+
+.PHONY: check-webapp
+check-webapp:
+	@./docker/webapp/self-check.sh
 
 #
 # uws CA
