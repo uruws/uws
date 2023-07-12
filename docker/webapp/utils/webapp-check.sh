@@ -4,13 +4,13 @@ set -eu
 webapp=${UWS_WEBAPP}
 cd "/opt/uws/${webapp}"
 
-echo "*** ${webapp}/test/run/shellcheck.sh"
-./test/run/shellcheck.sh
+echo "*** shellcheck.sh"
+/opt/uws/test/shellcheck.sh
 
-echo "*** ${webapp}/test/run/typecheck.sh"
-./test/run/typecheck.sh
+echo "*** typecheck.sh"
+/opt/uws/test/typecheck.sh
 
-echo "*** ${webapp}/test/run/coverage.sh"
-./test/run/coverage.sh
+echo "*** coverage.sh"
+/opt/uws/test/coverage.sh
 
 exit 0

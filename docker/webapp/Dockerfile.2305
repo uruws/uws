@@ -30,6 +30,9 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
+COPY --chown=root:root ./utils.test /opt/uws/test
+RUN chmod -v 0755 /opt/uws/test/*.sh
+
 COPY --chown=root:uwsops ./utils /usr/local/bin
 RUN chmod -v 0750 /usr/local/bin/*.sh \
 	&& chmod -v 0755 /usr/local/bin/uws-login.sh
