@@ -3,6 +3,6 @@
   become: true
   ansible.builtin.service:
     name: netfilter-persistent
-    state: reloaded
+    state: restarted
   tags:
     - iptables
