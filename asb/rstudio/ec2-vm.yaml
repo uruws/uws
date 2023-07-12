@@ -11,8 +11,8 @@
         network:
           groups:
             - rstudio-sg
-        instance_profile_name: EC2InstanceRole
-        monitoring: false
+        iam_instance_profile: EC2InstanceRole
+        detailed_monitoring: false
         termination_protection: true
         instance_initiated_shutdown_behavior: stop
         ebs_optimized: false
@@ -22,7 +22,7 @@
             volume_size: 20
             delete_on_termination: true
             encrypted: true
-        image: "{{ debian_ami }}"
+        image_id: "{{ debian_ami }}"
         instance_type: "{{ vm_type }}"
         tags:
           Name: "{{ inventory_hostname }}"
