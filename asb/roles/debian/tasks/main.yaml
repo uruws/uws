@@ -213,6 +213,6 @@
     validate: sshd -t -f %s
   register: sshd_config
   notify:
-    - restart sshd
+    - Restart sshd
   tags:
     - sshd
