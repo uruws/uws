@@ -30,13 +30,13 @@
         vpc_subnet_id: "{{ vm_subnet }}"
       register: rstudio_vm
 
-    - name: RStudio vm rootfs tag
-      delegate_to: localhost
-      amazon.aws.ec2_vol:
-        state: present
-        id: "{{ item['block_device_mapping'][item.root_device_name]['volume_id'] }}"
-        zone: "{{ item.placement }}"
-        name: "{{ inventory_hostname }}-rootfs"
-        tags:
-          Name: "{{ inventory_hostname }}-rootfs"
-      loop: "{{ rstudio_vm.tagged_instances }}"
+#    - name: RStudio vm rootfs tag
+#      delegate_to: localhost
+#      amazon.aws.ec2_vol:
+#        state: present
+#        id: "{{ item['block_device_mapping'][item.root_device_name]['volume_id'] }}"
+#        zone: "{{ item.placement }}"
+#        name: "{{ inventory_hostname }}-rootfs"
+#        tags:
+#          Name: "{{ inventory_hostname }}-rootfs"
+#      loop: "{{ rstudio_vm.tagged_instances }}"
