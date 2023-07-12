@@ -6,8 +6,6 @@ rstudio_gid: 3000
 
 rstudio_user:
   jrms: 3001
-  # Kevin Fosnacht <kevinf@talkingpts.org>
-  kevin: 3003
   # Adrienne <adrienne@talkingpts.org>
   adrienne: 3004
   # Leah <leah@talkingpts.org>
@@ -18,6 +16,8 @@ rstudio_user_remove:
   rina: 3002
   # Beatriz Cabrera <beatriz@talkingpts.org>
   beatriz: 3005
+  # Kevin Fosnacht <kevinf@talkingpts.org>
+  kevin: 3003
 
 rstudio_project_user_gid: 4000
 
