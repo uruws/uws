@@ -1,20 +1,20 @@
 ---
-- name: kali ec2 vm check
+- name: Kali ec2 vm check
   hosts: ec2vm
   gather_facts: false
   tasks:
 
-    - name: kali vm running
+    - name: Kali vm running
       delegate_to: localhost
-      ec2_instance_info:
+      amazon.aws.ec2_instance_info:
         filters:
           "tag:Name": "{{ inventory_hostname }}"
           instance-state-name: running
       register: kali_vm
 
-    - name: kali vm dns record
+    - name: Kali vm dns record
       delegate_to: localhost
-      route53:
+      amazon.aws.route53:
         state: present
         overwrite: true
         zone: "{{ uws_domain }}"
@@ -24,9 +24,9 @@
         value: "{{ kali_vm.instances.0.public_dns_name }}."
       when: kali_vm.instances
 
-    - name: kali vm public dns record
+    - name: Kali vm public dns record
       delegate_to: localhost
-      route53:
+      amazon.aws.route53:
         state: present
         overwrite: true
         zone: "{{ uws_domain }}"

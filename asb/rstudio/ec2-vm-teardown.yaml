@@ -1,21 +1,21 @@
 ---
-- name: rstudio ec2 vm teardown
+- name: RStudio ec2 vm teardown
   hosts: rstudio_teardown
   gather_facts: false
   tasks:
 
-    - name: teardown rstudio vm
+    - name: RStudio teardown vm
       delegate_to: localhost
-      ec2_instance_info:
+      amazon.aws.ec2_instance_info:
         filters:
           "tag:Name": "{{ vm_tag_name or inventory_hostname }}"
       register: teardown_vm
       tags:
         - dns
 
-    - name: teardown rstudio vm dns record
+    - name: RStudio teardown vm dns record
       delegate_to: localhost
-      route53:
+      amazon.aws.route53:
         state: absent
         zone: uws.talkingpts.org
         record: "{{ ansible_host }}"
@@ -26,21 +26,21 @@
       tags:
         - dns
 
-    - name: teardown rstudio vm stop
+    - name: RStudio teardown vm stop
       delegate_to: localhost
-      ec2:
+      amazon.aws.ec2_instance:
         state: stopped
-        wait: yes
+        wait: true
         wait_timeout: 600
-        instance_id: "{{ teardown_vm.instances.0.instance_id }}"
+        instance_ids: "{{ teardown_vm.instances.0.instance_id }}"
         termination_protection: false
       when: teardown_vm.instances
 
-    - name: teardown rstudio vm terminate
+    - name: RStudio teardown vm terminate
       delegate_to: localhost
-      ec2:
+      amazon.aws.ec2_instance:
         state: absent
-        wait: yes
+        wait: true
         wait_timeout: 600
-        instance_id: "{{ teardown_vm.instances.0.instance_id }}"
+        instance_ids: "{{ teardown_vm.instances.0.instance_id }}"
       when: teardown_vm.instances

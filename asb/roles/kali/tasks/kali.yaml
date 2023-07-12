@@ -1,7 +1,7 @@
 ---
-- name: apt install
-  become: yes
-  apt:
+- name: Kali apt install
+  become: true
+  ansible.builtin.apt:
     pkg:
       - kali-desktop-xfce
       - bzip2
@@ -17,19 +17,19 @@
     - apt
     - kali-apt
 
-- name: xrdp service enable
-  become: yes
-  service:
+- name: Kali xrdp service enable
+  become: true
+  ansible.builtin.service:
     name: xrdp
-    enabled: yes
+    enabled: true
   notify:
     - restart xrdp
   tags:
     - kali
 
-- name: xrdp options
-  become: yes
-  lineinfile:
+- name: Kali xrdp options
+  become: true
+  ansible.builtin.lineinfile:
     path: /etc/default/xrdp
     regexp: '^XRDP_OPTIONS='
     line: "XRDP_OPTIONS='-p tcp://:3327'"
@@ -38,9 +38,9 @@
   tags:
     - kali
 
-- name: xrdp users
-  become: yes
-  user:
+- name: Kali xrdp users
+  become: true
+  ansible.builtin.user:
     name: "{{ item }}"
     shell: /bin/bash
     groups: kali-trusted
@@ -50,9 +50,9 @@
     - kali
     - kali-users
 
-- name: vm info
+- name: Kali vm info
   delegate_to: localhost
-  ec2_instance_info:
+  amazon.aws.ec2_instance_info:
     filters:
       "tag:Name": "{{ inventory_hostname }}"
   register: kali_vm
@@ -60,77 +60,78 @@
     - kali
     - kali-vm
 
-- name: debug
+- name: Kali debug
   delegate_to: localhost
-  debug:
+  ansible.builtin.debug:
     var: kali_vm.instances.0.instance_id
   tags:
     - kali-vm
 
-- block:
-    - name: datafs vol
+- name: Kali datafs
+  when: kali_public_vm
+  tags:
+    - kali
+    - kali-vm
+  block:
+    - name: Kali datafs vol
       delegate_to: localhost
-      ec2_vol:
+      amazon.aws.ec2_vol:
         name: kali-datafs
         instance: "{{ kali_vm.instances.0.instance_id }}"
-        encrypted: yes
+        encrypted: true
         volume_size: 100
         volume_type: gp2
         device_name: /dev/sdf
-        delete_on_termination: no
-    - name: make datafs
-      become: yes
-      filesystem:
+        delete_on_termination: false
+    - name: Kali make datafs
+      become: true
+      community.general.filesystem:
         dev: /dev/nvme1n1
         fstype: ext4
         opts: -L kali-datafs
-    - name: mount datafs
-      become: yes
-      mount:
+    - name: Kali mount datafs
+      become: true
+      ansible.posix.mount:
         path: /data
         src: LABEL=kali-datafs
         fstype: ext4
         state: mounted
-    - name: datafs perms
-      become: yes
-      file:
+    - name: Kali datafs perms
+      become: true
+      ansible.builtin.file:
         path: /data
         state: directory
         owner: uws
         group: kali-trusted
         mode: '0770'
-    - name: datafs acl
-      become: yes
-      acl:
+    - name: Kali datafs acl
+      become: true
+      ansible.posix.acl:
         path: /data
         entity: www-data
         etype: group
         permissions: r-x
         state: present
-  when: kali_public_vm
-  tags:
-    - kali
-    - kali-vm
 
-- name: xrdp service
-  become: yes
-  service:
+- name: Kali xrdp service
+  become: true
+  ansible.builtin.service:
     name: xrdp
     state: started
   tags:
     - kali
 
-- name: nginx service enable
-  become: yes
-  service:
+- name: Kali nginx service enable
+  become: true
+  ansible.builtin.service:
     name: nginx
-    enabled: yes
+    enabled: true
   tags:
     - kali
 
-- name: nginx service
-  become: yes
-  service:
+- name: Kali nginx service
+  become: true
+  ansible.builtin.service:
     name: nginx
     state: started
   tags:

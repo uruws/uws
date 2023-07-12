@@ -1,55 +1,35 @@
 #!/bin/sh
 set -eux
 
-if test -d /efs/munin-log; then
-	install -v -d /efs/munin-log/data/munin-log
-	rm -rf /var/log/munin
-	ln -sv /efs/munin-log/data/munin-log /var/log/munin
-else
-	install -v -d -m 0755 -o munin -g adm /var/log/munin
-	chown -R munin:adm /var/log/munin
-fi
+# munin dirs
 
-if test -d /efs/munin-db; then
-	install -v -d /efs/munin-db/data/munin-db
-	rm -rf /var/lib/munin
-	ln -sv /efs/munin-db/data/munin-db /var/lib/munin
-else
-	install -v -d -m 0755 -o munin -g munin /var/lib/munin
-	chown -R munin:munin /var/lib/munin
-fi
+install -v -d -m 0755 -o munin -g adm /var/log/munin
+chown -R munin:adm /var/log/munin
 
-if test -d /efs/munin-cache; then
-	install -v -d /efs/munin-cache/data/munin-cache
-	rm -rf /var/cache/munin/www
-	ln -sv /efs/munin-cache/data/munin-cache /var/cache/munin/www
-else
-	install -v -d -m 0755 -o munin -g munin /var/cache/munin/www
-	chown -R munin:munin /var/cache/munin/www
-fi
+install -v -d -m 0755 -o munin -g munin /var/lib/munin
+chown -R munin:munin /var/lib/munin
+
+install -v -d -m 0755 -o munin -g munin /var/cache/munin/www
+chown -R munin:munin /var/cache/munin/www
+
+# alerts dirs
 
 install -v -d -m 1777 /var/opt/munin-alert
-install -v -d -m 1777 /var/opt/munin-alert/statuspage
-
-# CA
-if test -d /srv/etc/ca; then
-	install -v -d -m 0750 -o root -g munin /etc/opt/uws/ca
-	install -v -m 0640 -o root -g munin \
-		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.pem \
-		/etc/opt/uws/ca/smtps.pem
-	install -v -m 0640 -o root -g munin \
-		/srv/etc/ca/client/08082dca-8d77-5c81-9a44-94642089b3b1.key \
-		/etc/opt/uws/ca/smtps.key
-fi
+install -v -d -m 1777 /var/opt/munin-alert/amazon-ses
 
 # /etc/cron.d
+
 if test -d /srv/etc/cron.d; then
 	cp -vrf /srv/etc/cron.d /etc
 	chown -v root:root /etc/cron.d/uws-*
 	chmod -v 0640 /etc/cron.d/uws-*
+	if test -s /etc/cron.d/uws-ses-env; then
+		chgrp -v munin /etc/cron.d/uws-ses-env
+	fi
 fi
 
 # /etc/munin
+
 if test -d /srv/etc/munin; then
 	cp -vrf /srv/etc/munin /etc
 fi
@@ -57,9 +37,21 @@ chown -v root:munin /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
 chmod -v 0640 /etc/munin/munin.conf /etc/munin/munin-conf.d/*.conf || true
 
 # /etc/uws/conf
+
 if test -d /etc/uws/conf; then
 	install -v -o root -g munin \
 		/etc/uws/conf/alerts_conf.json /etc/uws/munin/alerts_conf.json
+fi
+
+# mailx
+
+if test -d /srv/mailx/setup/ca.client; then
+	/root/bin/msmtprc-setup.sh
+elif test -d /srv/mailx/etc; then
+	/root/bin/msmtprc-install.sh syslog root
+	/root/bin/msmtprc-install.sh syslog munin
+	/root/bin/msmtprc-install.sh syslog www-data
+	ln -svf /etc/opt/mailx/munin/msmtprc /var/lib/munin/.msmtprc
 fi
 
 ###/opt/munin/bin/k8s-setup.py
@@ -67,4 +59,4 @@ fi
 /etc/init.d/munin start
 /etc/init.d/cron start
 
-exec rsyslogd -n
+exec /usr/sbin/rsyslogd -n

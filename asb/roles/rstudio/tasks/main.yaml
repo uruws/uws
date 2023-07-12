@@ -1,6 +1,15 @@
 ---
-- import_tasks: rstudio.yaml
-- import_tasks: rstudio-server.yaml
-- import_tasks: rstudio-user.yaml
-- import_tasks: rstudio-project.yaml
-- import_tasks: rstudio-project-user.yaml
+- name: RStudio import
+  ansible.builtin.import_tasks: rstudio.yaml
+
+- name: RStudio server import
+  ansible.builtin.import_tasks: rstudio-server.yaml
+
+- name: RStudio user import
+  ansible.builtin.import_tasks: rstudio-user.yaml
+
+- name: RStudio project import
+  ansible.builtin.import_tasks: rstudio-project.yaml
+
+- name: RStudio project user import
+  ansible.builtin.import_tasks: rstudio-project-user.yaml

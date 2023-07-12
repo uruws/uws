@@ -5,8 +5,8 @@ webapp=${1:?'webapp name?'}
 shift
 
 webapp_src="${PWD}/srv/${webapp}/src"
-webapp_env="${PWD}/secret/webapp/${webapp}.env"
-webapp_confd="${PWD}/secret/webapp/${webapp}"
+webapp_env="${PWD}/secret/webapp/devel/${webapp}.env"
+webapp_confd="${PWD}/secret/webapp/devel/${webapp}"
 
 if ! test -d "${webapp_src}"; then
 	echo "${webapp}: invalid webapp" >&2
@@ -34,4 +34,4 @@ exec docker run --rm --read-only \
 	-e HOME=/home/uws \
 	-e PYTHONPATH=/etc/opt/uws/chatbot \
 	--tmpfs /tmp \
-	"uws/${webapp}-2211" "$@"
+	"uws/${webapp}-2305" "$@"

@@ -1,0 +1,47 @@
+FROM uws/python-2305
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230703"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh python3-venv python3-bottle uwsgi-core uwsgi-plugin-python3
+
+RUN install -v -d -m 0750 -o uws -g uwsops /opt/uws
+
+RUN adduser uws uwsops
+
+USER uws:uwsops
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+RUN python3 -m venv --system-site-packages --symlinks /opt/uws/venv
+RUN /opt/uws/venv/bin/pip install -U pip
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN install -v -d -m 0750 -o uws -g uwsops /etc/opt/uws
+
+COPY --chown=root:uwsops ./utils /usr/local/bin
+RUN chmod -v 0750 /usr/local/bin/*.sh \
+	&& chmod -v 0755 /usr/local/bin/uws-login.sh
+
+USER uwsops:uwsops
+WORKDIR /home/uwsops
+
+ENV USER uwsops
+ENV HOME /home/uwsops
+ENV UWS_WEBAPP_WORKERS 1
+ENV UWS_WEBAPP_PORT 2741
+
+ENTRYPOINT exec /usr/local/bin/entrypoint.sh

@@ -1,5 +1,5 @@
 ---
-- name: kali deploy
+- name: Kali deploy
   hosts: kalisrv
   gather_facts: true
   roles:

@@ -19,6 +19,10 @@ ETAG    = 11
 EBUILD  = 12
 EDEPLOY = 13
 
+#
+# filesystem setup
+#
+
 def _setup():
 	uwscli.debug('setup')
 	try:
@@ -29,6 +33,10 @@ def _setup():
 		return False
 	return True
 
+#
+# autobuild
+#
+
 def _ignoreTag(app: str, tag: str) -> bool:
 	# CS: build 1.x tags only
 	if app.startswith('cs') and not tag.startswith('1.'):
@@ -37,6 +45,10 @@ def _ignoreTag(app: str, tag: str) -> bool:
 	# App: build 2.x tags only
 	elif app.startswith('app') and not tag.startswith('2.'):
 		uwscli.debug('tag ignore:', app, 'tag', tag)
+		return True
+	# app build version blacklist
+	elif uwscli.build_blacklist(app, tag):
+		uwscli.debug('tag blacklist:', app, 'tag', tag)
 		return True
 	return False
 
@@ -86,22 +98,35 @@ def _checkVersion(tag: str, ver: str) -> bool:
 def _isBuildingOrDone(app: str, tag: str) -> bool:
 	"""check if tag is in the build queue or done already"""
 	uwscli.debug(app, tag)
+	st = ''
+	ver = ''
+	# no status file
 	try:
 		st, ver = _getStatus(app)
 	except FileNotFoundError:
+		uwscli.debug('no status file:', app, tag)
+	# already done?
+	if uwscli.build_done(app, tag):
+		uwscli.debug('already built:', app, tag)
+		return True
+	if st == '':
 		uwscli.log('no status:', app, tag)
 		return False
+	# check status version
 	not_done = _checkVersion(tag, ver)
 	if not_done:
 		uwscli.log('not done:', app, tag)
 		return False
+	# app is being built
 	if st == 'BUILD':
 		uwscli.log('building:', app, ver)
 		return True
+	# previous build failed
 	ok = st != 'FAIL'
 	if ok:
-		uwscli.debug('already built:', app, tag)
+		uwscli.debug('done already:', app, tag)
 	else:
+		# alert about it but consider it done
 		uwscli.error('[ERROR] build failed:', app, ver)
 	return True
 
@@ -127,14 +152,20 @@ def _build(app: str) -> int:
 		pass
 	return EBUILD
 
-def _latestBuild(app: str) -> str:
-	uwscli.debug('latestBuild')
+#
+# autodeploy
+#
+
+def _latestBuild(app: str, tag: str = '') -> str:
+	uwscli.debug('latestBuild:', app, tag)
 	l = None
 	for img in uwscli.list_images(app):
 		try:
 			v = semver.VersionInfo.parse(img)
 		except ValueError as err:
 			uwscli.debug('latest build semver error:', err)
+			continue
+		if tag != '' and not str(v).startswith(tag):
 			continue
 		if _ignoreTag(app, str(v)):
 			continue
@@ -155,11 +186,11 @@ def _deploy(app: str, tag: str) -> int:
 		uwscli.debug('deploy:', n)
 		if ver == '':
 			uwscli.debug('get', app, 'latest build')
-			ver = _latestBuild(n)
+			ver = _latestBuild(n, tag = tag.strip())
 		if ver != '':
 			uwscli.debug('version:', ver)
 			v = semver.VersionInfo.parse(ver.split('-')[0])
-			if v >= t:
+			if v == t:
 				uwscli.debug('new version to deploy:', ver)
 				uwscli.info('app-deploy:', n, ver)
 				rc = app_deploy.deploy(n, ver)
@@ -170,6 +201,10 @@ def _deploy(app: str, tag: str) -> int:
 		else:
 			uwscli.info('no build to deploy for app:', n)
 	return 0
+
+#
+# main
+#
 
 __doc__ = 'auto build app latest release'
 
@@ -199,6 +234,7 @@ def main(argv = []):
 	if not _setup():
 		return ESETUP
 
+	# autodeploy
 	if args.deploy:
 		app = args.app
 		if app == 'crowdsourcing':
@@ -206,4 +242,5 @@ def main(argv = []):
 		uwscli.debug('deploy:', app, 'tag', args.tag)
 		return _deploy(app, args.tag)
 
+	# autobuild
 	return _build(args.app)

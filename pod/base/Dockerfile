@@ -1,7 +1,9 @@
-FROM debian:bullseye-20221114-slim
+FROM debian:bookworm-20230703-slim
+
+ARG UWS_VERSION
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230208"
+LABEL version="${UWS_VERSION}"
 
 USER root:root
 WORKDIR /root

@@ -9,6 +9,7 @@ import sys
 MONLIB = os.getenv('MONLIB', '/srv/munin/plugins')
 sys.path.insert(0, MONLIB)
 
+import mon
 import mon_kube
 
 import pods_info
@@ -36,8 +37,10 @@ def main():
 		('top_pods', 'top'),
 	)
 	for a in args:
+		mon.dbg('pods:', a[0], a[1])
 		rc = _kube(a[0], a[1])
 		if rc != 0:
+			mon.dbg(a[0], a[1], 'failed:', rc)
 			st = rc
 	return st
 

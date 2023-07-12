@@ -4,6 +4,7 @@
 import json
 
 from dataclasses import dataclass
+from dataclasses import field
 from os          import getenv
 from pathlib     import Path
 from time        import time
@@ -35,18 +36,19 @@ def clusters() -> list[dict[str, str]]:
 
 @dataclass
 class Config(object):
-	domain:   str  = _clusters_domain
-	auth:     bool = True
-	path:     str  = '/'
-	status:   int  = 200
-	timeout:  int  = 7
-	category: str  = ''
-	label:    str  = 'number'
-	title:    str  = ''
-	base:     int  = 1000
-	scale:    bool = True
-	warning:  int  = 3
-	critical: int  = 5
+	domain:             str = _clusters_domain
+	auth:              bool = True
+	path:               str = '/'
+	status:             int = 200
+	status_valid: list[int] = field(default_factory = list)
+	timeout:            int = 15
+	category:           str = ''
+	label:              str = 'number'
+	title:              str = ''
+	base:               int = 1000
+	scale:             bool = True
+	warning:            int = 13
+	critical:           int = 15
 
 @dataclass
 class HostConfig(object):
@@ -62,7 +64,7 @@ def GET(cluster: str, cfg: Config) -> HTTPResponse:
 	return utils.GET(url, timeout = cfg.timeout, auth = cfg.auth)
 
 #
-# main
+# config
 #
 
 def config_host(h: HostConfig, cfg: Config) -> int:
@@ -110,6 +112,10 @@ def config(cfg: Config) -> int:
 		if st != 0: rc += 1
 	return rc
 
+#
+# report
+#
+
 def _report(host: str, cfg: Config) -> tuple[float, float]:
 	t: float = time()
 	s: float = 0.0
@@ -119,9 +125,10 @@ def _report(host: str, cfg: Config) -> tuple[float, float]:
 	except HTTPError as err:
 		r = err
 	if r is not None:
-		code: int = r.getcode()
-		if code is not None and code == cfg.status:
-			s = 1.0
+		code: int | None = r.getcode()
+		if code is not None:
+			if code == cfg.status or code in cfg.status_valid:
+				s = 1.0
 	return (s, time() - t)
 
 def report_host(h: HostConfig, cfg: Config) -> int:
@@ -153,6 +160,10 @@ def report(cfg: Config) -> int:
 		st = report_host(h, cfg)
 		if st != 0: rc += 1
 	return rc
+
+#
+# main
+#
 
 def main(argv: list[str], cfg: Config) -> int:
 	try:

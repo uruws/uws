@@ -1,7 +1,7 @@
 ---
-- name: apt install
-  become: yes
-  apt:
+- name: IPtables install
+  become: true
+  ansible.builtin.apt:
     pkg:
       - iptables
       - iptables-persistent
@@ -9,9 +9,9 @@
   tags:
     - apt
 
-- name: rules
-  become: yes
-  template:
+- name: IPtables rules
+  become: true
+  ansible.builtin.template:
     src: iptables/{{ item }}
     dest: /etc/iptables/{{ item }}
     owner: root
@@ -22,15 +22,7 @@
     - rules.v6
   register: iptables_rules
   notify:
+    - IPtables reload
     - "firewall changed"
-  tags:
-    - iptables
-
-- name: reload iptables
-  become: yes
-  command:
-    cmd: service netfilter-persistent reload
-    warn: no
-  when: iptables_rules is changed
   tags:
     - iptables

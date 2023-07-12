@@ -1,0 +1,66 @@
+#
+# https://haproxy-ingress.github.io/docs/configuration/keys/
+# https://haproxy-ingress.github.io/docs/configuration/keys/#keys
+#
+
+
+# Global
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "haproxy-ingress"
+data:
+  # from helm install
+  healthz-port:    "10253"
+  prometheus-port: "9101"
+  stats-port:      "1936"
+  syslog-endpoint: "127.0.0.1:514"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#connection
+  max-connections: "2000"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#forwardfor
+  forwardfor: "add"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#security
+  use-chroot: "true"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#timeout
+  timeout-client:       "50s"
+  timeout-client-fin:   "50s"
+  timeout-connect:      "5s"
+  timeout-http-request: "5s"
+  timeout-keep-alive:   "1m"
+  timeout-queue:        "5s"
+  timeout-server:       "50s"
+  timeout-server-fin:   "50s"
+  timeout-stop:         "10m"
+  timeout-tunnel:       "1h"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#syslog
+  syslog-format: "raw"
+  syslog-length: "3072"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#log-format
+  # https://docs.haproxy.org/2.4/configuration.html#8.2.4
+  http-log-format: '%{+Q,+E}o\ {\"resp_bytes\":%B,\"resp_time\":%Tr,\"hostname\":%H,\"method\":%HM,\"path\":%HPO,\"http_version\":%HV,\"id\":%ID,\"status\":%ST,\"active_time\":%Ta,\"timestamp\":%Ts,\"req_bytes\":%U,\"active_conn\":%ac,\"backend\":%b,\"backend_conn\":%bc,\"client\":%ci,\"client_port\":%cp,\"client_time\":%Tq,\"frontend\":%f,\"frontend_conn\":%fc,\"retries\":%rc,\"server\":%s,\"server_conn\":%sc,\"datetime\":\"%{-Q}t\",\"termination_state\":\"%{-Q}ts\"}'
+
+
+# Backend
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "${HPX_NAME}"
+data:
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#backend-server-naming
+  backend-server-naming: "pod"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#backend-protocol
+  backend-protocol: "h1"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#auth-tls
+  auth-tls-cert-header: "false"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#balance-algorithm
+  # https://docs.haproxy.org/2.4/configuration.html#4-balance
+  balance-algorithm: "random(2)"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#connection
+  maxconn-server:  "2000"
+  maxqueue-server: "10"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#path-type
+  path-type: "prefix"
+  # https://haproxy-ingress.github.io/docs/configuration/keys/#ssl-redirect
+  ssl-redirect: "true"

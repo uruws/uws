@@ -1,3 +1,5 @@
 #!/bin/sh
 set -u
-exec uwskube delete svc munin-web -n mon --wait
+uwskube delete svc munin-web -n mon --wait
+~/ca/uws/smtps/teardown.sh mon
+exit 0

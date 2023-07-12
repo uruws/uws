@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
+echo 'webcdn'
+~/pod/meteor/webcdn/restart.sh
+~/pod/meteor/webcdn/wait.sh
+echo 'web'
 ~/pod/meteor/web/configure.sh
-uwskube rollout restart deployment -n web
-~/pod/meteor/web/gw/restart.sh
-exit 0
+exec uwskube rollout restart deployment -n web

@@ -3,7 +3,8 @@
 
 from dataclasses import dataclass
 from dataclasses import field
-from os import getenv
+from os          import getenv
+from typing      import Any
 
 homedir: str = getenv('UWSCLI_HOMEDIR', '/home')
 sbindir: str = getenv('UWSCLI_SBINDIR', '/srv/home/uwscli/sbin')
@@ -55,27 +56,35 @@ class CustomDeploy(object):
 
 @dataclass
 class App(object):
-	app:              bool
-	cluster:          str       = 'None'
-	desc:             str       = 'None'
-	pod:              str       = 'None'
-	build:            AppBuild  = AppBuild('', '')
-	deploy:           AppDeploy = AppDeploy('')
-	autobuild:        bool      = False
-	autobuild_deploy: list[str] = field(default_factory = list)
-	groups:           list[str] = field(default_factory = list)
-	custom_deploy:    dict[str, list[CustomDeploy]] = field(default_factory = dict)
+	app:                                    bool
+	cluster:                                 str = 'None'
+	desc:                                    str = 'None'
+	pod:                                     str = 'None'
+	build:                        AppBuild | Any = None
+	build_blacklist:                   list[str] = field(default_factory = list)
+	deploy:                      AppDeploy | Any = None
+	autobuild:                              bool = False
+	autobuild_deploy:                  list[str] = field(default_factory = list)
+	groups:                            list[str] = field(default_factory = list)
+	custom_deploy: dict[str, list[CustomDeploy]] = field(default_factory = dict)
 
 	def __post_init__(self):
 		if len(self.groups) == 0:
 			self.groups = ['nogroup']
+		if self.build is None:
+			self.build = AppBuild('', '')
+		if self.deploy is None:
+			self.deploy = AppDeploy('')
 
 app: dict[str, App] = {
 	'app': App(False,
-		desc      = 'App web and workers',
-		build     = _buildpack('app/src', 'app'),
-		groups    = ['uwsapp_app'],
-		autobuild = True,
+		desc            = 'App web and workers',
+		build           = _buildpack('app/src', 'app'),
+		build_blacklist = [
+			# 2.98.8 was wrongly created in 2.96 times
+			'2.98.8',
+		],
+		autobuild        = True,
 		autobuild_deploy = [
 			'worker-test',
 			'api-test',
@@ -93,23 +102,31 @@ app: dict[str, App] = {
 				CustomDeploy('app-test'),
 			],
 		},
+		groups = ['uwsapp_app'],
 	),
 	'api-prod': App(True,
-		cluster = 'appprod-2302',
+		cluster = 'appweb-2302',
 		desc    = 'App api',
 		pod     = 'meteor/api',
 		deploy  = AppDeploy('meteor-app'),
 		groups  = ['uwsapp_app'],
 	),
 	'app-prod': App(True,
-		cluster = 'appprod-2302',
+		cluster = 'appweb-2302',
 		desc    = 'App web',
 		pod     = 'meteor/web',
 		deploy  = AppDeploy('meteor-app'),
 		groups  = ['uwsapp_app'],
 	),
+	'appcdn-prod': App(True,
+		cluster = 'appweb-2302',
+		desc    = 'App web CDN',
+		pod     = 'meteor/webcdn',
+		deploy  = AppDeploy('meteor-app'),
+		groups  = ['uwsapp_app'],
+	),
 	'worker': App(True,
-		cluster = 'appprod-2302',
+		cluster = 'appwrk-2306',
 		desc    = 'App worker cluster',
 		pod     = 'meteor/worker',
 		deploy  = AppDeploy('meteor-app'),
@@ -126,6 +143,13 @@ app: dict[str, App] = {
 		cluster = 'apptest-2302',
 		desc    = 'App web, test cluster',
 		pod     = 'meteor/web',
+		deploy  = AppDeploy('meteor-app'),
+		groups  = ['uwsapp_apptest'],
+	),
+	'appcdn-test': App(True,
+		cluster = 'apptest-2302',
+		desc    = 'App web CDN, test cluster',
+		pod     = 'meteor/webcdn',
 		deploy  = AppDeploy('meteor-app'),
 		groups  = ['uwsapp_apptest'],
 	),
@@ -154,15 +178,22 @@ app: dict[str, App] = {
 		groups  = ['uwsapp_crowdsourcing', 'uwsapp_cs'],
 	),
 	'infra-ui': App(False,
-		desc      = 'Infra-UI',
-		build     = _buildpack('infra-ui/src', 'infra-ui'),
-		groups    = ['uwsapp_infra-ui'],
-		autobuild = True,
-		# ~ autobuild_deploy = ['infra-ui-test'],
+		desc             = 'Infra-UI',
+		build            = _buildpack('infra-ui/src', 'infra-ui'),
+		groups           = ['uwsapp_infra-ui'],
+		autobuild        = True,
+		autobuild_deploy = ['infra-ui-test'],
 	),
 	'infra-ui-prod': App(True,
 		cluster = 'appsprod-2302',
 		desc    = 'Infra-UI production',
+		pod     = 'meteor/infra-ui',
+		deploy  = AppDeploy('meteor-infra-ui'),
+		groups  = ['uwsapp_infra-ui'],
+	),
+	'infra-ui-test': App(True,
+		cluster = 'apptest-2302',
+		desc    = 'Infra-UI staging',
 		pod     = 'meteor/infra-ui',
 		deploy  = AppDeploy('meteor-infra-ui'),
 		groups  = ['uwsapp_infra-ui'],
@@ -184,7 +215,8 @@ class AppCluster(object):
 	region: str
 
 cluster: dict[str, AppCluster] = {
-	'appprod-2302':   AppCluster(region = 'us-east-1'),
-	'appsprod-2302':  AppCluster(region = 'us-east-1'),
-	'apptest-2302':   AppCluster(region = 'us-east-2'),
+	'appsprod-2302': AppCluster(region = 'us-east-1'),
+	'apptest-2302':  AppCluster(region = 'us-east-2'),
+	'appweb-2302':   AppCluster(region = 'us-east-2'),
+	'appwrk-2306':   AppCluster(region = 'us-east-1'),
 }

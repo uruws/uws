@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec /usr/local/bin/kubeshark-start.sh "${UWS_CLUSTER}" check
+exec ~/k8s/mon/kubeshark/exec.sh check

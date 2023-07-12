@@ -45,6 +45,8 @@ spec:
             - containerPort: 4949
               name: node
           env:
+            - name: UWS_DEPLOY
+              value: "${UWS_DEPLOY}"
             - name: UWS_CLUSTER
               value: "${UWS_CLUSTER}"
           volumeMounts:
@@ -68,11 +70,11 @@ spec:
               mountPath: "/srv/munin/plugins/__pycache__"
           resources:
             requests:
-              cpu: 400m
-              memory: 1700Mi
-            limits:
-              cpu: 400m
-              memory: 1700Mi
+              cpu: 20m
+              memory: 50Mi
+            #~ limits:
+              #~ cpu: 100m
+              #~ memory: 500Mi
           readinessProbe:
             exec:
               command:

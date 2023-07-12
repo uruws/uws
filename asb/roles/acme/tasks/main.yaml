@@ -1,2 +1,3 @@
 ---
-- import_tasks: acme.yaml
+- name: Acme import
+  ansible.builtin.import_tasks: acme.yaml

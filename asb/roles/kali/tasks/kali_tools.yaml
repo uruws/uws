@@ -1,7 +1,7 @@
 ---
-- name: tools install
-  become: yes
-  apt:
+- name: Kali tools install
+  become: true
+  ansible.builtin.apt:
     pkg:
       - kali-tools-crypto-stego
       - kali-tools-information-gathering

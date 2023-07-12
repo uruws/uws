@@ -15,7 +15,7 @@ from time import tzset
 QDIR   = os.getenv('ALERTS_QDIR',   '/var/opt/munin-alert')
 DOMAIN = os.getenv('ALERTS_DOMAIN', 'uws.talkingpts.org')
 
-MAILTO =        Address('munin alert',  'munin-alert',  DOMAIN)
+MAILTO        = Address('munin alert',  'munin-alert',  DOMAIN)
 MAILTO_REPORT = Address('munin report', 'munin-report', DOMAIN)
 
 # sleeping hours
@@ -36,16 +36,10 @@ def sleepingHours(h = None):
 		return True
 	return False
 
-# statuspage
+# amazon ses
 
-SP_QDIR     = Path(QDIR) / 'statuspage'
-SP_CONF     = Path('/etc/uws/munin/alerts_conf.json')
-
-sp = {'_': {}}
-
-def sp_load():
-	if SP_CONF.is_file():
-		with SP_CONF.open() as fh:
-			sp.update(json.load(fh))
-			return True
-	return False
+SES_QDIR   = Path(QDIR) / 'amazon-ses'
+MAILTO_SES = Address('infra-reports', 'infra-reports-aaaaemqdujfnolzj55j5bljebm', 'talkingpoints.slack.com')
+MAILCC_SES = [
+	'jeremias@talkingpts.org',
+]

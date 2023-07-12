@@ -57,6 +57,10 @@ def qdir(d, limit = 100):
 	"""search dir for .eml files and pass them to messageFile, remove the file
 	if properly sent"""
 	rc = 128
+	count = 0
+	sent  = 0
+	clean = 0
+	failed = 0
 	with _lockd(d):
 		with _smtpServer() as mx:
 			rc = 0
@@ -69,14 +73,20 @@ def qdir(d, limit = 100):
 						return 7
 					fn = os.path.join(d, n)
 					st = _messageFile(mx, fn)
+					count += 1
 					if st == 0:
+						sent += 1
 						try:
 							os.unlink(fn)
 						except Exception as err:
 							print('ERROR:', err, file = sys.stderr)
 							rc = 7
+						else:
+							clean += 1
 					elif st > rc:
 						rc = st
+						failed += 1
+	# ~ print(d, 'COUNT:', '%d/%d/%d/%d' % (count, sent, clean, failed))
 	return rc
 
 @contextmanager

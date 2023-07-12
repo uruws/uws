@@ -12,9 +12,9 @@ from subprocess import check_output
 
 __doc__ = 'uws upgrades helper'
 
-FROM_VERSION   = '2203'
-TO_VERSION     = '2211'
-REMOVE_VERSION = ['2109']
+FROM_VERSION   = '2211'
+TO_VERSION     = '2305'
+REMOVE_VERSION = ['2203']
 
 BUILD_SCRIPT = 'build.sh'
 
@@ -31,9 +31,7 @@ def git_grep(repo: str, pattern: str, args: str = '-Fl') -> list[str]:
 	return sorted(out.splitlines())
 
 def date_version() -> str:
-	out = check_output(f"/usr/bin/date '+%y%m%d'",
-		timeout = 15, shell = True, text = True)
-	return out.splitlines()[0].strip()
+	return Path('./docker/VERSION').read_text().strip()
 
 def replace(filename: str, src: str, dst: str):
 	check_output(f"/usr/bin/sed -i 's#{src}#{dst}#g' {filename}",
@@ -72,13 +70,14 @@ def writefile(name: str, data: str):
 	fn = Path(name)
 	with fn.open('w') as fh:
 		fh.write(data)
-	print(fn)
+	# ~ print(fn)
 
 # commands
 
 def fslist(repo):
 	for fn in git_ls(repo, '*Dockerfile*'):
 		print(Path(repo, fn))
+	return 0
 
 def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 	src = '%s-%s' % (tag, vfrom)
@@ -87,14 +86,19 @@ def upgrade_from_to(repo: str, tag: str, vfrom: str, vto: str):
 		fn = Path(fpath).name.strip()
 		if fn == BUILD_SCRIPT:
 			continue
-		elif fn.startswith('Dockerfile') and not fn.endswith('.devel'):
-			continue
+		elif fn.startswith('Dockerfile'):
+			if fn.endswith('.devel'):
+				pass
+			elif fn.endswith('.%s' % vto):
+				pass
+			elif fn == 'Dockerfile':
+				pass
+			else:
+				continue
 		print(fpath)
 		replace(fpath, src, dst)
 		if fn == 'Dockerfile.devel':
 			replace_docker_version(fpath, date_version())
-		elif repo == 'srv/munin':
-			writefile('./k8s/mon/munin/VERSION', '%s\n' % date_version())
 	return 0
 
 def check(repo, vfrom, vto):
@@ -103,6 +107,16 @@ def check(repo, vfrom, vto):
 		if dstfn.exists():
 			continue
 		print(Path(repo, fn))
+	return 0
+
+def prune_docker(repo):
+	for v in REMOVE_VERSION:
+		for fn in git_ls(repo, '*Dockerfile*.%s' % v):
+			p = Path(repo, fn)
+			if p.exists() and p.is_file():
+				print('remove:', p)
+				p.unlink()
+	return 0
 
 def upgrade_docker(repo, vfrom, vto, tag, srctag):
 	for fn in git_ls(repo, '*Dockerfile*.%s' % vfrom):
@@ -110,7 +124,7 @@ def upgrade_docker(repo, vfrom, vto, tag, srctag):
 		dstfn = Path(repo, fn.replace(vfrom, vto, 1))
 		if dstfn.exists():
 			continue
-		print(srcfn)
+		print(srcfn, '->', dstfn)
 		copyfn(srcfn, dstfn)
 		src = '%s-%s' % (srctag, vfrom)
 		dst = '%s-%s' % (srctag, vto)
@@ -118,7 +132,13 @@ def upgrade_docker(repo, vfrom, vto, tag, srctag):
 		replace_docker_version(dstfn, date_version())
 		dstdir = dstfn.parent
 		build_script(repo, dstdir, tag, vfrom, vto)
-		print(dstfn)
+	if repo == 'srv/munin':
+		writefile('./k8s/mon/munin/VERSION', '%s\n' % date_version())
+	elif repo == 'pod/base':
+		writefile('./pod/test/VERSION', '%s\n' % date_version())
+	elif repo == 'srv/munin':
+		writefile('./k8s/mon/munin/VERSION', '%s\n' % date_version())
+	return prune_docker(repo)
 
 # main
 

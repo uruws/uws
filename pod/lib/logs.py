@@ -15,6 +15,8 @@ def main(argv = []):
 	flags = ArgumentParser(description = 'get pod logs')
 	flags.add_argument('-c', '--container', metavar = 'name', default = '',
 		help = 'pod container')
+	flags.add_argument('-C', '--all-containers', action = 'store_true',
+		default = False, help = 'all containers in the pod')
 	flags.add_argument('-n', '--namespace', metavar = 'ns', required = True,
 		help = 'pod namespace')
 	flags.add_argument('-T', '--no-timestamps', action = 'store_true',
@@ -23,6 +25,10 @@ def main(argv = []):
 		help = 'filter label')
 	flags.add_argument('-f', '--follow', action = 'store_true',
 		default = False, help = 'follow messages')
+	flags.add_argument('-p', '--previous', action = 'store_true',
+		default = False, help = 'previous container logs')
+	flags.add_argument('-P', '--no-prefix', action = 'store_true',
+		default = False, help = 'no log prefix')
 	flags.add_argument('-t', '--tail', type = int, default = 10,
 		metavar = 'N', help = 'show last N messages (default 10)')
 	flags.add_argument('-m', '--max', type = int, default = 0,
@@ -40,25 +46,32 @@ def main(argv = []):
 	if args.follow:
 		cmd += ' -f'
 
-	# pod logs
-	if args.pod != '':
-		cmd += " %s" % args.pod
-		return _system(cmd)
+	if not args.no_prefix:
+		cmd += ' --prefix=true'
+
+	if args.previous:
+		cmd += ' --previous=true'
 
 	# all logs
-	cmd += ' --prefix=true --ignore-errors'
+	cmd += ' --ignore-errors'
 	if args.max > 0:
 		cmd += " --max-log-requests=%d" % args.max
-
-	# label selector
-	if args.label == '':
-		cmd += " -l '*'"
-	else:
-		cmd += " -l %s" % args.label
 
 	# pod container
 	if args.container != '':
 		cmd += " -c %s" % args.container
+	elif args.all_containers is True:
+		cmd += ' --all-containers=true'
+
+	# label selector
+	if args.pod == '':
+		if args.label == '':
+			cmd += " -l '*'"
+		else:
+			cmd += " -l %s" % args.label
+	else:
+		# pod logs
+		cmd += " %s" % args.pod
 
 	return _system(cmd)
 

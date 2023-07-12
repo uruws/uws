@@ -36,13 +36,16 @@ spec:
           name: munin
           securityContext:
             allowPrivilegeEscalation: false
+          env:
+            - name: UWS_DEPLOY
+              value: "${UWS_DEPLOY}"
           volumeMounts:
             - name: db
-              mountPath: "/efs/munin-db"
+              mountPath: "/var/lib/munin"
             - name: cache
-              mountPath: "/efs/munin-cache"
+              mountPath: "/var/cache/munin/www"
             - name: log
-              mountPath: "/efs/munin-log"
+              mountPath: "/var/log/munin"
             - name: tmpdir
               mountPath: "/tmp"
             - name: rundir
@@ -56,18 +59,24 @@ spec:
             - name: munin-deploy-confd
               mountPath: "/etc/uws/conf"
               readOnly: true
-            - name: smtps-ca
-              mountPath: "/srv/etc/ca/client"
+            - name: munin-mailx
+              mountPath: "/srv/mailx/etc"
+              readOnly: true
+            - name: uwsca-smtps
+              mountPath: "/srv/mailx/setup/ca"
+              readOnly: true
+            - name: uwsca-smtps-client
+              mountPath: "/srv/mailx/setup/ca.client"
               readOnly: true
             - name: munin-alert
               mountPath: "/var/opt/munin-alert"
           resources:
             requests:
-              cpu: 100m
-              memory: 700Mi
-            limits:
-              cpu: 100m
-              memory: 700Mi
+              cpu: 50m
+              memory: 100Mi
+            #~ limits:
+              #~ cpu: 100m
+              #~ memory: 700Mi
           readinessProbe:
             exec:
               command:
@@ -86,12 +95,15 @@ spec:
               name: web
           securityContext:
             allowPrivilegeEscalation: false
+          env:
+            - name: UWS_DEPLOY
+              value: "${UWS_DEPLOY}"
           volumeMounts:
             - name: db
-              mountPath: "/efs/munin-db"
+              mountPath: "/var/lib/munin"
               readOnly: true
             - name: cache
-              mountPath: "/efs/munin-cache"
+              mountPath: "/var/cache/munin/www"
               readOnly: true
             - name: web-tmpdir
               mountPath: "/tmp"
@@ -103,11 +115,11 @@ spec:
               mountPath: "/var/lock"
           resources:
             requests:
-              cpu: 100m
-              memory: 700Mi
+              cpu: 10m
+              memory: 50Mi
             limits:
               cpu: 100m
-              memory: 700Mi
+              memory: 500Mi
           readinessProbe:
             exec:
               command:
@@ -119,6 +131,15 @@ spec:
             successThreshold: 1
             failureThreshold: 1
       volumes:
+        - name: db
+          emptyDir:
+            sizeLimit: 3Gi
+        - name: cache
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: log
+          emptyDir:
+            sizeLimit: 1Gi
         - name: tmpdir
           emptyDir:
             sizeLimit: 3Gi
@@ -149,34 +170,12 @@ spec:
         - name: munin-deploy-confd
           secret:
             secretName: munin-deploy-confd
-        - name: smtps-ca
+        - name: munin-mailx
           secret:
-            secretName: smtps-ca
-  volumeClaimTemplates:
-    - metadata:
-        name: db
-      spec:
-        storageClassName: efs-mon-munin-db
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 3Gi
-    - metadata:
-        name: cache
-      spec:
-        storageClassName: efs-mon-munin-cache
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 1Gi
-    - metadata:
-        name: log
-      spec:
-        storageClassName: efs-mon-munin-log
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 1Gi
+            secretName: munin-mailx
+        - name: uwsca-smtps
+          secret:
+            secretName: uwsca-smtps
+        - name: uwsca-smtps-client
+          secret:
+            secretName: uwsca-smtps-client

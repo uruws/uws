@@ -48,17 +48,25 @@ spec:
               value: "300"
             - name: METEOR_POLLING_THROTTLE_MS
               value: "50"
-            - name: SNOWFLAKE_SYNC_ENABLED
-              value: "TRUE"
             - name: NODE_OPTIONS
               value: "--max-old-space-size=${METEOR_WORKER_MEMORY}"
+            - name: UWSAPP_CLUSTER
+              value: "${APP_CLUSTER}"
+            - name: UWSAPP_DEPLOY
+              value: "${APP_DEPLOY}"
+            - name: UWSAPP_ENV
+              value: "${APP_ENV}"
+            - name: UWSAPP_NAMESPACE
+              value: "${APP_NAMESPACE}"
+            - name: UWSAPP_VERSION
+              value: "${APP_VERSION}"
           resources:
             requests:
               cpu: ${METEOR_WORKER_CPU}m
-              memory: ${METEOR_WORKER_MEMORY}Mi
+              #~ memory: ${METEOR_WORKER_MEMORY}Mi
             limits:
               cpu: ${METEOR_WORKER_CPU}m
-              memory: ${METEOR_WORKER_MEMORY}Mi
+              #~ memory: ${METEOR_WORKER_MEMORY}Mi
           readinessProbe:
             exec:
               command:
@@ -77,42 +85,3 @@ spec:
           emptyDir: {}
         - name: tmpdir
           emptyDir: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: meteor
-  namespace: worker
-spec:
-  ports:
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: meteor-worker
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: meteor1
-  namespace: worker
-spec:
-  ports:
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: meteor-worker
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: meteor2
-  namespace: worker
-spec:
-  ports:
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: meteor-worker

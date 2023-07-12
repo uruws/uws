@@ -70,6 +70,30 @@ class Test(unittest.TestCase):
 		}
 		t.assertDictEqual(nodes_taint.parse(nodes), _nodes)
 
+	def test_config_alert_levels(t):
+		n = {
+			'Testing': 1,
+			'Total':   0,
+		}
+		nodes_taint.config(n)
+		config = [
+			call('multigraph nodes_taint'),
+			call('graph_title k8stest nodes taint'),
+			call('graph_args --base 1000 -l 0'),
+			call('graph_category nodes'),
+			call('graph_vlabel number'),
+			call('graph_printf %3.0lf'),
+			call('graph_scale yes'),
+			call('t_testing.label Testing'),
+			call('t_testing.colour COLOUR0'),
+			call('t_testing.draw LINE'),
+			call('t_testing.min 0'),
+			call('t_testing.warning', 1),
+			call('t_testing.critical', 1),
+		]
+		nodes_taint._print.assert_has_calls(config)
+		t.assertEqual(nodes_taint._print.call_count, len(config))
+
 	def test_config(t):
 		nodes_taint.config(_nodes)
 		config = [

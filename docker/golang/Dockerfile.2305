@@ -1,0 +1,44 @@
+FROM uws/base-2305
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230518"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh golang-go golang-golang-x-tools make less shellcheck
+
+RUN mkdir -vp /go/src/uws /go/.cache /go/bin /uws \
+	&& chown -vR uws:uws /go /uws \
+	&& chmod -vR 0750 /go /uws
+
+COPY --chown=uws:uws ./godoc.sh /usr/local/bin/godoc.sh
+
+VOLUME /go/src/uws
+VOLUME /go/.cache
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+ENV GOPATH /go
+ENV GOENV /go/src/uws/go.env
+ENV GOCACHE /go/.cache
+
+RUN printf 'export PATH="%s:${PATH}"\n' /go/bin >>/home/uws/.profile
+RUN printf 'test -s %s && source %s\n' /go/src/uws/env/devel.env /go/src/uws/env/devel.env >>/home/uws/.profile
+
+RUN mkdir -vp /go/build/cmd
+
+RUN go version
+
+WORKDIR /go/src/uws
+COPY --chown=uws:uws ./tmp/go.mod ./tmp/go.sum ./
+RUN go mod download -x \
+	&& rm -vf go.mod go.sum
+
+ENTRYPOINT ["/usr/bin/go"]

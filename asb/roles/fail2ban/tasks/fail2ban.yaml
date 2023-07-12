@@ -1,21 +1,21 @@
 ---
-- name: install
-  become: yes
-  apt:
+- name: Fail2ban install
+  become: true
+  ansible.builtin.apt:
     pkg:
       - fail2ban
   tags:
     - apt
 
-- name: config
-  become: yes
-  template:
+- name: Fail2ban config
+  become: true
+  ansible.builtin.template:
     src: fail2ban.conf
     dest: /etc/fail2ban/jail.d/zzzuws.conf
     owner: root
     group: uws
     mode: '0640'
   notify:
-    - restart fail2ban
+    - Fail2ban restart
   tags:
     - fail2ban

@@ -41,6 +41,16 @@ spec:
               value: "3000"
             - name: NODE_OPTIONS
               value: "--max-old-space-size=3200"
+            - name: UWSAPP_CLUSTER
+              value: "${APP_CLUSTER}"
+            - name: UWSAPP_DEPLOY
+              value: "${APP_DEPLOY}"
+            - name: UWSAPP_ENV
+              value: "${APP_ENV}"
+            - name: UWSAPP_NAMESPACE
+              value: "${APP_NAMESPACE}"
+            - name: UWSAPP_VERSION
+              value: "${APP_VERSION}"
           resources:
             requests:
               cpu: 800m
@@ -93,6 +103,227 @@ apiVersion: v1
 kind: Service
 metadata:
   name: meteor2
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor3
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor4
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor5
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor6
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor7
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor8
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor9
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteora
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorb
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorc
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteord
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteore
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorf
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorg
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorh
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteori
+  namespace: infra-ui-${INFRA_UI_ENV}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteorj
   namespace: infra-ui-${INFRA_UI_ENV}
 spec:
   ports:

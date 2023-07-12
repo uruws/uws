@@ -11,7 +11,7 @@ install -v -C -o root -g root -m 0640 \
 postmap /etc/postfix/tls_auth
 
 # postfix tls files
-CA=/srv/uws/deploy/secret/ca/uws/smtps/211006
+CA=/srv/uws/deploy/secret/ca/uws/smtps/230503
 install -v -C -o root -g root -m 0644 \
 	${CA}/rootCA.pem /etc/ssl/certs/uws-smtps-CA.pem
 install -v -C -o root -g root -m 0644 \

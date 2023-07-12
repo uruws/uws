@@ -26,4 +26,4 @@ exec docker run -it --rm --read-only \
 	-e AWS_REGION=${AWS_REGION} \
 	-e K8S_VERSION=${K8S_VERSION} \
 	-v ${awsdir}:/home/uws/.aws:ro \
-	uws/eks-k8s-2203 /bin/bash -il
+	uws/eks-k8s-2305 /bin/bash -il

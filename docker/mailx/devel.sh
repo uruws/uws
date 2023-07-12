@@ -1,16 +1,18 @@
 #!/bin/sh
 set -eu
-CA=${PWD}/secret/ca/uws/smtps/211006
-mkdir -vp ${PWD}/tmp
+install -v -d -m 0750 "${PWD}/tmp/mailx"
+awsses=${PWD}/secret/eks/files/mailx/aws.ses
+chmod -v 0600 "${awsses}/msmtprc"
 exec docker run -it --rm --name uws-mailx-devel \
 	--hostname mailx-devel.uws.local \
 	--read-only \
+	-v "${awsses}:/etc/opt/mailx/uws:ro" \
+	-v "${PWD}/tmp/mailx:/home/uws/tmp" \
 	-u uws \
-	--entrypoint /usr/local/bin/uws-login.sh \
 	-e USER=uws \
 	-e HOME=/home/uws \
-	-v ${PWD}/tmp:/home/uws/tmp \
-	-v ${CA}:/srv/etc/ca:ro \
-	--tmpfs /tmp \
 	--workdir /home/uws \
-	uws/mailx-2211
+	--entrypoint /usr/local/bin/uws-login.sh \
+	--tmpfs /tmp \
+	--tmpfs /etc/opt/mailx \
+	uws/mailx-2305

@@ -1,4 +1,9 @@
 ---
-- import_tasks: kali.yaml
-- import_tasks: kali_tools.yaml
-- import_tasks: kali_faraday.yaml
+- name: Kali import
+  ansible.builtin.import_tasks: kali.yaml
+
+- name: Kali tools import
+  ansible.builtin.import_tasks: kali_tools.yaml
+
+- name: Kali faraday import
+  ansible.builtin.import_tasks: kali_faraday.yaml

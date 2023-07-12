@@ -34,16 +34,26 @@ func main() {
 	}
 	log.Debug("cluster %s", cluster)
 
+	// haproxy URLs scheme
+	http.HandleFunc("/k8smon/_/healthz", healthzHandler)
+	http.HandleFunc("/k8smon/_/ping", pingHandler)
+	http.HandleFunc("/k8smon/kube/nodes", mon.Nodes)
+	http.HandleFunc("/k8smon/kube/deployments", mon.Deployments)
+	http.HandleFunc("/k8smon/kube/pods", mon.Pods)
+	http.HandleFunc("/k8smon/kube/top_nodes", mon.TopNodes)
+	http.HandleFunc("/k8smon/kube/top_pods", mon.TopPods)
+	http.HandleFunc("/k8smon/kube/k8s_metrics", mon.K8s)
+	http.HandleFunc("/k8smon/", mainHandler)
+
+	// nginx URLs scheme
 	http.HandleFunc("/_/healthz", healthzHandler)
 	http.HandleFunc("/_/ping", pingHandler)
-
 	http.HandleFunc("/kube/nodes", mon.Nodes)
 	http.HandleFunc("/kube/deployments", mon.Deployments)
 	http.HandleFunc("/kube/pods", mon.Pods)
 	http.HandleFunc("/kube/top_nodes", mon.TopNodes)
 	http.HandleFunc("/kube/top_pods", mon.TopPods)
 	http.HandleFunc("/kube/k8s_metrics", mon.K8s)
-
 	http.HandleFunc("/", mainHandler)
 
 	log.Debug("serve...")
@@ -70,7 +80,7 @@ func pingHandler(w http.ResponseWriter, r *http.Request) {
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
 	start := wapp.Start()
-	if r.URL.Path != "/" {
+	if r.URL.Path != "/" && r.URL.Path != "/k8smon/" {
 		wapp.NotFound(w, r, start)
 	} else {
 		wapp.Write(w, r, start, "index\n")

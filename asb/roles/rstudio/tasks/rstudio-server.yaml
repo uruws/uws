@@ -1,44 +1,44 @@
 ---
-- name: server install
-  become: yes
-  apt:
+- name: RStudio server install
+  become: true
+  ansible.builtin.apt:
     deb: "{{ rstudio_repo }}/{{ rstudio_server_version }}"
   tags:
     - apt
     - rstudio-apt
 
-- name: server config
-  become: yes
-  template:
+- name: RStudio server config
+  become: true
+  ansible.builtin.template:
     src: rserver.conf
     dest: /etc/rstudio/rserver.conf
     owner: root
     group: root
     mode: '0644'
   notify:
-    - restart rstudio-server
+    - RStudio restart server
   tags:
     - rstudio
 
-- name: systemd service config
-  become: yes
-  lineinfile:
+- name: RStudio systemd service config
+  become: true
+  ansible.builtin.lineinfile:
     path: /lib/systemd/system/rstudio-server.service
-    backup: yes
+    backup: true
     state: present
     line: 'UMask=0002'
     insertafter: '^PIDFile='
   notify:
-    - reload systemd
-    - restart rstudio-server
+    - RStudio reload systemd
+    - RStudio restart server
   tags:
     - rstudio
 
 # homefs
 
-- name: vm info
+- name: RStudio vm info
   delegate_to: localhost
-  ec2_instance_info:
+  amazon.aws.ec2_instance_info:
     filters:
       "tag:Name": "{{ inventory_hostname }}"
       availability-zone: "{{ aws_zone }}"
@@ -47,32 +47,32 @@
   tags:
     - homefs
 
-- name: homefs vol
+- name: RStudio homefs vol
   delegate_to: localhost
-  ec2_vol:
+  amazon.aws.ec2_vol:
     name: "{{ inventory_hostname }}-homefs"
     zone: "{{ aws_zone }}"
     instance: "{{ rstudio_vm.instances.0.instance_id }}"
-    encrypted: yes
+    encrypted: true
     volume_size: 100
     volume_type: gp2
     device_name: /dev/sdf
-    delete_on_termination: no
+    delete_on_termination: false
   tags:
     - homefs
 
-- name: make homefs
-  become: yes
-  filesystem:
+- name: RStudio make homefs
+  become: true
+  community.general.filesystem:
     dev: /dev/sdf
     fstype: ext4
     opts: -L rstudio-homefs
   tags:
     - homefs
 
-- name: mount homefs
-  become: yes
-  mount:
+- name: RStudio mount homefs
+  become: true
+  ansible.posix.mount:
     path: "{{ uws_users_homedir }}"
     src: LABEL=rstudio-homefs
     fstype: ext4

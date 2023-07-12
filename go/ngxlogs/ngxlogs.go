@@ -1,7 +1,7 @@
 // Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 // See LICENSE file.
 
-// Package ngxlogs provides tools to interact with nginx server logs.
+// Package ngxlogs provides tools to parse json analytics nginx server logs.
 package ngxlogs
 
 import (
@@ -143,6 +143,8 @@ func (e *Entry) Print() bool {
 	show := true
 	if e.StatusInt >= 500 {
 		p = log.PrintError
+	} else if e.StatusInt == 499 {
+		p = log.Print
 	} else if e.StatusInt >= 400 {
 		p = log.Warn
 	} else if e.StatusInt < 200 {
@@ -155,9 +157,19 @@ func (e *Entry) Print() bool {
 	}
 	if show {
 		p("%s %s %-15s [%s %s %s] %s %s %s %s",
-			e.TimeLocal[:len(e.TimeLocal)-6], e.Container, e.RemoteAddr,
-			e.UpstreamName, e.UpstreamTime, e.UpstreamStatus,
-			e.RequestTime, e.Status, e.RequestMethod, e.RequestURI)
+			e.TimeLocal[:len(e.TimeLocal)-6],
+			e.Container,
+			e.RemoteAddr,
+
+			e.UpstreamName,
+			e.UpstreamTime,
+			e.UpstreamStatus,
+
+			e.RequestTime,
+			e.Status,
+			e.RequestMethod,
+			e.RequestURI,
+		)
 	}
 	return show
 }

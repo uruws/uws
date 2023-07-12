@@ -21,6 +21,7 @@ def _testingApp() -> dict[str, uwscli_conf.App]:
 			desc = 'Testing',
 			pod = 'test',
 			build = uwscli_conf.AppBuild('/srv/deploy/Testing', 'build.sh', clean = 'testing'),
+			build_blacklist = ['2.98.8'],
 			deploy = uwscli_conf.AppDeploy('test'),
 			groups = ['app', 'testing'],
 			custom_deploy = {

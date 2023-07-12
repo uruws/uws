@@ -7,8 +7,9 @@ import json
 import subprocess
 import sys
 
+from dataclasses import asdict
 from dataclasses import dataclass
-from datetime    import datetime
+from dataclasses import field
 from os          import chmod
 from os          import makedirs
 from pathlib     import Path
@@ -23,10 +24,11 @@ __doc__ = 'eks upgrades helper'
 
 @dataclass
 class Config(object):
-	docker_tag: str = ''
-	eks_tag:    str = ''
-	k8s_tag:    str = ''
-	eksctl:     str = ''
+	docker_tag: str       = ''
+	rm_tags:    list[str] = field(default_factory = list)
+	eks_tag:    str       = ''
+	k8s_tag:    str       = ''
+	eksctl:     str       = ''
 
 	def eksctl_url(c):
 		return 'https://github.com/weaveworks/eksctl/releases/download/v%s' % c.eksctl
@@ -35,41 +37,56 @@ class Config(object):
 #   https://github.com/weaveworks/eksctl/tags
 
 cfg: dict[str, Config] = {
-	'1.22': Config(
-		docker_tag = '2211',
-		eks_tag    = '122',
-		k8s_tag    = '122',
-		eksctl     = '0.101.0',
-	),
 	'1.24': Config(
-		docker_tag = '2211',
+		docker_tag = '2305',
+		rm_tags    = ['2211'],
 		eks_tag    = '124',
 		k8s_tag    = '124',
-		eksctl     = '0.127.0',
 	),
 }
 
 cfg_remove: dict[str, Config] = {
-	'1.25': Config(
+	'1.22': Config(
 		docker_tag = '2211',
-		eks_tag    = '125',
+		eks_tag    = '122',
 	),
 }
+
+def getcfg(v: str, remove = False) -> Config:
+	c = None
+	if remove:
+		c = cfg_remove[v]
+	else:
+		c = cfg[v]
+		loadcfg(v, c)
+	return c
+
+def loadcfg(v: str, c: Config):
+	if c is None:
+		return
+	utils = getutils()
+	c.eksctl = utils[v]["eksctl"]
+
+def getutils() -> dict[str, dict[str, str]]:
+	d = {}
+	with Path('./eks/utils.json').open() as fh:
+		d = json.load(fh)
+	return d
 
 #
 # utils
 #
 
 def mkdir(name: str):
-	print(name)
+	# ~ print(name)
 	makedirs(name, mode = 0o750, exist_ok = True)
 
 def copy(src: str, dst: str, ignore: Callable = None):
-	print(src, '->', dst)
+	# ~ print(src, '->', dst)
 	copytree(src, dst, symlinks = True, dirs_exist_ok = True, ignore = ignore)
 
 def envsubst(src: str, dst: str, env: dict[str, str]):
-	print(src, '->', dst)
+	# ~ print(src, '->', dst)
 	cmd = ['/usr/bin/envsubst']
 	with open(src, 'rb') as stdin:
 		with open(dst, 'wb') as stdout:
@@ -93,11 +110,10 @@ def docker_eks_ignore(src, names):
 	return l
 
 def docker_version() -> str:
-	now = datetime.now()
-	return now.strftime('%y%m%d')
+	return Path('./docker/VERSION').read_text().strip()
 
 def docker_eks(version: str, cfg: Config):
-	print('docker/eks:', version)
+	# ~ print('docker/eks:', version)
 	src = './eks/tpl/docker'
 	dst = './docker/eks/%s' % cfg.eks_tag.strip()
 	mkdir(dst)
@@ -133,21 +149,30 @@ def docker_eks_cleanup(version: str, cfg: Config):
 
 def docker_eks_build(cfg: dict[str, Config]) -> int:
 	buildfn = './docker/eks/build.sh'
-	print(buildfn)
+	# ~ print(buildfn)
 	with open(buildfn, 'w') as fh:
 		print('#!/bin/sh', file = fh)
 		print('set -eu', file = fh)
 		print('# remove old', file = fh)
 		for version in sorted(cfg_remove.keys()):
-			docker_tag = cfg_remove[version].docker_tag.strip()
-			eks_tag = cfg_remove[version].eks_tag.strip()
+			c = getcfg(version, remove = True)
+			docker_tag = c.docker_tag.strip()
+			eks_tag = c.eks_tag.strip()
 			print(f"# {version}", file = fh)
 			print(f"docker rmi uws/eks-{eks_tag}-{docker_tag} || true", file = fh)
+		print('# cleanup', file = fh)
+		for version in sorted(cfg.keys()):
+			c = getcfg(version)
+			eks_tag = c.eks_tag.strip()
+			print(f"# {version}", file = fh)
+			for rmtag in sorted(c.rm_tags):
+				print(f"docker rmi uws/eks-{eks_tag}-{rmtag} || true", file = fh)
 		print('# build', file = fh)
 		for version in sorted(cfg.keys()):
+			c = getcfg(version)
 			print(f"# {version}", file = fh)
-			docker_tag = cfg[version].docker_tag.strip()
-			eks_tag = cfg[version].eks_tag.strip()
+			docker_tag = c.docker_tag.strip()
+			eks_tag = c.eks_tag.strip()
 			print(f"# eks-{eks_tag}-{docker_tag}", file = fh)
 			print(f"docker build --rm -t uws/eks-{eks_tag}-{docker_tag} \\", file = fh)
 			print(f"    -f docker/eks/{eks_tag}/Dockerfile.{docker_tag} \\", file = fh)
@@ -161,14 +186,31 @@ def docker_eks_build(cfg: dict[str, Config]) -> int:
 #
 
 def main(argv: list[str]) -> int:
+	if '-i' in argv:
+		return show_info()
 	latest = 'None'
 	for v in sorted(cfg.keys()):
-		docker_eks(v, cfg[v])
+		c = getcfg(v)
+		docker_eks(v, c)
 		latest = v
-	docker_eks_devel(latest, cfg[latest])
+	c = getcfg(latest)
+	docker_eks_devel(latest, c)
 	for v in sorted(cfg_remove.keys()):
-		docker_eks_cleanup(v, cfg_remove[v])
+		c = getcfg(v, remove = True)
+		docker_eks_cleanup(v, c)
 	return docker_eks_build(cfg)
+
+def show_info():
+	print('Config:')
+	for v in sorted(cfg.keys()):
+		c = getcfg(v)
+		print(' ', v, asdict(c))
+	print()
+	print('Config remove:')
+	for v in sorted(cfg_remove.keys()):
+		c = getcfg(v, remove = True)
+		print(' ', v, asdict(c))
+	return 0
 
 if __name__ == '__main__':
 	sys.exit(main(sys.argv[1:]))

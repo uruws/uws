@@ -58,8 +58,8 @@ rsync -ax "${PWD}/srv/acme/" "${TOOLS}/srv/acme/"
 ##rsync -ax "${PWD}/srv/munin-backend/" "${TOOLS}/srv/munin-backend/"
 
 # deploy tools: CA smtps
-##install -d "${TOOLS}/secret/ca/uws/smtps/211006"
-##rsync -ax "${PWD}/secret/ca/uws/smtps/211006/" "${TOOLS}/secret/ca/uws/smtps/211006/"
+##install -d "${TOOLS}/secret/ca/uws/smtps/230503"
+##rsync -ax "${PWD}/secret/ca/uws/smtps/230503/" "${TOOLS}/secret/ca/uws/smtps/211006/"
 
 # deploy tools: secret munin
 ##install -d "${TOOLS}/secret/eks/files/munin"

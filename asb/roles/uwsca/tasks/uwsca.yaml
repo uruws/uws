@@ -1,7 +1,7 @@
 ---
-- name: dirs
-  become: yes
-  file:
+- name: UWSCA dirs
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     owner: root
@@ -14,9 +14,9 @@
   tags:
     - uwsca
 
-- name: ops rootCA
-  become: yes
-  copy:
+- name: UWSCA ops rootCA
+  become: true
+  ansible.builtin.copy:
     src: ~/ca/{{ uwsca_ops }}/{{ item }}
     dest: /srv/uws/ca/ops/{{ item }}
     owner: root

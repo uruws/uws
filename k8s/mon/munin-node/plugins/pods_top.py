@@ -3,11 +3,36 @@
 
 import mon
 
+def _podname(n):
+	if n == '':
+		return None
+	n = n.strip()
+	# aws-node
+	if n.startswith('aws-node-'):
+		return 'aws-node'
+	# ebs-csi-node
+	if n.startswith('ebs-csi-node-'):
+		return 'ebs-csi-node'
+	# efs-csi-node
+	if n.startswith('efs-csi-node-'):
+		return 'efs-csi-node'
+	# kube-proxy
+	if n.startswith('kube-proxy-'):
+		return 'kube-proxy'
+	# deployments
+	i = n.split('-')
+	if len(i) >= 3:
+		return '-'.join(i[:-2])
+	# stateful set
+	return n
+
 def parse(pods):
 	mon.dbg('pods_top parse')
 	sts = dict()
 	for i in pods.get('items', []):
 		ns = i.get('namespace', None)
+		n = _podname(i.get('name', ''))
+		ns = '%s/%s' % (ns, n)
 		c = i.get('cpu', 0)
 		m = i.get('mem', 0)
 		if ns is not None:
@@ -44,8 +69,7 @@ def _print(*args):
 def config(sts):
 	mon.dbg('pods_top config')
 	cluster = mon.cluster()
-	# cpu total
-	cpu_total = 0
+	# cpu all
 	_print('multigraph pod_top_cpu')
 	_print(f"graph_title {cluster} pods CPU")
 	_print('graph_args --base 1000 -l 0')
@@ -56,16 +80,11 @@ def config(sts):
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		c = sts[ns].get('count', 0)
-		cpu_total += c
 		_print(f"{nsid}.label {ns}", f"({c})")
 		_print(f"{nsid}.colour COLOUR{color}")
 		_print(f"{nsid}.draw AREASTACK")
 		_print(f"{nsid}.min 0")
 		color = mon.color(color)
-	_print('ztotal.label total', f"({cpu_total})")
-	_print('ztotal.colour 000000')
-	_print('ztotal.draw LINE1')
-	_print('ztotal.min 0')
 	# namespace cpu
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
@@ -75,10 +94,6 @@ def config(sts):
 		_print('graph_category top')
 		_print('graph_vlabel millicores')
 		_print('graph_scale yes')
-		_print('f0_total.label total', f"({sts[ns].get('count', 0)})")
-		_print('f0_total.colour COLOUR0')
-		_print('f0_total.draw AREASTACK')
-		_print('f0_total.min 0')
 		_print('f1_avg.label average')
 		_print('f1_avg.colour COLOUR1')
 		_print('f1_avg.draw LINE1')
@@ -91,8 +106,7 @@ def config(sts):
 		_print('f3_max.colour COLOUR3')
 		_print('f3_max.draw LINE1')
 		_print('f3_max.min 0')
-	# mem total
-	mem_total = 0
+	# mem all
 	_print('multigraph pod_top_mem')
 	_print(f"graph_title {cluster} pods memory")
 	_print('graph_args --base 1000 -l 0')
@@ -103,16 +117,11 @@ def config(sts):
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		m = sts[ns].get('count', 0)
-		mem_total += m
 		_print(f"{nsid}.label {ns}", f"({m})")
 		_print(f"{nsid}.colour COLOUR{color}")
 		_print(f"{nsid}.draw AREASTACK")
 		_print(f"{nsid}.min 0")
 		color = mon.color(color)
-	_print('ztotal.label total', f"({mem_total})")
-	_print('ztotal.colour 000000')
-	_print('ztotal.draw LINE1')
-	_print('ztotal.min 0')
 	# namespace mem
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
@@ -122,10 +131,6 @@ def config(sts):
 		_print('graph_category top')
 		_print('graph_vlabel MiB')
 		_print('graph_scale yes')
-		_print('f0_total.label total', f"({sts[ns].get('count', 0)})")
-		_print('f0_total.colour COLOUR0')
-		_print('f0_total.draw AREASTACK')
-		_print('f0_total.min 0')
 		_print('f1_avg.label average')
 		_print('f1_avg.colour COLOUR1')
 		_print('f1_avg.draw LINE1')
@@ -148,39 +153,29 @@ def _avg(sts, k):
 
 def report(sts):
 	mon.dbg('pods_top report')
-	# cpu total
-	cpu_total = 0
+	# cpu all
 	_print('multigraph pod_top_cpu')
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		c = sts[ns].get('cpu', 'U')
 		_print(f"{nsid}.value", c)
-		if c != 'U':
-			cpu_total += c
-	_print('ztotal.value', cpu_total)
 	# namespace cpu
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		_print(f"multigraph pod_top_cpu.{nsid}_cpu")
-		_print('f0_total.value', sts[ns].get('cpu', 'U'))
 		_print('f1_avg.value', _avg(sts[ns], 'cpu'))
 		_print('f2_min.value', sts[ns].get('cpu_min', 'U'))
 		_print('f3_max.value', sts[ns].get('cpu_max', 'U'))
-	# mem total
-	mem_total = 0
+	# mem all
 	_print('multigraph pod_top_mem')
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		m = sts[ns].get('mem', 'U')
 		_print(f"{nsid}.value", m)
-		if m != 'U':
-			mem_total += m
-	_print('ztotal.value', mem_total)
 	# namespace mem
 	for ns in sorted(sts.keys()):
 		nsid = mon.cleanfn(ns)
 		_print(f"multigraph pod_top_mem.{nsid}_mem")
-		_print('f0_total.value', sts[ns].get('mem', 'U'))
 		_print('f1_avg.value', _avg(sts[ns], 'mem'))
 		_print('f2_min.value', sts[ns].get('mem_min', 'U'))
 		_print('f3_max.value', sts[ns].get('mem_max', 'U'))

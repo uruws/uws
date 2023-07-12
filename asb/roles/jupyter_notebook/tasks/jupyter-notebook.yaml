@@ -1,7 +1,7 @@
 ---
-- name: apt install
-  become: yes
-  apt:
+- name: Jupyter apt install
+  become: true
+  ansible.builtin.apt:
     pkg:
       - python3-pip
       - jupyter
@@ -15,45 +15,45 @@
     - apt
     - jupyter-notebook
 
-- name: user
-  become: yes
-  user:
+- name: Jupyter user
+  become: true
+  ansible.builtin.user:
     state: present
     name: "{{ jupyter_notebook_user.name }}"
     uid: "{{ jupyter_notebook_user.uid }}"
-    append: no
+    append: false
     comment: "{{ jupyter_notebook_user.name }}"
-    create_home: yes
+    create_home: true
     home: "{{ uws_users_homedir }}/{{ jupyter_notebook_user.name }}"
     shell: /usr/sbin/nologin
   tags:
     - jupyter-notebook
 
-- name: user groups
-  become: yes
-  user:
+- name: Jupyter user groups
+  become: true
+  ansible.builtin.user:
     state: present
     name: "{{ jupyter_notebook_user.name }}"
-    append: yes
+    append: true
     groups: rstudio,ruser
   tags:
     - jupyter-notebook
 
-- name: rstudio project groups
-  become: yes
-  user:
+- name: Jupyter rstudio project groups
+  become: true
+  ansible.builtin.user:
     state: present
     name: "{{ jupyter_notebook_user.name }}"
-    append: yes
+    append: true
     groups: "{{ item }}"
   loop: "{{ rstudio_project | list }}"
   tags:
     - jupyter-notebook
     - rstudio-project
 
-- name: user home dir
-  become: yes
-  file:
+- name: Jupyter user home dir
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/{{ jupyter_notebook_user.name }}"
     owner: "{{ jupyter_notebook_user.name }}"
@@ -62,9 +62,9 @@
   tags:
     - jupyter-notebook
 
-- name: scripts
-  become: yes
-  copy:
+- name: Jupyter scripts
+  become: true
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/usr/local/bin/{{ item }}"
     owner: "{{ jupyter_notebook_user.name }}"
@@ -76,9 +76,9 @@
   tags:
     - jupyter-notebook
 
-- name: systemd config
-  become: yes
-  copy:
+- name: Jupyter systemd config
+  become: true
+  ansible.builtin.copy:
     src: "systemd/{{ item }}"
     dest: "/etc/systemd/system/{{ item }}"
     owner: root
@@ -89,17 +89,17 @@
   tags:
     - jupyter-notebook
 
-- name: service enable
-  become: yes
-  service:
+- name: Jupyter service enable
+  become: true
+  ansible.builtin.service:
     name: jupyter-notebook
-    enabled: yes
+    enabled: true
   tags:
     - jupyter-notebook
 
-- name: service started
-  become: yes
-  service:
+- name: Jupyter service started
+  become: true
+  ansible.builtin.service:
     name: jupyter-notebook
     state: started
   tags:

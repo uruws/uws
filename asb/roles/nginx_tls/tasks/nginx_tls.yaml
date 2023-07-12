@@ -1,7 +1,7 @@
 ---
-- name: cache setup
-  become: yes
-  file:
+- name: NginxTLS cache setup
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     owner: root
@@ -13,9 +13,9 @@
     - nginx
     - nginx_tls
 
-- name: uws cache setup
-  become: yes
-  file:
+- name: NginxTLS uws cache setup
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     owner: "{{ nginx_user }}"
@@ -27,9 +27,9 @@
     - nginx
     - nginx_tls
 
-- name: config
-  become: yes
-  template:
+- name: NginxTLS config
+  become: true
+  ansible.builtin.template:
     src: conf/{{ item }}.conf
     dest: /etc/nginx/conf.d/zzzuws_{{ item }}.conf
     mode: '0644'
@@ -38,14 +38,14 @@
   loop:
     - tls
   notify:
-    - reload nginx
+    - Nginx reload
   tags:
     - nginx
     - nginx_tls
 
-- name: snippets
-  become: yes
-  template:
+- name: NginxTLS snippets
+  become: true
+  ansible.builtin.template:
     src: snippets/{{ item }}.conf
     dest: /etc/nginx/snippets/uws_{{ item }}.conf
     mode: '0644'
@@ -59,28 +59,28 @@
     - munin
     - monit
   notify:
-    - reload nginx
+    - Nginx reload
   tags:
     - nginx
     - nginx_tls
 
-- name: default server
-  become: yes
-  template:
+- name: NginxTLS default server
+  become: true
+  ansible.builtin.template:
     src: nginx/default_tls.conf
     dest: /etc/nginx/sites-enabled/default_tls
     mode: '0644'
     owner: root
     group: root
   notify:
-    - reload nginx
+    - Nginx reload
   tags:
     - nginx
     - nginx_tls
 
-- name: sites enable
-  become: yes
-  template:
+- name: NginxTLS sites enable
+  become: true
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: "/etc/nginx/sites-enabled/{{ item | basename }}"
     mode: '0644'
@@ -88,7 +88,7 @@
     group: root
   loop: "{{ nginx_tls_site }}"
   notify:
-    - reload nginx
+    - Nginx reload
   tags:
     - nginx
     - nginx_tls

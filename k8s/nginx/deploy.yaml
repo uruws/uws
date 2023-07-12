@@ -19,7 +19,7 @@ spec:
       labels:
         app.kubernetes.io/name: proxy
     spec:
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 10
       containers:
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${PROXY_VERSION}
           imagePullPolicy: IfNotPresent
@@ -29,6 +29,9 @@ spec:
               name: http
             - containerPort: 443
               name: https
+          env:
+            - name: UWS_DEPLOY
+              value: "${UWS_DEPLOY}"
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -50,6 +53,12 @@ spec:
               mountPath: "/var/lib/nginx"
             - name: logdir
               mountPath: "/var/log/nginx"
+            - name: cachedir
+              mountPath: "/var/cache/nginx"
+            - name: storedir
+              mountPath: "/var/cache/nginx.store"
+            - name: storetempdir
+              mountPath: "/var/cache/nginx.temp"
             - name: sites-enabled
               mountPath: "/etc/nginx/uws-sites-enabled"
               readOnly: true
@@ -66,7 +75,7 @@ spec:
             preStop:
               exec:
                 command: ["/usr/sbin/nginx", "-s", "quit"]
-          readinessProbe:
+          livenessProbe:
             httpGet:
               path: /healthz
               port: http
@@ -75,27 +84,28 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 2
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-              scheme: HTTP
-            periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 2
       volumes:
         - name: rundir
           emptyDir:
-            sizeLimit: 10Mi
+            sizeLimit: 1Gi
         - name: tmpdir
           emptyDir:
-            sizeLimit: 1Gi
+            sizeLimit: 10Gi
+        - name: cachedir
+          emptyDir:
+            sizeLimit: 10Gi
+        - name: storedir
+          emptyDir:
+            sizeLimit: 10Gi
+        - name: storetempdir
+          emptyDir:
+            sizeLimit: 10Gi
         - name: libdir
           emptyDir:
-            sizeLimit: 100Mi
+            sizeLimit: 1Gi
         - name: logdir
           emptyDir:
-            sizeLimit: 5Mi
+            sizeLimit: 100Mi
         - name: sites-enabled
           secret:
             secretName: sites-enabled

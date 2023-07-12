@@ -127,7 +127,7 @@ class Test(unittest.TestCase):
 
 	def test_run_pack(t):
 		calls = [
-			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/buildpack.sh /srv/deploy/App app 0.999', timeout = 3600),
+			call('/usr/bin/sudo -H -n -u uws -- /srv/uws/deploy/cli/buildpack.sh /srv/deploy/App app 0.999 True', timeout = 3600),
 		]
 		with mock_run():
 			try:
@@ -148,6 +148,10 @@ class Test(unittest.TestCase):
 			t.assertEqual(app_build.run('testing', '0.999'), 99)
 		with mock_run_error(build_status = 99):
 			t.assertEqual(app_build.run('testing', '0.999'), 99)
+
+	def test_version_blacklist(t):
+		with mock_check_storage():
+			t.assertEqual(app_build.main(['testing', '2.98.8']), 9)
 
 if __name__ == '__main__':
 	unittest.main()

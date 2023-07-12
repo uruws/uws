@@ -1,24 +1,24 @@
 ---
-- name: rstudio upgrade
+- name: RStudio upgrade
   hosts: rstudio
   gather_facts: true
   tasks:
-    - name: apt update
-      become: yes
-      apt:
-        update_cache: yes
+    - name: RStudio apt update
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
 
-    - name: apt upgrade
-      become: yes
-      apt:
+    - name: RStudio apt upgrade
+      become: true
+      ansible.builtin.apt:
         name: "*"
         state: latest
-        autoclean: yes
-        autoremove: yes
+        autoclean: true
+        autoremove: true
 
-    - name: apt dist-upgrade
-      become: yes
-      apt:
+    - name: RStudio apt dist-upgrade
+      become: true
+      ansible.builtin.apt:
         upgrade: dist
-        autoclean: yes
-        autoremove: yes
+        autoclean: true
+        autoremove: true

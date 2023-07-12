@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eu
-CA=${PWD}/secret/ca/uws/smtps/211006
-mkdir -vp ${PWD}/tmp
+CA=smtps/230503
+CADIR=${PWD}/secret/ca/uws/${CA}
+mkdir -vp ${PWD}/tmp/crond
 exec docker run -it --rm --name uws-crond-devel \
 	--hostname crond-devel.uws.local \
 	--read-only \
@@ -9,7 +10,8 @@ exec docker run -it --rm --name uws-crond-devel \
 	--entrypoint /usr/local/bin/uws-login.sh \
 	-e USER=uws \
 	-e HOME=/home/uws \
-	-v ${CA}:/srv/etc/ca:ro \
-	-v ${PWD}/tmp:/home/uws/tmp \
+	-v "${CADIR}:/srv/mailx/setup/ca:ro" \
+	-v "${CADIR}/client:/srv/mailx/setup/ca.client:ro" \
+	-v "${PWD}/tmp/crond:/home/uws/tmp" \
 	--workdir /home/uws \
-	uws/crond-2211
+	uws/crond-2305

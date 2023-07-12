@@ -70,7 +70,7 @@ class TestViews(unittest.TestCase):
 		t.app = None
 
 	def test_healthz(t):
-		t.assertEqual(chatbot_main.healthz(), 'OK')
+		t.assertEqual(chatbot_main.healthz(), 'ok')
 
 	def test_healthz_error(t):
 		t.app.smh.client.is_connected = MagicMock(return_value = False)

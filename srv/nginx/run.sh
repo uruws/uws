@@ -5,8 +5,11 @@ exec docker run -it --rm --name uws-nginx \
 	--read-only \
 	--tmpfs /run \
 	--tmpfs /tmp \
+	--tmpfs /var/cache/nginx \
+	--tmpfs /var/cache/nginx.store \
+	--tmpfs /var/cache/nginx.temp \
 	--tmpfs /var/lib/nginx \
 	--tmpfs /var/log/nginx \
 	-p 127.0.0.1:0:80 \
 	-p 127.0.0.1:0:443 \
-	uws/nginx-2211
+	uws/nginx-2305

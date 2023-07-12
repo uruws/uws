@@ -9,9 +9,8 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh gettext-base groff python3 python3-pip python3-semver
+RUN /root/bin/apt-install.sh gettext-base python3 python3-semver awscli
 
-RUN pip3 install --upgrade awscli
 RUN aws --version
 
 RUN chgrp uws /usr/local/bin \
@@ -63,10 +62,6 @@ RUN wget -q ${KUBESHARK_URL}/kubeshark_linux_amd64 \
 RUN install -v -d -m 0750 /home/uws/.kubeshark
 COPY --chown=uws:uws ./config/kubeshark.yaml /home/uws/.kubeshark/config.yaml
 
-COPY --chown=uws:uws ./utils/kubeshark-start.sh /home/uws/kubeshark-start.sh
-RUN install -v -m 0755 kubeshark-start.sh /usr/local/bin/kubeshark-start.sh \
-	&& rm -vf kubeshark-start.sh
-
 USER root:root
 WORKDIR /root
 
@@ -85,6 +80,8 @@ RUN install -v -m 0755 /tmp/uwskube /usr/local/bin/uwskube \
 	&& rm -vf /tmp/uwskube
 
 COPY ./build/k8smon.bin /usr/local/bin/k8smon
+COPY ./build/ngxlogs.bin /usr/local/bin/ngxlogs
+COPY ./build/hpxlogs.bin /usr/local/bin/hpxlogs
 
 USER uws:uws
 WORKDIR /home/uws

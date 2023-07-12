@@ -28,14 +28,37 @@ prune:
 #
 
 .PHONY: all
-all: bootstrap clamav uwsbot munin munin-backend munin-node proftpd
+all:
+	@$(MAKE) bootstrap
+	@$(MAKE) clamav
+	@$(MAKE) uwsbot
+	@$(MAKE) munin
+	@$(MAKE) munin-backend
+	@$(MAKE) munin-node
+	@$(MAKE) proftpd
 
 #
 # bootstrap
 #
 
 .PHONY: bootstrap
-bootstrap: awscli base base-testing golang mkcert acme k8s eks python ansible uwscli devel mailx crond herokud webapp
+bootstrap:
+	@$(MAKE) awscli
+	@$(MAKE) base
+	@$(MAKE) base-testing
+	@$(MAKE) golang
+	@$(MAKE) mkcert
+	@$(MAKE) acme
+	@$(MAKE) k8s
+	@$(MAKE) eks
+	@$(MAKE) python
+	@$(MAKE) ansible
+	@$(MAKE) uwscli
+	@$(MAKE) devel
+	@$(MAKE) mailx
+	@$(MAKE) crond
+	@$(MAKE) herokud
+	@$(MAKE) webapp
 
 #
 # base containers
@@ -65,28 +88,33 @@ PODTEST_TAG != cat ./pod/test/VERSION
 
 .PHONY: pod-publish
 pod-publish:
-	@./docker/ecr-login.sh us-east-1
+	@./host/ecr-login.sh us-east-1
 	@./cluster/ecr-push.sh us-east-1 uws/pod:test uws:podtest-$(PODTEST_TAG)
 
 .PHONY: devel
-devel: base base-testing
+devel:
+	@$(MAKE) base
+	@$(MAKE) base-testing
 	@./docker/k8s/devel-build.sh
 	@./docker/eks/devel-build.sh
 	@./docker/asb/devel-build.sh
 	@$(MAKE) pod-base
 	@$(MAKE) pod-test
+	@$(MAKE) heroku
 
 #
 # utils
 #
 
 .PHONY: utils
-utils: acme
+utils:
+	@$(MAKE) acme
 
 .PHONY: utils-publish
-utils-publish: utils
-	@./docker/ecr-login.sh sa-east-1
-	@./cluster/ecr-push.sh sa-east-1 uws/acme-2211 uwsops:acme
+utils-publish:
+	@$(MAKE) utils
+	@./host/ecr-login.sh sa-east-1
+	@./cluster/ecr-push.sh sa-east-1 uws/acme-2305 uwsops:acme
 
 .PHONY: awscli
 awscli:
@@ -98,6 +126,9 @@ mkcert:
 
 .PHONY: golang
 golang:
+	@mkdir -vp ./docker/golang/tmp
+	@install -v -m 0640 ./go/go.mod ./docker/golang/tmp
+	@install -v -m 0640 ./go/go.sum ./docker/golang/tmp
 	@./docker/golang/build.sh
 
 .PHONY: python
@@ -122,7 +153,7 @@ proftpd:
 
 .PHONY: ecr-login
 ecr-login:
-	@./docker/ecr-login.sh
+	@./host/ecr-login.sh
 
 .PHONY: ansible
 ansible:
@@ -218,7 +249,10 @@ crond:
 #
 
 .PHONY: munin-all
-munin-all: munin munin-backend munin-node
+munin-all:
+	@$(MAKE) munin
+	@$(MAKE) munin-backend
+	@$(MAKE) munin-node
 
 .PHONY: munin
 munin:
@@ -282,15 +316,15 @@ chatbot:
 	@./srv/chatbot/build.sh
 
 .PHONY: chatbot-check
-chatbot-check: webapp chatbot
+chatbot-check:
+	@$(MAKE) webapp
+	@$(MAKE) chatbot
 	@./docker/webapp/check.sh chatbot
 
-CHATBOT_TAG != cat ./srv/chatbot/VERSION
-
 .PHONY: chatbot-publish
-chatbot-publish: chatbot-check
-	@./docker/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/chatbot-2211 uws:chatbot-$(CHATBOT_TAG)
+chatbot-publish:
+	@$(MAKE) chatbot-check
+	@./srv/chatbot/publish.sh
 
 #
 # ab (apache benchmark)
@@ -329,7 +363,17 @@ deploy:
 #
 
 .PHONY: check
-check: check-docker check-golang check-cli check-k8s check-eks check-munin check-munin-node check-asb check-awscli
+check:
+	@$(MAKE) check-docker
+	@$(MAKE) check-secrets
+	@$(MAKE) check-golang
+	@$(MAKE) check-cli
+	@$(MAKE) check-k8s
+	@$(MAKE) check-eks
+	@$(MAKE) check-munin
+	@$(MAKE) check-munin-node
+	@$(MAKE) check-asb
+	@$(MAKE) check-awscli
 
 .PHONY: check-docker
 check-docker:
@@ -384,7 +428,8 @@ check-pod-meteor:
 #
 
 .PHONY: CA
-CA: mkcert
+CA:
+	@$(MAKE) mkcert
 	@echo '*** ca/ops'
 	@$(MAKE) ca/ops
 	@echo '*** ca/opstest'
@@ -409,7 +454,8 @@ ca/smtps:
 #
 
 .PHONY: eks
-eks: k8s
+eks:
+	@$(MAKE) k8s
 	@./docker/eks/build.sh
 
 #
@@ -417,7 +463,10 @@ eks: k8s
 #
 
 .PHONY: k8s
-k8s: k8smon ngxlogs
+k8s:
+	@$(MAKE) k8smon
+	@$(MAKE) ngxlogs
+	@$(MAKE) hpxlogs
 	@./docker/k8s/build.sh
 
 #
@@ -427,11 +476,17 @@ k8s: k8smon ngxlogs
 MON_MUNIN_TAG != cat ./k8s/mon/munin/VERSION
 
 .PHONY: mon-publish
-mon-publish: awscli munin munin-backend munin-node
+mon-publish:
+	@$(MAKE) awscli
+	@$(MAKE) munin
+	@$(MAKE) munin-backend
+	@$(MAKE) munin-node
 	@$(MAKE) k8smon-publish
-	@./cluster/ecr-push.sh us-east-1 uws/munin-2211 uws:munin-$(MON_MUNIN_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/munin-backend-2211 uws:munin-web-$(MON_MUNIN_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/munin-node-2211 uws:munin-node-$(MON_MUNIN_TAG)
+	@$(MAKE) check-munin
+	@$(MAKE) check-munin-node
+	@./cluster/ecr-push.sh us-east-1 uws/munin-2305 uws:munin-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-backend-2305 uws:munin-web-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-node-2305 uws:munin-node-$(MON_MUNIN_TAG)
 
 K8SMON_DEPS != find go/cmd/k8smon go/k8s/mon -type f -name '*.go'
 
@@ -446,7 +501,9 @@ docker/golang/build/k8smon.bin: $(K8SMON_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/k8smon.bin ./cmd/k8smon
 
 .PHONY: k8smon-publish
-k8smon-publish: k8s
+k8smon-publish:
+	@$(MAKE) k8s
+	@$(MAKE) check-k8s
 	@./k8s/mon/publish.sh
 
 #
@@ -484,6 +541,22 @@ docker/golang/build/ngxlogs.bin: $(NGXLOGS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/ngxlogs.bin ./cmd/ngxlogs
 
 #
+# hpxlogs
+#
+
+HPXLOGS_DEPS != find go/cmd/hpxlogs go/hpxlogs -type f -name '*.go'
+
+.PHONY: hpxlogs
+hpxlogs: docker/k8s/build/hpxlogs.bin
+
+docker/k8s/build/hpxlogs.bin: docker/golang/build/hpxlogs.bin
+	@mkdir -vp ./docker/k8s/build
+	@install -v docker/golang/build/hpxlogs.bin ./docker/k8s/build/hpxlogs.bin
+
+docker/golang/build/hpxlogs.bin: $(HPXLOGS_DEPS)
+	@./docker/golang/cmd.sh build -o /go/build/cmd/hpxlogs.bin ./cmd/hpxlogs
+
+#
 # publish
 #
 
@@ -494,3 +567,36 @@ publish:
 	@$(MAKE) pod-publish
 	@$(MAKE) chatbot-publish
 	@$(MAKE) nginx-publish
+
+#
+# secrets
+#
+
+.PHONY: secrets
+secrets:
+	@./eks/secrets/cluster-all.sh
+	@./eks/secrets/uwsadm-update.py
+	@./eks/secrets/aws.env-all.sh
+	@./eks/secrets/aws.ses-update.py
+	@./eks/secrets/tapoS3-all.sh
+	@./eks/secrets/uwsasb-update.py
+
+.PHONY: check-secrets
+check-secrets:
+	@./eks/secrets/check.sh
+
+#
+# upgrades
+#
+
+.PHONY: upgrades
+upgrades:
+	@./docker/upgrades-all.sh
+
+.PHONY: upgrades-list
+upgrades-list:
+	@./docker/upgrades.py
+
+.PHONY: upgrades-check
+upgrades-check:
+	@./docker/upgrades.py --check

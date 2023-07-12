@@ -1,24 +1,24 @@
 ---
-- name: project user remove
-  become: yes
-  user:
+- name: RStudio project user remove
+  become: true
+  ansible.builtin.user:
     state: absent
     name: "{{ item }}"
-    force: no
-    remove: yes
+    force: false
+    remove: true
   loop: "{{ rstudio_project_user_remove | list }}"
   tags:
     - rstudio-project
 
-- name: project user
-  become: yes
-  user:
+- name: RStudio project user
+  become: true
+  ansible.builtin.user:
     state: present
     name: "{{ item }}"
     uid: "{{ rstudio_project_user[item].uid }}"
-    append: no
+    append: false
     comment: "{{ item }}"
-    create_home: yes
+    create_home: true
     group: ruser
     groups: "{{ rstudio_project_user[item].groups }}"
     home: "{{ uws_users_homedir }}/user/{{ item }}"
@@ -28,9 +28,9 @@
   tags:
     - rstudio-project
 
-- name: project user homedir
-  become: yes
-  file:
+- name: RStudio project user homedir
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/user/{{ item }}"
     owner: "{{ item }}"
@@ -40,24 +40,24 @@
   tags:
     - rstudio-project
 
-- name: project users symlink
-  become: yes
-  file:
+- name: RStudio project users symlink
+  become: true
+  ansible.builtin.file:
     state: link
     src: "{{ uws_users_homedir }}/project"
     dest: "{{ uws_users_homedir }}/user/{{ item }}/project"
-    force: yes
+    force: true
     owner: root
     group: root
   loop: "{{ rstudio_project_user | list }}"
   tags:
     - rstudio-project
 
-- name: project users umask
-  become: yes
-  lineinfile:
+- name: RStudio project users umask
+  become: true
+  ansible.builtin.lineinfile:
     path: "{{ uws_users_homedir }}/user/{{ item }}/.profile"
-    backup: yes
+    backup: true
     state: present
     regexp: '^umask'
     line: 'umask 0002'

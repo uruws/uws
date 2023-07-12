@@ -1,6 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import re
 import sys
 
 from typing     import Optional
@@ -109,7 +110,7 @@ def _setenv(env: Optional[dict[str, str]]) -> dict[str, str]:
 
 system_ttl: int = 600
 
-def system(cmd: str, env: dict[str, str] = None, timeout: int = system_ttl) -> int:
+def system(cmd: str, env: dict[str, str] | None = None, timeout: int = system_ttl) -> int:
 	"""run system commands"""
 	p = proc_run(cmd, shell = True, capture_output = False, timeout = timeout,
 		stdout = None, stderr = None, env = _setenv(env))
@@ -119,7 +120,7 @@ def gso(cmd: str) -> tuple[int, str]:
 	"""get status output from system commands"""
 	return getstatusoutput(cmd)
 
-def check_output(cmd: str, env: dict[str, str] = None) -> str:
+def check_output(cmd: str, env: dict[str, str] | None = None) -> str:
 	"""get output from system commands checking its exit status"""
 	return proc_check_output(cmd, shell = True, env = _setenv(env)).decode('utf-8')
 
@@ -200,7 +201,7 @@ def autobuild_deploy(n: str) -> list[str]:
 	"""get list of apps to deploy from an autobuild"""
 	return app[n].autobuild_deploy.copy()
 
-def build_list(user: User = None) -> list[str]:
+def build_list(user: User | None = None) -> list[str]:
 	"""return list of apps configured for build"""
 	if user is None: user = _user
 	return user_auth(user, [n for n in app.keys() if app[n].build.dir != ''])
@@ -209,7 +210,30 @@ def build_description() -> str:
 	"""format build apps description"""
 	return __desc(build_list())
 
-def deploy_list(user: User = None) -> list[str]:
+def build_blacklist(appname: str, tag: str) -> bool:
+	"""check if the version is blacklisted to be built"""
+	if appname in app.keys():
+		if tag.strip() in app[appname].build_blacklist:
+			return True
+	return False
+
+_buildpack_version_re = re.compile('.*-bp\d+$')
+
+def _image_version(v: str) -> str:
+	if _buildpack_version_re.match(v):
+		return '-'.join(v.split('-')[:-1])
+	return v
+
+def build_done(appname: str, tag: str) -> bool:
+	"""check against images repo if it already exists"""
+	for i in list_images(appname, region = 'us-east-1'):
+		if i.startswith(tag):
+			v = _image_version(i)
+			if v == tag:
+				return True
+	return False
+
+def deploy_list(user: User | None = None) -> list[str]:
 	"""return list of apps configured for deploy"""
 	if user is None: user = _user
 	return user_auth(user, [n for n in app.keys() if app[n].deploy.image != ''])
@@ -237,7 +261,7 @@ def list_images(appname: str, region: str = '') -> list[str]:
 		try:
 			region = cluster[kn].region
 		except KeyError:
-			error(f"{kn}: no cluster region")
+			error(f"{kn}: no cluster region to list images")
 			return []
 	cmd = "aws ecr list-images --output text --repository-name uws"
 	cmd += " --region %s" % region

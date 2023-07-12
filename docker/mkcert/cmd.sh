@@ -14,4 +14,4 @@ exec docker run --rm --network none --name uws-mkcert \
 	-v "${PWD}/docker/mkcert/etc:/usr/local/etc/ssl:ro" \
 	-v "${CAROOT}/${CANAME}/etc:/usr/local/etc/ca:ro" \
 	-v "${CADIR}:/home/uws/ca" \
-	-u uws uws/mkcert-2211 "$@"
+	-u uws uws/mkcert-2305 "$@"

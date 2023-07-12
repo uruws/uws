@@ -13,15 +13,19 @@ import chatbot
 import chatbot_slack
 
 app = bottle.Bottle()
+log = logging.getLogger(__name__)
+
+# https://docs.python.org/3.9/library/logging.html#logrecord-attributes
+logfmt_debug = '%(pathname)s:%(lineno)d %(message)s'
 
 #
 # views
 #
 
-@app.post('/healthz')
+@app.get('/healthz')
 def healthz():
 	if chatbot_slack.is_healthy():
-		return 'OK'
+		return 'ok'
 	raise RuntimeError('slack chatbot not healthy')
 
 #
@@ -30,20 +34,20 @@ def healthz():
 
 def start():
 	if chatbot.debug:
-		logging.basicConfig(level = logging.DEBUG)
-	logging.debug('start')
+		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
+	log.debug('start')
 	chatbot_slack.connect()
-	logging.debug('slack connected')
+	log.debug('slack connected')
 	chatbot_slack.msg('connected')
 
 def wsgi_application():
 	start()
-	logging.debug('wsgi application: %s', type(app))
+	log.debug('wsgi application: %s', type(app))
 	return app
 
 def main():
 	start()
-	logging.debug('bottle run')
+	log.debug('bottle run')
 	app.run(
 		host     = '0.0.0.0',
 		port     = chatbot.webapp_port,

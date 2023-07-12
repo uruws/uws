@@ -1,12 +1,6 @@
 #!/bin/sh
 set -eu
 
-# smtps CA
-CA=${HOME}/ca/uws/smtps/211006/client
-uwskube delete secret smtps-ca -n mon || true
-uwskube create secret generic smtps-ca -n mon \
-	--from-file="${CA}"
-
 # cluster.conf
 conf=/tmp/mon.munin.cluster.conf
 envsubst <~/k8s/mon/munin/conf.d/cluster.conf >${conf}
@@ -33,5 +27,13 @@ deploy_confd=${HOME}/secret/munin/conf
 uwskube delete secret munin-deploy-confd -n mon || true
 uwskube create secret generic munin-deploy-confd -n mon \
 	--from-file="${deploy_confd}"
+
+# munin-mailx
+mailxd=${HOME}/secret/mailx/aws.ses
+uwskube delete secret munin-mailx -n mon || true
+uwskube create secret generic munin-mailx -n mon --from-file="${mailxd}"
+
+# smtps-ca
+~/ca/uws/smtps/setup.sh mon
 
 exit 0

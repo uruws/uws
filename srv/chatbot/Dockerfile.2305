@@ -1,0 +1,43 @@
+FROM uws/webapp-2305
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230703"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh openssh-client
+
+USER uws:uwsops
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+COPY --chown=uws:uwsops ./src/requirements.txt /opt/uws/chatbot/requirements.txt
+
+RUN /opt/uws/venv/bin/pip install -r /opt/uws/chatbot/requirements.txt
+RUN /opt/uws/venv/bin/python3 -m compileall /opt/uws/chatbot
+
+USER uws:uwsops
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+COPY --chown=uws:uwsops ./src /opt/uws/chatbot
+
+RUN /opt/uws/venv/bin/python3 -m compileall /opt/uws/chatbot
+
+USER uwsops:uwsops
+WORKDIR /home/uwsops
+
+ENV USER uwsops
+ENV HOME /home/uwsops
+ENV UWS_WEBAPP_WORKERS 1
+ENV UWS_WEBAPP_PORT 2741
+
+ENTRYPOINT exec /usr/local/bin/entrypoint.sh

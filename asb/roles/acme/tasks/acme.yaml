@@ -1,7 +1,7 @@
 ---
-- name: dir setup
-  become: yes
-  file:
+- name: Acme dir setup
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     mode: '0751'
@@ -15,9 +15,9 @@
   tags:
     - acme
 
-- name: cert dirs
-  become: yes
-  file:
+- name: Acme cert dirs
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     mode: '0770'
@@ -30,9 +30,9 @@
   tags:
     - acme
 
-- name: account.key
-  become: yes
-  copy:
+- name: Acme account.key
+  become: true
+  ansible.builtin.copy:
     src: ~/secret/acme/{{ uws_acme_account }}
     dest: /srv/acme/key/account.key
     owner: uws
@@ -41,9 +41,9 @@
   tags:
     - acme
 
-- name: run dirs
-  become: yes
-  file:
+- name: Acme run dirs
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     mode: '0770'
@@ -54,9 +54,9 @@
   tags:
     - acme
 
-- name: challenges dir
-  become: yes
-  file:
+- name: Acme challenges dir
+  become: true
+  ansible.builtin.file:
     state: directory
     path: /srv/acme/run/challenge
     mode: '0750'
@@ -65,20 +65,9 @@
   tags:
     - acme
 
-- name: docker image
-  docker_image:
-    repository: uwsops
-    name: "{{ uwsops_ecr }}:acme"
-    source: pull
-    force_source: yes
-    force_tag: yes
-  tags:
-    - acme
-    - docker
-
-- name: scripts
-  become: yes
-  copy:
+- name: Acme scripts
+  become: true
+  ansible.builtin.copy:
     src: ~/srv/acme/bin/{{ item }}
     dest: /srv/acme/bin/{{ item }}
     mode: '0550'
@@ -87,13 +76,14 @@
   loop:
     - acme-certs.sh
     - acme-cmd.sh
+    - acme-docker-image.sh
     - acme-reload.sh
   tags:
     - acme
 
-- name: cron job
-  become: yes
-  cron:
+- name: Acme cron job
+  become: true
+  ansible.builtin.cron:
     cron_file: uws-acme
     name: acme-certs
     user: uws
@@ -104,9 +94,9 @@
   tags:
     - acme
 
-- name: reload cron job
-  become: yes
-  cron:
+- name: Acme reload cron job
+  become: true
+  ansible.builtin.cron:
     cron_file: uws-acme-reload
     name: acme-reload
     user: root
@@ -117,9 +107,9 @@
   tags:
     - acme
 
-- name: certs.list
-  become: yes
-  template:
+- name: Acme certs.list
+  become: true
+  ansible.builtin.template:
     src: acme/certs.list
     dest: /srv/acme/etc/certs.list
     owner: root
@@ -130,10 +120,16 @@
     - acme
     - acme-certs
 
-- name: get certs
-  become: yes
+- name: Acme get docker image
+  ansible.builtin.command: /srv/acme/bin/acme-docker-image.sh
+  tags:
+    - acme
+    - acme-certs
+
+- name: Acme get certs
+  become: true
   become_user: uws
-  command: /srv/acme/bin/acme-certs.sh
+  ansible.builtin.command: /srv/acme/bin/acme-certs.sh
   tags:
     - acme
     - acme-certs

@@ -2,25 +2,25 @@
 #
 # host
 #
-- name: hostname
-  become: yes
-  hostname:
+- name: Debian hostname
+  become: true
+  ansible.builtin.hostname:
     name: "{{ ansible_host }}"
   tags:
     - host
 
-- name: timezone
-  become: yes
-  timezone:
+- name: Debian timezone
+  become: true
+  community.general.timezone:
     name: UTC
   tags:
     - host
 #
 # apt
 #
-- name: apt sources
-  become: yes
-  template:
+- name: Debian apt sources
+  become: true
+  ansible.builtin.template:
     src: apt/sources.list
     dest: /etc/apt/sources.list
     owner: root
@@ -30,22 +30,22 @@
   tags:
     - apt
 
-- name: apt clean
-  become: yes
-  apt:
-    autoclean: yes
+- name: Debian apt clean
+  become: true
+  ansible.builtin.apt:
+    autoclean: true
   tags:
     - apt
 
-- name: apt update
-  become: yes
-  apt:
-    update_cache: yes
+- name: Debian apt update
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
     cache_valid_time: 3600
 
-- name: apt install
-  become: yes
-  apt:
+- name: Debian apt install
+  become: true
+  ansible.builtin.apt:
     pkg:
       - bash
       - python3
@@ -67,30 +67,30 @@
   tags:
     - apt
 
-- name: apt remove
-  become: yes
-  apt:
+- name: Debian apt remove
+  become: true
+  ansible.builtin.apt:
     state: absent
-    autoremove: yes
-    purge: yes
+    autoremove: true
+    purge: true
     pkg:
       - nano
   tags:
     - apt
 
-- name: apt purge
-  become: yes
-  apt:
-    autoremove: yes
-    purge: yes
+- name: Debian apt purge
+  become: true
+  ansible.builtin.apt:
+    autoremove: true
+    purge: true
   tags:
     - apt
 #
 # root
 #
-- name: root home dir
-  become: yes
-  file:
+- name: Debian root home dir
+  become: true
+  ansible.builtin.file:
     state: directory
     path: /root
     owner: root
@@ -101,9 +101,9 @@
 #
 # admin
 #
-- name: "{{ ansible_user }} home dir"
-  become: yes
-  file:
+- name: "Debian home dir {{ ansible_user }}"
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "~{{ ansible_user }}"
     owner: "{{ ansible_user }}"
@@ -112,9 +112,9 @@
   tags:
     - admin
 
-- name: "{{ ansible_user }} bin dir"
-  become: yes
-  file:
+- name: "Debian bin dir {{ ansible_user }}"
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "~{{ ansible_user }}/bin"
     owner: "{{ ansible_user }}"
@@ -125,42 +125,42 @@
 #
 # uws
 #
-- name: uws group
-  become: yes
-  group:
+- name: Debian uws group
+  become: true
+  ansible.builtin.group:
     state: present
     name: uws
     gid: 1500
   tags:
     - uws
 
-- name: uws user
-  become: yes
-  user:
+- name: Debian uws user
+  become: true
+  ansible.builtin.user:
     state: present
     name: uws
     uid: 1500
-    append: no
+    append: false
     comment: uws
-    create_home: yes
+    create_home: true
     group: uws
     home: /home/uws
     shell: /bin/bash
   tags:
     - uws
 
-- name: uws user groups
-  become: yes
-  user:
+- name: Debian uws user groups
+  become: true
+  ansible.builtin.user:
     name: uws
-    append: yes
+    append: true
     groups: "{{ ansible_user }}"
   tags:
     - uws
 
-- name: uws home dir
-  become: yes
-  file:
+- name: Debian uws home dir
+  become: true
+  ansible.builtin.file:
     state: directory
     path: /home/uws
     owner: uws
@@ -171,10 +171,10 @@
 #
 # sudo
 #
-- name: uws sudoers
-  become: yes
-  copy:
-    force: yes
+- name: Debian uws sudoers
+  become: true
+  ansible.builtin.copy:
+    force: true
     owner: root
     group: root
     mode: '0440'
@@ -186,15 +186,15 @@
 #
 # ssh
 #
-- name: uws ssh authorized keys
-  become: yes
-  authorized_key:
+- name: Debian uws ssh authorized keys
+  become: true
+  ansible.posix.authorized_key:
     state: present
     user: uws
     comment: "{{ item }}@github.com"
     key: https://github.com/{{ item }}.keys
-    manage_dir: yes
-    exclusive: yes
+    manage_dir: true
+    exclusive: true
   loop: "{{ uws_authorized_key }}"
   tags:
     - uws
@@ -202,9 +202,9 @@
 #
 # sshd
 #
-- name: sshd config
-  become: yes
-  template:
+- name: Debian sshd config
+  become: true
+  ansible.builtin.template:
     src: ssh/sshd_config
     dest: /etc/ssh/sshd_config.d/uws.conf
     owner: root

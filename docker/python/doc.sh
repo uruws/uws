@@ -6,4 +6,4 @@ exec docker run -it --rm --name uws-pydoc \
 	-v ${PWD}/python:/opt/uws \
 	-e PYTHONPATH=/opt/uws/lib \
 	--entrypoint /usr/bin/pydoc3 \
-	uws/python-2211 "$@"
+	uws/python-2305 "$@"

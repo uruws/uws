@@ -1,15 +1,15 @@
 ---
-- name: restart rstudio-server
-  become: yes
-  service:
+- name: RStudio restart server
+  become: true
+  ansible.builtin.service:
     name: rstudio-server
     state: restarted
   tags:
     - rstudio
 
-- name: reload systemd
-  become: yes
-  systemd:
-    daemon_reload: yes
+- name: RStudio reload systemd
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
   tags:
     - rstudio

@@ -25,4 +25,4 @@ exec docker run -it --rm --name uwsbot-devel \
 	-v ${HOME}/.uws/golang/bot:/home/uws/.config/uws/bot:ro \
 	-v ${PWD}/build/uwsbot/stats:/uws/var/uwsbot/stats \
 	--entrypoint /usr/local/bin/uws-login.sh \
-	-u uws uws/golang-2211
+	-u uws uws/golang-2305

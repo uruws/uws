@@ -49,6 +49,8 @@ spec:
             - containerPort: 2800
               name: k8smon
           env:
+            - name: UWS_DEPLOY
+              value: "${UWS_DEPLOY}"
             - name: USER
               value: "uwsrun"
             - name: HOME
@@ -70,11 +72,11 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 400m
-              memory: 1700Mi
-            limits:
-              cpu: 400m
-              memory: 1700Mi
+              cpu: 100m
+              memory: 100Mi
+            #~ limits:
+              #~ cpu: 100m
+              #~ memory: 500Mi
           command:
             - /usr/local/bin/k8smon
           livenessProbe:

@@ -41,7 +41,7 @@ class Test(unittest.TestCase):
 
 	def test_main_pod(t):
 		t.assertEqual(logs.main(['-n', 'ns', 'pod/testing']), 0)
-		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 pod/testing")
+		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors pod/testing")
 
 	def test_main_pod_error(t):
 		logs._system = MagicMock(return_value = 99)
@@ -54,6 +54,18 @@ class Test(unittest.TestCase):
 	def test_main_label(t):
 		t.assertEqual(logs.main(['-n', 'ns', '-l', 'testing']), 0)
 		logs._system.assert_called_once_with('uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors -l testing')
+
+	def test_main_container(t):
+		t.assertEqual(logs.main(['-n', 'ns', '-c', 'testing']), 0)
+		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors -c testing -l '*'")
+
+	def test_main_all_containers(t):
+		t.assertEqual(logs.main(['-n', 'ns', '-C']), 0)
+		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --ignore-errors --all-containers=true -l '*'")
+
+	def test_main_previous(t):
+		t.assertEqual(logs.main(['-n', 'ns', '-p']), 0)
+		logs._system.assert_called_once_with("uwskube logs --timestamps -n ns --tail=10 --prefix=true --previous=true --ignore-errors -l '*'")
 
 if __name__ == '__main__':
 	unittest.main()

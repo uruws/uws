@@ -1,7 +1,7 @@
 ---
-- name: apt install
-  become: yes
-  apt:
+- name: Munin apt install
+  become: true
+  ansible.builtin.apt:
     pkg:
       - munin
       - munin-node
@@ -11,25 +11,25 @@
     - apt
     - munin
 
-- name: service enable
-  become: yes
-  service:
+- name: Munin service enable
+  become: true
+  ansible.builtin.service:
     name: munin-node
-    enabled: yes
+    enabled: true
   tags:
     - munin
 
-- name: service
-  become: yes
-  service:
+- name: Munin service
+  become: true
+  ansible.builtin.service:
     name: munin-node
     state: started
   tags:
     - munin
 
-- name: munin-setup
-  become: yes
-  template:
+- name: Munin munin-setup
+  become: true
+  ansible.builtin.template:
     src: munin/uws-setup.sh
     dest: /etc/munin/uws-setup.sh
     owner: root
@@ -38,9 +38,8 @@
   tags:
     - munin
 
-- name: run munin-setup
-  become: yes
-  shell:
-    cmd: /etc/munin/uws-setup.sh
+- name: Munin run munin-setup
+  become: true
+  ansible.builtin.command: /etc/munin/uws-setup.sh
   tags:
     - munin

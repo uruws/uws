@@ -1,0 +1,78 @@
+# https://github.com/haproxy-ingress/charts/blob/release-0.14/haproxy-ingress/values.yaml
+---
+controller:
+  autoscaling:
+    enabled: ${HPX_ENABLE_AUTOSCALING}
+    minReplicas: ${HPX_REPLICAS}
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 90
+    #~ targetMemoryUtilizationPercentage: 80
+
+  defaultBackendService: ${HPX_DEFAULT_BACKEND}
+
+  extraArgs:
+    force-namespace-isolation: true
+    ingress-class-precedence: true
+    watch-namespace: ${HPX_NAMESPACE}
+
+  ingressClass: ${HPX_NAME}
+  kind: Deployment
+
+  logging:
+    # error warning info debug trace
+    level: warning
+
+  logs:
+    enabled: true
+    resources:
+      #~ limits:
+        #~ cpu: 10m
+        #~ memory: 10Mi
+      requests:
+        cpu: 2m
+        memory: 2Mi
+
+  metrics:
+    controllerPort: 10254
+    embedded: true
+    enabled: true
+
+  minAvailable: 1
+
+  publishService:
+    enabled: false
+
+  replicaCount: ${HPX_REPLICAS}
+
+  resources:
+    limits:
+      cpu: 30m
+      memory: 200Mi
+    requests:
+      cpu: 6m
+      memory: 40Mi
+
+  service:
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+    type: LoadBalancer
+
+  serviceMonitor:
+    enabled: false
+
+  stats:
+    enabled: true
+
+defaultBackend:
+  enabled: ${HPX_ENABLE_DEFAULT_BACKEND}
+  minAvailable: 1
+  name: default-backend
+  replicaCount: 3
+  resources:
+    #~ limits:
+      #~ cpu: 10m
+      #~ memory: 20Mi
+    requests:
+      cpu: 1m
+      memory: 2Mi

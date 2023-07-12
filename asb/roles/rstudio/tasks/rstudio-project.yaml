@@ -1,26 +1,26 @@
 ---
-- name: project users group
-  become: yes
-  group:
+- name: RStudio project users group
+  become: true
+  ansible.builtin.group:
     name: ruser
     state: present
     gid: "{{ rstudio_project_user_gid }}"
   tags:
     - rstudio-project
 
-- name: project admin users group
-  become: yes
-  user:
+- name: RStudio project admin users group
+  become: true
+  ansible.builtin.user:
     name: "{{ item }}"
-    append: yes
+    append: true
     groups: ruser
   loop: "{{ rstudio_user | list }}"
   tags:
     - rstudio-project
 
-- name: project group
-  become: yes
-  group:
+- name: RStudio project group
+  become: true
+  ansible.builtin.group:
     name: "{{ item }}"
     state: present
     gid: "{{ rstudio_project[item].gid }}"
@@ -28,19 +28,19 @@
   tags:
     - rstudio-project
 
-- name: project admin users
-  become: yes
-  user:
+- name: RStudio project admin users
+  become: true
+  ansible.builtin.user:
     name: "{{ item.0 }}"
-    append: yes
+    append: true
     groups: "{{ item.1 }}"
   loop: "{{ rstudio_user | list | product(rstudio_project | list) | list }}"
   tags:
     - rstudio-project
 
-- name: projects basedir
-  become: yes
-  file:
+- name: RStudio projects basedir
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/project"
     owner: root
@@ -49,22 +49,22 @@
   tags:
     - rstudio-project
 
-- name: project admin users symlink
-  become: yes
-  file:
+- name: RStudio project admin users symlink
+  become: true
+  ansible.builtin.file:
     state: link
     src: "{{ uws_users_homedir }}/project"
     dest: "{{ uws_users_homedir }}/{{ item }}/project"
-    force: yes
+    force: true
     owner: root
     group: root
   loop: "{{ rstudio_user | list }}"
   tags:
     - rstudio-project
 
-- name: project dir
-  become: yes
-  file:
+- name: RStudio project dir
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/project/{{ rstudio_project[item].name }}"
     owner: root
@@ -74,9 +74,9 @@
   tags:
     - rstudio-project
 
-- name: project users base homedir
-  become: yes
-  file:
+- name: RStudio project users base homedir
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ uws_users_homedir }}/user"
     owner: root

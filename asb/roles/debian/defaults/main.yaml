@@ -1,2 +1,2 @@
 ---
-apt_sources_update: yes
+apt_sources_update: true

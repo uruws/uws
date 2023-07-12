@@ -1,2 +1,3 @@
 ---
-- import_tasks: iptables.yaml
+- name: IPtables import
+  ansible.builtin.import_tasks: iptables.yaml
