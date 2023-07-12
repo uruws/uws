@@ -30,11 +30,22 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN install -v -d -m 0750 -o uws -g uwsops /etc/opt/uws
-
 COPY --chown=root:uwsops ./utils /usr/local/bin
 RUN chmod -v 0750 /usr/local/bin/*.sh \
 	&& chmod -v 0755 /usr/local/bin/uws-login.sh
+
+RUN install -v -d -m 0750 -o uws -g uwsops /opt/uws/lib \
+	&& install -v -d -m 0750 -o uws -g uwsops /etc/opt/uws
+
+COPY --chown=uws:uwsops ./src /opt/uws/lib
+
+USER uws:uwsops
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+RUN /opt/uws/venv/bin/python3 -m compileall /opt/uws/lib
 
 USER uwsops:uwsops
 WORKDIR /home/uwsops

@@ -1,20 +1,17 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import logging
-
 import bottle # type: ignore
 from   bottle import response
 from   bottle import template
+
+import wapp
 
 import ab
 import ab_conf
 
 app = bottle.Bottle()
-log = logging.getLogger(__name__)
-
-# https://docs.python.org/3.9/library/logging.html#logrecord-attributes
-logfmt_debug = '%(pathname)s:%(lineno)d %(message)s'
+log = wapp.getLogger(__name__)
 
 #
 # views
@@ -38,8 +35,7 @@ def home():
 #
 
 def start():
-	if ab.debug:
-		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
+	wapp.start(ab.debug)
 	log.debug('start')
 
 def wsgi_application():

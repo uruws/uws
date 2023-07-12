@@ -4,7 +4,7 @@ set -eu
 webapp=${UWS_WEBAPP}
 webapp_dir="/opt/uws/${webapp}"
 
-PYTHONPATH=${webapp_dir}:/etc${webapp_dir}:${webapp_dir}/test
+PYTHONPATH=/opt/uws/lib:${webapp_dir}:/etc${webapp_dir}:${webapp_dir}/test
 export PYTHONPATH
 
 cd ${HOME}/tmp
@@ -25,7 +25,7 @@ fi
 covd=${HOME}/tmp/htmlcov
 rm -rf ${covd}
 
-/opt/uws/venv/bin/python3 -m coverage report --omit '/opt/uws/venv/*,/usr/lib/*'
-/opt/uws/venv/bin/python3 -m coverage html --omit '/opt/uws/venv/*,/usr/lib/*' -d ${covd}
+/opt/uws/venv/bin/python3 -m coverage report --omit '/opt/uws/venv/*,/opt/uws/lib/*,/usr/lib/*'
+/opt/uws/venv/bin/python3 -m coverage html --omit '/opt/uws/venv/*,/opt/uws/lib/*,/usr/lib/*' -d ${covd}
 
 exit 0

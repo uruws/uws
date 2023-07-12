@@ -4,6 +4,8 @@ set -eu
 echo "*** webapp: ${UWS_WEBAPP}"
 echo "***   port: ${UWS_WEBAPP_PORT}"
 
+pypath=/opt/uws/lib:/etc/opt/uws/${UWS_WEBAPP}
+
 exec uwsgi                                                        \
 	--master                                                      \
 	--no-orphans                                                  \
@@ -25,7 +27,7 @@ exec uwsgi                                                        \
 	--env                 LC_CTYPE=UTF-8                          \
 	--env                 PYTHONUTF8=1                            \
 	--env                 PYTHONIOENCODING=utf-8                  \
-	--env                 "PYTHONPATH=/etc/opt/uws/${UWS_WEBAPP}" \
+	--env                 "PYTHONPATH=${pypath}"                  \
 	--http11-socket       "0.0.0.0:${UWS_WEBAPP_PORT}"            \
 	--chdir               "/opt/uws/${UWS_WEBAPP}"                \
 	--venv                /opt/uws/venv
