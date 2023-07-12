@@ -45,8 +45,9 @@ class TestViews(unittest.TestCase):
 
 	def test_healthz_error(t):
 		with ab_test.mock_run(status = 99):
-			t.assertEqual(ab_main.healthz(), 'error: 99')
-			t.assertEqual(ab_main.response.content_type, 'text/plain')
+			with t.assertRaises(RuntimeError) as err:
+				ab_main.healthz()
+			t.assertEqual(str(err.exception), 'ab exit status: 99')
 
 if __name__ == '__main__':
 	unittest.main()
