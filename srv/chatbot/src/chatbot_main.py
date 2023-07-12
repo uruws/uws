@@ -2,10 +2,11 @@
 # See LICENSE file.
 
 import bottle # type: ignore
-import logging
 import sys
 
 from pathlib import Path
+
+import wapp
 
 import chatbot_conf
 
@@ -13,10 +14,7 @@ import chatbot
 import chatbot_slack
 
 app = bottle.Bottle()
-log = logging.getLogger(__name__)
-
-# https://docs.python.org/3.9/library/logging.html#logrecord-attributes
-logfmt_debug = '%(pathname)s:%(lineno)d %(message)s'
+log = wapp.getLogger(__name__)
 
 #
 # views
@@ -33,8 +31,7 @@ def healthz():
 #
 
 def start():
-	if chatbot.debug:
-		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
+	wapp.start(chatbot.debug)
 	log.debug('start')
 	chatbot_slack.connect()
 	log.debug('slack connected')

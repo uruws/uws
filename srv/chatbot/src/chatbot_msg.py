@@ -1,11 +1,11 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import logging
-
 from math import ceil
 
-log = logging.getLogger(__name__)
+import wapp
+
+log = wapp.getLogger(__name__)
 
 max_bytes = 3500
 

@@ -1,7 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import logging
 import shlex
 
 from dataclasses import dataclass
@@ -11,7 +10,9 @@ from pathlib     import Path
 from subprocess  import getstatusoutput
 from typing      import Optional
 
-log = logging.getLogger(__name__)
+import wapp
+
+log = wapp.getLogger(__name__)
 
 #
 # config

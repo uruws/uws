@@ -3,16 +3,17 @@
 
 # https://github.com/slackapi/bolt-python/blob/main/examples/socket_mode.py
 
-import logging
 import os
 
 from slack_bolt                     import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
+import wapp
+
 import chatbot
 import chatbot_msg
 
-log = logging.getLogger(__name__)
+log = wapp.getLogger(__name__)
 
 app = App(
 	token = os.getenv('SLACK_BOT_TOKEN'),
