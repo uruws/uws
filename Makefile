@@ -338,12 +338,9 @@ ab:
 ab-check: webapp ab
 	@./docker/webapp/check.sh ab
 
-ABENCH_TAG != cat ./srv/ab/VERSION
-
 .PHONY: ab-publish
 ab-publish: ab-check
-	@./docker/ecr-login.sh us-east-1
-	@./cluster/ecr-push.sh us-east-1 uws/ab-2211 uws:ab-$(ABENCH_TAG)
+	@./srv/ab/publish.sh
 
 #
 # deploy
