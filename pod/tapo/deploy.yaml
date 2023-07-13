@@ -43,17 +43,17 @@ spec:
               value: "3000"
             - name: NODE_OPTIONS
               value: "--max-old-space-size=${METEOR_MEMORY}"
-            - name: UWSAPP_CLUSTER
+            - name: APP_CLUSTER
               value: "${METEOR_CLUSTER}"
-            - name: UWSAPP_ENV
+            - name: APP_ENV
               value: "${METEOR_ENV}"
-            - name: UWSAPP_NAME
+            - name: APP_NAME
               value: "${METEOR_APP}"
-            - name: UWSAPP_NAMESPACE
+            - name: APP_NAMESPACE
               value: "${METEOR_NAMESPACE}"
-            - name: UWSAPP_VERSION
+            - name: APP_VERSION
               value: "${METEOR_VERSION}"
-            - name: UWSAPP_DEPLOY
+            - name: APP_DEPLOY
               value: "${METEOR_DEPLOY}"
           envFrom:
             - secretRef:

@@ -17,7 +17,4 @@ export METEOR_CPU
 METEOR_MEMORY="${TAPO_MEMORY}"
 export METEOR_MEMORY
 
-~/pod/tapo/configure.sh tapo web
-~/pod/tapo/deploy.sh    tapo web "${appver}"
-
-exit 0
+exec ~/pod/tapo/deploy.sh tapo web "${appver}"
