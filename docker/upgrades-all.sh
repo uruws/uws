@@ -38,11 +38,6 @@ set -eu
 ./docker/upgrades.py -t uws/mailx -U docker/mailx
 ./docker/upgrades.py -t uws/mailx
 
-# uws/webapp
-./docker/upgrades.py -t uws/webapp -U docker/webapp
-./docker/upgrades.py -t uws/webapp
-./docker/upgrades.py -t 'uws/${webapp}' || true
-
 # uws/k8s
 ./k8s/upgrades.py
 ./k8s/upgrades-all.sh
@@ -73,14 +68,6 @@ set -eu
 ./docker/upgrades.py -t uws/munin-node -U srv/munin-node
 ./docker/upgrades.py -t uws/munin-node
 
-# uws/chatbot
-./docker/upgrades.py -t uws/chatbot -s uws/webapp -U srv/chatbot
-./docker/upgrades.py -t uws/chatbot
-
-# uws/herokud
-./docker/upgrades.py -t uws/herokud -s uws/crond -U srv/herokud
-./docker/upgrades.py -t uws/herokud
-
 # uws/nginx
 ./docker/upgrades.py -t uws/nginx -U srv/nginx
 ./docker/upgrades.py -t uws/nginx
@@ -89,8 +76,17 @@ set -eu
 ./docker/upgrades.py -t uws/proftpd -U srv/proftpd
 ./docker/upgrades.py -t uws/proftpd
 
+# uws/webapp
+./docker/upgrades.py -t uws/webapp -U docker/webapp
+./docker/upgrades.py -t uws/webapp
+./docker/upgrades.py -t 'uws/${webapp}' || true
+
 # uws/ab
-./docker/upgrades.py -t uws/ab -U srv/ab
+./docker/upgrades.py -t uws/ab -s uws/webapp -U srv/ab
 ./docker/upgrades.py -t uws/ab
+
+# uws/chatbot
+./docker/upgrades.py -t uws/chatbot -s uws/webapp -U srv/chatbot
+./docker/upgrades.py -t uws/chatbot
 
 exit 0

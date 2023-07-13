@@ -1,14 +1,10 @@
 #!/bin/sh
-set -eu
+set -u
 
-chmod -v 0600 /srv/uws/deploy/secret/herokud/user/fetchmailrc
-
-if ! systemctl is-enabled herokud.service; then
-	systemctl enable herokud.service
-	systemctl start herokud
+if systemctl is-enabled herokud.service; then
+	systemctl stop herokud
+	systemctl disable herokud.service
+	rm -vf /etc/systemd/system/herokud.service
 fi
-
-export DOCKER_IMAGE='uws/herokud-2305'
-/uws/bin/service-restart.sh herokud /srv/uws/deploy/srv/herokud /uws/init/41-herokud-service
 
 exit 0

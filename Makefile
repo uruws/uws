@@ -30,12 +30,15 @@ prune:
 .PHONY: all
 all:
 	@$(MAKE) bootstrap
+	@$(MAKE) devel
 	@$(MAKE) clamav
 	@$(MAKE) uwsbot
 	@$(MAKE) munin
 	@$(MAKE) munin-backend
 	@$(MAKE) munin-node
 	@$(MAKE) proftpd
+	@$(MAKE) ab
+	@$(MAKE) chatbot
 
 #
 # bootstrap
@@ -54,10 +57,8 @@ bootstrap:
 	@$(MAKE) python
 	@$(MAKE) ansible
 	@$(MAKE) uwscli
-	@$(MAKE) devel
 	@$(MAKE) mailx
 	@$(MAKE) crond
-	@$(MAKE) herokud
 	@$(MAKE) webapp
 
 #
@@ -93,8 +94,6 @@ pod-publish:
 
 .PHONY: devel
 devel:
-	@$(MAKE) base
-	@$(MAKE) base-testing
 	@./docker/k8s/devel-build.sh
 	@./docker/eks/devel-build.sh
 	@./docker/asb/devel-build.sh
@@ -301,10 +300,6 @@ srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 heroku:
 	@./docker/heroku/build.sh
 
-.PHONY: herokud
-herokud:
-	@./srv/herokud/build.sh
-
 #
 # app-stats
 #
@@ -361,6 +356,7 @@ ab-publish:
 deploy:
 	@echo "i - START deploy `date -R` as ${USER}"
 	@$(MAKE) bootstrap
+	@$(MAKE) devel
 	@$(MAKE) check
 	@./host/deploy.sh local $(DEPLOY_SERVER)
 	@$(MAKE) prune

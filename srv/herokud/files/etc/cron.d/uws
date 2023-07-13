@@ -1,8 +1,0 @@
-USER=uws
-HOME=/home/uws
-MAILTO=root
-
-@reboot	root echo 'herokud started'
-
-# m h  dom mon dow	username command
-*/1 * * * * uws /home/uws/etc/fetchmail.sh --syslog -K
