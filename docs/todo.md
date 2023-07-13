@@ -47,6 +47,13 @@
 
 ---
 
+* meteor: sarmiento testing environment - `WIP` [PR224][PR224]
+    * for haproxy testing
+
+[PR224]: https://github.com/TalkingPts/Infrastructure/pull/224
+
+---
+
 * rotate aws ses credentials due to crond env vars exposing them
     * only internally, but still
     * secret/aws.iam/smtps_credentials.csv
