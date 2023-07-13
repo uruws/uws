@@ -34,6 +34,13 @@
 
 ---
 
+* herokud: deprecate service - `DONE!` [PR223][PR223]
+    * it was used to restart heroku dynos if an alert email was received
+
+[PR223]: https://github.com/TalkingPts/Infrastructure/pull/223
+
+---
+
 * rotate aws ses credentials due to crond env vars exposing them
     * only internally, but still
     * secret/aws.iam/smtps_credentials.csv
