@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-api
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-web
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-web
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway
+  labels:
+    uws.t.o/ingress-class: ${HPX_NAME}
+spec:
+  ingressClassName: ${HPX_NAME}
+  tls:
+    - hosts:
+        - ${HPX_HOSTNAME}.talkingpts.org
+      secretName: ${HPX_TLS}
+  rules:
+    - host: ${HPX_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # /api/
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
