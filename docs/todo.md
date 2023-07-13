@@ -41,6 +41,12 @@
 
 ---
 
+* MonitoringBots: debian release 12.0 - `DONE!` [MB6][MB6]
+
+[MB6]: https://github.com/TalkingPts/MonitoringBots/pull/6
+
+---
+
 * rotate aws ses credentials due to crond env vars exposing them
     * only internally, but still
     * secret/aws.iam/smtps_credentials.csv
