@@ -28,6 +28,12 @@
 
 ---
 
+* ansible: fix upgrade issues - `DONE!` [PR222][PR222]
+
+[PR222]: https://github.com/TalkingPts/Infrastructure/pull/222
+
+---
+
 * rotate aws ses credentials due to crond env vars exposing them
     * only internally, but still
     * secret/aws.iam/smtps_credentials.csv
