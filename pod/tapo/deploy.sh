@@ -27,4 +27,6 @@ export METEOR_DEPLOY
 
 envsubst <~/pod/tapo/deploy.yaml | uwskube apply -f -
 
+~/pod/tapo/deploy-setver.sh "${ns}" "${app}" "${appver}"
+
 exit 0
