@@ -59,5 +59,15 @@ class TestWapp(unittest.TestCase):
 				level  = m.logging.DEBUG,
 			)
 
+	def test_run(t):
+		m = MagicMock()
+		wapp.run(m)
+		m.run.assert_called_once_with(
+			host     = '0.0.0.0',
+			port     = 2741,
+			reloader = False,
+			debug    = False,
+		)
+
 if __name__ == '__main__':
 	unittest.main()

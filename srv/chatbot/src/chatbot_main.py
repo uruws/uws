@@ -77,12 +77,7 @@ def wsgi_application():
 def main():
 	start()
 	log.debug('bottle run')
-	app.run(
-		host     = '0.0.0.0',
-		port     = wapp.port,
-		reloader = wapp.debug,
-		debug    = wapp.debug,
-	)
+	wapp.run(app)
 
 if __name__ == '__main__': # pragma: no cover
 	main()

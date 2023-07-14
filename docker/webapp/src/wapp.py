@@ -54,3 +54,11 @@ def start():
 		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
 	log.debug('start: %s', name)
 	bottle_start(name)
+
+def run(app: Bottle):
+	app.run(
+		host     = '0.0.0.0',
+		port     = port,
+		reloader = debug,
+		debug    = debug,
+	)
