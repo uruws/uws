@@ -42,7 +42,7 @@ def do_send():
 #
 
 def start():
-	wapp.start()
+	wapp.start(app)
 	log.debug('start')
 	chatbot_slack.connect()
 	log.debug('slack connected')

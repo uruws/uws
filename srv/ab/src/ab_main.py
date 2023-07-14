@@ -35,7 +35,7 @@ def home():
 #
 
 def start():
-	wapp.start()
+	wapp.start(app)
 	log.debug('start')
 
 def wsgi_application():
