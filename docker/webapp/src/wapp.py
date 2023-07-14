@@ -5,12 +5,15 @@ import bottle # type: ignore
 import logging
 import os
 
-from bottle  import Bottle
+from bottle import Bottle
+from bottle import template
+
 from logging import Logger
 
 __all__ = [
 	'Bottle',
 	'Logger',
+	'template',
 ]
 
 from pathlib import Path
@@ -43,6 +46,7 @@ def bottle_start(app: str):
 	log.debug('bottle_start: %s', app)
 	bottle.TEMPLATE_PATH = [
 		Path('/opt/uws/lib/views'),
+		Path('/opt/uws', app, 'views'),
 	]
 
 #
