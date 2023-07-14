@@ -3,8 +3,7 @@
 
 import logging
 
-from bottle import Bottle # type: ignore
-
+from bottle  import Bottle # type: ignore
 from logging import Logger
 
 __all__ = [
@@ -26,6 +25,6 @@ def getLogger(name: str) -> logging.Logger:
 # main
 #
 
-def start(debug: bool):
+def start(debug: bool = False):
 	if debug:
 		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
