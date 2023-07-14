@@ -63,7 +63,7 @@ def do_send():
 #
 
 def start():
-	wapp.start('chatbot', debug = chatbot.debug)
+	wapp.start()
 	log.debug('start')
 	chatbot_slack.connect()
 	log.debug('slack connected')
@@ -71,7 +71,7 @@ def start():
 
 def wsgi_application():
 	start()
-	log.debug('wsgi application: %s', type(app))
+	log.debug('wsgi application')
 	return app
 
 def main():
@@ -79,9 +79,9 @@ def main():
 	log.debug('bottle run')
 	app.run(
 		host     = '0.0.0.0',
-		port     = chatbot.webapp_port,
-		reloader = chatbot.debug,
-		debug    = chatbot.debug,
+		port     = wapp.port,
+		reloader = wapp.debug,
+		debug    = wapp.debug,
 	)
 
 if __name__ == '__main__': # pragma: no cover

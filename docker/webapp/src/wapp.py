@@ -3,6 +3,7 @@
 
 import bottle # type: ignore
 import logging
+import os
 
 from bottle  import Bottle
 from logging import Logger
@@ -15,6 +16,14 @@ __all__ = [
 from pathlib import Path
 
 log: Logger = logging.getLogger(__name__)
+
+#
+# globals
+#
+
+name:   str =     os.getenv('UWS_WEBAPP',       'default')
+debug: bool =     os.getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
+port:   int = int(os.getenv('UWS_WEBAPP_PORT',  '2741'))
 
 #
 # logging
@@ -40,7 +49,7 @@ def bottle_start(app: str):
 # main
 #
 
-def start(name: str, debug: bool = False):
+def start():
 	if debug:
 		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
 	log.debug('start: %s', name)

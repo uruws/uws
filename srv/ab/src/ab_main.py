@@ -35,7 +35,7 @@ def home():
 #
 
 def start():
-	wapp.start('ab', debug = ab.debug)
+	wapp.start()
 	log.debug('start')
 
 def wsgi_application():
@@ -48,9 +48,9 @@ def main():
 	log.debug('bottle run')
 	app.run(
 		host     = '0.0.0.0',
-		port     = ab.webapp_port,
-		reloader = ab.debug,
-		debug    = ab.debug,
+		port     = wapp.port,
+		reloader = wapp.debug,
+		debug    = wapp.debug,
 	)
 
 if __name__ == '__main__': # pragma: no cover

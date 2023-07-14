@@ -18,9 +18,7 @@ log = wapp.getLogger(__name__)
 # config
 #
 
-debug:       bool = getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
-libexec:     Path = Path('/opt/uws/chatbot/libexec')
-webapp_port: int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
+libexec: Path = Path('/opt/uws/chatbot/libexec')
 
 #
 # users
