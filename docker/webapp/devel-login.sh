@@ -10,6 +10,7 @@ exec docker run -it --rm --read-only \
 	-p 127.0.0.1:0:2741 \
 	-v "${PWD}/docker/webapp/utils:/opt/webapp/utils:ro" \
 	-v "${PWD}/docker/webapp/utils.test:/opt/uws/test:ro" \
+	-v "${PWD}/docker/webapp/src:/opt/uws/lib:ro" \
 	-v "${tmpdir}:/home/uws/tmp" \
 	-u uws \
 	-e USER=uws \

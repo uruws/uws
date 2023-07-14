@@ -1,7 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import bottle # type: ignore
 import sys
 
 from pathlib import Path
@@ -13,8 +12,8 @@ import chatbot_conf
 import chatbot
 import chatbot_slack
 
-app = bottle.Bottle()
-log = wapp.getLogger(__name__)
+app: wapp.Bottle = wapp.Bottle()
+log: wapp.Logger = wapp.getLogger(__name__)
 
 #
 # views
