@@ -47,6 +47,23 @@
 
 ---
 
+* rstudio: change ec2 type based on compute optimizer recomendation - `DONE!`
+    * currently we use __c5a.4xlarge ($0.760/h)__
+    * they recommend r6g.xlarge but it's an ARM CPU (manufactured by amazon of course)
+    * changing to ARM is bot viable as it means reinstalling the whole OS and some tools might not work or be available for ARM arch
+    * we will change to __r5a.xlarge ($0.252/h)__
+        * which is also recommended and still an x86_64 arch
+        * we are downgrading the CPU from 16 cores to 4
+        * but same amount of RAM: 32G
+
+---
+
+* rstudio: server's backup - `DONE!` [I161][I161]
+
+[I161]: https://github.com/TalkingPts/Infrastructure/issues/161
+
+---
+
 * meteor: sarmiento testing environment - `WIP` [PR224][PR224]
     * for haproxy testing
 
@@ -192,19 +209,6 @@
 ---
 
 * meteor: accelerate build time using local caches/proxy/repo for npm dependencies
-
----
-
-* munin: sendmail errors
-    * uws@jsbatch:/srv/munin/var/alert/statuspage
-    * list queded .eml files
-
----
-
-* munin: check nightly SIS sync's [DEV-4288][DEV-4288]
-    * add it to statuspage alerts too
-
-[DEV-4288]: https://talkingpointsorg.atlassian.net/browse/DEV-4288
 
 ---
 
