@@ -1,3 +1,5 @@
 #!/bin/sh
 set -u
-exec uwskube delete namespace tapo
+uwskube delete namespace tpwrk
+uwskube delete namespace tapo
+exit 0

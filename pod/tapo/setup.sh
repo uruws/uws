@@ -1,3 +1,5 @@
 #!/bin/sh
 set -eu
-exec uwskube create namespace tapo
+uwskube create namespace tapo
+uwskube create namespace tpwrk
+exit 0
