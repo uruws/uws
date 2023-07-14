@@ -6,8 +6,6 @@ appver=${1:?'app version?'}
 ~/pod/tapo/cdn/deploy.sh "${appver}"
 ~/pod/tapo/cdn/wait.sh
 
-echo '*** tapo-web'
-
 METEOR_REPLICAS="${TAPO_REPLICAS}"
 export METEOR_REPLICAS
 
