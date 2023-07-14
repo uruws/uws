@@ -1,7 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import bottle # type: ignore
 import sys
 
 from pathlib import Path
@@ -13,8 +12,8 @@ import chatbot_conf
 import chatbot
 import chatbot_slack
 
-app = bottle.Bottle()
-log = wapp.getLogger(__name__)
+app: wapp.Bottle = wapp.Bottle()
+log: wapp.Logger = wapp.getLogger(__name__)
 
 #
 # views
@@ -64,7 +63,7 @@ def do_send():
 #
 
 def start():
-	wapp.start(chatbot.debug)
+	wapp.start()
 	log.debug('start')
 	chatbot_slack.connect()
 	log.debug('slack connected')
@@ -72,18 +71,13 @@ def start():
 
 def wsgi_application():
 	start()
-	log.debug('wsgi application: %s', type(app))
+	log.debug('wsgi application')
 	return app
 
 def main():
 	start()
 	log.debug('bottle run')
-	app.run(
-		host     = '0.0.0.0',
-		port     = chatbot.webapp_port,
-		reloader = chatbot.debug,
-		debug    = chatbot.debug,
-	)
+	wapp.run(app)
 
 if __name__ == '__main__': # pragma: no cover
 	main()

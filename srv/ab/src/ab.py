@@ -11,9 +11,7 @@ from pathlib import Path
 # config
 #
 
-debug:       bool = getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
-webapp_port: int  = int(getenv('UWS_WEBAPP_PORT', '2741'))
-cmdpath:     Path = Path('/usr/bin/ab')
+cmdpath: Path = Path('/usr/bin/ab')
 
 #
 # command

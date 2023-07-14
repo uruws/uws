@@ -10,7 +10,7 @@ import wapp
 import ab
 import ab_conf
 
-app = bottle.Bottle()
+app = wapp.Bottle()
 log = wapp.getLogger(__name__)
 
 #
@@ -35,7 +35,7 @@ def home():
 #
 
 def start():
-	wapp.start(ab.debug)
+	wapp.start()
 	log.debug('start')
 
 def wsgi_application():
@@ -46,12 +46,7 @@ def wsgi_application():
 def main():
 	start()
 	log.debug('bottle run')
-	app.run(
-		host     = '0.0.0.0',
-		port     = ab.webapp_port,
-		reloader = ab.debug,
-		debug    = ab.debug,
-	)
+	wapp.run(app)
 
 if __name__ == '__main__': # pragma: no cover
 	main()

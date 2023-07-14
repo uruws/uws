@@ -37,8 +37,7 @@ all:
 	@$(MAKE) munin-backend
 	@$(MAKE) munin-node
 	@$(MAKE) proftpd
-	@$(MAKE) ab
-	@$(MAKE) chatbot
+	@$(MAKE) webapp-all
 
 #
 # bootstrap
@@ -161,20 +160,6 @@ ansible:
 .PHONY: kali
 kali:
 	@./srv/kali/build.sh
-
-#
-# webapp
-#
-
-.PHONY: webapp
-webapp:
-	@./docker/webapp/build.sh
-
-.PHONY: webapp-all
-webapp-all:
-	@$(MAKE) webapp
-	@$(MAKE) ab
-	@$(MAKE) chatbot
 
 #
 # uwscli
@@ -311,6 +296,19 @@ app-stats: docker/golang/build/app-stats.bin
 
 docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/app-stats.bin ./cmd/app-stats
+
+#
+# webapp
+#
+
+.PHONY: webapp
+webapp:
+	@./docker/webapp/build.sh
+
+.PHONY: webapp-all
+webapp-all:
+	@$(MAKE) ab
+	@$(MAKE) chatbot
 
 #
 # chatbot
