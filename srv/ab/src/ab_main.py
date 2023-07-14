@@ -10,7 +10,7 @@ import wapp
 import ab
 import ab_conf
 
-app = bottle.Bottle()
+app = wapp.Bottle()
 log = wapp.getLogger(__name__)
 
 #
@@ -35,7 +35,7 @@ def home():
 #
 
 def start():
-	wapp.start(ab.debug)
+	wapp.start('ab', debug = ab.debug)
 	log.debug('start')
 
 def wsgi_application():

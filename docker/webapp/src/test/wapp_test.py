@@ -23,18 +23,26 @@ def mock_start():
 
 class TestWapp(unittest.TestCase):
 
+	#
+	# logging
+	#
+
 	def test_getLogger(t):
 		l = wapp.getLogger('testing')
 		t.assertIsInstance(l, logging.Logger)
 
+	#
+	# main
+	#
+
 	def test_start(t):
 		with mock_start() as m:
-			wapp.start()
+			wapp.start('testing')
 			m.logging.basicConfig.assert_not_called()
 
 	def test_start_debug(t):
 		with mock_start() as m:
-			wapp.start(debug = True)
+			wapp.start('testing', debug = True)
 			m.logging.basicConfig.assert_called_once_with(
 				format = wapp.logfmt_debug,
 				level  = m.logging.DEBUG,

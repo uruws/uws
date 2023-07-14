@@ -63,7 +63,7 @@ def do_send():
 #
 
 def start():
-	wapp.start(chatbot.debug)
+	wapp.start('chatbot', debug = chatbot.debug)
 	log.debug('start')
 	chatbot_slack.connect()
 	log.debug('slack connected')
