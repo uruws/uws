@@ -1,0 +1,144 @@
+#
+# tapo-web
+#
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-web
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-web
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tapo-web
+  labels:
+    uws.t.o/ingress-class: ${HPX_NAME}
+spec:
+  ingressClassName: ${HPX_NAME}
+  tls:
+    - hosts:
+        - ${TAPO_HOSTNAME}.talkingpts.org
+      secretName: ${HPX_TLS}
+  rules:
+    - host: ${TAPO_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # /api/
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-web
+                port:
+                  number: 3000
+#
+# tapo-api
+#
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-api
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-api
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tapo-api
+  labels:
+    uws.t.o/ingress-class: ${HPX_NAME}
+spec:
+  ingressClassName: ${HPX_NAME}
+  tls:
+    - hosts:
+        - ${TAPO_API_HOSTNAME}.talkingpts.org
+      secretName: ${HPX_TLS}
+  rules:
+    - host: ${TAPO_API_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # /api/
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /bandwidthCallbackSMS
+          - path: /bandwidthCallbackSMS
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /coconut_webhook
+          - path: /coconut_webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+#
+# tapo-cdn
+#
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-cdn
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-cdn
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tapo-cdn
+  labels:
+    uws.t.o/ingress-class: ${HPX_NAME}
+spec:
+  ingressClassName: ${HPX_NAME}
+  tls:
+    - hosts:
+        - ${TAPO_CDN_HOSTNAME}.talkingpts.org
+      secretName: ${HPX_TLS}
+  rules:
+    - host: ${TAPO_CDN_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # /
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-cdn
+                port:
+                  number: 3000
