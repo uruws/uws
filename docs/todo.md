@@ -4,6 +4,15 @@
 
 ---
 
+* Development Backlog
+    * App Cache-Control header for CDN assets - [DEV-9810][DEV-9810]
+    * App api clients domain - [DEV-9833][DEV-9833]
+
+[DEV-9810]: https://talkingpointsorg.atlassian.net/browse/DEV-9810
+[DEV-9833]: https://talkingpointsorg.atlassian.net/browse/DEV-9833
+
+---
+
 * debian: new release version 12, codename bookworm - `DONE!` [PR213][PR213] [PR214][PR214] [PR215][PR215] [PR216][PR216] [PR217][PR217] [PR218][PR218] [PR219][PR219]
 
 [PR213]: https://github.com/TalkingPts/Infrastructure/pull/213
