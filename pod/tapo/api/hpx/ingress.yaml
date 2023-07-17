@@ -35,3 +35,19 @@ spec:
                 name: meteor-api
                 port:
                   number: 3000
+          # /bandwidthCallbackSMS
+          - path: /bandwidthCallbackSMS
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /coconut_webhook
+          - path: /coconut_webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
