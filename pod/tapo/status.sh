@@ -11,6 +11,6 @@ appver=$(~/pod/tapo/deploy-getver.sh "${ns}" "${app}")
 
 echo
 echo 'DEPLOY'
-echo "APP_VERSION=${appver}"
+echo -e "version\t${appver}"
 
 exit 0
