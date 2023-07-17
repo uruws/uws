@@ -13,7 +13,7 @@ HOSTIP=$(/uws/docker-hostip.sh)
 
 exec /usr/bin/docker run --rm -u root \
 	--name uws-munin-service \
-	--hostname munin.uws.local \
+	--hostname ops-munin.uws.local \
 	--add-host "docker.uws.local:${HOSTIP}" \
 	-v /srv/munin/var/lib:/var/lib/munin \
 	-v /srv/munin/var/alert:/var/opt/munin-alert \

@@ -33,7 +33,7 @@ spec:
       containers:
         - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin-${VERSION}
           imagePullPolicy: IfNotPresent
-          name: munin
+          name: ${UWS_CLUSTER}-munin
           securityContext:
             allowPrivilegeEscalation: false
           env:
