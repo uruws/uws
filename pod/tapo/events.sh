@@ -1,3 +1,5 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/events.sh tapo "$@"
+ns=${1:?'namespace?'}
+shift
+exec ~/pod/lib/events.sh "${ns}" "$@"
