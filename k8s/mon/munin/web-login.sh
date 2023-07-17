@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec uwskube exec pod/munin-0 -i -t -c munin-web -n mon -- bash -il
+exec uwskube exec deployment/${UWS_CLUSTER}-munin -i -t -c munin-web -n mon -- bash -il

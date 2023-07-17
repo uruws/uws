@@ -31,39 +31,18 @@ def healthz():
 
 @app.get('/send')
 def send():
-	return """<!DOCTYPE html>
-<html>
-<head>
-  <title>chatbot - send</title>
-</head>
-<body>
-  <form action="/send" method="post">
-    <input type="text" name="message" required="required" placeholder="message">
-    <input type="submit" name="send" value="send">
-  </form>
-</body>
-</html>
-"""
+	return wapp.template('chatbot/send.html')
 
 @app.post('/send')
 def do_send():
-	return """<!DOCTYPE html>
-<html>
-<head>
-  <title>chatbot - message</title>
-</head>
-<body>
-  <p>sent</p>
-</body>
-</html>
-"""
+	return wapp.template('chatbot/sent.html')
 
 #
 # main
 #
 
 def start():
-	wapp.start()
+	wapp.start(app)
 	log.debug('start')
 	chatbot_slack.connect()
 	log.debug('slack connected')

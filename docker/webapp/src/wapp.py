@@ -5,12 +5,15 @@ import bottle # type: ignore
 import logging
 import os
 
-from bottle  import Bottle
+from bottle import Bottle
+from bottle import template
+
 from logging import Logger
 
 __all__ = [
 	'Bottle',
 	'Logger',
+	'template',
 ]
 
 from pathlib import Path
@@ -43,17 +46,30 @@ def bottle_start(app: str):
 	log.debug('bottle_start: %s', app)
 	bottle.TEMPLATE_PATH = [
 		Path('/opt/uws/lib/views'),
+		Path('/opt/uws', app, 'views'),
 	]
+
+def static_files_handler(app: Bottle, name: str):
+	log.debug('static files handler: %s', name)
+
+	@app.get('/static/%s/<filename:path>' % name)
+	def app_static(filename): # pragma: no cover
+		return bottle.static_file(filename, root = Path('/opt/uws', name, 'static', name))
+
+	@app.get('/static/<filename:path>')
+	def lib_static(filename): # pragma: no cover
+		return bottle.static_file(filename, root = Path('/opt/uws/lib/static'))
 
 #
 # main
 #
 
-def start():
+def start(app: Bottle):
 	if debug:
 		logging.basicConfig(format = logfmt_debug, level = logging.DEBUG)
 	log.debug('start: %s', name)
 	bottle_start(name)
+	static_files_handler(app, name)
 
 def run(app: Bottle):
 	app.run(
