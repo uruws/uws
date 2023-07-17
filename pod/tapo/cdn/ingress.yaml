@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-cdn
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-cdn
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tapo-cdn
+  labels:
+    uws.t.o/ingress-class: ${HPX_NAME}
+spec:
+  ingressClassName: ${HPX_NAME}
+  tls:
+    - hosts:
+        - ${HPX_HOSTNAME}.talkingpts.org
+      secretName: ${HPX_TLS}
+  rules:
+    - host: ${HPX_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # /
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-cdn
+                port:
+                  number: 3000

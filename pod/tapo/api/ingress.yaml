@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor-api
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-api
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tapo-api
+  labels:
+    uws.t.o/ingress-class: ${HPX_NAME}
+spec:
+  ingressClassName: ${HPX_NAME}
+  tls:
+    - hosts:
+        - ${HPX_HOSTNAME}.talkingpts.org
+      secretName: ${HPX_TLS}
+  rules:
+    - host: ${HPX_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # /api/
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /bandwidthCallbackSMS
+          - path: /bandwidthCallbackSMS
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /coconut_webhook
+          - path: /coconut_webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
