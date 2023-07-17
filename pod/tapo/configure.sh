@@ -27,7 +27,7 @@ if test -s "${appenv}"; then
 
 	cat "${appenv}" >"${envfn}"
 
-	echo -n 'METEOR_SETTINGS=' >>"${envfn}"
+	printf '%s' 'METEOR_SETTINGS=' >>"${envfn}"
 	python3 -m json.tool --compact "${appset}" >>"${envfn}"
 
 	if test 'Xworker' != "X${app}"; then
