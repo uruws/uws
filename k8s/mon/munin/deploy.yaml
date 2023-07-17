@@ -16,7 +16,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: munin
+  name: ${UWS_CLUSTER}-munin
   namespace: mon
 spec:
   selector:
@@ -38,7 +38,7 @@ spec:
       containers:
         - image: 789470191893.dkr.ecr.us-east-1.amazonaws.com/uws:munin-${VERSION}
           imagePullPolicy: IfNotPresent
-          name: ${UWS_CLUSTER}-munin
+          name: munin
           securityContext:
             allowPrivilegeEscalation: false
           env:

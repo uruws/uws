@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec uwskube exec deployment/munin -i -t -c ${UWS_CLUSTER}-munin -n mon -- bash -il
+exec uwskube exec deployment/${UWS_CLUSTER}-munin -i -t -c munin -n mon -- bash -il
