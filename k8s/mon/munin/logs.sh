@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/lib/logs.py -n mon -c munin pod/${UWS_CLUSTER}-munin-0 "$@"
+exec ~/pod/lib/logs.py -n mon -c ${UWS_CLUSTER}-munin pod/munin-0 "$@"
