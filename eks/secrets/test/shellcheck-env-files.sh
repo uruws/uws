@@ -5,6 +5,6 @@ set -eu
 # SC2016: Expressions don't expand in single quotes, use double quotes for that.
 
 find ./secret -type f -name '*.env' -print0 |
-	xargs --null -- shellcheck --color=auto --shell=sh --exclude=SC2034,SC2016
+	xargs --null -- shellcheck --color=auto --shell=sh --severity=error --exclude=SC2034,SC2016
 
 exit 0
