@@ -5,7 +5,7 @@ ns=${1:?'namespace?'}
 app=${2:?'app name?'}
 appver=${3:?'app version?'}
 
-~/pod/tapo/configure.sh "${ns}" "${app}"
+~/pod/tapo/configure.sh "${ns}" "${app}" "${appver}"
 
 METEOR_CLUSTER="${UWS_CLUSTER}"
 export METEOR_CLUSTER
