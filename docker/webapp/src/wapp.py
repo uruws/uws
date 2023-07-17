@@ -53,11 +53,11 @@ def static_files_handler(app: Bottle, name: str):
 	log.debug('static files handler: %s', name)
 
 	@app.get('/static/%s/<filename:path>' % name)
-	def app_static(filename):
+	def app_static(filename): # pragma: no cover
 		return bottle.static_file(filename, root = Path('/opt/uws', name, 'static', name))
 
 	@app.get('/static/<filename:path>')
-	def lib_static(filename):
+	def lib_static(filename): # pragma: no cover
 		return bottle.static_file(filename, root = Path('/opt/uws/lib/static'))
 
 #

@@ -8,6 +8,7 @@ import unittest
 
 from contextlib    import contextmanager
 from unittest.mock import MagicMock
+from unittest.mock import call
 
 import wapp
 
@@ -48,21 +49,22 @@ class TestWapp(unittest.TestCase):
 
 	def test_start(t):
 		with mock_start() as m:
-			wapp.start()
+			wapp.start(m.app)
 			m.logging.basicConfig.assert_not_called()
+			m.app.get.assert_called()
 
 	def test_start_debug(t):
 		with mock_start(debug = True) as m:
-			wapp.start()
+			wapp.start(m.app)
 			m.logging.basicConfig.assert_called_once_with(
 				format = wapp.logfmt_debug,
 				level  = m.logging.DEBUG,
 			)
 
 	def test_run(t):
-		m = MagicMock()
-		wapp.run(m)
-		m.run.assert_called_once_with(
+		app = MagicMock()
+		wapp.run(app)
+		app.run.assert_called_once_with(
 			host     = '0.0.0.0',
 			port     = 2741,
 			reloader = False,
