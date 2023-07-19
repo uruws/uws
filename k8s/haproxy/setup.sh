@@ -8,5 +8,6 @@ envfn="${HOME}/${prof}/haproxy.env"
 # shellcheck disable=SC1090
 . "${envfn}"
 
-#uwskube create namespace "${HPX_NAMESPACE}"
+~/k8s/haproxy/ca-setup.sh "${HPX_NAMESPACE}"
+
 exit 0
