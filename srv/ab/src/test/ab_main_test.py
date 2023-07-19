@@ -54,7 +54,7 @@ class TestViews(unittest.TestCase):
 	def test_home(t):
 		with wapp_t.mock() as m:
 			ab_main.home()
-			m.template.assert_called_once_with('home.html')
+			m.template.assert_called_once_with('ab/home.html')
 
 if __name__ == '__main__':
 	unittest.main()

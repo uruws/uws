@@ -24,7 +24,7 @@ def healthz():
 
 @app.get('/')
 def home():
-	return wapp.template('home.html')
+	return wapp.template('ab/home.html')
 
 #
 # main
