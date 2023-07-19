@@ -92,6 +92,7 @@
 | loginTeachersMultiUserSarmiento 153 | 1.20k users | 4.42k ms | 480 rpm | 4.48k rpm | nginx |
 | loginTeachersMultiUserSarmiento 158 | 1.20k users | 3.03k ms | 120 rpm | 4.61k rpm | haproxy |
 | loginTeachersMultiUserSarmiento 159 | 1.20k users | 1.20k ms |   0 rpm | 4.69k rpm | haproxy |
+| loginTeachersMultiUserSarmiento 161 | 1.20k users | 1.55k ms | 180 rpm | 4.74k rpm | haproxy |
 
 ---
 
