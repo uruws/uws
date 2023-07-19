@@ -79,12 +79,13 @@
 
 ---
 
-* meteor: sarmiento testing environment - `DONE!` [PR224][PR224] [PR225][PR225] [PR226][PR226]
+* meteor: sarmiento testing environment - `DONE!` [PR224][PR224] [PR225][PR225] [PR226][PR226] [PR227][PR227]
     * for haproxy testing
 
 [PR224]: https://github.com/TalkingPts/Infrastructure/pull/224
 [PR225]: https://github.com/TalkingPts/Infrastructure/pull/225
 [PR226]: https://github.com/TalkingPts/Infrastructure/pull/226
+[PR227]: https://github.com/TalkingPts/Infrastructure/pull/227
 
 | Test | Concurrency | Resp Time | Failed Rate | Transaction Rate | Proxy |
 | ---- | ----------- | --------- | ----------- | ---------------- | ----- |
