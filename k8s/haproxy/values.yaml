@@ -25,12 +25,12 @@ controller:
   logs:
     enabled: true
     resources:
-      #~ limits:
-        #~ cpu: 10m
-        #~ memory: 10Mi
+      limits:
+        cpu: 10m
+        memory: 10Mi
       requests:
-        cpu: 2m
-        memory: 2Mi
+        cpu: 10m
+        memory: 10Mi
 
   metrics:
     controllerPort: 10254
@@ -46,11 +46,11 @@ controller:
 
   resources:
     limits:
-      cpu: 30m
+      cpu: 100m
       memory: 200Mi
     requests:
-      cpu: 6m
-      memory: 40Mi
+      cpu: 100m
+      memory: 200Mi
 
   service:
     annotations:
@@ -70,9 +70,9 @@ defaultBackend:
   name: default-backend
   replicaCount: 3
   resources:
-    #~ limits:
-      #~ cpu: 10m
-      #~ memory: 20Mi
+    limits:
+      cpu: 10m
+      memory: 20Mi
     requests:
-      cpu: 1m
-      memory: 2Mi
+      cpu: 10m
+      memory: 20Mi
