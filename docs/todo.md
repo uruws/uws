@@ -73,10 +73,12 @@
 
 ---
 
-* meteor: sarmiento testing environment - `WIP` [PR224][PR224]
+* meteor: sarmiento testing environment - `WIP` [PR224][PR224] [PR225][PR225] [PR226][PR226]
     * for haproxy testing
 
 [PR224]: https://github.com/TalkingPts/Infrastructure/pull/224
+[PR225]: https://github.com/TalkingPts/Infrastructure/pull/225
+[PR226]: https://github.com/TalkingPts/Infrastructure/pull/226
 
 ---
 
