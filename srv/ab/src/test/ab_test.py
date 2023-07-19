@@ -49,9 +49,7 @@ def mock_run(status: int = 0):
 class TestConfig(unittest.TestCase):
 
 	def test_defaults(t):
-		t.assertTrue(ab.debug)
-		t.assertEqual(ab.webapp_port, 2741)
-		t.assertEqual(ab.cmdpath,     Path('/usr/bin/ab'))
+		t.assertEqual(ab.cmdpath, Path('/usr/bin/ab'))
 
 #
 # command

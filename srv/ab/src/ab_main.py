@@ -1,10 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import bottle # type: ignore
-from   bottle import response
-from   bottle import template
-
 import wapp
 
 import ab
@@ -19,7 +15,7 @@ log = wapp.getLogger(__name__)
 
 @app.get('/healthz')
 def healthz():
-	response.content_type = 'text/plain'
+	wapp.response.content_type = 'text/plain'
 	cmd = ab.Command('--help')
 	rc = ab.run(cmd)
 	if rc != 22:
@@ -28,7 +24,7 @@ def healthz():
 
 @app.get('/')
 def home():
-	return template('home.html')
+	return wapp.template('home.html')
 
 #
 # main
