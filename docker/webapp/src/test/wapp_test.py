@@ -17,6 +17,15 @@ class TestWapp(unittest.TestCase):
 	# globals
 	#
 
+	def test_all_export(t):
+		t.assertListEqual(wapp.__all__, [
+			'Bottle',
+			'Logger',
+			'request',
+			'response',
+			'template',
+		])
+
 	def test_defaults(t):
 		t.assertFalse(wapp.debug)
 		t.assertEqual(wapp.port, 2741)

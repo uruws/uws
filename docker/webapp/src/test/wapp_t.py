@@ -24,9 +24,15 @@ def mock_start(debug = False):
 @contextmanager
 def mock(debug = False):
 	with mock_start(debug = debug) as m:
+		bup_response = wapp.response
+		bup_request  = wapp.request
 		bup_template = wapp.template
 		try:
+			wapp.response = m.response
+			wapp.request  = m.request
 			wapp.template = m.template
 			yield m
 		finally:
+			wapp.response = bup_response
+			wapp.request  = bup_request
 			wapp.template = bup_template

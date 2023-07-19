@@ -6,6 +6,8 @@ import logging
 import os
 
 from bottle import Bottle
+from bottle import request
+from bottle import response
 from bottle import template
 
 from logging import Logger
@@ -13,6 +15,8 @@ from logging import Logger
 __all__ = [
 	'Bottle',
 	'Logger',
+	'request',
+	'response',
 	'template',
 ]
 
