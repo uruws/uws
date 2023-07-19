@@ -1,7 +1,7 @@
 FROM uws/python-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230703"
+LABEL version="230719"
 
 USER root:root
 WORKDIR /root
@@ -10,6 +10,7 @@ ENV USER root
 ENV HOME /root
 
 RUN /root/bin/apt-install.sh python3-venv python3-bottle uwsgi-core uwsgi-plugin-python3
+RUN /root/bin/apt-install.sh nq
 
 RUN install -v -d -m 0750 -o uws -g uwsops /opt/uws
 
