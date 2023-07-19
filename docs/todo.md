@@ -4,7 +4,7 @@
 
 ---
 
-* Development Backlog
+* Infra Development Backlog - `WAITING`
     * App Cache-Control header for CDN assets - [DEV-9810][DEV-9810]
     * App api clients domain - [DEV-9833][DEV-9833]
 
@@ -73,12 +73,24 @@
 
 ---
 
-* meteor: sarmiento testing environment - `WIP` [PR224][PR224] [PR225][PR225] [PR226][PR226]
+* k8s: haproxy setup - [milestone][haproxy-setup] `DONE!`
+
+[haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
+
+---
+
+* meteor: sarmiento testing environment - `DONE!` [PR224][PR224] [PR225][PR225] [PR226][PR226]
     * for haproxy testing
 
 [PR224]: https://github.com/TalkingPts/Infrastructure/pull/224
 [PR225]: https://github.com/TalkingPts/Infrastructure/pull/225
 [PR226]: https://github.com/TalkingPts/Infrastructure/pull/226
+
+* Previous flood tests                     Concurrency   Resp Time   Failed Rate   Transaction Rate
+    * loginTeachersMultiUserSarmiento 153: 1.20k users   4.42k ms    480 rpm       4.48k rpm
+
+* New flood tests
+    * loginTeachersMultiUserSarmiento 158: 1.20k users   3.03k ms    120 rpm       4.61k rpm
 
 ---
 
@@ -92,12 +104,6 @@
     * generate files in order to identify emails origin
     * currently all mails are from user@uws.t.o
     * we could use something like user-cluster@uws.t.o or user-host@uws.t.o or similar
-
----
-
-* k8s: haproxy setup - [milestone][haproxy-setup] `WIP`
-
-[haproxy-setup]: https://github.com/TalkingPts/Infrastructure/milestone/8
 
 ---
 
