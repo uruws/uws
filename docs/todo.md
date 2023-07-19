@@ -86,11 +86,11 @@
 [PR225]: https://github.com/TalkingPts/Infrastructure/pull/225
 [PR226]: https://github.com/TalkingPts/Infrastructure/pull/226
 
-* Previous flood tests                     Concurrency   Resp Time   Failed Rate   Transaction Rate
-    * loginTeachersMultiUserSarmiento 153: 1.20k users   4.42k ms    480 rpm       4.48k rpm
-
-* New flood tests
-    * loginTeachersMultiUserSarmiento 158: 1.20k users   3.03k ms    120 rpm       4.61k rpm
+| Test | Concurrency | Resp Time | Failed Rate | Transaction Rate | Proxy |
+| ---- | ----------- | --------- | ----------- | ---------------- | ----- |
+| loginTeachersMultiUserSarmiento 153 | 1.20k users | 4.42k ms | 480 rpm | 4.48k rpm | nginx |
+| loginTeachersMultiUserSarmiento 158 | 1.20k users | 3.03k ms | 120 rpm | 4.61k rpm | haproxy |
+| loginTeachersMultiUserSarmiento 159 | 1.20k users | 1.20k ms |   0 rpm | 4.69k rpm | haproxy |
 
 ---
 
