@@ -22,6 +22,10 @@ def healthz():
 		raise RuntimeError('ab exit status: %d' % rc)
 	return 'ok'
 
+@app.route('/run/')
+def run():
+	return wapp.template('ab/run.html')
+
 @app.get('/')
 def home():
 	return wapp.template('ab/home.html')
