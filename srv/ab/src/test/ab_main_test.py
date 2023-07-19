@@ -51,6 +51,11 @@ class TestViews(unittest.TestCase):
 				ab_main.healthz()
 			t.assertEqual(str(err.exception), 'ab exit status: 99')
 
+	def test_run(t):
+		with wapp_t.mock() as m:
+			ab_main.run()
+			m.template.assert_called_once_with('ab/run.html')
+
 	def test_home(t):
 		with wapp_t.mock() as m:
 			ab_main.home()
