@@ -25,11 +25,13 @@ class TestConfig(unittest.TestCase):
 class TestCommand(unittest.TestCase):
 
 	def test_args(t):
-		t.assertListEqual(ab.Command().args(), ['/usr/bin/ab', '-HUser-Agent: uwsab'])
+		t.assertListEqual(ab.Command().args(),
+			['/usr/bin/ab', '-n1', '-c1', '-t15', '-s7', '-HUser-Agent:uwsab'])
 
 	def test_args_init(t):
-		t.assertListEqual(ab.Command('-a', '-b', 123).args(),
-			['/usr/bin/ab', '-a', '-b', '123', '-HUser-Agent: uwsab'])
+		t.assertListEqual(ab.Command('https://test.domain/uri').args(),
+			['/usr/bin/ab', '-n1', '-c1', '-t15', '-s7', '-HUser-Agent:uwsab',
+				'https://test.domain/uri'])
 
 	def test_args_settings(t):
 		c = ab.Command()
@@ -41,7 +43,7 @@ class TestCommand(unittest.TestCase):
 		c.content_type = 'c/t'
 		t.assertListEqual(c.args(), [
 			'/usr/bin/ab', '-n99', '-c99', '-t99', '-s99', '-ppost.t', '-Tc/t',
-			'-HUser-Agent: uwsab',
+			'-HUser-Agent:uwsab',
 		])
 
 if __name__ == '__main__':

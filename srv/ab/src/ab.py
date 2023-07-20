@@ -15,10 +15,10 @@ cmdpath: Path = Path('/usr/bin/ab')
 
 class Command(object):
 	cmdargs:      list[str]
-	requests:     int       = 0
-	concurrency:  int       = 0
-	timelimit:    int       = 0
-	timeout:      int       = 0
+	requests:     int       = 1
+	concurrency:  int       = 1
+	timelimit:    int       = 15
+	timeout:      int       = 7
 	postfile:     str       = ''
 	content_type: str       = ''
 
@@ -27,7 +27,6 @@ class Command(object):
 
 	def args(c) -> list[str]:
 		a = [cmdpath.as_posix()]
-		a.extend([str(a) for a in list(c.cmdargs)])
 		if c.requests != 0:
 			a.append('-n%d' % c.requests)
 		if c.concurrency != 0:
@@ -40,5 +39,6 @@ class Command(object):
 			a.append('-p%s' % c.postfile)
 		if c.content_type != '':
 			a.append('-T%s' % c.content_type)
-		a.append('-HUser-Agent: uwsab')
+		a.append('-HUser-Agent:uwsab')
+		a.extend([str(a) for a in list(c.cmdargs)])
 		return a
