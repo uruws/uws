@@ -102,8 +102,15 @@ class NQJob(object):
 	def rc(j) -> int:
 		return j.proc.returncode
 
+	def id(j) -> str:
+		return j.proc.stdout.strip()
+
+	def error(j) -> str:
+		return j.proc.stderr.strip()
+
 def _nqrun(cmd: str, env: dict[str, str] | None = None) -> NQJob:
-	return NQJob(subprocess.run(cmd, shell = True, env = env, encoding = 'utf-8', text = True))
+	return NQJob(subprocess.run(cmd, shell = True, env = env,
+		encoding = 'utf-8', text = True, capture_output = True))
 
 class NQ(object):
 	name:        str

@@ -72,6 +72,13 @@ class TestWapp(unittest.TestCase):
 	# nq
 	#
 
+	def test_nq_job(t):
+		j = wapp._nqrun('/usr/bin/nq /usr/bin/true')
+		t.assertIsInstance(j, wapp.NQJob)
+		t.assertEqual(j.rc(), 0)
+		t.assertTrue(j.id().startswith(','))
+		t.assertEqual(j.error(), '')
+
 	def test_nq(t):
 		q = wapp.NQ('testing')
 		t.assertEqual(q.name, 'testing')
@@ -85,11 +92,6 @@ class TestWapp(unittest.TestCase):
 		t.assertEqual(wapp.fqcmd, '/usr/bin/fq')
 		t.assertEqual(wapp.nqcmd, '/usr/bin/nq')
 		t.assertTrue(wapp.nqdir.startswith('/tmp/wappnq.'))
-
-	def test_nq_subprocess(t):
-		j = wapp._nqrun('/usr/bin/false')
-		t.assertIsInstance(j, wapp.NQJob)
-		t.assertEqual(j.rc(), 1)
 
 	def test_nq_env(t):
 		q = wapp.NQ('testing')

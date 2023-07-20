@@ -13,6 +13,8 @@ log = wapp.getLogger(__name__)
 # views
 #
 
+# /healthz
+
 @app.get('/healthz')
 def healthz():
 	wapp.response.content_type = 'text/plain'
@@ -21,6 +23,8 @@ def healthz():
 	if rc != 22:
 		raise RuntimeError('ab exit status: %d' % rc)
 	return 'ok'
+
+# /run/
 
 @app.get('/run/')
 def run():
@@ -35,8 +39,11 @@ def run_post():
 		log.error('%s', err)
 		return wapp.template('error.html', app = 'ab', error = str(err))
 	if job.rc() != 0:
+		log.error('command failed (%d): %s', job.rc(), job.error())
 		return wapp.template('error.html', app = 'ab', error = 'command failed: %d' % job.rc())
 	return wapp.template('ab/nq.html')
+
+# /
 
 @app.get('/')
 def home():
