@@ -29,7 +29,6 @@ class TestWapp(unittest.TestCase):
 	def test_defaults(t):
 		t.assertFalse(wapp.debug)
 		t.assertEqual(wapp.port,  2741)
-		t.assertTrue(wapp.nqdir.startswith('/tmp/wappnq.'))
 
 	#
 	# logging
@@ -71,6 +70,14 @@ class TestWapp(unittest.TestCase):
 	# nq
 	#
 
+	def test_nq_defaults(t):
+		t.assertEqual(wapp.fqcmd, '/usr/bin/fq')
+		t.assertEqual(wapp.nqcmd, '/usr/bin/nq')
+		t.assertTrue(wapp.nqdir.startswith('/tmp/wappnq.'))
+
+	def test_nq_subprocess(t):
+		wapp._nqrun('/usr/bin/true')
+
 	def test_nq(t):
 		q = wapp.NQ('testing')
 		t.assertEqual(q.name, 'testing')
@@ -78,6 +85,7 @@ class TestWapp(unittest.TestCase):
 		t.assertTrue(q.dir.exists())
 		q.delete()
 		t.assertFalse(q.dir.exists())
+		t.assertTrue(q.cleanup)
 
 if __name__ == '__main__':
 	unittest.main()

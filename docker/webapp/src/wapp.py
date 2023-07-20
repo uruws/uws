@@ -4,6 +4,7 @@
 import bottle # type: ignore
 import logging
 import os
+import subprocess
 
 from bottle import Bottle
 from bottle import request
@@ -32,7 +33,6 @@ log: Logger = logging.getLogger(__name__)
 name:   str =     os.getenv('UWS_WEBAPP',       'default')
 debug: bool =     os.getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
 port:   int = int(os.getenv('UWS_WEBAPP_PORT',  '2741'))
-nqdir:  str =     os.getenv('UWS_WEBAPP_NQDIR', '/tmp/wappnq')
 
 #
 # logging
@@ -89,10 +89,19 @@ def run(app: Bottle):
 # nq
 #
 
+fqcmd: str = os.getenv('UWS_WEBAPP_FQCMD', '/usr/bin/fq')
+nqcmd: str = os.getenv('UWS_WEBAPP_NQCMD', '/usr/bin/nq')
+nqdir: str = os.getenv('UWS_WEBAPP_NQDIR', '/tmp/wappnq')
+
+def _nqrun(cmd: str, env: dict[str, str] | None = None):
+	subprocess.run(cmd, shell = True, env = env, encoding = 'utf-8', text = True)
+
 class NQ(object):
-	name:         str
-	app:          str = ''
-	dir:  Path | None = None
+	name:        str
+	app:         str = ''
+	dir: Path | None = None
+	cleanup:    bool = True
+	quiet:      bool = True
 
 	def __init__(q, qname: str, app: str = name):
 		q.name = qname
@@ -106,3 +115,23 @@ class NQ(object):
 
 	def delete(q):
 		rmtree(q.dir)
+
+	def env(q) -> dict[str, str]:
+		return {
+			'USER':  os.environ.get('USER', 'uws'),
+			'HOME':  os.environ.get('HOME', '/home/uws'),
+			'PATH':  '/usr/bin',
+			'NQDIR': str(q.dir),
+		}
+
+	def args(q) -> str:
+		a = ' '
+		if q.cleanup:
+			a += '-c '
+		if q.quiet:
+			a += '-q '
+		return a
+
+	def run(q, args: list[str]):
+		cmd = '%s%s%s' % (nqcmd, q.args(), ' '.join(args))
+		_nqrun(cmd, env = q.env())
