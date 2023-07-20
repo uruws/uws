@@ -8,6 +8,8 @@ import unittest
 
 from unittest.mock import call
 
+from pathlib import Path
+
 import wapp_t
 import wapp
 
@@ -70,6 +72,15 @@ class TestWapp(unittest.TestCase):
 	# nq
 	#
 
+	def test_nq(t):
+		q = wapp.NQ('testing')
+		t.assertEqual(q.name, 'testing')
+		t.assertEqual(q.app,  'devel')
+		t.assertTrue(q.dir.exists())
+		q.delete()
+		t.assertFalse(q.dir.exists())
+		t.assertTrue(q.cleanup)
+
 	def test_nq_defaults(t):
 		t.assertEqual(wapp.fqcmd, '/usr/bin/fq')
 		t.assertEqual(wapp.nqcmd, '/usr/bin/nq')
@@ -100,14 +111,16 @@ class TestWapp(unittest.TestCase):
 		q.quiet   = False
 		t.assertEqual(q.args(), ' ')
 
-	def test_nq(t):
+	def test_nq_run(t):
 		q = wapp.NQ('testing')
-		t.assertEqual(q.name, 'testing')
-		t.assertEqual(q.app,  'devel')
-		t.assertTrue(q.dir.exists())
-		q.delete()
-		t.assertFalse(q.dir.exists())
-		t.assertTrue(q.cleanup)
+		with wapp_t.mock() as m:
+			q.run(['/usr/bin/true'])
+			m.nqrun.assert_called_once_with('/usr/bin/nq -c -q /usr/bin/true', env = {
+				'USER':  'uws',
+				'HOME':  '/home/uws',
+				'PATH':  '/usr/bin',
+				'NQDIR': Path(wapp.nqdir, 'devel/testing').as_posix(),
+			})
 
 if __name__ == '__main__':
 	unittest.main()
