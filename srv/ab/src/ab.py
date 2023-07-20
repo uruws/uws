@@ -1,10 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import subprocess
-import sys
-
-from os      import getenv
 from pathlib import Path
 
 #
@@ -46,20 +42,3 @@ class Command(object):
 			a.append('-T%s' % c.content_type)
 		a.append('-HUser-Agent: uwsab')
 		return a
-
-#
-# api
-#
-
-def run(cmd: Command, timeout: int = 15) -> int:
-	if cmd.timelimit > 0:
-		timeout = cmd.timelimit + timeout
-	try:
-		proc = subprocess.run(cmd.args(), check = True, timeout = timeout,
-			capture_output = True)
-	except subprocess.CalledProcessError as err:
-		return err.returncode
-	except subprocess.TimeoutExpired:
-		print('[ERROR] subprocess timeout:', cmd.args(), file = sys.stderr)
-		return 9
-	return 0

@@ -6,56 +6,15 @@ import wapp
 import ab
 import ab_conf
 
+import ab_views
+
 app = wapp.Bottle()
 log = wapp.getLogger(__name__)
-
-#
-# views
-#
-
-# /healthz
-
-@app.get('/healthz')
-def healthz():
-	wapp.response.content_type = 'text/plain'
-	cmd = ab.Command('--help')
-	rc = ab.run(cmd)
-	if rc != 22:
-		raise RuntimeError('ab exit status: %d' % rc)
-	return 'ok'
-
-# /run/
-
-@app.get('/run/')
-def run():
-	return wapp.template('ab/run.html')
-
-@app.post('/run/')
-def run_post():
-	try:
-		q = wapp.NQ('run')
-		job = q.run([ab.cmdpath.as_posix()])
-	except Exception as err:
-		log.error('%s', err)
-		return wapp.template('error.html', app = 'ab', error = str(err))
-	if job.rc() != 0:
-		log.error('command failed (%d): %s', job.rc(), job.error())
-		return wapp.template('error.html', app = 'ab', error = 'command failed: %d' % job.rc())
-	return wapp.template('ab/nq.html')
-
-# /
-
-@app.get('/')
-def home():
-	return wapp.template('ab/home.html')
-
-#
-# main
-#
 
 def start():
 	wapp.start(app)
 	log.debug('start')
+	ab_views.start(app)
 
 def wsgi_application():
 	start()
