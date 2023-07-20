@@ -87,7 +87,9 @@ class TestWapp(unittest.TestCase):
 		t.assertTrue(wapp.nqdir.startswith('/tmp/wappnq.'))
 
 	def test_nq_subprocess(t):
-		wapp._nqrun('/usr/bin/true')
+		j = wapp._nqrun('/usr/bin/false')
+		t.assertIsInstance(j, wapp.NQJob)
+		t.assertEqual(j.rc(), 1)
 
 	def test_nq_env(t):
 		q = wapp.NQ('testing')

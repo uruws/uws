@@ -93,8 +93,17 @@ fqcmd: str = os.getenv('UWS_WEBAPP_FQCMD', '/usr/bin/fq')
 nqcmd: str = os.getenv('UWS_WEBAPP_NQCMD', '/usr/bin/nq')
 nqdir: str = os.getenv('UWS_WEBAPP_NQDIR', '/tmp/wappnq')
 
-def _nqrun(cmd: str, env: dict[str, str] | None = None):
-	subprocess.run(cmd, shell = True, env = env, encoding = 'utf-8', text = True)
+class NQJob(object):
+	proc: subprocess.CompletedProcess
+
+	def __init__(j, proc: subprocess.CompletedProcess):
+		j.proc = proc
+
+	def rc(j) -> int:
+		return j.proc.returncode
+
+def _nqrun(cmd: str, env: dict[str, str] | None = None) -> NQJob:
+	return NQJob(subprocess.run(cmd, shell = True, env = env, encoding = 'utf-8', text = True))
 
 class NQ(object):
 	name:        str
@@ -132,6 +141,6 @@ class NQ(object):
 			a += '-q '
 		return a
 
-	def run(q, args: list[str]):
+	def run(q, args: list[str]) -> NQJob:
 		cmd = '%s%s%s' % (nqcmd, q.args(), ' '.join(args))
-		_nqrun(cmd, env = q.env())
+		return _nqrun(cmd, env = q.env())
