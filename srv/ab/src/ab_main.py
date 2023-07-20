@@ -22,9 +22,21 @@ def healthz():
 		raise RuntimeError('ab exit status: %d' % rc)
 	return 'ok'
 
-@app.route('/run/')
+@app.get('/run/')
 def run():
 	return wapp.template('ab/run.html')
+
+@app.post('/run/')
+def run_post():
+	try:
+		q = wapp.NQ('run')
+		job = q.run([ab.cmdpath.as_posix()])
+	except Exception as err:
+		log.error('%s', err)
+		return wapp.template('error.html', app = 'ab', error = str(err))
+	if job.rc() != 0:
+		return wapp.template('error.html', app = 'ab', error = 'command failed: %d' % job.rc())
+	return wapp.template('ab/nq.html')
 
 @app.get('/')
 def home():

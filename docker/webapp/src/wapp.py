@@ -120,7 +120,7 @@ class NQ(object):
 
 	def _setup(q):
 		q.dir.mkdir(mode = 0o0750, parents = True, exist_ok = True)
-		q.dir.chmod(0o0750) # in case it already exists
+		q.dir.chmod(0o0750) # in case it already existed
 
 	def delete(q):
 		rmtree(q.dir)

@@ -2,5 +2,10 @@
 % title = 'run'
 % rebase('base.html')
 <div class="w3-container">
-<p>run</p>
+<p>
+<form action="/run/" method="POST">
+	<label>https://</label><input type="text" name="abench_domain" placeholder="test.domain" required="required">
+	<input type="submit" value="run">
+</form>
+</p>
 </div>
