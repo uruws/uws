@@ -4,6 +4,9 @@ set -eu
 webapp=${UWS_WEBAPP}
 webapp_dir="/opt/uws/${webapp}"
 
+UWS_WEBAPP_NQDIR=$(mktemp -d -p /tmp wappnq.XXXXXXXXXX)
+export UWS_WEBAPP_NQDIR
+
 PYTHONPATH=/opt/uws/lib:/opt/uws/lib/test:${webapp_dir}:/etc${webapp_dir}:${webapp_dir}/test
 export PYTHONPATH
 

@@ -40,6 +40,8 @@ class TestMain(unittest.TestCase):
 
 class TestViews(unittest.TestCase):
 
+	# /healthz
+
 	def test_healthz(t):
 		with wapp_t.mock() as m:
 			t.assertEqual(ab_main.healthz(), 'ok')
@@ -51,10 +53,14 @@ class TestViews(unittest.TestCase):
 				ab_main.healthz()
 			t.assertEqual(str(err.exception), 'ab exit status: 99')
 
+	# /run/
+
 	def test_run(t):
 		with wapp_t.mock() as m:
 			ab_main.run()
 			m.template.assert_called_once_with('ab/run.html')
+
+	# /
 
 	def test_home(t):
 		with wapp_t.mock() as m:

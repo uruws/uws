@@ -1,6 +1,9 @@
 #!/bin/sh
 set -eu
 
+UWS_WEBAPP_NQDIR=$(mktemp -d -p /tmp wappnq.XXXXXXXXXX)
+export UWS_WEBAPP_NQDIR
+
 PYTHONPATH=/opt/uws/lib:/opt/uws/lib/test
 export PYTHONPATH
 

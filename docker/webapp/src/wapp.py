@@ -21,6 +21,7 @@ __all__ = [
 ]
 
 from pathlib import Path
+from shutil  import rmtree
 
 log: Logger = logging.getLogger(__name__)
 
@@ -31,6 +32,7 @@ log: Logger = logging.getLogger(__name__)
 name:   str =     os.getenv('UWS_WEBAPP',       'default')
 debug: bool =     os.getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
 port:   int = int(os.getenv('UWS_WEBAPP_PORT',  '2741'))
+nqdir:  str =     os.getenv('UWS_WEBAPP_NQDIR', '/tmp/wappnq')
 
 #
 # logging
@@ -82,3 +84,25 @@ def run(app: Bottle):
 		reloader = debug,
 		debug    = debug,
 	)
+
+#
+# nq
+#
+
+class NQ(object):
+	name:         str
+	app:          str = ''
+	dir:  Path | None = None
+
+	def __init__(q, qname: str, app: str = name):
+		q.name = qname
+		q.app = app
+		q.dir = Path(nqdir, q.app, q.name)
+		q._setup()
+
+	def _setup(q):
+		q.dir.mkdir(mode = 0o0750, parents = True, exist_ok = True)
+		q.dir.chmod(0o0750) # in case it already exists
+
+	def delete(q):
+		rmtree(q.dir)

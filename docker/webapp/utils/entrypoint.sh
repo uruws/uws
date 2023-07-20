@@ -1,8 +1,12 @@
 #!/bin/sh
 set -eu
 
+UWS_WEBAPP_NQDIR=$(mktemp -d -p /tmp wappnq.XXXXXXXXXX)
+export UWS_WEBAPP_NQDIR
+
 echo "*** webapp: ${UWS_WEBAPP}"
 echo "***   port: ${UWS_WEBAPP_PORT}"
+echo "***     nq: ${UWS_WEBAPP_NQDIR}"
 
 pypath=/opt/uws/lib:/etc/opt/uws/${UWS_WEBAPP}
 
