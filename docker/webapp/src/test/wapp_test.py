@@ -78,6 +78,15 @@ class TestWapp(unittest.TestCase):
 	def test_nq_subprocess(t):
 		wapp._nqrun('/usr/bin/true')
 
+	def test_nq_env(t):
+		q = wapp.NQ('testing')
+		t.assertListEqual(sorted(q.env().keys()), [
+			'HOME',
+			'NQDIR',
+			'PATH',
+			'USER',
+		])
+
 	def test_nq(t):
 		q = wapp.NQ('testing')
 		t.assertEqual(q.name, 'testing')
