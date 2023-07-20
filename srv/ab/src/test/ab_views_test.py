@@ -43,6 +43,23 @@ class TestViews(unittest.TestCase):
 			ab_views.run()
 			m.template.assert_called_once_with('ab/run.html')
 
+	def test_run_post(t):
+		with wapp_t.mock() as m:
+			ab_views.run_post()
+			m.template.assert_called_once_with('ab/nq.html')
+
+	def test_run_post_exception(t):
+		with wapp_t.mock() as m:
+			m.nqrun.side_effect = wapp_t.mock_nqrun_fail
+			ab_views.run_post()
+			m.template.assert_called_once_with('error.html', app = 'ab', error = 'mock_nqrun_fail')
+
+	def test_run_post_error(t):
+		with wapp_t.mock() as m:
+			m.nqrun.side_effect = wapp_t.mock_nqrun_error
+			ab_views.run_post()
+			m.template.assert_called_once_with('error.html', app = 'ab', error = 'command failed: 999')
+
 	# /
 
 	def test_home(t):

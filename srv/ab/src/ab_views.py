@@ -41,10 +41,10 @@ def run_post():
 		job = q.run([ab.cmdpath.as_posix()])
 	except Exception as err:
 		log.error('%s', err)
-		return wapp.template('error.html', app = 'ab', error = str(err))
+		return wapp.template('error.html', app = wapp.name, error = str(err))
 	if job.rc() != 0:
 		log.error('command failed (%d): %s', job.rc(), job.error())
-		return wapp.template('error.html', app = 'ab', error = 'command failed: %d' % job.rc())
+		return wapp.template('error.html', app = wapp.name, error = 'command failed: %d' % job.rc())
 	return wapp.template('ab/nq.html')
 
 #
@@ -59,9 +59,7 @@ def home():
 #
 
 def start(app: wapp.Bottle):
-	app.get('/healthz', callback = healthz)
-
-	app.get('/run/',  callback = run)
-	app.post('/run/', callback = run_post)
-
-	app.get('/',      callback = home)
+	app.get( '/healthz', callback = healthz)
+	app.get( '/run/',    callback = run)
+	app.post('/run/',    callback = run_post)
+	app.get( '/',        callback = home)

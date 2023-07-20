@@ -26,10 +26,18 @@ def mock_start(debug = False):
 def mock_cleanup():
 	rmtree(wapp.nqdir, ignore_errors = True)
 
-def _mock_nqrun(cmd, env = None):
+def mock_nqrun(cmd, env = None):
 	proc = MagicMock()
 	proc.returncode = 0
 	return wapp.NQJob(proc)
+
+def mock_nqrun_error(cmd, env = None):
+	proc = MagicMock()
+	proc.returncode = 999
+	return wapp.NQJob(proc)
+
+def mock_nqrun_fail(cmd, env = None):
+	raise RuntimeError('mock_nqrun_fail')
 
 @contextmanager
 def mock(debug = False):
@@ -43,7 +51,7 @@ def mock(debug = False):
 			wapp.request  = m.request
 			wapp.template = m.template
 			wapp._nqrun   = m.nqrun
-			m.nqrun.side_effect = _mock_nqrun
+			m.nqrun.side_effect = mock_nqrun
 			yield m
 		finally:
 			wapp.response = bup_response
