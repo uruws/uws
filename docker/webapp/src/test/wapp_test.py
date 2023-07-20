@@ -87,6 +87,19 @@ class TestWapp(unittest.TestCase):
 			'USER',
 		])
 
+	def test_nq_args(t):
+		q = wapp.NQ('testing')
+		t.assertEqual(q.args(), ' -c -q ')
+		q.cleanup = True
+		q.quiet   = False
+		t.assertEqual(q.args(), ' -c ')
+		q.cleanup = False
+		q.quiet   = True
+		t.assertEqual(q.args(), ' -q ')
+		q.cleanup = False
+		q.quiet   = False
+		t.assertEqual(q.args(), ' ')
+
 	def test_nq(t):
 		q = wapp.NQ('testing')
 		t.assertEqual(q.name, 'testing')
