@@ -30,10 +30,10 @@ log: Logger = logging.getLogger(__name__)
 # globals
 #
 
-name:   str =     os.getenv('UWS_WEBAPP',       'default').strip()
-debug: bool =     os.getenv('UWS_WEBAPP_DEBUG', 'off').strip() == 'on'
-port:   int = int(os.getenv('UWS_WEBAPP_PORT',  '2741').strip())
-url:    str =     os.getenv('UWS_WEBAPP_URL',   '/').strip()
+name:     str =     os.getenv('UWS_WEBAPP',       'default').strip()
+debug:   bool =     os.getenv('UWS_WEBAPP_DEBUG', 'off').strip() == 'on'
+port:     int = int(os.getenv('UWS_WEBAPP_PORT',  '2741').strip())
+base_url: str =     os.getenv('UWS_WEBAPP_URL',   '/').strip()
 
 #
 # logging
@@ -44,6 +44,15 @@ logfmt_debug = '%(pathname)s:%(lineno)d %(message)s'
 
 def getLogger(name: str) -> logging.Logger:
 	return logging.getLogger(name)
+
+#
+# utils
+#
+
+def url(path: str) -> str:
+	if base_url == '/':
+		return path.strip()
+	return '%s%s' % (base_url, path.strip())
 
 #
 # bottle
@@ -59,11 +68,11 @@ def bottle_start(app: str):
 def static_files_handler(app: Bottle, name: str):
 	log.debug('static files handler: %s', name)
 
-	@app.get('/static/%s/<filename:path>' % name)
+	@app.get(url('/static/%s/<filename:path>' % name))
 	def app_static(filename): # pragma: no cover
 		return bottle.static_file(filename, root = Path('/opt/uws', name, 'static', name))
 
-	@app.get('/static/<filename:path>')
+	@app.get(url('/static/<filename:path>'))
 	def lib_static(filename): # pragma: no cover
 		return bottle.static_file(filename, root = Path('/opt/uws/lib/static'))
 
