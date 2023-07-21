@@ -23,7 +23,9 @@ def mock_check(rc = 22):
 
 class TestViews(unittest.TestCase):
 
+	#
 	# /healthz
+	#
 
 	def test_healthz(t):
 		with wapp_t.mock() as m:
@@ -36,7 +38,9 @@ class TestViews(unittest.TestCase):
 				ab_views.healthz()
 			t.assertEqual(str(err.exception), 'ab exit status: 99')
 
+	#
 	# /run/
+	#
 
 	def test_run(t):
 		with wapp_t.mock() as m:
@@ -60,7 +64,9 @@ class TestViews(unittest.TestCase):
 			ab_views.run_post()
 			m.template.assert_called_once_with('error.html', app = 'ab', error = 'command failed: 999')
 
+	#
 	# /
+	#
 
 	def test_home(t):
 		with wapp_t.mock() as m:

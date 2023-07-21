@@ -36,8 +36,11 @@ def mock_nqrun_error(cmd, env = None):
 	proc.returncode = 999
 	return wapp.NQJob(proc)
 
+class MockNQRunFail(RuntimeError):
+	pass
+
 def mock_nqrun_fail(cmd, env = None):
-	raise RuntimeError('mock_nqrun_fail')
+	raise MockNQRunFail('mock_nqrun_fail')
 
 @contextmanager
 def mock(debug = False, base_url = '/'):

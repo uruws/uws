@@ -132,7 +132,7 @@ class TestWapp(unittest.TestCase):
 		q.quiet   = False
 		t.assertEqual(q.args(), ' ')
 
-	def test_nq_run(t):
+	def test_nqrun(t):
 		q = wapp.NQ('testing')
 		with wapp_t.mock() as m:
 			q.run(['/usr/bin/true'])
@@ -142,6 +142,21 @@ class TestWapp(unittest.TestCase):
 				'PATH':  '/usr/bin',
 				'NQDIR': Path(wapp.nqdir, 'devel/testing').as_posix(),
 			})
+
+	def test_nqrun_error(t):
+		q = wapp.NQ('testing')
+		with wapp_t.mock() as m:
+			m.nqrun.side_effect = wapp_t.mock_nqrun_error
+			q.run(['/usr/bin/true'])
+			m.nqrun.assert_called_once()
+
+	def test_nqrun_fail(t):
+		q = wapp.NQ('testing')
+		with wapp_t.mock() as m:
+			m.nqrun.side_effect = wapp_t.mock_nqrun_fail
+			with t.assertRaises(wapp_t.MockNQRunFail):
+				q.run(['/usr/bin/true'])
+			m.nqrun.assert_called_once()
 
 if __name__ == '__main__':
 	unittest.main()
