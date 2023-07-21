@@ -26,11 +26,11 @@ class TestCommand(unittest.TestCase):
 
 	def test_args(t):
 		t.assertListEqual(ab.Command().args(),
-			['/usr/bin/ab', '-n1', '-c1', '-t15', '-s7', '-HUser-Agent:uwsab'])
+			['/usr/bin/ab', '-n1', '-c1', '-s7', '-HUser-Agent:uwsab'])
 
 	def test_args_init(t):
 		t.assertListEqual(ab.Command('https://test.domain/uri').args(),
-			['/usr/bin/ab', '-n1', '-c1', '-t15', '-s7', '-HUser-Agent:uwsab',
+			['/usr/bin/ab', '-n1', '-c1', '-s7', '-HUser-Agent:uwsab',
 				'https://test.domain/uri'])
 
 	def test_args_settings(t):

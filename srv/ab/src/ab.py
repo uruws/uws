@@ -17,7 +17,7 @@ class Command(object):
 	cmdargs:      list[str]
 	requests:     int       = 1
 	concurrency:  int       = 1
-	timelimit:    int       = 15
+	timelimit:    int       = 0
 	timeout:      int       = 7
 	postfile:     str       = ''
 	content_type: str       = ''

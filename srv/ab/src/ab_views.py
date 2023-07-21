@@ -38,7 +38,9 @@ def run():
 def run_post():
 	try:
 		q = wapp.NQ('run')
-		cmd = ab.Command(wapp.request.POST.get('abench_url', 'NO_URL'))
+		q.cleanup = False
+		url = 'https://%s' % wapp.request.POST.get('abench_url', 'NO_URL')
+		cmd = ab.Command(url)
 		job = q.run(cmd.args())
 	except Exception as err:
 		log.error('%s', err)
