@@ -16,17 +16,20 @@ class TestWappTpl(unittest.TestCase):
 		])
 
 	def test_url(t):
+		t.assertEqual(wapptpl.url('/'), '/')
 		t.assertEqual(wapptpl.url('/testing'), '/testing')
 		t.assertEqual(wapptpl.url('testing/'), 'testing/')
 		t.assertEqual(wapptpl.url('testing'),  'testing')
 
 	def test_url_args(t):
+		t.assertEqual(wapptpl.url('/', 'a', 'b'), '/a/b')
 		t.assertEqual(wapptpl.url('/testing', 'a', 'b'), '/testing/a/b')
 		t.assertEqual(wapptpl.url('testing/', 'a', 'b'), 'testing//a/b')
 		t.assertEqual(wapptpl.url('testing',  'a', 'b'), 'testing/a/b')
 
 	def test_url_config(t):
 		with wapp_t.mock(base_url = '/b'):
+			t.assertEqual(wapptpl.url('/'), '/b/')
 			t.assertEqual(wapptpl.url('/testing'), '/b/testing')
 			t.assertEqual(wapptpl.url('testing/'), '/btesting/')
 			t.assertEqual(wapptpl.url('testing'),  '/btesting')
