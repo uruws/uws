@@ -30,7 +30,9 @@ class TestWapp(unittest.TestCase):
 
 	def test_defaults(t):
 		t.assertFalse(wapp.debug)
-		t.assertEqual(wapp.port,  2741)
+		t.assertEqual(wapp.name, 'devel')
+		t.assertEqual(wapp.port, 2741)
+		t.assertEqual(wapp.url,  '/')
 
 	#
 	# logging

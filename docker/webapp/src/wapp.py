@@ -30,9 +30,10 @@ log: Logger = logging.getLogger(__name__)
 # globals
 #
 
-name:   str =     os.getenv('UWS_WEBAPP',       'default')
-debug: bool =     os.getenv('UWS_WEBAPP_DEBUG', 'off') == 'on'
-port:   int = int(os.getenv('UWS_WEBAPP_PORT',  '2741'))
+name:   str =     os.getenv('UWS_WEBAPP',       'default').strip()
+debug: bool =     os.getenv('UWS_WEBAPP_DEBUG', 'off').strip() == 'on'
+port:   int = int(os.getenv('UWS_WEBAPP_PORT',  '2741').strip())
+url:    str =     os.getenv('UWS_WEBAPP_URL',   '/').strip()
 
 #
 # logging

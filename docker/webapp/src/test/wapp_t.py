@@ -40,22 +40,25 @@ def mock_nqrun_fail(cmd, env = None):
 	raise RuntimeError('mock_nqrun_fail')
 
 @contextmanager
-def mock(debug = False):
+def mock(debug = False, url = '/'):
 	with mock_start(debug = debug) as m:
 		bup_response = wapp.response
 		bup_request  = wapp.request
 		bup_template = wapp.template
 		bup_nqrun    = wapp._nqrun
+		bup_url      = wapp.url.strip()
 		try:
-			wapp.response = m.response
-			wapp.request  = m.request
-			wapp.template = m.template
-			wapp._nqrun   = m.nqrun
+			wapp.response       = m.response
+			wapp.request        = m.request
+			wapp.template       = m.template
+			wapp._nqrun         = m.nqrun
 			m.nqrun.side_effect = mock_nqrun
+			wapp.url            = url.strip()
 			yield m
 		finally:
 			wapp.response = bup_response
 			wapp.request  = bup_request
 			wapp.template = bup_template
 			wapp._nqrun   = bup_nqrun
+			wapp.url      = bup_url.strip()
 			mock_cleanup()
