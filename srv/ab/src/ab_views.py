@@ -46,6 +46,13 @@ def run_post():
 	if job.rc() != 0:
 		log.error('command failed (%d): %s', job.rc(), job.error())
 		return wapp.template('error.html', app = wapp.name, error = 'command failed: %d' % job.rc())
+	return wapp.redirect(wapp.url('/nq/'))
+
+#
+# /nq/
+#
+
+def nq():
 	return wapp.template('ab/nq.html')
 
 #
@@ -60,7 +67,8 @@ def home():
 #
 
 def start(app: wapp.Bottle):
-	app.get( '/healthz', callback = healthz)
-	app.get( '/run/',    callback = run)
-	app.post('/run/',    callback = run_post)
-	app.get( '/',        callback = home)
+	app.get( wapp.url('/healthz'), callback = healthz)
+	app.get( wapp.url('/run/'),    callback = run)
+	app.post(wapp.url('/run/'),    callback = run_post)
+	app.get( wapp.url('/nq/'),     callback = nq)
+	app.get( wapp.url('/'),        callback = home)

@@ -45,12 +45,14 @@ def mock_nqrun_fail(cmd, env = None):
 @contextmanager
 def mock(debug = False, base_url = '/'):
 	with mock_start(debug = debug) as m:
+		bup_redirect = wapp.redirect
 		bup_response = wapp.response
 		bup_request  = wapp.request
 		bup_template = wapp.template
 		bup_nqrun    = wapp._nqrun
 		bup_base_url = wapp.base_url.strip()
 		try:
+			wapp.redirect       = m.redirect
 			wapp.response       = m.response
 			wapp.request        = m.request
 			wapp.template       = m.template
@@ -59,6 +61,7 @@ def mock(debug = False, base_url = '/'):
 			wapp.base_url       = base_url.strip()
 			yield m
 		finally:
+			wapp.redirect = bup_redirect
 			wapp.response = bup_response
 			wapp.request  = bup_request
 			wapp.template = bup_template

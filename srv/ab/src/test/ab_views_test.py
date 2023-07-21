@@ -50,7 +50,8 @@ class TestViews(unittest.TestCase):
 	def test_run_post(t):
 		with wapp_t.mock() as m:
 			ab_views.run_post()
-			m.template.assert_called_once_with('ab/nq.html')
+			m.template.assert_not_called()
+			m.redirect.assert_called_once_with('/nq/')
 
 	def test_run_post_exception(t):
 		with wapp_t.mock() as m:

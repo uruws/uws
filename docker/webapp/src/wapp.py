@@ -7,6 +7,7 @@ import os
 import subprocess
 
 from bottle import Bottle
+from bottle import redirect
 from bottle import request
 from bottle import response
 from bottle import template
@@ -16,6 +17,7 @@ from logging import Logger
 __all__ = [
 	'Bottle',
 	'Logger',
+	'redirect',
 	'request',
 	'response',
 	'template',

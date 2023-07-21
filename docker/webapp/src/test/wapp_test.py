@@ -23,6 +23,7 @@ class TestWapp(unittest.TestCase):
 		t.assertListEqual(wapp.__all__, [
 			'Bottle',
 			'Logger',
+			'redirect',
 			'request',
 			'response',
 			'template',
