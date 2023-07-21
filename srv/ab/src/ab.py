@@ -3,6 +3,8 @@
 
 from pathlib import Path
 
+import wapp
+
 #
 # config
 #
@@ -15,12 +17,12 @@ cmdpath: Path = Path('/usr/bin/ab')
 
 class Command(object):
 	cmdargs:      list[str]
-	requests:     int       = 1
-	concurrency:  int       = 1
-	timelimit:    int       = 0
-	timeout:      int       = 7
-	postfile:     str       = ''
-	content_type: str       = ''
+	requests:           int = 1
+	concurrency:        int = 1
+	timelimit:          int = 0
+	timeout:            int = 7
+	postfile:           str = ''
+	content_type:       str = ''
 
 	def __init__(c, *args):
 		c.cmdargs = args
@@ -42,3 +44,8 @@ class Command(object):
 		a.append('-HUser-Agent:uwsab')
 		a.extend([str(a) for a in list(c.cmdargs)])
 		return a
+
+	def run(c) -> wapp.NQJob:
+		q = wapp.NQ('run')
+		q.cleanup = False
+		return q.run(c.args())
