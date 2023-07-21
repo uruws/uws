@@ -43,6 +43,21 @@ class TestWapp(unittest.TestCase):
 		t.assertIsInstance(l, logging.Logger)
 
 	#
+	# utils
+	#
+
+	def test_url(t):
+		t.assertEqual(wapp.url('/testing'), '/testing')
+		t.assertEqual(wapp.url('testing/'), 'testing/')
+		t.assertEqual(wapp.url('testing'), 'testing')
+
+	def test_url_config(t):
+		with wapp_t.mock(base_url = '/b'):
+			t.assertEqual(wapp.url('/testing'), '/b/testing')
+			t.assertEqual(wapp.url('testing/'), '/btesting/')
+			t.assertEqual(wapp.url('testing'), '/btesting')
+
+	#
 	# main
 	#
 
