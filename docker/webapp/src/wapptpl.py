@@ -9,7 +9,8 @@ __all__ = [
 
 log = wapp.getLogger(__name__)
 
-def url(path: str) -> str:
+def url(*args) -> str:
+	path = '/'.join(args)
 	if wapp.base_url == '/':
 		return path.strip()
 	return '%s%s' % (wapp.base_url, path.strip())
