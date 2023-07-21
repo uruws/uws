@@ -66,6 +66,15 @@ class TestViews(unittest.TestCase):
 			m.template.assert_called_once_with('error.html', app = 'ab', error = 'command failed: 999')
 
 	#
+	# /nq/
+	#
+
+	def test_nq(t):
+		with wapp_t.mock() as m:
+			ab_views.nq()
+			m.template.assert_called_once_with('ab/nq.html')
+
+	#
 	# /
 	#
 
