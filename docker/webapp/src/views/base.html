@@ -1,14 +1,16 @@
 % from wapptpl import url
 % setdefault('app',   '')
 % setdefault('title', '')
+% setdefault('body_color', 'black')
 <!DOCTYPE html>
 <html>
 <head>
 	<title>{{app or 'No App'}} - {{title or 'No Title'}}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/static/w3css/4/w3.css">
+	<link rel="stylesheet" href="/static/w3-colors-camo.css">
 </head>
-<body class="w3-monospace w3-large w3-black">
+<body class="w3-monospace w3-large w3-{{ body_color }}">
 <div class="w3-main">
 {{!base}}
 </div><!-- main -->
