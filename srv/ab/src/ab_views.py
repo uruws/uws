@@ -53,7 +53,10 @@ def run_post():
 #
 
 def nq():
-	return wapp.template('ab/nq.html')
+	q = wapp.NQ('run')
+	return wapp.template('ab/nq.html',
+		abench_nqjobs = q.list(),
+	)
 
 #
 # /

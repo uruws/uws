@@ -120,7 +120,7 @@ class NQJobInfo(object):
 		return j._line
 
 	def id(j):
-		return j._id
+		return j._id[1:]
 
 class NQJob(object):
 	proc: subprocess.CompletedProcess
