@@ -5,7 +5,7 @@
 %   'run': '/run/',
 %   'nq': '/nq/',
 % }
-<div class="w3-container w3-camo-black">
+<div class="w3-container w3-camo-black" name="abench_navbar">
 % for lnk_name, lnk_url in abench_navbar.items():
 %   lnk_class = ''
 %   if lnk_url == url():
@@ -13,4 +13,4 @@
 %   end
 	<a class="{{ btn_class }} {{ lnk_class }}" href="{{ url(lnk_url) }}">{{ lnk_name }}</a>
 % end
-</div>
+</div><!-- abench_navbar -->
