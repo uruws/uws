@@ -107,6 +107,7 @@ nqdir: str = os.getenv('UWS_WEBAPP_NQDIR', '/tmp/wappnq')
 
 class NQJob(object):
 	proc: subprocess.CompletedProcess
+	_id:  str = ''
 
 	def __init__(j, proc: subprocess.CompletedProcess):
 		j.proc = proc
@@ -115,10 +116,23 @@ class NQJob(object):
 		return j.proc.returncode
 
 	def id(j) -> str:
-		return j.proc.stdout.strip()
+		if j._id == '':
+			return j.proc.stdout.strip()
+		return j._id
 
 	def error(j) -> str:
 		return j.proc.stderr.strip()
+
+def _nqjob_load(_id: str) -> NQJob:
+	j = NQJob(subprocess.CompletedProcess([], 0))
+	j._id = _id.strip()
+	return j
+
+def _fqrun(env: dict[str, str]) -> list[str]:
+	cmd = '%s -qan' % fqcmd
+	proc = subprocess.run(cmd, shell = True, env = env,
+		encoding = 'utf-8', text = True, capture_output = True)
+	return proc.stdout.splitlines()
 
 def _nqrun(cmd: str, env: dict[str, str] | None = None) -> NQJob:
 	return NQJob(subprocess.run(cmd, shell = True, env = env,
@@ -131,11 +145,12 @@ class NQ(object):
 	cleanup:    bool = True
 	quiet:      bool = True
 
-	def __init__(q, qname: str, app: str = name):
+	def __init__(q, qname: str, app: str = name, setup = True):
 		q.name = qname
 		q.app = app
 		q.dir = Path(nqdir, q.app, q.name)
-		q._setup()
+		if setup:
+			q._setup()
 
 	def _setup(q):
 		q.dir.mkdir(mode = 0o0750, parents = True, exist_ok = True)
@@ -163,3 +178,11 @@ class NQ(object):
 	def run(q, args: list[str]) -> NQJob:
 		cmd = '%s%s%s' % (nqcmd, q.args(), ' '.join(args))
 		return _nqrun(cmd, env = q.env())
+
+	def list(q) -> list[NQJob]:
+		l: list[NQJob] = []
+		for s in _fqrun(q.env()):
+			if s.startswith('==> ,'):
+				_id = s.split(' ')[1].strip()
+				l.append(_nqjob_load(_id))
+		return l

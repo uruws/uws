@@ -99,6 +99,12 @@ class TestWapp(unittest.TestCase):
 		t.assertTrue(j.id().startswith(','))
 		t.assertEqual(j.error(), '')
 
+
+	def test_nq_job_id(t):
+		j = wapp._nqrun('/usr/bin/nq /usr/bin/true')
+		j._id = 'testing'
+		t.assertEqual(j.id(), 'testing')
+
 	def test_nq(t):
 		q = wapp.NQ('testing')
 		t.assertEqual(q.name, 'testing')
@@ -160,6 +166,13 @@ class TestWapp(unittest.TestCase):
 			with t.assertRaises(wapp_t.MockNQRunFail):
 				q.run(['/usr/bin/true'])
 			m.nqrun.assert_called_once()
+
+	def test_nq_list(t):
+		with wapp_t.mock(nqdir = '/opt/uws/lib/test') as m:
+			q = wapp.NQ('nq', app = 'data', setup = False)
+			t.assertEqual(str(q.dir), '/opt/uws/lib/test/data/nq')
+			l = q.list()
+			t.assertEqual(len(l), 3)
 
 if __name__ == '__main__':
 	unittest.main()

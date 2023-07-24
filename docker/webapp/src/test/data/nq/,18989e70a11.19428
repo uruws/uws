@@ -1,0 +1,4 @@
+exec nq /usr/bin/false
+
+
+[exited with status 1.]

@@ -43,7 +43,7 @@ def mock_nqrun_fail(cmd, env = None):
 	raise MockNQRunFail('mock_nqrun_fail')
 
 @contextmanager
-def mock(debug = False, base_url = '/'):
+def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq'):
 	with mock_start(debug = debug) as m:
 		bup_redirect = wapp.redirect
 		bup_response = wapp.response
@@ -57,6 +57,7 @@ def mock(debug = False, base_url = '/'):
 			wapp.request        = m.request
 			m.request.path      = '/testing/'
 			wapp.template       = m.template
+			wapp.nqdir          = nqdir.strip()
 			wapp._nqrun         = m.nqrun
 			m.nqrun.side_effect = mock_nqrun
 			wapp.base_url       = base_url.strip()
@@ -66,6 +67,7 @@ def mock(debug = False, base_url = '/'):
 			wapp.response = bup_response
 			wapp.request  = bup_request
 			wapp.template = bup_template
+			wapp.nqdir    = '/tmp/wappnq'
 			wapp._nqrun   = bup_nqrun
 			wapp.base_url = bup_base_url.strip()
 			mock_cleanup()
