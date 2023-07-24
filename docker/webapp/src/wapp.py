@@ -106,13 +106,18 @@ nqcmd: str = os.getenv('UWS_WEBAPP_NQCMD', '/usr/bin/nq')
 nqdir: str = os.getenv('UWS_WEBAPP_NQDIR', '/tmp/wappnq')
 
 class NQJobInfo(object):
-	_line: str
-	_id: str = ''
+	_line:  str
+	_nqdir: str = ''
+	_id:    str = ''
 
-	def __init__(j, fqline: str):
-		j._line = fqline.strip()
+	def __init__(j, fqline: str, qdir: str = nqdir):
+		j._line  = fqline.strip()
+		j._nqdir = nqdir.strip()
 		if j._line.startswith('==> ,'):
 			j._id = fqline.split(' ')[1].strip()
+
+	def __str__(j) -> str:
+		return j._line
 
 	def id(j):
 		return j._id
@@ -189,5 +194,5 @@ class NQ(object):
 	def list(q) -> list[NQJobInfo]:
 		l: list[NQJobInfo] = []
 		for s in _fqrun(q.env()):
-			l.append(NQJobInfo(s))
+			l.append(NQJobInfo(s, str(q.dir)))
 		return l
