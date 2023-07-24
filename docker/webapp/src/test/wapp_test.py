@@ -173,6 +173,7 @@ class TestWapp(unittest.TestCase):
 			t.assertEqual(str(q.dir), '/opt/uws/lib/test/data/nq')
 			l = q.list()
 			t.assertEqual(len(l), 3)
+			t.assertIsInstance(l[0], wapp.NQJobInfo)
 			ids = [j.id() for j in l]
 			t.assertListEqual(ids, [
 				',18989e6df22.19391',
