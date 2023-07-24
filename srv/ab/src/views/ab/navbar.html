@@ -1,6 +1,16 @@
-% btn_class = 'w3-btn w3-border w3-border-blue'
-% btn_class = 'w3-button'
+% btn_class     = 'w3-button'
+% btn_current   = 'w3-black'
+% abench_navbar = {
+%   'home': '/',
+%   'run': '/run/',
+%   'nq': '/nq/',
+% }
 <div class="w3-container w3-camo-black">
-	<a class="{{ btn_class }}" href="{{ url('/') }}">home</a>
-	<a class="{{ btn_class }}" href="{{ url('/run/') }}">run</a>
+% for lnk_name, lnk_url in abench_navbar.items():
+%   lnk_class = ''
+%   if lnk_url == url():
+%     lnk_class = btn_current
+%   end
+	<a class="{{ btn_class }} {{ lnk_class }}" href="{{ url(lnk_url) }}">{{ lnk_name }}</a>
+% end
 </div>
