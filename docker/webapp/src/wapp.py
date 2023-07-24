@@ -106,10 +106,13 @@ nqcmd: str = os.getenv('UWS_WEBAPP_NQCMD', '/usr/bin/nq')
 nqdir: str = os.getenv('UWS_WEBAPP_NQDIR', '/tmp/wappnq')
 
 class NQJobInfo(object):
-	_id: str
+	_line: str
+	_id: str = ''
 
-	def __init__(j, _id: str):
-		j._id = _id.strip()
+	def __init__(j, fqline: str):
+		j._line = fqline.strip()
+		if j._line.startswith('==> ,'):
+			j._id = fqline.split(' ')[1].strip()
 
 	def id(j):
 		return j._id
@@ -136,7 +139,7 @@ def _fqrun(env: dict[str, str]) -> list[str]:
 	cmd = '%s -qan' % fqcmd
 	proc = subprocess.run(cmd, shell = True, env = env,
 		encoding = 'utf-8', text = True, capture_output = True)
-	return proc.stdout.splitlines()
+	return [l.strip() for l in proc.stdout.splitlines()]
 
 def _nqrun(cmd: str, env: dict[str, str] | None = None) -> NQJob:
 	return NQJob(subprocess.run(cmd, shell = True, env = env,
@@ -186,7 +189,5 @@ class NQ(object):
 	def list(q) -> list[NQJobInfo]:
 		l: list[NQJobInfo] = []
 		for s in _fqrun(q.env()):
-			if s.startswith('==> ,'):
-				_id = s.split(' ')[1].strip()
-				l.append(NQJobInfo(_id))
+			l.append(NQJobInfo(s))
 		return l
