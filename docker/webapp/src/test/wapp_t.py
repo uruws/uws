@@ -55,6 +55,7 @@ def mock(debug = False, base_url = '/'):
 			wapp.redirect       = m.redirect
 			wapp.response       = m.response
 			wapp.request        = m.request
+			m.request.path      = '/testing/'
 			wapp.template       = m.template
 			wapp._nqrun         = m.nqrun
 			m.nqrun.side_effect = mock_nqrun

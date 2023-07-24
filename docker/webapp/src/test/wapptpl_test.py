@@ -16,6 +16,8 @@ class TestWappTpl(unittest.TestCase):
 		])
 
 	def test_url(t):
+		with wapp_t.mock():
+			t.assertEqual(wapptpl.url(), '/testing/')
 		t.assertEqual(wapptpl.url('/'), '/')
 		t.assertEqual(wapptpl.url('/testing'), '/testing')
 		t.assertEqual(wapptpl.url('testing/'), 'testing/')

@@ -10,6 +10,8 @@ __all__ = [
 log = wapp.getLogger(__name__)
 
 def url(*args) -> str:
+	if len(args) == 0:
+		return wapp.request.path.strip()
 	path = '/'.join(args)
 	if path.startswith('//'):
 		path = path[1:]
