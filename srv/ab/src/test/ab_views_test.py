@@ -24,9 +24,8 @@ def mock_check(rc = 22):
 
 class TestViews(unittest.TestCase):
 
-	#
+	#---------------------------------------------------------------------------
 	# /healthz
-	#
 
 	def test_healthz(t):
 		with wapp_t.mock() as m:
@@ -39,9 +38,8 @@ class TestViews(unittest.TestCase):
 				ab_views.healthz()
 			t.assertEqual(str(err.exception), 'ab exit status: 99')
 
-	#
+	#---------------------------------------------------------------------------
 	# /run/
-	#
 
 	def test_run(t):
 		with wapp_t.mock() as m:
@@ -68,9 +66,8 @@ class TestViews(unittest.TestCase):
 			t.assertEqual(wapp.response.status, 500)
 			m.template.assert_called_once_with('ab/error.html', app = 'ab', error = 'command failed: 999')
 
-	#
+	#---------------------------------------------------------------------------
 	# /nq/
-	#
 
 	def test_nq(t):
 		with wapp_t.mock() as m:
@@ -84,9 +81,17 @@ class TestViews(unittest.TestCase):
 			ab_views.nq()
 			m.template.assert_called_once()
 
-	#
+	def test_nq_job(t):
+		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:
+			ab_views.nq_job('18989e6df22.19391')
+			m.template.assert_called_once_with(
+				'ab/nq_job.html',
+				job_id = '18989e6df22.19391',
+				job_output = 'exec nq /usr/bin/true\n\n\n[exited with status 0.]\n',
+			)
+
+	#---------------------------------------------------------------------------
 	# /
-	#
 
 	def test_home(t):
 		with wapp_t.mock() as m:
