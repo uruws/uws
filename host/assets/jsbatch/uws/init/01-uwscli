@@ -146,6 +146,7 @@ uws_useradd gonzalo
 
 # no ssh keys, but can go via slack chatbot
 uws_useradd nelson NOSSH
+uws_useradd martin NOSSH
 
 # chatbot
 uws_useradd uwscbdev
@@ -233,6 +234,7 @@ addgroup uwsapp_cs || true
 adduser gabriel uwsapp_crowdsourcing
 adduser gabriel uwsapp_cs
 adduser ramiro  uwsapp_cs
+adduser martin  uwsapp_cs
 
 # infraui
 addgroup uwsapp_infra-ui || true
@@ -256,6 +258,6 @@ crontab -u uwscli ~uwscli/etc/crontab.in
 # remove old users
 #
 
-deluser --remove-home guillermo || true
+##deluser --remove-home guillermo || true
 
 exit 0
