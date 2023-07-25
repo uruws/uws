@@ -79,6 +79,11 @@ class TestViews(unittest.TestCase):
 				abench_nqjobs = [],
 			)
 
+	def test_nq_list(t):
+		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:
+			ab_views.nq()
+			m.template.assert_called_once()
+
 	#
 	# /
 	#
