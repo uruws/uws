@@ -8,7 +8,8 @@ import wapp
 #-------------------------------------------------------------------------------
 # config
 
-cmdpath: Path = Path('/usr/bin/ab')
+cmdpath:   Path = Path('/usr/bin/ab')
+user_agent: str = '-HUser-Agent:uwsab'
 
 #-------------------------------------------------------------------------------
 # command
@@ -21,15 +22,17 @@ class Command(object):
 	timeout:      int = 7
 	postfile:     str = ''
 	content_type: str = ''
-	_id:          str = 'NO_ID'
+	_id:          str = ''
 
 	def __init__(c, *args):
 		c.cmdargs = [str(a) for a in args]
 
 	def __str__(c) -> str:
 		args = c.args()
-		args.remove('-HUser-Agent:uwsab')
-		return '%s %s' % (c._id, ' '.join(args))
+		args.remove(user_agent)
+		if c._id != '':
+			return '%s: %s' % (c._id, ' '.join(args))
+		return '%s' % ' '.join(args)
 
 	def id(c) -> str:
 		return c._id
@@ -48,7 +51,7 @@ class Command(object):
 			a.append('-p%s' % c.postfile)
 		if c.content_type != '':
 			a.append('-T%s' % c.content_type)
-		a.append('-HUser-Agent:uwsab')
+		a.append(user_agent)
 		a.extend([str(a) for a in list(c.cmdargs)])
 		return a
 

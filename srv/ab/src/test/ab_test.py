@@ -15,12 +15,22 @@ import ab
 class TestConfig(unittest.TestCase):
 
 	def test_defaults(t):
-		t.assertEqual(ab.cmdpath, Path('/usr/bin/ab'))
+		t.assertEqual(ab.cmdpath,    Path('/usr/bin/ab'))
+		t.assertEqual(ab.user_agent, '-HUser-Agent:uwsab')
 
 #-------------------------------------------------------------------------------
 # command
 
 class TestCommand(unittest.TestCase):
+
+	def test_str(t):
+		t.assertEqual(str(ab.Command()), '/usr/bin/ab -n1 -c1 -s7')
+
+	def test_str_id(t):
+		c = ab.Command()
+		c._id = 'testing'
+		t.assertEqual(c.id(), 'testing')
+		t.assertEqual(str(c), 'testing: /usr/bin/ab -n1 -c1 -s7')
 
 	def test_args(t):
 		t.assertListEqual(ab.Command().args(),
