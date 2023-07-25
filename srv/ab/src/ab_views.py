@@ -58,6 +58,11 @@ def nq():
 		abench_nqjobs = jobs,
 	)
 
+def nq_job(jobid: str):
+	return wapp.template('ab/nq_job.html',
+		jobid = jobid,
+	)
+
 #-------------------------------------------------------------------------------
 # /
 
@@ -68,8 +73,13 @@ def home():
 # main
 
 def start(app: wapp.Bottle):
-	app.get( wapp.url('/healthz'), callback = healthz)
-	app.get( wapp.url('/run/'),    callback = run)
-	app.post(wapp.url('/run/'),    callback = run_post)
-	app.get( wapp.url('/nq/'),     callback = nq)
-	app.get( wapp.url('/'),        callback = home)
+	# /healthz
+	app.get(wapp.url('/healthz'), callback = healthz)
+	# /run/
+	app.get(wapp.url('/run/'),  callback = run)
+	app.post(wapp.url('/run/'), callback = run_post)
+	# /nq/
+	app.get(wapp.url('/nq/'),        callback = nq)
+	app.get(wapp.url('/nq/<jobid>'), callback = nq_job)
+	# /
+	app.get(wapp.url('/'), callback = home)
