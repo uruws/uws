@@ -1,7 +1,6 @@
 % from wapptpl import url
 % title = 'nq'
 % rebase('ab/base.html')
-<p>nq</p>
 <p>
 % for job in abench_nqjobs:
 <a href="{{ url('/nq', job.id()) }}">{{ job }}</a><br>

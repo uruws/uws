@@ -9,18 +9,16 @@ from pathlib import Path
 
 import ab
 
-#
+#-------------------------------------------------------------------------------
 # config
-#
 
 class TestConfig(unittest.TestCase):
 
 	def test_defaults(t):
 		t.assertEqual(ab.cmdpath, Path('/usr/bin/ab'))
 
-#
+#-------------------------------------------------------------------------------
 # command
-#
 
 class TestCommand(unittest.TestCase):
 

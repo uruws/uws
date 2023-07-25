@@ -9,9 +9,8 @@ import ab
 
 log = wapp.getLogger(__name__)
 
-#
+#-------------------------------------------------------------------------------
 # /healthz
-#
 
 def _check() -> int:
 	cmd = ab.Command('--help')
@@ -28,9 +27,8 @@ def healthz():
 		raise RuntimeError('ab exit status: %d' % rc)
 	return 'ok'
 
-#
+#-------------------------------------------------------------------------------
 # /run/
-#
 
 def run():
 	return wapp.template('ab/run.html')
@@ -48,26 +46,26 @@ def run_post():
 		return wapp.template('error.html', app = wapp.name, error = 'command failed: %d' % job.rc())
 	return wapp.redirect(wapp.url('/nq/'))
 
-#
+#-------------------------------------------------------------------------------
 # /nq/
-#
 
 def nq():
 	q = wapp.NQ('run')
+	jobs = []
+	for j in q.list():
+		jobs.append(ab.command_parse(j.id(), str(j)))
 	return wapp.template('ab/nq.html',
-		abench_nqjobs = q.list(),
+		abench_nqjobs = jobs,
 	)
 
-#
+#-------------------------------------------------------------------------------
 # /
-#
 
 def home():
 	return wapp.template('ab/home.html')
 
-#
+#-------------------------------------------------------------------------------
 # main
-#
 
 def start(app: wapp.Bottle):
 	app.get( wapp.url('/healthz'), callback = healthz)
