@@ -58,7 +58,7 @@ class TestWapp(unittest.TestCase):
 			t.assertEqual(wapp.url('testing'),  '/btesting')
 
 	def test_error(t):
-		with wapp_t.mock() as m:
+		with wapp_t.mock(mock_error = False) as m:
 			wapp.error(500, 'test.tpl', key1 = 'val1', key2 = 'val2')
 			t.assertEqual(m.response.status, 500)
 			m.template.assert_called_once_with('test.tpl', key1 = 'val1', key2 = 'val2')

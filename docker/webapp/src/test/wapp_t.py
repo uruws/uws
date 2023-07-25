@@ -43,7 +43,7 @@ def mock_nqrun_fail(cmd, env = None):
 	raise MockNQRunFail('mock_nqrun_fail')
 
 @contextmanager
-def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq'):
+def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True):
 	with mock_start(debug = debug) as m:
 		bup_redirect = wapp.redirect
 		bup_response = wapp.response
@@ -52,6 +52,8 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq'):
 		bup_nqrun    = wapp._nqrun
 		bup_nqsetup  = wapp._nqsetup
 		bup_base_url = wapp.base_url.strip()
+		if mock_error:
+			bup_error = wapp.error
 		try:
 			wapp.redirect       = m.redirect
 			wapp.response       = m.response
@@ -63,6 +65,8 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq'):
 			m.nqrun.side_effect = mock_nqrun
 			wapp._nqsetup       = m.nqsetup
 			wapp.base_url       = base_url.strip()
+			if mock_error:
+				wapp.error = m.error
 			yield m
 		finally:
 			wapp.redirect = bup_redirect
@@ -73,4 +77,6 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq'):
 			wapp._nqrun   = bup_nqrun
 			wapp._nqsetup = bup_nqsetup
 			wapp.base_url = bup_base_url.strip()
+			if mock_error:
+				wapp.error = bup_error
 			mock_cleanup()
