@@ -152,6 +152,11 @@ def _nqrun(cmd: str, env: dict[str, str] | None = None) -> NQJob:
 	return NQJob(subprocess.run(cmd, shell = True, env = env,
 		encoding = 'utf-8', text = True, capture_output = True))
 
+def _nqsetup(qdir: str):
+	dh = Path(qdir)
+	dh.mkdir(mode = 0o0750, parents = True, exist_ok = True)
+	dh.chmod(0o0750) # in case it already existed
+
 class NQ(object):
 	name:    str
 	app:     str = ''
@@ -159,17 +164,11 @@ class NQ(object):
 	cleanup: bool = True
 	quiet:   bool = True
 
-	def __init__(q, qname: str, app: str = name, setup = True):
+	def __init__(q, qname: str, app: str = name):
 		q.name = qname
 		q.app = app
 		q.dir = str(Path(nqdir, q.app, q.name))
-		if setup:
-			q._setup()
-
-	def _setup(q):
-		dh = Path(q.dir)
-		dh.mkdir(mode = 0o0750, parents = True, exist_ok = True)
-		dh.chmod(0o0750) # in case it already existed
+		_nqsetup(q.dir)
 
 	def delete(q):
 		rmtree(q.dir)

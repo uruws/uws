@@ -50,6 +50,7 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq'):
 		bup_request  = wapp.request
 		bup_template = wapp.template
 		bup_nqrun    = wapp._nqrun
+		bup_nqsetup  = wapp._nqsetup
 		bup_base_url = wapp.base_url.strip()
 		try:
 			wapp.redirect       = m.redirect
@@ -60,6 +61,7 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq'):
 			wapp.nqdir          = nqdir.strip()
 			wapp._nqrun         = m.nqrun
 			m.nqrun.side_effect = mock_nqrun
+			wapp._nqsetup       = m.nqsetup
 			wapp.base_url       = base_url.strip()
 			yield m
 		finally:
@@ -69,5 +71,6 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq'):
 			wapp.template = bup_template
 			wapp.nqdir    = '/tmp/wappnq'
 			wapp._nqrun   = bup_nqrun
+			wapp._nqsetup = bup_nqsetup
 			wapp.base_url = bup_base_url.strip()
 			mock_cleanup()

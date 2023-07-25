@@ -176,9 +176,9 @@ class TestWapp(unittest.TestCase):
 			m.nqrun.assert_called_once()
 
 	def test_nq_list(t):
-		with wapp_t.mock(nqdir = '/opt/uws/lib/test') as m:
-			q = wapp.NQ('nq', app = 'data', setup = False)
-			t.assertEqual(q.dir, '/opt/uws/lib/test/data/nq')
+		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:
+			q = wapp.NQ('testing')
+			t.assertEqual(q.dir, '/opt/uws/lib/test/data/nq/devel/testing')
 			l = q.list()
 			t.assertEqual(len(l), 3)
 			t.assertIsInstance(l[0], wapp.NQJobInfo)
@@ -190,8 +190,8 @@ class TestWapp(unittest.TestCase):
 			])
 
 	def test_nq_read(t):
-		with wapp_t.mock(nqdir = '/opt/uws/lib/test') as m:
-			q = wapp.NQ('nq', app = 'data', setup = False)
+		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:
+			q = wapp.NQ('testing')
 			text = q.read('18989e6df22.19391')
 			t.assertListEqual(text.splitlines(), [
 				'exec nq /usr/bin/true',
