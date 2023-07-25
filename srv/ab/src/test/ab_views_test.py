@@ -90,6 +90,16 @@ class TestViews(unittest.TestCase):
 				job_output = 'exec nq /usr/bin/true\n\n\n[exited with status 0.]\n',
 			)
 
+	def test_nq_job_not_found(t):
+		with wapp_t.mock() as m:
+			ab_views.nq_job('123456')
+			m.error.assert_called_once_with(
+				404,
+				'ab/error.html',
+				app='ab',
+				error="[Errno 2] No such file or directory: '/tmp/wappnq/ab/run/,123456'",
+			)
+
 	#---------------------------------------------------------------------------
 	# /
 
