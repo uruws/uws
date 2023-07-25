@@ -53,14 +53,14 @@ class TestViews(unittest.TestCase):
 			m.redirect.assert_called_once_with('/nq/')
 
 	def test_run_post_exception(t):
-		with wapp_t.mock() as m:
+		with wapp_t.mock(mock_error = False) as m:
 			m.nqrun.side_effect = wapp_t.mock_nqrun_fail
 			ab_views.run_post()
 			t.assertEqual(wapp.response.status, 500)
 			m.template.assert_called_once_with('ab/error.html', app = 'ab', error = 'mock_nqrun_fail')
 
 	def test_run_post_error(t):
-		with wapp_t.mock() as m:
+		with wapp_t.mock(mock_error = False) as m:
 			m.nqrun.side_effect = wapp_t.mock_nqrun_error
 			ab_views.run_post()
 			t.assertEqual(wapp.response.status, 500)
