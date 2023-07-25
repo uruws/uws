@@ -114,13 +114,13 @@ class NQJobInfo(object):
 		j._line  = fqline.strip()
 		j._nqdir = nqdir.strip()
 		if j._line.startswith('==> ,'):
-			j._id = fqline.split(' ')[1].strip()
+			j._id = fqline.split(' ')[1].strip()[1:]
 
 	def __str__(j) -> str:
 		return j._line
 
 	def id(j):
-		return j._id[1:]
+		return j._id
 
 class NQJob(object):
 	proc: subprocess.CompletedProcess

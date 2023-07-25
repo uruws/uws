@@ -176,9 +176,9 @@ class TestWapp(unittest.TestCase):
 			t.assertIsInstance(l[0], wapp.NQJobInfo)
 			ids = [j.id() for j in l]
 			t.assertListEqual(ids, [
-				',18989e6df22.19391',
-				',18989e70a11.19428',
-				',18989e71777.19432',
+				'18989e6df22.19391',
+				'18989e70a11.19428',
+				'18989e71777.19432',
 			])
 
 if __name__ == '__main__':
