@@ -35,8 +35,7 @@ def run():
 
 def run_post():
 	try:
-		url = 'https://%s' % wapp.request.POST.get('abench_url', 'NO_URL')
-		cmd = ab.Command(url)
+		cmd = ab.CommandForm().parse(wapp.request.POST)
 		job = cmd.run()
 	except Exception as err:
 		log.error('%s', err)

@@ -102,3 +102,12 @@ class CommandForm(Command):
 			timelimit   = str(f.timelimit),
 			timeout     = str(f.timeout),
 		).items()
+
+	def parse(f, req) -> Command:
+		url = 'https://%s' % req.get('abench_url', 'NO_URL')
+		cmd = Command(url)
+		cmd.requests    = int(req.get('abench_requests',    f.requests))
+		cmd.concurrency = int(req.get('abench_concurrency', f.concurrency))
+		cmd.timelimit   = int(req.get('abench_timelimit',   f.timelimit))
+		cmd.timeout     = int(req.get('abench_timeout',     f.timeout))
+		return cmd
