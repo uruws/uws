@@ -2,6 +2,7 @@
 set -eu
 
 webapp=${1:?'webapp name?'}
+shift
 
 webapp_src="${PWD}/srv/${webapp}/src"
 webapp_env="${PWD}/secret/webapp/devel/${webapp}.env"
@@ -29,9 +30,14 @@ if test -s "${webapp_confd}/ssh/ecdsa_id"; then
 	chmod -v 0600 "${webapp_confd}/ssh/ecdsa_id"
 fi
 
+action='devel'
+if test 'X--exec' = "X${1:-X}"; then
+	action='run'
+fi
+
 exec docker run -it --rm --read-only \
-	--name "uws-${webapp}-devel" \
-	--hostname "${webapp}-devel.uws.local" \
+	--name "uws-${webapp}-${action}" \
+	--hostname "${webapp}-${action}.uws.local" \
 	--entrypoint /usr/local/bin/devel-entrypoint.sh \
 	--env-file "${webapp_env}" \
 	-p "127.0.0.1:${webapp_port}:2741" \
@@ -47,4 +53,4 @@ exec docker run -it --rm --read-only \
 	-e HOME=/home/uws \
 	-e "PYTHONPATH=/opt/uws/lib:/etc/opt/uws/${webapp}" \
 	--tmpfs /tmp \
-	"uws/${webapp}-2305"
+	"uws/${webapp}-2305" "$@"
