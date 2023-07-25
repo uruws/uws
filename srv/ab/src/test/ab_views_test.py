@@ -72,7 +72,9 @@ class TestViews(unittest.TestCase):
 	def test_nq(t):
 		with wapp_t.mock() as m:
 			ab_views.nq()
-			m.template.assert_called_once_with('ab/nq.html')
+			m.template.assert_called_once_with('ab/nq.html',
+				abench_nqjobs = [],
+			)
 
 	#
 	# /
