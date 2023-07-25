@@ -106,7 +106,12 @@ class TestViews(unittest.TestCase):
 	def test_home(t):
 		with wapp_t.mock() as m:
 			ab_views.home()
-			m.template.assert_called_once_with('ab/home.html')
+			m.template.assert_called_once_with('ab/home.html', abench_nqjobs = [])
+
+	def test_home_jobs(t):
+		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:
+			ab_views.home()
+			m.template.assert_called_once()
 
 if __name__ == '__main__':
 	unittest.main()

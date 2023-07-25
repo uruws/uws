@@ -1,3 +1,18 @@
+% from wapptpl import url
 % title = 'home'
 % rebase('ab/base.html')
-<p>hello</p>
+<p>
+<form action="/run/" method="POST">
+	<label>https://</label><input type="text" name="abench_url"
+		required="required" placeholder="test.domain/path">
+	<input type="submit" value="run">
+</form>
+</p>
+
+<hr>
+
+<p>
+% for job in abench_nqjobs:
+<a href="{{ url('/nq', job.id()) }}">{{ job }}</a><br>
+% end
+</p>

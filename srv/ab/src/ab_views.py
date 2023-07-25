@@ -74,7 +74,13 @@ def nq_job(jobid: str):
 # /
 
 def home():
-	return wapp.template('ab/home.html')
+	q = wapp.NQ('run')
+	jobs = []
+	for j in reversed(q.list()):
+		jobs.append(ab.command_parse(j.id(), str(j)))
+	return wapp.template('ab/home.html',
+		abench_nqjobs = jobs,
+	)
 
 #-------------------------------------------------------------------------------
 # main
