@@ -28,37 +28,33 @@ from shutil  import rmtree
 
 log: Logger = logging.getLogger(__name__)
 
-#
+#-------------------------------------------------------------------------------
 # globals
-#
 
 name:     str =     os.getenv('UWS_WEBAPP',       'default').strip()
 debug:   bool =     os.getenv('UWS_WEBAPP_DEBUG', 'off').strip() == 'on'
 port:     int = int(os.getenv('UWS_WEBAPP_PORT',  '2741').strip())
 base_url: str =     os.getenv('UWS_WEBAPP_URL',   '/').strip()
 
-#
+#-------------------------------------------------------------------------------
 # logging
-#
-
 # https://docs.python.org/3.9/library/logging.html#logrecord-attributes
+
 logfmt_debug = '%(pathname)s:%(lineno)d %(message)s'
 
 def getLogger(name: str) -> logging.Logger:
 	return logging.getLogger(name)
 
-#
+#-------------------------------------------------------------------------------
 # utils
-#
 
 def url(path: str) -> str:
 	if base_url == '/':
 		return path.strip()
 	return '%s%s' % (base_url, path.strip())
 
-#
+#-------------------------------------------------------------------------------
 # bottle
-#
 
 def bottle_start(app: str):
 	if debug:
@@ -80,9 +76,8 @@ def static_files_handler(app: Bottle, name: str):
 	def lib_static(filename): # pragma: no cover
 		return bottle.static_file(filename, root = Path('/opt/uws/lib/static'))
 
-#
+#-------------------------------------------------------------------------------
 # main
-#
 
 def start(app: Bottle):
 	if debug:
@@ -99,9 +94,8 @@ def run(app: Bottle):
 		debug    = debug,
 	)
 
-#
+#-------------------------------------------------------------------------------
 # nq
-#
 
 fqcmd: str = os.getenv('UWS_WEBAPP_FQCMD', '/usr/bin/fq')
 nqcmd: str = os.getenv('UWS_WEBAPP_NQCMD', '/usr/bin/nq')

@@ -15,9 +15,8 @@ import wapp
 
 class TestWapp(unittest.TestCase):
 
-	#
+	#---------------------------------------------------------------------------
 	# globals
-	#
 
 	def test_all_export(t):
 		t.assertListEqual(wapp.__all__, [
@@ -35,17 +34,15 @@ class TestWapp(unittest.TestCase):
 		t.assertEqual(wapp.port,     2741)
 		t.assertEqual(wapp.base_url, '/')
 
-	#
+	#---------------------------------------------------------------------------
 	# logging
-	#
 
 	def test_getLogger(t):
 		l = wapp.getLogger('testing')
 		t.assertIsInstance(l, logging.Logger)
 
-	#
+	#---------------------------------------------------------------------------
 	# utils
-	#
 
 	def test_url(t):
 		t.assertEqual(wapp.url('/'), '/')
@@ -60,9 +57,8 @@ class TestWapp(unittest.TestCase):
 			t.assertEqual(wapp.url('testing/'), '/btesting/')
 			t.assertEqual(wapp.url('testing'),  '/btesting')
 
-	#
+	#---------------------------------------------------------------------------
 	# main
-	#
 
 	def test_start(t):
 		with wapp_t.mock_start() as m:
@@ -88,9 +84,8 @@ class TestWapp(unittest.TestCase):
 				debug    = False,
 			)
 
-	#
+	#---------------------------------------------------------------------------
 	# nq
-	#
 
 	def test_nq_job_info(t):
 		with wapp_t.mock(nqdir = '/opt/uws/lib/test') as m:
