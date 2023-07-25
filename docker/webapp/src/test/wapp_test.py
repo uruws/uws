@@ -92,6 +92,12 @@ class TestWapp(unittest.TestCase):
 	# nq
 	#
 
+	def test_nq_job_info(t):
+		with wapp_t.mock(nqdir = '/opt/uws/lib/test') as m:
+			j = wapp.NQJobInfo('==> ,18989e70a11.19428 exec nq /usr/bin/false')
+			t.assertEqual(str(j), '==> ,18989e70a11.19428 exec nq /usr/bin/false')
+			t.assertEqual(j.id(), '18989e70a11.19428')
+
 	def test_nq_job(t):
 		j = wapp._nqrun('/usr/bin/nq /usr/bin/true')
 		t.assertIsInstance(j, wapp.NQJob)
