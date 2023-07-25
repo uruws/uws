@@ -52,7 +52,7 @@ def run_post():
 def nq():
 	q = wapp.NQ('run')
 	jobs = []
-	for j in q.list():
+	for j in reversed(q.list()):
 		jobs.append(ab.command_parse(j.id(), str(j)))
 	return wapp.template('ab/nq.html',
 		abench_nqjobs = jobs,
