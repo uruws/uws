@@ -92,3 +92,13 @@ def command_parse(_id: str, args: str) -> Command:
 		if add:
 			c.cmdargs.append(a)
 	return c
+
+class CommandForm(Command):
+
+	def form_items(f) -> dict[str, str]:
+		return dict(
+			requests    = str(f.requests),
+			concurrency = str(f.concurrency),
+			timelimit   = str(f.timelimit),
+			timeout     = str(f.timeout),
+		)

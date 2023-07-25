@@ -81,5 +81,14 @@ class TestCommand(unittest.TestCase):
 		c = ab.command_parse('testing', cmd)
 		t.assertListEqual(c.args(), l)
 
+	def test_command_form(t):
+		f = ab.CommandForm()
+		t.assertDictEqual(f.form_items(), {
+			'concurrency': '1',
+			'requests':    '1',
+			'timelimit':   '0',
+			'timeout':     '7',
+		})
+
 if __name__ == '__main__':
 	unittest.main()

@@ -49,13 +49,16 @@ def run_post():
 #-------------------------------------------------------------------------------
 # /nq/
 
-def nq():
+def _nqjobs():
 	q = wapp.NQ('run')
 	jobs = []
 	for j in reversed(q.list()):
 		jobs.append(ab.command_parse(j.id(), str(j)))
+	return jobs
+
+def nq():
 	return wapp.template('ab/nq.html',
-		abench_nqjobs = jobs,
+		abench_nqjobs = _nqjobs(),
 	)
 
 def nq_job(jobid: str):
@@ -74,12 +77,8 @@ def nq_job(jobid: str):
 # /
 
 def home():
-	q = wapp.NQ('run')
-	jobs = []
-	for j in reversed(q.list()):
-		jobs.append(ab.command_parse(j.id(), str(j)))
 	return wapp.template('ab/home.html',
-		abench_nqjobs = jobs,
+		abench_nqjobs = _nqjobs(),
 	)
 
 #-------------------------------------------------------------------------------
