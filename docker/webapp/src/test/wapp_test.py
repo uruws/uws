@@ -110,9 +110,10 @@ class TestWapp(unittest.TestCase):
 		q = wapp.NQ('testing')
 		t.assertEqual(q.name, 'testing')
 		t.assertEqual(q.app,  'devel')
-		t.assertTrue(q.dir.exists())
+		dh = Path(q.dir)
+		t.assertTrue(dh.exists())
 		q.delete()
-		t.assertFalse(q.dir.exists())
+		t.assertFalse(dh.exists())
 		t.assertTrue(q.cleanup)
 
 	def test_nq_defaults(t):
@@ -171,7 +172,7 @@ class TestWapp(unittest.TestCase):
 	def test_nq_list(t):
 		with wapp_t.mock(nqdir = '/opt/uws/lib/test') as m:
 			q = wapp.NQ('nq', app = 'data', setup = False)
-			t.assertEqual(str(q.dir), '/opt/uws/lib/test/data/nq')
+			t.assertEqual(q.dir, '/opt/uws/lib/test/data/nq')
 			l = q.list()
 			t.assertEqual(len(l), 3)
 			t.assertIsInstance(l[0], wapp.NQJobInfo)
@@ -180,6 +181,17 @@ class TestWapp(unittest.TestCase):
 				'18989e6df22.19391',
 				'18989e70a11.19428',
 				'18989e71777.19432',
+			])
+
+	def test_nq_read(t):
+		with wapp_t.mock(nqdir = '/opt/uws/lib/test') as m:
+			q = wapp.NQ('nq', app = 'data', setup = False)
+			text = q.read('18989e6df22.19391')
+			t.assertListEqual(text.splitlines(), [
+				'exec nq /usr/bin/true',
+				'',
+				'',
+				'[exited with status 0.]',
 			])
 
 if __name__ == '__main__':

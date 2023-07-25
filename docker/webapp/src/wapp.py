@@ -147,22 +147,23 @@ def _nqrun(cmd: str, env: dict[str, str] | None = None) -> NQJob:
 		encoding = 'utf-8', text = True, capture_output = True))
 
 class NQ(object):
-	name:        str
-	app:         str = ''
-	dir: Path | None = None
-	cleanup:    bool = True
-	quiet:      bool = True
+	name:    str
+	app:     str = ''
+	dir:     str = ''
+	cleanup: bool = True
+	quiet:   bool = True
 
 	def __init__(q, qname: str, app: str = name, setup = True):
 		q.name = qname
 		q.app = app
-		q.dir = Path(nqdir, q.app, q.name)
+		q.dir = str(Path(nqdir, q.app, q.name))
 		if setup:
 			q._setup()
 
 	def _setup(q):
-		q.dir.mkdir(mode = 0o0750, parents = True, exist_ok = True)
-		q.dir.chmod(0o0750) # in case it already existed
+		dh = Path(q.dir)
+		dh.mkdir(mode = 0o0750, parents = True, exist_ok = True)
+		dh.chmod(0o0750) # in case it already existed
 
 	def delete(q):
 		rmtree(q.dir)
@@ -172,7 +173,7 @@ class NQ(object):
 			'USER':  os.environ.get('USER', 'uws'),
 			'HOME':  os.environ.get('HOME', '/home/uws'),
 			'PATH':  '/usr/bin',
-			'NQDIR': str(q.dir),
+			'NQDIR': q.dir,
 		}
 
 	def args(q) -> str:
@@ -190,5 +191,9 @@ class NQ(object):
 	def list(q) -> list[NQJobInfo]:
 		l: list[NQJobInfo] = []
 		for s in _fqrun(q.env()):
-			l.append(NQJobInfo(s, str(q.dir)))
+			l.append(NQJobInfo(s, q.dir))
 		return l
+
+	def read(q, jobid: str) -> str:
+		fh = Path(q.dir, ',%s' % jobid)
+		return fh.read_text()

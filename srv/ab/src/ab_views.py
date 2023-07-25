@@ -59,6 +59,7 @@ def nq():
 	)
 
 def nq_job(jobid: str):
+	q = wapp.NQ('run')
 	return wapp.template('ab/nq_job.html',
 		jobid = jobid,
 	)
