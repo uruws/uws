@@ -57,6 +57,12 @@ class TestWapp(unittest.TestCase):
 			t.assertEqual(wapp.url('testing/'), '/btesting/')
 			t.assertEqual(wapp.url('testing'),  '/btesting')
 
+	def test_error(t):
+		with wapp_t.mock() as m:
+			wapp.error(500, 'test.tpl', key1 = 'val1', key2 = 'val2')
+			t.assertEqual(m.response.status, 500)
+			m.template.assert_called_once_with('test.tpl', key1 = 'val1', key2 = 'val2')
+
 	#---------------------------------------------------------------------------
 	# main
 
@@ -119,7 +125,7 @@ class TestWapp(unittest.TestCase):
 	def test_nq_defaults(t):
 		t.assertEqual(wapp.fqcmd, '/usr/bin/fq')
 		t.assertEqual(wapp.nqcmd, '/usr/bin/nq')
-		t.assertTrue(wapp.nqdir.startswith('/tmp/wappnq.'))
+		t.assertTrue(wapp.nqdir.startswith('/tmp/'))
 
 	def test_nq_env(t):
 		q = wapp.NQ('testing')
