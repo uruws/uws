@@ -49,9 +49,15 @@ def getLogger(name: str) -> logging.Logger:
 # utils
 
 def url(path: str) -> str:
+	"""generate URLs"""
 	if base_url == '/':
 		return path.strip()
 	return '%s%s' % (base_url, path.strip())
+
+def error(status: int, tpl: str, **kwargs):
+	"""return templated error status page"""
+	response.status = status
+	return template(tpl, **kwargs)
 
 #-------------------------------------------------------------------------------
 # bottle
