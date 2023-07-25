@@ -40,10 +40,10 @@ def run_post():
 		job = cmd.run()
 	except Exception as err:
 		log.error('%s', err)
-		return wapp.template('error.html', app = wapp.name, error = str(err))
+		return wapp.error(500, 'ab/error.html', app = wapp.name, error = str(err))
 	if job.rc() != 0:
 		log.error('command failed (%d): %s', job.rc(), job.error())
-		return wapp.template('error.html', app = wapp.name, error = 'command failed: %d' % job.rc())
+		return wapp.error(500, 'ab/error.html', app = wapp.name, error = 'command failed: %d' % job.rc())
 	return wapp.redirect(wapp.url('/nq/'))
 
 #-------------------------------------------------------------------------------

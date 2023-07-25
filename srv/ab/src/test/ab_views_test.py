@@ -9,6 +9,7 @@ from unittest.mock import MagicMock
 import unittest
 
 import wapp_t
+import wapp
 
 import ab_views
 
@@ -57,13 +58,15 @@ class TestViews(unittest.TestCase):
 		with wapp_t.mock() as m:
 			m.nqrun.side_effect = wapp_t.mock_nqrun_fail
 			ab_views.run_post()
-			m.template.assert_called_once_with('error.html', app = 'ab', error = 'mock_nqrun_fail')
+			t.assertEqual(wapp.response.status, 500)
+			m.template.assert_called_once_with('ab/error.html', app = 'ab', error = 'mock_nqrun_fail')
 
 	def test_run_post_error(t):
 		with wapp_t.mock() as m:
 			m.nqrun.side_effect = wapp_t.mock_nqrun_error
 			ab_views.run_post()
-			m.template.assert_called_once_with('error.html', app = 'ab', error = 'command failed: 999')
+			t.assertEqual(wapp.response.status, 500)
+			m.template.assert_called_once_with('ab/error.html', app = 'ab', error = 'command failed: 999')
 
 	#
 	# /nq/
