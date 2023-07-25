@@ -2,7 +2,5 @@
 % title = 'nq'
 % rebase('ab/base.html')
 <p>
-% for job in abench_nqjobs:
-<a href="{{ url('/nq', job.id()) }}">{{ job }}</a><br>
-% end
+% include('ab/inc/nq_jobs.html')
 </p>

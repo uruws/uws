@@ -1,9 +1,5 @@
 % title = 'run'
 % rebase('ab/base.html')
 <p>
-<form action="/run/" method="POST">
-	<label>https://</label><input type="text" name="abench_url"
-		required="required" placeholder="test.domain/path">
-	<input type="submit" value="run">
-</form>
+% include('ab/inc/run_form.html')
 </p>
