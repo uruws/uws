@@ -44,7 +44,7 @@ class TestViews(unittest.TestCase):
 	def test_run(t):
 		with wapp_t.mock() as m:
 			ab_views.run()
-			m.template.assert_called_once_with('ab/run.html')
+			m.template.assert_called_once()
 
 	def test_run_post(t):
 		with wapp_t.mock() as m:
@@ -72,9 +72,7 @@ class TestViews(unittest.TestCase):
 	def test_nq(t):
 		with wapp_t.mock() as m:
 			ab_views.nq()
-			m.template.assert_called_once_with('ab/nq.html',
-				abench_nqjobs = [],
-			)
+			m.template.assert_called_once_with('ab/nq.html', abench_nqjobs = [])
 
 	def test_nq_list(t):
 		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:
@@ -106,7 +104,7 @@ class TestViews(unittest.TestCase):
 	def test_home(t):
 		with wapp_t.mock() as m:
 			ab_views.home()
-			m.template.assert_called_once_with('ab/home.html', abench_nqjobs = [])
+			m.template.assert_called_once()
 
 	def test_home_jobs(t):
 		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:

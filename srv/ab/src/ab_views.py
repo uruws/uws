@@ -31,7 +31,7 @@ def healthz():
 # /run/
 
 def run():
-	return wapp.template('ab/run.html')
+	return wapp.template('ab/run.html', abench_nqjobs_form = ab.CommandForm())
 
 def run_post():
 	try:
@@ -78,7 +78,8 @@ def nq_job(jobid: str):
 
 def home():
 	return wapp.template('ab/home.html',
-		abench_nqjobs = _nqjobs(),
+		abench_nqjobs      = _nqjobs(),
+		abench_nqjobs_form = ab.CommandForm(),
 	)
 
 #-------------------------------------------------------------------------------

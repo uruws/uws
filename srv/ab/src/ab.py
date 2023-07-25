@@ -95,10 +95,10 @@ def command_parse(_id: str, args: str) -> Command:
 
 class CommandForm(Command):
 
-	def form_items(f) -> dict[str, str]:
+	def items(f):
 		return dict(
 			requests    = str(f.requests),
 			concurrency = str(f.concurrency),
 			timelimit   = str(f.timelimit),
 			timeout     = str(f.timeout),
-		)
+		).items()

@@ -83,7 +83,7 @@ class TestCommand(unittest.TestCase):
 
 	def test_command_form(t):
 		f = ab.CommandForm()
-		t.assertDictEqual(f.form_items(), {
+		t.assertDictEqual(dict(f.items()), {
 			'concurrency': '1',
 			'requests':    '1',
 			'timelimit':   '0',

@@ -1,5 +1,12 @@
 <form action="/run/" method="POST">
-	<label>https://</label><input type="text" name="abench_url"
+	<label>https://</label>
+	<input type="text" name="abench_url"
 		required="required" placeholder="test.domain/path">
 	<input type="submit" value="run">
+	<br>
+% for cmd_opt, cmd_val in abench_nqjobs_form.items():
+	<label>{{ cmd_opt }}</label>
+	<input type="text" name="abench_{{ cmd_opt }}" value="{{ cmd_val }}">
+	<br>
+% end
 </form>
