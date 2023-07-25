@@ -60,8 +60,14 @@ def nq():
 
 def nq_job(jobid: str):
 	q = wapp.NQ('run')
+	try:
+		text = q.read(jobid)
+	except FileNotFoundError as err:
+		log.error('%s', err)
+		return wapp.error(404, 'ab/error.html', app = wapp.name, error = '%s' % err)
 	return wapp.template('ab/nq_job.html',
-		jobid = jobid,
+		job_id     = jobid,
+		job_output = text,
 	)
 
 #-------------------------------------------------------------------------------

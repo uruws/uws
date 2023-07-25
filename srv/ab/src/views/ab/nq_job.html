@@ -1,3 +1,10 @@
-% title = 'nq job: ' + jobid
+% title = 'nq job: ' + job_id
 % rebase('ab/base.html')
-<p>nq job: {{ jobid }}</p>
+<p>nq job: {{ job_id }}</p>
+<div class="w3-container w3-camo-black" name="job_output">
+<p>
+% for line in job_output.splitlines():
+	{{ line }}<br>
+% end
+</p>
+</div><!-- job_output -->
