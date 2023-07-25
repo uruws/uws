@@ -61,6 +61,8 @@ def url(path: str) -> str:
 #
 
 def bottle_start(app: str):
+	if debug:
+		bottle.DEBUG = True
 	log.debug('bottle_start: %s', app)
 	bottle.TEMPLATE_PATH = [
 		Path('/opt/uws/lib/views'),
