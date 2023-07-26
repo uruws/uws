@@ -122,13 +122,14 @@ uws_useradd() (
 		rm -vf "${sshauth_dst}"
 	fi
 	# chatbot access only
-	if test "X${user_keyid}" = 'CHATBOT'; then
+	if test "X${user_keyid}" = 'XCHATBOT'; then
 		rm -vf "${sshauth_dst}"
 		touch  "${sshauth_dst}"
 	fi
 	# chatbot auth keys
 	if test -s "${chatbot_sshkey}"; then
 		if test -s "${sshauth_dst}"; then
+			echo "${chatbot_sshkey} -> ${sshauth_dst}"
 			cat "${chatbot_sshkey}" >>"${sshauth_dst}"
 		fi
 	fi
