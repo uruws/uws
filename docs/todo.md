@@ -13,6 +13,12 @@
 
 ---
 
+* abench: web benchmarks - `WIP` [PR228][PR228]
+
+[PR228]: https://github.com/TalkingPts/Infrastructure/pull/228
+
+---
+
 * implement new haproxy setup for staging.t.o
 
 ---
