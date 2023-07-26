@@ -26,6 +26,7 @@ ENV USER root
 ENV HOME /root
 
 COPY --chown=uws:uwsops ./src /opt/uws/ab
+COPY --chown=uws:uwsops ./VERSION /opt/uws/ab
 
 USER uws:uwsops
 WORKDIR /home/uws
