@@ -10,6 +10,10 @@ echo "*** webapp: ${UWS_WEBAPP}"
 echo "***   port: ${UWS_WEBAPP_PORT}"
 echo "***     nq: ${UWS_WEBAPP_NQDIR}"
 
+if test -s "/opt/uws/${UWS_WEBAPP}/VERSION"; then
+	echo "${UWS_WEBAPP} version $(cat "/opt/uws/${UWS_WEBAPP}/VERSION")"
+fi
+
 pypath=/opt/uws/lib:/etc/opt/uws/${UWS_WEBAPP}
 
 exec uwsgi                                                        \
