@@ -1,8 +1,10 @@
 #!/bin/sh
 set -eu
 
-UWS_WEBAPP_NQDIR=$(mktemp -d -p /tmp wappnq.XXXXXXXXXX)
-export UWS_WEBAPP_NQDIR
+if test 'X' = "${UWS_WEBAPP_NQDIR:-X}"; then
+	UWS_WEBAPP_NQDIR=$(mktemp -d -p /tmp wappnq.XXXXXXXXXX)
+	export UWS_WEBAPP_NQDIR
+fi
 
 echo "*** webapp: ${UWS_WEBAPP}"
 echo "***   port: ${UWS_WEBAPP_PORT}"
