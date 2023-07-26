@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/tapo/restart.sh tapo cdn
+exec ~/pod/tapo/restart.sh "${TAPO_NAMESPACE}" cdn

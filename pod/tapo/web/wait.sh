@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/tapo/wait.sh tapo web
+exec ~/pod/tapo/wait.sh "${TAPO_NAMESPACE}" web

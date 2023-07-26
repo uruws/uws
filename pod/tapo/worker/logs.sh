@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/tapo/logs.sh tpwrk worker
+exec ~/pod/tapo/logs.sh "${TAPO_WORKER_NAMESPACE}" worker

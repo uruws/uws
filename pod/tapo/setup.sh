@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
-uwskube create namespace tapo
-uwskube create namespace tpwrk
+uwskube create namespace "${TAPO_NAMESPACE}"
+uwskube create namespace "${TAPO_WORKER_NAMESPACE}"
 exit 0

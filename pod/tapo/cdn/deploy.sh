@@ -12,4 +12,4 @@ export METEOR_CPU
 METEOR_MEMORY="${TAPO_MEMORY}"
 export METEOR_MEMORY
 
-exec ~/pod/tapo/deploy.sh tapo cdn "${appver}"
+exec ~/pod/tapo/deploy.sh "${TAPO_NAMESPACE}" cdn "${appver}"

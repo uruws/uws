@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/tapo/rollin.sh tapo cdn
+exec ~/pod/tapo/rollin.sh "${TAPO_NAMESPACE}" cdn

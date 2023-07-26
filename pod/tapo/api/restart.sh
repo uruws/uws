@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/tapo/restart.sh tapo api
+exec ~/pod/tapo/restart.sh "${TAPO_NAMESPACE}" api

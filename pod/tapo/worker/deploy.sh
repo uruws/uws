@@ -12,4 +12,4 @@ export METEOR_CPU
 METEOR_MEMORY="${TAPO_WORKER_MEMORY}"
 export METEOR_MEMORY
 
-exec ~/pod/tapo/deploy.sh tpwrk worker "${appver}"
+exec ~/pod/tapo/deploy.sh "${TAPO_WORKER_NAMESPACE}" worker "${appver}"

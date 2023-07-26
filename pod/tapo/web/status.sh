@@ -2,4 +2,4 @@
 set -eu
 ~/pod/tapo/cdn/status.sh
 echo
-exec ~/pod/tapo/status.sh tapo web
+exec ~/pod/tapo/status.sh "${TAPO_NAMESPACE}" web
