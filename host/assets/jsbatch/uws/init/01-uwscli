@@ -110,12 +110,6 @@ uws_useradd() (
 	# profile
 	chmod 0750 "${user_home}"
 	install -v -C -m 0644 "${uwscli_home}/etc/user.bash_profile" "${user_home}/.bash_profile"
-	# ssh-import-id
-	if test "X${user_keyid}" != 'XNOKEY'; then
-		if test "X${user_keyid}" != 'XNOSSH'; then
-			sudo -n -u "${user_name}" /usr/bin/ssh-import-id "${user_keyid}"
-		fi
-	fi
 	# internal ssh auth keys
 	sshauth_src="${sshauth_srcdir}/${user_name}/authorized_keys"
 	sshauth_dst="${user_home}/.ssh/authorized_keys"
@@ -127,9 +121,17 @@ uws_useradd() (
 	if test "X${user_keyid}" = 'XNOSSH'; then
 		rm -vf "${sshauth_dst}"
 	fi
+	# chatbot access only
+	if test "X${user_keyid}" = 'XCHATBOT'; then
+		rm -vf "${sshauth_dst}"
+		touch "${sshauth_dst}"
+		chown -v "${user_name}:${user_name}" "${sshauth_dst}"
+		chmod -v 0640 "${sshauth_dst}"
+	fi
 	# chatbot auth keys
 	if test -s "${chatbot_sshkey}"; then
-		if test -s "${sshauth_dst}"; then
+		if test -f "${sshauth_dst}"; then
+			echo "${chatbot_sshkey} -> ${sshauth_dst}"
 			cat "${chatbot_sshkey}" >>"${sshauth_dst}"
 		fi
 	fi
@@ -144,9 +146,11 @@ uws_useradd ramiro
 uws_useradd pablo
 uws_useradd gonzalo
 
-# no ssh keys, but can go via slack chatbot
+# keep the user but no ssh access
 uws_useradd nelson NOSSH
-uws_useradd martin NOSSH
+
+# chatbot access only
+uws_useradd martin CHATBOT
 
 # chatbot
 uws_useradd uwscbdev
