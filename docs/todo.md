@@ -19,7 +19,9 @@
 
 ---
 
-* implement new haproxy setup for staging.t.o
+* implement new haproxy setup for staging.t.o - `DONE!` [PR229][PR229]
+
+[PR229]: https://github.com/TalkingPts/Infrastructure/pull/229
 
 ---
 
