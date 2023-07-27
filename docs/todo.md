@@ -25,6 +25,12 @@
 
 ---
 
+* sarmiento.uws.t.o haproxy setup - `DONE!` [PR230][PR230]
+
+[PR230]: https://github.com/TalkingPts/Infrastructure/pull/230
+
+---
+
 * rotate aws ses credentials due to crond env vars exposing them
     * only internally, but still
     * secret/aws.iam/smtps_credentials.csv
