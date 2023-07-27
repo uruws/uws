@@ -1,12 +1,14 @@
+% input_class = 'w3-black w3-border w3-border-gray'
 <form action="/run/" method="POST">
 	<div class="w3-small">
 % for cmd_opt, cmd_val in abench_nqjobs_form.items():
 	<label>{{ cmd_opt.title() }}</label>
-	<input class="w3-black" type="text" name="abench_{{ cmd_opt }}" value="{{ cmd_val }}">
+	<input class="{{ input_class }}" type="number"
+		name="abench_{{ cmd_opt }}" value="{{ cmd_val }}">
 % end
 	</div>
 	<br>
-	<label>https://</label><input class="w3-black" type="text" name="abench_url"
-		required="required" placeholder="test.domain/path">
-	<input class="w3-black" type="submit" value="run">
+	<label>https://</label><input class="{{ input_class }}" type="text"
+		name="abench_url" required="required" placeholder="test.domain/path">
+	<input class="{{ input_class }}" type="submit" value="run">
 </form>
