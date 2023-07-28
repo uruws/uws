@@ -9,7 +9,7 @@
 </div><!-- job_info -->
 <div class="w3-container w3-margin-bottom" name="job_output">
 <div class="w3-container w3-camo-black">
-<p>
+<pre>
 % for line in job_output.splitlines():
 %   if line.startswith('Document ') or \
 %      line.startswith('Time ') or \
@@ -17,14 +17,14 @@
 %      line.startswith('Requests per second:') or \
 %      line.startswith('Concurrency Level:') or \
 %      line.startswith('Server Hostname:'):
-		<span class="w3-text-green">{{ line }}</span><br>
+<span class="w3-text-green">{{ line }}</span>
 %   elif line.startswith('Failed ') or \
 %        line.startswith('Non-2xx responses:'):
-		<span class="w3-text-red">{{ line }}</span><br>
+<span class="w3-text-red">{{ line }}</span>
 %   else:
-		{{ line }}<br>
+{{ line }}
 %   end
 % end
-</p>
+</pre>
 </div>
 </div><!-- job_output -->
