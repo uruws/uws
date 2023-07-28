@@ -1,6 +1,10 @@
+% from wapptpl import url
 % title = 'nq job: ' + job_id
 % rebase('ab/base.html')
-<p>nq job: {{ job_id }}</p>
+<p>
+	<a class="w3-button w3-border w3-border-blue w3-text-green"
+		href="{{ url('/nq', job_id) }}">nq job: {{ job_id }}</a>
+</p>
 <div class="w3-container w3-camo-black" name="job_output">
 <p>
 % for line in job_output.splitlines():
