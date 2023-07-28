@@ -1,4 +1,5 @@
-% input_class = 'w3-black w3-border w3-border-gray'
+% import abtpl
+% input_class = '%s %s' % (abtpl.input_class, abtpl.input_color)
 <form action="/run/" method="POST">
 	<div class="w3-small">
 % for cmd_opt, cmd_val in abench_nqjobs_form.items():
