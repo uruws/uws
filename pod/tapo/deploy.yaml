@@ -69,14 +69,6 @@ spec:
               cpu: ${METEOR_CPU}m
               #~ memory: ${METEOR_MEMORY}Mi
           readinessProbe:
-            exec:
-              command:
-                - node
-                - --version
-            initialDelaySeconds: 5
-            periodSeconds: 15
-            timeoutSeconds: 3
-          livenessProbe:
             httpGet:
               path: /iqvm39mcpbkFJzucEAFETVpbhoqAvpqt-healthz.txt
               port: 3000
