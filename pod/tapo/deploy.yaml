@@ -79,7 +79,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /iqvm39mcpbkFJzucEAFETVpbhoqAvpqt-healthz.txt
-              port: http
+              port: 80
               scheme: HTTP
             initialDelaySeconds: 15
             periodSeconds: 15
