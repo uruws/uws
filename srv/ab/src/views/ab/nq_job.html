@@ -7,7 +7,7 @@
 		href="{{ url('/nq', job_id) }}">nq job: {{ job_id }}</a>
 </p>
 </div><!-- job_info -->
-<div class="w3-container" name="job_output">
+<div class="w3-container w3-margin-bottom" name="job_output">
 <div class="w3-container w3-camo-black">
 <p>
 % for line in job_output.splitlines():
