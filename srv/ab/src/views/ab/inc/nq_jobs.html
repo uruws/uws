@@ -1,3 +1,5 @@
+<p>
 % for job in abench_nqjobs:
-<a class="w3-text-green" href="{{ url('/nq', job.id()) }}">{{ job }}</a><br>
+	<a class="w3-text-green w3-hover-text-blue" href="{{ url('/nq', job.id()) }}">{{ job }}</a><br>
 % end
+</p>
