@@ -21,6 +21,8 @@ install -v -m 0644 -o root -g uws \
 	/srv/uws/deploy/secret/webapp/prod/ab/ab_conf.py \
 	/srv/run/webapp/prod/ab/ab_conf.py
 
+install -v -d -m 1777 -o root -g root /srv/run/webapp/prod/ab/data
+
 /uws/bin/service-restart.sh uws-abench \
 	/srv/run/webapp/prod/ab.env \
 	/srv/run/webapp/prod/ab \
