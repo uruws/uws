@@ -13,9 +13,10 @@
 
 ---
 
-* abench: web benchmarks - `WIP` [PR228][PR228]
+* abench: web benchmarks - `WIP` [PR228][PR228] [PR233][PR233]
 
 [PR228]: https://github.com/TalkingPts/Infrastructure/pull/228
+[PR233]: https://github.com/TalkingPts/Infrastructure/pull/233
 
 ---
 

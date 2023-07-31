@@ -14,4 +14,6 @@ if test -d /srv/www/ssl/htmlcov; then
 	fi
 fi
 
+docker tag uws/ab-2305 "uws/abench-${ABENCH_TAG}"
+
 exit 0

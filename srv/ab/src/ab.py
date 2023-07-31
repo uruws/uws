@@ -8,8 +8,7 @@ import wapp
 #-------------------------------------------------------------------------------
 # config
 
-cmdpath:   Path = Path('/usr/bin/ab')
-user_agent: str = '-HUser-Agent:uwsab'
+cmdpath: str = '/opt/uws/ab/abrun.py'
 
 #-------------------------------------------------------------------------------
 # command
@@ -29,7 +28,6 @@ class Command(object):
 
 	def __str__(c) -> str:
 		args = c.args()
-		args.remove(user_agent)
 		if c._id != '':
 			return '%s: %s' % (c._id, ' '.join(args))
 		return '%s' % ' '.join(args)
@@ -38,7 +36,7 @@ class Command(object):
 		return c._id
 
 	def args(c) -> list[str]:
-		a = [cmdpath.as_posix()]
+		a = [cmdpath.strip()]
 		if c.requests != 0:
 			a.append('-n%d' % c.requests)
 		if c.concurrency != 0:
@@ -51,7 +49,6 @@ class Command(object):
 			a.append('-p%s' % c.postfile)
 		if c.content_type != '':
 			a.append('-T%s' % c.content_type)
-		a.append(user_agent)
 		a.extend([str(a) for a in list(c.cmdargs)])
 		return a
 
@@ -66,7 +63,7 @@ def command_parse(_id: str, args: str) -> Command:
 	add = False
 	for a in args.split(' '):
 		a = a.strip()
-		if a == str(cmdpath):
+		if a == cmdpath:
 			add = True
 			continue
 		if a.startswith('-H'):
