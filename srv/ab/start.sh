@@ -16,7 +16,7 @@ exec docker run --rm --read-only \
 	--name uws-abench \
 	--hostname abench.uws.local \
 	--env-file "${webapp_env}" \
-	-p 127.0.0.1:2741:2742 \
+	-p 127.0.0.1:2742:2741 \
 	-v "${webapp_confd}:/etc/opt/uws/ab:ro" \
 	-v "${webapp_datad}:/var/lib/abench" \
 	--tmpfs /tmp \
