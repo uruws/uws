@@ -15,19 +15,16 @@ import ab
 class TestConfig(unittest.TestCase):
 
 	def test_defaults(t):
-		t.assertEqual(ab.cmdpath,    Path('/usr/bin/ab'))
-		t.assertEqual(ab.user_agent, '-HUser-Agent:uwsab')
+		t.assertEqual(ab.cmdpath, '/opt/uws/ab/abrun.py')
 
 #-------------------------------------------------------------------------------
 # command
 
-default_cmd      = '/usr/bin/ab -n1 -c1 -s7'
+default_cmd      = '/opt/uws/ab/abrun.py -n1 -c1 -s7'
 default_cmd_list = default_cmd.split(' ')
-default_cmd_list.append('-HUser-Agent:uwsab')
 
 full_cmd_list = [
-	'/usr/bin/ab', '-n99', '-c99', '-t99', '-s99', '-ppost.t', '-Tc/t',
-	'-HUser-Agent:uwsab',
+	'/opt/uws/ab/abrun.py', '-n99', '-c99', '-t99', '-s99', '-ppost.t', '-Tc/t',
 ]
 
 class TestCommand(unittest.TestCase):
@@ -77,7 +74,7 @@ class TestCommand(unittest.TestCase):
 		l = default_cmd_list.copy()
 		l.append('https://test.domain/path')
 		cmd = default_cmd.strip()
-		cmd += ' https://test.domain/path'
+		cmd += ' -Htesting https://test.domain/path'
 		c = ab.command_parse('testing', cmd)
 		t.assertListEqual(c.args(), l)
 

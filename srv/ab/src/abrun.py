@@ -5,13 +5,14 @@
 import subprocess
 import sys
 
-cmdpath: str = '/usr/bin/ab'
+cmdpath:    str = '/usr/bin/ab'
+user_agent: str = '-HUser-Agent:uwsab'
 
 def _run(cmd):
 	return subprocess.run(cmd, shell = True, stdout = sys.stdout, stderr = sys.stderr)
 
 def main(argv: list[str] = []) -> int:
-	cmd = '%s %s' % (cmdpath, ' '.join(argv))
+	cmd = '%s %s %s' % (cmdpath, user_agent, ' '.join(argv))
 	proc = _run(cmd)
 	return proc.returncode
 
