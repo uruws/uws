@@ -11,9 +11,19 @@ fi
 abench_version=$(cat /srv/uws/deploy/srv/ab/VERSION.prod)
 export DOCKER_IMAGE="uws/abench-${abench_version}"
 
-/uws/bin/service-restart.sh uws-abench \
+install -v -d -m 0755 -o root -g uws /srv/run/webapp/prod/ab
+
+install -v -m 0644 -o root -g uws \
 	/srv/uws/deploy/secret/webapp/prod/ab.env \
-	/srv/uws/deploy/secret/webapp/prod/ab \
+	/srv/run/webapp/prod/ab.env
+
+install -v -m 0644 -o root -g uws \
+	/srv/uws/deploy/secret/webapp/prod/ab/ab_conf.py \
+	/srv/run/webapp/prod/ab/ab_conf.py
+
+/uws/bin/service-restart.sh uws-abench \
+	/srv/run/webapp/prod/ab.env \
+	/srv/run/webapp/prod/ab \
 	/srv/uws/deploy/srv/ab/VERSION.prod \
 	/srv/uws/deploy/srv/ab/stop.sh \
 	/srv/uws/deploy/srv/ab/start.sh

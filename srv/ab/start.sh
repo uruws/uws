@@ -1,8 +1,8 @@
 #!/bin/sh
 set -eu
 
-webapp_env=/srv/uws/deploy/secret/webapp/prod/ab.env
-webapp_confd=/srv/uws/deploy/secret/webapp/prod/ab
+webapp_env=/srv/run/webapp/prod/ab.env
+webapp_confd=/srv/run/webapp/prod/ab
 
 abench_version=$(cat /srv/uws/deploy/srv/ab/VERSION.prod)
 
