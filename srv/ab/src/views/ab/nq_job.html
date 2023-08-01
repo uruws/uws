@@ -13,6 +13,7 @@
 % for line in job_output.splitlines():
 %   if line.startswith('Document ') or \
 %      line.startswith('Time ') or \
+%      (line.startswith('Failed requests:') and line.endswith('0')) or \
 %      line.startswith('Complete requests:') or \
 %      line.startswith('Requests per second:') or \
 %      line.startswith('Concurrency Level:') or \
