@@ -14,7 +14,7 @@ user_agent: str = '-HUser-Agent:uwsab'
 _outfh = sys.stdout
 
 def _datetime(tag: str):
-	print('%s:' % tag, asctime(gmtime()), file = _outfh)
+	print('%s:' % tag, asctime(gmtime()), file = _outfh, flush = True)
 
 def _run(cmd):
 	return subprocess.run(cmd, shell = True, stdout = sys.stdout, stderr = sys.stderr)
