@@ -32,6 +32,13 @@
 
 ---
 
+* meteor App healthz check - `DONE!` [PR231][PR231]
+    * setup k8s readinessProbe
+
+[PR231]: https://github.com/TalkingPts/Infrastructure/pull/231
+
+---
+
 * rotate aws ses credentials due to crond env vars exposing them
     * only internally, but still
     * secret/aws.iam/smtps_credentials.csv
