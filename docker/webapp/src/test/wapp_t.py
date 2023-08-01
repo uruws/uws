@@ -42,6 +42,8 @@ class MockNQRunFail(RuntimeError):
 def mock_nqrun_fail(cmd, env = None):
 	raise MockNQRunFail('mock_nqrun_fail')
 
+nqdir: str = '/opt/uws/lib/test/data/nq'
+
 @contextmanager
 def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True):
 	with mock_start(debug = debug) as m:

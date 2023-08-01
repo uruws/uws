@@ -7,6 +7,8 @@ import unittest
 
 from pathlib import Path
 
+import wapp_t
+
 import ab
 
 #-------------------------------------------------------------------------------
@@ -86,6 +88,15 @@ class TestCommand(unittest.TestCase):
 			'timelimit':   '0',
 			'timeout':     '7',
 		})
+
+	def test_parse(t):
+		with wapp_t.mock(nqdir = wapp_t.nqdir) as m:
+			c = ab.Command()
+			c._id = '18989e70a11.19428'
+			c._parse()
+			t.assertEqual(c.command(),    'exec nq /usr/bin/false')
+			t.assertEqual(c.start_time(), 'Tue Aug  1 22:04:02 2023')
+			t.assertEqual(c.end_time(),   'Tue Aug  1 22:04:04 2023')
 
 if __name__ == '__main__':
 	unittest.main()

@@ -22,6 +22,10 @@ class Command(object):
 	postfile:     str = ''
 	content_type: str = ''
 	_id:          str = ''
+	_parsed:     bool = False
+	_command:     str = ''
+	_start_time:  str = ''
+	_end_time:    str = ''
 
 	def __init__(c, *args):
 		c.cmdargs = [str(a) for a in args]
@@ -52,10 +56,39 @@ class Command(object):
 		a.extend([str(a) for a in list(c.cmdargs)])
 		return a
 
+	def _nq(c) -> wapp.NQ:
+		return wapp.NQ('run')
+
 	def run(c) -> wapp.NQJob:
-		q = wapp.NQ('run')
+		q = c._nq()
 		q.cleanup = False
 		return q.run(c.args())
+
+	def _parse(c):
+		if c._parsed:
+			return
+		q = c._nq()
+		for line in q.read(c._id).splitlines():
+			line = line.strip()
+			if line.startswith('exec '):
+				c._command = str(line)
+			elif line.startswith('Start: '):
+				c._start_time = str(line[7:])
+			elif line.startswith('End: '):
+				c._end_time = str(line[5:])
+		c._parsed = True
+
+	def command(c) -> str:
+		c._parse()
+		return c._command
+
+	def start_time(c) -> str:
+		c._parse()
+		return c._start_time
+
+	def end_time(c) -> str:
+		c._parse()
+		return c._end_time
 
 def command_parse(_id: str, args: str) -> Command:
 	c = Command()
