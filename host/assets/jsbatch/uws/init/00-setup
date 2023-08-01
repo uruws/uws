@@ -27,4 +27,7 @@ install -v -d -m 0750 -o root -g root /srv/etc/sec
 install -v -d -m 0750 -o root -g root /srv/etc/sec/production
 install -v -d -m 0750 -o root -g root /srv/etc/sec/staging
 
+install -v -d -m 0750 -o root -g uws /srv/run/webapp
+install -v -d -m 0750 -o root -g uws /srv/run/webapp/prod
+
 exit 0

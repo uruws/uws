@@ -1,8 +1,9 @@
 #!/bin/sh
 set -eu
 
-webapp_env=/srv/uws/deploy/secret/webapp/prod/ab.env
-webapp_confd=/srv/uws/deploy/secret/webapp/prod/ab
+webapp_env=/srv/run/webapp/prod/ab.env
+webapp_confd=/srv/run/webapp/prod/ab
+webapp_datad=/srv/run/webapp/prod/ab/data
 
 abench_version=$(cat /srv/uws/deploy/srv/ab/VERSION.prod)
 
@@ -15,7 +16,8 @@ exec docker run --rm --read-only \
 	--name uws-abench \
 	--hostname abench.uws.local \
 	--env-file "${webapp_env}" \
-	-p 127.0.0.1:2741:2742 \
+	-p 127.0.0.1:2742:2741 \
 	-v "${webapp_confd}:/etc/opt/uws/ab:ro" \
+	-v "${webapp_datad}:/var/lib/abench" \
 	--tmpfs /tmp \
 	"uws/abench-${abench_version}"
