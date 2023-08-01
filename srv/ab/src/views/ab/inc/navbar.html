@@ -1,8 +1,8 @@
 % import abtpl
 % abench_navbar = {
-%   'abench': '/',
-%   'jobs':   '/nq/',
-%   'run':    '/run/',
+%   'abench': url('/'),
+%   'jobs':   url('/nq/'),
+%   'run':    url('/run/'),
 % }
 <div class="w3-container w3-padding-24 w3-signal-black w3-border-bottom w3-border-dark-gray" name="abench_navbar">
 % for lnk_name, lnk_url in abench_navbar.items():
@@ -11,6 +11,6 @@
 %     lnk_class = abtpl.button_current
 %   end
 	<a class="{{ abtpl.button_class }} {{ lnk_class }}"
-		href="{{ url(lnk_url) }}">{{ lnk_name }}</a>
+		href="{{ lnk_url }}">{{ lnk_name }}</a>
 % end
 </div><!-- abench_navbar -->
