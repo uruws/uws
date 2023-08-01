@@ -13,15 +13,18 @@ import abrun
 
 @contextmanager
 def mock(status = 0):
-	bup_run = abrun._run
+	bup_run   = abrun._run
+	bup_outfh = abrun._outfh
 	try:
 		m = MagicMock()
 		abrun._run = m.run
 		m.run.return_value = m.proc
 		m.proc.returncode = status
+		abrun._outfh = m.outfh
 		yield m
 	finally:
-		abrun._run = bup_run
+		abrun._run   = bup_run
+		abrun._outfh = bup_outfh
 
 class TestABRun(unittest.TestCase):
 
