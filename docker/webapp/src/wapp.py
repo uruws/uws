@@ -202,3 +202,6 @@ class NQ(object):
 	def read(q, jobid: str) -> str:
 		fh = Path(q.dir, ',%s' % jobid)
 		return fh.read_text()
+
+	def rm(q, jobid: str):
+		Path(q.dir, ',%s' % jobid).unlink()

@@ -48,8 +48,11 @@ def run_post():
 #-------------------------------------------------------------------------------
 # /nq/
 
+def _nq() -> wapp.NQ:
+	return wapp.NQ('run')
+
 def _nqjobs():
-	q = wapp.NQ('run')
+	q = _nq()
 	jobs = []
 	for j in reversed(q.list()):
 		jobs.append(ab.command_parse(j.id(), str(j)))
@@ -61,7 +64,7 @@ def nq():
 	)
 
 def nq_job(jobid: str):
-	q = wapp.NQ('run')
+	q = _nq()
 	try:
 		text = q.read(jobid)
 	except FileNotFoundError as err:
@@ -71,6 +74,23 @@ def nq_job(jobid: str):
 		job_id     = jobid,
 		job_output = text,
 	)
+
+#-------------------------------------------------------------------------------
+# /nq.delete/
+
+def nq_delete(jobid: str):
+	job = ab.command_parse(jobid, '')
+	return wapp.template('ab/job_delete.html', job = job)
+
+def nq_delete_post():
+	q = _nq()
+	try:
+		jobid = wapp.request.POST.get('abench_jobid', '')
+		q.rm(jobid)
+	except Exception as err:
+		log.error('%s', err)
+		return wapp.error(404, 'ab/error.html', app = wapp.name, error = '%s' % err)
+	return wapp.redirect(wapp.url('/nq/'))
 
 #-------------------------------------------------------------------------------
 # /
@@ -90,6 +110,9 @@ def start(app: wapp.Bottle):
 	# /run/
 	app.get(wapp.url('/run/'),  callback = run)
 	app.post(wapp.url('/run/'), callback = run_post)
+	# /nq.delete/
+	app.post(wapp.url('/nq.delete/'),       callback = nq_delete_post)
+	app.get(wapp.url('/nq.delete/<jobid>'), callback = nq_delete)
 	# /nq/
 	app.get(wapp.url('/nq/'),        callback = nq)
 	app.get(wapp.url('/nq/<jobid>'), callback = nq_job)

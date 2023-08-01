@@ -1,10 +1,13 @@
 % from wapptpl import url
+% import abtpl
 % title = 'nq job: ' + job_id
 % rebase('ab/base.html')
 <div class="w3-container" name="job_info">
 <p>
-	<a class="w3-button w3-border w3-border-blue w3-text-green"
+	<a class="{{ abtpl.button_class }} {{ abtpl.button_current }}"
 		href="{{ url('/nq', job_id) }}">nq job: {{ job_id }}</a>
+	<a class="{{ abtpl.button_class }} w3-text-red"
+		href="{{ url('/nq.delete', job_id) }}">delete</a>
 </p>
 </div><!-- job_info -->
 <div class="w3-container w3-margin-bottom" name="job_output">
