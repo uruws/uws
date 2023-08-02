@@ -5,6 +5,12 @@
 	<a class="w3-text-green w3-hover-text-blue" href="{{ url('/nq', job.id()) }}">{{ job.id() }}</a>
 	<span>{{ job.command().split(' ')[-1] }}</span>
 	<br>
+	<span>Concurrency: {{ job.concurrency }}</span>
+	<span>- Failed: {{ job.failed() }}</span>
+	<span>- Req/s: {{ job.rps() }}</span>
+	<span>- Time/req: {{ job.tpr() }}ms</span>
+	<span>- Took: {{ job.took() }}s</span>
+	<br>
 	</span>
 % end
 </p>

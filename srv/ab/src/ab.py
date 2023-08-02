@@ -26,6 +26,10 @@ class Command(object):
 	_command:     str = ''
 	_start_time:  str = ''
 	_end_time:    str = ''
+	_took:      float = 0.0
+	_failed:      int = 0
+	_rps:       float = 0.0
+	_tpr:       float = 0.0
 
 	def __init__(c, *args):
 		c.cmdargs = [str(a) for a in args]
@@ -64,9 +68,20 @@ class Command(object):
 		q.cleanup = False
 		return q.run(c.args())
 
+	def _parse_int(c, line) -> int:
+		i = line.split(':')
+		n = i[1].strip().split()[0].strip()
+		return int(n)
+
+	def _parse_float(c, line) -> float:
+		i = line.split(':')
+		n = i[1].strip().split()[0].strip()
+		return float(n)
+
 	def _parse(c):
 		if c._parsed:
 			return
+		c.concurrency = 0
 		q = c._nq()
 		for line in q.read(c._id).splitlines():
 			line = line.strip()
@@ -76,6 +91,16 @@ class Command(object):
 				c._start_time = str(line[7:])
 			elif line.startswith('End: '):
 				c._end_time = str(line[5:])
+			elif line.startswith('Concurrency Level:'):
+				c.concurrency = c._parse_int(line)
+			elif line.startswith('Time taken for tests:'):
+				c._took = c._parse_float(line)
+			elif line.startswith('Failed requests:'):
+				c._failed = c._parse_int(line)
+			elif line.startswith('Requests per second:'):
+				c._rps = c._parse_float(line)
+			elif line.startswith('Time per request:'):
+				c._tpr = c._parse_float(line)
 		c._parsed = True
 
 	def command(c) -> str:
@@ -89,6 +114,24 @@ class Command(object):
 	def end_time(c) -> str:
 		c._parse()
 		return c._end_time
+
+	def took(c) -> float:
+		c._parse()
+		return c._took
+
+	def failed(c) -> int:
+		c._parse()
+		return c._failed
+
+	def rps(c) -> float:
+		"""Request per second."""
+		c._parse()
+		return c._rps
+
+	def tpr(c) -> float:
+		"""Time per request."""
+		c._parse()
+		return c._tpr
 
 def command_parse(_id: str, args: str) -> Command:
 	c = Command()
