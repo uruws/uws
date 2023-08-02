@@ -1,9 +1,10 @@
 <p>
 % for job in abench_nqjobs:
+	<span class="w3-hover-white">
 	<span class="w3-text-gray">{{ job.start_time() }}</span>
 	<a class="w3-text-green w3-hover-text-blue" href="{{ url('/nq', job.id()) }}">{{ job.id() }}</a>
+	<span>{{ job.command().split(' ')[-1] }}</span>
 	<br>
-	<span>{{ job.command() }}</span>
-	<br>
+	</span>
 % end
 </p>
