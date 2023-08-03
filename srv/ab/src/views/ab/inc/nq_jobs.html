@@ -19,8 +19,16 @@
 	</div>
 	<div class="w3-row">
 		<div class="w3-col m2">{{ job.concurrency }}</div>
+	% if job.requests == 0:
+		<div class="w3-col m2 w3-text-red">{{ job.requests }}</div>
+	% else:
 		<div class="w3-col m2">{{ job.requests }}</div>
+	% end
+	% if job.failed() != 0:
+		<div class="w3-col m2 w3-text-red">{{ job.failed() }}</div>
+	% else:
 		<div class="w3-col m2">{{ job.failed() }}</div>
+	% end
 		<div class="w3-col m2">{{ job.rps() }}</div>
 		<div class="w3-col m2">{{ job.tpr() }}</div>
 		<div class="w3-col m2">{{ job.took() }}</div>
