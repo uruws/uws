@@ -82,6 +82,7 @@ class Command(object):
 		if c._parsed:
 			return
 		c.concurrency = 0
+		c.requests    = 0
 		q = c._nq()
 		for line in q.read(c._id).splitlines():
 			line = line.strip()
@@ -93,6 +94,8 @@ class Command(object):
 				c._end_time = str(line[5:])
 			elif line.startswith('Concurrency Level:'):
 				c.concurrency = c._parse_int(line)
+			elif line.startswith('Complete requests:'):
+				c.requests = c._parse_int(line)
 			elif line.startswith('Time taken for tests:'):
 				c._took = c._parse_float(line)
 			elif line.startswith('Failed requests:'):

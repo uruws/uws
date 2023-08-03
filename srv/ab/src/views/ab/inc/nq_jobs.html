@@ -1,26 +1,30 @@
-<table class="w3-table w3-hoverable">
-	<tr class="w3-hover-dark-gray">
-		<th>Date</th>
-		<th>ID</th>
-		<th>URL</th>
-		<th><a title="Concurrency">C</a></th>
-		<th><a title="Failed">F</a></th>
-		<th><a title="Request per second">R/s</a></th>
-		<th><a title="Time per request">T/r(ms)</a></th>
-		<th><a title="Total time">Took(s)</a></th>
-	</tr>
+<div class="w3-left-align" name="abench_nq_jobs">
+	<div class="w3-padding w3-row w3-hover-dark-gray">
+		<div class="w3-col m2">Concurrency</div>
+		<div class="w3-col m2">Requests</div>
+		<div class="w3-col m2">Failed</div>
+		<div class="w3-col m2">Req/s</div>
+		<div class="w3-col m2">Time/req (ms)</div>
+		<div class="w3-col m2">Total time (s)</div>
+	</div>
 % for job in abench_nqjobs:
-	<tr class="w3-hover-dark-gray">
-		<td class="w3-text-gray">{{ job.start_time() }}</td>
-		<td>
-			<a class="w3-text-green w3-hover-text-blue" href="{{ url('/nq', job.id()) }}">{{ job.id() }}</a>
-		</td>
-		<td>{{ job.command().split(' ')[-1] }}</td>
-		<td>{{ job.concurrency }}</td>
-		<td>{{ job.failed() }}</td>
-		<td>{{ job.rps() }}</td>
-		<td>{{ job.tpr() }}</td>
-		<td>{{ job.took() }}</td>
-	</tr>
+	<div class="w3-margin-top w3-margin-bottom w3-padding w3-signal-black w3-hover-dark-gray">
+	<div class="w3-row">
+		<div class="w3-col m2 w3-text-gray">{{ job.start_time() }}</div>
+		<div class="w3-col m2">
+			<a class="w3-text-green w3-hover-text-blue"
+				href="{{ url('/nq', job.id()) }}">{{ job.id() }}</a>
+		</div>
+		<div class="w3-col m8 w3-text-blue">{{ job.command().split(' ')[-1] }}</div>
+	</div>
+	<div class="w3-row">
+		<div class="w3-col m2">{{ job.concurrency }}</div>
+		<div class="w3-col m2">{{ job.requests }}</div>
+		<div class="w3-col m2">{{ job.failed() }}</div>
+		<div class="w3-col m2">{{ job.rps() }}</div>
+		<div class="w3-col m2">{{ job.tpr() }}</div>
+		<div class="w3-col m2">{{ job.took() }}</div>
+	</div>
+	</div>
 % end
-</table>
+</div><!-- abench_nq_jobs -->
