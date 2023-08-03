@@ -92,11 +92,18 @@ class TestCommand(unittest.TestCase):
 	def test_parse(t):
 		with wapp_t.mock(nqdir = wapp_t.nqdir) as m:
 			c = ab.Command()
-			c._id = '18989e70a11.19428'
+			c._id = '189b8021ea5.24'
 			c._parse()
-			t.assertEqual(c.command(),    'exec nq /usr/bin/false')
-			t.assertEqual(c.start_time(), 'Tue Aug  1 22:04:02 2023')
-			t.assertEqual(c.end_time(),   'Tue Aug  1 22:04:04 2023')
+			t.assertEqual(c.command(),
+				'exec /usr/bin/nq -q /opt/uws/ab/abrun.py -n1 -c1 -s7 https://sarmiento.uws.talkingpts.org/iqvm39mcpbkFJzucEAFETVpbhoqAvpqt-healthz.txt')
+			t.assertEqual(c.start_time(), 'Wed Aug  2 20:48:14 2023')
+			t.assertEqual(c.end_time(),   'Wed Aug  2 20:48:15 2023')
+			t.assertEqual(c.concurrency,  1)
+			t.assertEqual(c.requests,     1)
+			t.assertEqual(c.took(),       1.035)
+			t.assertEqual(c.failed(),     0)
+			t.assertEqual(c.rps(),        0.97)
+			t.assertEqual(c.tpr(),        1034.975)
 
 if __name__ == '__main__':
 	unittest.main()
