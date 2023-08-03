@@ -29,6 +29,8 @@ full_cmd_list = [
 	'/opt/uws/ab/abrun.py', '-t99', '-s99', '-c99', '-n99', '-ppost.t', '-Tc/t',
 ]
 
+nqdir = '/opt/uws/ab/test/data/nq'
+
 class TestCommand(unittest.TestCase):
 
 	def test_str(t):
@@ -90,7 +92,7 @@ class TestCommand(unittest.TestCase):
 		})
 
 	def test_parse(t):
-		with wapp_t.mock(nqdir = wapp_t.nqdir) as m:
+		with wapp_t.mock(nqdir = nqdir) as m:
 			c = ab.Command()
 			c._id = '189b8021ea5.24'
 			c._parse()

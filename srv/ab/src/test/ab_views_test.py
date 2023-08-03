@@ -13,6 +13,8 @@ import wapp
 
 import ab_views
 
+nqdir = '/opt/uws/ab/test/data/nq'
+
 @contextmanager
 def mock_check(rc = 22):
 	bup_check = ab_views._check
@@ -75,12 +77,12 @@ class TestViews(unittest.TestCase):
 			m.template.assert_called_once_with('ab/nq.html', abench_nqjobs = [])
 
 	def test_nq_list(t):
-		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:
+		with wapp_t.mock(nqdir = nqdir) as m:
 			ab_views.nq()
 			m.template.assert_called_once()
 
 	def test_nq_job(t):
-		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:
+		with wapp_t.mock(nqdir = nqdir) as m:
 			ab_views.nq_job('18989e6df22.19391')
 			m.template.assert_called_once_with(
 				'ab/nq_job.html',
@@ -107,7 +109,7 @@ class TestViews(unittest.TestCase):
 			m.template.assert_called_once()
 
 	def test_home_jobs(t):
-		with wapp_t.mock(nqdir = '/opt/uws/lib/test/data/nq') as m:
+		with wapp_t.mock(nqdir = nqdir) as m:
 			ab_views.home()
 			m.template.assert_called_once()
 
