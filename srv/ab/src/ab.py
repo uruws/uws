@@ -45,14 +45,14 @@ class Command(object):
 
 	def args(c) -> list[str]:
 		a = [cmdpath.strip()]
-		if c.requests != 0:
-			a.append('-n%d' % c.requests)
-		if c.concurrency != 0:
-			a.append('-c%d' % c.concurrency)
 		if c.timelimit != 0:
 			a.append('-t%d' % c.timelimit)
 		if c.timeout != 0:
 			a.append('-s%d' % c.timeout)
+		if c.concurrency != 0:
+			a.append('-c%d' % c.concurrency)
+		if c.requests != 0:
+			a.append('-n%d' % c.requests)
 		if c.postfile != '':
 			a.append('-p%s' % c.postfile)
 		if c.content_type != '':

@@ -22,11 +22,11 @@ class TestConfig(unittest.TestCase):
 #-------------------------------------------------------------------------------
 # command
 
-default_cmd      = '/opt/uws/ab/abrun.py -n1 -c1 -s7'
+default_cmd      = '/opt/uws/ab/abrun.py -s7 -c1 -n1'
 default_cmd_list = default_cmd.split(' ')
 
 full_cmd_list = [
-	'/opt/uws/ab/abrun.py', '-n99', '-c99', '-t99', '-s99', '-ppost.t', '-Tc/t',
+	'/opt/uws/ab/abrun.py', '-t99', '-s99', '-c99', '-n99', '-ppost.t', '-Tc/t',
 ]
 
 class TestCommand(unittest.TestCase):
