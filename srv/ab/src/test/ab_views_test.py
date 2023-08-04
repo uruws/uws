@@ -11,6 +11,7 @@ import unittest
 import wapp_t
 import wapp
 
+import ab
 import ab_views
 
 nqdir = '/opt/uws/ab/test/data/nq'
@@ -23,6 +24,17 @@ def mock_check(rc = 22):
 		yield
 	finally:
 		ab_views._check = bup_check
+
+@contextmanager
+def mock_command_parse():
+	bup_command_parse = ab.command_parse
+	try:
+		with wapp_t.mock() as m:
+			ab.command_parse = m.command_parse
+			ab.command_parse.return_value = m.command_parse_job
+			yield m
+	finally:
+		ab.command_parse = bup_command_parse
 
 class TestViews(unittest.TestCase):
 
@@ -93,6 +105,30 @@ class TestViews(unittest.TestCase):
 	def test_nq_job_not_found(t):
 		with wapp_t.mock() as m:
 			ab_views.nq_job('123456')
+			m.error.assert_called_once_with(
+				404,
+				'ab/error.html',
+				app='ab',
+				error="[Errno 2] No such file or directory: '/tmp/wappnq/ab/run/,123456'",
+			)
+
+	#---------------------------------------------------------------------------
+	# /nq.delete/
+
+	def test_nq_delete(t):
+		with mock_command_parse() as m:
+			ab_views.nq_delete('abc123.456')
+			m.template.assert_called_once_with('ab/job_delete.html', job = m.command_parse_job)
+
+	def test_nq_delete_post(t):
+		with wapp_t.mock() as m:
+			ab_views.nq_delete_post(nq = m.nq)
+			m.redirect.assert_called_once_with('/nq/')
+
+	def test_nq_delete_post_error(t):
+		with wapp_t.mock() as m:
+			m.request.POST.get.return_value = '123456'
+			ab_views.nq_delete_post()
 			m.error.assert_called_once_with(
 				404,
 				'ab/error.html',

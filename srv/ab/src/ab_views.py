@@ -82,8 +82,11 @@ def nq_delete(jobid: str):
 	job = ab.command_parse(jobid, '')
 	return wapp.template('ab/job_delete.html', job = job)
 
-def nq_delete_post():
+def nq_delete_post(nq = None):
 	q = _nq()
+	if nq is not None:
+		del q
+		q = nq
 	try:
 		jobid = wapp.request.POST.get('abench_jobid', '')
 		q.rm(jobid)
