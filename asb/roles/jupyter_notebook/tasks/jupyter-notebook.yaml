@@ -13,6 +13,7 @@
       - python3-jupyterlab-server
       - python3-pandas
       - python3-nltk
+      - python3-sklearn
   tags:
     - apt
     - jupyter-notebook
