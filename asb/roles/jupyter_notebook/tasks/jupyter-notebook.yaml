@@ -12,6 +12,7 @@
       - python3-metakernel
       - python3-jupyterlab-server
       - python3-pandas
+      - python3-nltk
   tags:
     - apt
     - jupyter-notebook
