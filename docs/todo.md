@@ -13,10 +13,13 @@
 
 ---
 
-* abench: web benchmarks - `WIP` [PR228][PR228] [PR233][PR233]
+* abench: web benchmarks - `DONE!` [PR228][PR228] [PR233][PR233] [PR234][PR234] [PR236][PR236]
+    * https://ops.uws.talkingpts.org/abench/
 
 [PR228]: https://github.com/TalkingPts/Infrastructure/pull/228
 [PR233]: https://github.com/TalkingPts/Infrastructure/pull/233
+[PR234]: https://github.com/TalkingPts/Infrastructure/pull/234
+[PR236]: https://github.com/TalkingPts/Infrastructure/pull/236
 
 ---
 
@@ -36,6 +39,12 @@
     * setup k8s readinessProbe
 
 [PR231]: https://github.com/TalkingPts/Infrastructure/pull/231
+
+---
+
+* rstudio: jupyter deps install - `DONE!` [PR235][PR235]
+
+[PR235]: https://github.com/TalkingPts/Infrastructure/pull/235
 
 ---
 
