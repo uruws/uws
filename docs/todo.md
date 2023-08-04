@@ -13,41 +13,6 @@
 
 ---
 
-* abench: web benchmarks - `DONE!` [PR228][PR228] [PR233][PR233] [PR234][PR234] [PR236][PR236]
-    * https://ops.uws.talkingpts.org/abench/
-
-[PR228]: https://github.com/TalkingPts/Infrastructure/pull/228
-[PR233]: https://github.com/TalkingPts/Infrastructure/pull/233
-[PR234]: https://github.com/TalkingPts/Infrastructure/pull/234
-[PR236]: https://github.com/TalkingPts/Infrastructure/pull/236
-
----
-
-* implement new haproxy setup for staging.t.o - `DONE!` [PR229][PR229]
-
-[PR229]: https://github.com/TalkingPts/Infrastructure/pull/229
-
----
-
-* sarmiento.uws.t.o haproxy setup - `DONE!` [PR230][PR230]
-
-[PR230]: https://github.com/TalkingPts/Infrastructure/pull/230
-
----
-
-* meteor App healthz check - `DONE!` [PR231][PR231]
-    * setup k8s readinessProbe
-
-[PR231]: https://github.com/TalkingPts/Infrastructure/pull/231
-
----
-
-* rstudio: jupyter deps install - `DONE!` [PR235][PR235]
-
-[PR235]: https://github.com/TalkingPts/Infrastructure/pull/235
-
----
-
 * rotate aws ses credentials due to crond env vars exposing them
     * only internally, but still
     * secret/aws.iam/smtps_credentials.csv
