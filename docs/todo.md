@@ -13,9 +13,11 @@
 
 ---
 
-* rotate aws ses credentials due to crond env vars exposing them
+* rotate aws ses credentials due to crond env vars exposing them - `DONE!` [PR237][PR237]
     * only internally, but still
     * secret/aws.iam/smtps_credentials.csv
+
+[PR237]: https://github.com/TalkingPts/Infrastructure/pull/237
 
 ---
 
