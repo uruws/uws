@@ -9,10 +9,10 @@ appver=${1:?'app version?'}
 METEOR_REPLICAS="${TAPO_REPLICAS}"
 export METEOR_REPLICAS
 
-METEOR_CPU="${TAPO_CPU}"
-export METEOR_CPU
+METEOR_CPU_REQ="${TAPO_CPU_REQ}"
+export METEOR_CPU_REQ
 
-METEOR_MEMORY="${TAPO_MEMORY}"
-export METEOR_MEMORY
+METEOR_CPU_MAX="${TAPO_CPU_MAX}"
+export METEOR_CPU_MAX
 
 exec ~/pod/tapo/deploy.sh "${TAPO_NAMESPACE}" web "${appver}"

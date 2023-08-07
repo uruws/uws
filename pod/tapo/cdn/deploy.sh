@@ -6,10 +6,10 @@ appver=${1:?'app version?'}
 METEOR_REPLICAS="${TAPO_CDN_REPLICAS}"
 export METEOR_REPLICAS
 
-METEOR_CPU="${TAPO_CDN_CPU}"
-export METEOR_CPU
+METEOR_CPU_REQ="${TAPO_CDN_CPU_REQ}"
+export METEOR_CPU_REQ
 
-METEOR_MEMORY="${TAPO_CDN_MEMORY}"
-export METEOR_MEMORY
+METEOR_CPU_MAX="${TAPO_CDN_CPU_MAX}"
+export METEOR_CPU_MAX
 
 exec ~/pod/tapo/deploy.sh "${TAPO_NAMESPACE}" cdn "${appver}"

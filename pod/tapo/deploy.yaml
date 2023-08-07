@@ -63,11 +63,9 @@ spec:
                 name: meteor-${METEOR_APP}-env
           resources:
             requests:
-              cpu: ${METEOR_CPU}m
-              #~ memory: ${METEOR_MEMORY}Mi
+              cpu: ${METEOR_CPU_REQ}m
             limits:
-              cpu: ${METEOR_CPU}m
-              #~ memory: ${METEOR_MEMORY}Mi
+              cpu: ${METEOR_CPU_MAX}m
           readinessProbe:
             httpGet:
               path: /iqvm39mcpbkFJzucEAFETVpbhoqAvpqt-healthz.txt
