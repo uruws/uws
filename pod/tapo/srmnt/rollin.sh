@@ -2,6 +2,5 @@
 set -eux
 export TAPO_ENV="${SRMNT_ENV}"
 export TAPO_NAMESPACE="${SRMNT_NAMESPACE}"
-~/pod/tapo/api/rollin.sh
-~/pod/tapo/web/rollin.sh
-exit 0
+export TAPO_WORKER_NAMESPACE="${SRMNT_WORKER_NAMESPACE}"
+exec ~/pod/tapo/all/rollin.sh

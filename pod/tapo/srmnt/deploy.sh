@@ -7,14 +7,19 @@ set -x
 
 export TAPO_ENV="${SRMNT_ENV}"
 export TAPO_NAMESPACE="${SRMNT_NAMESPACE}"
+
 export TAPO_REPLICAS="${SRMNT_WEB_REPLICAS}"
+export TAPO_CPU="${SRMNT_WEB_CPU}"
+export TAPO_MEMORY="${SRMNT_WEB_MEMORY}"
+
 export TAPO_CDN_REPLICAS="${SRMNT_CDN_REPLICAS}"
+
 export TAPO_API_REPLICAS="${SRMNT_API_REPLICAS}"
+export TAPO_API_CPU="${SRMNT_API_CPU}"
+export TAPO_API_MEMORY="${SRMNT_API_MEMORY}"
 
-~/pod/tapo/api/deploy.sh "${appver}"
-~/pod/tapo/web/deploy.sh "${appver}"
+export TAPO_WORKER_REPLICAS="${SRMNT_WORKER_REPLICAS}"
+export TAPO_WORKER_CPU="${SRMNT_WORKER_CPU}"
+export TAPO_WORKER_MEMORY="${SRMNT_WORKER_MEMORY}"
 
-~/pod/tapo/api/wait.sh
-~/pod/tapo/web/wait.sh
-
-exit 0
+exec ~/pod/tapo/all/deploy.sh "${appver}"
