@@ -21,6 +21,13 @@
 
 ---
 
+* eks: encrypt cluster secrets - `DONE!` [PR238][PR238]
+    * encrypt data on storage too
+
+[PR238]: https://github.com/TalkingPts/Infrastructure/pull/238
+
+---
+
 * msmtprc: profiled setup
     * generate files in order to identify emails origin
     * currently all mails are from user@uws.t.o
