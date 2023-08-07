@@ -28,25 +28,17 @@
 
 ---
 
+* cluster: new pnt-2308 - `WIP` [PR239][PR239]
+    * new cluster for pentests
+
+[PR239]: https://github.com/TalkingPts/Infrastructure/pull/239
+
+---
+
 * msmtprc: profiled setup
     * generate files in order to identify emails origin
     * currently all mails are from user@uws.t.o
     * we could use something like user-cluster@uws.t.o or user-host@uws.t.o or similar
-
----
-
-* meteor App tunning - `WIP`
-    * reduce resources to half so we can accommodate 2 containers per ec2
-    * create new workers cluster using on-demand c5n ec2 type
-        * assign resources by CPU only
-    * munin graph/alert worker jobs elapsed time
-
----
-
-* meteor: App kubernetes healthz check endpoint - [APP1583][APP1583]
-    * once in production implement the k8s configuration for the health check
-
-[APP1583]: https://github.com/TalkingPts/App/pull/1583
 
 ---
 
