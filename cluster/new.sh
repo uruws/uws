@@ -46,6 +46,9 @@ k8s_tag=$(cat "${PWD}/docker/k8s/TAG")
 	echo "K8S_VERSION=${k8s_version}"
 	echo "K8S_IMAGE=k8s-${k8s_tag}"
 	echo "EKS_IMAGE=eks-${k8s_tag}"
+	echo ''
+	echo 'AWS_INSTANCE_TYPES=c5n.large,c5.large,c5a.large'
+	echo 'AWS_SPOT_INSTANCE=true'
 } >"${eksenv}"
 
 ./secret/eks/files/ssh/gen.sh "${cluster}"
