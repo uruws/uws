@@ -9,6 +9,6 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: meteor-${METEOR_APP}
-  minReplicas: 3
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 90
+  minReplicas: ${METEOR_REPLICAS}
+  maxReplicas: ${METEOR_REPLICAS_MAX}
+  targetCPUUtilizationPercentage: ${METEOR_HPA_CPU}
