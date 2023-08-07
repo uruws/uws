@@ -29,4 +29,8 @@ envsubst <~/pod/tapo/deploy.yaml | uwskube apply -f -
 
 ~/pod/tapo/deploy-setver.sh "${ns}" "${app}" "${appver}"
 
+if test 'Xtrue' = "X${METEOR_HPA_ENABLE:-false}"; then
+	envsubst <~/pod/tapo/deploy-hpa.yaml | uwskube apply -f -
+fi
+
 exit 0

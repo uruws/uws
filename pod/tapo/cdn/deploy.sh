@@ -12,4 +12,7 @@ export METEOR_CPU_REQ
 METEOR_CPU_MAX="${TAPO_CDN_CPU_MAX}"
 export METEOR_CPU_MAX
 
+METEOR_HPA_ENABLE="${TAPO_CDN_HPA_ENABLE}"
+export METEOR_HPA_ENABLE
+
 exec ~/pod/tapo/deploy.sh "${TAPO_NAMESPACE}" cdn "${appver}"

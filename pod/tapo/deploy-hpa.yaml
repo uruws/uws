@@ -1,0 +1,14 @@
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: meteor-${METEOR_APP}-hpa
+  namespace: ${METEOR_NAMESPACE}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: meteor-${METEOR_APP}
+  minReplicas: 3
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 90
