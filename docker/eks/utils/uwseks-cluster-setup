@@ -4,6 +4,9 @@ set -eu
 # shellcheck source=/home/uws/secret/secret.env
 . ~/secret/secret.env
 
+uwseks utils enable-secrets-encryption -v5 \
+	--key-arn "arn:aws:kms:${AWS_REGION}:${AWS_ACCOUNT_ID}:key/mrk-61a255eb5e1846d99a9763bca04b1c5d"
+
 # aws users auth
 uwskube apply -f ~/secret/aws-auth.yaml
 
@@ -16,7 +19,7 @@ uwseks create iamserviceaccount \
 	--namespace=kube-system \
 	--name=cluster-autoscaler \
 	--override-existing-serviceaccounts \
-	--attach-policy-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:policy/eksClusterAutoscaler \
+	--attach-policy-arn="arn:aws:iam::${AWS_ACCOUNT_ID}:policy/eksClusterAutoscaler" \
 	--approve
 
 ~/k8s/csi-driver/setup.sh
