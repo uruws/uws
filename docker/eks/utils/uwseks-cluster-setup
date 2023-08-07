@@ -5,6 +5,7 @@ set -eu
 . ~/secret/secret.env
 
 uwseks utils enable-secrets-encryption -v5 \
+	--encrypt-existing-secrets=false \
 	--key-arn "arn:aws:kms:${AWS_REGION}:${AWS_ACCOUNT_ID}:key/mrk-61a255eb5e1846d99a9763bca04b1c5d"
 
 # aws users auth
