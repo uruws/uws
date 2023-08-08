@@ -23,7 +23,7 @@ class Test(unittest.TestCase):
 	def test_cfg(t):
 		cfg = munin._cfg()
 		t.assertEqual(cfg.path,
-			'/munin/uws.t.o/cluster.uws.t.o/k8s_k8stest___400_no_auth-day.png')
+			'/munin/uws.t.o/cluster.uws.t.o/k8s_k8stest__k8smon___ping_400_no_auth-day.png')
 		t.assertEqual(cfg.category, 'munin')
 		t.assertEqual(cfg.title, 'munin crosscheck')
 
