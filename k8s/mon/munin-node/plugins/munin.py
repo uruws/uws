@@ -25,7 +25,7 @@ def _host() -> mnpl.HostConfig:
 def _cfg() -> mnpl.Config:
 	cluster = mon.cleanfn(mon.cluster())
 	return mnpl.Config(
-		path = f"/munin/uws.t.o/cluster.uws.t.o/k8s_{cluster}___400_no_auth-day.png",
+		path = f"/munin/uws.t.o/cluster.uws.t.o/k8s_{cluster}__k8smon___ping_400_no_auth-day.png",
 		category = 'munin',
 		title = 'munin crosscheck',
 	)
