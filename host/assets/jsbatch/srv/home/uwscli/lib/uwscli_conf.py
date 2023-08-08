@@ -208,6 +208,13 @@ app: dict[str, App] = {
 		autobuild = True,
 		autobuild_deploy = ['meteor-vanilla'],
 	),
+	'sarmiento': App(True,
+		cluster = 'pnt-2308',
+		desc    = 'App sarmiento test env',
+		pod     = 'tapo/srmnt',
+		deploy  = AppDeploy('meteor-app'),
+		groups  = ['uwsapp_apptest'],
+	),
 }
 
 @dataclass
@@ -219,4 +226,5 @@ cluster: dict[str, AppCluster] = {
 	'apptest-2302':  AppCluster(region = 'us-east-2'),
 	'appweb-2302':   AppCluster(region = 'us-east-2'),
 	'appwrk-2306':   AppCluster(region = 'us-east-1'),
+	'pnt-2308':      AppCluster(region = 'us-east-2'),
 }
