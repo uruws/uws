@@ -37,8 +37,15 @@
 
 * tapo: sarmiento pentest env - `DONE!` [PR240][PR240]
     * pnt-2308 cluster
+    * enable horizontal pod autoscale (hpa)
 
 [PR240]: https://github.com/TalkingPts/Infrastructure/pull/240
+
+---
+
+* tapo: staging enable horizontal pod autoscale - `DONE!` [PR241][PR241]
+
+[PR241]: https://github.com/TalkingPts/Infrastructure/pull/241
 
 ---
 
