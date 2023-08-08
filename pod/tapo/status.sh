@@ -1,4 +1,6 @@
 #!/bin/sh
+set -u
+
 ns=${1:?'namespace?'}
 app=${2:?'app name?'}
 
