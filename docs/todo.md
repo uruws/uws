@@ -28,10 +28,24 @@
 
 ---
 
-* cluster: new pnt-2308 - `WIP` [PR239][PR239]
+* cluster: new pnt-2308 - `DONE!` [PR239][PR239]
     * new cluster for pentests
 
 [PR239]: https://github.com/TalkingPts/Infrastructure/pull/239
+
+---
+
+* tapo: sarmiento pentest env - `DONE!` [PR240][PR240]
+    * pnt-2308 cluster
+
+[PR240]: https://github.com/TalkingPts/Infrastructure/pull/240
+
+---
+
+* tapo: sarmiento pentest setup
+    * change to tapo.uno domain?
+        * we need new TLS certs for that
+    * currently it's using staging settings, it should be separate
 
 ---
 
