@@ -25,12 +25,14 @@ export METEOR_VERSION
 METEOR_DEPLOY=$(date '+%y%m%d.%H%M%S')
 export METEOR_DEPLOY
 
-envsubst <~/pod/tapo/deploy.yaml | uwskube apply -f -
+if test 'Xtrue' = "X${METEOR_HPA_ENABLE:-false}"; then
+	envsubst <~/pod/tapo/deploy.yaml | grep -vF '  replicas: ' | uwskube apply -f -
+	envsubst <~/pod/tapo/deploy-hpa.yaml | uwskube apply -f -
+else
+	uwskube delete hpa "meteor-${app}-hpa" -n "${ns}" || true
+	envsubst <~/pod/tapo/deploy.yaml | uwskube apply -f -
+fi
 
 ~/pod/tapo/deploy-setver.sh "${ns}" "${app}" "${appver}"
-
-if test 'Xtrue' = "X${METEOR_HPA_ENABLE:-false}"; then
-	envsubst <~/pod/tapo/deploy-hpa.yaml | uwskube apply -f -
-fi
 
 exit 0
