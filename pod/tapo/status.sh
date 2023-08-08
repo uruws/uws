@@ -7,6 +7,9 @@ uwskube get all -n "${ns}" -l "app.kubernetes.io/name=meteor-${app}"
 echo
 uwskube get "deployment/meteor-${app}" -n "${ns}"
 
+echo
+uwskube get "hpa/meteor-${app}-hpa" -n "${ns}"
+
 appver=$(~/pod/tapo/deploy-getver.sh "${ns}" "${app}")
 
 echo
