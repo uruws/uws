@@ -54,6 +54,8 @@
     * change to tapo.uno domain?
         * we need new TLS certs for that
     * currently it's using staging settings, it should be separate
+    * pnt-2308 cluster is on us-east-2 region
+        * mongo cluster should be in the same region
 
 ---
 
