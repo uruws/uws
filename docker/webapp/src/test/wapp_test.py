@@ -106,21 +106,23 @@ class TestWapp(unittest.TestCase):
 		t.assertTrue(j.id().startswith(','))
 		t.assertEqual(j.error(), '')
 
-
 	def test_nq_job_id(t):
 		j = wapp._nqrun('/usr/bin/nq /usr/bin/true')
 		j._id = 'testing'
 		t.assertEqual(j.id(), 'testing')
 
 	def test_nq(t):
-		q = wapp.NQ('testing')
+		q = wapp.NQ('testing', app = 'nq')
 		t.assertEqual(q.name, 'testing')
-		t.assertEqual(q.app,  'devel')
+		t.assertEqual(q.app,  'nq')
 		dh = Path(q.dir)
 		t.assertTrue(dh.exists())
 		q.delete()
 		t.assertFalse(dh.exists())
 		t.assertTrue(q.cleanup)
+		Path(wapp.nqdir, 'nq').rmdir()
+		Path(wapp.nqdir).rmdir()
+		t.assertFalse(Path(wapp.nqdir).exists())
 
 	def test_nq_defaults(t):
 		t.assertEqual(wapp.fqcmd, '/usr/bin/fq')
@@ -128,48 +130,50 @@ class TestWapp(unittest.TestCase):
 		t.assertTrue(wapp.nqdir.startswith('/tmp/'))
 
 	def test_nq_env(t):
-		q = wapp.NQ('testing')
-		t.assertListEqual(sorted(q.env().keys()), [
-			'HOME',
-			'NQDIR',
-			'PATH',
-			'USER',
-		])
+		with wapp_t.mock():
+			q = wapp.NQ('testing', app = 'nq_env')
+			t.assertListEqual(sorted(q.env().keys()), [
+				'HOME',
+				'NQDIR',
+				'PATH',
+				'USER',
+			])
 
 	def test_nq_args(t):
-		q = wapp.NQ('testing')
-		t.assertEqual(q.args(), ' -c -q ')
-		q.cleanup = True
-		q.quiet   = False
-		t.assertEqual(q.args(), ' -c ')
-		q.cleanup = False
-		q.quiet   = True
-		t.assertEqual(q.args(), ' -q ')
-		q.cleanup = False
-		q.quiet   = False
-		t.assertEqual(q.args(), ' ')
+		with wapp_t.mock():
+			q = wapp.NQ('testing', app = 'nq_args')
+			t.assertEqual(q.args(), ' -c -q ')
+			q.cleanup = True
+			q.quiet   = False
+			t.assertEqual(q.args(), ' -c ')
+			q.cleanup = False
+			q.quiet   = True
+			t.assertEqual(q.args(), ' -q ')
+			q.cleanup = False
+			q.quiet   = False
+			t.assertEqual(q.args(), ' ')
 
 	def test_nqrun(t):
-		q = wapp.NQ('testing')
-		with wapp_t.mock() as m:
+		with wapp_t.mock(nqdir = '/tmp/wappnq') as m:
+			q = wapp.NQ('testing', app = 'nqrun')
 			q.run(['/usr/bin/true'])
 			m.nqrun.assert_called_once_with('/usr/bin/nq -c -q /usr/bin/true', env = {
 				'USER':  'uws',
 				'HOME':  '/home/uws',
 				'PATH':  '/usr/bin',
-				'NQDIR': Path(wapp.nqdir, 'devel/testing').as_posix(),
+				'NQDIR': Path(wapp.nqdir, 'nqrun/testing').as_posix(),
 			})
 
 	def test_nqrun_error(t):
-		q = wapp.NQ('testing')
 		with wapp_t.mock() as m:
+			q = wapp.NQ('testing', app = 'nqrun_error')
 			m.nqrun.side_effect = wapp_t.mock_nqrun_error
 			q.run(['/usr/bin/true'])
 			m.nqrun.assert_called_once()
 
 	def test_nqrun_fail(t):
-		q = wapp.NQ('testing')
 		with wapp_t.mock() as m:
+			q = wapp.NQ('testing', app = 'nqrun_fail')
 			m.nqrun.side_effect = wapp_t.mock_nqrun_fail
 			with t.assertRaises(wapp_t.MockNQRunFail):
 				q.run(['/usr/bin/true'])
@@ -199,6 +203,18 @@ class TestWapp(unittest.TestCase):
 				'',
 				'[exited with status 0.]',
 			])
+
+	def test_nq_rm(t):
+		fn = Path('/tmp/wappnq-test-nq_rm/devel/testing/,abc123.delete')
+		t.assertFalse(fn.exists())
+		with wapp_t.mock(nqdir = '/tmp/wappnq-test-nq_rm') as m:
+			q = wapp.NQ('testing')
+			dn = Path(q.dir)
+			dn.mkdir(parents = True)
+			fn.touch()
+			t.assertTrue(fn.exists())
+			q.rm('abc123.delete')
+		t.assertFalse(fn.exists())
 
 if __name__ == '__main__':
 	unittest.main()

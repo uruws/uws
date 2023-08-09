@@ -23,8 +23,8 @@ def mock_start(debug = False):
 		wapp.debug   = bup_debug
 		wapp.logging = bup_logging
 
-def mock_cleanup():
-	rmtree(wapp.nqdir, ignore_errors = True)
+def mock_cleanup(nqdir):
+	rmtree(nqdir, ignore_errors = True)
 
 def mock_nqrun(cmd, env = None):
 	proc = MagicMock()
@@ -45,12 +45,13 @@ def mock_nqrun_fail(cmd, env = None):
 nqdir: str = '/opt/uws/lib/test/data/nq'
 
 @contextmanager
-def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True):
+def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True, cleanup = True):
 	with mock_start(debug = debug) as m:
 		bup_redirect = wapp.redirect
 		bup_response = wapp.response
 		bup_request  = wapp.request
 		bup_template = wapp.template
+		bup_nqdir    = wapp.nqdir.strip()
 		bup_nqrun    = wapp._nqrun
 		bup_nqsetup  = wapp._nqsetup
 		bup_base_url = wapp.base_url.strip()
@@ -75,10 +76,11 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True
 			wapp.response = bup_response
 			wapp.request  = bup_request
 			wapp.template = bup_template
-			wapp.nqdir    = '/tmp/wappnq'
+			wapp.nqdir    = bup_nqdir.strip()
 			wapp._nqrun   = bup_nqrun
 			wapp._nqsetup = bup_nqsetup
 			wapp.base_url = bup_base_url.strip()
 			if mock_error:
 				wapp.error = bup_error
-			mock_cleanup()
+			if cleanup:
+				mock_cleanup(nqdir)

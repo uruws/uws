@@ -205,3 +205,8 @@ class NQ(object):
 
 	def rm(q, jobid: str):
 		Path(q.dir, ',%s' % jobid).unlink()
+
+	def exec(q, jobid: str) -> NQJob:
+		fn = Path(q.dir, ',%s' % jobid)
+		cmd = '/bin/sh %s' % fn
+		return _nqrun(cmd, env = q.env())
