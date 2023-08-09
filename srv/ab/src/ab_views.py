@@ -96,6 +96,29 @@ def nq_delete_post(nq = None):
 	return wapp.redirect(wapp.url('/nq/'))
 
 #-------------------------------------------------------------------------------
+# /nq.exec/
+
+def nq_exec(jobid: str):
+	job = ab.command_parse(jobid, '')
+	return wapp.template('ab/job_exec.html', job = job)
+
+def nq_exec_post(nq = None):
+	q = _nq()
+	if nq is not None:
+		del q
+		q = nq
+	try:
+		jobid = wapp.request.POST.get('abench_jobid', '')
+		job = q.exec(jobid)
+	except Exception as err:
+		log.error('%s', err)
+		return wapp.error(404, 'ab/error.html', app = wapp.name, error = '%s' % err)
+	if job.rc() != 0:
+		log.error('command failed (%d): %s', job.rc(), job.error())
+		return wapp.error(500, 'ab/error.html', app = wapp.name, error = 'command failed: %d' % job.rc())
+	return wapp.redirect(wapp.url('/nq/'))
+
+#-------------------------------------------------------------------------------
 # /
 
 def home():
@@ -116,6 +139,9 @@ def start(app: wapp.Bottle):
 	# /nq.delete/
 	app.post(wapp.url('/nq.delete/'),       callback = nq_delete_post)
 	app.get(wapp.url('/nq.delete/<jobid>'), callback = nq_delete)
+	# /nq.exec/
+	app.post(wapp.url('/nq.exec/'),       callback = nq_exec_post)
+	app.get(wapp.url('/nq.exec/<jobid>'), callback = nq_exec)
 	# /nq/
 	app.get(wapp.url('/nq/'),        callback = nq)
 	app.get(wapp.url('/nq/<jobid>'), callback = nq_job)

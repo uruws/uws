@@ -8,6 +8,8 @@
 		href="{{ url('/nq', job_id) }}">nq job: {{ job_id }}</a>
 	<a class="{{ abtpl.button_class }} w3-text-red"
 		href="{{ url('/nq.delete', job_id) }}">delete</a>
+	<a class="{{ abtpl.button_class }}"
+		href="{{ url('/nq.exec', job_id) }}">run again</a>
 </p>
 </div><!-- job_info -->
 <div class="w3-container w3-margin-bottom" name="job_output">

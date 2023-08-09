@@ -1,0 +1,15 @@
+% from wapptpl import url
+% import abtpl
+% input_class = '%s %s' % (abtpl.input_class, abtpl.input_color)
+% title = 'job exec: ' + job.id()
+% rebase('ab/base.html')
+<div class="w3-container w3-padding" name="abench_job_exec">
+<p>
+	<a class="w3-text-green w3-hover-text-blue" href="{{ url('/nq', job.id()) }}">{{ job.id() }}</a>
+	<label>{{ job.command() }}</label>
+	<form action="{{ url('/nq.exec/') }}" method="POST">
+		<input type="hidden" name="abench_jobid" value="{{ job.id() }}">
+		<input class="w3-button {{ input_class }}" type="submit" value="run">
+	</form>
+</p>
+</div><!-- abench_job_exec -->
