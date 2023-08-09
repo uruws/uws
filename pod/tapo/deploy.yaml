@@ -76,9 +76,9 @@ spec:
             timeoutSeconds: 3
             failureThreshold: 1
       volumes:
-        - name: app-env
+        - name: app-${METEOR_APP}-env
           secret:
-            secretName: app-env
+            secretName: app-${METEOR_APP}-env
         - name: app-tmpdir
           emptyDir:
             sizeLimit: 10Gi
