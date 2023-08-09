@@ -50,6 +50,12 @@
 
 ---
 
+* vanta: rotate aws user credentials - `WIP` [PR243][PR243]
+
+[PR243]: https://github.com/TalkingPts/Infrastructure/pull/243
+
+---
+
 * tapo: sarmiento pentest setup
     * change to tapo.uno domain?
         * we need new TLS certs for that
