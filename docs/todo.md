@@ -43,9 +43,10 @@
 
 ---
 
-* tapo: staging enable horizontal pod autoscale - `DONE!` [PR241][PR241]
+* tapo: staging enable horizontal pod autoscale - `DONE!` [PR241][PR241] [PR242][PR242]
 
 [PR241]: https://github.com/TalkingPts/Infrastructure/pull/241
+[PR242]: https://github.com/TalkingPts/Infrastructure/pull/242
 
 ---
 
