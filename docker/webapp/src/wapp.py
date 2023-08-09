@@ -207,6 +207,7 @@ class NQ(object):
 		Path(q.dir, ',%s' % jobid).unlink()
 
 	def exec(q, jobid: str) -> NQJob:
+		# FIXME: NQ.exec do some checks before to blindly exec what it's supposed to be an nq output file
 		fn = Path(q.dir, ',%s' % jobid)
 		cmd = '/bin/sh %s' % fn
 		return _nqrun(cmd, env = q.env())

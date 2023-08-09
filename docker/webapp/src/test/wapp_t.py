@@ -45,7 +45,7 @@ def mock_nqrun_fail(cmd, env = None):
 nqdir: str = '/opt/uws/lib/test/data/nq'
 
 @contextmanager
-def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True, cleanup = True):
+def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True, cleanup = True, mock_run = True):
 	with mock_start(debug = debug) as m:
 		bup_redirect = wapp.redirect
 		bup_response = wapp.response
@@ -55,8 +55,7 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True
 		bup_nqrun    = wapp._nqrun
 		bup_nqsetup  = wapp._nqsetup
 		bup_base_url = wapp.base_url.strip()
-		if mock_error:
-			bup_error = wapp.error
+		bup_error    = wapp.error
 		try:
 			wapp.redirect       = m.redirect
 			wapp.response       = m.response
@@ -64,10 +63,11 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True
 			m.request.path      = '/testing/'
 			wapp.template       = m.template
 			wapp.nqdir          = nqdir.strip()
-			wapp._nqrun         = m.nqrun
-			m.nqrun.side_effect = mock_nqrun
-			wapp._nqsetup       = m.nqsetup
 			wapp.base_url       = base_url.strip()
+			if mock_run:
+				wapp._nqsetup = m.nqsetup
+				wapp._nqrun = m.nqrun
+				m.nqrun.side_effect = mock_nqrun
 			if mock_error:
 				wapp.error = m.error
 			yield m
@@ -77,9 +77,10 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True
 			wapp.request  = bup_request
 			wapp.template = bup_template
 			wapp.nqdir    = bup_nqdir.strip()
-			wapp._nqrun   = bup_nqrun
-			wapp._nqsetup = bup_nqsetup
 			wapp.base_url = bup_base_url.strip()
+			if mock_run:
+				wapp._nqsetup = bup_nqsetup
+				wapp._nqrun = bup_nqrun
 			if mock_error:
 				wapp.error = bup_error
 			if cleanup:

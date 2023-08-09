@@ -205,9 +205,9 @@ class TestWapp(unittest.TestCase):
 			])
 
 	def test_nq_rm(t):
-		fn = Path('/tmp/wappnq-test-nq_rm/devel/testing/,abc123.delete')
+		fn = Path('/tmp/wappnq.test_nq_rm/devel/testing/,abc123.delete')
 		t.assertFalse(fn.exists())
-		with wapp_t.mock(nqdir = '/tmp/wappnq-test-nq_rm') as m:
+		with wapp_t.mock(nqdir = '/tmp/wappnq.test_nq_rm') as m:
 			q = wapp.NQ('testing')
 			dn = Path(q.dir)
 			dn.mkdir(parents = True)
@@ -215,6 +215,19 @@ class TestWapp(unittest.TestCase):
 			t.assertTrue(fn.exists())
 			q.rm('abc123.delete')
 		t.assertFalse(fn.exists())
+
+	def test_nq_exec(t):
+		nqdir = '/tmp/wappnq.test_nq_exec'
+		with wapp_t.mock(nqdir = nqdir, mock_run = False) as m:
+			q = wapp.NQ('testing')
+			q.cleanup = False
+			q.quiet = False
+			job = q.run(['/bin/true'])
+			t.assertEqual(job.error(), '')
+			t.assertEqual(job.rc(), 0)
+			job2 = q.exec(job.id()[1:])
+			t.assertEqual(job2.error(), '')
+			t.assertEqual(job2.rc(), 0)
 
 if __name__ == '__main__':
 	unittest.main()
