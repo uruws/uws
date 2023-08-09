@@ -1,3 +1,4 @@
+# https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -12,3 +13,20 @@ spec:
   minReplicas: ${METEOR_REPLICAS}
   maxReplicas: ${METEOR_REPLICAS_MAX}
   targetCPUUtilizationPercentage: ${METEOR_HPA_CPU}
+  behavior:
+    scaleUp:
+      # do not wait, just scale up as soon as needed
+      stabilizationWindowSeconds: 0
+      policies:
+        # duplicate number of replicas every 7 seconds
+        - type: Percent
+          value: 100
+          periodSeconds: 7
+    scaleDown:
+      # wait 5 min to stabilize
+      stabilizationWindowSeconds: 300
+      policies:
+        # allow only 20% of replicas to scale down every 5 min
+        - type: Percent
+          value: 20
+          periodSeconds: 300
