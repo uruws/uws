@@ -92,7 +92,7 @@ class TestCommand(unittest.TestCase):
 		})
 
 	def test_parse(t):
-		with wapp_t.mock(nqdir = nqdir) as m:
+		with wapp_t.mock(nqdir = nqdir, cleanup = False) as m:
 			c = ab.Command()
 			c._id = '189b8021ea5.24'
 			c._parse()
