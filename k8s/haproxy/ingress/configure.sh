@@ -17,6 +17,9 @@ haproxy_ingress_configure() (
 	# shellcheck disable=SC1090
 	. "${envfn}"
 
+	# remove old
+	uwskube delete configmap haproxy-ingress -n "${HPX_NAMESPACE}"
+
 	<"${ingfn}" envsubst '${HPX_NAME}'      |
 		        envsubst '${HPX_NAMESPACE}' |
 		        envsubst '${HPX_HOSTNAME}'  |

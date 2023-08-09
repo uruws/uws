@@ -9,7 +9,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "haproxy-ingress"
+  name: "${HPX_NAME}-haproxy-ingress"
 data:
   # from helm install
   healthz-port:    "10253"
