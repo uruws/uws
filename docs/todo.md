@@ -13,43 +13,6 @@
 
 ---
 
-* rotate aws ses credentials due to crond env vars exposing them - `DONE!` [PR237][PR237]
-    * only internally, but still
-    * secret/aws.iam/smtps_credentials.csv
-
-[PR237]: https://github.com/TalkingPts/Infrastructure/pull/237
-
----
-
-* eks: encrypt cluster secrets - `DONE!` [PR238][PR238]
-    * encrypt data on storage too
-
-[PR238]: https://github.com/TalkingPts/Infrastructure/pull/238
-
----
-
-* cluster: new pnt-2308 - `DONE!` [PR239][PR239]
-    * new cluster for pentests
-
-[PR239]: https://github.com/TalkingPts/Infrastructure/pull/239
-
----
-
-* tapo: sarmiento pentest env - `DONE!` [PR240][PR240]
-    * pnt-2308 cluster
-    * enable horizontal pod autoscale (hpa)
-
-[PR240]: https://github.com/TalkingPts/Infrastructure/pull/240
-
----
-
-* tapo: staging enable horizontal pod autoscale - `DONE!` [PR241][PR241] [PR242][PR242]
-
-[PR241]: https://github.com/TalkingPts/Infrastructure/pull/241
-[PR242]: https://github.com/TalkingPts/Infrastructure/pull/242
-
----
-
 * vanta: rotate aws user credentials - `WIP` [PR243][PR243]
 
 [PR243]: https://github.com/TalkingPts/Infrastructure/pull/243
