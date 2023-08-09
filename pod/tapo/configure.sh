@@ -10,8 +10,9 @@ appenv=${HOME}/secret/meteor/app/${TAPO_ENV}.env
 # remove old app-env
 uwskube delete secret app-env -n "${ns}" || true
 
-uwskube delete secret "app-${app}-env" -n "${ns}" || true
-uwskube create secret generic "app-${app}-env" -n "${ns}" \
+# create an empty one for compatibility with the buildpack
+uwskube delete secret empty-app-env -n "${ns}" || true
+uwskube create secret generic empty-app-env -n "${ns}" \
 	--from-file="app.env=${HOME}/secret/meteor/app/empty.env"
 
 uwskube delete secret "meteor-${app}-env" -n "${ns}" || true
