@@ -61,12 +61,12 @@ class Command(object):
 		return a
 
 	def _nq(c) -> wapp.NQ:
-		return wapp.NQ('run')
+		q = wapp.NQ('run')
+		q.cleanup = False
+		return q
 
 	def run(c) -> wapp.NQJob:
-		q = c._nq()
-		q.cleanup = False
-		return q.run(c.args())
+		return c._nq().run(c.args())
 
 	def _parse_int(c, line) -> int:
 		i = line.split(':')

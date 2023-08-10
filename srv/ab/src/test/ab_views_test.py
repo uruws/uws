@@ -144,6 +144,36 @@ class TestViews(unittest.TestCase):
 			ab_views.nq_exec('18989e6df22.19391')
 			m.template.assert_called_once_with('ab/job_exec.html', job = m.command_parse_job)
 
+	def test_nq_exec_post(t):
+		with wapp_t.mock(nqdir = nqdir, cleanup = False) as m:
+			m.request.POST.get.return_value = '18989e6df22.19391'
+			ab_views.nq_exec_post()
+			m.redirect.assert_called_once_with('/nq/')
+
+	def test_nq_exec_post_error(t):
+		with wapp_t.mock() as m:
+			m.request.POST.get.return_value = 'abc123'
+			m.nq.exec.return_value = m.nq_job
+			m.nq_job.rc.return_value = 999
+			ab_views.nq_exec_post(nq = m.nq)
+			m.error.assert_called_once_with(
+				500,
+				'ab/error.html',
+				app='ab',
+				error='command failed: 999',
+			)
+
+	def test_nq_exec_job_not_found(t):
+		with wapp_t.mock() as m:
+			m.request.POST.get.return_value = 'nq_exec.123'
+			ab_views.nq_exec_post()
+			m.error.assert_called_once_with(
+				404,
+				'ab/error.html',
+				app='ab',
+				error='/tmp/wappnq/ab/run/,nq_exec.123: file not found',
+			)
+
 	#---------------------------------------------------------------------------
 	# /
 

@@ -49,7 +49,9 @@ def run_post():
 # /nq/
 
 def _nq() -> wapp.NQ:
-	return wapp.NQ('run')
+	q = wapp.NQ('run')
+	q.cleanup = False
+	return q
 
 def _nqjobs():
 	q = _nq()
