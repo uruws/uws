@@ -185,10 +185,19 @@ class TestEvents(unittest.TestCase):
 
 	def test_message_attach(t):
 		with chatbot_msg_test.mock(max_bytes = 5):
-			t.cb.getstatusoutput.return_value = (0, 'att1\natt2\natt3\n')
+			t.cb.getstatusoutput.return_value = (0, 'attach1\nattach2\nattach3\n')
 			typ = chatbot_slack._message(t.slack.event, t.slack.say)
 			t.assertEqual(typ, 'attach')
 			t.slack.say.assert_not_called()
+			t.app.client.files_upload.assert_called_once_with(
+				channels='CTESTING',
+				thread_ts='1674248319.693579',
+				content='attach1\nattach2\nattach3',
+				initial_comment='testing',
+				filetype='text/plain',
+				title='output.txt',
+				filename='output.txt',
+			)
 
 #-------------------------------------------------------------------------------
 # socket mode handler

@@ -34,7 +34,8 @@ def msg(text: str):
 def attach(ts: str, text: str, content: str):
 	log.debug('%s: %s attach', channel_id, ts)
 	res = app.client.files_upload(channels = channel_id, thread_ts = ts,
-		content = content, filetype = 'text/plain', title = text)
+		content = content, initial_comment = text, filetype = 'text/plain',
+		title = 'output.txt', filename = 'output.txt')
 	if not res.get('ok', False):
 		log.error('%s: %s attach failed: %s', channel_id, ts, res)
 
