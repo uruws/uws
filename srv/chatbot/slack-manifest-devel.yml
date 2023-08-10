@@ -25,6 +25,7 @@ oauth_config:
       - im:write
       - users:read
       - users:read.email
+      - files:write
 settings:
   event_subscriptions:
     bot_events:

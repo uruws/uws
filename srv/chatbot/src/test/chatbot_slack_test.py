@@ -14,9 +14,8 @@ import chatbot_msg_test
 import chatbot
 import chatbot_slack
 
-#
+#-------------------------------------------------------------------------------
 # mock
-#
 
 class MockSlack(object):
 
@@ -75,9 +74,28 @@ def mock_app_teardown(app):
 	chatbot_slack.channel_id = app._bup_channel_id
 	app._destroy()
 
-#
+#-------------------------------------------------------------------------------
+# utils
+
+class TestUtils(unittest.TestCase):
+
+	def setUp(t):
+		t.app = mock_app_setup()
+
+	def tearDown(t):
+		mock_app_teardown(t.app)
+		t.app = None
+
+	def test_channel_id(t):
+		t.assertEqual(t.app._bup_channel_id, 'C02U5ADHPCJ')
+		t.assertEqual(chatbot_slack.channel_id, 'CTESTING')
+
+	def test_msg(t):
+		chatbot_slack.msg('testing')
+		t.app.client.chat_postMessage.assert_called_once_with(channel = 'CTESTING', text = 'testing')
+
+#-------------------------------------------------------------------------------
 # events
-#
 
 class TestEvents(unittest.TestCase):
 
@@ -146,7 +164,8 @@ class TestEvents(unittest.TestCase):
 		def _fail(*args, **kwargs):
 			raise chatbot.UwscliCmdError(99, 'mock uwscli ignore')
 		t.cb.getstatusoutput.side_effect = _fail
-		chatbot_slack._message(t.slack.event, t.slack.say)
+		typ = chatbot_slack._message(t.slack.event, t.slack.say)
+		t.assertEqual(typ, 'error')
 		t.slack.say.assert_not_called()
 
 	def test_message_invalid_command_mention(t):
@@ -154,12 +173,13 @@ class TestEvents(unittest.TestCase):
 			raise chatbot.UwscliCmdError(99, 'mock uwscli ignore')
 		t.cb.getstatusoutput.side_effect = _fail
 		t.slack.event['text'] = '<@UBOT> testing'
-		chatbot_slack._message(t.slack.event, t.slack.say, mention = True)
+		typ = chatbot_slack._message(t.slack.event, t.slack.say, mention = True)
+		t.assertEqual(typ, 'error')
 		t.slack.say.assert_called_once_with(
 			'<@UTEST>: invalid command: testing', thread_ts = t.slack.thread_ts,
 		)
 
-	def test_message_multi_lines(t):
+	def test_message_attach(t):
 		x = [
 			call('testing [1/3]\n```out1```', thread_ts='1674248319.693579'),
 			call('testing [2/3]\n```out2```', thread_ts='1674248319.693579'),
@@ -167,13 +187,12 @@ class TestEvents(unittest.TestCase):
 		]
 		with chatbot_msg_test.mock(max_bytes = 5):
 			t.cb.getstatusoutput.return_value = (0, 'out1\nout2\nout3\n')
-			chatbot_slack._message(t.slack.event, t.slack.say)
-			t.slack.say.assert_has_calls(x)
-			t.assertEqual(t.slack.say.call_count, len(x))
+			typ = chatbot_slack._message(t.slack.event, t.slack.say)
+			t.assertEqual(typ, 'attach')
+			t.slack.say.assert_not_called()
 
-#
+#-------------------------------------------------------------------------------
 # socket mode handler
-#
 
 class TestSocketMode(unittest.TestCase):
 
@@ -198,27 +217,6 @@ class TestSocketMode(unittest.TestCase):
 	def test_is_healthy_not_connected(t):
 		t.app.smh.client.is_connected = MagicMock(return_value = False)
 		t.assertFalse(chatbot_slack.is_healthy())
-
-#
-# utils
-#
-
-class TestUtils(unittest.TestCase):
-
-	def setUp(t):
-		t.app = mock_app_setup()
-
-	def tearDown(t):
-		mock_app_teardown(t.app)
-		t.app = None
-
-	def test_channel_id(t):
-		t.assertEqual(t.app._bup_channel_id, 'C02U5ADHPCJ')
-		t.assertEqual(chatbot_slack.channel_id, 'CTESTING')
-
-	def test_msg(t):
-		chatbot_slack.msg('testing')
-		t.app.client.chat_postMessage.assert_called_once_with(channel = 'CTESTING', text = 'testing')
 
 if __name__ == '__main__':
 	unittest.main()

@@ -19,20 +19,34 @@ app = App(
 	token = os.getenv('SLACK_BOT_TOKEN'),
 )
 
-#
-# events
-#
+#-------------------------------------------------------------------------------
+# utils
+# /opt/uws/venv/bin/python3 -m pydoc slack_sdk.WebClient
 
-@app.event('app_home_opened')
-def event_app_home_opened(body):
-	log.debug('app_home_opened: %s', body)
+channel_id: str = os.getenv('UWS_SLACK_CHANNEL_ID', '')
+
+def msg(text: str):
+	log.debug('%s: send message', channel_id)
+	res = app.client.chat_postMessage(channel = channel_id, text = text)
+	if not res.get('ok', False):
+		log.error('%s: send message failed: %s', channel_id, res)
+
+def attach(ts: str, text: str, content: str):
+	log.debug('%s: %s attach', channel_id, ts)
+	res = app.client.files_upload(channels = channel_id, thread_ts = ts,
+		content = content, filetype = 'text/plain', title = text)
+	if not res.get('ok', False):
+		log.error('%s: %s attach failed: %s', channel_id, ts, res)
+
+#-------------------------------------------------------------------------------
+# events
 
 # https://api.slack.com/messaging/sending
 # https://api.slack.com/events/message
 # https://api.slack.com/messaging/composing
 # https://github.com/slackapi/bolt-python/blob/main/examples/message_events.py
 
-def _message(event, say, mention = False):
+def _message(event, say, mention = False) -> str:
 	log.debug('message: %s', event)
 	user_id = event['user']
 	if mention:
@@ -53,23 +67,26 @@ def _message(event, say, mention = False):
 			log.debug('UwscliCmdError%s', err)
 			if mention:
 				say(f"{user_mention}invalid command: {text}", thread_ts = thread_ts)
-			return
+			return 'error'
 		if proc.status != 0:
 			st = '[ERROR] '
 			log.error('uwscli command failed (%d): %s', proc.status, text)
 			log.debug('%s[%d]: %s', proc.command, proc.status, proc.output)
+		# parse response message content
 		msgid = 0
-		for msg in chatbot_msg.parse(text, proc.output):
-			if msgid == 0:
-				say(f"{user_mention}{st}{msg}", thread_ts = thread_ts)
-			else:
-				say(f"{st}{msg}", thread_ts = thread_ts)
-			msgid += 1
-
-@app.event('app_mention')
-def event_app_mention(event, say):
-	log.debug('event_app_mention')
-	_message(event, say, mention = True)
+		msgt, output = chatbot_msg.check(proc.output)
+		if msgt == 'attach':
+			attach(thread_ts, text, output)
+		else:
+			# msgt == 'message'
+			for msg in chatbot_msg.parse(text, output):
+				if msgid == 0:
+					say(f"{user_mention}{st}{msg}", thread_ts = thread_ts)
+				else:
+					say(f"{st}{msg}", thread_ts = thread_ts)
+				msgid += 1
+		return msgt
+	return ''
 
 @app.event('message')
 def event_message(body, say):
@@ -82,9 +99,17 @@ def event_message(body, say):
 	else:
 		log.info('message ignored')
 
-#
+@app.event('app_mention')
+def event_app_mention(event, say):
+	log.debug('event_app_mention')
+	_message(event, say, mention = True)
+
+@app.event('app_home_opened')
+def event_app_home_opened(body):
+	log.debug('app_home_opened: %s', body)
+
+#-------------------------------------------------------------------------------
 # socket mode handler
-#
 
 smh = SocketModeHandler(app, os.getenv('SLACK_APP_TOKEN'))
 
@@ -99,15 +124,3 @@ def is_healthy() -> bool:
 		log.error('socket mode handler client not connected')
 		return False
 	return True
-
-#
-# utils
-#
-
-channel_id: str = os.getenv('UWS_SLACK_CHANNEL_ID', '')
-
-def msg(text: str):
-	log.debug('send message: %s', channel_id)
-	res = app.client.chat_postMessage(channel = channel_id, text = text)
-	if not res.get('ok', False):
-		log.error('send message failed: %s', res)

@@ -19,6 +19,7 @@ def _msgadd(l: list[str], lines: list[str], cmd: str, msg_id: int, msg_total: in
 		l.append("%s [%d/%d]\n```%s```" % (cmd, msg_id, msg_total, msg))
 
 def parse(cmd: str, out: str) -> list[str]:
+	"""Format message using block quotes by size."""
 	size = len(out)
 	log.debug('parse: %s - %d', cmd, size)
 	l: list[str] = []
@@ -42,3 +43,11 @@ def parse(cmd: str, out: str) -> list[str]:
 		m.append(line)
 	_msgadd(l, m, cmd, msg_id, msg_total)
 	return l
+
+def check(output: str) -> tuple[str, str]:
+	typ = 'message'
+	out = output.strip()
+	if len(out) >= max_bytes:
+		typ = 'attach'
+	log.debug('check type: %s', typ)
+	return typ, out
