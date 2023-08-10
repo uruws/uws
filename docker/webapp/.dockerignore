@@ -1,2 +1,4 @@
 __pycache__
 /src/test
+/src/.mypy_cache
+/src/__pycache__
