@@ -48,12 +48,12 @@ class TestChatbotMsg(unittest.TestCase):
 		t.assertListEqual(l, ['testing\n```[empty]```'])
 
 	def test_parse_multi_lines(t):
-		with mock(max_bytes = 5):
-			l = chatbot_msg.parse('testing', 'out1\nout2\nout3\n')
+		with mock(max_bytes = 7):
+			l = chatbot_msg.parse('testing', 'outln1\noutln2\noutln3\n')
 			t.assertListEqual(l, [
-				'testing [1/3]\n```out1```',
-				'testing [2/3]\n```out2```',
-				'testing [3/3]\n```out3```',
+				'testing [1/3]\n```outln1```',
+				'testing [2/3]\n```outln2```',
+				'testing [3/3]\n```outln3```',
 			])
 
 if __name__ == '__main__':

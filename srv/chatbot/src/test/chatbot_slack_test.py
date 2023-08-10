@@ -51,9 +51,10 @@ class MockApp(object):
 		a.smh                     = MagicMock()
 		a.smh.client              = MagicMock()
 		a._bup_channel_id         = chatbot_slack.channel_id
-		a.client                  = MagicMock()
 		a.client_response         = {'mock': 'client_response'}
+		a.client                  = MagicMock()
 		a.client.chat_postMessage = MagicMock(side_effect = a.mock_client_response)
+		a.client.files_upload     = MagicMock(side_effect = a.mock_client_response)
 
 	def _destroy(a):
 		a._bup_app = None
@@ -100,6 +101,7 @@ class TestUtils(unittest.TestCase):
 class TestEvents(unittest.TestCase):
 
 	def setUp(t):
+		t.app = mock_app_setup()
 		t.slack = MockSlack()
 		t.cb = chatbot_test.mock_setup()
 
@@ -108,6 +110,8 @@ class TestEvents(unittest.TestCase):
 		t.slack = None
 		chatbot_test.mock_teardown(t.cb)
 		t.cb = None
+		mock_app_teardown(t.app)
+		t.app = None
 
 	def test_event_app_home_opened(t):
 		chatbot_slack.event_app_home_opened(t.slack.body)
@@ -180,13 +184,8 @@ class TestEvents(unittest.TestCase):
 		)
 
 	def test_message_attach(t):
-		x = [
-			call('testing [1/3]\n```out1```', thread_ts='1674248319.693579'),
-			call('testing [2/3]\n```out2```', thread_ts='1674248319.693579'),
-			call('testing [3/3]\n```out3```', thread_ts='1674248319.693579'),
-		]
 		with chatbot_msg_test.mock(max_bytes = 5):
-			t.cb.getstatusoutput.return_value = (0, 'out1\nout2\nout3\n')
+			t.cb.getstatusoutput.return_value = (0, 'att1\natt2\natt3\n')
 			typ = chatbot_slack._message(t.slack.event, t.slack.say)
 			t.assertEqual(typ, 'attach')
 			t.slack.say.assert_not_called()
