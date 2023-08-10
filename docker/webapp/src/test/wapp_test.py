@@ -142,7 +142,7 @@ class TestWapp(unittest.TestCase):
 	def test_nq_args(t):
 		with wapp_t.mock():
 			q = wapp.NQ('testing', app = 'nq_args')
-			t.assertEqual(q.args(), ' -c -q ')
+			t.assertEqual(q.args(), ' -c ')
 			q.cleanup = True
 			q.quiet   = False
 			t.assertEqual(q.args(), ' -c ')
@@ -157,7 +157,7 @@ class TestWapp(unittest.TestCase):
 		with wapp_t.mock(nqdir = '/tmp/wappnq') as m:
 			q = wapp.NQ('testing', app = 'nqrun')
 			q.run(['/usr/bin/true'])
-			m.nqrun.assert_called_once_with('/usr/bin/nq -c -q /usr/bin/true', env = {
+			m.nqrun.assert_called_once_with('/usr/bin/nq -c /usr/bin/true', env = {
 				'USER':  'uws',
 				'HOME':  '/home/uws',
 				'PATH':  '/usr/bin',
@@ -228,6 +228,15 @@ class TestWapp(unittest.TestCase):
 			job2 = q.exec(job.id()[1:])
 			t.assertEqual(job2.error(), '')
 			t.assertEqual(job2.rc(), 0)
+
+	def test_nq_exec_job_not_found(t):
+		nqdir = '/tmp/wappnq.test_nq_exec_job_not_found'
+		with wapp_t.mock(nqdir = nqdir) as m:
+			with t.assertRaises(FileNotFoundError) as err:
+				q = wapp.NQ('testing')
+				q.exec('abc123')
+			t.assertEqual(str(err.exception),
+				'/tmp/wappnq.test_nq_exec_job_not_found/devel/testing/,abc123: file not found')
 
 if __name__ == '__main__':
 	unittest.main()

@@ -162,7 +162,7 @@ class NQ(object):
 	app:     str = ''
 	dir:     str = ''
 	cleanup: bool = True
-	quiet:   bool = True
+	quiet:   bool = False
 
 	def __init__(q, qname: str, app: str = name):
 		q.name = qname
@@ -209,5 +209,7 @@ class NQ(object):
 	def exec(q, jobid: str) -> NQJob:
 		# FIXME: NQ.exec do some checks before to blindly exec what it's supposed to be an nq output file
 		fn = Path(q.dir, ',%s' % jobid)
+		if not (fn.exists() and fn.is_file()):
+			raise FileNotFoundError('%s: file not found' % fn)
 		cmd = '/bin/sh %s' % fn
 		return _nqrun(cmd, env = q.env())
