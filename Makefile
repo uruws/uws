@@ -23,9 +23,8 @@ distclean: clean
 prune:
 	@docker system prune -f
 
-#
+#-------------------------------------------------------------------------------
 # all
-#
 
 .PHONY: all
 all:
@@ -39,9 +38,8 @@ all:
 	@$(MAKE) proftpd
 	@$(MAKE) webapp-all
 
-#
+#-------------------------------------------------------------------------------
 # bootstrap
-#
 
 .PHONY: bootstrap
 bootstrap:
@@ -60,9 +58,8 @@ bootstrap:
 	@$(MAKE) crond
 	@$(MAKE) webapp
 
-#
+#-------------------------------------------------------------------------------
 # base containers
-#
 
 .PHONY: base
 base:
@@ -72,9 +69,8 @@ base:
 base-testing:
 	@./docker/base-testing/build.sh
 
-#
+#-------------------------------------------------------------------------------
 # devel
-#
 
 .PHONY: pod-base
 pod-base:
@@ -100,9 +96,8 @@ devel:
 	@$(MAKE) pod-test
 	@$(MAKE) heroku
 
-#
+#-------------------------------------------------------------------------------
 # utils
-#
 
 .PHONY: utils
 utils:
@@ -161,17 +156,15 @@ ansible:
 kali:
 	@./srv/kali/build.sh
 
-#
+#-------------------------------------------------------------------------------
 # uwscli
-#
 
 .PHONY: uwscli
 uwscli:
 	@./docker/uwscli/build.sh
 
-#
+#-------------------------------------------------------------------------------
 # uwsbot
-#
 
 UWS_BOT_DEPS != find go/bot go/cmd/uwsbot* go/env go/config go/log -type f -name '*.go'
 
@@ -213,34 +206,30 @@ docker/uwsbot/build/uwsbot-devel.tgz: docker/uwsbot/build/uwsbot.bin docker/uwsb
 		&& cp -va uwsbot-stats.bin devel/uws/bin/uwsbot-stats \
 		&& tar -cvzf uwsbot-devel.tgz -C devel .)
 
-#
+#-------------------------------------------------------------------------------
 # api-job-stats
-#
 
 API_JOB_DEPS != find go/tapo/api go/cmd/api-job-stats go/log -type f -name '*.go'
 
 docker/golang/build/api-job-stats.bin: $(API_JOB_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/api-job-stats.bin ./cmd/api-job-stats
 
-#
+#-------------------------------------------------------------------------------
 # mailx
-#
 
 .PHONY: mailx
 mailx:
 	@./docker/mailx/build.sh
 
-#
+#-------------------------------------------------------------------------------
 # crond
-#
 
 .PHONY: crond
 crond:
 	@./srv/crond/build.sh
 
-#
+#-------------------------------------------------------------------------------
 # munin
-#
 
 .PHONY: munin-all
 munin-all:
@@ -277,17 +266,15 @@ srv/munin-node/build/api-job-stats.bin: docker/golang/build/api-job-stats.bin
 	@mkdir -vp ./srv/munin-node/build
 	@install -v docker/golang/build/api-job-stats.bin ./srv/munin-node/build/api-job-stats.bin
 
-#
+#-------------------------------------------------------------------------------
 # heroku
-#
 
 .PHONY: heroku
 heroku:
 	@./docker/heroku/build.sh
 
-#
+#-------------------------------------------------------------------------------
 # app-stats
-#
 
 APP_STATS_DEPS := go/cmd/app-stats/main.go go/tapo/app/stats/*.go
 
@@ -297,9 +284,8 @@ app-stats: docker/golang/build/app-stats.bin
 docker/golang/build/app-stats.bin: $(APP_STATS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/app-stats.bin ./cmd/app-stats
 
-#
+#-------------------------------------------------------------------------------
 # webapp
-#
 
 .PHONY: webapp
 webapp:
@@ -309,10 +295,10 @@ webapp:
 webapp-all:
 	@$(MAKE) ab
 	@$(MAKE) chatbot
+	@$(MAKE) admin
 
-#
+#-------------------------------------------------------------------------------
 # chatbot
-#
 
 .PHONY: chatbot
 chatbot:
@@ -320,7 +306,7 @@ chatbot:
 
 .PHONY: chatbot-check
 chatbot-check:
-	@./docker/webapp/check.sh chatbot
+	@./srv/chatbot/check.sh
 
 .PHONY: chatbot-publish
 chatbot-publish:
@@ -328,9 +314,8 @@ chatbot-publish:
 	@$(MAKE) chatbot-check
 	@./srv/chatbot/publish.sh
 
-#
-# ab (apache benchmark)
-#
+#-------------------------------------------------------------------------------
+# ab (abench: apache benchmark) (aka uwsab)
 
 .PHONY: ab
 ab:
@@ -338,7 +323,7 @@ ab:
 
 .PHONY: ab-check
 ab-check:
-	@./docker/webapp/check.sh ab
+	@./srv/ab/check.sh
 
 .PHONY: ab-publish
 ab-publish:
@@ -346,9 +331,25 @@ ab-publish:
 	@$(MAKE) ab-check
 	@./srv/ab/publish.sh
 
-#
+#-------------------------------------------------------------------------------
+# admin
+
+.PHONY: admin
+admin:
+	@./srv/admin/build.sh
+
+.PHONY: admin-check
+admin-check:
+	@./srv/admin/check.sh
+
+.PHONY: admin-publish
+admin-publish:
+	@$(MAKE) admin
+	@$(MAKE) admin-check
+	@./srv/admin/publish.sh
+
+#-------------------------------------------------------------------------------
 # deploy
-#
 
 .PHONY: deploy
 deploy:
@@ -360,9 +361,8 @@ deploy:
 	@$(MAKE) prune
 	@echo "i - END deploy `date -R`"
 
-#
+#-------------------------------------------------------------------------------
 # check
-#
 
 .PHONY: check
 check:
@@ -430,9 +430,8 @@ check-pod-meteor:
 check-webapp:
 	@./docker/webapp/self-check.sh
 
-#
+#-------------------------------------------------------------------------------
 # uws CA
-#
 
 .PHONY: CA
 CA:
@@ -456,18 +455,16 @@ ca/opstest:
 ca/smtps:
 	@./secret/ca/uws/gen.sh smtps
 
-#
+#-------------------------------------------------------------------------------
 # eks
-#
 
 .PHONY: eks
 eks:
 	@$(MAKE) k8s
 	@./docker/eks/build.sh
 
-#
+#-------------------------------------------------------------------------------
 # k8s
-#
 
 .PHONY: k8s
 k8s:
@@ -476,9 +473,8 @@ k8s:
 	@$(MAKE) hpxlogs
 	@./docker/k8s/build.sh
 
-#
+#-------------------------------------------------------------------------------
 # k8smon
-#
 
 MON_MUNIN_TAG != cat ./k8s/mon/munin/VERSION
 
@@ -513,9 +509,8 @@ k8smon-publish:
 	@$(MAKE) check-k8s
 	@./k8s/mon/publish.sh
 
-#
+#-------------------------------------------------------------------------------
 # nginx
-#
 
 .PHONY: nginx
 nginx:
@@ -531,9 +526,8 @@ nginx-publish:
 	@$(MAKE) nginx-check
 	@./srv/nginx/publish.sh
 
-#
+#-------------------------------------------------------------------------------
 # ngxlogs
-#
 
 NGXLOGS_DEPS != find go/cmd/ngxlogs go/ngxlogs -type f -name '*.go'
 
@@ -547,9 +541,8 @@ docker/k8s/build/ngxlogs.bin: docker/golang/build/ngxlogs.bin
 docker/golang/build/ngxlogs.bin: $(NGXLOGS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/ngxlogs.bin ./cmd/ngxlogs
 
-#
+#-------------------------------------------------------------------------------
 # hpxlogs
-#
 
 HPXLOGS_DEPS != find go/cmd/hpxlogs go/hpxlogs -type f -name '*.go'
 
@@ -563,9 +556,8 @@ docker/k8s/build/hpxlogs.bin: docker/golang/build/hpxlogs.bin
 docker/golang/build/hpxlogs.bin: $(HPXLOGS_DEPS)
 	@./docker/golang/cmd.sh build -o /go/build/cmd/hpxlogs.bin ./cmd/hpxlogs
 
-#
+#-------------------------------------------------------------------------------
 # publish
-#
 
 .PHONY: publish
 publish:
@@ -575,9 +567,8 @@ publish:
 	@$(MAKE) chatbot-publish
 	@$(MAKE) nginx-publish
 
-#
+#-------------------------------------------------------------------------------
 # secrets
-#
 
 .PHONY: secrets
 secrets:
@@ -592,9 +583,8 @@ secrets:
 check-secrets:
 	@./eks/secrets/check.sh
 
-#
+#-------------------------------------------------------------------------------
 # upgrades
-#
 
 .PHONY: upgrades
 upgrades:
