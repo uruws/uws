@@ -14,8 +14,16 @@ def healthz():
 	return wapp.text_plain('ok')
 
 #-------------------------------------------------------------------------------
+# /
+
+def home():
+	return wapp.template('admin/home.html')
+
+#-------------------------------------------------------------------------------
 # start
 
 def start(app: wapp.Bottle):
 	# /healthz
 	app.get(wapp.url('/healthz'), callback = healthz)
+	# /
+	app.get(wapp.url('/'), callback = home)
