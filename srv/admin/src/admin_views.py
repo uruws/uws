@@ -11,7 +11,7 @@ log = wapp.getLogger(__name__)
 # /healthz
 
 def healthz():
-	return 'ok'
+	return wapp.text_plain('ok')
 
 #-------------------------------------------------------------------------------
 # start
