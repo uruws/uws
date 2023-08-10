@@ -26,10 +26,10 @@ def mock_check(rc = 22):
 		ab_views._check = bup_check
 
 @contextmanager
-def mock_command_parse():
+def mock_command_parse(nqdir = wapp.nqdir.strip(), cleanup = True):
 	bup_command_parse = ab.command_parse
 	try:
-		with wapp_t.mock() as m:
+		with wapp_t.mock(nqdir = nqdir, cleanup = cleanup) as m:
 			ab.command_parse = m.command_parse
 			ab.command_parse.return_value = m.command_parse_job
 			yield m
@@ -135,6 +135,14 @@ class TestViews(unittest.TestCase):
 				app='ab',
 				error="[Errno 2] No such file or directory: '/tmp/wappnq/ab/run/,123456'",
 			)
+
+	#---------------------------------------------------------------------------
+	# /nq.exec/
+
+	def test_nq_exec(t):
+		with mock_command_parse(nqdir = nqdir, cleanup = False) as m:
+			ab_views.nq_exec('18989e6df22.19391')
+			m.template.assert_called_once_with('ab/job_exec.html', job = m.command_parse_job)
 
 	#---------------------------------------------------------------------------
 	# /
