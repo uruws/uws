@@ -3,15 +3,10 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-from contextlib    import contextmanager
-from unittest.mock import MagicMock
-
 import unittest
 
 import wapp_t
-import wapp
 
-import admin
 import admin_views
 
 class TestViews(unittest.TestCase):
