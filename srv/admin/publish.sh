@@ -14,6 +14,6 @@ if test -d /srv/www/ssl/htmlcov; then
 	fi
 fi
 
-docker tag uws/admin-2305 "uws/admin-${ADMIN_TAG}"
+#docker tag uws/admin-2305 "uws/admin-${ADMIN_TAG}"
 
 exit 0

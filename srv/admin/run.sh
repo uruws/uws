@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ./docker/webapp/devel.sh admin --exec
+exec ./srv/admin/devel.sh admin --exec

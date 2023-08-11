@@ -28,6 +28,8 @@ ENV HOME /root
 COPY --chown=uws:uwsops ./src /opt/uws/admin
 COPY --chown=uws:uwsops ./VERSION /opt/uws/admin
 
+RUN install -v -d -m 0750 -o uws -g uwsops /srv/home/uwscli /srv/home/uwscli/lib
+
 USER uws:uwsops
 WORKDIR /home/uws
 
