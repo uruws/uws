@@ -10,7 +10,7 @@ log = wapp.getLogger(__name__)
 # /cluster/
 
 def index(cluster: str = ''):
-	return wapp.template('admin/cluster_index.html', cluster = cluster)
+	return wapp.template('admin/cluster_index.html', admin_cluster = cluster.strip())
 
 #-------------------------------------------------------------------------------
 # start

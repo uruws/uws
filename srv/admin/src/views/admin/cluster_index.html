@@ -1,10 +1,10 @@
 % from wapptpl import url
 % title = 'cluster'
-% if cluster != '':
-%   title = 'cluster: %s' % cluster
+% if admin_cluster != '':
+%   title = 'cluster: %s' % admin_cluster
 % end
 % rebase('admin/base.html')
 % include('admin/inc/cluster_navbar.html')
-% if cluster != '':
-% include('admin/inc/cluster_info.html', cluster = cluster)
+% if admin_cluster != '':
+% include('admin/inc/cluster_info.html', admin_cluster = admin_cluster)
 % end

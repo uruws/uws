@@ -17,9 +17,11 @@ class TestAdminTpl(unittest.TestCase):
 			'button_class',
 			'button_color',
 			'button_current',
-			'cluster_sidebar',
+			'cluster_info',
+			'cluster_navbar',
 			'input_class',
 			'input_color',
+			'log',
 			'url',
 			'wapp',
 		])

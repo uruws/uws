@@ -1,3 +1,11 @@
 % import admintpl
+% cluster = admintpl.cluster_info(admin_cluster)
+% if cluster is None:
+<div class="w3-container w3-padding-24 w3-signal-red" name="admin_cluster_error">
+	<h1>{{ admin_cluster }}: invalid cluster</h1>
+</div><!-- admin_cluster_error -->
+% else:
 <div class="w3-container w3-padding-24 w3-signal-black" name="admin_cluster_info">
+	<h1>{{ cluster.name }} ({{ cluster.region }})</h1>
 </div><!-- admin_cluster_info -->
+% end

@@ -15,6 +15,9 @@ import uwscli_conf # type: ignore
 #-------------------------------------------------------------------------------
 # cluster
 
+class ClusterError(Exception):
+	pass
+
 @dataclass
 class Cluster(object):
 	name:   str
@@ -27,3 +30,9 @@ def cluster_list() -> list[Cluster]:
 		region = k.region.strip()
 		l.append(Cluster(name = name, region = region))
 	return l
+
+def cluster_info(name: str) -> Cluster:
+	k = uwscli_conf.cluster.get(name, '')
+	if k == '':
+		raise ClusterError('%s: cluster not found' % name)
+	return Cluster(name = name, region = k.region)
