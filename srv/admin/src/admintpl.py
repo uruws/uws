@@ -16,7 +16,7 @@ input_color    = 'w3-border-gray'
 #-------------------------------------------------------------------------------
 # cluster
 
-def cluster_sidebar() -> dict[str, str]:
+def cluster_navbar() -> dict[str, str]:
 	d: dict[str, str] = {}
 	for k in admin.cluster_list():
 		d[k.name] = wapp.url('/cluster/%s/' % k.name)

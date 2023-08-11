@@ -27,9 +27,9 @@ class TestAdminTpl(unittest.TestCase):
 	#---------------------------------------------------------------------------
 	# cluster
 
-	def test_cluster_sidebar(t):
+	def test_cluster_navbar(t):
 		with admin_t.mock() as m:
-			t.assertDictEqual(admintpl.cluster_sidebar(), {
+			t.assertDictEqual(admintpl.cluster_navbar(), {
 				'k8stest': '/cluster/k8stest/',
 			})
 
