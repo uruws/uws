@@ -5,7 +5,7 @@
 
 import unittest
 
-import wapp_t
+import admin_t
 
 import admin_cluster
 
@@ -15,7 +15,7 @@ class TestCluster(unittest.TestCase):
 	# /cluster/
 
 	def test_index(t):
-		with wapp_t.mock() as m:
+		with admin_t.mock() as m:
 			admin_cluster.index()
 			m.template.assert_called_once_with('admin/cluster_index.html')
 

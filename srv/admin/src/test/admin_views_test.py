@@ -5,7 +5,7 @@
 
 import unittest
 
-import wapp_t
+import admin_t
 
 import admin_views
 
@@ -21,7 +21,7 @@ class TestViews(unittest.TestCase):
 	# /
 
 	def test_home(t):
-		with wapp_t.mock() as m:
+		with admin_t.mock() as m:
 			admin_views.home()
 			m.template.assert_called_once_with('admin/home.html')
 
