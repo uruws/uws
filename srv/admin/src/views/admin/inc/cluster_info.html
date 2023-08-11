@@ -1,5 +1,6 @@
 % import admintpl
 % cluster = admintpl.cluster_info(admin_cluster)
+% cluster_domain = 'uws.talkingpts.org'
 % if has_error or cluster is None:
 <div class="w3-container w3-padding-24 w3-signal-red" name="admin_cluster_error">
 	<h1>{{ admin_cluster }}: invalid cluster</h1>
@@ -11,7 +12,14 @@
 	<p>
 		{{ cluster.region }}
 		<a class="{{ link_class }}" target="_blank"
-			href="https://{{ cluster.name }}.uws.talkingpts.org/munin/">munin</a>
+			href="https://{{ cluster.name }}.{{ cluster_domain }}/munin/">munin</a>
+	</p>
+	<p>
+		<a target="_blank"
+			href="https://{{ cluster.name }}.{{ cluster_domain }}/munin/uws/{{ cluster.name }}/deploy_replicas/index.html">
+			<img alt="munin {{ cluster.name }} daily all replicas"
+			src="https://{{ cluster.name }}.{{ cluster_domain }}/munin/uws/{{ cluster.name }}/deploy_replicas/all-day.png">
+		</a>
 	</p>
 </div><!-- admin_cluster_info -->
 % end
