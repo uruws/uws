@@ -6,6 +6,7 @@
 import unittest
 
 import admin_t
+import admin_test
 
 import admintpl
 
@@ -34,6 +35,14 @@ class TestAdminTpl(unittest.TestCase):
 			t.assertDictEqual(admintpl.cluster_navbar(), {
 				'k8stest': '/cluster/k8stest/',
 			})
+
+	def test_cluster_info(t):
+		with admin_t.mock() as m:
+			t.assertEqual(admintpl.cluster_info('k8stest'), admin_test.cluster_k8stest)
+
+	def test_cluster_info_error(t):
+		with admin_t.mock() as m:
+			t.assertIsNone(admintpl.cluster_info(''))
 
 if __name__ == '__main__':
 	unittest.main()
