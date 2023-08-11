@@ -1,5 +1,6 @@
 % import admintpl
-<div class="w3-padding-24 w3-black w3-border-right w3-border-dark-gray" name="admin_sidebar">
+<div class="w3-container w3-black w3-padding-24 w3-border-bottom w3-border-dark-gray"
+	name="admin_cluster_navbar">
 % for lnk_name, lnk_url in admintpl.cluster_sidebar().items():
 %   lnk_class = admintpl.button_color
 %   if lnk_url == admintpl.url():
@@ -8,4 +9,4 @@
 	<a class="{{ admintpl.button_class }} {{ lnk_class }}"
 		href="{{ lnk_url }}">{{ lnk_name }}</a>
 % end
-</div><!-- admin_sidebar -->
+</div><!-- admin_cluster_navbar -->

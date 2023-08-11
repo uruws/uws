@@ -17,7 +17,7 @@ class TestCluster(unittest.TestCase):
 	def test_index(t):
 		with admin_t.mock() as m:
 			admin_cluster.index()
-			m.template.assert_called_once_with('admin/cluster_index.html')
+			m.template.assert_called_once_with('admin/cluster_index.html', cluster = '')
 
 if __name__ == '__main__':
 	unittest.main()
