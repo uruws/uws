@@ -33,6 +33,8 @@ def cluster_list() -> list[Cluster]:
 
 def cluster_info(name: str) -> Cluster:
 	k = uwscli_conf.cluster.get(name, '')
+	if name == '':
+		name = '[empty]'
 	if k == '':
 		raise ClusterError('%s: cluster not found' % name)
 	return Cluster(name = name, region = k.region)

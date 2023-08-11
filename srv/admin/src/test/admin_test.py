@@ -21,5 +21,15 @@ class TestAdmin(unittest.TestCase):
 		with admin_t.mock() as m:
 			t.assertListEqual(admin.cluster_list(), [cluster_k8stest])
 
+	def test_cluster_info(t):
+		with admin_t.mock() as m:
+			t.assertEqual(admin.cluster_info('k8stest'), cluster_k8stest)
+
+	def test_cluster_info_error(t):
+		with admin_t.mock() as m:
+			with t.assertRaises(admin.ClusterError) as err:
+				admin.cluster_info('')
+			t.assertEqual(str(err.exception), '[empty]: cluster not found')
+
 if __name__ == '__main__':
 	unittest.main()
