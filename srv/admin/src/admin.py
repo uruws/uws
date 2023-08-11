@@ -3,4 +3,6 @@
 
 import sys
 
-import uwscli_conf
+sys.path.insert(0, '/srv/home/uwscli/lib')
+
+import uwscli_conf # type: ignore
