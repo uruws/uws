@@ -5,7 +5,13 @@
 	<h1>{{ admin_cluster }}: invalid cluster</h1>
 </div><!-- admin_cluster_error -->
 % else:
+%   link_class = 'w3-text-blue'
 <div class="w3-container w3-padding-24 w3-signal-black" name="admin_cluster_info">
-	<h1>{{ cluster.name }} ({{ cluster.region }})</h1>
+	<h1 class="w3-center">{{ cluster.name }}</h1>
+	<p>
+		{{ cluster.region }}
+		<a class="{{ link_class }}" target="_blank"
+			href="https://{{ cluster.name }}.uws.talkingpts.org/munin/">munin</a>
+	</p>
 </div><!-- admin_cluster_info -->
 % end
