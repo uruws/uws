@@ -54,6 +54,8 @@ def app_list() -> list[App]:
 	l: list[App] = []
 	for name in uwscli_conf.app.keys():
 		a = uwscli_conf.app[name]
+		if not a.app:
+			continue
 		cluster = a.cluster.strip()
 		l.append(App(name = name, cluster = cluster))
 	return l

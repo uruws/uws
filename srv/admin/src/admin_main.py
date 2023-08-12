@@ -3,9 +3,9 @@
 
 import wapp
 
-import admin
 import admin_conf
 
+import admin
 import admin_views
 
 app = wapp.Bottle()
