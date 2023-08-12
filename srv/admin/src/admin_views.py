@@ -18,7 +18,8 @@ def healthz():
 # /
 
 def home():
-	return wapp.template('admin/home.html')
+	# ~ return wapp.template('admin/home.html')
+	return wapp.redirect(wapp.url('/cluster/'))
 
 #-------------------------------------------------------------------------------
 # start

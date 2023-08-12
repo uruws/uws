@@ -23,7 +23,8 @@ class TestViews(unittest.TestCase):
 	def test_home(t):
 		with admin_t.mock() as m:
 			admin_views.home()
-			m.template.assert_called_once_with('admin/home.html')
+			# ~ m.template.assert_called_once_with('admin/home.html')
+			m.redirect.assert_called_once_with('/cluster/')
 
 if __name__ == '__main__':
 	unittest.main()
