@@ -15,6 +15,8 @@ class TestAdminTpl(unittest.TestCase):
 	def test_exports(t):
 		t.assertListEqual(sorted([s for s in dir(admintpl) if not s.startswith('_')]), [
 			'admin',
+			'app_info',
+			'app_navbar',
 			'button_class',
 			'button_color',
 			'button_current',
@@ -43,6 +45,23 @@ class TestAdminTpl(unittest.TestCase):
 	def test_cluster_info_error(t):
 		with admin_t.mock() as m:
 			t.assertIsNone(admintpl.cluster_info(''))
+
+	#---------------------------------------------------------------------------
+	# app
+
+	def test_app_navbar(t):
+		with admin_t.mock() as m:
+			t.assertDictEqual(admintpl.app_navbar(), {
+				'apptest': '/app/apptest/',
+			})
+
+	def test_app_info(t):
+		with admin_t.mock() as m:
+			t.assertEqual(admintpl.app_info('apptest'), admin_test.apptest)
+
+	def test_app_info_error(t):
+		with admin_t.mock() as m:
+			t.assertIsNone(admintpl.app_info(''))
 
 if __name__ == '__main__':
 	unittest.main()
