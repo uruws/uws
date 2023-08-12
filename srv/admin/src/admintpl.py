@@ -30,3 +30,19 @@ def cluster_info(name: str) -> admin.Cluster | None:
 	except admin.ClusterError as err:
 		log.error('%s', err)
 		return None
+
+#-------------------------------------------------------------------------------
+# app
+
+def app_navbar() -> dict[str, str]:
+	d: dict[str, str] = {}
+	for a in admin.app_list():
+		d[a.name] = wapp.url('/app/%s/' % a.name)
+	return d
+
+def app_info(name: str) -> admin.App | None:
+	try:
+		return admin.app_info(name)
+	except admin.AppError as err:
+		log.error('%s', err)
+		return None

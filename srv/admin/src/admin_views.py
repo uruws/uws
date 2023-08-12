@@ -4,6 +4,7 @@
 import wapp
 
 import admin
+import admin_app
 import admin_cluster
 
 log = wapp.getLogger(__name__)
@@ -29,5 +30,7 @@ def start(app: wapp.Bottle):
 	app.get(wapp.url('/healthz'), callback = healthz)
 	# /cluster/
 	admin_cluster.start(app)
+	# /app/
+	admin_app.start(app)
 	# /
 	app.get(wapp.url('/'), callback = home)

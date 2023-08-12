@@ -38,3 +38,30 @@ def cluster_info(name: str) -> Cluster:
 	if k == '':
 		raise ClusterError('%s: cluster not found' % name)
 	return Cluster(name = name, region = k.region)
+
+#-------------------------------------------------------------------------------
+# app
+
+class AppError(Exception):
+	pass
+
+@dataclass
+class App(object):
+	name:    str
+	cluster: str
+
+def app_list() -> list[App]:
+	l: list[App] = []
+	for name in uwscli_conf.app.keys():
+		a = uwscli_conf.app[name]
+		cluster = a.cluster.strip()
+		l.append(App(name = name, cluster = cluster))
+	return l
+
+def app_info(name: str) -> App:
+	a = uwscli_conf.app.get(name, '')
+	if name == '':
+		name = '[empty]'
+	if a == '':
+		raise AppError('%s: app not found' % name)
+	return App(name = name, cluster = a.cluster)
