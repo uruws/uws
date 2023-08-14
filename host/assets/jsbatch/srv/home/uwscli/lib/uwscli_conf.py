@@ -38,6 +38,13 @@ def _tapo_pod_containers(name: str, ns: str = 'tapo', hpx = False, api = False, 
 		l.append('%s/meteor-worker' % wrkns)
 	return sorted(l)
 
+def _meteor_pod_containers(name: str, gw: bool = False) -> list[str]:
+	l: list[str] = []
+	l.append('%s/meteor' % name)
+	if gw:
+		l.append('%sgw/proxy' % name)
+	return sorted(l)
+
 #-------------------------------------------------------------------------------
 # app build
 
@@ -142,7 +149,8 @@ app: dict[str, App] = {
 		deploy         = AppDeploy('meteor-app'),
 		groups         = ['uwsapp_app'],
 		pod            = 'meteor/api',
-		pod_containers = _tapo_pod_containers('api'),
+		# ~ pod_containers = _tapo_pod_containers('api'),
+		pod_containers = _meteor_pod_containers('api', gw = True),
 	),
 	'app-prod': App(True,
 		cluster        = 'appweb-2302',
@@ -150,7 +158,8 @@ app: dict[str, App] = {
 		deploy         = AppDeploy('meteor-app'),
 		groups         = ['uwsapp_app'],
 		pod            = 'meteor/web',
-		pod_containers = _tapo_pod_containers('web', cdn = True, hpx = True),
+		# ~ pod_containers = _tapo_pod_containers('web', hpx = True),
+		pod_containers = _meteor_pod_containers('web', gw = True),
 	),
 	'appcdn-prod': App(True,
 		cluster        = 'appweb-2302',
@@ -158,7 +167,8 @@ app: dict[str, App] = {
 		deploy         = AppDeploy('meteor-app'),
 		groups         = ['uwsapp_app'],
 		pod            = 'meteor/webcdn',
-		pod_containers = _tapo_pod_containers('cdn'),
+		# ~ pod_containers = _tapo_pod_containers('cdn'),
+		pod_containers = _meteor_pod_containers('webcdn', gw = True),
 	),
 	'worker': App(True,
 		cluster        = 'appwrk-2306',
@@ -166,7 +176,8 @@ app: dict[str, App] = {
 		deploy         = AppDeploy('meteor-app'),
 		groups         = ['uwsapp_app'],
 		pod            = 'meteor/worker',
-		pod_containers = _tapo_pod_containers('worker', ns = 'tpwrk'),
+		# ~ pod_containers = _tapo_pod_containers('worker', ns = 'tpwrk'),
+		pod_containers = _meteor_pod_containers('worker'),
 	),
 	'api-test': App(True,
 		cluster        = 'apptest-2302',
@@ -182,7 +193,7 @@ app: dict[str, App] = {
 		deploy         = AppDeploy('meteor-app'),
 		groups         = ['uwsapp_apptest'],
 		pod            = 'tapo/web',
-		pod_containers = _tapo_pod_containers('web', cdn = True, hpx = True),
+		pod_containers = _tapo_pod_containers('web', hpx = True),
 	),
 	'appcdn-test': App(True,
 		cluster        = 'apptest-2302',
