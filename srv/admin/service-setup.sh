@@ -32,7 +32,7 @@ install -v -m 0644 -o root -g uws \
 
 install -v -d -m 1777 -o root -g root "/srv/run/webapp/${admin_env}/admin/data"
 
-admin_version=$(cat "/srv/run/webapp/${admin_env}/admin/VERSION")
+admin_version=$(cat "/srv/run/webapp/${admin_env}/admin.VERSION")
 export DOCKER_IMAGE="uws/admin-${admin_version}"
 
 /uws/bin/service-restart.sh "uwsadm-${admin_env}" \
