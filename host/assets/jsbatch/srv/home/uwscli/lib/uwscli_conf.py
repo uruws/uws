@@ -6,6 +6,9 @@ from dataclasses import field
 from os          import getenv
 from typing      import Any
 
+#-------------------------------------------------------------------------------
+# config
+
 homedir: str = getenv('UWSCLI_HOMEDIR', '/home')
 sbindir: str = getenv('UWSCLI_SBINDIR', '/srv/home/uwscli/sbin')
 bindir:  str = getenv('UWSCLI_BINDIR', '/srv/home/uwscli/bin')
@@ -18,6 +21,25 @@ docker_storage_min: int = 10*1024*1024 # 10G
 
 admin_group:    str = getenv('UWSCLI_ADMIN_GROUP',    'uwsadm')
 operator_group: str = getenv('UWSCLI_OPERATOR_GROUP', 'uwsops')
+
+#-------------------------------------------------------------------------------
+# utils
+
+def _tapo_pod_containers(name: str, ns: str = 'tapo', hpx = False, api = False, cdn = False, worker = False, wrkns = 'tpwrk') -> list[str]:
+	l: list[str] = []
+	l.append('%s/meteor-%s' % (ns, name))
+	if hpx:
+		l.append('%s/%shpx-haproxy-ingress' % (ns, ns))
+	if api:
+		l.append('%s/meteor-api' % ns)
+	if cdn:
+		l.append('%s/meteor-cdn' % ns)
+	if worker:
+		l.append('%s/meteor-worker' % wrkns)
+	return sorted(l)
+
+#-------------------------------------------------------------------------------
+# app build
 
 @dataclass
 class AppBuild(object):
@@ -40,6 +62,9 @@ def _buildpack(src: str, target: str) -> AppBuild:
 
 Buildpack = _buildpack
 
+#-------------------------------------------------------------------------------
+# app deploy
+
 @dataclass
 class AppDeploy(object):
 	image:  str
@@ -53,6 +78,9 @@ class AppDeploy(object):
 class CustomDeploy(object):
 	app:  str
 	wait: str = '5m'
+
+#-------------------------------------------------------------------------------
+# app
 
 @dataclass
 class App(object):
@@ -76,6 +104,9 @@ class App(object):
 			self.build = AppBuild('', '')
 		if self.deploy is None:
 			self.deploy = AppDeploy('')
+
+#-------------------------------------------------------------------------------
+# app config
 
 app: dict[str, App] = {
 	'app': App(False,
@@ -106,60 +137,68 @@ app: dict[str, App] = {
 		groups = ['uwsapp_app'],
 	),
 	'api-prod': App(True,
-		cluster = 'appweb-2302',
-		desc    = 'App api',
-		pod     = 'meteor/api',
-		deploy  = AppDeploy('meteor-app'),
-		groups  = ['uwsapp_app'],
+		cluster        = 'appweb-2302',
+		desc           = 'App api',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_app'],
+		pod            = 'meteor/api',
+		pod_containers = _tapo_pod_containers('api'),
 	),
 	'app-prod': App(True,
-		cluster = 'appweb-2302',
-		desc    = 'App web',
-		pod     = 'meteor/web',
-		deploy  = AppDeploy('meteor-app'),
-		groups  = ['uwsapp_app'],
+		cluster        = 'appweb-2302',
+		desc           = 'App web',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_app'],
+		pod            = 'meteor/web',
+		pod_containers = _tapo_pod_containers('web', cdn = True, hpx = True),
 	),
 	'appcdn-prod': App(True,
-		cluster = 'appweb-2302',
-		desc    = 'App web CDN',
-		pod     = 'meteor/webcdn',
-		deploy  = AppDeploy('meteor-app'),
-		groups  = ['uwsapp_app'],
+		cluster        = 'appweb-2302',
+		desc           = 'App web CDN',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_app'],
+		pod            = 'meteor/webcdn',
+		pod_containers = _tapo_pod_containers('cdn'),
 	),
 	'worker': App(True,
-		cluster = 'appwrk-2306',
-		desc    = 'App worker cluster',
-		pod     = 'meteor/worker',
-		deploy  = AppDeploy('meteor-app'),
-		groups  = ['uwsapp_app'],
+		cluster        = 'appwrk-2306',
+		desc           = 'App worker cluster',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_app'],
+		pod            = 'meteor/worker',
+		pod_containers = _tapo_pod_containers('worker', ns = 'tpwrk'),
 	),
 	'api-test': App(True,
-		cluster = 'apptest-2302',
-		desc    = 'App api, test cluster',
-		pod     = 'tapo/api',
-		deploy  = AppDeploy('meteor-app'),
-		groups  = ['uwsapp_apptest'],
+		cluster        = 'apptest-2302',
+		desc           = 'App api, test cluster',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_apptest'],
+		pod            = 'tapo/api',
+		pod_containers = _tapo_pod_containers('api'),
 	),
 	'app-test': App(True,
-		cluster = 'apptest-2302',
-		desc    = 'App web, test cluster',
-		pod     = 'tapo/web',
-		deploy  = AppDeploy('meteor-app'),
-		groups  = ['uwsapp_apptest'],
+		cluster        = 'apptest-2302',
+		desc           = 'App web, test cluster',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_apptest'],
+		pod            = 'tapo/web',
+		pod_containers = _tapo_pod_containers('web', cdn = True, hpx = True),
 	),
 	'appcdn-test': App(True,
-		cluster = 'apptest-2302',
-		desc    = 'App web CDN, test cluster',
-		pod     = 'tapo/cdn',
-		deploy  = AppDeploy('meteor-app'),
-		groups  = ['uwsapp_apptest'],
+		cluster        = 'apptest-2302',
+		desc           = 'App web CDN, test cluster',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_apptest'],
+		pod            = 'tapo/cdn',
+		pod_containers = _tapo_pod_containers('cdn'),
 	),
 	'worker-test': App(True,
-		cluster = 'apptest-2302',
-		desc    = 'App worker, test cluster',
-		pod     = 'tapo/worker',
-		deploy  = AppDeploy('meteor-app'),
-		groups  = ['uwsapp_apptest'],
+		cluster        = 'apptest-2302',
+		desc           = 'App worker, test cluster',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_apptest'],
+		pod            = 'tapo/worker',
+		pod_containers = _tapo_pod_containers('worker', ns = 'tpwrk'),
 	),
 	'cs': App(True,
 		cluster   = 'appsprod-2302',
@@ -215,15 +254,12 @@ app: dict[str, App] = {
 		deploy         = AppDeploy('meteor-app'),
 		groups         = ['uwsapp_apptest'],
 		pod            = 'tapo/srmnt',
-		pod_containers = [
-			'srmnt/meteor-api',
-			'srmnt/meteor-cdn',
-			'srmnt/meteor-web',
-			'srmnt/srmnthpx-haproxy-ingress',
-			'srmntwrk/meteor-worker',
-		],
+		pod_containers = _tapo_pod_containers('web', ns = 'srmnt', hpx = True, api = True, cdn = True, worker = True, wrkns = 'srmntwrk'),
 	),
 }
+
+#-------------------------------------------------------------------------------
+# cluster
 
 @dataclass
 class AppCluster(object):
