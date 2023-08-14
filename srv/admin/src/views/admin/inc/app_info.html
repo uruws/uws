@@ -10,6 +10,7 @@
 <div class="w3-container w3-center w3-padding-24 w3-signal-black" name="admin_app_info">
 	<h1>{{ app.name }}</h1>
 	<p>
+		{{ app.region }}
 		<a href="{{ admintpl.url('/cluster/%s/' % app.cluster) }}"
 			class="{{ link_class }}">{{ app.cluster }}</a>
 	</p>
