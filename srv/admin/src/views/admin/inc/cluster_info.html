@@ -1,6 +1,6 @@
 % import admintpl
 % cluster = admintpl.cluster_info(admin_cluster)
-% cluster_domain = 'uws.talkingpts.org'
+% cluster_domain = admintpl.config.domain.strip()
 % if has_error or cluster is None:
 <div class="w3-container w3-padding-24 w3-signal-red" name="admin_cluster_error">
 	<h1>{{ admin_cluster }}: invalid cluster</h1>

@@ -1,6 +1,6 @@
 % import admintpl
 % app = admintpl.app_info(admin_app)
-% app_domain = 'uws.talkingpts.org'
+% app_domain = admintpl.config.domain.strip()
 % if app is None:
 <div class="w3-container w3-padding-24 w3-signal-red" name="admin_app_error">
 	<h1>{{ admin_app }}: invalid app</h1>

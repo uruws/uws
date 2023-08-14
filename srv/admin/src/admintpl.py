@@ -4,6 +4,8 @@
 import admin
 import wapp
 
+from admin import config
+
 from wapptpl import url
 
 log = wapp.getLogger(__name__)

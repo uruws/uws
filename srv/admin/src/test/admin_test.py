@@ -18,6 +18,13 @@ apptest = admin.App(name = 'apptest', cluster = 'k8stest', region = 'uy-test-0')
 class TestAdmin(unittest.TestCase):
 
 	#---------------------------------------------------------------------------
+	# config
+
+	def test_config(t):
+		with admin_t.mock() as m:
+			t.assertEqual(admin.config.domain, 'testing.uws.local')
+
+	#---------------------------------------------------------------------------
 	# cluster
 
 	def test_cluster_list(t):

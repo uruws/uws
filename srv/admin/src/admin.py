@@ -1,9 +1,22 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import os
 import sys
 
 from dataclasses import dataclass
+
+#-------------------------------------------------------------------------------
+# config
+
+@dataclass
+class Config(object):
+	domain: str = 'uws.local'
+
+	def __post_init__(c):
+		c.domain = os.getenv('UWSADM_DOMAIN', c.domain)
+
+config = Config()
 
 #-------------------------------------------------------------------------------
 # uwscli
