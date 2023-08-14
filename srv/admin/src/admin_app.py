@@ -11,10 +11,11 @@ log = wapp.getLogger(__name__)
 
 def index(name: str = ''):
 	name = name.strip()
-	try:
-		admin.app_info(name)
-	except admin.AppError as err:
-		return wapp.error(404, 'admin/app_index.html', admin_app = name)
+	if name != '':
+		try:
+			admin.app_info(name)
+		except admin.AppError as err:
+			return wapp.error(404, 'admin/app_index.html', admin_app = name)
 	return wapp.template('admin/app_index.html', admin_app = name)
 
 #-------------------------------------------------------------------------------
