@@ -297,6 +297,18 @@ webapp-all:
 	@$(MAKE) chatbot
 	@$(MAKE) admin
 
+.PHONY: webapp-check
+webapp-check:
+	@$(MAKE) ab-check
+	@$(MAKE) chatbot-check
+	@$(MAKE) admin-check
+
+.PHONY: webapp-publish
+webapp-publish:
+	@$(MAKE) ab-publish
+	@$(MAKE) chatbot-publish
+	@$(MAKE) admin-publish
+
 #-------------------------------------------------------------------------------
 # chatbot
 
