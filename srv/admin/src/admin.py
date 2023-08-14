@@ -11,10 +11,12 @@ from dataclasses import dataclass
 
 @dataclass
 class Config(object):
-	domain: str = 'uws.local'
+	domain:              str = 'uws.local'
+	doc_refresh_seconds: int = 300
 
 	def __post_init__(c):
-		c.domain = os.getenv('UWSADM_DOMAIN', c.domain)
+		c.domain              =     os.getenv('UWSADM_DOMAIN',              c.domain)
+		c.doc_refresh_seconds = int(os.getenv('UWSADM_DOC_REFRESH_SECONDS', str(c.doc_refresh_seconds)))
 
 config = Config()
 

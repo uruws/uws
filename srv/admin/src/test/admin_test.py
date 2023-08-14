@@ -22,7 +22,8 @@ class TestAdmin(unittest.TestCase):
 
 	def test_config(t):
 		with admin_t.mock() as m:
-			t.assertEqual(admin.config.domain, 'testing.uws.local')
+			t.assertEqual(admin.config.domain,              'testing.uws.local')
+			t.assertEqual(admin.config.doc_refresh_seconds, 300)
 
 	#---------------------------------------------------------------------------
 	# cluster
