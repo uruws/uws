@@ -1,6 +1,6 @@
 % import admintpl
 % app = admintpl.app_info(admin_app)
-% app_domain = admintpl.config.domain.strip()
+% cluster_domain = admintpl.config.domain.strip()
 % if app is None:
 <div class="w3-container w3-padding-24 w3-signal-red" name="admin_app_error">
 	<h1>{{ admin_app }}: invalid app</h1>
@@ -13,6 +13,47 @@
 		{{ app.region }}
 		<a href="{{ admintpl.url('/cluster/%s/' % app.cluster) }}"
 			class="{{ link_class }}">{{ app.cluster }}</a>
+%   app_pod_containers = app.pod_containers()
+%   if len(app_pod_containers) > 0:
+	<!-- pods state -->
 	</p>
+		<h3>POD State</h3>
+		<p>
+	%   for app_container in app_pod_containers:
+	%       app_container_slug = admintpl.slug(app_container)
+			<a class="w3-btn" target="_blank"
+				href="https://{{ app.cluster }}.{{ cluster_domain }}/munin/uws/{{ app.cluster }}/pod_state/{{ app_container_slug }}.html">
+				<img alt="munin {{ app_container }} pod state"
+					src="https://{{ app.cluster }}.{{ cluster_domain }}/munin/uws/{{ app.cluster }}/pod_state/{{ app_container_slug }}-day.png">
+			</a>
+	%   end
+	</p>
+	<!-- POD CPU -->
+	</p>
+		<h3>POD CPU</h3>
+		<p>
+	%   for app_container in app_pod_containers:
+	%       app_container_slug = admintpl.slug(app_container)
+			<a class="w3-btn" target="_blank"
+				href="https://{{ app.cluster }}.{{ cluster_domain }}/munin/uws/{{ app.cluster }}/pod_top_cpu/{{ app_container_slug }}_cpu.html">
+				<img alt="munin {{ app_container }} pod cpu"
+					src="https://{{ app.cluster }}.{{ cluster_domain }}/munin/uws/{{ app.cluster }}/pod_top_cpu/{{ app_container_slug }}_cpu-day.png">
+			</a>
+	%   end
+	</p>
+	<!-- POD Mem -->
+	</p>
+		<h3>POD Mem</h3>
+		<p>
+	%   for app_container in app_pod_containers:
+	%       app_container_slug = admintpl.slug(app_container)
+			<a class="w3-btn" target="_blank"
+				href="https://{{ app.cluster }}.{{ cluster_domain }}/munin/uws/{{ app.cluster }}/pod_top_mem/{{ app_container_slug }}_mem.html">
+				<img alt="munin {{ app_container }} pod mem"
+					src="https://{{ app.cluster }}.{{ cluster_domain }}/munin/uws/{{ app.cluster }}/pod_top_mem/{{ app_container_slug }}_mem-day.png">
+			</a>
+	%   end
+	</p>
+%   end
 </div><!-- admin_app_info -->
 % end

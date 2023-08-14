@@ -220,7 +220,7 @@ app: dict[str, App] = {
 			'srmnt/meteor-cdn',
 			'srmnt/meteor-web',
 			'srmnt/srmnthpx-haproxy-ingress',
-			'srmntrk/meteor-worker',
+			'srmntwrk/meteor-worker',
 		],
 	),
 }

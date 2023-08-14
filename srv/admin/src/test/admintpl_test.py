@@ -26,9 +26,17 @@ class TestAdminTpl(unittest.TestCase):
 			'input_class',
 			'input_color',
 			'log',
+			're',
+			'slug',
 			'url',
 			'wapp',
 		])
+
+	#---------------------------------------------------------------------------
+	# utils
+
+	def test_slug(t):
+		t.assertEqual(admintpl.slug('_te-st ing '), '_te_st_ing_')
 
 	#---------------------------------------------------------------------------
 	# cluster

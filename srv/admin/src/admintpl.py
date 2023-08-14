@@ -1,6 +1,8 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
+import re
+
 import admin
 import wapp
 
@@ -18,6 +20,14 @@ button_current = 'w3-border-blue w3-text-green'
 
 input_class    = 'w3-black w3-border'
 input_color    = 'w3-border-gray'
+
+#-------------------------------------------------------------------------------
+# utils
+
+__slug_re = re.compile('\W')
+
+def slug(s: str) -> str:
+	return __slug_re.sub('_', s)
 
 #-------------------------------------------------------------------------------
 # cluster
