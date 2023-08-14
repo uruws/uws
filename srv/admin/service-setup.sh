@@ -3,10 +3,14 @@ set -eu
 
 admin_env=${1:?'admin env?'}
 
+# enable service
+
 if ! systemctl is-enabled "uwsadm-${admin_env}.service"; then
 	systemctl enable "uwsadm-${admin_env}.service"
 	systemctl start "uwsadm-${admin_env}"
 fi
+
+# service setup
 
 install -v -d -m 0755 -o root -g uws "/srv/run/webapp/${admin_env}/admin"
 
@@ -30,12 +34,22 @@ install -v -m 0644 -o root -g uws \
 	"/srv/uws/deploy/secret/webapp/${admin_env}/admin/admin_conf.py" \
 	"/srv/run/webapp/${admin_env}/admin/admin_conf.py"
 
-install -v -d -m 1777 -o root -g root "/srv/run/webapp/${admin_env}/admin/data"
+# uwscli setup
+
+install -v -d -m 0755 -o root -g root "/srv/run/webapp/${admin_env}/admin.data/uwscli"
+install -v -d -m 0755 -o root -g root "/srv/run/webapp/${admin_env}/admin.data/uwscli/lib"
+
+install -v -m 0644 -o root -g uws \
+	"/srv/home/uwscli/lib/uwscli_conf.py" \
+	"/srv/run/webapp/${admin_env}/admin.data/uwscli/lib/uwscli_conf.py"
+
+# restart service
 
 admin_version=$(cat "/srv/run/webapp/${admin_env}/admin.VERSION")
 export DOCKER_IMAGE="uws/admin-${admin_version}"
 
 /uws/bin/service-restart.sh "uwsadm-${admin_env}" \
+	"/srv/run/webapp/${admin_env}/admin.data/uwscli/lib/uwscli_conf.py" \
 	"/srv/run/webapp/${admin_env}/admin.env" \
 	"/srv/run/webapp/${admin_env}/admin/admin_conf.py" \
 	"/srv/run/webapp/${admin_env}/admin.VERSION" \
