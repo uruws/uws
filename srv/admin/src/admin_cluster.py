@@ -11,10 +11,11 @@ log = wapp.getLogger(__name__)
 
 def index(name: str = ''):
 	name = name.strip()
-	try:
-		admin.cluster_info(name)
-	except admin.ClusterError as err:
-		return wapp.error(404, 'admin/cluster_index.html', admin_cluster = name, has_error = True)
+	if name != '':
+		try:
+			admin.cluster_info(name)
+		except admin.ClusterError as err:
+			return wapp.error(404, 'admin/cluster_index.html', admin_cluster = name, has_error = True)
 	return wapp.template('admin/cluster_index.html', admin_cluster = name, has_error = False)
 
 #-------------------------------------------------------------------------------

@@ -59,6 +59,7 @@ def mock(debug = False, base_url = '/', nqdir = '/tmp/wappnq', mock_error = True
 		try:
 			wapp.redirect       = m.redirect
 			wapp.response       = m.response
+			m.response.status   = 200
 			wapp.request        = m.request
 			m.request.path      = '/testing/'
 			wapp.template       = m.template
