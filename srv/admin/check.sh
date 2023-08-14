@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-webapp=admin
+webapp='admin'
 
 webapp_src="${PWD}/srv/${webapp}/src"
 webapp_env="${PWD}/secret/webapp/devel/${webapp}.env"

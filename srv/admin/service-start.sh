@@ -24,6 +24,6 @@ exec docker run --rm --read-only \
 	--env-file "${webapp_env}" \
 	-p 127.0.0.1:2743:2741 \
 	-v "${webapp_confd}:/etc/opt/uws/admin:ro" \
-	-v "${webapp_datad}/uwscli/lib:/srv/home/uwscli/lib:ro"
+	-v "${webapp_datad}/uwscli/lib:/srv/home/uwscli/lib:ro" \
 	--tmpfs /tmp \
 	"uws/admin-${admin_version}"
