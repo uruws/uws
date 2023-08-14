@@ -3,10 +3,12 @@
 
 import wapp
 
-import admin_conf
+import admin_conf # just load it
 
 import admin
 import admin_views
+
+import admintpl # just load it
 
 app = wapp.Bottle()
 log = wapp.getLogger(__name__)

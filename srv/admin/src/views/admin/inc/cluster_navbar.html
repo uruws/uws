@@ -1,8 +1,10 @@
 % import admintpl
 <div class="w3-container w3-black w3-padding-16 w3-border-bottom w3-border-dark-gray"
 	name="admin_cluster_navbar">
-% for lnk_name, lnk_url in admintpl.cluster_navbar().items():
+% for cluster in admintpl.cluster_list():
 %   lnk_class = admintpl.button_color
+%   lnk_name = cluster.name
+%   lnk_url = admintpl.url('/cluster/%s/' % cluster.name)
 %   if lnk_url == admintpl.url():
 %     lnk_class = admintpl.button_current
 %   end

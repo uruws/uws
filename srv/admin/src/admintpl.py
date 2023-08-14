@@ -4,6 +4,8 @@
 import admin
 import wapp
 
+from admin import app_list
+from admin import cluster_list
 from admin import config
 
 from wapptpl import url
@@ -20,12 +22,6 @@ input_color    = 'w3-border-gray'
 #-------------------------------------------------------------------------------
 # cluster
 
-def cluster_navbar() -> dict[str, str]:
-	d: dict[str, str] = {}
-	for k in admin.cluster_list():
-		d[k.name] = wapp.url('/cluster/%s/' % k.name)
-	return d
-
 def cluster_info(name: str) -> admin.Cluster | None:
 	try:
 		return admin.cluster_info(name)
@@ -35,12 +31,6 @@ def cluster_info(name: str) -> admin.Cluster | None:
 
 #-------------------------------------------------------------------------------
 # app
-
-def app_navbar() -> dict[str, str]:
-	d: dict[str, str] = {}
-	for a in admin.app_list():
-		d[a.name] = wapp.url('/app/%s/' % a.name)
-	return d
 
 def app_info(name: str) -> admin.App | None:
 	try:

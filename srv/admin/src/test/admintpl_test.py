@@ -16,12 +16,12 @@ class TestAdminTpl(unittest.TestCase):
 		t.assertListEqual(sorted([s for s in dir(admintpl) if not s.startswith('_')]), [
 			'admin',
 			'app_info',
-			'app_navbar',
+			'app_list',
 			'button_class',
 			'button_color',
 			'button_current',
 			'cluster_info',
-			'cluster_navbar',
+			'cluster_list',
 			'config',
 			'input_class',
 			'input_color',
@@ -33,11 +33,9 @@ class TestAdminTpl(unittest.TestCase):
 	#---------------------------------------------------------------------------
 	# cluster
 
-	def test_cluster_navbar(t):
+	def test_cluster_list(t):
 		with admin_t.mock() as m:
-			t.assertDictEqual(admintpl.cluster_navbar(), {
-				'k8stest': '/cluster/k8stest/',
-			})
+			t.assertListEqual(admintpl.cluster_list(), [admin_test.cluster_k8stest])
 
 	def test_cluster_info(t):
 		with admin_t.mock() as m:
@@ -50,11 +48,9 @@ class TestAdminTpl(unittest.TestCase):
 	#---------------------------------------------------------------------------
 	# app
 
-	def test_app_navbar(t):
+	def test_app_list(t):
 		with admin_t.mock() as m:
-			t.assertDictEqual(admintpl.app_navbar(), {
-				'apptest': '/app/apptest/',
-			})
+			t.assertListEqual(admintpl.app_list(), [admin_test.apptest])
 
 	def test_app_info(t):
 		with admin_t.mock() as m:
