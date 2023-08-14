@@ -49,6 +49,16 @@ class AppError(Exception):
 class App(object):
 	name:    str
 	cluster: str
+	region:  str = 'no-region'
+
+def app_new(name: str, app: uwscli_conf.App) -> App:
+	"""Load uwscli App config."""
+	cluster = app.cluster.strip()
+	a = App(name = name, cluster = cluster)
+	if a.cluster != 'None':
+		k = uwscli_conf.cluster[a.cluster]
+		a.region = k.region.strip()
+	return a
 
 def app_list() -> list[App]:
 	l: list[App] = []
@@ -56,8 +66,7 @@ def app_list() -> list[App]:
 		a = uwscli_conf.app[name]
 		if not a.app:
 			continue
-		cluster = a.cluster.strip()
-		l.append(App(name = name, cluster = cluster))
+		l.append(app_new(name, a))
 	return l
 
 def app_info(name: str) -> App:
@@ -66,4 +75,4 @@ def app_info(name: str) -> App:
 		name = '[empty]'
 	if a == '':
 		raise AppError('%s: app not found' % name)
-	return App(name = name, cluster = a.cluster)
+	return app_new(name, a)

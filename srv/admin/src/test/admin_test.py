@@ -13,7 +13,7 @@ import uwscli_conf # type: ignore
 import admin
 
 cluster_k8stest = admin.Cluster(name = 'k8stest', region = 'uy-test-0')
-apptest = admin.App(name = 'apptest', cluster = 'k8stest')
+apptest = admin.App(name = 'apptest', cluster = 'k8stest', region = 'uy-test-0')
 
 class TestAdmin(unittest.TestCase):
 
@@ -36,6 +36,10 @@ class TestAdmin(unittest.TestCase):
 
 	#---------------------------------------------------------------------------
 	# app
+
+	def test_app_new(t):
+		with admin_t.mock() as m:
+			t.assertEqual(admin.app_info('apptest'), apptest)
 
 	def test_app_list(t):
 		with admin_t.mock() as m:
