@@ -60,9 +60,12 @@ class AppError(Exception):
 
 @dataclass
 class App(object):
-	name:    str
-	cluster: str
-	region:  str = 'no-region'
+	name:       str
+	cluster:    str
+	region:     str = 'no-region'
+
+	def pod_containers(a) -> list[str]:
+		return [c.strip() for c in uwscli_conf.app[a.name].pod_containers]
 
 def app_new(name: str, app: uwscli_conf.App) -> App:
 	"""Load uwscli App config."""

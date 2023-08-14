@@ -62,5 +62,11 @@ class TestAdmin(unittest.TestCase):
 				admin.app_info('')
 			t.assertEqual(str(err.exception), '[empty]: app not found')
 
+	def test_app_pod_containers(t):
+		with admin_t.mock() as m:
+			admin_test_conf.apptest.pod_containers = ['testing/pod', 'testing/pod1']
+			a = admin.app_info('apptest')
+			t.assertListEqual(a.pod_containers(), ['testing/pod', 'testing/pod1'])
+
 if __name__ == '__main__':
 	unittest.main()

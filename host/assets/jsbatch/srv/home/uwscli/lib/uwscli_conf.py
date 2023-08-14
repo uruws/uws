@@ -60,6 +60,7 @@ class App(object):
 	cluster:                                 str = 'None'
 	desc:                                    str = 'None'
 	pod:                                     str = 'None'
+	pod_containers:                    list[str] = field(default_factory = list)
 	build:                        AppBuild | Any = None
 	build_blacklist:                   list[str] = field(default_factory = list)
 	deploy:                      AppDeploy | Any = None
@@ -209,11 +210,18 @@ app: dict[str, App] = {
 		autobuild_deploy = ['meteor-vanilla'],
 	),
 	'sarmiento': App(True,
-		cluster = 'pnt-2308',
-		desc    = 'App sarmiento test env',
-		pod     = 'tapo/srmnt',
-		deploy  = AppDeploy('meteor-app'),
-		groups  = ['uwsapp_apptest'],
+		cluster        = 'pnt-2308',
+		desc           = 'App sarmiento test env',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_apptest'],
+		pod            = 'tapo/srmnt',
+		pod_containers = [
+			'srmnt/meteor-api',
+			'srmnt/meteor-cdn',
+			'srmnt/meteor-web',
+			'srmnt/srmnthpx-haproxy-ingress',
+			'srmntrk/meteor-worker',
+		],
 	),
 }
 
