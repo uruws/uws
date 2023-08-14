@@ -5,4 +5,12 @@ install -v -d -m 0750 -o root -g uws /srv/run/webapp
 install -v -d -m 0750 -o root -g uws /srv/run/webapp/test
 install -v -d -m 0750 -o root -g uws /srv/run/webapp/prod
 
+# nginx
+
+install -v -d -m 0750 -o root -g uws /srv/run/webapp/test/nginx
+install -v -d -m 0750 -o root -g uws /srv/run/webapp/prod/nginx
+
+echo '# placeholder' >/srv/run/webapp/test/nginx/placeholder.conf
+echo '# placeholder' >/srv/run/webapp/prod/nginx/placeholder.conf
+
 exit 0

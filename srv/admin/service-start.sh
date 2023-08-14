@@ -2,6 +2,7 @@
 set -eu
 
 admin_env=${1:?'admin env?'}
+admin_port=${2:?'admin port?'}
 
 webapp_env="/srv/run/webapp/${admin_env}/admin.env"
 webapp_confd="/srv/run/webapp/${admin_env}/admin"
@@ -22,7 +23,7 @@ exec docker run --rm --read-only \
 	--name "uwsadm-${admin_env}" \
 	--hostname "uwsadm-${admin_env}.uws.local" \
 	--env-file "${webapp_env}" \
-	-p 127.0.0.1:2743:2741 \
+	-p "127.0.0.1:${admin_port}:2741" \
 	-v "${webapp_confd}:/etc/opt/uws/admin:ro" \
 	-v "${webapp_datad}/uwscli/lib:/srv/home/uwscli/lib:ro" \
 	--tmpfs /tmp \

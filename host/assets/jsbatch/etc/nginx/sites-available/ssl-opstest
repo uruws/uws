@@ -19,4 +19,6 @@ server {
 	error_log /var/log/nginx/opstest_error.log;
 
 	include /srv/etc/nginx/opstest-verify-client.conf;
+
+	include /srv/run/webapp/test/nginx/*.conf;
 }

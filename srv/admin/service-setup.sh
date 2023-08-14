@@ -34,6 +34,12 @@ install -v -m 0644 -o root -g uws \
 	"/srv/uws/deploy/secret/webapp/${admin_env}/admin/admin_conf.py" \
 	"/srv/run/webapp/${admin_env}/admin/admin_conf.py"
 
+# nginx setup
+
+install -v -m 0644 -o root -g uws \
+	"/srv/uws/deploy/srv/admin/nginx-${admin_env}.conf" \
+	"/srv/run/webapp/${admin_env}/nginx/admin.conf"
+
 # uwscli setup
 
 install -v -d -m 0755 -o root -g root "/srv/run/webapp/${admin_env}/admin.data/uwscli"
