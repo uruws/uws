@@ -33,13 +33,15 @@ server {
 		include /etc/nginx/proxy_params;
 	}
 
+	location /htmlcov/ {
+		autoindex on;
+	}
+
 	location /abench/ {
 		include /srv/etc/nginx/uws-cache.conf;
 		proxy_pass http://127.0.0.1:2742/abench/;
 		include /etc/nginx/proxy_params;
 	}
 
-	location /htmlcov/ {
-		autoindex on;
-	}
+	include /srv/run/webapp/prod/nginx/*.conf;
 }
