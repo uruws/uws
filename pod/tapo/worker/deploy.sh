@@ -3,6 +3,10 @@ set -eu
 
 appver=${1:?'app version?'}
 
+if test 'X' = "X${TAPO_WORKER_NAMESPACE}"; then
+	exit 0
+fi
+
 METEOR_REPLICAS="${TAPO_WORKER_REPLICAS}"
 export METEOR_REPLICAS
 
