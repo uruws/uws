@@ -1,8 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import re
-
 import admin
 import wapp
 
@@ -10,6 +8,7 @@ from admin import app_list
 from admin import cluster_list
 from admin import config
 
+from wapptpl import slug
 from wapptpl import url
 
 log = wapp.getLogger(__name__)
@@ -20,14 +19,6 @@ button_current = 'w3-border-blue w3-text-green'
 
 input_class    = 'w3-black w3-border'
 input_color    = 'w3-border-gray'
-
-#-------------------------------------------------------------------------------
-# utils
-
-__slug_re = re.compile('\W')
-
-def slug(s: str) -> str:
-	return __slug_re.sub('_', s)
 
 #-------------------------------------------------------------------------------
 # cluster
