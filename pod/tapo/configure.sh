@@ -38,7 +38,10 @@ if test -s "${appenv}"; then
 		echo 'DISABLE_JOBS=TRUE' >>"${envfn}"
 	fi
 
-	if test 'Xprod' != "X${TAPO_ENV}"; then
+	if test 'Xstaging' = "X${TAPO_ENV}"; then
+		echo "STAGING_APP_VERSION=${appver}" >>"${envfn}"
+	fi
+	if test 'Xsrmnt' = "X${TAPO_ENV}"; then
 		echo "STAGING_APP_VERSION=${appver}" >>"${envfn}"
 	fi
 
