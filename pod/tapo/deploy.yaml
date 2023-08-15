@@ -24,7 +24,7 @@ spec:
       containers:
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:meteor-app-${METEOR_VERSION}
           imagePullPolicy: IfNotPresent
-          name: meteor-web
+          name: meteor-${METEOR_APP}
           ports:
             - containerPort: 3000
           securityContext:
