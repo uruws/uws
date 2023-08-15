@@ -55,6 +55,8 @@ spec:
             - name: webapp-conf-ssh
               mountPath: "/etc/opt/uws/chatbot/ssh"
               readOnly: true
+            - name: tmpdir
+              mountPath: "/tmp"
       volumes:
         - name: webapp-conf
           secret:
@@ -62,3 +64,6 @@ spec:
         - name: webapp-conf-ssh
           secret:
             secretName: webapp-conf-ssh
+        - name: tmpdir
+          emptyDir:
+            sizeLimit: 1Gi
