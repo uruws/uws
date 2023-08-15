@@ -19,12 +19,19 @@
 
 ---
 
-* tapo: sarmiento pentest setup
+* tapo: sarmiento pentest setup - `WAIT`
     * change to tapo.uno domain?
         * we need new TLS certs for that
     * currently it's using staging settings, it should be separate
     * pnt-2308 cluster is on us-east-2 region
         * mongo cluster should be in the same region
+
+---
+
+* tapo: new prod env setup - `WIP` [PR249][PR249]
+    * worker
+
+[PR249]: https://github.com/TalkingPts/Infrastructure/pull/249
 
 ---
 
