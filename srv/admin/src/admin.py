@@ -40,7 +40,7 @@ class Cluster(object):
 
 def cluster_list() -> list[Cluster]:
 	l: list[Cluster] = []
-	for name in uwscli_conf.cluster.keys():
+	for name in sorted(uwscli_conf.cluster.keys()):
 		k = uwscli_conf.cluster[name]
 		region = k.region.strip()
 		l.append(Cluster(name = name, region = region))
@@ -80,7 +80,7 @@ def app_new(name: str, app: uwscli_conf.App) -> App:
 
 def app_list() -> list[App]:
 	l: list[App] = []
-	for name in uwscli_conf.app.keys():
+	for name in sorted(uwscli_conf.app.keys()):
 		a = uwscli_conf.app[name]
 		if not a.app:
 			continue
