@@ -5,7 +5,7 @@ controller:
     enabled: ${HPX_ENABLE_AUTOSCALING}
     minReplicas: ${HPX_REPLICAS}
     maxReplicas: 100
-    targetCPUUtilizationPercentage: 90
+    targetCPUUtilizationPercentage: 75
     #~ targetMemoryUtilizationPercentage: 80
 
   defaultBackendService: ${HPX_DEFAULT_BACKEND}
