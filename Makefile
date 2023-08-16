@@ -440,6 +440,7 @@ check-pod-meteor:
 
 .PHONY: check-webapp
 check-webapp:
+	@$(MAKE) webapp
 	@./docker/webapp/self-check.sh
 
 #-------------------------------------------------------------------------------
