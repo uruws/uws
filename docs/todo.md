@@ -35,10 +35,19 @@
 
 ---
 
-* msmtprc: profiled setup
+* msmtprc: profiled setup - `DONE!`
     * generate files in order to identify emails origin
     * currently all mails are from user@uws.t.o
     * we could use something like user-cluster@uws.t.o or user-host@uws.t.o or similar
+
+---
+
+* migrate appsprod-2302 services (CS, infra-ui, ...) `DONE!` [PR252][PR252]
+    * DEGRADED nodegroup
+    * move services to appwrk-2306
+    * remove appsprod-2302 cluster after migrating all services
+
+[PR252]: https://github.com/TalkingPts/Infrastructure/pull/252
 
 ---
 
@@ -58,14 +67,6 @@
     * check https://api.talkingpts.org/api/
     * check https://api.talkingpts.org/bandwidthCallbackSMS
     * check https://api.talkingpts.org/coconut_webhook
-
----
-
-* k8s clusters
-    * migrate appsprod-2302 services (CS, infra-ui, ...)
-        * DEGRADED nodegroup
-        * move services to appwrk-2306
-        * remove appsprod-2302 cluster after migrating all services
 
 ---
 
@@ -212,12 +213,6 @@
 
 ---
 
-* Research Team
-    * re-implement jupyter notebook setups
-        * setup one web interface per user vs the "global" one we currently have
-
----
-
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
@@ -251,29 +246,12 @@
 
 ---
 
-* `FIX` buildpack:
-    * use tag version from command line for publishing the image
-    * instead of using the git describe tag
-    * currently if a commit has more than one tag associated build fails because previous version already exists
-    * that or fix the git describe command to get latest tag instead of first one
-
-    tag invalid: The image tag 'meteor-app-2.64.7-bp21' already exists in the
-    'uws' repository and cannot be overwritten because the repository is immutable.
-
-    Publish app version 2.64.8 failed
-
----
-
 * uwscli:
     * cleanup old images in ECR
     * app-build
         * we should be able to properly stop/abort a building process
     * show events log or auto-refresh status info
     * control deploy replicas
-    * app-build
-        * keep a "queued list"
-        * only build tag not in "already done list" nor in the "queued list" either
-        * to avoid all the duplicate build jobs
     * cli/buildpack.sh: should manage the log and email report if any fail
     * cli/app-build.sh: should do the same
 
@@ -309,12 +287,6 @@
             * munin-alerts TO
             * gmail fetch
             * create forward rules to slack and others
-
----
-
-* rstudio checks
-    * http_loadtime IDE and Jupyter Notebook from jsbatch
-    * vm local munin setup (ansible role)
 
 ---
 
