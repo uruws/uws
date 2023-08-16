@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/tapo/logs.sh "${TAPO_NAMESPACE}" web
+exec ~/pod/tapo/logs.sh "${TAPO_NAMESPACE}" web "$@"

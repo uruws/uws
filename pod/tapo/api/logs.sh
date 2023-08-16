@@ -1,3 +1,3 @@
 #!/bin/sh
 set -eu
-exec ~/pod/tapo/logs.sh "${TAPO_NAMESPACE}" api
+exec ~/pod/tapo/logs.sh "${TAPO_NAMESPACE}" api "$@"
