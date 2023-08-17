@@ -279,7 +279,6 @@ class AppCluster(object):
 	region: str
 
 cluster: dict[str, AppCluster] = {
-	'appsprod-2302': AppCluster(region = 'us-east-1'),
 	'apptest-2302':  AppCluster(region = 'us-east-2'),
 	'appweb-2302':   AppCluster(region = 'us-east-2'),
 	'appwrk-2306':   AppCluster(region = 'us-east-1'),
