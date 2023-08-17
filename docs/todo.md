@@ -42,12 +42,13 @@
 
 ---
 
-* migrate appsprod-2302 services (CS, infra-ui, ...) `DONE!` [PR252][PR252]
+* migrate appsprod-2302 services (CS, infra-ui, ...) `DONE!` [PR252][PR252] [PR253][PR253]
     * DEGRADED nodegroup
     * move services to appwrk-2306
     * remove appsprod-2302 cluster after migrating all services
 
 [PR252]: https://github.com/TalkingPts/Infrastructure/pull/252
+[PR253]: https://github.com/TalkingPts/Infrastructure/pull/253
 
 ---
 
