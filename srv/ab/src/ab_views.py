@@ -20,12 +20,11 @@ def _check() -> int:
 	return proc.returncode
 
 def healthz():
-	wapp.response.content_type = 'text/plain'
 	cmd = ab.Command('--help')
 	rc = _check()
 	if rc != 22:
 		raise RuntimeError('ab exit status: %d' % rc)
-	return 'ok'
+	return wapp.text_plain('ok')
 
 #-------------------------------------------------------------------------------
 # /run/

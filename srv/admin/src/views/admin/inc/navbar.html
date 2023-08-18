@@ -1,0 +1,21 @@
+% import admintpl
+% admin_navbar = {
+%   'cluster': admintpl.url('/cluster/'),
+%   'app':     admintpl.url('/app/'),
+% }
+<div class="w3-container w3-padding-16 w3-border-bottom w3-border-dark-gray" name="admin_navbar">
+% for lnk_name, lnk_url in admin_navbar.items():
+%   lnk_class = admintpl.button_color
+%   if admintpl.url() == admintpl.url('/'):
+%     if admintpl.url() == lnk_url:
+%       lnk_class = admintpl.button_current
+%     end
+%   elif admintpl.url().startswith(lnk_url):
+%     if lnk_url != admintpl.url('/'):
+%       lnk_class = admintpl.button_current
+%     end
+%   end
+	<a class="{{ admintpl.button_class }} {{ lnk_class }}"
+		href="{{ lnk_url }}">{{ lnk_name }}</a>
+% end
+</div><!-- admin_navbar -->

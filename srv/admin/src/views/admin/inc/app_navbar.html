@@ -1,0 +1,14 @@
+% import admintpl
+<div class="w3-container w3-black w3-padding-16 w3-border-bottom w3-border-dark-gray"
+	name="admin_app_navbar">
+% for app in admintpl.app_list():
+%   lnk_class = admintpl.button_color
+%   lnk_name = app.name
+%   lnk_url = admintpl.url('/app/%s/' % app.name)
+%   if lnk_url == admintpl.url():
+%     lnk_class = admintpl.button_current
+%   end
+	<a class="{{ admintpl.button_class }} {{ lnk_class }}"
+		href="{{ lnk_url }}">{{ lnk_name }}</a>
+% end
+</div><!-- admin_app_navbar -->

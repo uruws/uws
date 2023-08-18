@@ -1,0 +1,11 @@
+% import admintpl
+% base_meta_refresh = admintpl.config.doc_refresh_seconds
+% title = 'app'
+% if admin_app != '':
+%   title = 'app: %s' % admin_app
+% end
+% rebase('admin/base.html')
+% include('admin/inc/app_navbar.html')
+% if admin_app != '':
+%   include('admin/inc/app_info.html', admin_app = admin_app)
+% end

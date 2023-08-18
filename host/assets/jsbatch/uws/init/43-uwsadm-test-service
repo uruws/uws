@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+##sudo -n -u uws -D /srv/uws/deploy make admin-publish
+
+exec /srv/uws/deploy/srv/admin/service-setup.sh test

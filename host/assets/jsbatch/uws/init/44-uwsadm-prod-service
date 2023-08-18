@@ -1,0 +1,3 @@
+#!/bin/sh
+set -eu
+exec /srv/uws/deploy/srv/admin/service-setup.sh prod

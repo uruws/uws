@@ -1,7 +1,7 @@
 FROM uws/mailx-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230623"
+LABEL version="230818"
 
 USER root:root
 WORKDIR /root
@@ -13,8 +13,8 @@ RUN /root/bin/apt-install.sh ssl-cert cron logrotate munin python3 nfs-common
 
 ENV MN munin-contrib
 ENV MR uruws/${MN}
-ENV MV 438e31f70d1a149d3e8d0db0fa875b10ef1e8dd7
-ENV MT munstrap
+ENV MT uws-munstrap
+ENV MV 1f08cd1d8b8f09f9f4e7a2045dd1e1888c48072a
 RUN wget -q -O munin-contrib.tgz \
 	https://github.com/${MR}/archive/${MV}.tar.gz \
 	&& tar -xzf munin-contrib.tgz \
@@ -25,16 +25,6 @@ RUN wget -q -O munin-contrib.tgz \
 	&& cp -vr /uws/munin/contrib/templates/${MT}/templates /etc/munin \
 	&& cp -vr /uws/munin/contrib/templates/${MT}/static /etc/munin \
 	&& rm -rf /uws/munin/contrib
-
-COPY --chown=root:munin ./files/etc/munin/templates.patch /etc/munin/
-COPY --chown=root:munin ./files/etc/munin/static/ /etc/munin/static/
-
-RUN /root/bin/apt-install.sh patch \
-	&& cd /etc/munin \
-	&& patch -p0 <templates.patch \
-	&& /root/bin/apt-autoremove.sh patch \
-	&& chmod -v 0755 /etc/munin/static /etc/munin/static/css \
-	&& chmod -v 0644 /etc/munin/static/css/uws.css
 
 RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
 

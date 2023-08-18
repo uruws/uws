@@ -18,7 +18,9 @@ haproxy_ingress_configure() (
 	. "${envfn}"
 
 	# remove old
-	uwskube delete configmap haproxy-ingress -n "${HPX_NAMESPACE}"
+	uwskube delete configmap haproxy-ingress -n "${HPX_NAMESPACE}" || true
+	uwskube delete configmap "${HPX_NAME}-haproxy-ingress" -n "${HPX_NAMESPACE}" || true
+	uwskube delete configmap "${HPX_NAME}" -n "${HPX_NAMESPACE}" || true
 
 	<"${ingfn}" envsubst '${HPX_NAME}'      |
 		        envsubst '${HPX_NAMESPACE}' |

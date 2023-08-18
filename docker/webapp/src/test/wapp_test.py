@@ -61,7 +61,14 @@ class TestWapp(unittest.TestCase):
 		with wapp_t.mock(mock_error = False) as m:
 			wapp.error(500, 'test.tpl', key1 = 'val1', key2 = 'val2')
 			t.assertEqual(m.response.status, 500)
+			t.assertEqual(m.response.content_type, 'text/html')
 			m.template.assert_called_once_with('test.tpl', key1 = 'val1', key2 = 'val2')
+
+	def test_text_plain(t):
+		with wapp_t.mock(mock_error = False) as m:
+			t.assertEqual(wapp.text_plain('testing'), 'testing')
+			t.assertEqual(m.response.status, 200)
+			t.assertEqual(m.response.content_type, 'text/plain')
 
 	#---------------------------------------------------------------------------
 	# main

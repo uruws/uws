@@ -12,8 +12,12 @@ class TestWappTpl(unittest.TestCase):
 
 	def test_all_export(t):
 		t.assertListEqual(wapptpl.__all__, [
+			'slug',
 			'url',
 		])
+
+	def test_slug(t):
+		t.assertEqual(wapptpl.slug('_te-st ing '), '_te_st_ing_')
 
 	def test_url(t):
 		with wapp_t.mock():

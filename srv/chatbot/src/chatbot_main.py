@@ -24,7 +24,7 @@ log: wapp.Logger = wapp.getLogger(__name__)
 @app.get('/healthz')
 def healthz():
 	if chatbot_slack.is_healthy():
-		return 'ok'
+		return wapp.text_plain('ok')
 	raise RuntimeError('slack chatbot not healthy')
 
 # /send

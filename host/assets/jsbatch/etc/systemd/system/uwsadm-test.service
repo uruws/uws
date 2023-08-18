@@ -1,0 +1,21 @@
+[Unit]
+Description=uwsadm-test
+Requires=syslog.service
+Requires=docker.service
+After=docker.service
+AssertFileIsExecutable=/srv/run/webapp/test/admin-service-stop.sh
+AssertFileIsExecutable=/srv/run/webapp/test/admin-service-start.sh
+
+[Service]
+Type=exec
+Restart=on-failure
+StandardError=syslog
+User=uwsrun
+Group=uws
+WorkingDirectory=/home/uwsrun
+ExecStop=/srv/run/webapp/test/admin-service-stop.sh test
+ExecStart=/srv/run/webapp/test/admin-service-start.sh test 2743
+SuccessExitStatus=SIGKILL
+
+[Install]
+WantedBy=multi-user.target

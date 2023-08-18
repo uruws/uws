@@ -1,0 +1,11 @@
+% import admintpl
+% base_meta_refresh = admintpl.config.doc_refresh_seconds
+% title = 'cluster'
+% if admin_cluster != '':
+%   title = 'cluster: %s' % admin_cluster
+% end
+% rebase('admin/base.html')
+% include('admin/inc/cluster_navbar.html')
+% if admin_cluster != '':
+%   include('admin/inc/cluster_info.html', admin_cluster = admin_cluster)
+% end

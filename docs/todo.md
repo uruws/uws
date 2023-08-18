@@ -13,13 +13,7 @@
 
 ---
 
-* vanta: rotate aws user credentials - `WIP` [PR243][PR243]
-
-[PR243]: https://github.com/TalkingPts/Infrastructure/pull/243
-
----
-
-* tapo: sarmiento pentest setup
+* tapo: sarmiento pentest setup - `WAIT`
     * change to tapo.uno domain?
         * we need new TLS certs for that
     * currently it's using staging settings, it should be separate
@@ -28,10 +22,74 @@
 
 ---
 
-* msmtprc: profiled setup
+* tapo: new prod env setup - `FAILED` [PR249][PR249]
+    * workers done
+    * first attempt to migrate generated TLS handshake timeout errors so it was reverted
+    * second try with more hpx replicas did not generate timeout errors but somehow the mobile apps seemed to fail because of that
+        * when errors started to show only cdn and api containers where migrated
+            * which did not make much sense as mobile apps were not targeting the api.t.o domain
+            * nor they depend on the cdn either (supposedly)
+        * it was reverted
+
+[PR249]: https://github.com/TalkingPts/Infrastructure/pull/249
+
+---
+
+* vanta: rotate aws user credentials - `DONE!` [PR243][PR243]
+
+[PR243]: https://github.com/TalkingPts/Infrastructure/pull/243
+
+---
+
+* msmtprc: profiled setup - `DONE!`
     * generate files in order to identify emails origin
     * currently all mails are from user@uws.t.o
     * we could use something like user-cluster@uws.t.o or user-host@uws.t.o or similar
+
+---
+
+* migrate appsprod-2302 services (CS, infra-ui, ...) `DONE!` [PR252][PR252] [PR253][PR253]
+    * DEGRADED nodegroup
+    * move services to appwrk-2306
+    * remove appsprod-2302 cluster after migrating all services
+
+[PR252]: https://github.com/TalkingPts/Infrastructure/pull/252
+[PR253]: https://github.com/TalkingPts/Infrastructure/pull/253
+
+---
+
+* GoDaddy TLS wildcard cert update for t.o domain `DONE!`
+
+---
+
+* munin: contrib repo update - `DONE!` [PR254][PR254]
+    * release 230818
+
+[PR254]: https://github.com/TalkingPts/Infrastructure/pull/254
+
+---
+
+* munin: check TLS certs expiration date - `DONE!` [PR255][PR255]
+    * for app.t.o (GoDaddy)
+    * uws.t.o as well (appcdn-prod.uws.t.o) (GoDaddy)
+
+[PR255]: https://github.com/TalkingPts/Infrastructure/pull/255
+
+---
+
+* munin: api.t.o - `DONE!` [PR256][PR256]
+    * check https://api.talkingpts.org/api/
+    * check https://api.talkingpts.org/bandwidthCallbackSMS
+    * check https://api.talkingpts.org/coconut_webhook
+
+[PR256]: https://github.com/TalkingPts/Infrastructure/pull/256
+
+---
+
+* munin: check internal CAs expiration date
+    * ops
+    * opstest
+    * smtps
 
 ---
 
@@ -43,22 +101,6 @@
 * meteor secrets: pull from heroku
     * pull heroku env vars for aws deploy/restart
     * remove: secret/eks/files/meteor
-
----
-
-* api munin
-    * check https://api.talkingpts.org/ (404)
-    * check https://api.talkingpts.org/api/
-    * check https://api.talkingpts.org/bandwidthCallbackSMS
-    * check https://api.talkingpts.org/coconut_webhook
-
----
-
-* k8s clusters
-    * migrate appsprod-2302 services (CS, infra-ui, ...)
-        * DEGRADED nodegroup
-        * move services to appwrk-2306
-        * remove appsprod-2302 cluster after migrating all services
 
 ---
 
@@ -205,12 +247,6 @@
 
 ---
 
-* Research Team
-    * re-implement jupyter notebook setups
-        * setup one web interface per user vs the "global" one we currently have
-
----
-
 * munin
     * graph/check nodegroup status (alert when it's DEGRADED or not ACTIVE)
     * uwseks get nodegroup -n main -o json
@@ -244,29 +280,12 @@
 
 ---
 
-* `FIX` buildpack:
-    * use tag version from command line for publishing the image
-    * instead of using the git describe tag
-    * currently if a commit has more than one tag associated build fails because previous version already exists
-    * that or fix the git describe command to get latest tag instead of first one
-
-    tag invalid: The image tag 'meteor-app-2.64.7-bp21' already exists in the
-    'uws' repository and cannot be overwritten because the repository is immutable.
-
-    Publish app version 2.64.8 failed
-
----
-
 * uwscli:
     * cleanup old images in ECR
     * app-build
         * we should be able to properly stop/abort a building process
     * show events log or auto-refresh status info
     * control deploy replicas
-    * app-build
-        * keep a "queued list"
-        * only build tag not in "already done list" nor in the "queued list" either
-        * to avoid all the duplicate build jobs
     * cli/buildpack.sh: should manage the log and email report if any fail
     * cli/app-build.sh: should do the same
 
@@ -302,12 +321,6 @@
             * munin-alerts TO
             * gmail fetch
             * create forward rules to slack and others
-
----
-
-* rstudio checks
-    * http_loadtime IDE and Jupyter Notebook from jsbatch
-    * vm local munin setup (ansible role)
 
 ---
 

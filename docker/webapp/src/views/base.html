@@ -1,12 +1,16 @@
 % from wapptpl import url
-% setdefault('app',        '')
-% setdefault('title',      '')
-% setdefault('body_color', 'black')
+% setdefault('base_meta_refresh', 0)
+% setdefault('app',               '')
+% setdefault('title',             '')
+% setdefault('body_color',        'black')
 <!DOCTYPE html>
 <html>
 <head>
 	<title>{{app or 'No App'}} - {{title or 'No Title'}}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+% if base_meta_refresh >= 1:
+	<meta http-equiv="refresh" content="{{ base_meta_refresh }}" />
+% end
 	<link rel="stylesheet" href="{{ url('/static/w3css/4/w3.css') }}">
 	<link rel="stylesheet" href="{{ url('/static/w3-colors-camo.css') }}">
 	<link rel="stylesheet" href="{{ url('/static/w3-colors-signal.css') }}">
