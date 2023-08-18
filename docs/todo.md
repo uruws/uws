@@ -63,9 +63,11 @@
 
 ---
 
-* munin: check TLS certs expiration date
+* munin: check TLS certs expiration date - `DONE!` [PR255][PR255]
     * for app.t.o (GoDaddy)
     * uws.t.o as well (appcdn-prod.uws.t.o) (GoDaddy)
+
+[PR255]: https://github.com/TalkingPts/Infrastructure/pull/255
 
 ---
 
