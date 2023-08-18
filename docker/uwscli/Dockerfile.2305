@@ -1,7 +1,7 @@
 FROM uws/python-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230818"
 
 USER root:root
 WORKDIR /root
@@ -9,16 +9,23 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh shellcheck python3-pytest python3-pytest-cov
+RUN /root/bin/apt-install.sh python3-pytest python3-pytest-cov
 
-RUN install -v -d -o uws -g uws -m 0750 /srv/home/uwscli \
-	/srv/home/uwscli/bin /srv/home/uwscli/etc
+RUN install -v -d -o uws -g uws -m 0750 /opt/uws \
+	/srv/home/uwscli /srv/home/uwscli/bin /srv/home/uwscli/etc
 
 USER uws:uws
 WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
+
+RUN /usr/bin/python3 -m venv /opt/uws/venv
+RUN /opt/uws/venv/bin/python3 -m pip install -U pip
+
+RUN install -v -d -o uws -g uws -m 0750 /srv/home/uwscli/etc/botija
+COPY --chown=uws:uws ./build/botija-requirements.txt /srv/home/uwscli/etc/botija/requirements.txt
+RUN /opt/uws/venv/bin/python3 -m pip install -U -r /srv/home/uwscli/etc/botija/requirements.txt
 
 RUN mkdir -vp ~/tmp
 
