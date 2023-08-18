@@ -14,7 +14,7 @@ RUN /root/bin/apt-install.sh munin-node psmisc procps munin-plugins-core munin-p
 
 ENV MN munin-contrib
 ENV MR uruws/${MN}
-ENV MV 438e31f70d1a149d3e8d0db0fa875b10ef1e8dd7
+ENV MV 1f08cd1d8b8f09f9f4e7a2045dd1e1888c48072a
 RUN wget -q -O munin-contrib.tgz \
 	https://github.com/${MR}/archive/${MV}.tar.gz \
 	&& tar -xzf munin-contrib.tgz \
