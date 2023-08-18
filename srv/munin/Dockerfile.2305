@@ -1,7 +1,7 @@
 FROM uws/mailx-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230623"
+LABEL version="230818"
 
 USER root:root
 WORKDIR /root
