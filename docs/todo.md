@@ -13,12 +13,6 @@
 
 ---
 
-* vanta: rotate aws user credentials - `WIP` [PR243][PR243]
-
-[PR243]: https://github.com/TalkingPts/Infrastructure/pull/243
-
----
-
 * tapo: sarmiento pentest setup - `WAIT`
     * change to tapo.uno domain?
         * we need new TLS certs for that
@@ -28,10 +22,22 @@
 
 ---
 
-* tapo: new prod env setup - `WIP` [PR249][PR249]
-    * worker
+* tapo: new prod env setup - `FAILED` [PR249][PR249]
+    * workers done
+    * first attempt to migrate generated TLS handshake timeout errors so it was reverted
+    * second try with more hpx replicas did not generate timeout errors but somehow the mobile apps seemed to fail because of that
+        * when errors started to show only cdn and api containers where migrated
+            * which did not make much sense as mobile apps were not targeting the api.t.o domain
+            * nor they depend on the cdn either (supposedly)
+        * it was reverted
 
 [PR249]: https://github.com/TalkingPts/Infrastructure/pull/249
+
+---
+
+* vanta: rotate aws user credentials - `DONE!` [PR243][PR243]
+
+[PR243]: https://github.com/TalkingPts/Infrastructure/pull/243
 
 ---
 
@@ -71,6 +77,15 @@
 
 ---
 
+* munin: api.t.o - `DONE!` [PR256][PR256]
+    * check https://api.talkingpts.org/api/
+    * check https://api.talkingpts.org/bandwidthCallbackSMS
+    * check https://api.talkingpts.org/coconut_webhook
+
+[PR256]: https://github.com/TalkingPts/Infrastructure/pull/256
+
+---
+
 * munin: check internal CAs expiration date
     * ops
     * opstest
@@ -86,14 +101,6 @@
 * meteor secrets: pull from heroku
     * pull heroku env vars for aws deploy/restart
     * remove: secret/eks/files/meteor
-
----
-
-* api munin
-    * check https://api.talkingpts.org/ (404)
-    * check https://api.talkingpts.org/api/
-    * check https://api.talkingpts.org/bandwidthCallbackSMS
-    * check https://api.talkingpts.org/coconut_webhook
 
 ---
 
