@@ -65,7 +65,7 @@
 
 * munin: check TLS certs expiration date
     * for app.t.o (GoDaddy)
-    * uws.t.o as well (maybe jsbatch.uws.t.o?) (GoDaddy)
+    * uws.t.o as well (appcdn-prod.uws.t.o) (GoDaddy)
 
 ---
 
