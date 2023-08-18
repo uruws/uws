@@ -52,6 +52,23 @@
 
 ---
 
+* GoDaddy TLS wildcard cert update for t.o domain `DONE!`
+
+---
+
+* munin: check TLS certs expiration date
+    * for app.t.o (GoDaddy)
+    * uws.t.o as well (maybe jsbatch.uws.t.o?) (GoDaddy)
+
+---
+
+* munin: check internal CAs expiration date
+    * ops
+    * opstest
+    * smtps
+
+---
+
 * munin: deprecate apijob (worker jobs)
     * it will be done from infra-ui project
 
