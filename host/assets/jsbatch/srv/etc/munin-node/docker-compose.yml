@@ -66,3 +66,14 @@ services:
       - 4953:4949
     networks:
       - default
+
+  api:
+    image: uws/munin-node-2305
+    container_name: uws-munin-node-api-service
+    volumes:
+      - ./prod/api:/srv/etc/munin-node:ro
+    restart: on-failure
+    ports:
+      - 4954:4949
+    networks:
+      - default
