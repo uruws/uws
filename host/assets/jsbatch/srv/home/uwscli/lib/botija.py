@@ -6,7 +6,7 @@
 import logging
 import os
 
-from slack_bolt import App
+from slack_bolt import App # type: ignore
 
 log = logging.getLogger(__name__)
 
