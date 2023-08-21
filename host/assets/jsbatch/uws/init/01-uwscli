@@ -1,23 +1,29 @@
 #!/bin/sh
 set -eu
 
+#-------------------------------------------------------------------------------
+# python venv
+
+/usr/bin/python3 -m venv --upgrade --upgrade-deps /opt/uwscli
+/opt/uwscli/bin/pip3 install -U -r ~uwscli/etc/requirements.txt
+
+#-------------------------------------------------------------------------------
+# umask
+
 umask 0027
 
-#
+#-------------------------------------------------------------------------------
 # sudoers
-#
 
 install -v -C -m 0640 -o root -g root ~uwscli/etc/sudoers.d/99-uwscli /etc/sudoers.d/99-uwscli
 
-#
+#-------------------------------------------------------------------------------
 # run dirs
-#
 
 /uws/bin/uwscli-rundir.sh
 
-#
+#-------------------------------------------------------------------------------
 # utils access
-#
 
 chmod -v 0750 ~uwscli
 chown -v uwscli:uwscli ~uwscli
@@ -37,9 +43,8 @@ chown -vR root:uwscli ~uwscli/bin
 
 adduser uws uwscli
 
-#
+#-------------------------------------------------------------------------------
 # operator utils
-#
 
 addgroup uwsops || true
 
@@ -48,28 +53,22 @@ chown -v root:uwsops ~uwscli/bin/app-restart
 chown -v root:uwsops ~uwscli/bin/app-rollin
 chown -v root:uwsops ~uwscli/bin/app-scale
 
-#
 # operator proxy utils
-#
 
 chown -v root:uwsops ~uwscli/bin/proxy-*
 
-#
 # operator custom utils
-#
 
 chown -v root:uwsops ~uwscli/bin/production-*
 chown -v root:uwsops ~uwscli/bin/staging-*
 
-#
+#-------------------------------------------------------------------------------
 # internal utils
-#
 
 chown -v uwscli:uws ~uwscli/bin/app-autobuild
 
-#
+#-------------------------------------------------------------------------------
 # python compile lib and vendor
-#
 
 umask 0022
 
@@ -83,9 +82,8 @@ find ~uwscli/vendor/ -type d -name __pycache__ -print0 | xargs -0 chown -R root:
 
 umask 0027
 
-#
+#-------------------------------------------------------------------------------
 # users
-#
 
 uws_useradd() (
 	set -eu
@@ -156,9 +154,8 @@ uws_useradd martin CHATBOT
 uws_useradd uwscbdev
 uws_useradd uwscbtest
 
-#
+#-------------------------------------------------------------------------------
 # users profile
-#
 
 # chatbot devel
 install -v -d -m 0750 -o uwscbdev -g uwscbdev ~uwscbdev/.ssh
@@ -172,9 +169,8 @@ install -v -C -m 0600 -o uwscbtest -g uwscbtest \
 	/srv/uws/deploy/secret/eks/files/chatbot/test/config/ssh/ecdsa_id.pub \
 	~uwscbtest/.ssh/authorized_keys
 
-#
+#-------------------------------------------------------------------------------
 # admin users
-#
 
 addgroup uwsadm || true
 
@@ -185,9 +181,8 @@ adduser uwscli   uwsadm
 adduser aram     uwsadm
 adduser jeremias uwsadm
 
-#
+#-------------------------------------------------------------------------------
 # operator users
-#
 
 # Make uws user an operator. Needed for autobuild deploys.
 adduser uws uwsops
@@ -203,9 +198,8 @@ adduser gonzalo   uwsops
 adduser uwscbdev  uwsops
 adduser uwscbtest uwsops
 
-#
+#-------------------------------------------------------------------------------
 # app groups
-#
 
 # app
 addgroup uwsapp_app || true
@@ -252,16 +246,17 @@ addgroup uwsapp_meteor-vanilla || true
 adduser uwscbdev  uwsapp_meteor-vanilla
 adduser uwscbtest uwsapp_meteor-vanilla
 
-#
+#-------------------------------------------------------------------------------
 # install crontab
-#
 
 crontab -u uwscli ~uwscli/etc/crontab.in
 
-#
+#-------------------------------------------------------------------------------
 # remove old users
-#
 
-##deluser --remove-home guillermo || true
+uws_deluser() (
+	local user_name="${1}"
+	deluser --remove-home "${user_name}" || true
+)
 
 exit 0

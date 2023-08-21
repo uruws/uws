@@ -1,7 +1,7 @@
 FROM uws/python-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230818"
 
 USER root:root
 WORKDIR /root
@@ -9,16 +9,22 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh shellcheck python3-pytest python3-pytest-cov
+RUN /root/bin/apt-install.sh python3-pytest python3-pytest-cov
 
-RUN install -v -d -o uws -g uws -m 0750 /srv/home/uwscli \
-	/srv/home/uwscli/bin /srv/home/uwscli/etc
+RUN install -v -d -o uws -g uws -m 0750 /srv/home/uwscli /srv/home/uwscli/bin /srv/home/uwscli/etc
+
+RUN /usr/bin/python3 -m venv --upgrade --upgrade-deps /opt/uwscli
+
+COPY --chown=uws:uws ./build/requirements.txt /srv/home/uwscli/etc/requirements.txt
+RUN /opt/uwscli/bin/pip3 install -U -r /srv/home/uwscli/etc/requirements.txt
 
 USER uws:uws
 WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
+
+RUN /opt/uwscli/bin/python3 --version
 
 RUN mkdir -vp ~/tmp
 

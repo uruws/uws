@@ -79,11 +79,11 @@ class Test(unittest.TestCase):
 	def test_chdir_error(t):
 		with t.assertRaises(SystemExit):
 			with uwscli.chdir('/invalid'):
-				pass
+				pass # pragma: no cover
 		with uwscli_t.mock_chdir(fail = True):
 			with t.assertRaises(SystemExit) as e:
 				with uwscli.chdir('/testing'):
-					pass
+					pass # pragma: no cover
 			err = e.exception
 			t.assertEqual(err.args[0], 2)
 
@@ -126,7 +126,7 @@ class Test(unittest.TestCase):
 		with t.assertRaises(FileExistsError):
 			with uwscli.lockf('/tmp/testing'):
 				with uwscli.lockf('/tmp/testing'):
-					pass
+					pass # pragma: no cover
 
 	def test__setenv(t):
 		env = uwscli._setenv({'TESTING': 'test'})

@@ -26,5 +26,9 @@ install -d -m 0750 "${logd}"
 
 export SUDO_USER
 
+if test "X${CMD}" = 'X/srv/deploy/Buildpack/build.py'; then
+	/srv/uws/deploy/cli/botija.sh "[${user}] ${CMD} ${*}"
+fi
+
 echo "$(date -R) [${user}] ${CMD} ${*}" >>"${logf}"
 exec nq -c -- "${CMD}" "$@"

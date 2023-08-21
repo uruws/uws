@@ -13,6 +13,8 @@ shift 4
 logs_dir=${HOME}/logs
 logf=${logs_dir}/app-ctl.log
 
+/srv/uws/deploy/cli/botija.sh "[${user}] ${cluster} ${kind} ${action} ${*}"
+
 mkdir -vp "${logs_dir}"
 echo "$(date -R) [${user}] ${cluster} ${kind} ${action} ${*}" >>"${logf}"
 

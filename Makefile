@@ -14,6 +14,7 @@ distclean: clean
 	@rm -rvf ./docker/k8s/build
 	@rm -rvf ./docker/k8s/*/build
 	@rm -rvf ./docker/uwsbot/build
+	@rm -rvf ./docker/uwscli/build
 	@rm -rvf ./eks/lib/__pycache__
 	@rm -rvf ./srv/crond/build
 	@rm -rvf ./srv/munin/build
@@ -161,6 +162,10 @@ kali:
 
 .PHONY: uwscli
 uwscli:
+	@install -v -d -m 0750 ./docker/uwscli/build
+	@install -v -C -m 0644 \
+		./host/assets/jsbatch/srv/home/uwscli/etc/requirements.txt \
+		./docker/uwscli/build/requirements.txt
 	@./docker/uwscli/build.sh
 
 #-------------------------------------------------------------------------------
