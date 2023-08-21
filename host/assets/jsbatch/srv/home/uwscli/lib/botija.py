@@ -1,7 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-# https://github.com/slackapi/bolt-python/blob/main/examples/
+# /opt/uws/venv/bin/python3 -m pydoc slack_sdk.WebClient
 
 import logging
 import os
@@ -13,10 +13,6 @@ log = logging.getLogger(__name__)
 app = App(
 	token = os.getenv('SLACK_BOT_TOKEN'),
 )
-
-#-------------------------------------------------------------------------------
-# utils
-# /opt/uws/venv/bin/python3 -m pydoc slack_sdk.WebClient
 
 channel_id: str = os.getenv('UWS_SLACK_CHANNEL_ID', '')
 
