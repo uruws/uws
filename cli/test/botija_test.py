@@ -3,14 +3,10 @@
 # Copyright (c) Jeremías Casteglione <jeremias@talkingpts.org>
 # See LICENSE file.
 
-import os
-
 import unittest
 import uwscli_t
 
 import slack_bolt
-
-os.environ['UWS_SLACK_CHANNEL_ID'] = 'CTEST'
 
 import botija
 
