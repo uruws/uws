@@ -21,12 +21,14 @@ def main(argv = []):
 		metavar = 'N', help = 'show last N messages (default 10)')
 	flags.add_argument('-m', '--max', type = int, default = 0,
 		metavar = 'M', help = 'max pods')
+	flags.add_argument('-n', '--name', default = 'gw',
+		metavar = 'gw', help = 'gateway name')
 	flags.add_argument('pod', metavar = 'name',
 		default = '', help = 'pod name')
 
 	args = flags.parse_args(argv)
 
-	cmd = "./pod/%s/gw/logs.sh" % args.pod
+	cmd = "./pod/%s/%s/logs.sh" % (args.pod, args.name)
 	cmd += " --tail=%d" % args.tail
 
 	if args.follow:
