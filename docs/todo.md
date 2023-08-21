@@ -86,6 +86,14 @@
 
 ---
 
+* botija: uwscli chat logger - `DONE!` [PR258][PR258]
+    * log meteor Buildpack calls
+    * log all app-ctl actions (deploy, restart, etc)
+
+[PR258]: https://github.com/TalkingPts/Infrastructure/pull/258
+
+---
+
 * munin: check internal CAs expiration date
     * ops
     * opstest
