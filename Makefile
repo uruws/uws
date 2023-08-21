@@ -164,8 +164,8 @@ kali:
 uwscli:
 	@install -v -d -m 0750 ./docker/uwscli/build
 	@install -v -C -m 0644 \
-		./host/assets/jsbatch/srv/home/uwscli/etc/botija/requirements.txt \
-		./docker/uwscli/build/botija-requirements.txt
+		./host/assets/jsbatch/srv/home/uwscli/etc/requirements.txt \
+		./docker/uwscli/build/requirements.txt
 	@./docker/uwscli/build.sh
 
 #-------------------------------------------------------------------------------

@@ -23,9 +23,8 @@ ENV HOME /home/uws
 RUN /usr/bin/python3 -m venv /opt/uws/venv
 RUN /opt/uws/venv/bin/python3 -m pip install -U pip
 
-RUN install -v -d -o uws -g uws -m 0750 /srv/home/uwscli/etc/botija
-COPY --chown=uws:uws ./build/botija-requirements.txt /srv/home/uwscli/etc/botija/requirements.txt
-RUN /opt/uws/venv/bin/python3 -m pip install -U -r /srv/home/uwscli/etc/botija/requirements.txt
+COPY --chown=uws:uws ./build/requirements.txt /srv/home/uwscli/etc/requirements.txt
+RUN /opt/uws/venv/bin/python3 -m pip install -U -r /srv/home/uwscli/etc/requirements.txt
 
 RUN mkdir -vp ~/tmp
 
