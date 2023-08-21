@@ -11,6 +11,7 @@ exec docker run -it --rm --name uwscli-devel \
 	--hostname clidev.uws.local \
 	-e PYTHONPATH=/srv/home/uwscli/lib:/srv/home/uwscli/vendor/semver-2.13.0 \
 	-e UWS_SLACK_CHANNEL_ID=CTEST \
+	-e BOTIJA_ENV=devel \
 	-v ${CLI_HOME}/bin:/srv/home/uwscli/bin:ro \
 	-v ${CLI_HOME}/etc:/srv/home/uwscli/etc:ro \
 	-v ${CLI_HOME}/lib:/srv/home/uwscli/lib:ro \

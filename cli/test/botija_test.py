@@ -20,14 +20,30 @@ class TestBotija(unittest.TestCase):
 		t.assertEqual(botija.channel_id, 'CTEST')
 
 	def test_msg(t):
-		botija.msg('testing')
+		t.assertTrue(botija.msg('testing'))
 		slack_bolt.FakeApp.client.chat_postMessage.assert_called_once_with(
 			channel = 'CTEST', text = 'testing',
 		)
 
 	def test_msg_error(t):
 		slack_bolt.mock(fail = True)
-		botija.msg('testing')
+		t.assertFalse(botija.msg('testing'))
+		slack_bolt.FakeApp.client.chat_postMessage.assert_called_once_with(
+			channel = 'CTEST', text = 'testing',
+		)
+
+	def test_main(t):
+		t.assertEqual(botija.main(['testing']), 0)
+		slack_bolt.FakeApp.client.chat_postMessage.assert_called_once_with(
+			channel = 'CTEST', text = 'testing',
+		)
+
+	def test_main_error(t):
+		slack_bolt.mock(fail = True)
+		t.assertEqual(botija.main(['testing']), 1)
+		slack_bolt.FakeApp.client.chat_postMessage.assert_called_once_with(
+			channel = 'CTEST', text = 'testing',
+		)
 
 if __name__ == '__main__':
 	unittest.main()
