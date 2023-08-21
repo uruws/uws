@@ -41,7 +41,7 @@ gateway_configure() (
 
 	echo "nginx conf: ${nginx_conf}"
 
-	meteor_backend_configure "${ns}" "${METEOR_REPLICAS}" \
+	meteor_backend_configure "${ns}" "${NGINX_REPLICAS}" \
 		>"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
 
 	<"${nginx_conf}" envsubst '${METEOR_NAMESPACE}' |
@@ -49,6 +49,6 @@ gateway_configure() (
 		envsubst '${METEOR_TLS}' >>"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
 
 	install -v -d -m 0750 "${cfgdir}/nginx/service"
-	meteor_service_configure "${ns}" "${METEOR_REPLICAS}" \
+	meteor_service_configure "${ns}" "${NGINX_REPLICAS}" \
 		>"${cfgdir}/nginx/service/meteor-${ns}.yaml"
 )
