@@ -12,8 +12,4 @@ if test -d "${svcd}"; then
 	uwskube delete -n "${ns}" -f "${svcd}"
 fi
 
-~/ca/godaddyCerts/teardown.sh "${ns}"
-~/ca/uws/ops/teardown.sh "${ns}"
-~/ca/uwsgd/teardown.sh "${ns}"
-
 exit 0

@@ -14,8 +14,4 @@ if test -d "${svcd}"; then
 	uwskube apply -n "${ns}" -f "${svcd}"
 fi
 
-~/ca/godaddyCerts/setup.sh "${ns}"
-~/ca/uws/ops/setup.sh "${ns}"
-~/ca/uwsgd/setup.sh "${ns}"
-
 exit 0
