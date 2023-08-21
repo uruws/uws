@@ -21,13 +21,12 @@ def msg(text: str) -> bool:
 	log.debug('%s: send message', channel_id)
 	res = app.client.chat_postMessage(channel = channel_id, text = text)
 	if not res.get('ok', False):
-		log.error('%s: send message failed: %s', channel_id, res)
+		log.error('[ERROR] botija: %s: send message failed: %s', channel_id, res)
 		return False
 	return True
 
 def main(argv: list[str]) -> int:
-	if not msg(' '.join(argv)):
-		return 1
+	msg(' '.join(argv))
 	return 0
 
 if __name__ == '__main__': # pragma: no cover

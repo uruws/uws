@@ -40,7 +40,7 @@ class TestBotija(unittest.TestCase):
 
 	def test_main_error(t):
 		slack_bolt.mock(fail = True)
-		t.assertEqual(botija.main(['testing']), 1)
+		t.assertEqual(botija.main(['testing']), 0)
 		slack_bolt.FakeApp.client.chat_postMessage.assert_called_once_with(
 			channel = 'CTEST', text = 'testing',
 		)
