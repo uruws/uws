@@ -10,6 +10,8 @@ mkdir -vp ${CLI_HOME}/vendor/semver-2.13.0/.pytest_cache
 exec docker run --rm --name uwscli \
 	--hostname cli.uws.local \
 	-e PYTHONPATH=/srv/home/uwscli/lib \
+	-e UWS_SLACK_CHANNEL_ID=CTEST \
+	-e BOTIJA_ENV=devel \
 	-v ${CLI_HOME}/bin:/srv/home/uwscli/bin:ro \
 	-v ${CLI_HOME}/etc:/srv/home/uwscli/etc:ro \
 	-v ${CLI_HOME}/lib:/srv/home/uwscli/lib:ro \
