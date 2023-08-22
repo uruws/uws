@@ -50,6 +50,9 @@ if test -s "${appenv}"; then
 
 	uwskube create secret generic "meteor-${app}-env" -n "${ns}" --from-env-file="${envfn}"
 	rm -vf "${envfn}"
+else
+	echo "[ERROR] ${appenv}: file not found!" >&2
+	exit 1
 fi
 
 exit 0
