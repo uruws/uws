@@ -21,4 +21,4 @@ export METEOR_HPA_ENABLE
 METEOR_HPA_CPU="${TAPO_API_HPA_CPU}"
 export METEOR_HPA_CPU
 
-exec ~/pod/tapo/deploy.sh "${TAPO_NAMESPACE}" api "${appver}"
+exec ~/pod/tapo/deploy.sh "${TAPO_API_NAMESPACE}" api "${appver}"

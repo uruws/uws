@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteor-api
+  name: meteor-${TAPO_API_NAMESPACE}
 spec:
   ports:
     - port: 3000
