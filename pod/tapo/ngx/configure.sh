@@ -5,7 +5,7 @@ meteor_backend_configure() (
 	replicas="${2}"
 	echo "upstream meteor-${ns} {"
 	echo '    random two least_conn;'
-	for idx in $(seq 0 "${replicas}"); do
+	for idx in $(seq 1 "${replicas}"); do
 		echo "    server meteor${idx}-${ns}:3000;"
 	done
 	echo '}'
@@ -14,7 +14,7 @@ meteor_backend_configure() (
 meteor_service_configure() (
 	ns="${1}"
 	replicas="${2}"
-	for idx in $(seq 0 "${replicas}"); do
+	for idx in $(seq 1 "${replicas}"); do
 		echo '---'
 		echo 'apiVersion: v1'
 		echo 'kind: Service'

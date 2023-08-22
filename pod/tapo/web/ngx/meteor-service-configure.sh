@@ -4,7 +4,7 @@ set -eu
 ns=${TAPO_API_NAMESPACE}
 replicas=${TAPO_API_REPLICAS}
 
-for idx in $(seq 0 "${replicas}"); do
+for idx in $(seq 1 "${replicas}"); do
 	echo '---'
 	echo 'apiVersion: v1'
 	echo 'kind: Service'

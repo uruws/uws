@@ -6,7 +6,7 @@ replicas=${TAPO_API_REPLICAS}
 
 echo "upstream meteor-${ns} {"
 echo '    random two least_conn;'
-for idx in $(seq 0 "${replicas}"); do
+for idx in $(seq 1 "${replicas}"); do
 	echo "    server meteor${idx}-${ns}:3000;"
 done
 echo '}'
