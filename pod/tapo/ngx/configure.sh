@@ -50,6 +50,7 @@ gateway_configure() (
 	fi
 
 	<"${nginx_conf}" envsubst '${METEOR_NAMESPACE}' |
+		envsubst '${TAPO_API_NAMESPACE}' |
 		envsubst '${METEOR_HOST}' |
 		envsubst '${METEOR_TLS}' >>"${site_conf}"
 
