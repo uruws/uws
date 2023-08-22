@@ -15,7 +15,7 @@ if test -s "${HOME}/pod/${pod}/nginx.conf"; then
 	cp -va "${HOME}/pod/${pod}/nginx.conf" "${cfgdir}/"
 fi
 
-gateway_configure "${ns}" "${cfgdir}"
+gateway_configure "${nsorig}" "${cfgdir}"
 
 ~/k8s/nginx/restart.sh "${ns}" "${cfgdir}"
 

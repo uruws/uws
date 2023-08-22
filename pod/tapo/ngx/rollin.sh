@@ -13,7 +13,7 @@ if test -s "${HOME}/pod/meteor/${nsorig}/nginx.conf"; then
 	cp -va "${HOME}/pod/meteor/${nsorig}/nginx.conf" "${cfgdir}/"
 fi
 
-gateway_configure "${ns}" "${cfgdir}"
+gateway_configure "${nsorig}" "${cfgdir}"
 
 ~/k8s/nginx/rollin.sh "${ns}" "${cfgdir}"
 
