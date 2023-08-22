@@ -44,6 +44,9 @@ if test -s "${appenv}"; then
 	if test 'Xsrmnt' = "X${TAPO_ENV}"; then
 		echo "STAGING_APP_VERSION=${appver}" >>"${envfn}"
 	fi
+	if test 'Xsrmnt-ngx' = "X${TAPO_ENV}"; then
+		echo "STAGING_APP_VERSION=${appver}" >>"${envfn}"
+	fi
 
 	uwskube create secret generic "meteor-${app}-env" -n "${ns}" --from-env-file="${envfn}"
 	rm -vf "${envfn}"
