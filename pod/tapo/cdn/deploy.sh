@@ -21,4 +21,4 @@ export METEOR_HPA_ENABLE
 METEOR_HPA_CPU="${TAPO_CDN_HPA_CPU}"
 export METEOR_HPA_CPU
 
-exec ~/pod/tapo/deploy.sh "${TAPO_NAMESPACE}" cdn "${appver}"
+exec ~/pod/tapo/deploy.sh "${TAPO_CDN_NAMESPACE}" cdn "${appver}"
