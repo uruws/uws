@@ -5,7 +5,7 @@ meteor_backend_configure() (
 	replicas="${2}"
 	echo "upstream meteor-${ns} {"
 	echo '    random two least_conn;'
-	for idx in `seq 0 ${replicas}`; do
+	for idx in $(seq 0 "${replicas}"); do
 		echo "    server meteor${idx}-${ns}:3000;"
 	done
 	echo '}'
@@ -14,7 +14,7 @@ meteor_backend_configure() (
 meteor_service_configure() (
 	ns="${1}"
 	replicas="${2}"
-	for idx in `seq 0 ${replicas}`; do
+	for idx in $(seq 0 "${replicas}"); do
 		echo '---'
 		echo 'apiVersion: v1'
 		echo 'kind: Service'
@@ -43,6 +43,11 @@ gateway_configure() (
 
 	meteor_backend_configure "${ns}" "${NGINX_REPLICAS}" \
 		>"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
+
+	if test -s "${cfgdir}/meteor-backend-configure.sh"; then
+		/bin/sh "${cfgdir}/meteor-backend-configure.sh" \
+			>>"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
+	fi
 
 	<"${nginx_conf}" envsubst '${METEOR_NAMESPACE}' |
 		envsubst '${METEOR_HOST}' |
