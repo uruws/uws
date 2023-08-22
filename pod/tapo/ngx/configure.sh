@@ -41,19 +41,24 @@ gateway_configure() (
 
 	echo "nginx conf: ${nginx_conf}"
 
-	meteor_backend_configure "${ns}" "${NGINX_REPLICAS}" \
-		>"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
+	site_conf="${cfgdir}/nginx/sites-enabled/meteor-${ns}"
+
+	meteor_backend_configure "${ns}" "${NGINX_REPLICAS}" >"${site_conf}"
 
 	if test -s "${cfgdir}/meteor-backend-configure.sh"; then
-		/bin/sh "${cfgdir}/meteor-backend-configure.sh" \
-			>>"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
+		/bin/sh "${cfgdir}/meteor-backend-configure.sh" >>"${site_conf}"
 	fi
 
 	<"${nginx_conf}" envsubst '${METEOR_NAMESPACE}' |
 		envsubst '${METEOR_HOST}' |
-		envsubst '${METEOR_TLS}' >>"${cfgdir}/nginx/sites-enabled/meteor-${ns}"
+		envsubst '${METEOR_TLS}' >>"${site_conf}"
+
+	service_conf="${cfgdir}/nginx/service/meteor-${ns}.yaml"
 
 	install -v -d -m 0750 "${cfgdir}/nginx/service"
-	meteor_service_configure "${ns}" "${NGINX_REPLICAS}" \
-		>"${cfgdir}/nginx/service/meteor-${ns}.yaml"
+	meteor_service_configure "${ns}" "${NGINX_REPLICAS}" >"${service_conf}"
+
+	if test -s "${cfgdir}/meteor-service-configure.sh"; then
+		/bin/sh "${cfgdir}/meteor-service-configure.sh" >>"${service_conf}"
+	fi
 )

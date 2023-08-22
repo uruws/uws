@@ -19,6 +19,10 @@ if test -s "${HOME}/pod/${pod}/ngx/meteor-backend-configure.sh"; then
 	cp -va "${HOME}/pod/${pod}/ngx/meteor-backend-configure.sh" "${cfgdir}/"
 fi
 
+if test -s "${HOME}/pod/${pod}/ngx/meteor-service-configure.sh"; then
+	cp -va "${HOME}/pod/${pod}/ngx/meteor-service-configure.sh" "${cfgdir}/"
+fi
+
 gateway_configure "${ns}" "${cfgdir}"
 
 ~/k8s/nginx/deploy.sh "${ns}" "${cfgdir}"
