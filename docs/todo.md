@@ -13,84 +13,16 @@
 
 ---
 
-* tapo: sarmiento pentest setup - `WAIT`
-    * change to tapo.uno domain?
-        * we need new TLS certs for that
-    * currently it's using staging settings, it should be separate
-    * pnt-2308 cluster is on us-east-2 region
-        * mongo cluster should be in the same region
+* tapo: sarmiento pentest setup - `WIP` [PR259][PR259]
+    * haproxy setup for "future" testing
+    * nginx setup for "current" load tests
 
 ---
 
-* tapo: new prod env setup - `FAILED` [PR249][PR249]
-    * workers done
-    * first attempt to migrate generated TLS handshake timeout errors so it was reverted
-    * second try with more hpx replicas did not generate timeout errors but somehow the mobile apps seemed to fail because of that
-        * when errors started to show only cdn and api containers where migrated
-            * which did not make much sense as mobile apps were not targeting the api.t.o domain
-            * nor they depend on the cdn either (supposedly)
-        * it was reverted
+* tapo: setup custom nginx proxy as current prod env - `WIP` [PR259][PR259]
+    * change back staging, pentest and others envs
 
-[PR249]: https://github.com/TalkingPts/Infrastructure/pull/249
-
----
-
-* vanta: rotate aws user credentials - `DONE!` [PR243][PR243]
-
-[PR243]: https://github.com/TalkingPts/Infrastructure/pull/243
-
----
-
-* msmtprc: profiled setup - `DONE!`
-    * generate files in order to identify emails origin
-    * currently all mails are from user@uws.t.o
-    * we could use something like user-cluster@uws.t.o or user-host@uws.t.o or similar
-
----
-
-* migrate appsprod-2302 services (CS, infra-ui, ...) `DONE!` [PR252][PR252] [PR253][PR253]
-    * DEGRADED nodegroup
-    * move services to appwrk-2306
-    * remove appsprod-2302 cluster after migrating all services
-
-[PR252]: https://github.com/TalkingPts/Infrastructure/pull/252
-[PR253]: https://github.com/TalkingPts/Infrastructure/pull/253
-
----
-
-* GoDaddy TLS wildcard cert update for t.o domain `DONE!`
-
----
-
-* munin: contrib repo update - `DONE!` [PR254][PR254]
-    * release 230818
-
-[PR254]: https://github.com/TalkingPts/Infrastructure/pull/254
-
----
-
-* munin: check TLS certs expiration date - `DONE!` [PR255][PR255]
-    * for app.t.o (GoDaddy)
-    * uws.t.o as well (appcdn-prod.uws.t.o) (GoDaddy)
-
-[PR255]: https://github.com/TalkingPts/Infrastructure/pull/255
-
----
-
-* munin: api.t.o - `DONE!` [PR256][PR256]
-    * check https://api.talkingpts.org/api/
-    * check https://api.talkingpts.org/bandwidthCallbackSMS
-    * check https://api.talkingpts.org/coconut_webhook
-
-[PR256]: https://github.com/TalkingPts/Infrastructure/pull/256
-
----
-
-* botija: uwscli chat logger - `DONE!` [PR258][PR258]
-    * log meteor Buildpack calls
-    * log all app-ctl actions (deploy, restart, etc)
-
-[PR258]: https://github.com/TalkingPts/Infrastructure/pull/258
+[PR259]: https://github.com/TalkingPts/Infrastructure/pull/259
 
 ---
 
