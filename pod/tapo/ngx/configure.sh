@@ -26,6 +26,12 @@ meteor_service_configure() (
 	done
 )
 
+meteor_ingress_configure() (
+	ingress_conf="${1}"
+	<"${ingress_conf}" envsubst '${METEOR_NAMESPACE}' |
+		envsubst '${METEOR_HOST}'
+)
+
 gateway_configure() (
 	ns="${1}"
 	cfgdir="${2}"
@@ -61,5 +67,10 @@ gateway_configure() (
 
 	if test -s "${cfgdir}/meteor-service-configure.sh"; then
 		/bin/sh "${cfgdir}/meteor-service-configure.sh" >>"${service_conf}"
+	fi
+
+	ingress_conf=${HOME}/pod/tapo/ngx/ingress.yaml
+	if test -s "${ingress_conf}"; then
+		meteor_ingress_configure "${ingress_conf}" >>"${service_conf}"
 	fi
 )

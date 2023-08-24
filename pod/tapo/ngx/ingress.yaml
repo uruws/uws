@@ -1,0 +1,17 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: meteor-${METEOR_NAMESPACE}
+spec:
+  rules:
+    - host: ${METEOR_HOST}.talkingpts.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-${METEOR_NAMESPACE}
+                port:
+                  number: 3000
