@@ -140,6 +140,8 @@ app: dict[str, App] = {
 			'worker-test',
 			'api-test',
 			'app-test',
+			'sarmiento-hpx',
+			'sarmiento-ngx',
 		],
 		custom_deploy = {
 			'production': [
