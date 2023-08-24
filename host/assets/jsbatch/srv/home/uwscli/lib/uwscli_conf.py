@@ -45,16 +45,16 @@ def _meteor_pod_containers(name: str, gw: bool = False) -> list[str]:
 		l.append('%sgw/proxy' % name)
 	return sorted(l)
 
-def _tapo_all_containers() -> list[str]:
-	l: list[str] = []
-	for c in _meteor_pod_containers('worker'):
-		l.append(c)
-	for c in _meteor_pod_containers('api', gw = True):
-		l.append(c)
-	for c in _meteor_pod_containers('cdn', gw = True):
-		l.append(c)
-	for c in _meteor_pod_containers('web', gw = True):
-		l.append(c)
+def _tapo_all_containers(ns = 'srmnt-ngx') -> list[str]:
+	l: list[str] = [
+		'%s-wrk/meteor-worker' % ns,
+		'%s-api/meteor' % ns,
+		'%s-apigw/proxy' % ns,
+		'%s-cdn/meteor' % ns,
+		'%s-cdngw/proxy' % ns,
+		'%s-web/meteor' % ns,
+		'%s-webgw/proxy' % ns,
+	]
 	return sorted(l)
 
 #-------------------------------------------------------------------------------
