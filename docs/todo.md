@@ -13,16 +13,24 @@
 
 ---
 
-* tapo: sarmiento pentest setup - `WIP` [PR259][PR259]
+* tapo: sarmiento pentest setup - `DONE!` [PR259][PR259]
     * haproxy setup for "future" testing
     * nginx setup for "current" load tests
 
 ---
 
-* tapo: setup custom nginx proxy as current prod env - `WIP` [PR259][PR259]
+* tapo: setup custom nginx proxy as current prod env - `DONE!` [PR259][PR259]
     * change back staging, pentest and others envs
 
 [PR259]: https://github.com/TalkingPts/Infrastructure/pull/259
+
+---
+
+* tapo: sarmiento pentest setup - `DONE!` [PR260][PR260]
+    * haproxy setup for "future" testing
+    * nginx setup for "current" load tests
+
+[PR260]: https://github.com/TalkingPts/Infrastructure/pull/260
 
 ---
 
