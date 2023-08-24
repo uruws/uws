@@ -45,6 +45,18 @@ def _meteor_pod_containers(name: str, gw: bool = False) -> list[str]:
 		l.append('%sgw/proxy' % name)
 	return sorted(l)
 
+def _tapo_all_containers() -> list[str]:
+	l: list[str] = []
+	for c in _meteor_pod_containers('worker'):
+		l.append(c)
+	for c in _meteor_pod_containers('api', gw = True):
+		l.append(c)
+	for c in _meteor_pod_containers('cdn', gw = True):
+		l.append(c)
+	for c in _meteor_pod_containers('web', gw = True):
+		l.append(c)
+	return sorted(l)
+
 #-------------------------------------------------------------------------------
 # app build
 
@@ -261,13 +273,21 @@ app: dict[str, App] = {
 		autobuild_deploy = ['meteor-vanilla'],
 		pod_containers   = _meteor_pod_containers('meteor-vanilla', gw = True),
 	),
-	'sarmiento': App(True,
+	'sarmiento-hpx': App(True,
 		cluster        = 'pnt-2308',
-		desc           = 'App sarmiento test env',
+		desc           = 'App sarmiento test env (haproxy)',
 		deploy         = AppDeploy('meteor-app'),
 		groups         = ['uwsapp_apptest'],
 		pod            = 'tapo/srmnt',
 		pod_containers = _tapo_pod_containers('web', ns = 'srmnt', hpx = True, api = True, cdn = True, worker = True, wrkns = 'srmntwrk'),
+	),
+	'sarmiento-ngx': App(True,
+		cluster        = 'pnt-2308',
+		desc           = 'App sarmiento test env (nginx)',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_apptest'],
+		pod            = 'tapo/all',
+		pod_containers = _tapo_all_containers(),
 	),
 }
 

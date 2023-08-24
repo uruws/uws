@@ -50,7 +50,8 @@ class Test(unittest.TestCase):
 			'infra-ui-prod',
 			'infra-ui-test',
 			'meteor-vanilla',
-			'sarmiento',
+			'sarmiento-hpx',
+			'sarmiento-ngx',
 			'worker',
 			'worker-test',
 		]
