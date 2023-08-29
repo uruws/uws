@@ -34,6 +34,15 @@
 
 ---
 
+* munin: disable worker jobs, api bot and offlinepage checks - `DONE!` [PR261][PR261]
+    * api bot user got disabled or similar, failing with: "complete a one-time verification process" error message
+    * offlinepage not deployed since long ago
+    * and worker jobs being monitored from infra-ui now
+
+[PR261]: https://github.com/TalkingPts/Infrastructure/pull/261
+
+---
+
 * munin: check internal CAs expiration date
     * ops
     * opstest
