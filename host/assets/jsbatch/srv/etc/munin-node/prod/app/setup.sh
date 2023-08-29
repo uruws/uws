@@ -14,12 +14,12 @@ ${pl_ena} contrib mongodb/mongo_ops mongo_ops
 ${pl_ena} contrib ssl/ssl-certificate-expiry ssl-certificate-expiry
 
 rm -vf /etc/munin/plugins/uwsbot_stats
-ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
+##ln -svf /uws/bin/uwsbot-stats /etc/munin/plugins/uwsbot_stats
 
 rm -vf /etc/munin/plugins/api*
-ln -svf /uws/bin/api-job-stats /etc/munin/plugins/api_job_stats
+##ln -svf /uws/bin/api-job-stats /etc/munin/plugins/api_job_stats
 
 rm -vf /etc/munin/plugins/uws_*
-ln -svf /uws/bin/offlinepage.sh /etc/munin/plugins/uws_offlinepage_app
+##ln -svf /uws/bin/offlinepage.sh /etc/munin/plugins/uws_offlinepage_app
 
 exit 0
