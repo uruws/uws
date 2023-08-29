@@ -89,9 +89,9 @@ spec:
             timeoutSeconds: 3
             failureThreshold: 1
       volumes:
-        - name: empty-app-env
+        - name: meteor-${METEOR_APP}-env
           secret:
-            secretName: empty-app-env
+            secretName: meteor-${METEOR_APP}-env
         - name: app-tmpdir
           emptyDir:
             sizeLimit: 10Gi
