@@ -43,6 +43,12 @@
 
 ---
 
+* tapo: fix meteor env vars format - `DONE!` [PR262][PR262]
+
+[PR262]: https://github.com/TalkingPts/Infrastructure/pull/262
+
+---
+
 * munin: check internal CAs expiration date
     * ops
     * opstest
