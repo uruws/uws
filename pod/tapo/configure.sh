@@ -27,7 +27,7 @@ if test -s "${appenv}"; then
 
 	cat "${appenv}" >"${envfn}"
 
-	printf '%s' 'METEOR_SETTINGS=' >>"${envfn}"
+	printf '%s' 'export METEOR_SETTINGS=' >>"${envfn}"
 	python3 -m json.tool --compact "${appset}" >>"${envfn}"
 
 	uwskube delete secret "meteor-${app}-env" -n "${ns}" || true
