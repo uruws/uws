@@ -50,7 +50,7 @@ def _ignoreTag(app: str, tag: str) -> bool:
 	elif uwscli.build_blacklist(app, tag):
 		uwscli.debug('tag blacklist:', app, 'tag', tag)
 		return True
-	uwscli.debug('tag not blacklisted:', app, 'tag', tag)
+	# ~ uwscli.debug('tag not blacklisted:', app, 'tag', tag)
 	return False
 
 def _latestTag(app: str, src: str) -> str:
@@ -69,7 +69,7 @@ def _latestTag(app: str, src: str) -> str:
 		else:
 			if v > vmax:
 				vmax = v
-	uwscli.debug('latestTag:', app, src, vmax)
+	uwscli.debug('latestTag:', app, src, str(vmax))
 	if vmax is None:
 		return ''
 	return str(vmax)

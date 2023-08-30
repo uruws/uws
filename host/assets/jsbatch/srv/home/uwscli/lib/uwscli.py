@@ -226,11 +226,16 @@ def _image_version(v: str) -> str:
 
 def build_done(appname: str, tag: str) -> bool:
 	"""check against images repo if it already exists"""
+	debug("build_done check:", appname, tag)
 	for i in list_images(appname, region = 'us-east-1'):
+		debug("built image:", i)
 		if i.startswith(tag):
 			v = _image_version(i)
+			debug("image version:", i, v)
 			if v == tag:
+				debug("build_done check:", appname, tag, v, "done!")
 				return True
+	debug("build_done check:", appname, tag, "NOT done!")
 	return False
 
 def deploy_list(user: User | None = None) -> list[str]:
