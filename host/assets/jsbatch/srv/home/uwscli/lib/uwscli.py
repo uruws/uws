@@ -261,6 +261,7 @@ def custom_deploy(appname: str, env: str) -> list[CustomDeploy]:
 
 def list_images(appname: str, region: str = '') -> list[str]:
 	"""get aws ECR list of available app images"""
+	debug("list_images:", appname, region)
 	kn = app[appname].cluster
 	if region == '':
 		try:
@@ -275,6 +276,7 @@ def list_images(appname: str, region: str = '') -> list[str]:
 	cmd += " | sed 's/^%s//'" % app[appname].deploy.filter
 	cmd += " | sort -V"
 	try:
+		debug("list_image:", cmd)
 		out = check_output(cmd)
 		return out.splitlines()
 	except CalledProcessError as err:
