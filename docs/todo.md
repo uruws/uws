@@ -49,6 +49,12 @@
 
 ---
 
+* uwscli: improve app-autobuild debugging - `DONE!` [PR263][PR263]
+
+[PR263]: https://github.com/TalkingPts/Infrastructure/pull/263
+
+---
+
 * munin: check internal CAs expiration date
     * ops
     * opstest
