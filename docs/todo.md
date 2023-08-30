@@ -55,6 +55,12 @@
 
 ---
 
+* uwscli: fix check list of images - `DONE!` [PR264][PR264]
+
+[PR264]: https://github.com/TalkingPts/Infrastructure/pull/264
+
+---
+
 * munin: check internal CAs expiration date
     * ops
     * opstest
