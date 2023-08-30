@@ -50,6 +50,7 @@ def _ignoreTag(app: str, tag: str) -> bool:
 	elif uwscli.build_blacklist(app, tag):
 		uwscli.debug('tag blacklist:', app, 'tag', tag)
 		return True
+	uwscli.debug('tag not blacklisted:', app, 'tag', tag)
 	return False
 
 def _latestTag(app: str, src: str) -> str:
@@ -68,6 +69,7 @@ def _latestTag(app: str, src: str) -> str:
 		else:
 			if v > vmax:
 				vmax = v
+	uwscli.debug('latestTag:', app, src, vmax)
 	if vmax is None:
 		return ''
 	return str(vmax)
@@ -82,11 +84,12 @@ def _getStatus(app: str) -> tuple[str, str]:
 	items = line.split(':')
 	st    = items[0].strip().upper()
 	ver   = items[1].strip()
+	uwscli.debug('getStatus:', app, st, ver)
 	return (st, ver)
 
 def _checkVersion(tag: str, ver: str) -> bool:
 	"""check if tag is major than version"""
-	uwscli.debug('checkVersion')
+	uwscli.debug('checkVersion:', tag, ver)
 	t = semver.VersionInfo.parse(tag)
 	v = semver.VersionInfo.parse(ver)
 	if t > v:
@@ -97,7 +100,7 @@ def _checkVersion(tag: str, ver: str) -> bool:
 
 def _isBuildingOrDone(app: str, tag: str) -> bool:
 	"""check if tag is in the build queue or done already"""
-	uwscli.debug(app, tag)
+	uwscli.debug('isBuildingOrDone:', app, tag)
 	st = ''
 	ver = ''
 	# no status file
@@ -130,12 +133,13 @@ def _isBuildingOrDone(app: str, tag: str) -> bool:
 		uwscli.error('[ERROR] build failed:', app, ver)
 	return True
 
-def _build(app: str) -> int:
+def _build(app: str, dryrun: bool = False) -> int:
 	build = uwscli.app[app].build
 	uwscli.debug(app, build)
 	try:
 		with uwscli.chdir(build.dir):
 			uwscli.debug('build.dir:', build.dir)
+			rc = 0
 			rc = uwscli.run('app-fetch.sh', build.src)
 			if rc != 0:
 				uwscli.error('[ERROR] app-fetch.sh failed, exit status:', rc)
@@ -147,6 +151,9 @@ def _build(app: str) -> int:
 			if _isBuildingOrDone(app, tag):
 				return 0
 			uwscli.log('dispatch autobuild:', app, tag)
+			if dryrun:
+				uwscli.log('dry run enabled, autobuild aborted!')
+				return 0
 			return app_build.run(app, tag)
 	except SystemExit:
 		pass
@@ -220,6 +227,9 @@ def main(argv = []):
 	flags.add_argument('-d', '--deploy', action = 'store_true', default = False,
 		help = 'app deploy')
 
+	flags.add_argument('-n', '--dry-run', action = 'store_true', default = False,
+		help = 'dry run')
+
 	if '--deploy' in argv or '-d' in argv:
 		flags.add_argument('app', metavar = 'app',
 			help = 'app name')
@@ -243,4 +253,4 @@ def main(argv = []):
 		return _deploy(app, args.tag)
 
 	# autobuild
-	return _build(args.app)
+	return _build(args.app, dryrun = args.dry_run)
