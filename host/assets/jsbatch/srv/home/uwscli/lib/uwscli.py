@@ -262,6 +262,10 @@ def custom_deploy(appname: str, env: str) -> list[CustomDeploy]:
 def list_images(appname: str, region: str = '') -> list[str]:
 	"""get aws ECR list of available app images"""
 	debug("list_images:", appname, region)
+	if app[appname].deploy_app != '':
+		orig = appname.strip()
+		appname = app[appname].deploy_app.strip()
+		debug("list_images:", orig, "deploy_app", appname)
 	kn = app[appname].cluster
 	if region == '':
 		try:
@@ -269,11 +273,20 @@ def list_images(appname: str, region: str = '') -> list[str]:
 		except KeyError:
 			error(f"{kn}: no cluster region to list images")
 			return []
+	debug("list_images:", appname, region)
+	deploy_image = app[appname].deploy.image.strip()
+	deploy_filter = app[appname].deploy.filter.strip()
+	if deploy_image == '':
+		error("list_images:", appname, "empty deploy.image")
+		return []
+	if deploy_filter == '':
+		error("list_images:", appname, "empty deploy.filter")
+		return []
 	cmd = "aws ecr list-images --output text --repository-name uws"
 	cmd += " --region %s" % region
-	cmd += " | grep -F '%s'" % app[appname].deploy.image
+	cmd += " | grep -F '%s'" % deploy_image
 	cmd += " | awk '{ print $3 }'"
-	cmd += " | sed 's/^%s//'" % app[appname].deploy.filter
+	cmd += " | sed 's/^%s//'" % deploy_filter
 	cmd += " | sort -V"
 	try:
 		debug("list_image:", cmd)

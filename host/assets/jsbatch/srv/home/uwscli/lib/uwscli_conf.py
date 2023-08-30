@@ -115,6 +115,7 @@ class App(object):
 	autobuild_deploy:                  list[str] = field(default_factory = list)
 	groups:                            list[str] = field(default_factory = list)
 	custom_deploy: dict[str, list[CustomDeploy]] = field(default_factory = dict)
+	deploy_app:                              str = '' # used for uwscli.list_images
 
 	def __post_init__(self):
 		if len(self.groups) == 0:
@@ -135,6 +136,7 @@ app: dict[str, App] = {
 			# 2.98.8 was wrongly created in 2.96 times
 			'2.98.8',
 		],
+		deploy_app       = 'app-prod', # used for uwscli.list_images
 		autobuild        = True,
 		autobuild_deploy = [],
 		# ~ autobuild_deploy = [
@@ -248,6 +250,7 @@ app: dict[str, App] = {
 		groups           = ['uwsapp_infra-ui'],
 		autobuild        = True,
 		autobuild_deploy = ['infra-ui-test'],
+		deploy_app       = 'infra-ui-prod',
 	),
 	'infra-ui-prod': App(True,
 		cluster        = 'appwrk-2306',
