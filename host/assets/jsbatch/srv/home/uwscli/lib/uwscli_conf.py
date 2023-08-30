@@ -136,13 +136,14 @@ app: dict[str, App] = {
 			'2.98.8',
 		],
 		autobuild        = True,
-		autobuild_deploy = [
-			'worker-test',
-			'api-test',
-			'app-test',
-			'sarmiento-hpx',
-			'sarmiento-ngx',
-		],
+		autobuild_deploy = [],
+		# ~ autobuild_deploy = [
+			# ~ 'worker-test',
+			# ~ 'api-test',
+			# ~ 'app-test',
+			# ~ 'sarmiento-hpx',
+			# ~ 'sarmiento-ngx',
+		# ~ ],
 		custom_deploy = {
 			'production': [
 				CustomDeploy('worker'),
