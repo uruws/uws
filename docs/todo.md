@@ -89,7 +89,10 @@
 
 ---
 
-* CA: deprecate smtps
+* k8s deploy: check critical service rollin
+    * currently we have alerts for container restarts and such
+    * but if a deployment gets rolled in (or deleted someway) we don't have any alert
+        * ie: app-rollin worker
 
 ---
 
