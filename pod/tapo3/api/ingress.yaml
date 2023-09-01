@@ -1,0 +1,65 @@
+#~ ---
+#~ apiVersion: v1
+#~ kind: Service
+#~ metadata:
+  #~ name: meteor-api
+#~ spec:
+  #~ ports:
+    #~ - port: 3000
+      #~ targetPort: 3000
+      #~ protocol: TCP
+  #~ selector:
+    #~ app.kubernetes.io/name: meteor-api
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tapo3-api-alb
+  labels:
+    # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/guide/ingress/annotations/
+    alb.ingress.kubernetes.io/load-balancer-name: tapo3-api-alb
+    alb.ingress.kubernetes.io/ip-address-type: ipv4
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/shield-advanced-protection: 'true'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+    alb.ingress.kubernetes.io/healthcheck-path: /iqvm39mcpbkFJzucEAFETVpbhoqAvpqt-healthz.txt
+spec:
+  ingressClassName: alb
+  #~ tls:
+    #~ - hosts:
+        #~ - ${ALB_HOSTNAME}.talkingpts.org
+      #~ secretName: ${HPX_TLS}
+  rules:
+    - host: ${ALB_HOSTNAME}.talkingpts.org
+      http:
+        paths:
+          # /api/
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /bandwidthCallbackSMS
+          - path: /bandwidthCallbackSMS
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
+          # /coconut_webhook
+          - path: /coconut_webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: meteor-api
+                port:
+                  number: 3000
