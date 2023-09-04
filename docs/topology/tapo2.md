@@ -1,13 +1,13 @@
 # tapo topology (v2)
 
-             User
-              |
-              |
-             NLB (AWS Network Load Balancer)
-              |
-              |
+                   User
+                    |
+                    |
+                   NLB (AWS Network Load Balancer)
+                    |
+                    |
        -------------------------------- Kubernetes cluster
-       |      |                          |
+       |      |     |     |     |        |
        |   ...........................   |
        |   . nginx nginx nginx nginx .   | (TLS termination)
        |   ...........................   |
