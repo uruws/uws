@@ -1,0 +1,110 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meteor
+  namespace: ${METEOR_NAMESPACE}
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: meteor-${METEOR_APP}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meteor-${METEOR_APP}
+  namespace: ${METEOR_NAMESPACE}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: meteor-${METEOR_APP}
+  replicas: ${METEOR_REPLICAS}
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 10%
+      maxSurge: 20%
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: meteor-${METEOR_APP}
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:meteor-app-${METEOR_VERSION}
+          imagePullPolicy: IfNotPresent
+          name: meteor-${METEOR_APP}
+          ports:
+            - containerPort: 3000
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 3000
+            runAsGroup: 3000
+          volumeMounts:
+            - name: meteor-${METEOR_APP}-env
+              mountPath: "/run/meteor"
+              readOnly: true
+            - name: app-tmpdir
+              mountPath: "/opt/app/bundle/tmp"
+            - name: tmpdir
+              mountPath: "/tmp"
+          env:
+            - name: PORT
+              value: "3000"
+            - name: NODE_OPTIONS
+              value: "--max-old-space-size=${METEOR_MEMORY}"
+            - name: APP_CLUSTER
+              value: "${METEOR_CLUSTER}"
+            - name: APP_ENV
+              value: "${METEOR_ENV}"
+            - name: APP_NAME
+              value: "${METEOR_APP}"
+            - name: APP_NAMESPACE
+              value: "${METEOR_NAMESPACE}"
+            - name: APP_VERSION
+              value: "${METEOR_VERSION}"
+            - name: APP_DEPLOY
+              value: "${METEOR_DEPLOY}"
+          envFrom:
+            - secretRef:
+                name: deploy-${METEOR_APP}-env
+          resources:
+            requests:
+              cpu: ${METEOR_CPU_REQ}m
+            limits:
+              cpu: ${METEOR_CPU_MAX}m
+          livenessProbe:
+            httpGet:
+              path: /iqvm39mcpbkFJzucEAFETVpbhoqAvpqt-healthz.txt
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 1
+          readinessProbe:
+            exec:
+              command:
+                - node
+                - --version
+            initialDelaySeconds: 5
+            periodSeconds: 15
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+      volumes:
+        - name: meteor-${METEOR_APP}-env
+          secret:
+            secretName: meteor-${METEOR_APP}-env
+        - name: app-tmpdir
+          emptyDir:
+            sizeLimit: 10Gi
+        - name: tmpdir
+          emptyDir:
+            sizeLimit: 10Gi
