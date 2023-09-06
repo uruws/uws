@@ -22,6 +22,8 @@ export METEOR_NAMESPACE
 METEOR_VERSION="${appver}"
 export METEOR_VERSION
 
+~/pod/lib/tapo3/ngx/configure.sh "${ns}" "${app}"
+
 METEOR_DEPLOY=$(date '+%y%m%d.%H%M%S')
 export METEOR_DEPLOY
 

@@ -185,7 +185,7 @@ spec:
             sizeLimit: 100Mi
         - name: sites-enabled
           secret:
-            secretName: sites-enabled
+            secretName: sites-${METEOR_APP}-enabled
         - name: tapo-tls
           secret:
             secretName: tapo-tls
@@ -199,7 +199,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: meteor-proxy
+  name: nginx-${METEOR_APP}
   namespace: ${METEOR_NAMESPACE}
 spec:
   ports:
