@@ -1,11 +1,12 @@
+# https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/guide/ingress/annotations/
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ${TAPO3_NAME}-alb
+  name: meteor-${METEOR_APP}-alb
+  namespace: ${METEOR_NAMESPACE}
   labels:
-    # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/guide/ingress/annotations/
-    alb.ingress.kubernetes.io/load-balancer-name: ${TAPO3_NAME}-alb
+    alb.ingress.kubernetes.io/load-balancer-name: meteor-${METEOR_APP}-alb
     alb.ingress.kubernetes.io/ip-address-type: ipv4
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/shield-advanced-protection: 'true'

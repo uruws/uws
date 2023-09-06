@@ -35,6 +35,8 @@ else
 	envsubst <~/pod/lib/tapo3/deploy.yaml | uwskube apply -f -
 fi
 
+~/pod/lib/tapo3/ngx/ingress-deploy.sh "${ns}" "${app}"
+
 ~/pod/lib/tapo3/deploy-setver.sh "${ns}" "${app}" "${appver}"
 
 exit 0
