@@ -1,5 +1,8 @@
 spec:
   ingressClassName: alb
+  tls:
+    - hosts:
+      - ${METEOR_HOST}.talkingpts.org
   rules:
     - host: ${METEOR_HOST}.talkingpts.org
       http:
