@@ -22,6 +22,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 30
       containers:
+        #-----------------------------------------------------------------------
         # meteor
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:meteor-app-${METEOR_VERSION}
           imagePullPolicy: IfNotPresent
@@ -86,6 +87,7 @@ spec:
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 3
+        #-----------------------------------------------------------------------
         # nginx
         - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${PROXY_VERSION}
           imagePullPolicy: IfNotPresent
@@ -151,6 +153,7 @@ spec:
             timeoutSeconds: 3
             failureThreshold: 2
       volumes:
+        #-----------------------------------------------------------------------
         # meteor
         - name: meteor-${METEOR_APP}-env
           secret:
@@ -161,6 +164,7 @@ spec:
         - name: tmpdir
           emptyDir:
             sizeLimit: 10Gi
+        #-----------------------------------------------------------------------
         # nginx
         - name: ngx-rundir
           emptyDir:
