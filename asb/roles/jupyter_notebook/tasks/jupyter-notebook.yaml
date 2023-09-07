@@ -14,6 +14,7 @@
       - python3-pandas
       - python3-nltk
       - python3-sklearn
+      - python3-sqlalchemy-ext
   tags:
     - apt
     - jupyter-notebook
