@@ -13,55 +13,17 @@
 
 ---
 
-* tapo: sarmiento pentest setup - `DONE!` [PR259][PR259]
-    * haproxy setup for "future" testing
-    * nginx setup for "current" load tests
+* block web access by geoip
+    * It's already in place for app.t.o
+    * We need to set it up for api.t.o
+    * appcdn.uws.t.o only from US/Cloudfront? UY too maybe?
+    * staging.t.o too?
 
 ---
 
-* tapo: setup custom nginx proxy as current prod env - `DONE!` [PR259][PR259]
-    * change back staging, pentest and others envs
-
-[PR259]: https://github.com/TalkingPts/Infrastructure/pull/259
-
----
-
-* tapo: sarmiento pentest setup - `DONE!` [PR260][PR260]
-    * haproxy setup for "future" testing
-    * nginx setup for "current" load tests
-
-[PR260]: https://github.com/TalkingPts/Infrastructure/pull/260
-
----
-
-* munin: disable worker jobs, api bot and offlinepage checks - `DONE!` [PR261][PR261]
-    * api bot user got disabled or similar, failing with: "complete a one-time verification process" error message
-    * offlinepage not deployed since long ago
-    * and worker jobs being monitored from infra-ui now
-
-[PR261]: https://github.com/TalkingPts/Infrastructure/pull/261
-
----
-
-* tapo: fix meteor env vars format - `DONE!` [PR262][PR262]
-
-[PR262]: https://github.com/TalkingPts/Infrastructure/pull/262
-
----
-
-* uwscli: improve app-autobuild debugging - `DONE!` [PR263][PR263]
-
-[PR263]: https://github.com/TalkingPts/Infrastructure/pull/263
-
----
-
-* uwscli: fix check list of images - `DONE!` [PR264][PR264]
-
-[PR264]: https://github.com/TalkingPts/Infrastructure/pull/264
-
----
-
-* rstudio: install sqlalchemy deps and reboot for kernel/OS upgrades to apply - `DONE!`
+* munin: fix k8s pods state OOMKilled count bug
+    * it's not counting the OOMKilled correctly
+    * I think that it's due to the fact that those are in a "not running" state
 
 ---
 
@@ -328,8 +290,3 @@
 ---
 
 * infra docs for internal presentation
-
----
-
-* block web access by geoip?
-    * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#use-geoip
