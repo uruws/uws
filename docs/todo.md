@@ -13,11 +13,23 @@
 
 ---
 
-* block web access by geoip
+* block web access by geoip - `WIP`
     * It's already in place for app.t.o
     * We need to set it up for api.t.o
     * appcdn.uws.t.o only from US/Cloudfront? UY too maybe?
     * staging.t.o too?
+
+---
+
+* tapo3: deployment setup using AWS ALB and WAF services - `WIP` [PR265][PR265]
+
+[PR265]: https://github.com/TalkingPts/Infrastructure/pull/265
+
+---
+
+* 2309 [upgrades][upgrades] round
+
+[upgrades]: ./infra/upgrades.md
 
 ---
 
@@ -86,12 +98,6 @@
     * by node
     * total
     * by pod/container?
-
----
-
-* 2309 [upgrades][upgrades] round
-
-[upgrades]: ./infra/upgrades.md
 
 ---
 
@@ -278,14 +284,6 @@
 ---
 
 * non-prod sites robots.txt to disallow all crawlers?
-
----
-
-* WAF setup
-    * implement fail2ban for kubernets/aws?
-    * nginx modsecurity
-        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#enable-modsecurity
-        * https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
 
 ---
 
