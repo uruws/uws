@@ -61,6 +61,10 @@
 
 ---
 
+* rstudio: install sqlalchemy deps and reboot for kernel/OS upgrades to apply - `DONE!`
+
+---
+
 * munin: check internal CAs expiration date
     * ops
     * opstest
