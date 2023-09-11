@@ -27,6 +27,13 @@
 
 ---
 
+* tapo: new cluster appc5nxl-2309 - `DONE!` [PR266][PR266]
+    * ec2 type c5n.xlarge cluster
+
+[PR266]: https://github.com/TalkingPts/Infrastructure/pull/266
+
+---
+
 * 2309 [upgrades][upgrades] round
 
 [upgrades]: ./infra/upgrades.md
