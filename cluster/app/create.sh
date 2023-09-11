@@ -9,7 +9,7 @@ fi
 
 uwseks-cluster-create --profile "${AWS_PROFILE}" --region "${AWS_REGION}" \
 	--zones "${AWS_ZONES}" --k8s-version "${K8S_VERSION}" \
-	--nodes 10 --nodes-min 5 --nodes-max 100 \
+	--nodes 5 --nodes-min 2 --nodes-max 300 \
 	--instance-types "${AWS_INSTANCE_TYPES}" \
 	${EXTRA_ARGS} "${UWS_CLUSTER}"
 
