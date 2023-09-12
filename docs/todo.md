@@ -46,6 +46,12 @@
 
 ---
 
+* tapo: c5n.xlarge setup - `DONE!` [PR269][PR269]
+
+[PR269]: https://github.com/TalkingPts/Infrastructure/pull/269
+
+---
+
 * security: Debian linux kernel upgrade [DSA-5492-1][DSA-5492-1] - `DONE!`
     * jsbatch upgrade
     * rstudio-ousd upgrade
