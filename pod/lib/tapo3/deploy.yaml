@@ -89,9 +89,9 @@ spec:
             failureThreshold: 3
         #-----------------------------------------------------------------------
         # nginx
-        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${PROXY_VERSION}
+        - image: 789470191893.dkr.ecr.${AWS_REGION}.amazonaws.com/uws:nginx-${NGINX_VERSION}
           imagePullPolicy: IfNotPresent
-          name: ngx${PROXY_VERSION}
+          name: ngx${NGINX_VERSION}
           ports:
             #~ - containerPort: 80
               #~ name: http
@@ -107,11 +107,11 @@ spec:
             - /usr/local/bin/entrypoint.sh
           resources:
             requests:
-              cpu: ${PROXY_CPU}m
-              memory: ${PROXY_MEM}Mi
+              cpu: ${NGINX_CPU}m
+              memory: ${NGINX_MEM}Mi
             limits:
-              cpu: ${PROXY_CPU}m
-              memory: ${PROXY_MEM}Mi
+              cpu: ${NGINX_CPU}m
+              memory: ${NGINX_MEM}Mi
           volumeMounts:
             - name: ngx-rundir
               mountPath: "/run"

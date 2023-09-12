@@ -35,6 +35,15 @@ else
 	envsubst <~/pod/lib/tapo3/deploy.yaml | uwskube apply -f -
 fi
 
+NGINX_VERSION=$(cat ~/k8s/nginx/VERSION)
+export NGINX_VERSION
+
+NGINX_CPU="${TAPO3_NGINX_CPU}"
+export NGINX_CPU
+
+NGINX_MEM="${TAPO3_NGINX_MEM}"
+export NGINX_MEM
+
 ~/pod/lib/tapo3/ngx/ingress-deploy.sh "${ns}" "${app}"
 
 ~/pod/lib/tapo3/deploy-setver.sh "${ns}" "${app}" "${appver}"
