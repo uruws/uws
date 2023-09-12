@@ -4,7 +4,7 @@ set -eu
 ns=${1:?'namespace?'}
 app=${2:?'app name?'}
 
-tmpdir=$(mktemp -d -p /tmp "ingress-${app}-deploy.XXXXXXXXXX")
+tmpdir=$(mktemp -d -p /tmp "ingress-${ns}-${app}-deploy.XXXXXXXXXX")
 
 ing_head=${HOME}/pod/lib/tapo3/ngx/ingress-head.yaml
 

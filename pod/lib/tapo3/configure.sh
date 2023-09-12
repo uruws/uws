@@ -46,7 +46,7 @@ if test 'Xworker' != "X${app}"; then
 	echo 'DISABLE_JOBS=TRUE' >>"${envfn}"
 fi
 
-case "${TAPO3_ENV}"; in
+case "${TAPO3_ENV}" in
 	staging|srmnt*)
 		echo "STAGING_APP_VERSION=${appver}" >>"${envfn}"
 	;;
