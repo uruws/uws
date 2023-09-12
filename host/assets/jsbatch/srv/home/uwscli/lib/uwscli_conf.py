@@ -150,8 +150,8 @@ app: dict[str, App] = {
 			'production': [
 				CustomDeploy('worker'),
 				CustomDeploy('api-prod'),
-				CustomDeploy('apixl-prod'),
 				CustomDeploy('app-prod'),
+				CustomDeploy('apixl-prod'),
 				CustomDeploy('appxl-prod'),
 			],
 			'staging': [
