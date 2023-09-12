@@ -46,9 +46,25 @@
 
 ---
 
+* security: Debian linux kernel upgrade [DSA-5492-1][DSA-5492-1] - `DONE!`
+    * jsbatch upgrade
+    * rstudio-ousd upgrade
+    * k8s nodes upgrade
+        * Even if those are not Debian boxes, still...
+
+[DSA-5492-1]: https://www.debian.org/security/2023/dsa-5492
+
+---
+
 * 2309 [upgrades][upgrades] round
 
 [upgrades]: ./infra/upgrades.md
+
+---
+
+* tapo: fix deploy restart
+    * some configmaps and/or secrets are not properly reloaded when we do restart, which re-generates those files in case of new settings
+    * probably it's better to just dispatch a new deploy using current version
 
 ---
 
