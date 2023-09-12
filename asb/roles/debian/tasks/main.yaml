@@ -64,6 +64,7 @@
       - vim
       - xz-utils
       - acl
+      - python3-venv
   tags:
     - apt
 

@@ -27,6 +27,25 @@
 
 ---
 
+* tapo: new cluster appc5nxl-2309 - `DONE!` [PR266][PR266]
+    * ec2 type c5n.xlarge cluster
+
+[PR266]: https://github.com/TalkingPts/Infrastructure/pull/266
+
+---
+
+* rstudio: xiaoyuan user - `DONE!` [PR267][PR267]
+
+[PR267]: https://github.com/TalkingPts/Infrastructure/pull/267
+
+---
+
+* rstudio: python3 venv - `DONE!` [PR268][PR268]
+
+[PR268]: https://github.com/TalkingPts/Infrastructure/pull/268
+
+---
+
 * 2309 [upgrades][upgrades] round
 
 [upgrades]: ./infra/upgrades.md

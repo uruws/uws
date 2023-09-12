@@ -10,6 +10,8 @@ rstudio_user:
   adrienne: 3004
   # Leah <leah@talkingpts.org>
   leah: 3006
+  # Xiaoyuan Tan <xiaoyuan@talkingpts.org>
+  xiaoyuan: 3007
 
 rstudio_user_remove:
   # Rina Park

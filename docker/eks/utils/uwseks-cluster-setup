@@ -24,9 +24,11 @@ uwseks create iamserviceaccount \
 	--approve
 
 ~/k8s/csi-driver/setup.sh
-~/k8s/autoscaler/setup.sh
 ~/k8s/metrics-server/setup.sh
 #~/k8s/efs/setup.sh
+
+~/k8s/autoscaler/setup.sh
+
 ~/k8s/mon/setup.sh
 ~/k8s/gateway/setup.sh
 
