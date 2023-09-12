@@ -21,4 +21,10 @@ export METEOR_HPA_ENABLE
 METEOR_HPA_CPU="${TAPO3_API_HPA_CPU}"
 export METEOR_HPA_CPU
 
+METEOR_HOST="${TAPO3_API_HOSTNAME}"
+export METEOR_HOST
+
+METEOR_TLS="${TAPO3_API_TLS}"
+export METEOR_TLS
+
 exec ~/pod/lib/tapo3/deploy.sh "${TAPO3_API_NAMESPACE}" api "${appver}"
