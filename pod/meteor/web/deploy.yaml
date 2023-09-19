@@ -46,8 +46,8 @@ spec:
               value: "3000"
             - name: DISABLE_JOBS
               value: "TRUE"
-            - name: NODE_OPTIONS
-              value: "--max-old-space-size=${APP_MEMORY}"
+            - name: UWSAPP_MEMORY
+              value: "${APP_MEMORY}"
             - name: UWSAPP_CLUSTER
               value: "${APP_CLUSTER}"
             - name: UWSAPP_DEPLOY

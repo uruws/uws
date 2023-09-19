@@ -48,8 +48,8 @@ spec:
               value: "300"
             - name: METEOR_POLLING_THROTTLE_MS
               value: "50"
-            - name: NODE_OPTIONS
-              value: "--max-old-space-size=${METEOR_WORKER_MEMORY}"
+            - name: UWSAPP_MEMORY
+              value: "${METEOR_WORKER_MEMORY}"
             - name: UWSAPP_CLUSTER
               value: "${APP_CLUSTER}"
             - name: UWSAPP_DEPLOY
