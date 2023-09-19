@@ -57,8 +57,8 @@ spec:
           env:
             - name: PORT
               value: "3000"
-            - name: NODE_OPTIONS
-              value: "--max-old-space-size=${METEOR_MEMORY}"
+            - name: UWSAPP_MEMORY
+              value: "${METEOR_MEMORY}"
             - name: APP_CLUSTER
               value: "${METEOR_CLUSTER}"
             - name: APP_ENV

@@ -39,8 +39,8 @@ spec:
           env:
             - name: PORT
               value: "3000"
-            - name: NODE_OPTIONS
-              value: "--max-old-space-size=3200"
+            - name: UWSAPP_MEMORY
+              value: "3200"
             - name: UWSAPP_CLUSTER
               value: "${APP_CLUSTER}"
             - name: UWSAPP_DEPLOY
