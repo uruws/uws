@@ -42,10 +42,13 @@ class Test(unittest.TestCase):
 		app_list = [
 			'api-prod',
 			'api-test',
+			'apixl-prod',
 			'app-prod',
 			'app-test',
 			'appcdn-prod',
 			'appcdn-test',
+			'appxl-prod',
+			'appxlcdn-prod',
 			'cs',
 			'cs-test',
 			'infra-ui-prod',
@@ -90,6 +93,8 @@ class Test(unittest.TestCase):
 				CustomDeploy('worker'),
 				CustomDeploy('api-prod'),
 				CustomDeploy('app-prod'),
+				CustomDeploy('apixl-prod'),
+				CustomDeploy('appxl-prod'),
 			],
 			'staging': [
 				CustomDeploy('worker-test'),

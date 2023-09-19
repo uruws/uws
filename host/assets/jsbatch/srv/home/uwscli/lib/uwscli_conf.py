@@ -151,6 +151,8 @@ app: dict[str, App] = {
 				CustomDeploy('worker'),
 				CustomDeploy('api-prod'),
 				CustomDeploy('app-prod'),
+				CustomDeploy('apixl-prod'),
+				CustomDeploy('appxl-prod'),
 			],
 			'staging': [
 				CustomDeploy('worker-test'),
@@ -160,6 +162,8 @@ app: dict[str, App] = {
 		},
 		groups = ['uwsapp_app'],
 	),
+
+	# c5n.large
 	'api-prod': App(True,
 		cluster        = 'appweb-2302',
 		desc           = 'App api',
@@ -193,6 +197,8 @@ app: dict[str, App] = {
 		pod            = 'tapo/worker',
 		pod_containers = _tapo_pod_containers('worker', ns = 'tpwrk'),
 	),
+
+	# staging
 	'api-test': App(True,
 		cluster        = 'apptest-2302',
 		desc           = 'App api, test cluster',
@@ -225,6 +231,34 @@ app: dict[str, App] = {
 		pod            = 'tapo/worker',
 		pod_containers = _tapo_pod_containers('worker', ns = 'tpwrk'),
 	),
+
+	# c5n.xlarge
+	'apixl-prod': App(True,
+		cluster        = 'appc5nxl-2309',
+		desc           = 'App XL api',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_app'],
+		pod            = 'meteor/api',
+		pod_containers = _meteor_pod_containers('api', gw = True),
+	),
+	'appxl-prod': App(True,
+		cluster        = 'appc5nxl-2309',
+		desc           = 'App XL web',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_app'],
+		pod            = 'meteor/web',
+		# ~ pod_containers = _tapo_pod_containers('web', hpx = True),
+		pod_containers = _meteor_pod_containers('web', gw = True),
+	),
+	'appxlcdn-prod': App(True,
+		cluster        = 'appc5nxl-2309',
+		desc           = 'App XL web CDN',
+		deploy         = AppDeploy('meteor-app'),
+		groups         = ['uwsapp_app'],
+		pod            = 'meteor/webcdn',
+		pod_containers = _meteor_pod_containers('webcdn', gw = True),
+	),
+
 	'cs': App(True,
 		cluster          = 'appwrk-2306',
 		desc             = 'Crowdsourcing',
