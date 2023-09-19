@@ -54,10 +54,8 @@ spec:
           resources:
             requests:
               cpu: ${METEOR_VANILLA_CPU}m
-              memory: ${METEOR_VANILLA_MEMORY}Mi
             limits:
               cpu: ${METEOR_VANILLA_CPU}m
-              memory: ${METEOR_VANILLA_MEMORY}Mi
           readinessProbe:
             exec:
               command:

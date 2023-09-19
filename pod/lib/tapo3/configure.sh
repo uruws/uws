@@ -7,6 +7,7 @@ appver=${3:-NO_VERSION}
 
 appenv=${HOME}/secret/meteor/app/${TAPO3_ENV}.env
 appset=${HOME}/secret/meteor/app/${TAPO3_ENV}-settings.json
+appenv_setup=${HOME}/pod/meteor/app-setup.env
 
 if test 'XNO_VERSION' = "X${appver}"; then
 	appver=$(~/pod/lib/tapo3/deploy-getver.sh "${ns}" "${app}")
@@ -18,6 +19,7 @@ fi
 if test -s "${appenv}"; then
 	echo "app.env: ${appenv}"
 	echo "app-settings.json: ${appset}"
+	echo "app-setup.env: ${appenv_setup}"
 
 	envfn=$(mktemp -p /tmp "deploy-${ns}-${app}-env.XXXXXXXXXX")
 
@@ -27,7 +29,8 @@ if test -s "${appenv}"; then
 
 	uwskube delete secret "meteor-${app}-env" -n "${ns}" || true
 	uwskube create secret generic "meteor-${app}-env" -n "${ns}" \
-		--from-file="app.env=${envfn}"
+		--from-file="app.env=${envfn}" \
+		--from-file="app-setup.env=${appenv_setup}"
 
 	rm -vf "${envfn}"
 else
