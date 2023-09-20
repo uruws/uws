@@ -84,7 +84,7 @@ Meteor App Environment Variables
     * FIXME
 
 * CLEVER_ON
-    * FIXME
+    * Boolean to check if it should run cleverSync jobs
 
 * COCONUT_WEBHOOK
     * FIXME
@@ -145,7 +145,7 @@ Meteor App Environment Variables
     * FIXME
 
 * INFINITECAMPUS_ON
-    * FIXME
+    * Boolean to check if it should run infiniteCampusSync jobs
 
 * IOS_APP_ID
     * FIXME
@@ -217,7 +217,7 @@ Meteor App Environment Variables
     * FIXME
 
 * ONEROSTER_ON
-    * FIXME
+    * Boolean to check if it should run oneRosterSync jobs
 
 * OPEN_AI_API_KEY
     * FIXME
@@ -249,6 +249,9 @@ Meteor App Environment Variables
 * ROOT_URL
     * Application main URL.
 
+* ROSTERSTREAM_ON
+    * Boolean to check if it should run rosterStreamSync jobs
+
 * RUNMIGRATIONS
     * FIXME
 
@@ -256,7 +259,7 @@ Meteor App Environment Variables
     * FIXME
 
 * SKYWARD_ON
-    * FIXME
+    * Boolean to check if it should run skywardSync jobs
 
 * SMS_NOTIFICATIONS_NUMBER
     * FIXME
