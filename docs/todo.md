@@ -44,7 +44,9 @@
 
 ---
 
-* appweb-2302: remove old (c5n.large) cluster
+* appweb-2302: remove old (c5n.large) cluster - `DONE!` [PR272][PR272]
+
+[PR272]: https://github.com/TalkingPts/Infrastructure/pull/272
 
 ---
 
