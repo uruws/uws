@@ -27,38 +27,20 @@
 
 ---
 
-* tapo: new cluster appc5nxl-2309 - `DONE!` [PR266][PR266]
-    * ec2 type c5n.xlarge cluster
+* tapo: migrate to XL resources - `DONE!` [PR271][PR271]
 
-[PR266]: https://github.com/TalkingPts/Infrastructure/pull/266
-
----
-
-* rstudio: xiaoyuan user - `DONE!` [PR267][PR267]
-
-[PR267]: https://github.com/TalkingPts/Infrastructure/pull/267
+[PR271]: https://github.com/TalkingPts/Infrastructure/pull/271
 
 ---
 
-* rstudio: python3 venv - `DONE!` [PR268][PR268]
+* meteor: investigate memory limits - `DONE!` [mementeor][mementeor] [F60591][F60591]
 
-[PR268]: https://github.com/TalkingPts/Infrastructure/pull/268
-
----
-
-* tapo: c5n.xlarge setup - `DONE!` [PR269][PR269]
-
-[PR269]: https://github.com/TalkingPts/Infrastructure/pull/269
+[mementeor]: https://github.com/uruws/mementeor
+[F60591]: https://forums.meteor.com/t/how-to-allocate-system-memory-to-meteor/60591
 
 ---
 
-* security: Debian linux kernel upgrade [DSA-5492-1][DSA-5492-1] - `DONE!`
-    * jsbatch upgrade
-    * rstudio-ousd upgrade
-    * k8s nodes upgrade
-        * Even if those are not Debian boxes, still...
-
-[DSA-5492-1]: https://www.debian.org/security/2023/dsa-5492
+* appweb-2302: remove old (c5n.large) cluster
 
 ---
 
