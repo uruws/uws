@@ -7,9 +7,13 @@
 * Infra Development Backlog - `WAITING`
     * App Cache-Control header for CDN assets - [DEV-9810][DEV-9810]
     * App api clients domain - [DEV-9833][DEV-9833]
+    * /healthz check endpoint - [DEV-7523][DEV-7523]
+    * Meteor catch SIGTERM signal - [DEV-7522][DEV-7522]
 
 [DEV-9810]: https://talkingpointsorg.atlassian.net/browse/DEV-9810
 [DEV-9833]: https://talkingpointsorg.atlassian.net/browse/DEV-9833
+[DEV-7523]: https://talkingpointsorg.atlassian.net/browse/DEV-7523
+[DEV-7522]: https://talkingpointsorg.atlassian.net/browse/DEV-7522
 
 ---
 
