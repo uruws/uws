@@ -235,10 +235,9 @@ adduser ramiro  uwsapp_cs
 adduser martin  uwsapp_cs
 
 # infraui
-addgroup uwsapp_infra-ui || true
-
-adduser gabriel uwsapp_infra-ui
-adduser gonzalo uwsapp_infra-ui
+###addgroup uwsapp_infra-ui || true
+###adduser gabriel uwsapp_infra-ui
+###adduser gonzalo uwsapp_infra-ui
 
 # uwsapp_meteor-vanilla
 addgroup uwsapp_meteor-vanilla || true

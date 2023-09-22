@@ -20,7 +20,6 @@ UWSCLI_LOG=off
 # app
 */15 * * * * UWSCLI_LOG=on app-autobuild app
 */15 * * * * UWSCLI_LOG=on app-autobuild cs
-*/15 * * * * UWSCLI_LOG=on app-autobuild infra-ui
 */15 * * * * UWSCLI_LOG=on app-autobuild meteor-vanilla
 
 

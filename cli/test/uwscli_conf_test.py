@@ -47,8 +47,6 @@ class Test(unittest.TestCase):
 			'appcdn-test',
 			'cs',
 			'cs-test',
-			'infra-ui-prod',
-			'infra-ui-test',
 			'meteor-vanilla',
 			'sarmiento-hpx',
 			'sarmiento-ngx',
@@ -63,14 +61,12 @@ class Test(unittest.TestCase):
 		t.assertListEqual(uwscli.build_list(), [
 			'app',
 			'cs',
-			'infra-ui',
 			'meteor-vanilla',
 		])
 		# autobuild
 		t.assertListEqual(uwscli.autobuild_list(), [
 			'app',
 			'cs',
-			'infra-ui',
 			'meteor-vanilla',
 		])
 
