@@ -77,8 +77,8 @@ spec:
           resources:
             requests:
               cpu: ${METEOR_CPU_REQ}m
-            limits:
-              cpu: ${METEOR_CPU_MAX}m
+            #~ limits:
+              #~ cpu: ${METEOR_CPU_MAX}m
           readinessProbe:
             httpGet:
               path: /iqvm39mcpbkFJzucEAFETVpbhoqAvpqt-healthz.txt

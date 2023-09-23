@@ -8,4 +8,9 @@ echo 'webcdn'
 
 echo 'web'
 ~/pod/meteor/web/configure.sh
-exec ~/pod/meteor/deploy.sh web web "${appver}"
+~/pod/meteor/deploy.sh web web "${appver}"
+
+echo 'web/gw'
+~/pod/meteor/web/gw/deploy.sh "${APP_REPLICAS}"
+
+exit 0

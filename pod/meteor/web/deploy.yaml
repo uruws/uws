@@ -64,8 +64,8 @@ spec:
           resources:
             requests:
               cpu: ${APP_CPU}m
-            limits:
-              cpu: ${APP_CPU}m
+            #~ limits:
+              #~ cpu: ${APP_CPU}m
           readinessProbe:
             httpGet:
               path: /iqvm39mcpbkFJzucEAFETVpbhoqAvpqt-healthz.txt
