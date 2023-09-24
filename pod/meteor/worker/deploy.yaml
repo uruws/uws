@@ -71,8 +71,8 @@ spec:
               port: 3000
               scheme: HTTP
             initialDelaySeconds: 120
-            periodSeconds: 15
-            timeoutSeconds: 5
+            periodSeconds: 120
+            timeoutSeconds: 60
             failureThreshold: 2
       volumes:
         - name: appenv
