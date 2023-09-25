@@ -118,6 +118,29 @@ def prune_docker(repo):
 				p.unlink()
 	return 0
 
+def write_version(repo: str):
+	version = date_version()
+
+	if repo == 'srv/munin':
+		writefile('./k8s/mon/munin/VERSION', '%s\n' % version)
+
+	elif repo == 'pod/base':
+		writefile('./pod/test/VERSION', '%s\n' % version)
+
+	elif repo == 'srv/ab':
+		writefile('./srv/ab/VERSION', '%s\n' % version)
+		writefile('./srv/ab/VERSION.prod', '%s\n' % version)
+
+	elif repo == 'srv/chatbot':
+		writefile('./srv/chatbot/VERSION', '%s\n' % version)
+		writefile('./pod/chatbot/VERSION.test', '%s\n' % version)
+		writefile('./pod/chatbot/VERSION.prod', '%s\n' % version)
+
+	elif repo == 'srv/admin':
+		writefile('./srv/admin/VERSION', '%s\n' % version)
+		writefile('./srv/admin/VERSION.test', '%s\n' % version)
+		writefile('./srv/admin/VERSION.prod', '%s\n' % version)
+
 def upgrade_docker(repo, vfrom, vto, tag, srctag):
 	for fn in git_ls(repo, '*Dockerfile*.%s' % vfrom):
 		srcfn = Path(repo, fn)
@@ -132,12 +155,7 @@ def upgrade_docker(repo, vfrom, vto, tag, srctag):
 		replace_docker_version(dstfn, date_version())
 		dstdir = dstfn.parent
 		build_script(repo, dstdir, tag, vfrom, vto)
-	if repo == 'srv/munin':
-		writefile('./k8s/mon/munin/VERSION', '%s\n' % date_version())
-	elif repo == 'pod/base':
-		writefile('./pod/test/VERSION', '%s\n' % date_version())
-	elif repo == 'srv/munin':
-		writefile('./k8s/mon/munin/VERSION', '%s\n' % date_version())
+	write_version(repo)
 	return prune_docker(repo)
 
 # main
