@@ -9,13 +9,7 @@ _GID=$(id -g)
 _UMASK=$(umask)
 # base.2203
 docker rmi uws/base-2203 || true
-# base.2211
-docker build "$@" --rm -t uws/base-2211 \
-	--build-arg "UWS_UID=${_UID}" \
-	--build-arg "UWS_GID=${_GID}" \
-	--build-arg "UWS_UMASK=${_UMASK}" \
-	-f docker/base/Dockerfile.2211 \
-	./docker/base
+docker rmi uws/base-2211 || true
 # base.2305
 _VERSION=$(cat ./docker/VERSION.2305)
 docker build "$@" --rm -t uws/base-2305 \
