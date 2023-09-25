@@ -12,7 +12,7 @@ docker build "$@" --rm -t uws/awscli-2305 \
 	--build-arg "UWS_UID=${_UID}" \
 	--build-arg "UWS_GID=${_GID}" \
 	--build-arg "UWS_UMASK=${_UMASK}" \
-	--build-arg "UWS_VERSION=230710" \
+	--build-arg "UWS_VERSION=${_VERSION}" \
 	-f docker/awscli/Dockerfile.2305 \
 	./docker/awscli
 # awscli-2309
