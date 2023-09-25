@@ -12,12 +12,12 @@
 
 * [docker/base][debian-container]
     * `2309`: Debian 12.1 (bookworm-20230919-slim)
-        * docker/VERSION: 230925
+        * docker/VERSION: `230925`
         * docker/base/build.sh: base-2309
     * 2305-2: Debian 12.0 (bookworm-20230703-slim)
         * docker/VERSION: 230710
     * 2305-1 DSA 5417-1: openssl security update
-        * docker/VERSION: `230531`
+        * docker/VERSION: 230531
     * 2305: Debian 11.7 (bullseye-20230502-slim)
         * docker/VERSION: 230523
     * 2211: Debian 11.5 (bullseye-20221114-slim)
@@ -31,7 +31,9 @@
 ---
 
 * docker/base-testing
-    * `2305-1`: Debian testing (trixie-20230703-slim)
+    * `2309`: Debian testing
+        * docker/base-testing/Dockerfile: trixie-20230919-slim
+    * 2305-1: Debian testing (trixie-20230703-slim)
     * 2305: Debian testing (bookworm-20230502-slim)
     * 2211: Debian testing (bookworm-20221114-slim)
     * 2203-1: zlib security upgrade CVE-2018-25032

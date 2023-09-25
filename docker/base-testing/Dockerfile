@@ -1,4 +1,4 @@
-FROM debian:trixie-20230703-slim
+FROM debian:trixie-20230919-slim
 
 ARG UWS_VERSION
 
