@@ -68,8 +68,8 @@ def getcfg(v: str, remove = False) -> Config:
 
 cfg: dict[str, Config] = {
 	'1.24': Config(
-		docker_tag = '2305',
-		rm_tags    = ['2211'],
+		docker_tag = '2309',
+		rm_tags    = ['2305'],
 		k8s_tag    = '124',
 	),
 }

@@ -70,7 +70,10 @@
 ---
 
 * docker/k8s
-    * `2305`: ./k8s/upgrades.py
+    * `2309`: ./k8s/upgrades_config.py
+        * docker_tag: 2309
+        * rm_tags: 2305
+    * 2305: ./k8s/upgrades.py
         * docker_tag: 2305
     * 2211: k8s-122-2211
         * ./docker/upgrades.py -U docker/k8s/122 -t uws/k8s-122
