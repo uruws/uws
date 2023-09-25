@@ -85,7 +85,10 @@
 ---
 
 * docker/eks
-    * `2305`: ./eks/upgrades.py
+    * `2309`: ./eks/upgrades.py
+        * docker_tag: 2309
+        * rm_tags: 2305
+    * 2305: ./eks/upgrades.py
         * docker_tag: 2305
     * 2211: base-2211
         * ./docker/upgrades.py -U docker/eks/122 -t uws/eks-122 -s uws/k8s-122
