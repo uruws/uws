@@ -36,4 +36,4 @@ exec docker run --rm --read-only \
 	-e HOME=/home/uws \
 	--tmpfs /tmp \
 	-v "${PWD}/host/assets/jsbatch/srv/home/uwscli/lib:/srv/home/uwscli/lib:ro" \
-	uws/admin-2305 "$@"
+	uws/admin-2309 "$@"

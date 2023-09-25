@@ -76,6 +76,9 @@ set -eu
 ./docker/upgrades.py -t uws/proftpd -U srv/proftpd
 ./docker/upgrades.py -t uws/proftpd
 
+#-------------------------------------------------------------------------------
+# webapps
+
 # uws/webapp
 ./docker/upgrades.py -t uws/webapp -U docker/webapp
 ./docker/upgrades.py -t uws/webapp
@@ -88,5 +91,9 @@ set -eu
 # uws/chatbot
 ./docker/upgrades.py -t uws/chatbot -s uws/webapp -U srv/chatbot
 ./docker/upgrades.py -t uws/chatbot
+
+# uws/admin
+./docker/upgrades.py -t uws/admin -s uws/webapp -U srv/admin
+./docker/upgrades.py -t uws/admin
 
 exit 0

@@ -101,7 +101,10 @@
 
     $ make upgrades-check
     $ make upgrades
+
+    # run it again to check "cyclic dependencies"
     $ make upgrades-check
+    $ make upgrades
 
 ---
 

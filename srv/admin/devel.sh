@@ -53,4 +53,4 @@ exec docker run -it --rm --read-only \
 	-e "PYTHONPATH=/opt/uws/lib:/etc/opt/uws/${webapp}" \
 	--tmpfs /tmp \
 	-v "${PWD}/host/assets/jsbatch/srv/home/uwscli/lib:/srv/home/uwscli/lib:ro" \
-	uws/admin-2305 "$@"
+	uws/admin-2309 "$@"

@@ -1,4 +1,4 @@
-FROM uws/python-2305
+FROM uws/python-2309
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="230925"
