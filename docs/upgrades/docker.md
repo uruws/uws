@@ -1,15 +1,19 @@
 # Docker Upgrades
 
-* `2305-1` DSA 5417-1: openssl security update - [PR181][PR181]
+* `2309` [PR275][PR275]
+* 2305-1 DSA 5417-1: openssl security update - [PR181][PR181]
 * 2305 [PR162](https://github.com/TalkingPts/Infrastructure/pull/162)
 * 2211 [PR36](https://github.com/TalkingPts/Infrastructure/pull/36)
 
 [PR181]: https://github.com/TalkingPts/Infrastructure/pull/181
+[PR275]: https://github.com/TalkingPts/Infrastructure/pull/275
 
 ---
 
 * [docker/base][debian-container]
-    * `2305-2`: Debian 12.0 (bookworm-20230703-slim)
+    * `2309`: Debian 12.1 (bookworm-20230919-slim)
+        * docker/VERSION: 230925
+    * 2305-2: Debian 12.0 (bookworm-20230703-slim)
         * docker/VERSION: 230710
     * 2305-1 DSA 5417-1: openssl security update
         * docker/VERSION: `230531`
