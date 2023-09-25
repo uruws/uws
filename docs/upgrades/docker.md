@@ -43,7 +43,9 @@
 ---
 
 * pod/base
-    * `2305`: Debian 11.7 (bullseye-20230502-slim)
+    * `2309`: Debian 12.1
+        * pod/base/Dockerfile: bookworm-20230919-slim
+    * 2305: Debian 11.7 (bullseye-20230502-slim)
     * 2211: Debian 11.5 (bullseye-20221114-slim)
     * 2203-1: Debian 11.3 (bullseye-20220328-slim)
         * zlib security upgrade CVE-2018-25032

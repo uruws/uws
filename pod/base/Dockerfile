@@ -1,4 +1,4 @@
-FROM debian:bookworm-20230703-slim
+FROM debian:bookworm-20230919-slim
 
 ARG UWS_VERSION
 
