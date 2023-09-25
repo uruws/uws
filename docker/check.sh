@@ -10,4 +10,4 @@ exec docker run --rm --name uws-docker-devel \
 	-v ${TMPDIR}:/home/uws/tmp \
 	-v ${PWD}/docker:/home/uws/docker:ro \
 	--workdir /home/uws/docker \
-	uws/python-2305 "$@"
+	uws/python-2309 "$@"

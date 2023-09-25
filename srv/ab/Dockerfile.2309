@@ -1,7 +1,7 @@
-FROM uws/webapp-2211
+FROM uws/webapp-2309
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="221222"
+LABEL version="230925"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh openssh-client
+RUN /root/bin/apt-install.sh apache2-utils
 
 USER uws:uwsops
 WORKDIR /home/uws
@@ -17,10 +17,7 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-COPY --chown=uws:uwsops ./src/requirements.txt /opt/uws/chatbot/requirements.txt
-
-RUN /opt/uws/venv/bin/pip install -r /opt/uws/chatbot/requirements.txt
-RUN /opt/uws/venv/bin/python3 -m compileall /opt/uws/chatbot
+RUN install -v -d -m 0750 /opt/uws/ab
 
 USER root:root
 WORKDIR /root
@@ -28,7 +25,16 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-COPY --chown=uws:uwsops ./src /opt/uws/chatbot
+COPY --chown=uws:uwsops ./src /opt/uws/ab
+COPY --chown=uws:uwsops ./VERSION /opt/uws/ab
+
+USER uws:uwsops
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+RUN /opt/uws/venv/bin/python3 -m compileall /opt/uws/ab
 
 USER uwsops:uwsops
 WORKDIR /home/uwsops

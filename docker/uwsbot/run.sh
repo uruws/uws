@@ -21,4 +21,4 @@ exec docker run --rm --name "uws-bot-${BOT_ENV}-${BOT_NAME}" \
 	-v "${SECDIR}/bot:/uws/etc/sec/bot" \
 	-e "UWS_LOG=quiet" \
 	-e "UWS_PREFIX=/uws" \
-	-u root uws/uwsbot-2305 -env "${BOT_ENV}" -name "${BOT_NAME}"
+	-u root uws/uwsbot-2309 -env "${BOT_ENV}" -name "${BOT_NAME}"

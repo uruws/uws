@@ -23,4 +23,4 @@ exec docker run --rm --name uwscli \
 	-v ${PWD}/tmp/uwscli_rundir:/run/uwscli:rw \
 	-v ${PWD}/tmp/uwscli:/home/uws/tmp:rw \
 	-v ${PWD}/tmp/uwscli/pytest_cache:/srv/home/uwscli/vendor/semver-2.13.0/.pytest_cache:rw \
-	uws/cli-2305 "$@"
+	uws/cli-2309 "$@"

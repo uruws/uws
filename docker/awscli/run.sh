@@ -15,6 +15,6 @@ docker run --rm --name uws-awscli --hostname awscli.uws.local \
 	--env-file ${awsdir}/cli.env \
 	-v ${awsdir}:/home/uws/.aws:ro \
 	-v ${utils}:/home/uws/bin:ro \
-	uws/awscli-2305
+	uws/awscli-2309
 
 exit 0

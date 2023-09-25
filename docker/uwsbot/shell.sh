@@ -5,4 +5,4 @@ exec docker run -it --rm --name uws-bot-shell \
 	-e "UWS_LOG=quiet" \
 	-e "UWS_PREFIX=/uws" \
 	--entrypoint /bin/bash \
-	-u root uws/uwsbot-2305
+	-u root uws/uwsbot-2309

@@ -17,4 +17,4 @@ exec docker run --rm --read-only \
 	-e HOME=/home/uws \
 	-e UWS_WEBAPP=devel \
 	--tmpfs /tmp \
-	uws/webapp-2305
+	uws/webapp-2309

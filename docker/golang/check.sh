@@ -13,4 +13,4 @@ exec docker run --rm --network none --name uws-golang-check \
 	-v ${TMPDIR}:/go/tmp \
 	-e CGO_ENABLED=0 \
 	--entrypoint /go/src/uws/check.sh \
-	uws/golang-2305
+	uws/golang-2309

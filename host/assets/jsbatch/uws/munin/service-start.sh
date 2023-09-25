@@ -25,4 +25,4 @@ exec /usr/bin/docker run --rm -u root \
 	-v "${MAILX}:/srv/mailx/etc:ro" \
 	-v "${MAILX_CA}:/srv/mailx/setup/ca:ro" \
 	-v "${MAILX_CA_CLIENT}:/srv/mailx/setup/ca.client:ro" \
-	uws/munin-2305
+	uws/munin-2309

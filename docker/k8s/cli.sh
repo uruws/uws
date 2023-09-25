@@ -35,4 +35,4 @@ exec docker run --rm ${docker_args} \
 	-v ${cadir}:/home/uws/ca:ro \
 	-v ${kube_cache}/:/home/uws/.kube/cache \
 	--env-file ${eksenv} \
-	uws/${K8S_IMAGE}-2305 "$@"
+	uws/${K8S_IMAGE}-2309 "$@"

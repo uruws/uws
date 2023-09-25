@@ -36,4 +36,4 @@ exec docker run --rm --read-only \
 	-e USER=uws \
 	-e HOME=/home/uws \
 	--tmpfs /tmp \
-	"uws/${webapp}-2305" "$@"
+	"uws/${webapp}-2309" "$@"

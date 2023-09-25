@@ -12,4 +12,4 @@ exec docker run -it --rm --name uws-munin-devel \
 	--tmpfs /tmp \
 	--tmpfs /var/opt/munin-alert \
 	--workdir /opt/munin \
-	$@ uws/munin-2305
+	$@ uws/munin-2309

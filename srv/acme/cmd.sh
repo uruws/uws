@@ -8,4 +8,4 @@ exec docker run --rm --name uws-acme-cmd \
 	--hostname acme-cmd.uws.local \
 	-v ${ACME_HOME}:/srv/acme \
 	-v ${ACME_RUN}:/srv/run/acme \
-	-u uws uws/acme-2305 $@
+	-u uws uws/acme-2309 $@

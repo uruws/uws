@@ -13,4 +13,4 @@ exec docker run --rm --name uws-nginx-check \
 	--tmpfs /var/log/nginx \
 	--tmpfs /etc/nginx/uws-sites-enabled \
 	-v ${PWD}/srv/nginx/test:/root/test:ro \
-	uws/nginx-2305
+	uws/nginx-2309

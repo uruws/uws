@@ -53,4 +53,4 @@ exec docker run -it --rm --read-only \
 	-e HOME=/home/uws \
 	-e "PYTHONPATH=/opt/uws/lib:/etc/opt/uws/${webapp}" \
 	--tmpfs /tmp \
-	"uws/${webapp}-2305" "$@"
+	"uws/${webapp}-2309" "$@"

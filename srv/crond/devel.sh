@@ -14,4 +14,4 @@ exec docker run -it --rm --name uws-crond-devel \
 	-v "${CADIR}/client:/srv/mailx/setup/ca.client:ro" \
 	-v "${PWD}/tmp/crond:/home/uws/tmp" \
 	--workdir /home/uws \
-	uws/crond-2305
+	uws/crond-2309

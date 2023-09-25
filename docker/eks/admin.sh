@@ -86,4 +86,4 @@ exec docker run ${docker_args} \
 	-v "${kubedir}:/home/uws/.kube/eksctl/clusters:${cluster_perms}" \
 	-v "${tmpdir}:/home/uws/tmp" \
 	--env-file "${eksenv}" \
-	"uws/${EKS_IMAGE}-2305" "$@"
+	"uws/${EKS_IMAGE}-2309" "$@"

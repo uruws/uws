@@ -11,4 +11,4 @@ exec docker run --rm --name uws-secrets-check \
 	-v "${PWD}/eks/secrets:/home/uws/eks/secrets:ro" \
 	-v "${PWD}/secret:/home/uws/secret:ro" \
 	--workdir /home/uws \
-	uws/python-2305 ./eks/secrets/test/run.sh
+	uws/python-2309 ./eks/secrets/test/run.sh

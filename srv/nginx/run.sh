@@ -12,4 +12,4 @@ exec docker run -it --rm --name uws-nginx \
 	--tmpfs /var/log/nginx \
 	-p 127.0.0.1:0:80 \
 	-p 127.0.0.1:0:443 \
-	uws/nginx-2305
+	uws/nginx-2309

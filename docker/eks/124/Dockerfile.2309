@@ -1,7 +1,7 @@
-FROM uws/k8s-124-2211
+FROM uws/k8s-124-2309
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230519"
+LABEL version="230925"
 
 USER root:root
 WORKDIR /root
@@ -18,8 +18,8 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-RUN wget -q https://github.com/weaveworks/eksctl/releases/download/v0.127.0/eksctl_Linux_amd64.tar.gz \
-	&& wget -q https://github.com/weaveworks/eksctl/releases/download/v0.127.0/eksctl_checksums.txt \
+RUN wget -q https://github.com/weaveworks/eksctl/releases/download/v0.142.0/eksctl_Linux_amd64.tar.gz \
+	&& wget -q https://github.com/weaveworks/eksctl/releases/download/v0.142.0/eksctl_checksums.txt \
 	&& sha256sum --ignore-missing -c eksctl_checksums.txt \
 	&& tar -C /tmp -xvzf eksctl_Linux_amd64.tar.gz \
 	&& install -v -m 0755 /tmp/eksctl /usr/local/bin \

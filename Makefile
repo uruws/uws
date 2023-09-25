@@ -108,7 +108,7 @@ utils:
 utils-publish:
 	@$(MAKE) utils
 	@./host/ecr-login.sh sa-east-1
-	@./cluster/ecr-push.sh sa-east-1 uws/acme-2305 uwsops:acme
+	@./cluster/ecr-push.sh sa-east-1 uws/acme-2309 uwsops:acme
 
 .PHONY: awscli
 awscli:
@@ -505,9 +505,9 @@ mon-publish:
 	@$(MAKE) k8smon-publish
 	@$(MAKE) check-munin
 	@$(MAKE) check-munin-node
-	@./cluster/ecr-push.sh us-east-1 uws/munin-2305 uws:munin-$(MON_MUNIN_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/munin-backend-2305 uws:munin-web-$(MON_MUNIN_TAG)
-	@./cluster/ecr-push.sh us-east-1 uws/munin-node-2305 uws:munin-node-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-2309 uws:munin-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-backend-2309 uws:munin-web-$(MON_MUNIN_TAG)
+	@./cluster/ecr-push.sh us-east-1 uws/munin-node-2309 uws:munin-node-$(MON_MUNIN_TAG)
 
 K8SMON_DEPS != find go/cmd/k8smon go/k8s/mon -type f -name '*.go'
 

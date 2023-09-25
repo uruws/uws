@@ -19,4 +19,4 @@ exec docker run -it --rm --read-only \
 	--tmpfs /tmp \
 	--workdir /home/uws \
 	--entrypoint /usr/local/bin/uws-login.sh \
-	"uws/webapp-2305"
+	"uws/webapp-2309"

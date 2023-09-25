@@ -24,4 +24,4 @@ exec docker run -it --rm --name uws-ansible-${asbenv} \
 	--tmpfs /tmp:rw,mode=1777 \
 	--tmpfs /home/uws/.ansible/tmp:rw,mode=1777 \
 	--tmpfs /home/uws/.ansible/cp:rw,mode=1777 \
-	uws/ansible-2305
+	uws/ansible-2309

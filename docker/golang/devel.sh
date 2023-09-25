@@ -19,4 +19,4 @@ exec docker run -it --rm --name uws-golang-devel \
 	-p 127.0.0.1:2801:2801 \
 	-p 127.0.0.1:3800:3800 \
 	-p 127.0.0.1:4200:4200 \
-	uws/golang-2305
+	uws/golang-2309

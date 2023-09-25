@@ -15,4 +15,4 @@ exec docker run -it --rm --name uws-mailx-devel \
 	--entrypoint /usr/local/bin/uws-login.sh \
 	--tmpfs /tmp \
 	--tmpfs /etc/opt/mailx \
-	uws/mailx-2305
+	uws/mailx-2309

@@ -4,7 +4,7 @@ set -eu
 ABENCH_TAG=$(cat ./srv/ab/VERSION)
 
 ./host/ecr-login.sh us-east-1
-./cluster/ecr-push.sh us-east-1 uws/ab-2305 "uws:ab-${ABENCH_TAG}"
+./cluster/ecr-push.sh us-east-1 uws/ab-2309 "uws:ab-${ABENCH_TAG}"
 
 if test -d /srv/www/ssl/htmlcov; then
 	if test -d ./tmp/ab/htmlcov; then
@@ -14,6 +14,6 @@ if test -d /srv/www/ssl/htmlcov; then
 	fi
 fi
 
-docker tag uws/ab-2305 "uws/abench-${ABENCH_TAG}"
+docker tag uws/ab-2309 "uws/abench-${ABENCH_TAG}"
 
 exit 0

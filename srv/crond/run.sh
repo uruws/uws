@@ -6,4 +6,4 @@ exec docker run -it --rm --name uws-crond \
 	--hostname crond.uws.local \
 	-v "${CADIR}:/srv/mailx/setup/ca:ro" \
 	-v "${CADIR}/client:/srv/mailx/setup/ca.client:ro" \
-	uws/crond-2305
+	uws/crond-2309

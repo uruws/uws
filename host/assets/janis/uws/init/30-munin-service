@@ -25,7 +25,7 @@ fi
 install -v -o root -g root -m 0640 \
 	/etc/munin/plugin-conf.d/mongodb
 
-export DOCKER_IMAGE='uws/munin-2305'
+export DOCKER_IMAGE='uws/munin-2309'
 
 /uws/bin/service-restart.sh uws-munin \
 	/uws/munin/service-start.sh \

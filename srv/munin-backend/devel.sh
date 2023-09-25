@@ -7,4 +7,4 @@ exec docker run -it --rm --name uws-munin-backend \
 	-v "${DATA}/cache/www:/var/cache/munin/www:ro" \
 	-p 127.0.0.1:8049:80 \
 	--entrypoint /bin/bash \
-	-u root uws/munin-backend-2305
+	-u root uws/munin-backend-2309

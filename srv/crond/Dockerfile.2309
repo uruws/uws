@@ -1,0 +1,21 @@
+FROM uws/mailx-2309
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230925"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh cron logrotate
+
+RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
+
+COPY ./files/etc/cron.d/uws /etc/cron.d/uws
+
+COPY ./utils /usr/local/bin
+RUN chmod -v 0755 /usr/local/bin/*.sh
+
+ENTRYPOINT exec /usr/local/bin/entrypoint.sh

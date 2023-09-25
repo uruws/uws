@@ -1,0 +1,64 @@
+FROM uws/mailx-2309
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230925"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh ssl-cert cron logrotate munin python3 nfs-common
+
+ENV MN munin-contrib
+ENV MR uruws/${MN}
+ENV MT uws-munstrap
+ENV MV 1f08cd1d8b8f09f9f4e7a2045dd1e1888c48072a
+RUN wget -q -O munin-contrib.tgz \
+	https://github.com/${MR}/archive/${MV}.tar.gz \
+	&& tar -xzf munin-contrib.tgz \
+	&& rm -vf munin-contrib.tgz \
+	&& mkdir -vp /uws/munin \
+	&& mv -vf ${MN}-${MV} /uws/munin/contrib \
+	&& rm -rvf /etc/munin/templates /etc/munin/static \
+	&& cp -vr /uws/munin/contrib/templates/${MT}/templates /etc/munin \
+	&& cp -vr /uws/munin/contrib/templates/${MT}/static /etc/munin \
+	&& rm -rf /uws/munin/contrib
+
+RUN echo 'EXTRA_OPTS="-L 5"' >>/etc/default/cron
+
+# mailx
+RUN install -v -d -m 0755 -o root -g root /var/www
+RUN ln -svf /etc/opt/mailx/munin/msmtprc /var/lib/munin/.msmtprc \
+	&& ln -svf /etc/opt/mailx/www-data/msmtprc /var/www/.msmtprc
+
+# munin-deploy-conf
+RUN install -v -d -o root -g munin -m 0750 /etc/uws \
+	&& install -v -d -o root -g munin -m 0750 /etc/uws/munin
+
+RUN adduser uws munin \
+	&& adduser uws ssl-cert \
+	&& adduser munin ssl-cert
+
+RUN install -v -d -m 1777 /var/tmp/munin-cgi
+
+COPY --chown=root:munin ./files/etc/munin/munin.conf /etc/munin/
+
+RUN install -v -d -m 0755 /opt/uws/lib
+
+COPY ./build/sendmail.py /opt/uws/lib/sendmail.py
+RUN chmod -v 0644 /opt/uws/lib/sendmail.py
+RUN python3 -m compileall /opt/uws/lib/sendmail.py
+
+RUN install -v -d -m 0755 /opt/munin/bin \
+	&& install -v -d -m 0755 /opt/munin/lib
+
+COPY ./utils/bin /opt/munin/bin
+RUN chmod -v 0755 /opt/munin/bin/munin-*.*
+
+COPY ./utils/lib /opt/munin/lib
+RUN chmod -v 0644 /opt/munin/lib/*.*
+RUN python3 -m compileall /opt/munin/lib
+
+ENTRYPOINT exec /opt/munin/bin/munin-start.sh

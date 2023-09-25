@@ -6,7 +6,7 @@ networks:
 
 services:
   cluster:
-    image: uws/munin-node-2305
+    image: uws/munin-node-2309
     container_name: uws-munin-node-cluster-service
     volumes:
       - ./prod/cluster:/srv/etc/munin-node:ro
@@ -20,7 +20,7 @@ services:
       - default
 
   app:
-    image: uws/munin-node-2305
+    image: uws/munin-node-2309
     container_name: uws-munin-node-app-service
     volumes:
       - ./prod/app:/srv/etc/munin-node:ro
@@ -33,7 +33,7 @@ services:
       - default
 
   www:
-    image: uws/munin-node-2305
+    image: uws/munin-node-2309
     container_name: uws-munin-node-www-service
     volumes:
       - ./prod/www:/srv/etc/munin-node:ro
@@ -44,7 +44,7 @@ services:
       - default
 
   staging-app:
-    image: uws/munin-node-2305
+    image: uws/munin-node-2309
     container_name: uws-munin-node-staging-app-service
     volumes:
       - ./staging/app:/srv/etc/munin-node:ro
@@ -57,7 +57,7 @@ services:
       - default
 
   crowd:
-    image: uws/munin-node-2305
+    image: uws/munin-node-2309
     container_name: uws-munin-node-crowd-service
     volumes:
       - ./prod/crowd:/srv/etc/munin-node:ro
@@ -68,7 +68,7 @@ services:
       - default
 
   api:
-    image: uws/munin-node-2305
+    image: uws/munin-node-2309
     container_name: uws-munin-node-api-service
     volumes:
       - ./prod/api:/srv/etc/munin-node:ro
