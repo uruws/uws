@@ -1,7 +1,9 @@
-FROM amazon/aws-cli:2.9.8
+FROM amazon/aws-cli:2.13.21
+
+ARG UWS_VERSION
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230208"
+LABEL version="${UWS_VERSION}"
 
 USER root:root
 WORKDIR /root
@@ -33,6 +35,6 @@ ENV PATH /home/uws/.local/bin:${PATH}
 
 ARG UWS_UMASK=0027
 
-RUN printf 'umask %s\n'               ${UWS_UMASK}         >>/home/uws/.profile
-RUN printf 'export PATH=%s:${PATH}\n' /home/uws/bin        >>/home/uws/.profile
-RUN printf 'source %s\n'              /etc/bashrc          >>/home/uws/.profile
+RUN printf 'umask %s\n'               ${UWS_UMASK}  >>/home/uws/.profile
+RUN printf 'export PATH=%s:${PATH}\n' /home/uws/bin >>/home/uws/.profile
+RUN printf 'source %s\n'              /etc/bashrc   >>/home/uws/.profile

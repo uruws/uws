@@ -54,7 +54,9 @@
 ---
 
 * [docker/awscli][awscli]
-    * `2305`: amazon/aws-cli:2.11.20
+    * `2309`: amazon/aws-cli:2.13.21
+        * build.sh: awscli-2309
+    * 2305: amazon/aws-cli:2.11.20
         * build.sh: Dockerfile.2211
     * 2211: amazon/aws-cli:2.9.8
         * build.sh: Dockerfile.2211
