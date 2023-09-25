@@ -2,8 +2,11 @@
 
 ## Debian OS
 
+https://www.debian.org/releases/
+
 * [jsbatch][debian-os]
-    * `2305-1` DSA 5417-1: openssl security update
+    * `2309` Debian 12.1 (bookwork)
+    * 2305-1 DSA 5417-1: openssl security update
     * 2305: 11.7 (bullseye) - 5.10.0-23
         * ./deploy.sh -T
     * 2203-1: zlib security upgrade CVE-2018-25032
@@ -11,7 +14,8 @@
     * 2109: 10 (buster) -> 11 (bullseye)
 
 * asb/rstudio
-    * `2305-1` DSA 5417-1: openssl security update
+    * `2309` Debian 12.1 (bookwork)
+    * 2305-1 DSA 5417-1: openssl security update
     * 2305: 11.7 (bullseye) - 5.10.0-23
         * ./rstudio/upgrade.sh
     * 2203-1: zlib security upgrade CVE-2018-25032
