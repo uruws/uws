@@ -18,6 +18,7 @@ ESETUP  = 10
 ETAG    = 11
 EBUILD  = 12
 EDEPLOY = 13
+EDRYRUN = 14
 
 #
 # filesystem setup
@@ -153,7 +154,7 @@ def _build(app: str, dryrun: bool = False) -> int:
 			uwscli.log('dispatch autobuild:', app, tag)
 			if dryrun:
 				uwscli.log('dry run enabled, autobuild aborted!')
-				return 0
+				return EDRYRUN
 			return app_build.run(app, tag)
 	except SystemExit:
 		pass

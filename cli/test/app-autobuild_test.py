@@ -228,6 +228,14 @@ class Test(unittest.TestCase):
 		with uwscli_t.mock_chdir(fail = True):
 			t.assertEqual(app_autobuild._build('testing'), app_autobuild.EBUILD)
 
+	def test_build_dryrun(t):
+		with mock():
+			with uwscli_t.mock_system():
+				with uwscli_t.mock_check_output(output = '0.999.0'):
+					with app_build_test.mock_run():
+						t.assertEqual(app_autobuild._build('testing', dryrun = True),
+							app_autobuild.EDRYRUN)
+
 	def test_latestBuild(t):
 		with uwscli_t.mock_list_images(['0.999.0', '0.0.999']):
 			t.assertEqual(app_autobuild._latestBuild('testing'), '0.999.0')
