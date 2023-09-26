@@ -26,8 +26,8 @@ ENV HOME /home/uws
 # kubectl
 #
 
-RUN wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.24.11/2023-03-17/bin/linux/amd64/kubectl \
-	&& wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.24.11/2023-03-17/bin/linux/amd64/kubectl.sha256 \
+RUN wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.24.17/2023-09-14/bin/linux/amd64/kubectl \
+	&& wget -q https://amazon-eks.s3.us-west-2.amazonaws.com/1.24.17/2023-09-14/bin/linux/amd64/kubectl.sha256 \
 	&& sha256sum -c kubectl.sha256 \
 	&& install -v -m 0755 kubectl /usr/local/bin \
 	&& rm -vf kubectl kubectl.sha256
@@ -39,7 +39,7 @@ RUN install -v -d -m 0750 /home/uws/.kube/eksctl/clusters \
 # helm
 #
 
-RUN wget -q -O helm.tgz https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz \
+RUN wget -q -O helm.tgz https://get.helm.sh/helm-v3.12.3-linux-amd64.tar.gz \
 	&& tar -vxzf helm.tgz \
 	&& install -v -m 0755 linux-amd64/helm /usr/local/bin/helm.real \
 	&& rm -rvf helm.tgz linux-amd64 \
