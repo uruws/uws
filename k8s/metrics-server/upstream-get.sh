@@ -1,16 +1,13 @@
 #!/bin/sh
 set -eu
-VERSION='0.6.1'
-SRCD=../../../metrics-server
 
-wd=${PWD}
-cd ${SRCD}/
+VERSION='0.6.4'
+SRCD=${PWD}/../metrics-server
 
-git fetch --all
-git checkout v${VERSION}
+git -C "${SRCD}" fetch --all
+git -C "${SRCD}" checkout v${VERSION}
 
-cd ${wd}
-rsync -vax --delete-before ${SRCD}/manifests/base/ ./deploy/base/
-rsync -vax --delete-before ${SRCD}/manifests/release/ ./deploy/release/
+rsync -vax --delete-before "${SRCD}/manifests/base/" ./k8s/metrics-server/deploy/base/
+rsync -vax --delete-before "${SRCD}/manifests/release/" ./k8s/metrics-server/deploy/release/
 
 exit 0

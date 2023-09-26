@@ -36,8 +36,9 @@
 ---
 
 * [k8s/metrics-server][metrics-server]
-    * `2203`: upstream-get.sh 0.6.1
-        * all clusters done
+    * `2309`: 0.6.4
+        * ./k8s/metrics-server/upstream-get.sh
+    * 2203: upstream-get.sh 0.6.1
     * 2109: 0.5.0 -> 0.5.1
 
 [metrics-server]: https://github.com/kubernetes-sigs/metrics-server/releases
