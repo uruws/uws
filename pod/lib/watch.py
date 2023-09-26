@@ -18,7 +18,7 @@ def main(argv = []):
 
 	args = flags.parse_args(argv)
 
-	cmd = f"uwskube get pod --watch -n {args.namespace}"
+	cmd = f"uwskube get pod --watch -n {args.namespace} | ./pod/lib/timestamps.py"
 	return _system(cmd)
 
 if __name__ == '__main__': # pragma no cover
