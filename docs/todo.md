@@ -57,6 +57,14 @@
 
 ---
 
+* uwscli
+    * update tests coverage - `DONE!` [PR277][PR277]
+    * app-status --watch pods
+
+[PR277]: https://github.com/TalkingPts/Infrastructure/pull/277
+
+---
+
 * tapo: fix deploy restart
     * some configmaps and/or secrets are not properly reloaded when we do restart, which re-generates those files in case of new settings
     * probably it's better to just dispatch a new deploy using current version
