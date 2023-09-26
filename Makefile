@@ -567,8 +567,9 @@ publish:
 	@$(MAKE) utils-publish
 	@$(MAKE) mon-publish
 	@$(MAKE) pod-publish
-	@$(MAKE) chatbot-publish
 	@$(MAKE) nginx-publish
+	@$(MAKE) chatbot-publish
+	@$(MAKE) admin-publish
 
 #-------------------------------------------------------------------------------
 # secrets
