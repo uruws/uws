@@ -1,6 +1,9 @@
 #!/bin/sh
 set -eu
 
+#-------------------------------------------------------------------------------
+# base
+
 # uws/base
 ./docker/upgrades.py -t uws/base
 
@@ -9,6 +12,9 @@ set -eu
 
 # uws/awscli
 ./docker/upgrades.py -t uws/awscli
+
+#-------------------------------------------------------------------------------
+# utils
 
 # uws/ansible
 ./docker/upgrades.py -t uws/ansible -U docker/asb
@@ -51,6 +57,9 @@ set -eu
 # uws/acme
 ./docker/upgrades.py -t uws/acme -U srv/acme
 ./docker/upgrades.py -t uws/acme
+
+#-------------------------------------------------------------------------------
+# services
 
 # uws/crond
 ./docker/upgrades.py -t uws/crond -s uws/mailx -U srv/crond
