@@ -271,6 +271,21 @@ class Test(unittest.TestCase):
 			uwscli.app['testerror'] = uwscli_conf.App(False)
 			t.assertEqual(uwscli.list_images('testerror'), [])
 
+	def test_list_images_with_deploy_app(t):
+		uwscli.app['testing'].deploy_app = 'testing'
+		with uwscli_t.mock_check_output():
+			t.assertEqual(uwscli.list_images('testing'), ['mock_output'])
+
+	def test_list_images_no_deploy_image(t):
+		uwscli.app['testing'].deploy.image = ''
+		with uwscli_t.mock_check_output():
+			t.assertEqual(uwscli.list_images('testing', region = 't-1'), [])
+
+	def test_list_images_no_deploy_filter(t):
+		uwscli.app['testing'].deploy.filter = ''
+		with uwscli_t.mock_check_output():
+			t.assertEqual(uwscli.list_images('testing', region = 't-1'), [])
+
 	# git utils
 
 	def test_git_clone(t):
