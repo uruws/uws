@@ -50,9 +50,10 @@
 
 ---
 
-* 2309 [upgrades][upgrades] round
+* 2309 [upgrades][upgrades] round - `WIP` [M15][M15]
 
 [upgrades]: ./infra/upgrades.md
+[M15]: https://github.com/TalkingPts/Infrastructure/milestone/15
 
 ---
 
