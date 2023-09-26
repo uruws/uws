@@ -5,9 +5,7 @@
 
 # Apps
 
-* [MonitoringBots](https://github.com/TalkingPts/MonitoringBots/docs/upgrades.md)
-* [Buildpack](https://github.com/TalkingPts/Buildpack/docs/upgrades.md)
-* [OfflinePage](https://github.com/TalkingPts/OfflinePage/docs/upgrades.md)
+* [Buildpack](https://github.com/TalkingPts/Buildpack/blob/master/docs/upgrades.md)
 
 ## AWS
 
