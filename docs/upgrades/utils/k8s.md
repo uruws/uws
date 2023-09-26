@@ -1,7 +1,13 @@
 # Kubernetes Utils Upgrades
 
 * ./k8s/utils.json
+    * [autoscaler](https://github.com/kubernetes/autoscaler/tags)
+    * [helm](https://github.com/helm/helm/tags)
+    * [kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
+    * [kubeshark](https://github.com/kubeshark/kubeshark/releases)
+
 * ./eks/utils.json
+    * [eksctl](https://github.com/eksctl-io/eksctl/tags)
 
     $ make upgrades
 
