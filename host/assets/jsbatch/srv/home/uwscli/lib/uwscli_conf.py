@@ -288,8 +288,9 @@ class AppCluster(object):
 	region: str
 
 cluster: dict[str, AppCluster] = {
-	'appc5nxl-2309': AppCluster(region = 'us-east-1'),
-	'apptest-2302':  AppCluster(region = 'us-east-2'),
-	'appwrk-2306':   AppCluster(region = 'us-east-1'),
-	'pnt-2308':      AppCluster(region = 'us-east-2'),
+	'appc5nxl-2309':  AppCluster(region = 'us-east-1'),
+	'apptest-2302':   AppCluster(region = 'us-east-2'),
+	'appwrk-2306':    AppCluster(region = 'us-east-1'),
+	'pnt-2308':       AppCluster(region = 'us-east-2'),
+	'wrkrc5nxl-2309': AppCluster(region = 'us-east-1'),
 }
