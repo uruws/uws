@@ -59,9 +59,10 @@
 
 * uwscli
     * update tests coverage - `DONE!` [PR277][PR277]
-    * app-status --watch pods
+    * app-status --watch pods - `DONE!` [PR278][PR278]
 
 [PR277]: https://github.com/TalkingPts/Infrastructure/pull/277
+[PR278]: https://github.com/TalkingPts/Infrastructure/pull/278
 
 ---
 
