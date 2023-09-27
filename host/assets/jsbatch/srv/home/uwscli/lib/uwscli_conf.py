@@ -188,7 +188,7 @@ app: dict[str, App] = {
 		pod_containers = _meteor_pod_containers('webcdn', gw = True),
 	),
 
-	# c5n.large
+	# c5n.xlarge
 	'worker': App(True,
 		cluster        = 'wrkrc5nxl-2309',
 		desc           = 'App worker cluster',
