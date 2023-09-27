@@ -24,20 +24,16 @@ from upgrades_config import getcfg
 
 from upgrades_utils import k8sutils_latest
 
-#
+#-------------------------------------------------------------------------------
 # utils
-#
 
 def mkdir(name: str):
-	# ~ print(name)
 	makedirs(name, mode = 0o750, exist_ok = True)
 
 def copy(src: str, dst: str, ignore: Callable = None):
-	# ~ print(src, '->', dst)
 	copytree(src, dst, symlinks = True, dirs_exist_ok = True, ignore = ignore)
 
 def envsubst(src: str, dst: str, env: dict[str, str]):
-	# ~ print(src, '->', dst)
 	cmd = '/usr/bin/envsubst'
 	with open(src, 'rb') as stdin:
 		with open(dst, 'wb') as stdout:
@@ -48,9 +44,8 @@ def gitrm(path: str):
 		cmd = ['/usr/bin/git', 'rm', '-rf', path]
 		subprocess.run(cmd, check = True)
 
-#
+#-------------------------------------------------------------------------------
 # docker
-#
 
 def docker_k8s_ignore(src, names):
 	l = []
@@ -95,7 +90,6 @@ def docker_k8s_cleanup(version: str, cfg: Config):
 
 def docker_k8s_build(cfg: dict[str, Config]) -> int:
 	buildfn = './docker/k8s/build.sh'
-	# ~ print(buildfn)
 	with open(buildfn, 'w') as fh:
 		print('#!/bin/sh', file = fh)
 		print('set -eu', file = fh)
@@ -128,12 +122,8 @@ def docker_k8s_build(cfg: dict[str, Config]) -> int:
 	chmod(buildfn, 0o750)
 	return 0
 
-#
+#-------------------------------------------------------------------------------
 # k8s tools
-#
-
-def k8s_autoscaler_img(v: str, s: str) -> str:
-	return re.sub(r':v\d.*$', ':v%s' % v, s)
 
 def k8s_container_command(version: str, cfg: Config, d: dict[str, Any]):
 	cmd = []
@@ -144,6 +134,12 @@ def k8s_container_command(version: str, cfg: Config, d: dict[str, Any]):
 		cmd.append(x)
 	d['spec']['template']['spec']['containers'][0]['command'].clear()
 	d['spec']['template']['spec']['containers'][0]['command'].extend(cmd)
+
+#-------------------------------------------------------------------------------
+# k8s autoscaler
+
+def k8s_autoscaler_img(v: str, s: str) -> str:
+	return re.sub(r':v\d.*$', ':v%s' % v, s)
 
 def k8s_autoscaler(version: str, cfg: Config):
 	dstdir = './k8s/autoscaler/%s' % version
@@ -166,16 +162,17 @@ def k8s_autoscaler(version: str, cfg: Config):
 				# container command
 				k8s_container_command(version, cfg, d)
 			docs_final.append(d)
-	# ~ print(dstfn)
 	with open(dstfn, 'w') as fh:
 		yaml.safe_dump_all(docs_final, fh, sort_keys = False)
 
 def k8s_autoscaler_cleanup(version: str, cfg: Config):
 	gitrm(f"./k8s/autoscaler/{version}")
 
+#-------------------------------------------------------------------------------
+# k8smon
+
 def k8smon_publish(cfg: Config):
 	script = './k8s/mon/publish.sh'
-	# ~ print(script)
 	with open(script, 'w') as fh:
 		print('#!/bin/sh', file = fh)
 		print('set -eu', file = fh)
@@ -193,13 +190,11 @@ def k8smon_publish(cfg: Config):
 
 def k8smon_version():
 	fn = './k8s/mon/VERSION'
-	# ~ print(fn)
 	with open(fn, 'w') as fh:
 		print(docker_version(), file = fh)
 
-#
+#-------------------------------------------------------------------------------
 # main
-#
 
 def main(argv: list[str]) -> int:
 	if '-i' in argv:
