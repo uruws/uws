@@ -190,7 +190,7 @@ app: dict[str, App] = {
 
 	# c5n.large
 	'worker': App(True,
-		cluster        = 'appwrk-2306',
+		cluster        = 'wrkrc5nxl-2309',
 		desc           = 'App worker cluster',
 		deploy         = AppDeploy('meteor-app'),
 		groups         = ['uwsapp_app'],
