@@ -56,6 +56,7 @@ def _createCluster(args):
 		cmd += ' --asg-access'
 		if args.spot.strip() == 'true':
 			cmd += ' --spot'
+			print('Spot instances enabled!!')
 	cmd += ' --nodegroup-name main'
 	cmd += ' --nodes %d' % args.nodes
 	cmd += ' --nodes-min %d' % args.nodes_min
