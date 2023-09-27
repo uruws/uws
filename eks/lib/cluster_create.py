@@ -26,7 +26,7 @@ def main(argv = []):
 	parser.add_argument('--instance-types', help = 'instance types', default = 't2.small')
 	parser.add_argument('--k8s-version', help = 'kubernetes version', default = '1.19')
 	parser.add_argument('--fargate', help = 'setup fargate nodes', action = 'store_true')
-	parser.add_argument('--spot', help = 'create managed spot nodegroup', action = 'store_true')
+	parser.add_argument('--spot', help = 'create managed spot nodegroup', default = 'false')
 	parser.add_argument('-v', help = 'verbose level', default = '3')
 	parser.add_argument('name', help = 'cluster name')
 	args = parser.parse_args(argv)
@@ -54,7 +54,7 @@ def _createCluster(args):
 	else:
 		cmd += ' --managed'
 		cmd += ' --asg-access'
-		if args.spot:
+		if args.spot.strip() == 'true':
 			cmd += ' --spot'
 	cmd += ' --nodegroup-name main'
 	cmd += ' --nodes %d' % args.nodes
