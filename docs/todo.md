@@ -66,6 +66,20 @@
 
 ---
 
+* cluster: replace appwrk-2306 (spot) with wrkrc5nxl-2309 (none spot) - `DONE!` [PR279][PR279] [PR280][PR280]
+    * migrate chatbot service
+    * migrate CS prod environment
+    * migrate tapo worker
+
+[PR279]: https://github.com/TalkingPts/Infrastructure/pull/279
+[PR280]: https://github.com/TalkingPts/Infrastructure/pull/280
+
+---
+
+* cluster: remove appwrk-2306
+
+---
+
 * tapo: fix deploy restart
     * some configmaps and/or secrets are not properly reloaded when we do restart, which re-generates those files in case of new settings
     * probably it's better to just dispatch a new deploy using current version
