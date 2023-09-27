@@ -233,7 +233,7 @@ app: dict[str, App] = {
 	),
 
 	'cs': App(True,
-		cluster          = 'appwrk-2306',
+		cluster          = 'wrkrc5nxl-2309',
 		desc             = 'Crowdsourcing',
 		build            = _buildpack('cs/src', 'crowdsourcing'),
 		deploy           = AppDeploy('meteor-crowdsourcing'),
