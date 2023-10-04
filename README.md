@@ -2,6 +2,7 @@
 
 Uruworks sysadmin tools for Talking Points infrastructure.
 
+* [Legacy Mode](./docs/legacy.md)
 * [TODO](./docs/todo.md)
 * [CLI](./docs/devops.md) devops tools.
 * [Alternate web servers](./docs/heroku.md) contingency plan.
