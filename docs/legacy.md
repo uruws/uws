@@ -13,7 +13,7 @@
 
 ---
 
-* cluster migration: move to new platform/manager
+* cluster migration: move to new platform/owner
     * apptest-2302
     * pnt-2308
 
@@ -27,4 +27,3 @@
     * app-pm (postmortem)
         * show a last state info summary
         * plus last N lines from previous container log output
-
