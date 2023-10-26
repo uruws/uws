@@ -27,3 +27,9 @@
     * app-pm (postmortem)
         * show a last state info summary
         * plus last N lines from previous container log output
+
+---
+
+* docker: DSA-5532-1 openssl -- security update - `DONE!` [PR282][PR282]
+
+[PR282]: https://github.com/TalkingPts/Infrastructure/pull/282
