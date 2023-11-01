@@ -43,18 +43,18 @@ services:
     networks:
       - default
 
-  staging-app:
-    image: uws/munin-node-2309
-    container_name: uws-munin-node-staging-app-service
-    volumes:
-      - ./staging/app:/srv/etc/munin-node:ro
-      - /srv/etc/sec/staging:/srv/etc/sec:ro
-      - /srv/uwsbot/stats/staging:/uws/var/uwsbot/stats:ro
-    restart: on-failure
-    ports:
-      - 4952:4949
-    networks:
-      - default
+  #~ staging-app:
+    #~ image: uws/munin-node-2309
+    #~ container_name: uws-munin-node-staging-app-service
+    #~ volumes:
+      #~ - ./staging/app:/srv/etc/munin-node:ro
+      #~ - /srv/etc/sec/staging:/srv/etc/sec:ro
+      #~ - /srv/uwsbot/stats/staging:/uws/var/uwsbot/stats:ro
+    #~ restart: on-failure
+    #~ ports:
+      #~ - 4952:4949
+    #~ networks:
+      #~ - default
 
   crowd:
     image: uws/munin-node-2309
