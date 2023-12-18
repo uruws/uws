@@ -1,6 +1,16 @@
 #!/bin/sh
 set -eu
 
+
+# 231218 disabled by jrms
+set +e
+systemctl stop munin-node
+if systemctl is-enabled munin-node.service; then
+	systemctl disable munin-node.service
+fi
+exit 0
+
+
 mkdir -vp /srv/run/munin-node
 
 lastfn=/srv/run/munin-node/contrib-last.id

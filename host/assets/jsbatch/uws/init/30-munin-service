@@ -1,6 +1,16 @@
 #!/bin/sh
 set -eu
 
+
+# 231218 disabled by jrms
+set +e
+systemctl stop uws-munin
+if systemctl is-enabled uws-munin.service; then
+	systemctl disable uws-munin.service
+fi
+exit 0
+
+
 DIRS='/uws/munin /srv/munin /srv/etc/munin'
 chown -v root:uws ${DIRS}
 

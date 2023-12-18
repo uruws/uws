@@ -1,6 +1,16 @@
 #!/bin/sh
 set -eu
 
+
+# 231218 disabled by jrms
+set +e
+systemctl stop uws-munin-backend
+if systemctl is-enabled uws-munin-backend.service; then
+	systemctl disable uws-munin-backend.service
+fi
+exit 0
+
+
 sudo -n -u uws -D /srv/uws/deploy make munin-backend
 
 if ! systemctl is-enabled uws-munin-backend.service; then
